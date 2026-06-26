@@ -48,6 +48,20 @@ APOLLO_AGENT_INSECURE_TLS=1
 - `services/apollo-proxy/macos-app/dist/ApolloProxyControl.app`
 - `services/apollo-proxy/macos-app/dist/ApolloProxyControl-macOS.zip`
 
+Запуск у пользователя после передачи архива:
+
+1. Распаковать `ApolloProxyControl-macOS.zip`.
+2. Переместить `ApolloProxyControl.app` в `/Applications`.
+3. Если macOS блокирует запуск ad-hoc или не notarized сборки, выполнить:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/ApolloProxyControl.app
+chmod +x /Applications/ApolloProxyControl.app/Contents/MacOS/ApolloProxyControl
+open /Applications/ApolloProxyControl.app
+```
+
+4. В строке меню нажать `Start Proxy`.
+
 Для передачи другим пользователям используйте zip-архив. Локальная сборка подписывается ad-hoc и может показывать предупреждения Gatekeeper. Для бесшовной передачи нужна Developer ID подпись и notarization:
 
 ```bash

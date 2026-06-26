@@ -106,10 +106,18 @@ spctl --assess --type execute --verbose=4 /path/to/ApolloProxyControl.app
 
 1. Передавать тестировщикам именно `ApolloProxyControl-macOS.zip`, а не голую `.app` директорию.
 2. На машине тестировщика распаковать архив в Finder.
-3. Запустить `ApolloProxyControl.app`.
-4. При необходимости нажать `Set Apollo URL...` и сохранить адрес Apollo прямо в меню приложения.
-5. Нажать `Start Proxy`.
-6. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
+3. Переместить `ApolloProxyControl.app` в `/Applications`.
+4. Если macOS блокирует запуск ad-hoc или не notarized сборки, снять quarantine flag и открыть приложение:
+
+```bash
+xattr -dr com.apple.quarantine /Applications/ApolloProxyControl.app
+chmod +x /Applications/ApolloProxyControl.app/Contents/MacOS/ApolloProxyControl
+open /Applications/ApolloProxyControl.app
+```
+
+5. При необходимости нажать `Set Apollo URL...` и сохранить адрес Apollo прямо в меню приложения.
+6. Нажать `Start Proxy`.
+7. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
 
 ## Что важно по безопасности
 
