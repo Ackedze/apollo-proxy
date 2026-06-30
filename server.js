@@ -13,6 +13,10 @@ const APOLLO_AGENT_KEY =
 const APOLLO_AGENT_INSECURE_TLS =
   process.env.APOLLO_AGENT_INSECURE_TLS === '1' ||
   process.env.LANGFLOW_INSECURE_TLS === '1';
+const APOLLO_AGENT_MAX_ATTEMPTS = Math.max(
+  Number.parseInt(process.env.APOLLO_AGENT_MAX_ATTEMPTS || '2', 10) || 2,
+  1
+);
 let dispatcher;
 
 if (APOLLO_AGENT_INSECURE_TLS) {
@@ -97,7 +101,7 @@ function normalizeInput(payload) {
 function extractLangflowText(data) {
   if (!data) return '';
 
-  const candidates = [
+  const explicitCandidates = [
     data.output,
     data.result,
     data.text,
@@ -111,12 +115,27 @@ function extractLangflowText(data) {
     data?.outputs?.[0]?.text
   ].filter(Boolean);
 
+  const recursiveCandidates = collectTextCandidates(data);
+  const candidates = explicitCandidates.concat(recursiveCandidates);
+  const usableCandidate = candidates.find((candidate) =>
+    isUsableAgentText(candidate)
+  );
+
+  if (usableCandidate) {
+    return stripToolCallBlocks(usableCandidate);
+  }
+
   if (candidates.length > 0) {
     return String(candidates[0]);
   }
 
+  return JSON.stringify(data);
+}
+
+function collectTextCandidates(data) {
   const visited = new Set();
   const stack = [data];
+  const candidates = [];
 
   while (stack.length) {
     const node = stack.pop();
@@ -126,7 +145,7 @@ function extractLangflowText(data) {
 
     for (const value of Object.values(node)) {
       if (typeof value === 'string' && value.trim()) {
-        return value;
+        candidates.push(value);
       }
       if (value && typeof value === 'object') {
         stack.push(value);
@@ -134,7 +153,77 @@ function extractLangflowText(data) {
     }
   }
 
-  return JSON.stringify(data);
+  return candidates;
+}
+
+function isUsableAgentText(value) {
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  const text = value.trim();
+  if (!text) {
+    return false;
+  }
+
+  return !looksLikeToolCallOnly(text);
+}
+
+function looksLikeToolCallOnly(value) {
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  const text = value.trim();
+  if (!text || !/<tool_call\b/i.test(text)) {
+    return false;
+  }
+
+  const withoutToolCalls = stripToolCallBlocks(text).trim();
+
+  return !withoutToolCalls;
+}
+
+function stripToolCallBlocks(value) {
+  return String(value || '')
+    .replace(/```(?:json)?\s*<tool_call\b[\s\S]*?<\/tool_call>\s*```/gi, '')
+    .replace(/<tool_call\b[^>]*>[\s\S]*?<\/tool_call>/gi, '')
+    .trim();
+}
+
+function buildToolCallRetryPayload(payload, previousResult) {
+  const originalText =
+    payload && typeof payload.text === 'string' ? payload.text : String(payload || '');
+  const recoveryText = [
+    'Системная поправка Apollo proxy.',
+    'В предыдущей попытке агент вернул служебный <tool_call> вместо финального ответа пользователю.',
+    'Не печатай XML/JSON tool-call и служебные ключи. Если нужен инструмент, вызови его внутри сценария, дождись результата и верни только финальный русский Markdown-ответ.',
+    '',
+    'Исходный пользовательский запрос:',
+    originalText,
+    '',
+    'Предыдущий незавершённый ответ агента:',
+    String(previousResult || '').slice(0, 4000),
+  ].join('\n');
+
+  return {
+    text: recoveryText,
+    component: payload.component,
+    action: payload.action,
+    session_id: payload.session_id,
+  };
+}
+
+function buildToolCallResponseError(result, attempts) {
+  const err = new Error(
+    'Apollo agent returned an internal tool call instead of a final answer.'
+  );
+  err.status = 502;
+  err.details = {
+    attempts,
+    preview: typeof result === 'string' ? result.slice(0, 500) : null,
+  };
+  return err;
 }
 
 function looksLikeHtml(value) {
@@ -168,7 +257,7 @@ async function callApolloAgent(payload) {
   const inputValuePayload =
     typeof payload === 'string'
       ? payload
-      : { text: payload.text, component: payload.component, action: payload.action };
+      : payload.text;
   const inputValue =
     typeof inputValuePayload === 'string'
       ? inputValuePayload
@@ -249,6 +338,27 @@ async function callApolloAgent(payload) {
   return json;
 }
 
+async function callApolloAgentForFinalText(payload) {
+  let currentPayload = payload;
+  let lastResult = '';
+
+  for (let attempt = 1; attempt <= APOLLO_AGENT_MAX_ATTEMPTS; attempt += 1) {
+    const data = await callApolloAgent(currentPayload);
+    const result = extractLangflowText(data);
+
+    if (!looksLikeToolCallOnly(result)) {
+      return result;
+    }
+
+    lastResult = result;
+    if (attempt < APOLLO_AGENT_MAX_ATTEMPTS) {
+      currentPayload = buildToolCallRetryPayload(payload, result);
+    }
+  }
+
+  throw buildToolCallResponseError(lastResult, APOLLO_AGENT_MAX_ATTEMPTS);
+}
+
 app.get('/health', (req, res) => {
   res.json({ ok: true });
 });
@@ -266,8 +376,7 @@ app.post('/analyze', async (req, res) => {
       return;
     }
 
-    const data = await callApolloAgent(inputValue);
-    const result = extractLangflowText(data);
+    const result = await callApolloAgentForFinalText(inputValue);
 
     if (looksLikeHtml(result)) {
       throw buildHtmlResponseError('text/html', result);
