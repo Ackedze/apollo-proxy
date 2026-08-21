@@ -1,17 +1,28 @@
 # ApolloProxyControl (приложение в строке меню macOS)
 
 Мини-приложение для дизайнеров: запуск/остановка `apollo-proxy` без VS Code и терминала.
+Сборка включает endpoint `POST /v1/validate/codex`, асинхронные endpoints
+Apollo v2 и Apollo v3, версионированный `apollo-design-validator`, его Codex
+output schema и read-only knowledge snapshot. Apollo v3 отправляет через
+`POST /v1/analyze/codex/runs` компактный WIP-отчёт кастомизаций без полного
+snapshot.
 
 ## Что умеет
 
 - `Start Proxy` / `Stop Proxy` из строки меню.
+- Статус авторизации Codex: `Checking`, `Authorization required`, `Authorized`.
+- `Authorize Codex...` запускает официальный browser flow `codex login`.
+- `Check Codex Access` проверяет сессию через `codex login status`.
 - Проверка доступности `GET /health`.
 - Изменение `APOLLO_AGENT_URL` прямо в miniapp без пересборки `.app`.
+- Переключение источника Apollo v3 между `ds-ai-hub` и `design-system_ab` с
+  автоматическим перезапуском proxy.
 - Просмотр и редактирование `.env`.
 - Просмотр `proxy.log`.
 - Автоматическая установка встроенного прокси в:
   `~/Library/Application Support/ApolloProxyControl/proxy`
 - Запуск через встроенный `node`, который вшивается в `.app` при сборке.
+- Запуск локального Codex CLI из `ChatGPT.app` или пути `CODEX_BIN`.
 
 ## Требования
 
@@ -51,11 +62,17 @@ REQUIRE_NOTARIZATION=1 \
 Сборка автоматически делает bundle self-contained:
 
 - собирает universal launcher (`arm64` + `x86_64`);
-- копирует `services/apollo-proxy/.env` в app bundle;
+- по умолчанию не копирует общий `.env` в app bundle;
 - копирует системный `node` в app bundle;
 - подписывает весь `.app` после упаковки ресурсов;
 - при `NOTARY_KEYCHAIN_PROFILE` отправляет архив на notarization, stapling и перепаковывает zip;
 - вшивает build marker, чтобы при обновлении `.app` встроенный proxy переустанавливался у пользователя.
+- добавляет `ds-ai-hub` и компактный Apollo/pattern/redpolicy knowledge snapshot из `design-system_ab`.
+- добавляет все индексированные component contract packages, копируя только
+  объявленные artifacts и проверяя полноту относительно
+  `componentContractIndex.json`;
+- синхронизирует канонический skill из Apollo v2, а runtime проверяет его версию
+  и checksum перед каждой проверкой;
 - создаёт zip-архив для передачи участникам тестирования.
 
 Готовое приложение:
@@ -102,6 +119,10 @@ codesign --verify --deep --strict --verbose=4 /path/to/ApolloProxyControl.app
 spctl --assess --type execute --verbose=4 /path/to/ApolloProxyControl.app
 ```
 
+Чтобы намеренно собрать внутренний архив со старой общей конфигурацией, нужно
+явно задать `EMBED_PROXY_ENV=1`. Такой архив может содержать секреты и не должен
+использоваться для обычной раздачи дизайнерам.
+
 ## Первичный запуск у пользователя
 
 1. Передавать тестировщикам именно `ApolloProxyControl-macOS.zip`, а не голую `.app` директорию.
@@ -116,13 +137,23 @@ open /Applications/ApolloProxyControl.app
 ```
 
 5. При необходимости нажать `Set Apollo URL...` и сохранить адрес Apollo прямо в меню приложения.
-6. Нажать `Start Proxy`.
-7. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
+6. Проверить строку `Codex`. Если показано `Authorization required`, нажать
+   `Authorize Codex...` и завершить вход через браузер.
+7. Дождаться `Codex: Authorized via ChatGPT`.
+8. Нажать `Start Proxy`.
+9. В строке `Knowledge` проверить активный источник. По умолчанию используется
+   `ds-ai-hub`; пункт `Switch to design-system_ab...` позволяет вернуться к
+   прежним contract packages и затем переключиться обратно.
+10. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
 
 ## Что важно по безопасности
 
-- В shareable-сборку теперь вшивается `services/apollo-proxy/.env`, включая секреты.
-- Такой `.app` нужно передавать только участникам тестирования, которым разрешён доступ к этим секретам.
+- По умолчанию shareable-сборка не вшивает `services/apollo-proxy/.env` и создаёт
+  пользовательский конфиг из `.env.example` при первом запуске.
+- Режим `EMBED_PROXY_ENV=1` вшивает `.env`, включая секреты, и предназначен
+  только для контролируемой внутренней диагностики.
+- ApolloProxyControl не читает и не сохраняет токены Codex: ими управляет сам
+  Codex CLI через стандартное локальное хранилище пользователя.
 - На каждом Mac встроенный proxy раскладывается в `~/Library/Application Support/ApolloProxyControl/proxy`.
 - Пользовательское значение `APOLLO_AGENT_URL`, заданное через miniapp, хранится локально в
   `~/Library/Application Support/ApolloProxyControl/user-overrides.env`

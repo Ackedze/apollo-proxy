@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PROXY_ROOT="$(cd "${APP_ROOT}/.." && pwd)"
+REPOSITORY_ROOT="$(cd "${PROXY_ROOT}/../.." && pwd)"
 
 APP_NAME="ApolloProxyControl"
 BUNDLE_ID="com.redpol.apollo-proxy-control"
@@ -20,6 +21,7 @@ BUILD_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
 REQUIRE_NOTARIZATION="${REQUIRE_NOTARIZATION:-0}"
+EMBED_PROXY_ENV="${EMBED_PROXY_ENV:-0}"
 SOURCE_APP_BUNDLE="${APP_ROOT}/Sources/ApolloProxyControl/${APP_NAME}.app"
 
 if [[ -d "${SOURCE_APP_BUNDLE}" ]]; then
@@ -116,6 +118,8 @@ if [[ ! -d "${PROXY_ROOT}/node_modules" ]]; then
   npm install --prefix "${PROXY_ROOT}"
 fi
 
+npm run skill:sync --prefix "${PROXY_ROOT}"
+
 mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy"
 rsync -a --delete \
   --exclude ".DS_Store" \
@@ -124,11 +128,54 @@ rsync -a --delete \
   --exclude ".env" \
   --exclude "build" \
   --exclude "coverage" \
+  --exclude "codex-workspace/debug-runs" \
   --exclude "macos-app" \
   --exclude "dist" \
   --exclude "runtime" \
   "${PROXY_ROOT}/" \
   "${APP_BUNDLE}/Contents/Resources/embedded-proxy/"
+
+KNOWLEDGE_ROOT="${APP_BUNDLE}/Contents/Resources/embedded-proxy/knowledge"
+mkdir -p \
+  "${KNOWLEDGE_ROOT}/ds-ai-hub" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  --exclude ".git" \
+  --exclude "node_modules" \
+  "${REPOSITORY_ROOT}/ds-ai-hub/" \
+  "${KNOWLEDGE_ROOT}/ds-ai-hub/"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  "${REPOSITORY_ROOT}/shared/design-system_ab/patterns/" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/patterns/"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  "${REPOSITORY_ROOT}/shared/design-system_ab/redpolrules/" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  "${REPOSITORY_ROOT}/shared/design-system_ab/apollo/" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/apollo/"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS/apollo/" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/apollo/"
+node "${PROXY_ROOT}/scripts/sync-contract-knowledge.js" \
+  --source "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS" \
+  --target "${KNOWLEDGE_ROOT}/design-system_ab/JSONS"
+if [[ ! -f "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/dictionary.json" ]]; then
+  echo "Redpolicy knowledge was not embedded into ApolloProxyControl." >&2
+  exit 1
+fi
+for knowledge_file in README.md AGENTIC_FILES.md COMPONENT_AUTHORING.md; do
+  if [[ -f "${REPOSITORY_ROOT}/shared/design-system_ab/${knowledge_file}" ]]; then
+    cp \
+      "${REPOSITORY_ROOT}/shared/design-system_ab/${knowledge_file}" \
+      "${KNOWLEDGE_ROOT}/design-system_ab/${knowledge_file}"
+  fi
+done
 
 if [[ -z "${NODE_EXECUTABLE}" ]]; then
   echo "Node.js is required on the build machine to create a shareable app bundle." >&2
@@ -139,11 +186,11 @@ mkdir -p "${APP_BUNDLE}/Contents/Resources/runtime/bin"
 cp "${NODE_EXECUTABLE}" "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 chmod +x "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 
-if [[ -f "${PROXY_ROOT}/.env" ]]; then
+if [[ "${EMBED_PROXY_ENV}" == "1" && -f "${PROXY_ROOT}/.env" ]]; then
   cp "${PROXY_ROOT}/.env" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.env"
-  echo "Embedded shared proxy config from ${PROXY_ROOT}/.env"
+  echo "Embedded shared proxy config from ${PROXY_ROOT}/.env (EMBED_PROXY_ENV=1)"
 else
-  echo "Warning: ${PROXY_ROOT}/.env is missing, bundle will require manual configuration on first launch." >&2
+  echo "Shared .env was not embedded. ApolloProxyControl will create a per-user config from .env.example."
 fi
 
 printf '%s\n' "${BUILD_STAMP}" > "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.bundle-build-id"

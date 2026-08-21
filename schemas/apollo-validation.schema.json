@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 2 },
+    "runId": { "type": "string" },
+    "mode": {
+      "type": "string",
+      "enum": ["validation", "question"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "needs_review"]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkedNodes": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "warnings": { "type": "integer", "minimum": 0 },
+        "info": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["checkedNodes", "errors", "warnings", "info"]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "nodeId": { "type": "string" },
+          "severity": {
+            "type": "string",
+            "enum": ["error", "warning", "info"]
+          },
+          "category": { "type": "string" },
+          "title": { "type": "string" },
+          "observed": { "type": "string" },
+          "expected": { "type": "string" },
+          "suggestedFix": { "type": "string" },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": ["ds-ai-hub", "design-system_ab"]
+                },
+                "path": { "type": "string", "minLength": 1 },
+                "ruleId": { "type": ["string", "null"] },
+                "quote": { "type": ["string", "null"] }
+              },
+              "required": ["source", "path", "ruleId", "quote"]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "nodeId",
+          "severity",
+          "category",
+          "title",
+          "observed",
+          "expected",
+          "suggestedFix",
+          "confidence",
+          "evidence"
+        ]
+      }
+    },
+    "sourcesUsed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": ["ds-ai-hub", "design-system_ab"]
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string" }
+        },
+        "required": ["source", "path", "purpose"]
+      }
+    },
+    "responseMarkdown": { "type": "string" }
+  },
+  "required": [
+    "schemaVersion",
+    "runId",
+    "mode",
+    "status",
+    "summary",
+    "findings",
+    "sourcesUsed",
+    "responseMarkdown"
+  ]
+}

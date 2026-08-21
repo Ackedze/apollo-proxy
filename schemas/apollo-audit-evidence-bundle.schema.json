@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/apollo-audit-evidence-bundle.schema.json",
+  "title": "Apollo Audit Evidence Bundle",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "reportId",
+    "sourceReportId",
+    "context",
+    "graph",
+    "baselines",
+    "changes",
+    "ruleCandidates",
+    "coverage"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "documentType": { "const": "apollo-audit-evidence-bundle" },
+    "reportId": { "type": "string", "minLength": 1 },
+    "sourceReportId": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string" },
+    "context": {
+      "type": "object",
+      "required": ["channel", "pageType", "selectionNodeIds"],
+      "properties": {
+        "channel": { "type": "string" },
+        "pageType": { "type": ["string", "null"] },
+        "selectionNodeIds": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "graph": {
+      "type": "object",
+      "required": ["nodes", "relations"],
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "type": "object",
+            "required": [
+              "nodeId",
+              "parentNodeId",
+              "childNodeIds",
+              "path",
+              "type",
+              "name",
+              "visible"
+            ],
+            "properties": {
+              "nodeId": { "type": "string", "minLength": 1 },
+              "parentNodeId": { "type": ["string", "null"] },
+              "childNodeIds": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "path": { "type": "string" },
+              "type": { "type": "string" },
+              "name": { "type": "string" },
+              "visible": { "const": true }
+            },
+            "additionalProperties": true
+          }
+        },
+        "relations": {
+          "type": "array",
+          "maxItems": 50000,
+          "items": {
+            "type": "object",
+            "required": ["id", "kind", "fromNodeId"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "kind": {
+                "enum": ["direct-child", "sibling-gap", "container-padding"]
+              },
+              "fromNodeId": { "type": "string", "minLength": 1 },
+              "toNodeId": { "type": ["string", "null"] },
+              "containerNodeId": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "baselines": { "type": "array" },
+    "changes": { "type": "array", "maxItems": 10000 },
+    "ruleCandidates": { "type": "array" },
+    "coverage": { "type": "object" }
+  },
+  "additionalProperties": false
+}

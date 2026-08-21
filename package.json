@@ -5,7 +5,11 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.js"
+    "skill:sync": "node scripts/sync-codex-skill.js",
+    "knowledge:check": "node scripts/sync-contract-knowledge.js --check",
+    "prestart": "npm run skill:sync",
+    "start": "node server.js",
+    "test": "npm run skill:sync && npm run knowledge:check && node --test test/*.test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

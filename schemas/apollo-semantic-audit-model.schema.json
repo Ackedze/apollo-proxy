@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/apollo-semantic-audit-model.schema.json",
+  "title": "Apollo Semantic Audit Model v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "auditId",
+    "context",
+    "facts",
+    "rules",
+    "coverage"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "documentType": { "const": "apollo-semantic-audit-model" },
+    "auditId": { "type": "string", "minLength": 1 },
+    "context": {
+      "type": "object",
+      "required": ["platform", "pageType"],
+      "properties": {
+        "platform": { "type": ["string", "null"] },
+        "pageType": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "facts": {
+      "type": "array",
+      "maxItems": 20000,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "semantics",
+          "subject",
+          "factPath",
+          "evidence"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": {
+            "enum": [
+              "property_state",
+              "relation",
+              "role_assignment",
+              "text_content",
+              "interaction"
+            ]
+          },
+          "semantics": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "baseline",
+                "relative_fact",
+                "token_binding",
+                "slot",
+                "composition",
+                "text",
+                "page_relation",
+                "interaction"
+              ]
+            }
+          },
+          "subject": {
+            "type": "object",
+            "required": ["nodeId"],
+            "properties": {
+              "nodeId": { "type": "string", "minLength": 1 },
+              "name": { "type": ["string", "null"] },
+              "path": { "type": ["string", "null"] },
+              "componentKey": { "type": ["string", "null"] },
+              "componentName": { "type": ["string", "null"] },
+              "slot": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          },
+          "target": { "type": ["object", "null"] },
+          "factPath": { "type": "string", "minLength": 1 },
+          "property": { "type": ["string", "null"] },
+          "baseline": {},
+          "actual": {},
+          "binding": { "type": ["object", "null"] },
+          "relation": { "type": ["object", "null"] },
+          "role": { "type": ["object", "null"] },
+          "text": { "type": ["object", "null"] },
+          "candidateRuleIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string" }
+          },
+          "evidence": {
+            "type": "object",
+            "required": ["source", "quality"],
+            "properties": {
+              "source": { "const": "figma_snapshot" },
+              "quality": { "enum": ["exact", "derived"] },
+              "sourceId": { "type": ["string", "null"] }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rules": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "effect",
+          "scope",
+          "authority",
+          "authoritative"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "effect": { "enum": ["violation", "allow", "context", "unknown"] },
+          "scope": {
+            "enum": ["slot", "component", "composition", "page", "text", "global"]
+          },
+          "severity": { "type": ["string", "null"] },
+          "appliesTo": { "type": ["string", "null"] },
+          "conditions": { "type": ["object", "null"] },
+          "assertion": { "type": ["object", "null"] },
+          "text": { "type": ["string", "null"] },
+          "authority": { "type": ["object", "null"] },
+          "authoritative": { "type": "boolean" },
+          "source": { "type": ["object", "null"] },
+          "semantics": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "enum": ["exception", "authority"] }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["factCount", "ruleCount", "factKinds", "semantics"],
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

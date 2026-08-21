@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/design-audit-request.v1.json",
+  "title": "Apollo design audit request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "documentType": { "const": "apollo-design-audit-request" },
+    "mode": { "enum": ["validation", "question"] },
+    "auditId": { "type": "string", "minLength": 1 },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "platform": {
+          "enum": ["desktop", "mobile-web", "ios", "android"]
+        },
+        "screenType": {
+          "enum": ["form", "landing", "view", "hub", null]
+        },
+        "selectionScope": {
+          "enum": ["screen", "fragment", "component", "modal"]
+        },
+        "clarificationRound": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "designer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": ["string", "null"] },
+            "name": { "type": ["string", "null"] }
+          },
+          "required": ["id", "name"]
+        },
+        "figma": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fileKey": { "type": ["string", "null"] },
+            "pageId": { "type": "string", "minLength": 1 },
+            "rootNodeId": { "type": "string", "minLength": 1 },
+            "selectionUrl": { "type": ["string", "null"] }
+          },
+          "required": ["fileKey", "pageId", "rootNodeId", "selectionUrl"]
+        },
+        "knowledge": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "packageVersion": { "type": ["string", "null"] },
+            "packageChecksum": { "type": ["string", "null"] },
+            "sourceRevisions": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "required": ["packageVersion", "packageChecksum", "sourceRevisions"]
+        }
+      },
+      "required": [
+        "platform",
+        "screenType",
+        "selectionScope",
+        "clarificationRound",
+        "designer",
+        "figma",
+        "knowledge"
+      ]
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "generatedAt": { "type": "string", "minLength": 1 },
+        "selection": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "nodeId": { "type": "string", "minLength": 1 },
+              "name": { "type": "string" },
+              "nodeType": { "type": "string" }
+            },
+            "required": ["nodeId", "name", "nodeType"]
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "nodeId": { "type": "string", "minLength": 1 },
+              "path": { "type": "string" },
+              "type": { "type": "string" },
+              "name": { "type": "string" },
+              "visible": { "const": true }
+            },
+            "required": ["nodeId", "path", "type", "name", "visible"]
+          }
+        },
+        "screenshots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "nodeId": { "type": "string", "minLength": 1 },
+              "mimeType": { "const": "image/png" },
+              "localPath": { "type": ["string", "null"] },
+              "dataBase64": { "type": ["string", "null"] },
+              "pixelWidth": { "type": "integer", "minimum": 1 },
+              "pixelHeight": { "type": "integer", "minimum": 1 }
+            },
+            "required": [
+              "nodeId",
+              "mimeType",
+              "localPath",
+              "dataBase64",
+              "pixelWidth",
+              "pixelHeight"
+            ]
+          }
+        },
+        "excluded": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hiddenNodeCount": { "type": "integer", "minimum": 0 }
+          },
+          "required": ["hiddenNodeCount"]
+        }
+      },
+      "required": ["generatedAt", "selection", "nodes", "screenshots", "excluded"]
+    },
+    "question": { "type": ["string", "null"] },
+    "previousResponse": { "type": ["object", "null"] },
+    "dialogue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": { "enum": ["designer", "agent"] },
+          "text": { "type": "string", "minLength": 1 },
+          "createdAt": { "type": "string", "minLength": 1 }
+        },
+        "required": ["role", "text", "createdAt"]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "mode",
+    "auditId",
+    "context",
+    "snapshot",
+    "question",
+    "previousResponse",
+    "dialogue"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "validation" } } },
+      "then": { "properties": { "question": { "type": "null" } } }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "question" } } },
+      "then": { "properties": { "question": { "type": "string", "minLength": 1 } } }
+    }
+  ]
+}
+

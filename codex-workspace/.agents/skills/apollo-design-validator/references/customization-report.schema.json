@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/customization-audit-request.v1.json",
+  "title": "Apollo customization audit request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "documentType": {
+      "type": "string",
+      "const": "apollo-customization-audit-request"
+    },
+    "mode": { "type": "string", "const": "customization-report" },
+    "auditId": { "type": "string", "minLength": 1 },
+    "context": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "platform": {
+          "type": "string",
+          "enum": ["desktop", "mobile-web", "ios", "android"]
+        }
+      },
+      "required": ["platform"]
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "reportKind": {
+          "type": "string",
+          "const": "apollo-customizations-wip-report"
+        },
+        "reportId": { "type": "string", "minLength": 1 },
+        "summary": { "type": "object" },
+        "category": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "node": { "type": "object" },
+                  "component": { "type": ["object", "null"] },
+                  "variant": { "type": ["object", "null"] },
+                  "changes": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": true,
+                      "properties": {
+                        "node": { "type": "object" },
+                        "property": { "type": "string", "minLength": 1 },
+                        "reference": { "type": "object" },
+                        "actual": { "type": "object" }
+                      },
+                      "required": ["node", "property", "reference", "actual"]
+                    }
+                  }
+                },
+                "required": ["node", "component", "variant", "changes"]
+              }
+            }
+          },
+          "required": ["items"]
+        }
+      },
+      "required": ["reportKind", "reportId", "summary", "category"]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "mode",
+    "auditId",
+    "context",
+    "report"
+  ]
+}

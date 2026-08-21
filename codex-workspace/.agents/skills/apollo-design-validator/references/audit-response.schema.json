@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/design-audit-response.v1.json",
+  "title": "Apollo design audit response v1",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "focus_node",
+            "open_source",
+            "copy_source_path",
+            "set_screen_type",
+            "propose_mutation",
+            "request_design_system_review"
+          ]
+        },
+        "label": { "type": "string", "minLength": 1 },
+        "userDecisionRequired": { "type": "boolean", "const": true },
+        "payload": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": { "type": "string", "minLength": 1 },
+              "value": {
+                "type": ["string", "number", "boolean", "null"]
+              }
+            },
+            "required": ["key", "value"]
+          }
+        }
+      },
+      "required": ["type", "label", "userDecisionRequired", "payload"]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "snapshot_fact",
+            "screenshot_observation",
+            "component_contract",
+            "approved_rule",
+            "replacement_mapping",
+            "user_context"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "figma_snapshot",
+            "figma_screenshot",
+            "ds-ai-hub",
+            "design-system_ab",
+            "user_provided"
+          ]
+        },
+        "path": { "type": ["string", "null"] },
+        "ruleId": { "type": ["string", "null"] },
+        "quote": { "type": ["string", "null"] },
+        "factPath": { "type": ["string", "null"] },
+        "actual": { "type": ["string", "number", "boolean", "null"] },
+        "expected": { "type": ["string", "number", "boolean", "null"] },
+        "verified": { "type": "boolean" },
+        "verificationReason": { "type": ["string", "null"] }
+      },
+      "required": [
+        "kind",
+        "source",
+        "path",
+        "ruleId",
+        "quote",
+        "factPath",
+        "actual",
+        "expected",
+        "verified",
+        "verificationReason"
+      ]
+    },
+    "sourceTraceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["ds-ai-hub", "design-system_ab"]
+        },
+        "path": { "type": "string", "minLength": 1 },
+        "revision": { "type": ["string", "null"] },
+        "checksum": { "type": ["string", "null"] },
+        "role": {
+          "type": "string",
+          "enum": [
+            "component-contract",
+            "effective-baseline",
+            "lifecycle",
+            "replacement-mapping",
+            "normative-rule",
+            "supporting-context",
+            "non-normative-example"
+          ]
+        },
+        "purpose": { "type": "string", "minLength": 1 },
+        "ruleIds": { "type": "array", "items": { "type": "string" } },
+        "findingIds": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": [
+        "source",
+        "path",
+        "revision",
+        "checksum",
+        "role",
+        "purpose",
+        "ruleIds",
+        "findingIds"
+      ]
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeId": { "type": "string", "minLength": 1 },
+        "factPath": { "type": "string", "minLength": 1 },
+        "disposition": {
+          "type": "string",
+          "enum": ["error", "warning", "human_review", "allowed"]
+        },
+        "findingId": { "type": ["string", "null"] },
+        "ruleId": { "type": ["string", "null"] },
+        "rationale": { "type": "string", "minLength": 1 }
+      },
+      "required": [
+        "nodeId",
+        "factPath",
+        "disposition",
+        "findingId",
+        "ruleId",
+        "rationale"
+      ]
+    }
+  },
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "documentType": {
+      "type": "string",
+      "const": "apollo-design-audit-response"
+    },
+    "auditId": { "type": "string", "minLength": 1 },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "apollo-design-validator"
+        },
+        "version": { "type": "string", "minLength": 1 },
+        "checksum": { "type": ["string", "null"] }
+      },
+      "required": ["name", "version", "checksum"]
+    },
+    "runStatus": {
+      "type": "string",
+      "enum": ["completed", "clarification_required", "failed"]
+    },
+    "coverage": {
+      "type": "string",
+      "enum": ["full", "base-only", "partial"]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checkedNodes": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "warnings": { "type": "integer", "minimum": 0 },
+        "humanReview": { "type": "integer", "minimum": 0 },
+        "allowed": { "type": "integer", "minimum": 0 },
+        "contextHints": { "type": "integer", "minimum": 0 },
+        "skippedRuleGroups": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": [
+        "checkedNodes",
+        "errors",
+        "warnings",
+        "humanReview",
+        "allowed",
+        "contextHints",
+        "skippedRuleGroups"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "dedupeKey": { "type": "string", "minLength": 1 },
+          "nodeId": { "type": "string", "minLength": 1 },
+          "ruleId": { "type": "string", "minLength": 1 },
+          "factPath": { "type": "string", "minLength": 1 },
+          "priority": {
+            "type": "string",
+            "enum": ["error", "warning", "human_review"]
+          },
+          "category": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "object": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "path": { "type": "string" },
+              "figmaUrl": { "type": ["string", "null"] }
+            },
+            "required": ["name", "path", "figmaUrl"]
+          },
+          "fact": { "type": "string", "minLength": 1 },
+          "expectation": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "fix": { "type": "string", "minLength": 1 },
+          "evidenceStatus": {
+            "type": "string",
+            "enum": ["verified", "unresolved"]
+          },
+          "verifiedEvidence": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/evidence" }
+          },
+          "actions": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/action" }
+          }
+        },
+        "required": [
+          "id",
+          "dedupeKey",
+          "nodeId",
+          "ruleId",
+          "factPath",
+          "priority",
+          "category",
+          "title",
+          "object",
+          "fact",
+          "expectation",
+          "rationale",
+          "fix",
+          "evidenceStatus",
+          "verifiedEvidence",
+          "actions"
+        ]
+      }
+    },
+    "classifications": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/classification" }
+    },
+    "contextHints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "nodeId": { "type": "string", "minLength": 1 },
+          "ruleId": { "type": "string", "minLength": 1 },
+          "kind": {
+            "type": "string",
+            "const": "screen-type-suggestion"
+          },
+          "message": { "type": "string", "minLength": 1 },
+          "suggestedScreenType": {
+            "type": "string",
+            "enum": ["form", "landing", "view", "hub"]
+          },
+          "verifiedEvidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/evidence" }
+          },
+          "actions": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/action" }
+          }
+        },
+        "required": [
+          "id",
+          "nodeId",
+          "ruleId",
+          "kind",
+          "message",
+          "suggestedScreenType",
+          "verifiedEvidence",
+          "actions"
+        ]
+      }
+    },
+    "clarificationQuestions": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "nodeId": { "type": "string", "minLength": 1 },
+          "ruleId": { "type": "string", "minLength": 1 },
+          "round": { "type": "integer", "minimum": 1, "maximum": 2 },
+          "question": { "type": "string", "minLength": 1 },
+          "answerType": {
+            "type": "string",
+            "enum": ["text", "single_choice", "boolean"]
+          },
+          "options": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": [
+          "id",
+          "nodeId",
+          "ruleId",
+          "round",
+          "question",
+          "answerType",
+          "options"
+        ]
+      }
+    },
+    "sourceTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "usedSources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sourceTraceEntry" }
+        },
+        "consultedSources": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sourceTraceEntry" }
+        }
+      },
+      "required": ["usedSources", "consultedSources"]
+    },
+    "responseMarkdown": { "type": "string" }
+  },
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "auditId",
+    "skill",
+    "runStatus",
+    "coverage",
+    "summary",
+    "findings",
+    "classifications",
+    "contextHints",
+    "clarificationQuestions",
+    "sourceTrace",
+    "responseMarkdown"
+  ]
+}
