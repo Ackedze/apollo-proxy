@@ -23,10 +23,17 @@
     "generatedAt": { "type": "string" },
     "context": {
       "type": "object",
-      "required": ["channel", "pageType", "selectionNodeIds"],
+      "required": [
+        "fileKey", "pageId", "platform", "channel", "pageType",
+        "viewportWidth", "selectionNodeIds"
+      ],
       "properties": {
+        "fileKey": { "type": ["string", "null"] },
+        "pageId": { "type": "string", "minLength": 1 },
+        "platform": { "enum": ["desktop", "mobile-web", "ios", "android"] },
         "channel": { "type": "string" },
         "pageType": { "type": ["string", "null"] },
+        "viewportWidth": { "type": ["number", "null"], "minimum": 0 },
         "selectionNodeIds": {
           "type": "array",
           "items": { "type": "string" }

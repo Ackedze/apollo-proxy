@@ -16,6 +16,16 @@
     "schemaVersion": { "const": 1 },
     "documentType": { "const": "apollo-semantic-audit-model" },
     "auditId": { "type": "string", "minLength": 1 },
+    "snapshot": {
+      "type": "object",
+      "required": ["auditId", "checksum", "frozen"],
+      "properties": {
+        "auditId": { "type": "string", "minLength": 1 },
+        "checksum": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "frozen": { "const": true }
+      },
+      "additionalProperties": false
+    },
     "context": {
       "type": "object",
       "required": ["platform", "pageType"],
@@ -43,6 +53,9 @@
           "kind": {
             "enum": [
               "property_state",
+              "component_occurrence",
+              "group_aggregate",
+              "layout_state",
               "relation",
               "role_assignment",
               "text_content",
@@ -55,6 +68,9 @@
             "items": {
               "enum": [
                 "baseline",
+                "component",
+                "aggregate",
+                "layout",
                 "relative_fact",
                 "token_binding",
                 "slot",
@@ -62,6 +78,41 @@
                 "text",
                 "page_relation",
                 "interaction"
+              ]
+            }
+          },
+          "domains": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "component-state",
+                "composition-slots",
+                "visual-properties",
+                "resource-bindings",
+                "layout-geometry",
+                "content-semantics",
+                "assets-media",
+                "interaction"
+              ]
+            }
+          },
+          "facets": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "identity",
+                "value",
+                "binding",
+                "slot",
+                "baseline",
+                "relative-value",
+                "relation",
+                "content",
+                "interaction",
+                "aggregate",
+                "context"
               ]
             }
           },
@@ -84,6 +135,9 @@
           "baseline": {},
           "actual": {},
           "binding": { "type": ["object", "null"] },
+          "component": { "type": ["object", "null"] },
+          "aggregate": { "type": ["object", "null"] },
+          "layout": { "type": ["object", "null"] },
           "relation": { "type": ["object", "null"] },
           "role": { "type": ["object", "null"] },
           "text": { "type": ["object", "null"] },
@@ -120,6 +174,7 @@
         ],
         "properties": {
           "id": { "type": "string", "minLength": 1 },
+          "ruleKind": { "type": ["string", "null"] },
           "effect": { "enum": ["violation", "allow", "context", "unknown"] },
           "scope": {
             "enum": ["slot", "component", "composition", "page", "text", "global"]
@@ -128,14 +183,36 @@
           "appliesTo": { "type": ["string", "null"] },
           "conditions": { "type": ["object", "null"] },
           "assertion": { "type": ["object", "null"] },
+          "constraintModel": { "type": ["object", "null"] },
           "text": { "type": ["string", "null"] },
+          "requiredEvidence": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
           "authority": { "type": ["object", "null"] },
           "authoritative": { "type": "boolean" },
+          "assessmentEligible": { "type": "boolean" },
           "source": { "type": ["object", "null"] },
           "semantics": {
             "type": "array",
             "uniqueItems": true,
             "items": { "enum": ["exception", "authority"] }
+          },
+          "requirements": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "component-state",
+                "composition-slots",
+                "visual-properties",
+                "resource-bindings",
+                "layout-geometry",
+                "content-semantics",
+                "assets-media",
+                "interaction"
+              ]
+            }
           }
         },
         "additionalProperties": false

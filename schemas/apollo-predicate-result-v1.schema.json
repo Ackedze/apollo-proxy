@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ackedze.github.io/apollo/schemas/apollo-predicate-result-v1.schema.json",
+  "title": "Apollo Predicate Result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "snapshotHash", "ruleRelease", "evaluations", "coverage"],
+  "properties": {
+    "schemaVersion": { "const": "apollo.predicate-result.v1" },
+    "snapshotHash": { "type": "string", "minLength": 1 },
+    "ruleRelease": { "type": "string", "minLength": 1 },
+    "evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evaluationId", "ruleId", "ruleRevision", "subjectNodeId",
+          "focusNodeId", "applicability", "classification", "severity", "trace"
+        ],
+        "properties": {
+          "evaluationId": { "type": "string", "minLength": 1 },
+          "ruleId": { "type": "string", "minLength": 1 },
+          "ruleRevision": { "type": "integer", "minimum": 1 },
+          "subjectNodeId": { "type": "string", "minLength": 1 },
+          "focusNodeId": { "type": "string", "minLength": 1 },
+          "applicability": { "enum": ["applicable", "not-applicable", "unknown"] },
+          "classification": { "enum": ["violation", "compliant", "allowed", "human-review", "not-applicable", "not-evaluable"] },
+          "severity": { "enum": ["error", "warning", "info"] },
+          "trace": { "$ref": "apollo-predicate-trace-v1.schema.json" },
+          "actionId": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "byClassification", "unclassified", "duplicateEvaluationIds"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "byClassification": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "unclassified": { "const": 0 },
+        "duplicateEvaluationIds": { "const": 0 }
+      }
+    }
+  }
+}

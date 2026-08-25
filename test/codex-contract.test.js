@@ -6,14 +6,22 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const {
+  adaptApolloSkillResponse,
   buildApolloSkillRequest,
   buildApolloPatternReportSkillRequest,
   buildApolloTextReportSkillRequest,
   buildApolloCustomizationReportSkillRequest,
   buildResolvedPatternAuditPacket,
+  compactResolvedPatternAuditPacket,
+  buildPatternAuditPassPackets,
+  mergeCompactPatternAssessmentResponses,
+  classifySemanticFact,
+  classifySemanticRuleRequirements,
+  buildSemanticRuleCoverage,
   buildResolvedTextAuditPacket,
   buildResolvedAuditPacket,
   buildApolloSemanticModel,
+  hydrateReportComponentRuleAuthority,
   compactApolloPatternReport,
   compactApolloEvidenceBundle,
   compactApolloTextReport,
@@ -28,6 +36,7 @@ const {
   isCodexAuthenticationFailure,
   mapCodexEventToProgressStage,
   normalizeCodexValidation,
+  expandCompactPatternAssessmentResponse,
   parseCodexJsonEvent,
   validateApolloSkillResponse,
   verifyCodexEvidence,
@@ -589,6 +598,16 @@ test('Apollo proxy resolves the first form pattern into a bounded packet', async
   assert.equal(packet.architectureAudit.evidenceBundle.schemaVersion, 3);
   assert.equal(validateApolloSemanticModel(packet.semanticModel), null);
   assert.equal(packet.semanticModel.documentType, 'apollo-semantic-audit-model');
+  const componentOccurrences = packet.semanticModel.facts.filter(
+    (fact) => fact.kind === 'component_occurrence'
+  );
+  assert.equal(componentOccurrences.length, 3);
+  assert.equal(
+    componentOccurrences.find((fact) => fact.subject.nodeId === '1:3')
+      ?.component?.variantProperties?.View,
+    'Medium'
+  );
+  assert.equal(packet.semanticModel.coverage.componentOccurrenceCount, 3);
   assert.equal(
     packet.semanticModel.rules.find(
       (rule) => rule.id === 'rule:forms.construction-rules.block-spacing'
@@ -601,23 +620,446 @@ test('Apollo proxy resolves the first form pattern into a bounded packet', async
     /rule:forms\.construction-rules\.title-medium-one-per-plate/
   );
 
+  const semanticPacket = compactResolvedPatternAuditPacket(packet);
+  assert.equal(semanticPacket.transport.mode, 'semantic-v1');
+  assert.equal('generalAudit' in semanticPacket, false);
+  assert.equal('evidenceBundle' in semanticPacket.architectureAudit, false);
+  assert.equal('pagePatternDocuments' in semanticPacket.resolution, false);
+  assert.ok(
+    semanticPacket.semanticModel.facts.length <=
+      packet.semanticModel.facts.length
+  );
+  assert.equal(
+    semanticPacket.transport.fullFactCount,
+    packet.semanticModel.facts.length
+  );
+  assert.equal(
+    semanticPacket.transport.transmittedFactCount,
+    semanticPacket.semanticModel.facts.length
+  );
+  assert.ok(
+    semanticPacket.semanticModel.rules.length <= packet.semanticModel.rules.length
+  );
+  assert.ok(
+    semanticPacket.semanticModel.rules.some(
+      (rule) => rule.id ===
+        'rule:forms.construction-rules.block-spacing'
+    )
+  );
+  assert.ok(
+    JSON.stringify(semanticPacket).length < JSON.stringify(packet).length
+  );
+
   const prompt = buildCodexPrompt(
     '/tmp/pattern-request.json',
     'pattern-report',
     skillManifest(),
     { checksum: 'knowledge-checksum' },
     'packet',
-    packet
+    semanticPacket
   );
   assert.match(prompt, /read-only аудитор проектировочных паттернов/);
-  assert.match(prompt, /общие компонентные паттерны в generalAudit/);
-  assert.match(prompt, /специализированные правила выбранного типа страницы/);
+  assert.match(prompt, /единственным каноническим представлением/);
   assert.match(prompt, /max-descendant-count-per-container/);
-  assert.match(prompt, /компактный read-only архитектурный слепок/);
-  assert.match(prompt, /resolution\.pagePatternDocuments/);
   assert.match(prompt, /Semantic Fact Model v1/);
+  assert.match(prompt, /component_occurrence/);
+  assert.match(prompt, /rule\.constraintModel/);
+  assert.match(prompt, /ruleReadiness/);
   assert.match(prompt, /Не придумывай новые или более узкие правила/);
+  assert.match(prompt, /одинаковым effect.*НЕ являются конфликтом/);
+  assert.match(prompt, /Верни компактный assessment/);
+  assert.doesNotMatch(prompt, /architectureAudit\.evidenceBundle/);
+  assert.doesNotMatch(prompt, /resolution\.pagePatternDocuments/);
   assert.doesNotMatch(prompt, /Используй \$apollo-design-validator/);
+});
+
+test('Apollo proxy expands compact pattern assessments into the verified UI contract', async () => {
+  const payload = patternReportPayload();
+  const manifest = skillManifest();
+  const request = buildApolloPatternReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const fullPacket = await buildResolvedPatternAuditPacket(request, {
+    knowledgeSource: 'design-system_ab',
+  });
+  const packet = compactResolvedPatternAuditPacket(fullPacket);
+  const observation = packet.observations[0];
+  const container = observation.containers[0];
+  const compactResponse = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: payload.report.reportId,
+    runStatus: 'completed',
+    coverage: 'partial',
+    assessments: [{
+      id: 'PAT-001',
+      nodeId: container.nodeId,
+      factPath: container.factPath,
+      disposition: 'error',
+      ruleId: observation.ruleId,
+      title: 'Слишком много заголовков',
+      rationale: 'Фактическое количество превышает максимум.',
+      expectation: 'Не более одного TitleView Medium.',
+      fix: 'Оставить один главный заголовок.',
+    }],
+    summaryText: 'Найдено одно нарушение.',
+    clarificationQuestions: [],
+  };
+
+  const expanded = expandCompactPatternAssessmentResponse(
+    compactResponse,
+    payload,
+    manifest,
+    packet
+  );
+  assert.equal(expanded.documentType, 'apollo-design-audit-response');
+  assert.equal(expanded.findings.length, 1);
+  assert.equal(expanded.findings[0].verifiedEvidence.length, 2);
+  assert.equal(expanded.sourceTrace.usedSources.length, 1);
+
+  const normalized = normalizeCodexValidation(
+    compactResponse,
+    payload,
+    manifest,
+    packet
+  );
+  assert.equal(normalized.mode, 'pattern-report');
+  assert.equal(normalized.summary.errors, 1);
+  assert.equal(normalized.findings[0].title, 'Слишком много заголовков');
+});
+
+test('Apollo keeps component composition findings in Base and renders readable parent evidence', () => {
+  const payload = patternReportPayload();
+  const nodeId = 'I1:0;2:0';
+  const ruleId =
+    'component:web-corp.background-plate.level-2-requires-level-1';
+  const factPath = `architecture.aggregate.${nodeId}.directChildren`;
+  const packet = {
+    auditId: payload.report.reportId,
+    context: { figma: { rootNodeId: '1:0' } },
+    report: payload.report,
+    resolution: { requestedRuleIds: [] },
+    semanticModel: {
+      facts: [{
+        id: 'occurrence',
+        kind: 'component_occurrence',
+        subject: { nodeId, name: '[D] BackgroundPlate' },
+        factPath: `architecture.component.${nodeId}.occurrence`,
+        component: {
+          variantProperties: { Position: 'Level 2 (inner)' },
+          parentNodeId: '1:0',
+          owner: { nodeId: '1:0', name: '[D] ContentCardWrapper' },
+        },
+      }, {
+        id: 'aggregate',
+        kind: 'group_aggregate',
+        subject: { nodeId, name: '[D] BackgroundPlate' },
+        factPath,
+        aggregate: {
+          scope: 'direct-children',
+          directComponentCount: 1,
+          componentNameCounts: { '[D] Style Level 2': 1 },
+        },
+      }],
+      rules: [{
+        id: ruleId,
+        effect: 'violation',
+        scope: 'composition',
+        authoritative: true,
+        authority: { status: 'active' },
+        conditions: {
+          components: ['[D] BackgroundPlate'],
+          variant: { Position: 'Level 2 (inner)' },
+        },
+        constraintModel: {
+          predicates: [{
+            field: 'requiredComposition',
+            operator: 'require',
+            value: {
+              requiredParent: {
+                component: 'BackgroundPlate',
+                variant: { Position: 'Level 1 (outer)' },
+              },
+              directParentRequired: true,
+              allowStandalone: false,
+            },
+          }],
+        },
+        text: 'Level 2 должен находиться внутри BackgroundPlate Level 1.',
+        source: {
+          source: 'design-system_ab',
+          path: 'JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+        },
+      }],
+    },
+  };
+  const compactResponse = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: packet.auditId,
+    runStatus: 'completed',
+    coverage: 'full',
+    assessments: [{
+      id: 'composition-error',
+      nodeId,
+      factPath,
+      disposition: 'ok',
+      ruleId: null,
+      title: 'Композиция допустима',
+      rationale: 'Агент не заметил нарушение обязательного родителя.',
+      expectation: 'Сохранить текущую композицию.',
+      fix: ':',
+    }],
+    summaryText: 'Найдено нарушение композиции.',
+    clarificationQuestions: [],
+  };
+
+  const merged = mergeCompactPatternAssessmentResponses([{
+    pass: {
+      auditPass: {
+        id: 'component-contract',
+        runKey: 'component-contract.1',
+        targets: [{ id: 'aggregate', nodeId, factPath }],
+      },
+    },
+    result: compactResponse,
+  }], packet);
+  assert.equal(merged.assessments[0].disposition, 'error');
+  assert.equal(merged.assessments[0].ruleId, ruleId);
+
+  const expanded = expandCompactPatternAssessmentResponse(
+    merged,
+    payload,
+    skillManifest(),
+    packet
+  );
+  assert.equal(
+    expanded.findings[0].fact,
+    'Position=Level 2 (inner); прямой родитель — [D] ContentCardWrapper.'
+  );
+  const adapted = adaptApolloSkillResponse(expanded, payload);
+  assert.equal(adapted.findings[0].patternScope, 'general');
+});
+
+test('Apollo compact pattern response preserves deterministic component verdicts', async () => {
+  const payload = patternReportPayload();
+  const manifest = skillManifest();
+  const deterministicRule = activeComponentRule(
+    'component:test.padding-uses-spacing-tokens',
+    {
+      severity: 'error',
+      appliesTo: 'layout.padding.*',
+      ruleText: 'Каждый padding должен быть привязан к токену Spacing.',
+      remediation: 'Привязать значение к соответствующему токену Spacing.',
+    }
+  );
+  payload.report.category.items = [{
+    node: { id: '1:2', name: 'BackgroundPlate', visible: true },
+    component: { key: 'plate-key', name: 'BackgroundPlate' },
+    variant: { key: 'plate-variant', name: 'Type=Primary' },
+    changes: [{
+      node: { id: '1:2', name: 'BackgroundPlate', visible: true },
+      property: 'layout.padding.right',
+      reference: { value: 24 },
+      actual: { value: 16 },
+      assessment: {
+        verdict: 'violation',
+        ruleId: deterministicRule.ruleId,
+        message: deterministicRule.ruleText,
+      },
+      componentRules: [deterministicRule],
+    }],
+  }];
+  payload.report.category.count = 1;
+  payload.report.category.changeCount = 1;
+  payload.report.summary.generalChangeCount = 1;
+
+  const request = buildApolloPatternReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const fullPacket = await buildResolvedPatternAuditPacket(request, {
+    knowledgeSource: 'design-system_ab',
+  });
+  const packet = compactResolvedPatternAuditPacket(fullPacket);
+  packet.semanticModel.rules.push({
+    id: deterministicRule.ruleId,
+    effect: 'violation',
+    scope: 'component',
+    severity: 'error',
+    appliesTo: 'layout.padding.*',
+    conditions: null,
+    assertion: null,
+    constraintModel: null,
+    text: deterministicRule.ruleText,
+    authority: deterministicRule.authority,
+    authoritative: true,
+    source: {
+      source: 'design-system_ab',
+      path: 'JSONS/web/components/test/rules.json',
+      quote: deterministicRule.ruleText,
+    },
+    semantics: ['authority'],
+  });
+  const compactResponse = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: payload.report.reportId,
+    runStatus: 'completed',
+    coverage: 'partial',
+    assessments: [{
+      id: 'PAT-DET-001',
+      nodeId: '1:2',
+      factPath: 'layout.padding.right',
+      disposition: 'human_review',
+      ruleId: deterministicRule.ruleId,
+      title: 'Правила могут конфликтовать',
+      rationale: 'Нужно уточнение.',
+      expectation: 'Уточнить правило.',
+      fix: 'Проверить вручную.',
+    }],
+    summaryText: 'Один спорный факт.',
+    clarificationQuestions: [],
+  };
+
+  const normalized = normalizeCodexValidation(
+    compactResponse,
+    payload,
+    manifest,
+    packet
+  );
+  assert.equal(normalized.summary.errors, 1);
+  assert.equal(normalized.findings[0].priority, 'error');
+  assert.equal(
+    normalized.findings[0].title,
+    'Нарушено обязательное правило компонента'
+  );
+  assert.equal(
+    normalized.findings[0].suggestedFix,
+    deterministicRule.remediation
+  );
+  assert.equal(normalized.classifications[0].disposition, 'error');
+});
+
+test('Apollo semantic model preserves direct composition and component ownership', () => {
+  const payload = patternReportPayload();
+  payload.report.evidenceBundle.graph.nodes.push({
+    nodeId: '1:2',
+    parentNodeId: '1:1',
+    childNodeIds: ['1:3'],
+    childOrder: 0,
+    depth: 1,
+    path: 'Form / [D] BackgroundPlateSlot',
+    type: 'INSTANCE',
+    name: '[D] BackgroundPlateSlot',
+    visible: true,
+    bounds: { x: 0, y: 0, width: 400, height: 600 },
+    layout: { mode: 'VERTICAL', itemSpacing: 32 },
+    component: {
+      key: 'plate-key',
+      name: '[D] BackgroundPlateSlot',
+      variantProperties: {},
+      componentProperties: {},
+      directOverrides: [],
+    },
+    componentOwner: null,
+    text: null,
+    styles: {},
+    variableBindings: [],
+  }, {
+    nodeId: '1:3',
+    parentNodeId: '1:2',
+    childNodeIds: [],
+    childOrder: 1,
+    depth: 2,
+    path: 'Form / [D] BackgroundPlateSlot / [D] TitleView',
+    type: 'INSTANCE',
+    name: '[D] TitleView',
+    visible: true,
+    bounds: { x: 32, y: 32, width: 336, height: 48 },
+    layout: { mode: 'HORIZONTAL', itemSpacing: 0 },
+    component: {
+      key: 'title-1:3',
+      name: '[D] TitleView',
+      variantProperties: { View: 'Medium' },
+      componentProperties: {},
+      directOverrides: [],
+    },
+    componentOwner: {
+      nodeId: '1:2',
+      componentKey: 'plate-key',
+      name: '[D] BackgroundPlateSlot',
+      path: 'Form / [D] BackgroundPlateSlot',
+      relativePath: 'Content/Title',
+    },
+    text: null,
+    styles: {},
+    variableBindings: [{
+      property: 'paddingLeft',
+      variableIds: ['VariableID:spacing-32'],
+    }],
+  });
+  payload.report.evidenceBundle.graph.relations.push({
+    id: 'relation:child:1_2:1_3',
+    kind: 'direct-child',
+    fromNodeId: '1:2',
+    toNodeId: '1:3',
+    containerNodeId: '1:2',
+    axis: null,
+    edge: null,
+    measurement: null,
+  });
+
+  const request = buildApolloPatternReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const model = buildApolloSemanticModel(request);
+  assert.equal(validateApolloSemanticModel(model), null);
+  const compositionFacts = model.facts.filter((fact) => (
+    fact.kind === 'relation' &&
+    fact.semantics.includes('composition') &&
+    !fact.semantics.includes('page_relation')
+  ));
+  assert.equal(compositionFacts.length, 1);
+  assert.equal(
+    compositionFacts.find((fact) => (
+      fact.relation?.structuralKind === 'component-owner' &&
+      fact.target?.nodeId === '1:3'
+    ))?.relation?.ownerRelativePath,
+    'Content/Title'
+  );
+  assert.equal(model.coverage.compositionRelationCount, 1);
+  const aggregates = model.facts.filter(
+    (fact) => fact.kind === 'group_aggregate'
+  );
+  assert.equal(aggregates.length, 2);
+  const plateAggregate = aggregates.find(
+    (fact) => fact.subject.nodeId === '1:2'
+  );
+  assert.equal(plateAggregate.aggregate.directChildCount, 1);
+  assert.equal(plateAggregate.aggregate.directComponentCount, 1);
+  assert.deepEqual(plateAggregate.aggregate.memberNodeIds, ['1:3']);
+  assert.deepEqual(
+    plateAggregate.aggregate.propertyValueCounts.View,
+    { Medium: 1 }
+  );
+  assert.equal(model.coverage.groupAggregateCount, 2);
+  const titleLayout = model.facts.find((fact) => (
+    fact.kind === 'layout_state' && fact.subject.nodeId === '1:3'
+  ));
+  assert.equal(titleLayout.layout.bounds.width, 336);
+  assert.equal(titleLayout.layout.layout.mode, 'HORIZONTAL');
+  assert.deepEqual(titleLayout.binding.variables, [{
+    property: 'paddingLeft',
+    variableIds: ['VariableID:spacing-32'],
+  }]);
+  assert.ok(titleLayout.semantics.includes('token_binding'));
+  assert.equal(model.coverage.layoutStateCount, 3);
 });
 
 test('Apollo proxy aggregates architecture relations without losing measurements', () => {
@@ -1020,17 +1462,755 @@ test('Apollo semantic model keeps slot exceptions separate from snapshot facts',
   );
   const model = buildApolloSemanticModel(request);
   assert.equal(validateApolloSemanticModel(model), null);
-  assert.equal(model.facts.length, 1);
+  const propertyFacts = model.facts.filter(
+    (fact) => fact.kind === 'property_state'
+  );
+  assert.equal(propertyFacts.length, 1);
   assert.deepEqual(
-    model.facts[0].semantics,
+    propertyFacts[0].semantics,
     ['baseline', 'relative_fact', 'slot']
   );
-  assert.equal(model.facts[0].subject.slot, 'RightAddon');
+  assert.equal(propertyFacts[0].subject.slot, 'RightAddon');
+  assert.equal(
+    model.facts.filter((fact) => fact.kind === 'component_occurrence').length,
+    1
+  );
   assert.equal(model.rules.length, 1);
   assert.equal(model.rules[0].effect, 'allow');
   assert.equal(model.rules[0].scope, 'slot');
   assert.equal(model.rules[0].authoritative, true);
   assert.deepEqual(model.rules[0].semantics, ['exception', 'authority']);
+});
+
+test('Apollo semantic model preserves authoritative context-controlled rules as allow', () => {
+  const payload = reportPayload();
+  const change = payload.report.category.items[0].changes[0];
+  change.property = 'layout.padding.bottom';
+  change.componentRules = [{
+    ruleId: 'component:test.designer-controlled-padding',
+    ruleKind: 'design-rule',
+    severity: 'info',
+    appliesTo: 'layout.padding.*',
+    classification: {
+      doNotTreatAsViolationByDefault: true,
+    },
+    ruleText: 'Padding is controlled by the composition context.',
+    authority: {
+      status: 'active',
+      provenance: 'design-system-author',
+      revision: 1,
+    },
+  }];
+  const request = buildApolloCustomizationReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const model = buildApolloSemanticModel(request);
+  assert.equal(validateApolloSemanticModel(model), null);
+  assert.equal(model.rules[0].effect, 'allow');
+  assert.deepEqual(model.rules[0].semantics, ['exception', 'authority']);
+});
+
+test('Apollo semantic model preserves structured component constraints', () => {
+  const payload = patternReportPayload();
+  const request = buildApolloPatternReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const ruleId = 'component:test.structured-composition';
+  const model = buildApolloSemanticModel(request, {
+    additionalRules: [{
+      rule: {
+        ruleId,
+        ruleKind: 'design-rule',
+        severity: 'error',
+        appliesTo: 'component.composition',
+        target: { component: '[D] TabsView' },
+        requiredComposition: {
+          maximumVisible: 8,
+          requiredOrder: ['Primary', 'Secondary'],
+        },
+        forbiddenState: { Active: true, Disabled: true },
+        authority: {
+          status: 'active',
+          provenance: 'design-system-author',
+          revision: 1,
+        },
+      },
+      evidence: {
+        source: 'design-system_ab',
+        path: 'JSONS/Test/rules.json',
+        ruleId,
+        verified: true,
+      },
+    }],
+  });
+  const rule = model.rules.find((candidate) => candidate.id === ruleId);
+  assert.equal(rule.authoritative, true);
+  assert.deepEqual(rule.constraintModel.selector, {
+    appliesTo: 'component.composition',
+    target: { component: '[D] TabsView' },
+  });
+  assert.deepEqual(rule.constraintModel.predicates, [{
+    field: 'requiredComposition',
+    operator: 'require',
+    value: {
+      maximumVisible: 8,
+      requiredOrder: ['Primary', 'Secondary'],
+    },
+  }, {
+    field: 'forbiddenState',
+    operator: 'forbid',
+    value: { Active: true, Disabled: true },
+  }]);
+  assert.deepEqual(
+    model.coverage.ruleReadiness.find((entry) => entry.ruleId === ruleId),
+    {
+      ruleId,
+      status: 'not_evaluable',
+      reason: 'missing-fact-kinds',
+      requiredFactKinds: ['component_occurrence', 'group_aggregate'],
+      missingFactKinds: ['group_aggregate'],
+      requiredEvidence: [],
+      missingEvidence: [],
+    }
+  );
+});
+
+test('Apollo compact pattern packet retains authoritative structural rules', () => {
+  const componentRuleId = 'component:test.required-composition';
+  const packet = compactResolvedPatternAuditPacket({
+    schemaVersion: 1,
+    documentType: 'apollo-resolved-pattern-audit-packet',
+    mode: 'pattern-report',
+    auditId: 'audit-1',
+    context: { platform: 'desktop', pageType: 'form' },
+    report: {},
+    architectureAudit: { layoutRelations: [] },
+    semanticModel: {
+      schemaVersion: 1,
+      documentType: 'apollo-semantic-audit-model',
+      auditId: 'audit-1',
+      context: { platform: 'desktop', pageType: 'form' },
+      facts: [],
+      rules: [{
+        id: componentRuleId,
+        scope: 'composition',
+        authoritative: true,
+        source: {
+          source: 'design-system_ab',
+          path: 'JSONS/Test/rules.json',
+        },
+      }, {
+        id: 'context:test.unused',
+        scope: 'global',
+        authoritative: false,
+        source: null,
+      }],
+      coverage: {
+        factCount: 0,
+        ruleCount: 2,
+        factKinds: {},
+        semantics: {},
+        ruleReadiness: [{ ruleId: componentRuleId }, {
+          ruleId: 'context:test.unused',
+        }],
+      },
+    },
+    resolution: {},
+    observations: [],
+  });
+  assert.deepEqual(
+    packet.semanticModel.rules.map((rule) => rule.id),
+    [componentRuleId]
+  );
+  assert.deepEqual(
+    packet.semanticModel.coverage.ruleReadiness.map((entry) => entry.ruleId),
+    [componentRuleId]
+  );
+});
+
+test('Apollo compact pattern packet removes redundant structural transport facts', () => {
+  const packet = compactResolvedPatternAuditPacket({
+    schemaVersion: 1,
+    documentType: 'apollo-resolved-pattern-audit-packet',
+    mode: 'pattern-report',
+    auditId: 'audit-compact-facts',
+    context: { platform: 'desktop', pageType: 'form' },
+    report: {},
+    architectureAudit: { layoutRelations: [] },
+    semanticModel: {
+      schemaVersion: 1,
+      documentType: 'apollo-semantic-audit-model',
+      auditId: 'audit-compact-facts',
+      context: { platform: 'desktop', pageType: 'form' },
+      facts: [{
+        id: 'fact-component-long-hash',
+        kind: 'component_occurrence',
+        semantics: ['component'],
+        subject: {
+          nodeId: '1:2',
+          name: 'Button',
+          path: 'Page/Form/Button',
+          componentKey: 'button-key',
+          componentName: 'Button',
+        },
+        factPath: 'architecture.component.1:2.occurrence',
+        component: {
+          variantProperties: { View: 'Primary' },
+          componentProperties: { View: 'Primary' },
+          owner: {
+            nodeId: '1:1',
+            name: 'Form',
+            relativePath: 'Page/Very/Long/Form/Button',
+          },
+        },
+        evidence: { source: 'figma_snapshot', quality: 'exact' },
+      }, {
+        id: 'fact-owner-long-hash',
+        kind: 'relation',
+        semantics: ['composition'],
+        subject: { nodeId: '1:1', name: 'Form' },
+        target: { nodeId: '1:2', name: 'Button' },
+        factPath: 'architecture.composition.1:1.1:2.componentOwner',
+        relation: { structuralKind: 'component-owner' },
+      }, {
+        id: 'fact-layout-component-long-hash',
+        kind: 'layout_state',
+        semantics: ['layout'],
+        subject: {
+          nodeId: '1:2',
+          name: 'Button',
+          componentName: 'Button',
+        },
+        factPath: 'architecture.layout.1:2.state',
+        layout: { bounds: { x: 0, y: 0, width: 100, height: 40 } },
+      }, {
+        id: 'fact-layout-unrelated-long-hash',
+        kind: 'layout_state',
+        semantics: ['layout'],
+        subject: { nodeId: '9:9', name: 'Decorative frame' },
+        factPath: 'architecture.layout.9:9.state',
+        layout: { bounds: { x: 0, y: 0, width: 10, height: 10 } },
+      }],
+      rules: [],
+      coverage: {
+        factCount: 4,
+        ruleCount: 0,
+        factKinds: { component_occurrence: 1, relation: 1, layout_state: 2 },
+        semantics: { component: 1, composition: 1, layout: 2 },
+        ruleReadiness: [],
+      },
+    },
+    resolution: {},
+    observations: [],
+  });
+
+  assert.equal(packet.transport.fullFactCount, 4);
+  assert.equal(packet.transport.transmittedFactCount, 2);
+  assert.equal(packet.transport.omittedFactCount, 2);
+  assert.deepEqual(
+    packet.semanticModel.facts.map((fact) => fact.id),
+    ['f1', 'f2']
+  );
+  assert.equal(
+    packet.semanticModel.facts.some(
+      (fact) => fact.relation?.structuralKind === 'component-owner'
+    ),
+    false
+  );
+  const occurrence = packet.semanticModel.facts[0];
+  assert.equal('evidence' in occurrence, false);
+  assert.equal('path' in occurrence.subject, false);
+  assert.equal('componentProperties' in occurrence.component, false);
+  assert.equal('relativePath' in occurrence.component.owner, false);
+  assert.equal(validateApolloSemanticModel(packet.semanticModel), null);
+});
+
+test('Apollo pattern audit splits one frozen snapshot into faceted passes', () => {
+  const facts = [{
+    id: 'component-1',
+    kind: 'component_occurrence',
+    semantics: ['component'],
+    subject: { nodeId: '1:1', componentName: 'BackgroundPlate' },
+    factPath: 'architecture.component.1:1.occurrence',
+    component: { variantProperties: { Type: 'Primary' } },
+  }, {
+    id: 'property-component',
+    kind: 'property_state',
+    semantics: ['baseline', 'relative_fact'],
+    subject: { nodeId: '1:1', componentName: 'BackgroundPlate' },
+    factPath: 'variant.Type',
+    property: 'variant.Type',
+    baseline: { value: 'Primary' },
+    actual: { value: 'Secondary' },
+    candidateRuleIds: ['rule:component'],
+  }, {
+    id: 'property-binding',
+    kind: 'property_state',
+    semantics: ['baseline', 'relative_fact', 'token_binding'],
+    subject: { nodeId: '1:1', componentName: 'BackgroundPlate' },
+    factPath: 'layout.padding.right',
+    property: 'layout.padding.right',
+    baseline: { value: 24 },
+    actual: { value: 32 },
+    binding: { status: 'missing' },
+    candidateRuleIds: ['rule:binding'],
+  }, {
+    id: 'relation-1',
+    kind: 'relation',
+    semantics: ['composition', 'page_relation'],
+    subject: { nodeId: '1:1' },
+    target: { nodeId: '1:2' },
+    factPath: 'architecture.pageRelation.1:1.1:2.gap',
+    relation: { containerNodeId: '1:0', measurement: { actualPx: 48 } },
+  }].map((fact, index) => ({
+    ...fact,
+    ...classifySemanticFact(fact),
+    id: fact.id || `fact-${index}`,
+  }));
+  const rules = [{
+    id: 'rule:component',
+    scope: 'component',
+    appliesTo: 'variant.Type',
+    authoritative: true,
+  }, {
+    id: 'rule:binding',
+    scope: 'slot',
+    appliesTo: 'layout.padding.*|token.binding',
+    authoritative: true,
+  }, {
+    id: 'rule:layout',
+    scope: 'page',
+    appliesTo: 'screen.layout',
+    authoritative: true,
+  }];
+  const packet = {
+    schemaVersion: 1,
+    documentType: 'apollo-resolved-pattern-audit-packet',
+    transport: { mode: 'semantic-v1' },
+    mode: 'pattern-report',
+    auditId: 'audit-faceted',
+    context: { platform: 'desktop', pageType: 'form' },
+    report: {},
+    architectureAudit: { layoutRelations: [] },
+    semanticModel: {
+      schemaVersion: 1,
+      documentType: 'apollo-semantic-audit-model',
+      auditId: 'audit-faceted',
+      context: { platform: 'desktop', pageType: 'form' },
+      facts,
+      rules,
+      coverage: { factCount: facts.length, ruleCount: rules.length },
+    },
+    resolution: {},
+    observations: [],
+  };
+
+  const passes = buildPatternAuditPassPackets(packet);
+  assert.deepEqual(
+    passes.map((pass) => pass.auditPass.id),
+    ['component-contract', 'visual-bindings', 'layout-patterns']
+  );
+  assert.equal(new Set(
+    passes.map((pass) => pass.transport.frozenSnapshot.checksum)
+  ).size, 1);
+  assert.deepEqual(
+    passes.map((pass) => pass.auditPass.targets.map((target) => target.id)),
+    [['property-component'], ['property-binding'], ['relation-1']]
+  );
+  assert.equal(
+    passes[2].auditPass.targets[0].nodeId,
+    '1:0',
+    'Page-relation findings must focus the container that owns the spacing.',
+  );
+  assert.ok(
+    passes[1].semanticModel.rules.find((rule) => rule.id === 'rule:binding')
+      .requirements.includes('resource-bindings')
+  );
+});
+
+test('Apollo faceted merge preserves every target and repairs missing coverage', () => {
+  const pass = (id, target) => ({
+    auditPass: { id, targets: [target] },
+  });
+  const response = (assessment) => ({
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: 'audit-merge',
+    runStatus: 'completed',
+    coverage: 'full',
+    assessments: assessment ? [assessment] : [],
+    summaryText: '',
+    clarificationQuestions: [],
+  });
+  const merged = mergeCompactPatternAssessmentResponses([{
+    pass: pass('component-contract', {
+      id: 'fact-a', nodeId: '1:1', factPath: 'variant.View', kind: 'property_state',
+    }),
+    result: response({
+      id: 'a', nodeId: '1:1', factPath: 'variant.View', disposition: 'allowed',
+      ruleId: 'rule:a', title: 'ok', rationale: 'ok', expectation: 'ok', fix: 'ok',
+    }),
+  }, {
+    pass: pass('layout-patterns', {
+      id: 'fact-b', nodeId: '1:2', factPath: 'layout.gap', kind: 'property_state',
+    }),
+    result: response(null),
+  }], { auditId: 'audit-merge' });
+
+  assert.equal(merged.assessments.length, 2);
+  assert.equal(merged.assessments[0].id, 'component-contract:a');
+  assert.equal(merged.assessments[1].disposition, 'human_review');
+  assert.equal(merged.coverage, 'partial');
+});
+
+test('Apollo faceted merge classifies property facts excluded from agent targets', () => {
+  const packet = {
+    auditId: 'audit-narrative-property',
+    semanticModel: {
+      facts: [{
+        id: 'narrative-property',
+        kind: 'property_state',
+        subject: { nodeId: '1:1', componentName: '[D] Alpha' },
+        factPath: 'variant.Type',
+        baseline: { value: 'Primary' },
+        actual: { value: 'Secondary' },
+        candidateRuleIds: ['component:web-corp.alpha.component-properties-are-first-class'],
+      }],
+      rules: [{
+        id: 'component:web-corp.alpha.component-properties-are-first-class',
+        effect: 'unknown',
+        authoritative: false,
+        constraintModel: { predicates: [] },
+      }],
+    },
+    resolution: {},
+  };
+  const result = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: packet.auditId,
+    runStatus: 'completed',
+    coverage: 'full',
+    assessments: [],
+    summaryText: '',
+    clarificationQuestions: [],
+  };
+
+  const merged = mergeCompactPatternAssessmentResponses([{
+    pass: {
+      auditPass: {
+        id: 'component-contract',
+        runKey: 'component-contract.1',
+        targets: [],
+      },
+    },
+    result,
+  }], packet);
+
+  assert.equal(merged.coverage, 'partial');
+  assert.equal(merged.assessments.length, 1);
+  assert.equal(merged.assessments[0].nodeId, '1:1');
+  assert.equal(merged.assessments[0].factPath, 'variant.Type');
+  assert.equal(merged.assessments[0].disposition, 'human_review');
+  assert.equal(merged.assessments[0].ruleId, null);
+  assert.match(merged.assessments[0].title, /Нужно проверить Type у \[D\] Alpha/);
+  assert.match(merged.assessments[0].expectation, /Secondary/);
+});
+
+test('Apollo faceted merge repairs a container nodeId for a unique target factPath', () => {
+  const factPath = 'architecture.semanticGap.1:1.1:2.actualPx';
+  const result = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: 'audit-target-node-repair',
+    runStatus: 'completed',
+    coverage: 'full',
+    assessments: [{
+      id: 'gap',
+      nodeId: '1:0',
+      factPath,
+      disposition: 'error',
+      ruleId: 'rule:gap',
+      title: 'Неверный отступ',
+      rationale: 'Получен другой размер.',
+      expectation: 'Использовать нормативный отступ.',
+      fix: 'Исправить отступ.',
+    }],
+    summaryText: '',
+    clarificationQuestions: [],
+  };
+  const merged = mergeCompactPatternAssessmentResponses([{
+    pass: {
+      auditPass: {
+        id: 'layout-patterns',
+        runKey: 'layout-patterns.1',
+        targets: [{
+          id: 'gap-fact',
+          nodeId: '1:1',
+          factPath,
+          kind: 'relation',
+        }],
+      },
+    },
+    result,
+  }], {
+    auditId: result.auditId,
+    semanticModel: { facts: [], rules: [] },
+    resolution: {},
+  });
+
+  assert.equal(merged.assessments.length, 1);
+  assert.equal(merged.assessments[0].nodeId, '1:1');
+  assert.equal(merged.assessments[0].factPath, factPath);
+  assert.equal(merged.coverage, 'full');
+});
+
+test('Apollo faceted packets prune unrelated aggregates and narrative-only targets', () => {
+  const classify = (fact) => ({ ...fact, ...classifySemanticFact(fact) });
+  const facts = [
+    classify({
+      id: 'component-alpha', kind: 'component_occurrence', semantics: ['component'],
+      subject: { nodeId: '1:1', componentName: '[D] Alpha' },
+      factPath: 'architecture.component.1:1.occurrence',
+      component: { parentNodeId: '1:0', variantProperties: {} },
+    }),
+    classify({
+      id: 'aggregate-alpha', kind: 'group_aggregate', semantics: ['aggregate', 'composition'],
+      subject: { nodeId: '1:1', name: '[D] Alpha' },
+      factPath: 'architecture.aggregate.1:1.directChildren',
+      aggregate: { directComponentCount: 1, memberNodeIds: ['1:2'] },
+    }),
+    classify({
+      id: 'component-beta', kind: 'component_occurrence', semantics: ['component'],
+      subject: { nodeId: '2:1', componentName: '[D] Beta' },
+      factPath: 'architecture.component.2:1.occurrence',
+      component: { parentNodeId: '2:0', variantProperties: {} },
+    }),
+    classify({
+      id: 'aggregate-beta', kind: 'group_aggregate', semantics: ['aggregate', 'composition'],
+      subject: { nodeId: '2:1', name: '[D] Beta' },
+      factPath: 'architecture.aggregate.2:1.directChildren',
+      aggregate: { directComponentCount: 1, memberNodeIds: ['2:2'] },
+    }),
+    classify({
+      id: 'narrative-property', kind: 'property_state',
+      semantics: ['baseline', 'relative_fact'],
+      subject: { nodeId: '1:1', componentName: '[D] Alpha' },
+      factPath: 'variant.View', property: 'variant.View',
+      baseline: { value: 'A' }, actual: { value: 'B' },
+      candidateRuleIds: ['component:web-corp.alpha.component-properties-are-first-class'],
+    }),
+  ];
+  const rules = [{
+    id: 'component:web-corp.alpha.structure', effect: 'violation',
+    scope: 'composition', authoritative: true,
+    authority: { status: 'active' },
+    conditions: { component: '[D] Alpha' },
+    constraintModel: { predicates: [{ field: 'maximumChildren', value: 1 }] },
+  }, {
+    id: 'component:web-corp.alpha.component-properties-are-first-class',
+    effect: 'unknown', scope: 'component', authoritative: false,
+    authority: null, constraintModel: { predicates: [] },
+  }];
+  const packet = {
+    transport: { mode: 'semantic-v1' }, auditId: 'audit-local-subgraph',
+    context: { figma: { rootNodeId: '1:0' } }, report: { scan: { selection: [] } },
+    semanticModel: { facts, rules, coverage: {} }, observations: [], resolution: {},
+  };
+
+  const passes = buildPatternAuditPassPackets(packet);
+  const componentPass = passes.find((pass) => pass.auditPass.id === 'component-contract');
+  assert.deepEqual(
+    componentPass.auditPass.targets.map((target) => target.id),
+    ['aggregate-alpha']
+  );
+  assert.equal(
+    componentPass.semanticModel.facts.some((fact) => fact.id === 'aggregate-beta'),
+    false
+  );
+  assert.equal(
+    componentPass.semanticModel.rules.some((rule) => (
+      rule.id.endsWith('component-properties-are-first-class')
+    )),
+    false
+  );
+});
+
+test('Apollo rule coverage requires the exact layout relation', () => {
+  const rule = {
+    id: 'rule:title-spacing', effect: 'violation', scope: 'page',
+    authoritative: true, authority: { status: 'active' },
+    assertion: {
+      kind: 'vertical-spacing-relations',
+      expectations: [{ fromRole: 'header', toRole: 'title-view', spacing: 40 }],
+    },
+    requiredEvidence: [
+      'facts.layoutRelations[].relationKind',
+      'facts.layoutRelations[].measurement.actualPx',
+    ],
+    constraintModel: { predicates: [] },
+  };
+  const baseFacts = [{
+    id: 'header', kind: 'component_occurrence',
+    subject: { nodeId: '1:1', componentName: '[D] Header' },
+  }, {
+    id: 'title', kind: 'component_occurrence',
+    subject: { nodeId: '1:2', componentName: '[D] TitleView' },
+  }, {
+    id: 'layout', kind: 'layout_state', subject: { nodeId: '1:0' },
+  }, {
+    id: 'other-relation', kind: 'relation', semantics: ['page_relation'],
+    subject: { nodeId: '2:1' }, target: { nodeId: '2:2' },
+    factPath: 'architecture.semanticGap.2:1.2:2.actualPx',
+    relation: { fromRole: 'first-level-block', toRole: 'first-level-block' },
+  }];
+  const missing = buildSemanticRuleCoverage([rule], baseFacts, {})[0];
+  assert.equal(missing.status, 'not_evaluable');
+  assert.equal(missing.reason, 'missing-required-evidence');
+  assert.deepEqual(missing.missingEvidence, ['layoutRelation:header->title-view']);
+
+  const ready = buildSemanticRuleCoverage([rule], [...baseFacts, {
+    id: 'title-relation', kind: 'relation', semantics: ['page_relation'],
+    subject: { nodeId: '1:1' }, target: { nodeId: '1:2' },
+    factPath: 'architecture.pageRelation.1:1.1:2.gap',
+    relation: { fromRole: 'header', toRole: 'title-view' },
+  }], {})[0];
+  assert.equal(ready.status, 'ready');
+  assert.deepEqual(ready.missingEvidence, []);
+});
+
+test('Apollo faceted merge exposes requested rules with missing evidence', () => {
+  const ruleId = 'rule:components.title-view.external-spacing';
+  const packet = {
+    auditId: 'audit-missing-evidence',
+    context: { figma: { rootNodeId: '1:0' } },
+    report: { scan: { selection: [{ nodeId: '1:0', name: 'Page' }] } },
+    resolution: { requestedRuleIds: [ruleId] },
+    semanticModel: {
+      facts: [{
+        id: 'layout', kind: 'layout_state', subject: { nodeId: '1:0' },
+      }],
+      rules: [{
+        id: ruleId, effect: 'violation', scope: 'page', authoritative: true,
+        authority: { status: 'active' },
+        requiredEvidence: ['facts.layoutRelations[].measurement.actualPx'],
+        assertion: { kind: 'vertical-spacing-relations', expectations: [] },
+        constraintModel: { predicates: [] },
+      }],
+    },
+  };
+  const result = {
+    schemaVersion: 1,
+    documentType: 'apollo-pattern-assessment-response',
+    auditId: packet.auditId,
+    runStatus: 'completed',
+    coverage: 'full',
+    assessments: [],
+    summaryText: '',
+    clarificationQuestions: [],
+  };
+  const merged = mergeCompactPatternAssessmentResponses([{
+    pass: { auditPass: { id: 'layout-patterns', runKey: 'layout.1', targets: [] } },
+    result,
+  }], packet);
+
+  assert.equal(merged.coverage, 'partial');
+  assert.equal(merged.assessments.length, 1);
+  assert.equal(merged.assessments[0].ruleId, ruleId);
+  assert.equal(merged.assessments[0].disposition, 'human_review');
+  assert.match(merged.assessments[0].factPath, /^coverage\.rule\./);
+
+  const payload = patternReportPayload();
+  payload.report.reportId = packet.auditId;
+  payload.report.requestedRuleIds = [ruleId];
+  const expanded = expandCompactPatternAssessmentResponse(
+    merged,
+    payload,
+    skillManifest(),
+    packet
+  );
+  assert.equal(
+    expanded.findings[0].fact,
+    'Не определены связи TitleView с соседними блоками.'
+  );
+});
+
+test('Apollo semantic rule requirements keep cross-domain dependencies', () => {
+  const requirements = classifySemanticRuleRequirements({
+    scope: 'composition',
+    appliesTo: 'layout.padding.*|token.binding',
+    text: 'Padding слота должен быть привязан к Spacing token.',
+  });
+  assert.deepEqual(requirements, [
+    'composition-slots',
+    'layout-geometry',
+    'resource-bindings',
+  ]);
+});
+
+test('Apollo semantic model prefers current authoritative rules over stale report copies', () => {
+  const payload = reportPayload();
+  const change = payload.report.category.items[0].changes[0];
+  change.componentRules = [{
+    ruleId: 'component:test.current-authority',
+    severity: 'error',
+    matchKind: 'exact_component_rule',
+  }];
+  const request = buildApolloCustomizationReportSkillRequest(
+    payload,
+    payload.report,
+    { knowledge: { checksum: 'knowledge-checksum' } }
+  );
+  const model = buildApolloSemanticModel(request, {
+    additionalRules: [{
+      rule: activeComponentRule('component:test.current-authority'),
+      evidence: {
+        source: 'design-system_ab',
+        path: 'JSONS/web/components/test/rules.json',
+        ruleId: 'component:test.current-authority',
+        verified: true,
+      },
+    }],
+  });
+  const rule = model.rules.find(
+    (item) => item.id === 'component:test.current-authority'
+  );
+  assert.equal(rule.authoritative, true);
+  assert.equal(rule.source.path, 'JSONS/web/components/test/rules.json');
+});
+
+test('Apollo pattern compatibility projection receives canonical component authority', () => {
+  const category = reportPayload().report.category;
+  const change = category.items[0].changes[0];
+  change.componentRules = [{
+    ruleId: 'component:test.current-authority',
+    severity: 'warning',
+    ruleKind: null,
+    authority: null,
+    ruleText: 'Stale compatibility copy.',
+  }];
+  const hydrated = hydrateReportComponentRuleAuthority(category, [{
+    id: 'component:test.current-authority',
+    authoritative: true,
+    severity: 'error',
+    appliesTo: 'variant.View',
+    text: 'Canonical active rule.',
+    authority: {
+      status: 'active',
+      provenance: 'design-system-author',
+      revision: 1,
+    },
+  }]);
+  const rule = hydrated.items[0].changes[0].componentRules[0];
+  assert.equal(rule.ruleKind, 'design-rule');
+  assert.equal(rule.severity, 'error');
+  assert.equal(rule.ruleText, 'Canonical active rule.');
+  assert.equal(rule.authority.status, 'active');
+  assert.equal(category.items[0].changes[0].componentRules[0].authority, null);
 });
 
 test('Apollo proxy measures and rejects prompts outside the safe input budget', () => {
@@ -1149,6 +2329,8 @@ test('Apollo proxy passes raw TitleView layout relations to an active general ru
 
 test('Apollo proxy builds a private text audit packet from editorial sources', async () => {
   const payload = textReportPayload();
+  payload.report.facts.texts[0].owner.componentKey =
+    '31f2ee6f9abd90f582f914d77f10e5a18ceaf708';
   assert.equal(validateCodexReportRequest(payload), null);
 
   const request = buildApolloTextReportSkillRequest(
@@ -1169,6 +2351,10 @@ test('Apollo proxy builds a private text audit packet from editorial sources', a
   assert.equal(packet.semanticModel.facts[0].kind, 'text_content');
   assert.deepEqual(packet.semanticModel.facts[0].semantics, ['text']);
   assert.equal(packet.semanticModel.facts[0].text.characters, 'Сохранение');
+  assert.ok(packet.semanticModel.rules.length > 0);
+  assert.ok(packet.semanticModel.rules.every((rule) => (
+    /(^|[|.])text([|.]|$)/i.test(rule.appliesTo || '')
+  )));
   assert.ok(packet.resolution.redpolDocuments.length > 0);
   assert.ok(packet.resolution.redpolDocuments.some(
     (document) => document.rules.some((rule) => rule.id.startsWith('redpol:'))
@@ -1236,6 +2422,87 @@ test('Apollo text audit accepts findings without customization classifications',
     () => validateApolloSkillResponse(unsafeResponse, payload, manifest),
     /unsupported text-audit action/,
   );
+});
+
+test('Apollo text audit downgrades component guidance without active authority', async () => {
+  const payload = textReportPayload();
+  const manifest = skillManifest();
+  const response = validSkillResponse(manifest);
+  const ruleId = 'component:test.inactive-text-guidance';
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-text-authority-'));
+  const rulesPath = path.join(root, 'JSONS', 'Test', 'rules.json');
+  await fsp.mkdir(path.dirname(rulesPath), { recursive: true });
+  await fsp.writeFile(rulesPath, JSON.stringify({
+    rules: [{
+      ruleId,
+      severity: 'warning',
+      ruleKind: null,
+      authority: null,
+    }],
+  }));
+  try {
+    response.auditId = payload.report.reportId;
+    response.coverage = 'partial';
+    response.summary = {
+      checkedNodes: 1,
+      errors: 0,
+      warnings: 1,
+      humanReview: 0,
+      allowed: 1,
+      contextHints: 0,
+      skippedRuleGroups: ['layout-patterns', 'non-text-component-audit'],
+    };
+    response.findings[0] = {
+      ...response.findings[0],
+      nodeId: '1:5',
+      ruleId,
+      factPath: 'text.characters',
+      dedupeKey: `1:5|${ruleId}|text.characters`,
+      priority: 'warning',
+      verifiedEvidence: [
+        {
+          ...response.findings[0].verifiedEvidence[0],
+          ruleId,
+          factPath: 'text.characters',
+          actual: 'Сохранение',
+        },
+        {
+          ...response.findings[0].verifiedEvidence[1],
+          kind: 'component_contract',
+          source: 'design-system_ab',
+          path: 'JSONS/Test/rules.json',
+          ruleId,
+        },
+      ],
+      actions: [{
+        type: 'focus_node',
+        label: 'Показать',
+        userDecisionRequired: true,
+        payload: [{ key: 'nodeId', value: '1:5' }],
+      }],
+    };
+    response.sourceTrace.usedSources[0] = {
+      ...response.sourceTrace.usedSources[0],
+      source: 'design-system_ab',
+      path: 'JSONS/Test/rules.json',
+      ruleIds: [ruleId],
+    };
+
+    const normalized = validateApolloSkillResponse(
+      response,
+      payload,
+      manifest,
+      { designSystem: root }
+    );
+    assert.equal(normalized.findings[0].priority, 'human_review');
+    assert.equal(normalized.findings[0].evidenceStatus, 'unresolved');
+    assert.equal(normalized.findings[0].verifiedEvidence.length, 1);
+    assert.equal(normalized.summary.warnings, 0);
+    assert.equal(normalized.summary.humanReview, 1);
+    assert.equal(normalized.summary.allowed, 0);
+  } finally {
+    await fsp.rm(root, { recursive: true, force: true });
+  }
 });
 
 test('Apollo pattern findings remove accidental structural classifications', () => {
@@ -1420,6 +2687,95 @@ test('Apollo pattern report downgrades draft component evidence to human review 
   );
 });
 
+test('Apollo pattern report accepts current authority from the resolved semantic model', () => {
+  const ruleId = 'component:test.current-rule';
+  const payload = patternReportPayload();
+  payload.report.category = reportPayload().report.category;
+  payload.report.category.count = 1;
+  payload.report.category.changeCount = 1;
+  payload.report.summary.generalChangeCount = 1;
+  payload.report.category.items[0].changes[0] = {
+    ...payload.report.category.items[0].changes[0],
+    node: { id: '1:9', name: 'Nested label', visible: true },
+    assessment: { verdict: 'unknown', ruleId: null },
+    componentRules: [{ ruleId, severity: 'error' }],
+  };
+
+  const manifest = skillManifest();
+  const response = validSkillResponse(manifest);
+  response.auditId = payload.report.reportId;
+  response.coverage = 'partial';
+  response.summary = {
+    checkedNodes: 3,
+    errors: 1,
+    warnings: 0,
+    humanReview: 0,
+    allowed: 0,
+    contextHints: 0,
+    skippedRuleGroups: ['editorial-rules', 'other-pattern-rules'],
+  };
+  response.findings[0] = {
+    ...response.findings[0],
+    nodeId: '1:9',
+    ruleId,
+    factPath: 'variant.View',
+    dedupeKey: `1:9|${ruleId}|variant.View`,
+    priority: 'error',
+    evidenceStatus: 'verified',
+    verifiedEvidence: [
+      {
+        ...response.findings[0].verifiedEvidence[0],
+        ruleId,
+        factPath: 'variant.View',
+      },
+      {
+        ...response.findings[0].verifiedEvidence[1],
+        kind: 'component_contract',
+        source: 'design-system_ab',
+        path: 'JSONS/web/components/test/rules.json',
+        ruleId,
+      },
+    ],
+  };
+  response.classifications = [{
+    nodeId: '1:9',
+    factPath: 'variant.View',
+    disposition: 'error',
+    findingId: response.findings[0].id,
+    ruleId,
+    rationale: 'The current resolved package confirms the rule.',
+  }];
+  const requestDocument = {
+    semanticModel: {
+      rules: [{
+        id: ruleId,
+        authoritative: true,
+        severity: 'error',
+        appliesTo: 'variant.View',
+        authority: {
+          status: 'active',
+          provenance: 'design-system-author',
+          revision: 1,
+        },
+      }],
+    },
+  };
+
+  assert.equal(
+    validateApolloSkillResponse(
+      response,
+      payload,
+      manifest,
+      {},
+      requestDocument
+    ),
+    response
+  );
+  assert.equal(response.findings[0].priority, 'error');
+  assert.equal(response.findings[0].evidenceStatus, 'verified');
+  assert.equal(response.classifications[0].disposition, 'error');
+});
+
 test('Apollo v3 compact report removes transport-heavy fields but keeps evidence facts', () => {
   const source = reportPayload().report;
   source.category.items[0].changes[0] = {
@@ -1476,7 +2832,16 @@ test('Apollo v3 resolves a bounded audit packet without agent-side repository se
       schemaVersion: 2,
       documentType: 'component-rules',
       manual: {
-        rules: [{ ruleId: 'component:test.button-group.view-is-fixed' }],
+        rules: [{
+          ruleId: 'component:test.button-group.view-is-fixed',
+          ruleKind: 'design-rule',
+          severity: 'error',
+          authority: {
+            status: 'active',
+            provenance: 'design-system-author',
+            revision: 1,
+          },
+        }],
       },
     }),
     'utf8'
@@ -1523,6 +2888,12 @@ test('Apollo v3 resolves a bounded audit packet without agent-side repository se
       'component:test.button-group.view-is-fixed'
     );
     assert.deepEqual(packet.resolution.unresolvedKeys, []);
+    assert.equal(
+      packet.semanticModel.rules.find(
+        (rule) => rule.id === 'component:test.button-group.view-is-fixed'
+      )?.authoritative,
+      true
+    );
 
     const prompt = buildCodexPrompt(
       '/tmp/packet.json',
@@ -1577,7 +2948,19 @@ test('Apollo v3 resolves component documents from ds-ai-hub by Figma key', async
       '---',
       '# ButtonGroup',
       '[Pattern](../../patterns/buttons-and-buttons-group.md)',
-      'ruleId: rule:button-group.view',
+      '',
+      '### Rule 1: Keep the group view',
+      '',
+      '- ruleId: rule:button-group.view',
+      '- componentRuleId: component:test.button-group.view-is-fixed',
+      '- ruleKind: design-rule',
+      '- authorityStatus: active',
+      '- authorityProvenance: design-system-author',
+      '- authorityRevision: 1',
+      '- severity: error',
+      '- appliesTo: variant.View',
+      '',
+      'The group view is fixed by the component contract.',
     ].join('\n'),
     'utf8'
   );
@@ -1625,6 +3008,12 @@ test('Apollo v3 resolves component documents from ds-ai-hub by Figma key', async
         ['products/ab/components/button-group/instructions.md', 'verified'],
         ['products/ab/patterns/buttons-and-buttons-group.md', 'draft'],
       ]
+    );
+    assert.equal(
+      packet.semanticModel.rules.find(
+        (rule) => rule.id === 'component:test.button-group.view-is-fixed'
+      )?.authoritative,
+      true
     );
 
     const prompt = buildCodexPrompt(

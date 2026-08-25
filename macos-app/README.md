@@ -10,6 +10,8 @@ snapshot.
 ## Что умеет
 
 - `Start Proxy` / `Stop Proxy` из строки меню.
+- Явный `--start-proxy` для автоматического локального тестового цикла: после
+  успешной проверки Codex приложение запускает proxy без клика по меню.
 - Статус авторизации Codex: `Checking`, `Authorization required`, `Authorized`.
 - `Authorize Codex...` запускает официальный browser flow `codex login`.
 - `Check Codex Access` проверяет сессию через `codex login status`.
@@ -145,6 +147,15 @@ open /Applications/ApolloProxyControl.app
    `ds-ai-hub`; пункт `Switch to design-system_ab...` позволяет вернуться к
    прежним contract packages и затем переключиться обратно.
 10. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
+
+Для локального автоматизированного прогона ту же сборку можно открыть так:
+
+```bash
+open /Applications/ApolloProxyControl.app --args --start-proxy
+```
+
+Без флага поведение для дизайнера не меняется: приложение открывается в
+состоянии `Off`, запуск выполняется через `Start Proxy`.
 
 ## Что важно по безопасности
 

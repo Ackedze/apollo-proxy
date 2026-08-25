@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/pattern-assessment-response.v1.json",
+  "title": "Apollo compact pattern assessment response v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "documentType": {
+      "type": "string",
+      "const": "apollo-pattern-assessment-response"
+    },
+    "auditId": { "type": "string", "minLength": 1 },
+    "runStatus": {
+      "type": "string",
+      "enum": ["completed", "clarification_required", "failed"]
+    },
+    "coverage": {
+      "type": "string",
+      "enum": ["full", "base-only", "partial"]
+    },
+    "assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "nodeId": { "type": "string", "minLength": 1 },
+          "factPath": { "type": "string", "minLength": 1 },
+          "disposition": {
+            "type": "string",
+            "enum": ["error", "warning", "human_review", "allowed", "ok"]
+          },
+          "ruleId": { "type": ["string", "null"] },
+          "title": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "expectation": { "type": "string", "minLength": 1 },
+          "fix": { "type": "string", "minLength": 1 }
+        },
+        "required": [
+          "id",
+          "nodeId",
+          "factPath",
+          "disposition",
+          "ruleId",
+          "title",
+          "rationale",
+          "expectation",
+          "fix"
+        ]
+      }
+    },
+    "summaryText": { "type": "string" },
+    "clarificationQuestions": {
+      "type": "array",
+      "maxItems": 3,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "documentType",
+    "auditId",
+    "runStatus",
+    "coverage",
+    "assessments",
+    "summaryText",
+    "clarificationQuestions"
+  ]
+}

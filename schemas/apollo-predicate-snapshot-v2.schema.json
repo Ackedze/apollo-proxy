@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ackedze.github.io/apollo/schemas/apollo-predicate-snapshot-v2.schema.json",
+  "title": "Apollo Predicate Snapshot v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "auditId", "generatedAt", "context", "release", "selection", "nodes"],
+  "properties": {
+    "schemaVersion": { "const": "apollo.predicate-snapshot.v2" },
+    "auditId": { "type": "string", "minLength": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "snapshotHash": { "type": ["string", "null"] },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fileKey", "pageId", "platform", "pageType", "viewportWidth", "unknownFacts"],
+      "properties": {
+        "fileKey": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "null" }
+          ]
+        },
+        "pageId": { "type": "string", "minLength": 1 },
+        "platform": { "enum": ["desktop", "mobile-web", "ios", "android"] },
+        "pageType": { "type": ["string", "null"] },
+        "viewportWidth": { "type": ["number", "null"], "minimum": 0 },
+        "surface": { "type": ["string", "null"] },
+        "modalRootNodeId": { "type": ["string", "null"] },
+        "unknownFacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["knowledgeSource", "revision", "checksum"],
+      "properties": {
+        "knowledgeSource": { "enum": ["design-system_ab", "ds-ai-hub"] },
+        "revision": { "type": "string", "minLength": 1 },
+        "checksum": { "type": "string", "minLength": 1 }
+      }
+    },
+    "selection": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "collectionErrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["nodeId", "factPath", "reason"],
+        "properties": {
+          "nodeId": { "type": "string", "minLength": 1 },
+          "factPath": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "minimum": 0 },
+        "height": { "type": "number", "minimum": 0 }
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "parentId", "childIds", "order", "path", "type", "visible",
+        "bounds", "component", "layout", "appearance", "bindings", "baseline",
+        "composition", "overrides", "overrideProperties", "unknownFacts"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "parentId": { "type": ["string", "null"] },
+        "childIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "order": { "type": "integer", "minimum": 0 },
+        "path": { "type": "string", "minLength": 1 },
+        "name": { "type": "string" },
+        "type": { "type": "string", "minLength": 1 },
+        "visible": { "const": true },
+        "bounds": {
+          "oneOf": [
+            { "$ref": "#/$defs/bounds" },
+            { "type": "null" }
+          ]
+        },
+        "component": { "type": ["object", "null"] },
+        "layout": { "type": "object" },
+        "appearance": { "type": "object" },
+        "bindings": { "type": "object" },
+        "text": { "type": ["object", "null"] },
+        "ownership": { "type": ["object", "null"] },
+        "slot": { "type": ["object", "null"] },
+        "composition": { "type": ["object", "null"] },
+        "baseline": { "type": "object" },
+        "overrides": { "type": "array", "items": { "type": "object" } },
+        "overrideProperties": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "unknownFacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

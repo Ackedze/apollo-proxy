@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ackedze.github.io/apollo/schemas/apollo-predicate-trace-v1.schema.json",
+  "title": "Apollo Predicate Trace v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicate", "truth", "reason", "actual", "expected", "factPaths"],
+  "properties": {
+    "predicate": { "type": "string", "minLength": 1 },
+    "truth": { "enum": ["true", "false", "unknown"] },
+    "reason": { "type": "string", "minLength": 1 },
+    "actual": true,
+    "expected": true,
+    "factPaths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "children": {
+      "type": "array",
+      "items": { "$ref": "#" }
+    }
+  }
+}

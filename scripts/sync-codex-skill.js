@@ -87,13 +87,20 @@ async function main() {
     throw new Error(`Canonical Apollo skill is missing: ${SOURCE_ROOT}`);
   }
 
-  const responseSchemaPath = path.join(
-    SOURCE_ROOT,
-    'references',
-    'audit-response.schema.json'
-  );
-  const responseSchema = JSON.parse(await fsp.readFile(responseSchemaPath, 'utf8'));
-  validateStructuredOutputSchema(responseSchema);
+  for (const schemaName of [
+    'audit-response.schema.json',
+    'pattern-assessment-response.schema.json',
+  ]) {
+    const responseSchemaPath = path.join(
+      SOURCE_ROOT,
+      'references',
+      schemaName
+    );
+    const responseSchema = JSON.parse(
+      await fsp.readFile(responseSchemaPath, 'utf8')
+    );
+    validateStructuredOutputSchema(responseSchema);
+  }
 
   await fsp.rm(TARGET_ROOT, { recursive: true, force: true });
   await fsp.mkdir(path.dirname(TARGET_ROOT), { recursive: true });

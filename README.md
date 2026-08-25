@@ -46,6 +46,7 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
   `knowledge` показывает полноту contract package (`packageCount`,
   `artifactCount`, checksum).
 - `POST /analyze` -> `{ success, result }`
+- `POST /v1/validate/predicates` -> `{ success, validation: { snapshot, result } }`
 - `POST /v1/validate/codex` -> `{ success, validation }`
 - `POST /v1/validate/codex/runs` -> `202 { success, run }`
 - `GET /v1/validate/codex/runs/:runId` -> `{ success, run }`
@@ -53,6 +54,22 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 - `GET /v1/analyze/codex/runs/:runId` -> `{ success, run }`
 
 `POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`.
+
+`POST /v1/validate/predicates` — изолированный детерминированный контур нового
+Predicate Engine. В MVP endpoint принимает только
+`{ ruleSet: "buttons-group-pilot", evidenceBundle }`, не запускает Codex и не
+принимает исполняемые правила от клиента. Proxy разрешает только componentKey,
+встречающиеся в frozen bundle, через pinned `componentContractIndex`, закрепляет
+checksum нормативных component rules и composition contracts, строит и хеширует
+Snapshot v2 и выполняет закрытый набор P01–P14: варианты, размер, SingleIcon и
+количество кнопок ButtonsGroup; типографику, согласованность статусов и порядок
+слотов TitleView; токенизацию padding и композицию уровней BackgroundPlate;
+соответствие `Benefits.Capacity` числу видимых `BenefitCard` и единообразие их
+`Background`, `CardAxis`, `Compact`, `GraphicPosition`; обязательный Header
+в Horizontal TableView, согласованность `Compact`/`SpacingVertical` всех его
+прямых Row и ровно одну `Column` в каждой Row при `Compact=True`. Adapter заранее формирует необходимые ownership, ordered-sequence,
+binding и composition facts, а Predicate Engine проверяет их без участия агента. Неизвестный
+ключ или недостающий факт возвращает `not-evaluable`, а не догадку.
 
 `POST /v1/validate/codex` принимает Apollo v2 snapshot с одним выбранным корнем
 и одним PNG, приводит его к `apollo-design-audit-request` и запускает
@@ -162,17 +179,56 @@ Resolved packets дополнительно содержат `semanticModel` п�
 `schemas/apollo-semantic-audit-model.schema.json`. Модель разделяет три слоя:
 Figma facts, design-system rules и agent decision. `property_state` объединяет
 effective baseline, actual и token binding одного свойства; slot остаётся
-контекстом subject. `role_assignment` и `relation` описывают composition и page
+контекстом subject. `component_occurrence` фиксирует каждый видимый INSTANCE и
+его actual variants/component properties независимо от кастомизаций.
+`group_aggregate` описывает прямой состав контейнера и распределение свойств,
+`layout_state` — bounds, auto-layout, styles и variable bindings.
+`role_assignment` и `relation` описывают composition, component owner и page
 relations, `text_content` — текст и component owner context. Rule authority и
 allow-exceptions не записываются во Figma facts: они находятся только в
 `semanticModel.rules`. Active slot-exception применяется лишь при точном
 совпадении conditions; отсутствие authority переводит решение в review.
+
+Каждый fact дополнительно получает `domains` и `facets`. Domains
+разделяют component state, composition/slots, visual properties,
+resource bindings, layout/geometry и content semantics. Facets отделяют
+value, binding, baseline, relative value, slot и relation. Поэтому
+`значение=32` и `binding=missing` не склеиваются в один
+неразличимый факт. Rules получают `requirements`, которые
+перечисляют нужные междоменные данные.
+
+Структурированные поля component rules (`required*`, `allowed*`, `forbidden*`,
+`minimum*`, `maximum*`, `shared*`, `expected*`) сохраняются в
+`rule.constraintModel` как selector и predicates, а не теряются при
+нормализации. `coverage.ruleReadiness` показывает для каждого правила
+`ready`, `partial`, `not_evaluable` или `not_applicable` и перечисляет
+`missingFactKinds`. Это диагностическая готовность данных, а не verdict агента.
 
 На первом этапе `semanticModel` является канонической семантической проекцией,
 а `generalAudit`, `architectureAudit` и `resolution` сохраняются как
 compatibility-представления для текущего output contract. После покрытия
 остальных pattern facts эти дубли будут удалены из agent packet, что сократит
 prompt без переноса verdict-логики в proxy.
+
+В semantic-режиме pattern-аудит использует компактный output protocol
+`apollo-pattern-assessment-response`: агент возвращает только ссылку на факт,
+disposition, выбранный `ruleId` и короткие тексты для UI. Proxy восстанавливает
+из канонических fact/rule полные evidence lanes, source trace, безопасные
+actions и счётчики, после чего пропускает результат через прежний fail-closed
+валидатор. Это не переносит verdict в proxy: решение остаётся за агентом, а
+proxy выполняет только проверяемую проекцию ответа в UI-контракт. Совместимые
+active rules с одинаковым effect усиливают друг друга; review создаётся только
+для действительно противоречащих effects или нормативных ожиданий.
+
+По умолчанию pattern-аудит запускает последовательные faceted passes:
+`component-contract`, `visual-bindings`, `layout-patterns`. Все проходы
+используют один `auditId` и checksum frozen snapshot. `auditPass.targets`
+отделяет обязательные к оценке факты от междоменного
+контекста. Coverage ledger требует ровно одно оценку каждого
+target; пропущенный property безопасно восстанавливается как
+`human_review`, а не исчезает. Пакет больше
+`APOLLO_CODEX_PATTERN_PASS_BUDGET_CHARS` рекурсивно делится по
+targets. `APOLLO_CODEX_PATTERN_AUDIT_MODE=single` сохраняет A/B rollback.
 
 До запуска Codex proxy измеряет итоговый prompt. После
 `APOLLO_CODEX_INPUT_WARN_CHARS` в лог пишется предупреждение, а превышение

@@ -108,10 +108,10 @@ final class ProxyManager: NSObject {
         startHealthChecks()
     }
 
-    func setupStatusItem() {
+    func setupStatusItem(autoStartProxy: Bool = false) {
         statusItem.button?.title = "AP:Off"
         statusItem.menu = menu
-        checkCodexAuthorization()
+        checkCodexAuthorization(startProxyWhenReady: autoStartProxy)
     }
 
     private func configureMenu() {
@@ -1207,7 +1207,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         let manager = ProxyManager()
-        manager.setupStatusItem()
+        manager.setupStatusItem(
+            autoStartProxy: CommandLine.arguments.contains("--start-proxy")
+        )
         self.manager = manager
     }
 
