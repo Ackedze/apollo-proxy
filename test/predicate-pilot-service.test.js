@@ -22,6 +22,10 @@ const BACKGROUND_PLATE_SLOT_KEY = '6d5d4dda10be00621991e9b5a0152db4e47f4e2f';
 const ISLE_BLOCK_KEY = '9dd86bd040376734e605227c0d849d1328e62d76';
 const ACCOUNT_SELECT_PUBLIC_ROOT_KEY = '1043a9208a949b1af3f708637de5fd13721a4519';
 const ACCOUNT_SELECT_INTERNAL_ITEM_KEY = '1e8647f2b51a623083755fdad5c677fc38770e3e';
+const ACCOUNT_SELECT_SUM_ITEM_KEY = '7b188529df2fdf9c6e93989b2173f6cc95fc77d6';
+const ACCOUNT_SELECT_NUMBER_ITEM_KEY = 'b0e271a2c5e94e00b753d223c1bce95b87da95af';
+const CARD_SWIPER_MOBILE_360_KEY = '0ccaf9d784aa8b603d6229a898f46433ee74b925';
+const CARD_SWIPER_MOBILE_320_KEY = 'd115bb68174c21fe7475748dc31f651221db4558';
 const PROPERTY_PRESET_KEY = '55c7b3a923bfb246c0f8ce6f85558f78ec702a53';
 const CORE_STATUS_RECTANGULAR_KEY = 'a410d666446afa4beb01cd6c35e9e6642e9b28be';
 const CORE_STATUS_ROUNDED_KEY = 'a54fc8de49f424f46ddb87e1f14103cda8a5456e';
@@ -313,6 +317,225 @@ test('P21 compiles AccountSelect public-root authority from requested rules.json
     notApplicable.result.evaluations.find((item) => (
       item.ruleId === 'component:web-corp.account-select.public-roots-only'
     )).classification,
+    'not-applicable',
+  );
+});
+
+function accountSelectUniformListRequest(types, { platform = 'desktop', unknownIndex = -1 } = {}) {
+  const publicOwner = {
+    nodeId: '23:0',
+    componentKey: ACCOUNT_SELECT_PUBLIC_ROOT_KEY,
+    name: '[D] AccountOptionListContent',
+    path: '[D] AccountOptionListContent',
+    relativePath: '',
+    variantProperties: {},
+    componentProperties: {},
+  };
+  const rows = types.map((type, index) => {
+    const componentKey = type === 'Number'
+      ? ACCOUNT_SELECT_NUMBER_ITEM_KEY
+      : type === 'Sum'
+        ? ACCOUNT_SELECT_SUM_ITEM_KEY
+        : ACCOUNT_SELECT_INTERNAL_ITEM_KEY;
+    return evidenceNode({
+      nodeId: `23:${index + 1}`,
+      parentNodeId: '23:0',
+      childOrder: index,
+      depth: 1,
+      path: `[D] AccountOptionListContent / AccountItem ${index + 1}`,
+      name: 'AccountItem',
+      component: component(
+        componentKey,
+        'AccountItem',
+        index === unknownIndex ? {} : { Type: type },
+      ),
+      componentOwner: publicOwner,
+    });
+  });
+  return {
+    ruleSet: 'buttons-group-pilot',
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: 'account-select-uniform-list:evidence',
+      sourceReportId: 'account-select-uniform-list',
+      generatedAt: '2026-08-25T12:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform,
+        channel: platform === 'desktop' ? 'Desktop' : platform,
+        pageType: null,
+        viewportWidth: platform === 'desktop' ? 1440 : 390,
+        selectionNodeIds: ['23:0'],
+      },
+      graph: {
+        nodes: [
+          evidenceNode({
+            nodeId: '23:0',
+            childNodeIds: rows.map((row) => row.nodeId),
+            path: 'P23 / [D] AccountOptionListContent',
+            name: '[D] AccountOptionListContent',
+            component: component(
+              ACCOUNT_SELECT_PUBLIC_ROOT_KEY,
+              '[D] AccountOptionListContent',
+              {},
+            ),
+          }),
+          ...rows,
+        ],
+        relations: [],
+      },
+      baselines: [],
+      changes: [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: rows.length + 1,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: rows.length + 1,
+        textNodeCount: 0,
+        baselineChangeCount: 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
+test('P23 compiles AccountSelect row Type collection from requested rules.json', () => {
+  const ruleId = 'component:web-corp.account-select.list-content-is-uniform';
+  const evaluate = (types, options) => {
+    const output = evaluatePredicatePilotRequest(
+      accountSelectUniformListRequest(types, options),
+      { designSystemRoot },
+    );
+    return {
+      output,
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  assert.equal(evaluate(['Sum', 'Sum']).evaluation.classification, 'compliant');
+
+  const mixed = evaluate(['Sum', 'Number']);
+  assert.equal(mixed.evaluation.classification, 'violation');
+  assert.equal(mixed.evaluation.focusNodeId, '23:0');
+  assert.equal(mixed.evaluation.trace.children[2].predicate, 'all-equal');
+  assert.deepEqual(mixed.evaluation.trace.children[2].actual, ['Sum', 'Number']);
+  assert.deepEqual(mixed.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Строки AccountSelect используют разные или недопустимые типы',
+    observed: 'В AccountSelect обнаружены значения AccountItem.Type: {{actual}}.',
+    expectation: 'В списке должна быть хотя бы одна строка; все строки используют одинаковый Type=Sum или Type=Number.',
+    action: 'Выбрать для всех строк один допустимый Type: Sum или Number.',
+    targetFact: 'component.properties.Type',
+  });
+
+  assert.equal(evaluate(['SwapMe']).evaluation.classification, 'violation');
+  assert.equal(
+    evaluate(['Sum', 'Sum'], { unknownIndex: 1 }).evaluation.classification,
+    'not-evaluable',
+  );
+  assert.equal(
+    evaluate(['Sum'], { platform: 'ios' }).evaluation.classification,
+    'not-applicable',
+  );
+});
+
+function cardSwiperBreakpointRequest({
+  viewportWidth = 390,
+  screenSize = '360+',
+  platform = 'mobile-web',
+  unknownViewport = false,
+} = {}) {
+  const componentKey = screenSize === '320-360'
+    ? CARD_SWIPER_MOBILE_320_KEY
+    : CARD_SWIPER_MOBILE_360_KEY;
+  return {
+    ruleSet: 'buttons-group-pilot',
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: 'card-swiper-breakpoint:evidence',
+      sourceReportId: 'card-swiper-breakpoint',
+      generatedAt: '2026-08-25T12:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform,
+        channel: platform,
+        pageType: null,
+        viewportWidth: unknownViewport ? null : viewportWidth,
+        selectionNodeIds: ['24:0'],
+      },
+      graph: {
+        nodes: [evidenceNode({
+          nodeId: '24:0',
+          path: 'P24 / CardSwiperMobile',
+          name: 'CardSwiperMobile',
+          component: component(componentKey, 'CardSwiperMobile', {
+            'Screen Size': screenSize,
+          }),
+        })],
+        relations: [],
+      },
+      baselines: [],
+      changes: [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: 1,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: 1,
+        textNodeCount: 0,
+        baselineChangeCount: 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
+test('P24 compiles CardSwiperMobile viewport ranges from requested rules.json', () => {
+  const ruleId = 'component:web-corp.card-swiper-mobile.screen-size-follows-viewport';
+  const evaluate = (options) => {
+    const output = evaluatePredicatePilotRequest(cardSwiperBreakpointRequest(options), {
+      designSystemRoot,
+    });
+    return {
+      output,
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  assert.equal(evaluate({ viewportWidth: 340, screenSize: '320-360' }).evaluation.classification, 'compliant');
+  assert.equal(evaluate({ viewportWidth: 390, screenSize: '360+' }).evaluation.classification, 'compliant');
+
+  const wrongNarrow = evaluate({ viewportWidth: 340, screenSize: '360+' });
+  assert.equal(wrongNarrow.evaluation.classification, 'violation');
+  assert.equal(wrongNarrow.evaluation.focusNodeId, '24:0');
+  assert.equal(wrongNarrow.evaluation.trace.predicate, 'any');
+  assert.deepEqual(wrongNarrow.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Screen Size не соответствует ширине страницы',
+    observed: 'При ширине {{context}} px выбран Screen Size={{actual}}.',
+    expectation: 'При ширине 320–359 px используется Screen Size=320-360; при ширине от 360 px — Screen Size=360+.',
+    action: 'Выбрать Screen Size, соответствующий ширине страницы.',
+    contextFact: 'page.context.viewportWidth',
+    targetFact: 'component.properties.Screen Size',
+  });
+
+  assert.equal(
+    evaluate({ viewportWidth: 390, screenSize: '320-360' }).evaluation.classification,
+    'violation',
+  );
+  assert.equal(
+    evaluate({ unknownViewport: true, screenSize: '360+' }).evaluation.classification,
+    'not-evaluable',
+  );
+  assert.equal(
+    evaluate({ viewportWidth: 390, screenSize: '360+', platform: 'desktop' }).evaluation.classification,
     'not-applicable',
   );
 });
