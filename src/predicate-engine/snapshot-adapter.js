@@ -1509,6 +1509,18 @@ function buildPredicateSnapshotV2(input) {
       ...ownership.unknownFacts,
       ...bindings.unknownFacts,
       ...(source.bounds ? [] : ['bounds']),
+      ...(
+        source.layout?.sizingHorizontal === undefined ||
+        source.layout?.sizingHorizontal === null
+          ? ['layout.sizingHorizontal']
+          : []
+      ),
+      ...(
+        source.layout?.sizingVertical === undefined ||
+        source.layout?.sizingVertical === null
+          ? ['layout.sizingVertical']
+          : []
+      ),
     ])).sort();
     return {
       id: source.nodeId,

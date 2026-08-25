@@ -807,6 +807,70 @@ test('P10 evaluates Benefits Capacity against visible BenefitCard count', () => 
   );
 });
 
+function benefitsSizingRequest(
+  sizingHorizontal,
+  sizingVertical,
+  platform = 'desktop',
+) {
+  const output = benefitsRequest(3, 3, platform);
+  const root = output.evidenceBundle.graph.nodes[0];
+  root.layout = Object.assign({}, root.layout, {
+    sizingHorizontal,
+    sizingVertical,
+  });
+  if (sizingHorizontal === undefined) {
+    delete root.layout.sizingHorizontal;
+    root.unknownFacts = ['layout.sizingHorizontal'];
+  }
+  if (sizingVertical === undefined) {
+    delete root.layout.sizingVertical;
+    root.unknownFacts = [
+      ...(root.unknownFacts || []),
+      'layout.sizingVertical',
+    ];
+  }
+  return output;
+}
+
+test('P25 compiles Benefits root sizing from requested rules.json', () => {
+  const ruleId = 'component:web.benefits.fill-width-hug-height';
+  const evaluate = (horizontal, vertical, platform = 'desktop') => {
+    const output = evaluatePredicatePilotRequest(
+      benefitsSizingRequest(horizontal, vertical, platform),
+      { designSystemRoot },
+    );
+    return {
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  const pass = evaluate('FILL', 'HUG');
+  assert.equal(pass.evaluation.classification, 'compliant');
+  assert.equal(pass.evaluation.focusNodeId, '10:0');
+
+  const wrongHorizontal = evaluate('HUG', 'HUG');
+  assert.equal(wrongHorizontal.evaluation.classification, 'violation');
+  assert.equal(wrongHorizontal.evaluation.focusNodeId, '10:0');
+  assert.equal(wrongHorizontal.evaluation.trace.children[0].actual, 'HUG');
+  assert.equal(wrongHorizontal.evaluation.trace.children[0].expected, 'FILL');
+
+  const wrongVertical = evaluate('FILL', 'FILL');
+  assert.equal(wrongVertical.evaluation.classification, 'violation');
+  assert.equal(wrongVertical.evaluation.trace.children[1].actual, 'FILL');
+  assert.equal(wrongVertical.evaluation.trace.children[1].expected, 'HUG');
+
+  assert.equal(evaluate(undefined, 'HUG').evaluation.classification, 'not-evaluable');
+  assert.equal(evaluate('FILL', 'HUG', 'ios').evaluation.classification, 'not-applicable');
+  assert.deepEqual(wrongHorizontal.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Sizing компонента Benefits изменён',
+    observed: 'Размер корня Benefits не соответствует контракту Fill по ширине и Hug по высоте.',
+    expectation: 'Корень Benefits должен использовать Fill container по ширине и Hug contents по высоте.',
+    action: 'Установить для Benefits ширину Fill и высоту Hug.',
+  });
+});
+
 test('P13 evaluates uniform nested BenefitCard settings as one owner finding', () => {
   const pass = evaluatePredicatePilotRequest(
     benefitsRequest(3, 3),

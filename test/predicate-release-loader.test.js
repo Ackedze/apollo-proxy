@@ -178,6 +178,37 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   });
   assert.equal(cardSwiperBreakpointContour.sourceChecksum.length, 64);
 
+  const benefitsSizingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web.benefits.fill-width-hug-height'
+  ));
+  assert.deepEqual(benefitsSizingContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'sizing',
+    identity: 'web.benefits',
+    expectations: {
+      'layout.sizingHorizontal': 'FILL',
+      'layout.sizingVertical': 'HUG',
+    },
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: 'Sizing компонента Benefits изменён',
+      observed: 'Размер корня Benefits не соответствует контракту Fill по ширине и Hug по высоте.',
+      expectation: 'Корень Benefits должен использовать Fill container по ширине и Hug contents по высоте.',
+      action: 'Установить для Benefits ширину Fill и высоту Hug.',
+    },
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+    ruleId: 'component:web.benefits.fill-width-hug-height',
+    revision: 1,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp-promo/Benefits/rules.json',
+    sourceChecksum: benefitsSizingContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web.benefits.fill-width-hug-height',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(benefitsSizingContour.sourceChecksum.length, 64);
+
   const statusShapeContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'component:web-corp.status-property.shape-is-fixed-by-preset'
   ));
