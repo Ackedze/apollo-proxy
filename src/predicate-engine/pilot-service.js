@@ -1,4 +1,8 @@
 const { evaluateRules, stableHash } = require('./index');
+const {
+  compileCompositionContract,
+  compileSlotOrderPolicy,
+} = require('./composition-compiler');
 const { compileContourRule } = require('./contour-rules');
 const { predicateMvpRules } = require('./pilot-rules');
 const { loadPredicateRelease } = require('./release-loader');
@@ -100,11 +104,17 @@ function evaluatePredicatePilotRequest(payload, options) {
     modalRootNodeId: payload.modalRootNodeId,
     release: loaded.release,
     componentIndex: loaded.componentIndex,
-    titleViewSlotOrder: loaded.titleViewSlotOrder,
+    compositionDefinitions: loaded.compositionDefinitions,
+    slotOrderPolicies: loaded.slotOrderPolicies,
+    contourDefinitions: loaded.contourDefinitions,
     collectionErrors: payload.collectionErrors,
   });
-  const rules = predicateMvpRules(loaded.sourceChecksums).concat(
-    loaded.contourDefinitions.map((definition) => compileContourRule(definition)),
+  const rules = loaded.compositionDefinitions.flatMap((definition) => (
+    compileCompositionContract(definition)
+  )).concat(
+    loaded.slotOrderPolicies.map((definition) => compileSlotOrderPolicy(definition)),
+    predicateMvpRules(loaded.sourceChecksums),
+    loaded.contourDefinitions.flatMap((definition) => compileContourRule(definition)),
   );
   const { result, repeatability } = runPredicateRepeatabilityGate({
     snapshot,
@@ -147,6 +157,10 @@ function evaluatePredicatePilotRequest(payload, options) {
       scope: rule.scope,
       presentation: rule.presentation,
     })),
+    sourceRuleBalance: {
+      schemaVersion: 'apollo.source-rule-balance.v1',
+      traces: loaded.contourCompatibilityTraces,
+    },
     result,
     repeatability,
   };

@@ -1,27 +1,337 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const path = require('node:path');
 
 const { evaluateRules } = require('../src/predicate-engine');
 const {
-  backgroundPlateLevel2OverlayRule,
-  backgroundPlatePilotRules,
-  benefitsCapacityRule,
-  benefitsNestedCardSettingsUniformRule,
   buttonsGroupPilotRules,
-  formFirstLevelBlockSpacingRule,
-  formSecondLevelActionSpacingRule,
   formEightFourLayoutRule,
-  formMediumTitleOnePerPlateRule,
-  formStandardContentInsetsRule,
-  formTitleContentGapRule,
-  desktopButtonSafeViewRule,
   tableViewCompactConsistencyRule,
-  tableViewHorizontalCompactOneColumnRule,
-  tableViewHorizontalHeaderRule,
-  titleViewPilotRules,
 } = require('../src/predicate-engine/pilot-rules');
 const { buildPredicateSnapshotV2 } = require('../src/predicate-engine/snapshot-adapter');
-const { publicRootRule } = require('../src/predicate-engine/contour-rules');
+const { compileContourRule, publicRootRule } = require('../src/predicate-engine/contour-rules');
+const { loadPatternContourDefinitions } = require('../src/predicate-engine/release-loader');
+
+const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+
+function desktopButtonSafeVariantsContourRule() {
+  const definition = loadPatternContourDefinitions(designSystemRoot).find((candidate) => (
+    candidate.ruleId === 'rule:controls.buttons-and-button-groups.desktop-safe-variants'
+  ));
+  assert.ok(definition, 'desktop Button pattern contour must be available');
+  return compileContourRule(definition);
+}
+
+function benefitsCapacityContourRule() {
+  return compileContourRule({
+    kind: 'context-map',
+    ruleId: 'component:web.benefits.capacity-matches-card-count',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp-promo/Benefits/rules.json',
+    sourceChecksum: 'benefits-rules-checksum',
+    sourceAnchor: 'rules/component:web.benefits.capacity-matches-card-count',
+    revision: 2,
+    scope: { platform: ['desktop', 'mobile-web'] },
+    identity: 'web.benefits',
+    contextFact: 'composition.capacity',
+    targetFact: 'composition.visibleBenefitCardCount',
+    mappingEntries: [{ context: 3, target: 3 }, { context: 4, target: 4 }],
+  });
+}
+
+function tableViewHorizontalHeaderContourRule() {
+  return compileContourRule({
+    kind: 'fact-domain',
+    ruleId: 'component:web-corp.table-view.horizontal-multi-column-header-required',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TableView/rules.json',
+    sourceChecksum: 'table-view-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.table-view.horizontal-multi-column-header-required',
+    revision: 2,
+    scope: { platform: ['desktop', 'mobile-web'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'type' },
+        expected: { literal: 'INSTANCE' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'web-corp.table-view' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.family' },
+        expected: { literal: 'table-view-horizontal' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.properties.Compact' },
+        expected: { literal: 'False' },
+      }],
+    },
+    actual: { fact: 'composition.visibleHeaderRowCount' },
+    allowedValues: [1],
+  });
+}
+
+function tableViewHorizontalCompactOneColumnContourRule() {
+  return compileContourRule({
+    kind: 'fact-domain',
+    ruleId: 'component:web-corp.table-view.horizontal-compact-one-column',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TableView/rules.json',
+    sourceChecksum: 'table-view-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.table-view.horizontal-compact-one-column',
+    revision: 2,
+    scope: { platform: ['desktop', 'mobile-web'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'type' },
+        expected: { literal: 'INSTANCE' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'web-corp.table-view' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.family' },
+        expected: { literal: 'row' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.properties.Presets' },
+        expected: { literal: 'Body' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'composition.tableViewOwner.component.family' },
+        expected: { literal: 'table-view-horizontal' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'composition.tableViewOwner.component.properties.Compact' },
+        expected: { literal: 'True' },
+      }],
+    },
+    actual: { fact: 'composition.visibleDataColumnCount' },
+    allowedValues: [1],
+  });
+}
+
+function benefitsUniformityContourRule() {
+  return compileContourRule({
+    kind: 'uniform-collection-properties',
+    ruleId: 'component:web.benefits.nested-card-settings-are-uniform',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp-promo/Benefits/rules.json',
+    sourceChecksum: 'benefits-rules-checksum',
+    sourceAnchor: 'rules/component:web.benefits.nested-card-settings-are-uniform',
+    revision: 4,
+    scope: { platform: ['desktop', 'mobile-web'] },
+    identity: 'web.benefits',
+    memberIdentity: 'web.benefit-card',
+    traverse: 'direct-children',
+    propertyFacts: [
+      'component.properties.Background',
+      'component.properties.CardAxis',
+      'component.properties.Compact',
+      'component.properties.GraphicPosition',
+    ],
+  });
+}
+
+function formMediumTitleOnePerPlateContourRule() {
+  return compileContourRule({
+    kind: 'fact-domain',
+    ruleId: 'rule:forms.construction-rules.title-medium-one-per-plate',
+    sourcePath: 'design-system_ab/patterns/p_form-construction-rules.md',
+    sourceChecksum: 'form-pattern-checksum',
+    sourceAnchor: 'rules/rule:forms.construction-rules.title-medium-one-per-plate',
+    revision: 2,
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'type' },
+        expected: { literal: 'INSTANCE' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'web-corp.title-view' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.properties.View' },
+        expected: { literal: 'Medium' },
+      }, {
+        predicate: 'exists',
+        actual: { fact: 'composition.formFirstLevelSurface.mediumTitlePosition' },
+      }],
+    },
+    actual: { fact: 'composition.formFirstLevelSurface.mediumTitlePosition' },
+    allowedValues: ['single', 'first'],
+  });
+}
+
+function titleViewTypographyContourRule() {
+  return compileContourRule({
+    kind: 'baseline',
+    ruleId: 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TitleView/rules.json',
+    sourceChecksum: 'title-view-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.title-view.title-and-subtitle-typography-is-fixed',
+    scope: { platform: ['desktop', 'mobile-web'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'type' },
+        expected: { literal: 'TEXT' },
+      }, {
+        predicate: 'one-of',
+        actual: { fact: 'name' },
+        expected: { literal: ['Title', 'Subtitle'] },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'ownership.owner.component.identity' },
+        expected: { literal: 'web-corp.title-view' },
+      }],
+    },
+    pairs: [{
+      actualFact: 'appearance.styles.textStyle',
+      baselineFact: 'baseline.effective.appearance.styles.textStyle',
+      required: true,
+    }],
+  });
+}
+
+function formFirstLevelBlockSpacingContourRule() {
+  return compileContourRule({
+    kind: 'distance',
+    ruleId: 'rule:forms.construction-rules.block-spacing.first-level',
+    sourcePath: 'design-system_ab/patterns/p_form-construction-rules.md',
+    sourceChecksum: 'form-pattern-checksum',
+    sourceAnchor: 'rules/rule:forms.construction-rules.block-spacing.first-level',
+    revision: 4,
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'exists',
+        actual: { fact: 'composition.previousFormFirstLevelBlock.bounds' },
+      }],
+    },
+    actual: { fact: 'bounds' },
+    target: { fact: 'composition.previousFormFirstLevelBlock.bounds' },
+    expected: { literal: 24 },
+    axis: 'vertical',
+    tolerance: 0,
+  });
+}
+
+function formSecondLevelActionSpacingContourRule() {
+  return compileContourRule({
+    kind: 'distance',
+    ruleId: 'rule:forms.construction-rules.block-spacing.second-level-actions',
+    sourcePath: 'design-system_ab/patterns/p_form-construction-rules.md',
+    sourceChecksum: 'form-pattern-checksum',
+    sourceAnchor: 'rules/rule:forms.construction-rules.block-spacing.second-level-actions',
+    revision: 3,
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'exists',
+        actual: { fact: 'composition.previousFormContent.bounds' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'composition.previousFormContent.hierarchyLevel' },
+        expected: { literal: 'second-level' },
+      }],
+    },
+    actual: { fact: 'bounds' },
+    target: { fact: 'composition.previousFormContent.bounds' },
+    expected: { literal: 32 },
+    axis: 'vertical',
+    tolerance: 0,
+  });
+}
+
+function formTitleContentGapContourRule() {
+  return compileContourRule({
+    kind: 'distance',
+    ruleId: 'rule:forms.construction-rules.inner-padding-standard.title-to-content',
+    sourcePath: 'design-system_ab/patterns/p_form-construction-rules.md',
+    sourceChecksum: 'form-pattern-checksum',
+    sourceAnchor: 'rules/rule:forms.construction-rules.inner-padding-standard.title-to-content',
+    revision: 1,
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'descendants',
+      where: [{
+        predicate: 'exists',
+        actual: { fact: 'composition.previousFormMediumTitle.bounds' },
+      }],
+    },
+    actual: { fact: 'bounds' },
+    target: { fact: 'composition.previousFormMediumTitle.bounds' },
+    expected: { literal: 24 },
+    axis: 'vertical',
+    tolerance: 0,
+  });
+}
+
+function formStandardContentInsetsContourRule() {
+  return compileContourRule({
+    kind: 'derived-geometry',
+    ruleId: 'rule:forms.construction-rules.inner-padding-standard.content-insets',
+    sourcePath: 'design-system_ab/patterns/p_form-construction-rules.md',
+    sourceChecksum: 'form-pattern-checksum',
+    sourceAnchor: 'rules/rule:forms.construction-rules.inner-padding-standard.content-insets',
+    revision: 1,
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'exists',
+        actual: { fact: 'composition.formFirstLevelSurface.contentInsets' },
+      }],
+    },
+    checks: ['top', 'right', 'bottom', 'left'].map((side) => ({
+      actual: { fact: `composition.formFirstLevelSurface.contentInsets.${side}` },
+      expected: { literal: 32 },
+      tolerance: 0,
+    })),
+  });
+}
+
+function backgroundPlatePaddingBindingContourRules() {
+  return compileContourRule({
+    kind: 'binding-set',
+    ruleId: 'component:web-corp.background-plate.padding-uses-spacing-tokens',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+    sourceChecksum: 'background-plate-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.background-plate.padding-uses-spacing-tokens',
+    identity: 'web-corp.background-plate',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'component.family' },
+      expected: { literal: 'background-plate-slot' },
+    }],
+    publicRootOnly: true,
+    paths: ['top', 'right', 'bottom', 'left'].map((side) => ({
+      suffix: side,
+      label: side,
+      valueFact: `layout.padding.${side}`,
+      bindingFact: `bindings.padding.${side}`,
+    })),
+    expectedBinding: { bound: true, collection: 'Spacing' },
+    scope: { platform: ['desktop', 'mobile-web'] },
+  });
+}
 
 function evidenceNode(overrides) {
   return Object.assign({
@@ -55,6 +365,11 @@ function evidenceNode(overrides) {
       strokeStyleId: null,
       textStyleId: null,
       effectStyleId: null,
+    },
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: null,
     },
     variableBindings: [],
   }, overrides);
@@ -202,6 +517,12 @@ const componentIndex = {
     library: 'Web _ Corp Components',
     lifecycle: 'active',
   },
+  'onboarding-tooltip-key': {
+    identity: 'web-corp.onboarding-tooltip',
+    family: 'onboarding-tooltip',
+    library: 'Web _ Corp Components',
+    lifecycle: 'active',
+  },
   'benefits-key': {
     identity: 'web.benefits',
     family: 'benefits',
@@ -264,7 +585,7 @@ const componentIndex = {
   },
 };
 
-function adapt(evidenceBundle) {
+function adapt(evidenceBundle, options = {}) {
   return buildPredicateSnapshotV2({
     evidenceBundle,
     auditId: 'predicate-field-packet-1',
@@ -275,12 +596,14 @@ function adapt(evidenceBundle) {
       checksum: 'release-checksum-1',
     },
     componentIndex,
+    contourDefinitions: options.contourDefinitions,
   });
 }
 
 test('Snapshot v2 adapter preserves exact ButtonsGroup ownership facts', () => {
   const snapshot = adapt(bundle());
   const button = snapshot.nodes.find((node) => node.id === '1:2');
+  assert.equal(button.component.name, '[D] Button');
   assert.equal(button.component.identity, 'web-core.button');
   assert.equal(button.component.properties.View, 'Secondary');
   assert.equal(button.ownership.owner.component.identity, 'web-corp.buttons-group');
@@ -304,6 +627,44 @@ test('Snapshot v2 adapter preserves exact ButtonsGroup ownership facts', () => {
     'button',
   );
   assert.equal(snapshot.snapshotHash.length, 64);
+});
+
+test('Snapshot v2 propagates component contour and semantic host to nested layers', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.graph.nodes.find((node) => node.nodeId === '1:1').childNodeIds = ['1:1:1'];
+  evidenceBundle.graph.nodes.push(evidenceNode({
+    nodeId: '1:1:1',
+    parentNodeId: '1:1',
+    childOrder: 0,
+    depth: 2,
+    path: '[D] ButtonsGroup / Primary / Label',
+    name: 'Label',
+    type: 'TEXT',
+    component: null,
+    componentOwner: {
+      nodeId: '1:1',
+      componentKey: 'button-key',
+      name: '[D] Button',
+      path: '[D] ButtonsGroup / Primary',
+      relativePath: 'Label',
+      variantProperties: { View: 'Primary', Size: '56', SingleIcon: 'False' },
+      componentProperties: { View: 'Primary', Size: '56', SingleIcon: 'False' },
+    },
+    text: { characters: 'Продолжить', length: 10, textStyleId: 'button-label' },
+  }));
+  evidenceBundle.coverage.visibleNodeCount += 1;
+  evidenceBundle.coverage.textNodeCount += 1;
+
+  const snapshot = adapt(evidenceBundle);
+  const label = snapshot.nodes.find((node) => node.id === '1:1:1');
+  assert.equal(label.ownership.contour.identity, 'web-core.button');
+  assert.equal(label.ownership.contour.rootNodeId, '1:1');
+  assert.equal(label.ownership.contour.isRoot, false);
+  assert.equal(
+    label.ownership.contour.host.component.identity,
+    'web-corp.buttons-group',
+  );
+  assert.equal(label.ownership.contour.host.nodeId, '1:0');
 });
 
 test('P21 groups same-identity descendants under one public-root contour', () => {
@@ -507,6 +868,462 @@ test('Snapshot v2 adapter exposes actual and effective baseline on the same gene
   const root = snapshot.nodes.find((item) => item.id === '1:0');
   assert.equal(root.appearance.radius, 20);
   assert.equal(root.baseline.effective.appearance.radius, 16);
+});
+
+test('C19 exposes text-style binding and baseline facts for a non-TitleView component', () => {
+  const buildTooltip = ({ actualStyleId, actualStyleName, changed }) => {
+    const textNodeId = '2:text';
+    const evidenceBundle = bundle();
+    evidenceBundle.context.selectionNodeIds = ['2:tooltip'];
+    evidenceBundle.graph.nodes = [
+      evidenceNode({
+        nodeId: '2:tooltip',
+        childNodeIds: [textNodeId],
+        path: 'Onboarding Tooltip [D]',
+        name: 'Onboarding Tooltip [D]',
+        type: 'INSTANCE',
+        component: {
+          key: 'onboarding-tooltip-key',
+          name: 'Onboarding Tooltip [D]',
+          variantProperties: {},
+          componentProperties: {},
+          directOverrides: changed ? [{ nodeId: textNodeId, fields: ['textStyleId'] }] : [],
+        },
+      }),
+      evidenceNode({
+        nodeId: textNodeId,
+        parentNodeId: '2:tooltip',
+        childOrder: 0,
+        depth: 1,
+        path: 'Onboarding Tooltip [D] / Title',
+        name: 'Title',
+        type: 'TEXT',
+        text: {
+          characters: 'Подсказка',
+          length: 9,
+          textStyleId: actualStyleId,
+        },
+        styles: {
+          fillStyleId: null,
+          strokeStyleId: null,
+          textStyleId: actualStyleId,
+          effectStyleId: null,
+        },
+        componentOwner: {
+          nodeId: '2:tooltip',
+          componentKey: 'onboarding-tooltip-key',
+          name: 'Onboarding Tooltip [D]',
+          path: 'Onboarding Tooltip [D]',
+          relativePath: 'Title',
+          variantProperties: {},
+          componentProperties: {},
+        },
+      }),
+    ];
+    evidenceBundle.graph.relations = [];
+    evidenceBundle.changes = changed ? [{
+      id: 'change-tooltip-title-style',
+      nodeId: textNodeId,
+      nodeName: 'Title',
+      nodePath: 'Onboarding Tooltip [D] / Title',
+      property: 'styles.text',
+      kind: 'text-style',
+      ownerComponentKey: 'onboarding-tooltip-key',
+      baselineReferenceId: 'baseline-tooltip-title-style',
+      baseline: {
+        value: 'Paragraph/16',
+        resourceType: 'style',
+        resourceName: 'Paragraph/16',
+      },
+      actual: {
+        value: actualStyleName,
+        resourceType: actualStyleId ? 'style' : null,
+        resourceName: actualStyleName,
+      },
+      mapping: { method: 'apollo-effective-baseline-diff', quality: 'exact' },
+    }] : [];
+    return adapt(evidenceBundle);
+  };
+
+  const canonical = buildTooltip({
+    actualStyleId: 'style-paragraph-16',
+    actualStyleName: 'Paragraph/16',
+    changed: false,
+  }).nodes.find((node) => node.id === '2:text');
+  assert.deepEqual(canonical.bindings.styles.text, {
+    bound: true,
+    kind: 'text-style',
+    value: 'style-paragraph-16',
+    styleId: 'style-paragraph-16',
+  });
+  assert.equal(
+    canonical.baseline.effective.appearance.styles.textStyle,
+    'style-paragraph-16',
+  );
+
+  const wrong = buildTooltip({
+    actualStyleId: 'style-paragraph-14',
+    actualStyleName: 'Paragraph/14',
+    changed: true,
+  }).nodes.find((node) => node.id === '2:text');
+  assert.equal(wrong.bindings.styles.text.bound, true);
+  assert.equal(wrong.appearance.styles.textStyle, 'Paragraph/14');
+  assert.equal(
+    wrong.baseline.effective.appearance.styles.textStyle,
+    'Paragraph/16',
+  );
+
+  const raw = buildTooltip({
+    actualStyleId: null,
+    actualStyleName: null,
+    changed: true,
+  }).nodes.find((node) => node.id === '2:text');
+  assert.deepEqual(raw.bindings.styles.text, {
+    bound: false,
+    kind: 'text-style',
+    value: null,
+    styleId: null,
+  });
+  assert.equal(raw.appearance.styles.textStyle, null);
+  assert.equal(
+    raw.baseline.effective.appearance.styles.textStyle,
+    'Paragraph/16',
+  );
+});
+
+test('C16 preserves canonical fill pairs and their effective baseline provenance', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:fill'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:fill',
+    path: 'Onboarding Tooltip / Surface',
+    name: 'Surface',
+    appearance: {
+      opacity: 1,
+      radius: 16,
+      fill: {
+        value: 'base-bg/primary',
+        resourceType: 'token',
+        resourceId: 'actual-token-key',
+        resourceName: 'base-bg/primary',
+        bindingName: 'base-bg/primary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  })];
+  evidenceBundle.baselines = [{
+    id: 'baseline-tooltip-fill',
+    componentKey: 'onboarding-tooltip-key',
+    nestedOwnerComponentKey: 'onboarding-tooltip-key',
+    nestedOwnerRelativePath: 'Surface',
+    variantProperties: { View: 'Primary', Direction: 'Top' },
+  }];
+  evidenceBundle.changes = [{
+    id: 'change-tooltip-fill',
+    nodeId: '2:fill',
+    nodeName: 'Surface',
+    nodePath: 'Onboarding Tooltip / Surface',
+    property: 'fill',
+    kind: 'paint',
+    ownerComponentKey: 'onboarding-tooltip-key',
+    baselineReferenceId: 'baseline-tooltip-fill',
+    baseline: {
+      value: '#FFFFFF',
+      resourceType: 'token',
+      resourceName: 'base-bg/secondary',
+      bindingName: 'base-bg/secondary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#FFFFFF',
+      resourceType: 'token',
+      resourceName: 'base-bg/primary',
+      bindingName: 'base-bg/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: 'Surface',
+    },
+    candidateRuleIds: [],
+  }];
+
+  const snapshot = adapt(evidenceBundle);
+  const fillNode = snapshot.nodes[0];
+  assert.equal(fillNode.appearance.fill.value, 'base-bg/primary');
+  assert.equal(
+    fillNode.baseline.effective.appearance.fill.value,
+    'base-bg/secondary',
+  );
+  assert.deepEqual(
+    fillNode.baseline.origins.appearance.fill.variantProperties,
+    { View: 'Primary', Direction: 'Top' },
+  );
+  assert.equal(
+    fillNode.baseline.origins.appearance.fill.mapping.referenceOrigin,
+    'nested-component',
+  );
+  assert.equal(
+    fillNode.baseline.origins.appearance.fill.bindingCollection,
+    'Interface Dynamic',
+  );
+});
+
+test('C16 derives unchanged fill baseline only when fill has no direct override', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:fill-pass'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:fill-pass',
+    path: 'Onboarding Tooltip / Surface',
+    name: 'Surface',
+    type: 'INSTANCE',
+    component: {
+      key: 'button-key',
+      name: 'Surface',
+      variantProperties: {},
+      componentProperties: {},
+      directOverrides: [],
+    },
+    appearance: {
+      opacity: 1,
+      radius: 16,
+      fill: {
+        value: 'base-bg/secondary',
+        resourceType: 'token',
+        resourceId: 'baseline-token-key',
+        resourceName: 'base-bg/secondary',
+        bindingName: 'base-bg/secondary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  })];
+
+  const snapshot = adapt(evidenceBundle);
+  assert.equal(snapshot.nodes[0].appearance.fill.value, 'base-bg/secondary');
+  assert.equal(
+    snapshot.nodes[0].baseline.effective.appearance.fill.value,
+    'base-bg/secondary',
+  );
+});
+
+test('C17 preserves canonical stroke pairs, effective baseline provenance and binding facts', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:stroke'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:stroke',
+    path: 'TabsView / Divider',
+    name: 'Divider',
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: null,
+      stroke: {
+        value: 'border/secondary',
+        resourceType: 'token',
+        resourceId: 'stroke-actual-key',
+        resourceName: 'border/secondary',
+        bindingName: 'border/secondary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+    variableBindings: [{
+      property: 'strokes',
+      variableIds: ['VariableID:stroke-actual'],
+      variables: [{
+        id: 'VariableID:stroke-actual',
+        key: 'stroke-actual-key',
+        name: 'border/secondary',
+        collectionId: 'collection:interface-dynamic',
+        collectionName: 'Interface Dynamic',
+      }],
+    }],
+  })];
+  evidenceBundle.baselines = [{
+    id: 'baseline-tabs-stroke',
+    componentKey: 'tabs-view-key',
+    nestedOwnerComponentKey: 'tabs-view-key',
+    nestedOwnerRelativePath: 'Divider',
+    variantProperties: { View: 'Primary' },
+  }];
+  evidenceBundle.changes = [{
+    id: 'change-tabs-stroke',
+    nodeId: '2:stroke',
+    nodeName: 'Divider',
+    nodePath: 'TabsView / Divider',
+    property: 'stroke',
+    kind: 'paint',
+    ownerComponentKey: 'tabs-view-key',
+    baselineReferenceId: 'baseline-tabs-stroke',
+    baseline: {
+      value: '#D2D3D9',
+      resourceType: 'token',
+      resourceName: 'border/primary',
+      bindingName: 'border/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#B8BAC2',
+      resourceType: 'token',
+      resourceName: 'border/secondary',
+      bindingName: 'border/secondary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: 'Divider',
+    },
+    candidateRuleIds: [],
+  }];
+
+  const snapshot = adapt(evidenceBundle);
+  const strokeNode = snapshot.nodes[0];
+  assert.equal(strokeNode.appearance.stroke.value, 'border/secondary');
+  assert.equal(
+    strokeNode.baseline.effective.appearance.stroke.value,
+    'border/primary',
+  );
+  assert.equal(
+    strokeNode.baseline.origins.appearance.stroke.mapping.referenceOrigin,
+    'nested-component',
+  );
+  assert.deepEqual(strokeNode.bindings.strokes, {
+    bound: true,
+    value: null,
+    variableIds: ['VariableID:stroke-actual'],
+    variables: [{
+      id: 'VariableID:stroke-actual',
+      key: 'stroke-actual-key',
+      name: 'border/secondary',
+      collectionId: 'collection:interface-dynamic',
+      collectionName: 'Interface Dynamic',
+    }],
+    collection: 'Interface Dynamic',
+    token: 'border/secondary',
+    variableId: 'VariableID:stroke-actual',
+  });
+});
+
+test('C17 materializes a visible raw stroke as an explicit unbound fact', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:raw-stroke'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:raw-stroke',
+    path: 'BackgroundPlate / Style Level 1',
+    name: '[D] Style Level 1',
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: null,
+      stroke: {
+        value: '#747474',
+        resourceType: 'paint',
+        resourceId: null,
+        resourceName: null,
+        bindingName: null,
+        bindingCollection: null,
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+    variableBindings: [],
+  })];
+
+  const snapshot = adapt(evidenceBundle);
+  assert.deepEqual(snapshot.nodes[0].bindings.strokes, {
+    bound: false,
+    value: '#747474',
+    variableIds: [],
+    variables: [],
+    collection: null,
+    token: null,
+    variableId: null,
+  });
+});
+
+test('P26 derives unchanged appearance baseline only when no direct override exists', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:0'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:0',
+    path: '[D] TitleView',
+    name: '[D] TitleView',
+    type: 'INSTANCE',
+    component: {
+      key: 'title-view-key',
+      name: '[D] TitleView',
+      variantProperties: { View: 'xLarge' },
+      componentProperties: { View: 'xLarge' },
+      directOverrides: [],
+    },
+    appearance: { opacity: 1, radius: 0 },
+  })];
+  evidenceBundle.graph.relations = [];
+
+  const snapshot = adapt(evidenceBundle);
+  assert.equal(snapshot.nodes[0].baseline.effective.appearance.opacity, 1);
+  assert.equal(snapshot.nodes[0].baseline.effective.appearance.radius, 0);
+  assert.equal(
+    snapshot.nodes[0].unknownFacts.includes(
+      'baseline.effective.appearance.opacity',
+    ),
+    false,
+  );
+  assert.equal(
+    snapshot.nodes[0].unknownFacts.includes(
+      'baseline.effective.appearance.radius',
+    ),
+    false,
+  );
+});
+
+test('P26 keeps an overridden appearance fact unknown without an exact baseline diff', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.context.selectionNodeIds = ['2:0'];
+  evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '2:0',
+    path: '[D] TitleView',
+    name: '[D] TitleView',
+    type: 'INSTANCE',
+    component: {
+      key: 'title-view-key',
+      name: '[D] TitleView',
+      variantProperties: { View: 'xLarge' },
+      componentProperties: { View: 'xLarge' },
+      directOverrides: [{ nodeId: '2:0', fields: ['opacity'] }],
+    },
+    appearance: { opacity: 0.5, radius: 0 },
+  })];
+  evidenceBundle.graph.relations = [];
+
+  const snapshot = adapt(evidenceBundle);
+  assert.equal(
+    snapshot.nodes[0].baseline.effective.appearance.opacity,
+    undefined,
+  );
+  assert.ok(snapshot.nodes[0].unknownFacts.includes(
+    'baseline.effective.appearance.opacity',
+  ));
+  assert.equal(snapshot.nodes[0].baseline.effective.appearance.radius, 0);
 });
 
 test('P01, P02, P03 and P09 produce stable exact focus without an agent call', () => {
@@ -741,7 +1558,7 @@ function titleViewBundle(options = {}) {
 }
 
 test('P04 matches-effective-baseline proves PASS and FAIL without guessing', () => {
-  const rule = titleViewPilotRules({ sourceChecksum: 'title-view-rules-checksum' });
+  const rule = [titleViewTypographyContourRule()];
   const passSnapshot = adapt(titleViewBundle());
   const pass = evaluateRules({ snapshot: passSnapshot, rules: rule });
   assert.equal(pass.coverage.byClassification.compliant, 1);
@@ -769,7 +1586,7 @@ test('P04 proves a missing TitleView text style is a violation without guessing 
   missingStyle.graph.nodes[1].text.textStyleId = null;
   const evaluation = evaluateRules({
     snapshot: adapt(missingStyle),
-    rules: titleViewPilotRules({ sourceChecksum: 'title-view-rules-checksum' }),
+    rules: [titleViewTypographyContourRule()],
   }).evaluations.find((item) => (
     item.ruleId === 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed'
   ));
@@ -825,7 +1642,7 @@ test('desktop Button pattern rejects Accent inside TitleView', () => {
   ];
   const evaluation = evaluateRules({
     snapshot: adapt(evidenceBundle),
-    rules: [desktopButtonSafeViewRule({ sourceChecksum: 'button-pattern-checksum' })],
+    rules: [desktopButtonSafeVariantsContourRule()],
   }).evaluations[0];
   assert.equal(evaluation.classification, 'violation');
   assert.equal(evaluation.focusNodeId, '2:2');
@@ -840,7 +1657,7 @@ test('P04 returns UNKNOWN when Figma reports an override but no exact baseline d
   );
   const result = evaluateRules({
     snapshot,
-    rules: titleViewPilotRules({ sourceChecksum: 'title-view-rules-checksum' }),
+    rules: [titleViewTypographyContourRule()],
   });
   const typography = result.evaluations.find((item) => (
     item.ruleId === 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed'
@@ -907,34 +1724,80 @@ function titleViewStatusBundle(mode) {
   return evidenceBundle;
 }
 
-test('P07 all-equal focuses the mismatching TitleStatus and preserves tri-state semantics', () => {
-  const rule = titleViewPilotRules({ sourceChecksum: 'title-view-rules-checksum' })
-    .find((item) => item.ruleId === 'component:web-corp.title-view.status-and-title-status-color-match');
+function titleViewStatusContourDefinition() {
+  return {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'owned-peer-property-equality',
+    ruleId: 'component:web-corp.title-view.status-and-title-status-color-match',
+    revision: 1,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TitleView/rules.json',
+    sourceChecksum: 'title-view-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.title-view.status-and-title-status-color-match',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+    ownerIdentity: 'web-corp.title-view',
+    target: {
+      identity: 'web-corp.title-view',
+      names: ['[D] TitleStatus', '[M] TitleStatus'],
+    },
+    members: [{
+      role: 'Status',
+      names: ['StatusPreset'],
+      propertyFact: 'component.properties.Type',
+    }, {
+      role: 'TitleStatus',
+      names: ['[D] TitleStatus', '[M] TitleStatus'],
+      propertyFact: 'component.properties.Type',
+    }],
+    requiredRoles: ['Status', 'TitleStatus'],
+    collectionKey: 'statusTypeConsistency',
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+  };
+}
 
-  const passSnapshot = adapt(titleViewStatusBundle('pass'));
+test('P07 owned peer equality focuses the mismatching target and preserves four states', () => {
+  const definition = titleViewStatusContourDefinition();
+  const rule = compileContourRule(definition);
+
+  const passSnapshot = adapt(titleViewStatusBundle('pass'), {
+    contourDefinitions: [definition],
+  });
   const passTarget = passSnapshot.nodes.find((node) => node.id === '5:2');
-  assert.deepEqual(passTarget.composition.ownerVisibleStatusRoles, ['Status', 'TitleStatus']);
-  assert.deepEqual(passTarget.composition.ownerStatusTypeValues, ['Approved', 'Approved']);
+  assert.deepEqual(
+    passTarget.composition.peerCollections.statusTypeConsistency.roles,
+    ['Status', 'TitleStatus'],
+  );
+  assert.deepEqual(
+    passTarget.composition.peerCollections.statusTypeConsistency.values,
+    ['Approved', 'Approved'],
+  );
   assert.equal(evaluateRules({ snapshot: passSnapshot, rules: [rule] })
     .evaluations[0].classification, 'compliant');
 
   const fail = evaluateRules({
-    snapshot: adapt(titleViewStatusBundle('fail')),
+    snapshot: adapt(titleViewStatusBundle('fail'), { contourDefinitions: [definition] }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '5:2');
   assert.deepEqual(fail.trace.actual, ['Approved', 'Attention']);
-  assert.deepEqual(fail.trace.factPaths, ['composition.ownerStatusTypeValues']);
+  assert.deepEqual(
+    fail.trace.factPaths,
+    ['composition.peerCollections.statusTypeConsistency.values'],
+  );
 
   const unknown = evaluateRules({
-    snapshot: adapt(titleViewStatusBundle('unknown')),
+    snapshot: adapt(titleViewStatusBundle('unknown'), { contourDefinitions: [definition] }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(unknown.classification, 'not-evaluable');
 
   const notApplicable = evaluateRules({
-    snapshot: adapt(titleViewStatusBundle('not-applicable')),
+    snapshot: adapt(titleViewStatusBundle('not-applicable'), {
+      contourDefinitions: [definition],
+    }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(notApplicable.classification, 'not-applicable');
@@ -997,9 +1860,7 @@ function backgroundPlateBundle(bindingMode) {
 }
 
 test('P05 binding-satisfies classifies tokenized, raw and unresolved padding', () => {
-  const rules = backgroundPlatePilotRules({
-    sourceChecksum: 'background-plate-rules-checksum',
-  });
+  const rules = backgroundPlatePaddingBindingContourRules();
   const pass = evaluateRules({
     snapshot: adapt(backgroundPlateBundle('bound')),
     rules,
@@ -1018,7 +1879,8 @@ test('P05 binding-satisfies classifies tokenized, raw and unresolved padding', (
     violation.ruleId,
     'component:web-corp.background-plate.padding-uses-spacing-tokens.right',
   );
-  assert.deepEqual(violation.trace.actual, {
+  assert.equal(violation.trace.children[0].actual, 32);
+  assert.deepEqual(violation.trace.children[1].actual, {
     bound: false,
     value: 32,
     variableIds: [],
@@ -1156,21 +2018,24 @@ function backgroundPlateCompositionBundle(mode) {
 }
 
 test('P06 overlay composition classifies valid, invalid, unavailable and absent composition', () => {
-  const rule = backgroundPlateLevel2OverlayRule({
-    sourceChecksum: 'background-plate-rules-checksum',
-  });
+  const definition = backgroundPlateUnderlayContourDefinition();
+  const rule = compileContourRule(definition);
 
-  const passSnapshot = adapt(backgroundPlateCompositionBundle('pass'));
+  const passSnapshot = adapt(backgroundPlateCompositionBundle('pass'), {
+    contourDefinitions: [definition],
+  });
   assert.equal(
     passSnapshot.nodes.find((node) => node.id === '4:2')
-      .composition.level1Underlay.component.properties.Position,
+      .composition.underlayRelations.level1Underlay.component.properties.Position,
     'Level 1 (outer)',
   );
   assert.equal(evaluateRules({ snapshot: passSnapshot, rules: [rule] })
     .evaluations[0].classification, 'compliant');
 
   const fail = evaluateRules({
-    snapshot: adapt(backgroundPlateCompositionBundle('fail')),
+    snapshot: adapt(backgroundPlateCompositionBundle('fail'), {
+      contourDefinitions: [definition],
+    }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(fail.classification, 'violation');
@@ -1181,7 +2046,9 @@ test('P06 overlay composition classifies valid, invalid, unavailable and absent 
 
   for (const invalidMode of ['wrong-positioning', 'outside']) {
     const invalid = evaluateRules({
-      snapshot: adapt(backgroundPlateCompositionBundle(invalidMode)),
+      snapshot: adapt(backgroundPlateCompositionBundle(invalidMode), {
+        contourDefinitions: [definition],
+      }),
       rules: [rule],
     }).evaluations[0];
     assert.equal(invalid.classification, 'violation');
@@ -1189,7 +2056,9 @@ test('P06 overlay composition classifies valid, invalid, unavailable and absent 
   }
 
   const unknown = evaluateRules({
-    snapshot: adapt(backgroundPlateCompositionBundle('unknown')),
+    snapshot: adapt(backgroundPlateCompositionBundle('unknown'), {
+      contourDefinitions: [definition],
+    }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(unknown.classification, 'not-evaluable');
@@ -1209,11 +2078,41 @@ test('P06 overlay composition classifies valid, invalid, unavailable and absent 
     componentProperties: { View: 'Medium' },
   };
   const nested = evaluateRules({
-    snapshot: adapt(nestedBundle),
+    snapshot: adapt(nestedBundle, { contourDefinitions: [definition] }),
     rules: [rule],
   }).evaluations[0];
   assert.equal(nested.classification, 'not-applicable');
 });
+
+function backgroundPlateUnderlayContourDefinition() {
+  return {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'co-located-underlay',
+    ruleId: 'component:web-corp.background-plate.level-2-requires-level-1',
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+    sourceChecksum: 'background-plate-rules-checksum',
+    sourceAnchor: 'rules/component:web-corp.background-plate.level-2-requires-level-1',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+    subject: {
+      identity: 'web-corp.background-plate',
+      properties: { Position: 'Level 2 (inner)' },
+      publicRootOnly: true,
+    },
+    underlay: {
+      identity: 'web-corp.background-plate',
+      properties: { Position: 'Level 1 (outer)' },
+      positioning: 'ABSOLUTE',
+    },
+    host: { layoutModes: ['HORIZONTAL', 'VERTICAL'] },
+    content: { positioning: 'AUTO', afterUnderlay: true },
+    geometry: { underlayContainsSubject: true },
+    relationKey: 'level1Underlay',
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+  };
+}
 
 test('P06 accepts Level 2 nested in content above an ancestor Level 1 underlay', () => {
   const evidenceBundle = backgroundPlateCompositionBundle('pass');
@@ -1234,29 +2133,26 @@ test('P06 accepts Level 2 nested in content above an ancestor Level 1 underlay',
     bounds: { x: 24, y: 24, width: 352, height: 252 },
     layout: Object.assign({}, evidenceNode({}).layout, { mode: 'VERTICAL' }),
   }));
-  const snapshot = adapt(evidenceBundle);
+  const definition = backgroundPlateUnderlayContourDefinition();
+  const snapshot = adapt(evidenceBundle, { contourDefinitions: [definition] });
   const level2Node = snapshot.nodes.find((node) => node.id === '4:2');
-  assert.equal(level2Node.composition.level1Underlay.parentNodeId, '4:0');
+  assert.equal(level2Node.composition.underlayRelations.level1Underlay.hostNodeId, '4:0');
   assert.equal(level2Node.layout.positioning, 'ABSOLUTE');
   assert.equal(
-    level2Node.composition.level1Underlay.contentLayout.positioning,
+    level2Node.composition.underlayRelations.level1Underlay.contentLayout.positioning,
     'AUTO',
   );
   const evaluation = evaluateRules({
     snapshot,
-    rules: [backgroundPlateLevel2OverlayRule({
-      sourceChecksum: 'background-plate-rules-checksum',
-    })],
+    rules: [compileContourRule(definition)],
   }).evaluations[0];
   assert.equal(evaluation.classification, 'compliant');
 
   evidenceBundle.graph.nodes.find((node) => node.nodeId === '4:content')
     .layout.positioning = 'ABSOLUTE';
   const invalidContentBranch = evaluateRules({
-    snapshot: adapt(evidenceBundle),
-    rules: [backgroundPlateLevel2OverlayRule({
-      sourceChecksum: 'background-plate-rules-checksum',
-    })],
+    snapshot: adapt(evidenceBundle, { contourDefinitions: [definition] }),
+    rules: [compileContourRule(definition)],
   }).evaluations[0];
   assert.equal(invalidContentBranch.classification, 'violation');
 });
@@ -1341,7 +2237,7 @@ function benefitsBundleWithInheritedCardIdentity(capacity, cardCount) {
 }
 
 test('P10 Benefits capacity facts preserve exact focus and tri-state semantics', () => {
-  const rule = benefitsCapacityRule({ sourceChecksum: 'benefits-rules-checksum' });
+  const rule = benefitsCapacityContourRule();
   const passSnapshot = adapt(benefitsBundle(3, 3));
   const passOwner = passSnapshot.nodes.find((node) => node.id === '10:0');
   assert.equal(passOwner.composition.capacity, 3);
@@ -1362,8 +2258,8 @@ test('P10 Benefits capacity facts preserve exact focus and tri-state semantics',
   }).evaluations[0];
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '10:0');
-  assert.equal(fail.trace.children[2].actual, 3);
-  assert.equal(fail.trace.children[2].expected, 4);
+  assert.equal(fail.trace.children[1].children[1].actual, 3);
+  assert.equal(fail.trace.children[1].children[1].expected, 4);
 
   const inheritedIdentitySnapshot = adapt(benefitsBundleWithInheritedCardIdentity(3, 3));
   const inheritedIdentityOwner = inheritedIdentitySnapshot.nodes.find((node) => node.id === '10:0');
@@ -1391,9 +2287,7 @@ test('P10 Benefits capacity facts preserve exact focus and tri-state semantics',
 });
 
 test('P13 Benefits card settings expose ordered all-equal facts and unknown evidence', () => {
-  const rule = benefitsNestedCardSettingsUniformRule({
-    sourceChecksum: 'benefits-rules-checksum',
-  });
+  const rule = benefitsUniformityContourRule();
   const passSnapshot = adapt(benefitsBundle(3, 3));
   const passOwner = passSnapshot.nodes.find((node) => node.id === '10:0');
   assert.deepEqual(passOwner.composition.benefitCardPropertyNodeIds, [
@@ -1419,12 +2313,12 @@ test('P13 Benefits card settings expose ordered all-equal facts and unknown evid
   }).evaluations[0];
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '10:0');
-  assert.deepEqual(fail.trace.children[1].actual, [
+  assert.deepEqual(fail.trace.children[2].actual, [
     'Vertical',
     'Horizontal',
     'Vertical',
   ]);
-  assert.deepEqual(fail.trace.children[2].actual, ['False', 'True', 'False']);
+  assert.deepEqual(fail.trace.children[3].actual, ['False', 'True', 'False']);
 
   const unresolved = benefitsBundle(3, 3);
   delete unresolved.graph.nodes[2].component.variantProperties.GraphicPosition;
@@ -1500,7 +2394,7 @@ function tableViewBundle(headerCount) {
 }
 
 test('P11 Horizontal TableView requires exactly one visible Header row', () => {
-  const rule = tableViewHorizontalHeaderRule({ sourceChecksum: 'table-view-rules-checksum' });
+  const rule = tableViewHorizontalHeaderContourRule();
   const passSnapshot = adapt(tableViewBundle(1));
   const passOwner = passSnapshot.nodes.find((node) => node.id === '11:0');
   assert.deepEqual(passOwner.composition.visibleHeaderRowNodeIds, ['11:1']);
@@ -1515,7 +2409,7 @@ test('P11 Horizontal TableView requires exactly one visible Header row', () => {
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '11:0');
   assert.equal(fail.trace.actual, 0);
-  assert.equal(fail.trace.expected, 1);
+  assert.deepEqual(fail.trace.expected, [1]);
 
   const unresolved = tableViewBundle(1);
   unresolved.graph.nodes[1].component.key = 'unknown-table-view-row-key';
@@ -1630,9 +2524,7 @@ function tableViewCompactColumnBundle(columnCount = 1) {
 }
 
 test('P14 compact Horizontal TableView requires exactly one data Column per Row', () => {
-  const rule = tableViewHorizontalCompactOneColumnRule({
-    sourceChecksum: 'table-view-rules-checksum',
-  });
+  const rule = tableViewHorizontalCompactOneColumnContourRule();
   const passSnapshot = adapt(tableViewCompactColumnBundle(1));
   const passRow = passSnapshot.nodes.find((node) => node.id === '11:1');
   assert.deepEqual(passRow.composition.visibleDataColumnNodeIds, ['11:column-1']);
@@ -1728,9 +2620,7 @@ function formFirstLevelBlocksBundle(gap = 24) {
 }
 
 test('P15 form first-level BackgroundPlate siblings have a 24 px vertical gap', () => {
-  const rule = formFirstLevelBlockSpacingRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formFirstLevelBlockSpacingContourRule();
   const passSnapshot = adapt(formFirstLevelBlocksBundle(24));
   const secondBlock = passSnapshot.nodes.find((node) => node.id === '15:2');
   assert.equal(secondBlock.composition.previousFormFirstLevelBlock.nodeId, '15:1');
@@ -1860,9 +2750,7 @@ function formSecondLevelActionSpacingBundle(gap = 32, actionView = 'Primary') {
 }
 
 test('P20 form second-level boundary keeps 32 px before primary actions', () => {
-  const rule = formSecondLevelActionSpacingRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formSecondLevelActionSpacingContourRule();
   const passSnapshot = adapt(formSecondLevelActionSpacingBundle(32));
   const actionGroup = passSnapshot.nodes.find((node) => node.id === '20:3');
   assert.equal(actionGroup.composition.previousFormContent.nodeId, '20:1');
@@ -1891,9 +2779,7 @@ test('P20 form second-level boundary keeps 32 px before primary actions', () => 
 });
 
 test('P20 treats an Accent M56 button group as primary form actions', () => {
-  const rule = formSecondLevelActionSpacingRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formSecondLevelActionSpacingContourRule();
   const evaluation = evaluateRules({
     snapshot: adapt(formSecondLevelActionSpacingBundle(48, 'Accent')),
     rules: [rule],
@@ -1943,9 +2829,7 @@ function formMediumTitlesBundle(count = 1) {
 }
 
 test('P16 allows only the first TitleView Medium on a form plate', () => {
-  const rule = formMediumTitleOnePerPlateRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formMediumTitleOnePerPlateContourRule();
   const passSnapshot = adapt(formMediumTitlesBundle(1));
   const passTitle = passSnapshot.nodes.find((node) => node.id === '16:1');
   assert.equal(
@@ -2049,9 +2933,7 @@ function formTitleContentGapBundle(gap = 24) {
 }
 
 test('P17 measures the exact gap from TitleView Medium to first form content', () => {
-  const rule = formTitleContentGapRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formTitleContentGapContourRule();
   const passSnapshot = adapt(formTitleContentGapBundle(24));
   const content = passSnapshot.nodes.find((node) => node.id === '17:3');
   assert.equal(content.composition.previousFormMediumTitle.nodeId, '17:2');
@@ -2096,9 +2978,7 @@ test('P17 measures the exact gap from TitleView Medium to first form content', (
 });
 
 test('P18 evaluates all standard content insets against the first-level form surface', () => {
-  const rule = formStandardContentInsetsRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formStandardContentInsetsContourRule();
   const passSnapshot = adapt(formTitleContentGapBundle(24));
   const surface = passSnapshot.nodes.find((node) => node.id === '17:0');
   assert.deepEqual(
@@ -2119,7 +2999,9 @@ test('P18 evaluates all standard content insets against the first-level form sur
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '17:0');
   assert.equal(fail.trace.children[1].actual, 48);
-  assert.equal(fail.trace.children[1].expected, 32);
+  assert.equal(fail.trace.children[1].expected.value, 32);
+  assert.equal(fail.trace.children[1].expected.tolerance, 0);
+  assert.equal(fail.trace.children[1].expected.difference, 16);
 
   const unknownBundle = formTitleContentGapBundle(24);
   unknownBundle.graph.nodes[1].bounds = null;
@@ -2477,11 +3359,11 @@ function realFormOwnerUnderlayBundle(actionView = 'Primary') {
 test('Semantic Form Surface v2 evaluates absolute underlays, spacers and a standalone action', () => {
   const snapshot = adapt(realFormOwnerUnderlayBundle());
   const rules = [
-    formFirstLevelBlockSpacingRule({ sourceChecksum: 'form-pattern-checksum' }),
-    formSecondLevelActionSpacingRule({ sourceChecksum: 'form-pattern-checksum' }),
-    formMediumTitleOnePerPlateRule({ sourceChecksum: 'form-pattern-checksum' }),
-    formTitleContentGapRule({ sourceChecksum: 'form-pattern-checksum' }),
-    formStandardContentInsetsRule({ sourceChecksum: 'form-pattern-checksum' }),
+    formFirstLevelBlockSpacingContourRule(),
+    formSecondLevelActionSpacingContourRule(),
+    formMediumTitleOnePerPlateContourRule(),
+    formTitleContentGapContourRule(),
+    formStandardContentInsetsContourRule(),
     formEightFourLayoutRule({ sourceChecksum: 'form-pattern-checksum' }),
   ];
   const result = evaluateRules({ snapshot, rules });
@@ -2538,9 +3420,7 @@ test('Semantic Form Surface v2 recognizes a standalone Accent M56 action', () =>
 
   const evaluation = evaluateRules({
     snapshot,
-    rules: [formSecondLevelActionSpacingRule({
-      sourceChecksum: 'form-pattern-checksum',
-    })],
+    rules: [formSecondLevelActionSpacingContourRule()],
   }).evaluations[0];
   assert.equal(evaluation.classification, 'violation');
   assert.equal(evaluation.focusNodeId, '21:16');

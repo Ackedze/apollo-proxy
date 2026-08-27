@@ -29,6 +29,14 @@ const CARD_SWIPER_MOBILE_320_KEY = 'd115bb68174c21fe7475748dc31f651221db4558';
 const PROPERTY_PRESET_KEY = '55c7b3a923bfb246c0f8ce6f85558f78ec702a53';
 const CORE_STATUS_RECTANGULAR_KEY = 'a410d666446afa4beb01cd6c35e9e6642e9b28be';
 const CORE_STATUS_ROUNDED_KEY = 'a54fc8de49f424f46ddb87e1f14103cda8a5456e';
+const CORPORATE_SECTION_KEY = '2bbced82d96c1347fea71a3922cd11cf4c25ad6a';
+const TABS_VIEW_KEY = '519118350c338878dff70f5c8e62cf9c7d53bffd';
+const TABS_SECONDARY_KEY = 'd44e07075d37245006c02b03ca28fa9a8681fa1e';
+const TAG_FILLED_KEY = 'da874fbc1750ce68c942384fc3f0c95d1660e2fc';
+const CARD_IMAGE_XS_ACTIVE_KEY = 'acc0bda0cee8df12ef3be8b215b5858fbd19afcb';
+const CARD_IMAGE_XS_INACTIVE_KEY = '54a5bac509c2fb21b12d21b5471b1e0d180a37c1';
+const ONBOARDING_TOOLTIP_KEY = 'c9a8db25e3fb6bc7907464f81547a6295816c59b';
+const BACKGROUND_PLATE_STYLE_LEVEL_1_KEY = 'adb65a62cde9ebedc5d0d41d2d77cd63e71e0745';
 
 function component(key, name, properties) {
   return {
@@ -77,7 +85,11 @@ function evidenceNode(overrides) {
   }, overrides);
 }
 
-function request(secondProperties) {
+function request(secondProperties, firstProperties = {
+  View: 'Primary',
+  Size: '56',
+  SingleIcon: 'False',
+}) {
   const owner = {
     nodeId: '1:0',
     componentKey: BUTTONS_GROUP_KEY,
@@ -119,11 +131,7 @@ function request(secondProperties) {
             childOrder: 0,
             path: 'ButtonsGroup/Button 1',
             name: '[D] Button',
-            component: component(BUTTON_KEY, '[D] Button', {
-              View: 'Primary',
-              Size: '56',
-              SingleIcon: 'False',
-            }),
+            component: component(BUTTON_KEY, '[D] Button', firstProperties),
             componentOwner: owner,
           }),
           evidenceNode({
@@ -167,35 +175,24 @@ test('isolated predicate endpoint service evaluates P01/P02/P03 without an agent
     resultHash: output.repeatability.resultHash,
   });
   assert.match(output.repeatability.resultHash, /^[a-f0-9]{64}$/);
-  assert.deepEqual(
-    output.rules.map((rule) => rule.ruleId),
-    [
-      'component:web-corp.buttons-group.button-count',
-      'component:web-corp.buttons-group.allowed-views',
-      'component:web-corp.buttons-group.uniform-size',
-      'component:web-corp.buttons-group.single-icon-position',
-      'component:web-corp.title-view.title-and-subtitle-typography-is-fixed',
-      'component:web-corp.title-view.status-and-title-status-color-match',
-      'rule:controls.buttons-and-button-groups.desktop-safe-variants',
-      'component:web-corp.title-view.visible-slots-follow-required-order',
-      'component:web-corp.background-plate.padding-uses-spacing-tokens.top',
-      'component:web-corp.background-plate.padding-uses-spacing-tokens.right',
-      'component:web-corp.background-plate.padding-uses-spacing-tokens.bottom',
-      'component:web-corp.background-plate.padding-uses-spacing-tokens.left',
-      'component:web-corp.background-plate.level-2-requires-level-1',
-      'component:web.benefits.capacity-matches-card-count',
-      'component:web.benefits.nested-card-settings-are-uniform',
-      'component:web-corp.table-view.horizontal-multi-column-header-required',
-      'component:web-corp.table-view.compact-is-consistent-across-rows',
-      'component:web-corp.table-view.horizontal-compact-one-column',
-      'rule:forms.construction-rules.block-spacing.first-level',
-      'rule:forms.construction-rules.block-spacing.second-level-actions',
-      'rule:forms.construction-rules.title-medium-one-per-plate',
-      'rule:forms.construction-rules.inner-padding-standard.title-to-content',
-      'rule:forms.construction-rules.inner-padding-standard.content-insets',
-      'rule:forms.construction-rules.layout-8-4.geometry',
-    ],
-  );
+  const ruleIds = output.rules.map((rule) => rule.ruleId);
+  assert.equal(new Set(ruleIds).size, ruleIds.length);
+  for (const ruleId of [
+    'component:web-corp.buttons-group.button-count',
+    'component:web-corp.buttons-group.allowed-views',
+    'component:web-corp.buttons-group.uniform-size',
+    'component:web-corp.buttons-group.primary-position',
+    'component:web-corp.buttons-group.single-icon-position',
+    'component:web-corp.table-view.compact-is-consistent-across-rows',
+    'component:web-core.button.desktop-hint-restricted',
+    'component:web-core.button.label-text-style-locked',
+    'component:web-core.button.manual-fill-is-layer-property.fill',
+    'component:web-core.button.manual-layout-and-appearance-overrides-prohibited.radius',
+    'rule:controls.buttons-and-button-groups.desktop-safe-variants',
+    'rule:forms.construction-rules.layout-8-4',
+  ]) {
+    assert.ok(ruleIds.includes(ruleId), `missing compiled rule: ${ruleId}`);
+  }
   assert.equal(
     output.rules[0].source.path,
     'design-system_ab/JSONS/web/components/web-corp/ButtonGroup [D]/composition-contract.json',
@@ -204,17 +201,41 @@ test('isolated predicate endpoint service evaluates P01/P02/P03 without an agent
   assert.equal(output.rules[0].scope.pageType, undefined);
   assert.deepEqual(
     output.rules.find(
-      (rule) => rule.ruleId === 'rule:forms.construction-rules.layout-8-4.geometry',
+      (rule) => rule.ruleId === 'rule:forms.construction-rules.layout-8-4',
     ).scope,
     { platform: ['desktop'], pageType: ['form'] },
   );
-  assert.equal(output.result.coverage.byClassification.violation, 2);
   const violations = output.result.evaluations.filter(
     (item) => item.classification === 'violation',
   );
+  assert.equal(output.result.coverage.byClassification.violation, 2);
   assert.deepEqual(new Set(violations.map((item) => item.focusNodeId)), new Set(['1:2']));
   assert.equal(output.result.coverage.unclassified, 0);
   assert.equal(output.result.coverage.duplicateEvaluationIds, 0);
+});
+
+test('composition contract compiles Primary position from source data', () => {
+  const output = evaluatePredicatePilotRequest(
+    request(
+      { View: 'Primary', Size: '56', SingleIcon: 'False' },
+      { View: 'Secondary', Size: '56', SingleIcon: 'False' },
+    ),
+    { designSystemRoot },
+  );
+  const evaluation = output.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.primary-position'
+  ));
+  const rule = output.rules.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.primary-position'
+  ));
+
+  assert.equal(evaluation.classification, 'violation');
+  assert.equal(evaluation.focusNodeId, '1:2');
+  assert.equal(
+    rule.source.path,
+    'design-system_ab/JSONS/web/components/web-corp/ButtonGroup [D]/composition-contract.json',
+  );
+  assert.equal(rule.presentation.title, 'Primary-кнопка находится не на первом месте');
 });
 
 function accountSelectPublicRootRequest(componentKey, platform = 'desktop') {
@@ -693,6 +714,161 @@ test('P22 compiles preset-to-shape context mapping from Status & Property rules.
   );
 });
 
+function statusNestedFillRequest({
+  presetKey = STATUS_PRESET_KEY,
+  presetName = '[D] StatusPreset',
+  presetFamilyColor = null,
+  statusKey = CORE_STATUS_ROUNDED_KEY,
+  shape = 'Rounded',
+  actualFill = 'text/info',
+  baselineFill = 'static_text_inverted/primary',
+} = {}) {
+  const input = statusShapeRequest({
+    presetKey,
+    presetName,
+    statusKey,
+    shape,
+  });
+  const presetProperties = presetFamilyColor
+    ? { Size: '24', Color: presetFamilyColor }
+    : { Type: 'Approved', Style: 'Contrast', Size: '20' };
+  const statusSize = presetProperties.Size;
+  const changed = actualFill !== baselineFill;
+  const preset = input.evidenceBundle.graph.nodes[0];
+  const status = input.evidenceBundle.graph.nodes[1];
+  preset.component.variantProperties = presetProperties;
+  preset.component.componentProperties = presetProperties;
+  preset.childNodeIds = ['22:1'];
+  status.childNodeIds = ['22:2'];
+  status.componentOwner.variantProperties = presetProperties;
+  status.componentOwner.componentProperties = presetProperties;
+  status.component.variantProperties.Size = statusSize;
+  status.component.componentProperties.Size = statusSize;
+  status.component.directOverrides = changed
+    ? [{ nodeId: '22:2', fields: ['fills'] }]
+    : [];
+  input.evidenceBundle.graph.nodes.push(evidenceNode({
+    nodeId: '22:2',
+    parentNodeId: '22:1',
+    childOrder: 0,
+    depth: 2,
+    path: `P22 / ${presetName} / Status / Label`,
+    name: 'Label',
+    type: 'TEXT',
+    component: null,
+    componentOwner: {
+      nodeId: '22:1',
+      componentKey: statusKey,
+      name: 'Status',
+      path: `P22 / ${presetName} / Status`,
+      relativePath: 'Label',
+      variantProperties: { Size: statusSize, Shape: shape },
+      componentProperties: { Size: statusSize, Shape: shape },
+    },
+    text: { characters: 'Готово', length: 6, textStyleId: 'status-label' },
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: {
+        value: actualFill,
+        resourceType: 'token',
+        resourceId: 'status-label-actual',
+        resourceName: actualFill,
+        bindingName: actualFill,
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  }));
+  input.evidenceBundle.baselines = changed ? [{
+    id: 'baseline-status-label-fill',
+    componentKey: presetKey,
+    nestedOwnerComponentKey: statusKey,
+    nestedOwnerRelativePath: 'Status/Label',
+    variantProperties: presetProperties,
+  }] : [];
+  input.evidenceBundle.changes = changed ? [{
+    id: 'change-status-label-fill',
+    nodeId: '22:2',
+    nodeName: 'Label',
+    nodePath: `P22 / ${presetName} / Status / Label`,
+    property: 'fill',
+    kind: 'paint',
+    ownerComponentKey: statusKey,
+    baselineReferenceId: 'baseline-status-label-fill',
+    baseline: {
+      value: baselineFill,
+      resourceType: 'token',
+      resourceName: baselineFill,
+      bindingName: baselineFill,
+      bindingCollection: 'Interface Static',
+    },
+    actual: {
+      value: actualFill,
+      resourceType: 'token',
+      resourceName: actualFill,
+      bindingName: actualFill,
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'host',
+      nestedOwnerRelativePath: 'Status/Label',
+    },
+    candidateRuleIds: [
+      'component:web-corp.status-property.fill-follows-effective-baseline',
+    ],
+  }] : [];
+  input.evidenceBundle.coverage.visibleNodeCount = 3;
+  input.evidenceBundle.coverage.componentNodeCount = 2;
+  input.evidenceBundle.coverage.textNodeCount = 1;
+  input.evidenceBundle.coverage.baselineChangeCount = changed ? 1 : 0;
+  return input;
+}
+
+test('StatusPreset nested Status fill follows baseline with exact focus and Custom exception', () => {
+  const ruleId = 'component:web-corp.status-property.fill-follows-effective-baseline.fill';
+  const passed = evaluatePredicatePilotRequest(statusNestedFillRequest({
+    actualFill: 'static_text_inverted/primary',
+  }), { designSystemRoot });
+  assert.equal(
+    passed.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'compliant',
+  );
+
+  const failed = evaluatePredicatePilotRequest(statusNestedFillRequest(), { designSystemRoot });
+  const violation = failed.result.evaluations.find((item) => (
+    item.ruleId === ruleId && item.classification === 'violation'
+  ));
+  assert.ok(violation);
+  assert.equal(violation.focusNodeId, '22:2');
+  assert.equal(violation.subjectNodeName, 'Label');
+  assert.equal(violation.focusNodeName, 'Label');
+  const baselineTrace = violation.trace;
+  assert.equal(baselineTrace.predicate, 'matches-effective-baseline');
+  assert.equal(baselineTrace.actual, 'text/info');
+  assert.equal(baselineTrace.expected, 'static_text_inverted/primary');
+
+  const customProperty = evaluatePredicatePilotRequest(statusNestedFillRequest({
+    presetKey: PROPERTY_PRESET_KEY,
+    presetName: '[D] PropertyPreset',
+    presetFamilyColor: 'Custom',
+    statusKey: CORE_STATUS_RECTANGULAR_KEY,
+    shape: 'Rectangular',
+  }), { designSystemRoot });
+  assert.equal(
+    customProperty.result.evaluations.some((item) => (
+      item.ruleId === ruleId && item.classification === 'violation'
+    )),
+    false,
+  );
+});
+
 function benefitsRequest(capacity, cardCount, platform = 'desktop', cardPropertyOverrides = {}) {
   const cardIds = Array.from({ length: cardCount }, (_, index) => `10:${index + 1}`);
   return {
@@ -762,8 +938,8 @@ test('P10 evaluates Benefits Capacity against visible BenefitCard count', () => 
   ));
   assert.equal(passEvaluation.classification, 'compliant');
   assert.equal(passEvaluation.focusNodeId, '10:0');
-  assert.equal(passEvaluation.trace.children[0].actual, 3);
-  assert.equal(passEvaluation.trace.children[2].actual, 3);
+  assert.equal(passEvaluation.trace.children[0].children[0].actual, 3);
+  assert.equal(passEvaluation.trace.children[0].children[1].actual, 3);
 
   const fail = evaluatePredicatePilotRequest(benefitsRequest(4, 3), { designSystemRoot });
   const violation = fail.result.evaluations.find((item) => (
@@ -771,8 +947,8 @@ test('P10 evaluates Benefits Capacity against visible BenefitCard count', () => 
   ));
   assert.equal(violation.classification, 'violation');
   assert.equal(violation.focusNodeId, '10:0');
-  assert.equal(violation.trace.children[2].actual, 3);
-  assert.equal(violation.trace.children[2].expected, 4);
+  assert.equal(violation.trace.children[1].children[1].actual, 3);
+  assert.equal(violation.trace.children[1].children[1].expected, 4);
 
   const unknownInput = benefitsRequest(4, 3);
   unknownInput.collectionErrors = [
@@ -871,6 +1047,504 @@ test('P25 compiles Benefits root sizing from requested rules.json', () => {
   });
 });
 
+test('C02 reuses the generic sizing contour for ButtonsGroup HUG/HUG', () => {
+  const ruleId = 'component:web-corp.buttons-group.root-sizing-is-hug-hug';
+  const evaluate = (horizontal, vertical) => {
+    const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+    input.evidenceBundle.graph.nodes[0].layout.sizingHorizontal = horizontal;
+    input.evidenceBundle.graph.nodes[0].layout.sizingVertical = vertical;
+    return evaluatePredicatePilotRequest(input, { designSystemRoot });
+  };
+
+  const pass = evaluate('HUG', 'HUG');
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.focusNodeId, '1:0');
+
+  const fail = evaluate('FILL', 'HUG');
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(failEvaluation.classification, 'violation');
+  assert.equal(failEvaluation.focusNodeId, '1:0');
+  assert.equal(failEvaluation.trace.children[0].actual, 'FILL');
+  assert.equal(failEvaluation.trace.children[0].expected, 'HUG');
+  assert.equal(fail.result.coverage.unclassified, 0);
+  assert.equal(fail.repeatability.stable, true);
+});
+
+test('C02 reuses the generic sizing contour for BackgroundPlateSlot FILL/HUG', () => {
+  const ruleId = 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height';
+  const evaluate = (horizontal, vertical) => {
+    const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+    input.evidenceBundle.context.selectionNodeIds = ['3:sizing'];
+    input.evidenceBundle.graph.nodes = [evidenceNode({
+      nodeId: '3:sizing',
+      path: '[D] BackgroundPlateSlot',
+      name: '[D] BackgroundPlateSlot',
+      component: component(BACKGROUND_PLATE_SLOT_KEY, '[D] BackgroundPlateSlot', {
+        Type: 'Primary',
+      }),
+      layout: {
+        mode: 'VERTICAL',
+        positioning: 'AUTO',
+        wrap: 'NO_WRAP',
+        sizingHorizontal: horizontal,
+        sizingVertical: vertical,
+        primaryAxisAlignItems: 'MIN',
+        counterAxisAlignItems: 'MIN',
+        padding: { top: 32, right: 32, bottom: 32, left: 32 },
+        itemSpacing: 16,
+        clipsContent: false,
+      },
+      variableBindings: ['top', 'right', 'bottom', 'left'].map((side) => ({
+        property: `padding${side[0].toUpperCase()}${side.slice(1)}`,
+        variableIds: [`VariableID:spacing-${side}`],
+        variables: [{
+          id: `VariableID:spacing-${side}`,
+          key: `spacing-${side}-key`,
+          name: '32',
+          collectionId: 'collection:spacing',
+          collectionName: 'Spacing',
+        }],
+      })),
+    })];
+    input.evidenceBundle.graph.relations = [];
+    input.evidenceBundle.changes = [];
+    return evaluatePredicatePilotRequest(input, { designSystemRoot });
+  };
+
+  const pass = evaluate('FILL', 'HUG');
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.focusNodeId, '3:sizing');
+
+  const fail = evaluate('HUG', 'HUG');
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(failEvaluation.classification, 'violation');
+  assert.equal(failEvaluation.focusNodeId, '3:sizing');
+  assert.equal(failEvaluation.trace.children[0].actual, 'HUG');
+  assert.equal(failEvaluation.trace.children[0].expected, 'FILL');
+  assert.equal(fail.result.coverage.unclassified, 0);
+  assert.equal(fail.repeatability.stable, true);
+});
+
+function titleViewOpacityRequest({
+  actual = 1,
+  baseline = null,
+  overridden = false,
+  platform = 'desktop',
+} = {}) {
+  const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const root = evidenceNode({
+    nodeId: '26:0',
+    path: '[D] TitleView',
+    name: '[D] TitleView',
+    component: component(TITLE_VIEW_KEY, '[D] TitleView', { View: 'xLarge' }),
+    appearance: {
+      opacity: actual,
+      radius: 0,
+    },
+  });
+  if (overridden) {
+    root.component.directOverrides = [{
+      nodeId: '26:0',
+      fields: ['opacity'],
+    }];
+  }
+  output.evidenceBundle.reportId = 'title-view-opacity:evidence';
+  output.evidenceBundle.sourceReportId = 'title-view-opacity';
+  output.evidenceBundle.context.platform = platform;
+  output.evidenceBundle.context.selectionNodeIds = ['26:0'];
+  output.evidenceBundle.graph.nodes = [root];
+  output.evidenceBundle.changes = baseline === null ? [] : [{
+    id: 'change-title-view-opacity',
+    nodeId: '26:0',
+    nodeName: '[D] TitleView',
+    nodePath: '[D] TitleView',
+    property: 'appearance.opacity',
+    kind: 'opacity',
+    ownerComponentKey: TITLE_VIEW_KEY,
+    baselineReferenceId: 'baseline-title-view-opacity',
+    baseline: {
+      value: baseline,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    actual: {
+      value: actual,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    bindingStatus: null,
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'host',
+      nestedOwnerRelativePath: '',
+    },
+    candidateRuleIds: [
+      'component:web-corp.title-view.root-style-and-clickability-prohibited',
+    ],
+  }];
+  output.evidenceBundle.coverage.visibleNodeCount = 1;
+  output.evidenceBundle.coverage.componentNodeCount = 1;
+  output.evidenceBundle.coverage.baselineChangeCount = output.evidenceBundle.changes.length;
+  return output;
+}
+
+test('P26 compiles TitleView root opacity baseline from requested rules.json', () => {
+  const ruleId = 'component:web-corp.title-view.root-style-and-clickability-prohibited.opacity';
+  const evaluate = (input) => {
+    const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+    return {
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  const pass = evaluate(titleViewOpacityRequest());
+  assert.equal(pass.evaluation.classification, 'compliant');
+  assert.equal(pass.evaluation.focusNodeId, '26:0');
+
+  const fail = evaluate(titleViewOpacityRequest({
+    actual: 0.5,
+    baseline: 1,
+    overridden: true,
+  }));
+  assert.equal(fail.evaluation.classification, 'violation');
+  assert.equal(fail.evaluation.focusNodeId, '26:0');
+  assert.equal(fail.evaluation.trace.actual, 0.5);
+  assert.equal(fail.evaluation.trace.expected, 1);
+
+  const unknown = evaluate(titleViewOpacityRequest({
+    actual: 0.5,
+    overridden: true,
+  }));
+  assert.equal(unknown.evaluation.classification, 'not-evaluable');
+
+  const notApplicable = evaluate(titleViewOpacityRequest({ platform: 'ios' }));
+  assert.equal(notApplicable.evaluation.classification, 'not-applicable');
+  assert.deepEqual(fail.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Изменено оформление корня TitleView: Прозрачность',
+    observed: 'Свойство «Прозрачность» изменено с {{expected}} на {{actual}}.',
+    expectation: 'Свойство «Прозрачность» корня TitleView должно совпадать с effective baseline выбранного варианта.',
+    action: 'Сбросить свойство «Прозрачность» корня TitleView к effective baseline.',
+    targetFact: 'appearance.opacity',
+  });
+});
+
+function backgroundPlateRadiusRequest({
+  actual = 16,
+  baseline = null,
+  overridden = false,
+  platform = 'desktop',
+} = {}) {
+  const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const root = evidenceNode({
+    nodeId: 'c03:0',
+    path: '[D] BackgroundPlateSlot',
+    name: '[D] BackgroundPlateSlot',
+    component: component(BACKGROUND_PLATE_SLOT_KEY, '[D] BackgroundPlateSlot', {
+      Type: 'Primary',
+    }),
+    appearance: {
+      opacity: 1,
+      radius: actual,
+    },
+  });
+  if (overridden) {
+    root.component.directOverrides = [{
+      nodeId: 'c03:0',
+      fields: ['cornerRadius'],
+    }];
+  }
+  output.evidenceBundle.reportId = 'background-plate-radius:evidence';
+  output.evidenceBundle.sourceReportId = 'background-plate-radius';
+  output.evidenceBundle.context.platform = platform;
+  output.evidenceBundle.context.selectionNodeIds = ['c03:0'];
+  output.evidenceBundle.graph.nodes = [root];
+  output.evidenceBundle.graph.relations = [];
+  output.evidenceBundle.changes = baseline === null ? [] : [{
+    id: 'change-background-plate-radius',
+    nodeId: 'c03:0',
+    nodeName: '[D] BackgroundPlateSlot',
+    nodePath: '[D] BackgroundPlateSlot',
+    property: 'appearance.radius',
+    kind: 'radius',
+    ownerComponentKey: BACKGROUND_PLATE_SLOT_KEY,
+    baselineReferenceId: 'baseline-background-plate-radius',
+    baseline: {
+      value: baseline,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    actual: {
+      value: actual,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    bindingStatus: null,
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'host',
+      nestedOwnerRelativePath: '',
+    },
+    candidateRuleIds: [
+      'component:web-corp.background-plate.radius-is-fixed-by-component-baseline',
+    ],
+  }];
+  output.evidenceBundle.coverage.visibleNodeCount = 1;
+  output.evidenceBundle.coverage.componentNodeCount = 1;
+  output.evidenceBundle.coverage.baselineChangeCount = output.evidenceBundle.changes.length;
+  return output;
+}
+
+test('C03 reuses the generic baseline contour for BackgroundPlate radius', () => {
+  const ruleId = 'component:web-corp.background-plate.radius-is-fixed-by-component-baseline';
+  const evaluate = (input) => {
+    const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+    return {
+      output,
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  const pass = evaluate(backgroundPlateRadiusRequest());
+  assert.equal(pass.evaluation.classification, 'compliant');
+  assert.equal(pass.evaluation.focusNodeId, 'c03:0');
+
+  const fail = evaluate(backgroundPlateRadiusRequest({
+    actual: 24,
+    baseline: 16,
+    overridden: true,
+  }));
+  assert.equal(fail.evaluation.classification, 'violation');
+  assert.equal(fail.evaluation.focusNodeId, 'c03:0');
+  assert.equal(fail.evaluation.trace.children[0].actual, 24);
+  assert.equal(fail.evaluation.trace.children[0].expected, 16);
+  assert.equal(fail.output.result.coverage.unclassified, 0);
+  assert.equal(fail.output.repeatability.stable, true);
+
+  const unknown = evaluate(backgroundPlateRadiusRequest({
+    actual: 24,
+    overridden: true,
+  }));
+  assert.equal(unknown.evaluation.classification, 'not-evaluable');
+
+  const notApplicable = evaluate(backgroundPlateRadiusRequest({ platform: 'ios' }));
+  assert.equal(notApplicable.evaluation.classification, 'not-applicable');
+  assert.deepEqual(fail.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Изменено скругление BackgroundPlate',
+    observed: 'Скругление изменено с {{expected}} на {{actual}}.',
+    expectation: 'Скругление BackgroundPlate должно совпадать с effective baseline выбранного варианта.',
+    action: 'Сбросить скругление BackgroundPlate к effective baseline.',
+    targetFact: 'appearance.radius',
+  });
+});
+
+function corporateSectionGutterRequest({
+  bound = true,
+  completeBindingMetadata = true,
+  platform = 'desktop',
+} = {}) {
+  const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  output.evidenceBundle.reportId = 'corporate-section-gutter:evidence';
+  output.evidenceBundle.sourceReportId = 'corporate-section-gutter';
+  output.evidenceBundle.context.platform = platform;
+  output.evidenceBundle.context.selectionNodeIds = ['c04:0'];
+  output.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: 'c04:0',
+    path: '[D] Section',
+    name: '[D] Section',
+    component: component(CORPORATE_SECTION_KEY, '[D] Section', {
+      Position: 'false',
+      '👽 TabletIsle': 'false',
+    }),
+    layout: {
+      mode: 'HORIZONTAL',
+      positioning: 'AUTO',
+      wrap: 'NO_WRAP',
+      sizingHorizontal: 'FILL',
+      sizingVertical: 'HUG',
+      primaryAxisAlignItems: 'MIN',
+      counterAxisAlignItems: 'MIN',
+      padding: { top: 0, right: 0, bottom: 0, left: 0 },
+      itemSpacing: 24,
+      clipsContent: false,
+    },
+    variableBindings: bound ? [{
+      property: 'itemSpacing',
+      variableIds: ['VariableID:gutter'],
+      variables: completeBindingMetadata ? [{
+        id: 'VariableID:gutter',
+        key: 'gutter-key',
+        name: 'Grid/Gutter',
+        collectionId: 'collection:grid-cols',
+        collectionName: 'Grid & Cols',
+      }] : [],
+    }] : [],
+  })];
+  output.evidenceBundle.graph.relations = [];
+  output.evidenceBundle.changes = [];
+  output.evidenceBundle.coverage.visibleNodeCount = 1;
+  output.evidenceBundle.coverage.componentNodeCount = 1;
+  output.evidenceBundle.coverage.baselineChangeCount = 0;
+  return output;
+}
+
+test('C04 reuses the generic binding-set contour for CorporateContent Section Gutter', () => {
+  const ruleId = 'component:web-corp.corporate-content.section-gutter-required.gutter';
+  const evaluate = (input) => {
+    const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+    return {
+      output,
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  const pass = evaluate(corporateSectionGutterRequest());
+  assert.equal(pass.evaluation.classification, 'compliant');
+  assert.equal(pass.evaluation.focusNodeId, 'c04:0');
+
+  const fail = evaluate(corporateSectionGutterRequest({ bound: false }));
+  assert.equal(fail.evaluation.classification, 'violation');
+  assert.equal(fail.evaluation.focusNodeId, 'c04:0');
+  assert.equal(fail.evaluation.trace.children[1].actual.bound, false);
+  assert.deepEqual(fail.evaluation.trace.children[1].expected, {
+    bound: true,
+    token: 'Grid/Gutter',
+  });
+  assert.equal(fail.output.result.coverage.unclassified, 0);
+  assert.equal(fail.output.result.coverage.duplicateEvaluationIds, 0);
+  assert.equal(fail.output.repeatability.stable, true);
+
+  const unknown = evaluate(corporateSectionGutterRequest({
+    completeBindingMetadata: false,
+  }));
+  assert.equal(unknown.evaluation.classification, 'not-evaluable');
+
+  const notApplicable = evaluate(corporateSectionGutterRequest({ platform: 'ios' }));
+  assert.equal(notApplicable.evaluation.classification, 'not-applicable');
+  assert.deepEqual(fail.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'Gutter между Content и Isle задан без переменной Gutter',
+    observed: 'Gutter между Content и Isle имеет значение {{actual}} px без привязки к переменной Gutter.',
+    expectation: 'Отступ между Content и Isle в [D] Section должен быть привязан к переменной Gutter.',
+    action: 'Привязать текущее значение itemSpacing к переменной Gutter.',
+    targetFact: 'layout.itemSpacing',
+  });
+});
+
+function titleViewPageCountRequest(count, {
+  unknownViewIndex = -1,
+  withNestedUnresolvedComponent = false,
+} = {}) {
+  const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const titleIds = Array.from({ length: count }, (_value, index) => `27:${index + 1}`);
+  const unresolvedId = '27:unresolved';
+  output.evidenceBundle.reportId = 'title-view-page-count:evidence';
+  output.evidenceBundle.sourceReportId = 'title-view-page-count';
+  output.evidenceBundle.context.selectionNodeIds = ['27:0'];
+  output.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '27:0',
+      childNodeIds: titleIds,
+      path: 'P27 / Page region',
+      name: 'P27 / Page region',
+      type: 'FRAME',
+    }),
+    ...titleIds.map((nodeId, index) => {
+      const properties = index === unknownViewIndex ? {} : { View: 'xLarge' };
+      const title = evidenceNode({
+        nodeId,
+        parentNodeId: '27:0',
+        childNodeIds: withNestedUnresolvedComponent && index === 0 ? [unresolvedId] : [],
+        childOrder: index,
+        depth: 1,
+        path: `P27 / Page region / TitleView ${index + 1}`,
+        name: '[D] TitleView',
+        component: component(TITLE_VIEW_KEY, '[D] TitleView', properties),
+      });
+      return title;
+    }),
+    ...(withNestedUnresolvedComponent ? [evidenceNode({
+      nodeId: unresolvedId,
+      parentNodeId: titleIds[0],
+      childOrder: 0,
+      depth: 2,
+      path: 'P27 / Page region / TitleView 1 / unresolved nested instance',
+      name: 'Unresolved nested instance',
+      component: component('unindexed-nested-key', 'Unresolved nested instance', {}),
+    })] : []),
+  ];
+  output.collectionErrors = unknownViewIndex < 0 ? [] : [{
+    nodeId: titleIds[unknownViewIndex],
+    factPath: 'component.properties.View',
+    reason: 'Published component property could not be collected',
+  }];
+  output.evidenceBundle.coverage.visibleNodeCount = count + 1 + (withNestedUnresolvedComponent ? 1 : 0);
+  output.evidenceBundle.coverage.componentNodeCount = count + (withNestedUnresolvedComponent ? 1 : 0);
+  return output;
+}
+
+test('P27 compiles page-wide TitleView xLarge aggregation from Markdown authority', () => {
+  const ruleId = 'rule:components.title-view.single-xlarge';
+  const evaluate = (input) => {
+    const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+    return {
+      evaluation: output.result.evaluations.find((item) => item.ruleId === ruleId),
+      manifest: output.rules.find((item) => item.ruleId === ruleId),
+    };
+  };
+
+  const pass = evaluate(titleViewPageCountRequest(1));
+  assert.equal(pass.evaluation.classification, 'compliant');
+  assert.equal(pass.evaluation.focusNodeId, '27:0');
+  assert.equal(pass.evaluation.trace.actual, 1);
+
+  const passWithNestedUnresolvedComponent = evaluate(titleViewPageCountRequest(1, {
+    withNestedUnresolvedComponent: true,
+  }));
+  assert.equal(passWithNestedUnresolvedComponent.evaluation.classification, 'compliant');
+  assert.equal(passWithNestedUnresolvedComponent.evaluation.trace.actual, 1);
+
+  const fail = evaluate(titleViewPageCountRequest(2));
+  assert.equal(fail.evaluation.classification, 'violation');
+  assert.equal(fail.evaluation.focusNodeId, '27:0');
+  assert.equal(fail.evaluation.trace.actual, 2);
+  assert.deepEqual(fail.evaluation.trace.expected, {
+    lower: 0,
+    upper: 1,
+    bounds: 'inclusive',
+  });
+
+  const unknown = evaluate(titleViewPageCountRequest(1, { unknownViewIndex: 0 }));
+  assert.equal(unknown.evaluation.classification, 'not-evaluable');
+
+  const notApplicable = evaluate(titleViewPageCountRequest(0));
+  assert.equal(notApplicable.evaluation.classification, 'not-applicable');
+  assert.equal(fail.manifest.source.path, 'design-system_ab/patterns/p_title-view.md');
+  assert.deepEqual(fail.manifest.presentation, {
+    schemaVersion: 'apollo.predicate-presentation.v1',
+    title: 'На странице несколько главных заголовков',
+    observed: 'В выбранной области найдено {{actual}} TitleView с View=xLarge.',
+    expectation: 'На одной странице допускается только один TitleView с View=xLarge.',
+    action: 'Оставить один TitleView xLarge; остальные перевести на следующий уровень иерархии.',
+  });
+});
+
 test('P13 evaluates uniform nested BenefitCard settings as one owner finding', () => {
   const pass = evaluatePredicatePilotRequest(
     benefitsRequest(3, 3),
@@ -893,12 +1567,12 @@ test('P13 evaluates uniform nested BenefitCard settings as one owner finding', (
   ));
   assert.equal(violation.classification, 'violation');
   assert.equal(violation.focusNodeId, '10:0');
-  assert.deepEqual(violation.trace.children[0].actual, [
+  assert.deepEqual(violation.trace.children[1].actual, [
     'Primary',
     'Secondary',
     'Primary',
   ]);
-  assert.deepEqual(violation.trace.children[3].actual, ['Top', 'Left', 'Top']);
+  assert.deepEqual(violation.trace.children[4].actual, ['Top', 'Left', 'Top']);
 
   const unknownInput = benefitsRequest(3, 3);
   delete unknownInput.evidenceBundle.graph.nodes[2].component.variantProperties.CardAxis;
@@ -976,7 +1650,8 @@ test('P11 evaluates required Header row in non-compact Horizontal TableView', ()
   assert.equal(violation.classification, 'violation');
   assert.equal(violation.focusNodeId, '11:0');
   assert.equal(violation.trace.actual, 0);
-  assert.equal(violation.trace.expected, 1);
+  assert.deepEqual(violation.trace.expected, [1]);
+  assert.equal(violation.ruleRevision, 2);
 
   const unknownInput = tableViewRequest(1);
   unknownInput.collectionErrors = [{
@@ -1486,12 +2161,12 @@ function formEightFourLayoutRequest(gap = 24) {
   return output;
 }
 
-test('P19 focuses the shared horizontal form owner when its 8+4 grid is wrong', () => {
+test('P28 focuses the shared horizontal form owner when its derived 8+4 geometry is wrong', () => {
   const pass = evaluatePredicatePilotRequest(formEightFourLayoutRequest(24), {
     designSystemRoot,
   });
   const passEvaluation = pass.result.evaluations.find((item) => (
-    item.ruleId === 'rule:forms.construction-rules.layout-8-4.geometry'
+    item.ruleId === 'rule:forms.construction-rules.layout-8-4'
   ));
   assert.equal(passEvaluation.classification, 'compliant');
   assert.equal(passEvaluation.focusNodeId, '19:1');
@@ -1500,15 +2175,21 @@ test('P19 focuses the shared horizontal form owner when its 8+4 grid is wrong', 
     designSystemRoot,
   });
   const violation = fail.result.evaluations.find((item) => (
-    item.ruleId === 'rule:forms.construction-rules.layout-8-4.geometry'
+    item.ruleId === 'rule:forms.construction-rules.layout-8-4'
   ));
   assert.equal(violation.classification, 'violation');
   assert.equal(violation.focusNodeId, '19:1');
   const gapTrace = violation.trace.children.find((child) => (
-    child.factPaths.includes('composition.formEightFourLayout.gutter')
+    child.predicate === 'approximately-equals' &&
+    child.factPaths.length === 1 &&
+    child.factPaths[0] === 'composition.formEightFourLayout.gutter'
   ));
   assert.equal(gapTrace.actual, 12);
-  assert.equal(gapTrace.expected, 24);
+  assert.deepEqual(gapTrace.expected, {
+    value: 24,
+    tolerance: 1,
+    difference: 12,
+  });
   assert.equal(fail.repeatability.runCount, 10);
   assert.equal(fail.repeatability.stable, true);
   assert.match(fail.repeatability.resultHash, /^[a-f0-9]{64}$/);
@@ -1569,6 +2250,46 @@ test('P09 evaluates ButtonsGroup visible button count with tri-state outcomes', 
     )).classification,
     'not-applicable',
   );
+});
+
+test('ButtonsGroup applies the mobile-web limit independently from desktop', () => {
+  const passInput = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  passInput.evidenceBundle.context.platform = 'mobile-web';
+  const pass = evaluatePredicatePilotRequest(passInput, { designSystemRoot });
+  const passEvaluation = pass.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.button-count.mobile'
+  ));
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.deepEqual(passEvaluation.trace.expected, {
+    lower: 2,
+    upper: 2,
+    bounds: 'inclusive',
+  });
+
+  const failInput = structuredClone(passInput);
+  failInput.evidenceBundle.graph.nodes[0].childNodeIds.push('1:3');
+  failInput.evidenceBundle.graph.nodes.push(evidenceNode({
+    nodeId: '1:3',
+    parentNodeId: '1:0',
+    childOrder: 2,
+    path: 'ButtonsGroup/Button 3',
+    name: '[M] Button',
+    component: component(BUTTON_KEY, '[M] Button', {
+      View: 'Secondary',
+      Size: '56',
+      SingleIcon: 'False',
+    }),
+    componentOwner: failInput.evidenceBundle.graph.nodes[1].componentOwner,
+  }));
+  failInput.evidenceBundle.coverage.visibleNodeCount = 4;
+  failInput.evidenceBundle.coverage.componentNodeCount = 4;
+  const fail = evaluatePredicatePilotRequest(failInput, { designSystemRoot });
+  const violation = fail.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.button-count.mobile'
+  ));
+  assert.equal(violation.classification, 'violation');
+  assert.equal(violation.focusNodeId, '1:0');
+  assert.equal(violation.trace.actual, 3);
 });
 
 function titleViewSlotRequest(slotNames, platform = 'desktop') {
@@ -1638,6 +2359,579 @@ function titleViewSlotRequest(slotNames, platform = 'desktop') {
     },
   };
 }
+
+function titleViewStatusDependencyRequest({
+  titleStatus = true,
+  status,
+  view = 'xLarge',
+  platform = 'desktop',
+} = {}) {
+  const input = titleViewSlotRequest([], platform);
+  const properties = {
+    View: view,
+    Skeleton: 'False',
+    TitleStatus: titleStatus,
+  };
+  if (status !== undefined) properties.Status = status;
+  input.evidenceBundle.graph.nodes[0].component = component(
+    TITLE_VIEW_KEY,
+    '[D] TitleView',
+    properties,
+  );
+  return input;
+}
+
+test('source-driven TitleStatus dependency requires Status=true on the same TitleView', () => {
+  const ruleId = 'component:web-corp.title-view.title-status-requires-status';
+
+  const fail = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ status: false }),
+    { designSystemRoot },
+  );
+  const violation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(violation.classification, 'violation');
+  assert.equal(violation.subjectNodeId, '8:0');
+  assert.equal(violation.focusNodeId, '8:0');
+  assert.equal(violation.trace.actual, false);
+  assert.deepEqual(violation.trace.expected, [true]);
+
+  const pass = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ status: true }),
+    { designSystemRoot },
+  );
+  assert.equal(
+    pass.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'compliant',
+  );
+
+  const unavailable = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ status: false, view: 'Medium' }),
+    { designSystemRoot },
+  );
+  assert.equal(
+    unavailable.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'not-applicable',
+  );
+
+  const unknown = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ status: undefined }),
+    { designSystemRoot },
+  );
+  assert.equal(
+    unknown.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'violation',
+  );
+
+  const disabled = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ titleStatus: false, status: false }),
+    { designSystemRoot },
+  );
+  assert.equal(
+    disabled.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'not-applicable',
+  );
+
+  const outOfScope = evaluatePredicatePilotRequest(
+    titleViewStatusDependencyRequest({ status: false, platform: 'ios' }),
+    { designSystemRoot },
+  );
+  assert.equal(
+    outOfScope.result.evaluations.find((item) => item.ruleId === ruleId).classification,
+    'not-applicable',
+  );
+});
+
+function titleViewCompositionRequest({
+  statusSize = '24',
+  buttons = [
+    { View: 'Primary', Size: '56', SingleIcon: 'False' },
+    { View: 'Secondary', Size: '56', SingleIcon: 'True' },
+  ],
+  platform = 'desktop',
+} = {}) {
+  const input = titleViewSlotRequest([], platform);
+  const owner = {
+    nodeId: '30:0',
+    componentKey: TITLE_VIEW_KEY,
+    name: '[D] TitleView',
+    path: '[D] TitleView',
+    relativePath: '',
+    variantProperties: { View: 'xLarge' },
+    componentProperties: { View: 'xLarge' },
+  };
+  const buttonIds = buttons.map((_, index) => `30:${index + 2}`);
+  input.evidenceBundle.reportId = 'title-view-composition:evidence';
+  input.evidenceBundle.sourceReportId = 'title-view-composition';
+  input.evidenceBundle.context.selectionNodeIds = ['30:0'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '30:0',
+      childNodeIds: ['30:1'].concat(buttonIds),
+      path: '[D] TitleView',
+      name: '[D] TitleView',
+      component: component(TITLE_VIEW_KEY, '[D] TitleView', { View: 'xLarge' }),
+    }),
+    evidenceNode({
+      nodeId: '30:1',
+      parentNodeId: '30:0',
+      childOrder: 0,
+      depth: 1,
+      path: '[D] TitleView / StatusPreset',
+      name: 'StatusPreset',
+    component: component(
+      STATUS_PRESET_KEY,
+      'StatusPreset',
+      statusSize === null ? {} : { Size: statusSize },
+    ),
+      componentOwner: owner,
+    }),
+    ...buttons.map((properties, index) => evidenceNode({
+      nodeId: buttonIds[index],
+      parentNodeId: '30:0',
+      childOrder: index + 1,
+      depth: 1,
+      path: `[D] TitleView / [D] Button ${index + 1}`,
+      name: '[D] Button',
+      component: component(BUTTON_KEY, '[D] Button', properties),
+      componentOwner: owner,
+    })),
+  ];
+  input.evidenceBundle.coverage.visibleNodeCount = input.evidenceBundle.graph.nodes.length;
+  input.evidenceBundle.coverage.componentNodeCount = input.evidenceBundle.graph.nodes.length;
+  return input;
+}
+
+test('TitleView production composition rules preserve PASS, FAIL, UNKNOWN and exact focus', () => {
+  const evaluate = (input, ruleId) => evaluatePredicatePilotRequest(
+    input,
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  const statusRuleId = 'component:web-corp.title-view.status-size-24';
+  assert.equal(
+    evaluate(titleViewCompositionRequest(), statusRuleId).classification,
+    'compliant',
+  );
+  const invalidStatus = evaluate(
+    titleViewCompositionRequest({ statusSize: '20' }),
+    statusRuleId,
+  );
+  assert.equal(invalidStatus.classification, 'violation');
+  assert.equal(invalidStatus.focusNodeId, '30:1');
+  assert.equal(
+    evaluate(titleViewCompositionRequest({ statusSize: null }), statusRuleId).classification,
+    'not-evaluable',
+  );
+
+  const invalidButtons = titleViewCompositionRequest({
+    buttons: [
+      { View: 'Secondary', Size: '40', SingleIcon: 'True' },
+      { View: 'Primary', Size: '56', SingleIcon: 'False' },
+    ],
+  });
+  const cases = [
+    ['component:web-corp.title-view.button-size-desktop', '30:2'],
+    ['component:web-corp.title-view.button-group-single-primary-action', '30:3'],
+    ['component:web-corp.title-view.button-group-single-icon-position', '30:2'],
+  ];
+  for (const [ruleId, focusNodeId] of cases) {
+    const evaluation = evaluate(invalidButtons, ruleId);
+    assert.equal(evaluation.classification, 'violation');
+    assert.equal(evaluation.focusNodeId, focusNodeId);
+  }
+});
+
+function titleViewTextRequest({ titleLength = 1, subtitleLength = 120 } = {}) {
+  const input = titleViewSlotRequest([]);
+  const owner = {
+    nodeId: '31:0',
+    componentKey: TITLE_VIEW_KEY,
+    name: '[D] TitleView',
+    path: '[D] TitleView',
+    relativePath: '',
+    variantProperties: { View: 'xLarge' },
+    componentProperties: { View: 'xLarge' },
+  };
+  const textNode = (nodeId, name, length, childOrder) => evidenceNode({
+    nodeId,
+    parentNodeId: '31:0',
+    childOrder,
+    depth: 1,
+    path: `[D] TitleView / ${name}`,
+    type: 'TEXT',
+    name,
+    componentOwner: owner,
+    text: length === null ? null : {
+      characters: 'x'.repeat(length),
+      length,
+      textStyleId: `${name.toLowerCase()}-style`,
+    },
+  });
+  input.evidenceBundle.reportId = 'title-view-text:evidence';
+  input.evidenceBundle.sourceReportId = 'title-view-text';
+  input.evidenceBundle.context.selectionNodeIds = ['31:0'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '31:0',
+      childNodeIds: ['31:1', '31:2'],
+      path: '[D] TitleView',
+      name: '[D] TitleView',
+      component: component(TITLE_VIEW_KEY, '[D] TitleView', { View: 'xLarge' }),
+    }),
+    textNode('31:1', 'Title', titleLength, 0),
+    textNode('31:2', 'Subtitle', subtitleLength, 1),
+  ];
+  input.evidenceBundle.coverage.visibleNodeCount = 3;
+  input.evidenceBundle.coverage.componentNodeCount = 1;
+  input.evidenceBundle.coverage.textNodeCount = 2;
+  return input;
+}
+
+test('TitleView production text rules preserve boundaries, UNKNOWN and exact focus', () => {
+  const evaluate = (input, ruleId) => evaluatePredicatePilotRequest(
+    input,
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+  const titleRuleId = 'component:web-corp.title-view.title-required-non-empty';
+  const subtitleRuleId = 'component:web-corp.title-view.subtitle-max-120-characters';
+
+  assert.equal(evaluate(titleViewTextRequest(), titleRuleId).classification, 'compliant');
+  assert.equal(evaluate(titleViewTextRequest(), subtitleRuleId).classification, 'compliant');
+
+  const emptyTitle = evaluate(titleViewTextRequest({ titleLength: 0 }), titleRuleId);
+  assert.equal(emptyTitle.classification, 'violation');
+  assert.equal(emptyTitle.focusNodeId, '31:1');
+
+  const longSubtitle = evaluate(
+    titleViewTextRequest({ subtitleLength: 121 }),
+    subtitleRuleId,
+  );
+  assert.equal(longSubtitle.classification, 'violation');
+  assert.equal(longSubtitle.focusNodeId, '31:2');
+
+  assert.equal(
+    evaluate(titleViewTextRequest({ titleLength: null }), titleRuleId).classification,
+    'not-evaluable',
+  );
+});
+
+function cardImageXsStateRequest({
+  size = '24x16',
+  state = 'Active',
+} = {}) {
+  const input = titleViewSlotRequest([]);
+  const key = state === 'Active' ? CARD_IMAGE_XS_ACTIVE_KEY : CARD_IMAGE_XS_INACTIVE_KEY;
+  input.evidenceBundle.reportId = 'card-image-xs-state:evidence';
+  input.evidenceBundle.sourceReportId = 'card-image-xs-state';
+  input.evidenceBundle.context.selectionNodeIds = ['11:0'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '11:0',
+    path: 'CardImage',
+    name: 'CardImage',
+    component: component(key, 'CardImage', {
+      Cover: 'Alfa Business',
+      Size: size,
+      State: state,
+      Stack: 'false',
+    }),
+  })];
+  input.evidenceBundle.coverage.visibleNodeCount = 1;
+  input.evidenceBundle.coverage.componentNodeCount = 1;
+  return input;
+}
+
+test('C15 source-driven CardImage property dependency allows only Active at 24x16', () => {
+  const ruleId = 'component:web-corp.card-image.xs-active-only';
+  const pass = evaluatePredicatePilotRequest(
+    cardImageXsStateRequest({ state: 'Active' }),
+    { designSystemRoot },
+  );
+  const fail = evaluatePredicatePilotRequest(
+    cardImageXsStateRequest({ state: 'Inactive' }),
+    { designSystemRoot },
+  );
+  const notApplicable = evaluatePredicatePilotRequest(
+    cardImageXsStateRequest({ size: '44x28', state: 'Inactive' }),
+    { designSystemRoot },
+  );
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+  const notApplicableEvaluation = notApplicable.result.evaluations.find(
+    (item) => item.ruleId === ruleId,
+  );
+
+  assert.ok(passEvaluation, JSON.stringify(pass.result.evaluations, null, 2));
+  assert.ok(failEvaluation, JSON.stringify(fail.result.evaluations, null, 2));
+  assert.ok(notApplicableEvaluation, JSON.stringify(notApplicable.result.evaluations, null, 2));
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.subjectNodeId, '11:0');
+  assert.equal(passEvaluation.focusNodeId, '11:0');
+  assert.equal(failEvaluation.classification, 'violation');
+  assert.equal(failEvaluation.subjectNodeId, '11:0');
+  assert.equal(failEvaluation.focusNodeId, '11:0');
+  assert.equal(failEvaluation.trace.actual, 'Inactive');
+  assert.deepEqual(failEvaluation.trace.expected, ['Active']);
+  assert.equal(notApplicableEvaluation.classification, 'not-applicable');
+});
+
+function tabsSecondarySingleIconRequest(singleIcon) {
+  const tabsViewOwner = {
+    nodeId: '12:0',
+    componentKey: TABS_VIEW_KEY,
+    name: '[D] TabsView',
+    path: '[D] TabsView',
+    relativePath: '',
+    variantProperties: { TabsSecondary: true },
+    componentProperties: { TabsSecondary: true },
+  };
+  const tabsSecondaryOwner = {
+    nodeId: '12:1',
+    componentKey: TABS_SECONDARY_KEY,
+    name: '[D] TabsSecondary',
+    path: '[D] TabsView / [D] TabsSecondary',
+    relativePath: '[D] TabsSecondary',
+    variantProperties: { Size: '40', Slider: false },
+    componentProperties: { Size: '40', Slider: false },
+  };
+  const input = titleViewSlotRequest([]);
+  input.evidenceBundle.reportId = 'tabs-secondary-single-icon:evidence';
+  input.evidenceBundle.sourceReportId = 'tabs-secondary-single-icon';
+  input.evidenceBundle.context.selectionNodeIds = ['12:0'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '12:0',
+      childNodeIds: ['12:1'],
+      path: '[D] TabsView',
+      name: '[D] TabsView',
+      component: component(TABS_VIEW_KEY, '[D] TabsView', {
+        TabsSecondary: true,
+      }),
+    }),
+    evidenceNode({
+      nodeId: '12:1',
+      parentNodeId: '12:0',
+      childNodeIds: ['12:2'],
+      childOrder: 0,
+      depth: 1,
+      path: '[D] TabsView / [D] TabsSecondary',
+      name: '[D] TabsSecondary',
+      component: component(TABS_SECONDARY_KEY, '[D] TabsSecondary', {
+        Size: '40',
+        Slider: false,
+      }),
+      componentOwner: tabsViewOwner,
+    }),
+    evidenceNode({
+      nodeId: '12:2',
+      parentNodeId: '12:1',
+      childOrder: 0,
+      depth: 2,
+      path: '[D] TabsView / [D] TabsSecondary / [D] Tag',
+      name: '[D] Tag',
+      component: component(TAG_FILLED_KEY, '[D] Tag', {
+        View: 'Filled',
+        SingleIcon: singleIcon,
+      }),
+      componentOwner: tabsSecondaryOwner,
+    }),
+  ];
+  input.evidenceBundle.coverage.visibleNodeCount = 3;
+  input.evidenceBundle.coverage.componentNodeCount = 3;
+  return input;
+}
+
+test('source-driven TabsView rule checks SingleIcon on the exact Tag owned by TabsSecondary', () => {
+  const ruleId = 'component:web-corp.tabs-view.secondary-single-icon-forbidden';
+  const pass = evaluatePredicatePilotRequest(
+    tabsSecondarySingleIconRequest('False'),
+    { designSystemRoot },
+  );
+  const fail = evaluatePredicatePilotRequest(
+    tabsSecondarySingleIconRequest('True'),
+    { designSystemRoot },
+  );
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.subjectNodeId, '12:2');
+  assert.equal(passEvaluation.focusNodeId, '12:2');
+  assert.equal(failEvaluation.classification, 'violation');
+  assert.equal(failEvaluation.subjectNodeId, '12:2');
+  assert.equal(failEvaluation.focusNodeId, '12:2');
+  assert.equal(failEvaluation.trace.actual, 'True');
+  assert.deepEqual(failEvaluation.trace.expected, ['False']);
+});
+
+function tabsUniqueLabelsRequest(labels, singleIcons = labels.map(() => 'False')) {
+  const tabsViewOwner = {
+    nodeId: '13:0',
+    componentKey: TABS_VIEW_KEY,
+    name: '[D] TabsView',
+    path: '[D] TabsView',
+    relativePath: '',
+    variantProperties: { TabsSecondary: true },
+    componentProperties: { TabsSecondary: true },
+  };
+  const tabsSecondaryOwner = {
+    nodeId: '13:1',
+    componentKey: TABS_SECONDARY_KEY,
+    name: '[D] TabsSecondary',
+    path: '[D] TabsView / [D] TabsSecondary',
+    relativePath: '[D] TabsSecondary',
+    variantProperties: { Size: '40' },
+    componentProperties: { Size: '40' },
+  };
+  const input = titleViewSlotRequest([]);
+  input.evidenceBundle.reportId = 'tabs-unique-labels:evidence';
+  input.evidenceBundle.sourceReportId = 'tabs-unique-labels';
+  input.evidenceBundle.context.selectionNodeIds = ['13:0'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '13:0',
+      childNodeIds: ['13:1'],
+      path: '[D] TabsView',
+      name: '[D] TabsView',
+      component: component(TABS_VIEW_KEY, '[D] TabsView', {
+        TabsSecondary: true,
+      }),
+    }),
+    evidenceNode({
+      nodeId: '13:1',
+      parentNodeId: '13:0',
+      childNodeIds: labels.map((_, index) => `13:${index + 2}`),
+      childOrder: 0,
+      depth: 1,
+      path: '[D] TabsView / [D] TabsSecondary',
+      name: '[D] TabsSecondary',
+      component: component(TABS_SECONDARY_KEY, '[D] TabsSecondary', {
+        Size: '40',
+      }),
+      componentOwner: tabsViewOwner,
+    }),
+    ...labels.flatMap((characters, index) => {
+      const tagNodeId = `13:${index + 2}`;
+      const labelNodeId = `13:${index + 12}`;
+      return [
+        evidenceNode({
+          nodeId: tagNodeId,
+          parentNodeId: '13:1',
+          childNodeIds: [labelNodeId],
+          childOrder: index,
+          depth: 2,
+          path: `[D] TabsView / [D] TabsSecondary / [D] Tag ${index + 1}`,
+          name: '[D] Tag',
+          component: component(TAG_FILLED_KEY, '[D] Tag', {
+            View: 'Filled',
+            SingleIcon: singleIcons[index],
+          }),
+          componentOwner: tabsSecondaryOwner,
+        }),
+        evidenceNode({
+          nodeId: labelNodeId,
+          parentNodeId: tagNodeId,
+          childOrder: 0,
+          depth: 3,
+          path: `[D] TabsView / [D] TabsSecondary / [D] Tag ${index + 1} / Label`,
+          type: 'TEXT',
+          name: 'Label',
+          component: null,
+          text: {
+            characters,
+            length: Array.from(characters).length,
+            textStyleId: null,
+          },
+        }),
+      ];
+    }),
+  ];
+  input.evidenceBundle.coverage.visibleNodeCount = 2 + labels.length * 2;
+  input.evidenceBundle.coverage.componentNodeCount = 2 + labels.length;
+  input.evidenceBundle.coverage.textNodeCount = labels.length;
+  return input;
+}
+
+test('source-rule balancer reuses Benefits uniformity semantics for TabsSecondary', () => {
+  const ruleId = 'component:web-corp.tabs-view.secondary-single-icon-is-uniform';
+  const pass = evaluatePredicatePilotRequest(
+    tabsUniqueLabelsRequest(['Обзор', 'История'], ['False', 'False']),
+    { designSystemRoot },
+  );
+  const failInput = tabsUniqueLabelsRequest(
+    ['Обзор', 'История'],
+    ['False', 'True'],
+  );
+  const changedTag = failInput.evidenceBundle.graph.nodes.find((node) => node.nodeId === '13:3');
+  changedTag.childNodeIds.push('13:99');
+  failInput.evidenceBundle.graph.nodes.push(evidenceNode({
+    nodeId: '13:99',
+    parentNodeId: '13:3',
+    childOrder: 1,
+    depth: 3,
+    path: '[D] TabsView / [D] TabsSecondary / [D] Tag 2 / unresolved icon',
+    name: 'unresolved icon',
+    component: component('unresolved-icon-key', 'unresolved icon', {}),
+    componentOwner: {
+      nodeId: '13:3',
+      componentKey: TAG_FILLED_KEY,
+      name: '[D] Tag',
+      path: '[D] TabsView / [D] TabsSecondary / [D] Tag 2',
+      relativePath: '[D] Tag 2',
+      variantProperties: { SingleIcon: 'True' },
+      componentProperties: { SingleIcon: 'True' },
+    },
+  }));
+  failInput.evidenceBundle.coverage.visibleNodeCount += 1;
+  failInput.evidenceBundle.coverage.componentNodeCount += 1;
+  const fail = evaluatePredicatePilotRequest(
+    failInput,
+    { designSystemRoot },
+  );
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+  const trace = fail.sourceRuleBalance.traces.find((item) => item.ruleId === ruleId);
+
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.subjectNodeId, '13:1');
+  assert.equal(passEvaluation.focusNodeId, '13:1');
+  assert.equal(
+    failEvaluation.classification,
+    'violation',
+    JSON.stringify(failEvaluation.trace, null, 2),
+  );
+  assert.equal(failEvaluation.subjectNodeId, '13:1');
+  assert.equal(failEvaluation.focusNodeId, '13:1');
+  assert.equal(trace.decision, 'reuse');
+  assert.equal(trace.selectedContourId, 'uniform-collection-properties');
+  assert.equal(
+    trace.matchedPrecedentRuleIds.includes(
+      'component:web.benefits.nested-card-settings-are-uniform',
+    ),
+    true,
+  );
+});
+
+test('source-driven TabsView rule checks unique visible labels per tab level', () => {
+  const ruleId = 'component:web-corp.tabs-view.labels-are-unique-within-level';
+  const pass = evaluatePredicatePilotRequest(
+    tabsUniqueLabelsRequest(['Обзор', 'История']),
+    { designSystemRoot },
+  );
+  const fail = evaluatePredicatePilotRequest(
+    tabsUniqueLabelsRequest(['Обзор', 'Обзор']),
+    { designSystemRoot },
+  );
+  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
+  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(passEvaluation.classification, 'compliant');
+  assert.equal(passEvaluation.subjectNodeId, '13:1');
+  assert.equal(passEvaluation.focusNodeId, '13:1');
+  assert.equal(failEvaluation.classification, 'violation');
+  assert.equal(failEvaluation.subjectNodeId, '13:1');
+  assert.equal(failEvaluation.focusNodeId, '13:1');
+  assert.deepEqual(failEvaluation.trace.actual, ['Обзор', 'Обзор']);
+});
 
 test('P08 evaluates TitleView slot order with exact focus and tri-state outcomes', () => {
   const pass = evaluatePredicatePilotRequest(
@@ -1858,17 +3152,134 @@ test('isolated predicate endpoint evaluates P04 with exact TitleView focus', () 
   }];
 
   const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+  const compiledRule = output.rules.find((item) => (
+    item.ruleId === 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed'
+  ));
+  assert.equal(compiledRule.source.anchor, 'rules/component:web-corp.title-view.title-and-subtitle-typography-is-fixed');
   const violation = output.result.evaluations.find((item) => (
     item.ruleId === 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed' &&
     item.classification === 'violation'
   ));
 
   assert.equal(violation.focusNodeId, '2:1');
+  const requiredTrace = violation.trace.children.find((child) => child.predicate === 'exists');
+  assert.equal(requiredTrace.truth, 'true');
   const baselineTrace = violation.trace.children.find((child) => (
     child.predicate === 'matches-effective-baseline'
   ));
   assert.equal(baselineTrace.actual, 'Headline–System/30–36 Medium');
   assert.equal(baselineTrace.expected, 'Headline–System/40–48 Large');
+  assert.equal(output.result.coverage.unclassified, 0);
+});
+
+test('source-driven TitleView color baseline rejects a recolored Title with exact focus', () => {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  input.evidenceBundle.context.selectionNodeIds = ['2:color-root'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '2:color-root',
+      childNodeIds: ['2:color-title'],
+      path: '[D] TitleView',
+      name: '[D] TitleView',
+      component: component(TITLE_VIEW_KEY, '[D] TitleView', { View: 'xLarge' }),
+    }),
+    evidenceNode({
+      nodeId: '2:color-title',
+      parentNodeId: '2:color-root',
+      childOrder: 0,
+      depth: 1,
+      path: '[D] TitleView / Title',
+      type: 'TEXT',
+      name: 'Title',
+      text: {
+        characters: 'Заголовок',
+        length: 9,
+        textStyleId: 'title-style',
+      },
+      appearance: {
+        opacity: 1,
+        radius: 0,
+        fill: {
+          value: 'text/secondary',
+          resourceType: 'token',
+          resourceId: 'text-secondary-key',
+          resourceName: 'text/secondary',
+          bindingName: 'text/secondary',
+          bindingCollection: 'Interface Dynamic',
+          styleId: null,
+          visible: true,
+          paintCount: 1,
+          paintTypes: ['SOLID'],
+        },
+      },
+      componentOwner: {
+        nodeId: '2:color-root',
+        componentKey: TITLE_VIEW_KEY,
+        name: '[D] TitleView',
+        path: '[D] TitleView',
+        relativePath: 'Title',
+        variantProperties: { View: 'xLarge' },
+        componentProperties: { View: 'xLarge' },
+      },
+    }),
+  ];
+  input.evidenceBundle.graph.nodes[0].component.directOverrides = [{
+    nodeId: '2:color-title',
+    fields: ['fills'],
+  }];
+  input.evidenceBundle.changes = [{
+    id: 'change-title-color',
+    nodeId: '2:color-title',
+    nodeName: 'Title',
+    nodePath: '[D] TitleView / Title',
+    property: 'fill',
+    kind: 'paint',
+    ownerComponentKey: TITLE_VIEW_KEY,
+    baselineReferenceId: 'baseline-title-view-color',
+    baseline: {
+      value: 'text/primary',
+      resourceType: 'token',
+      resourceName: 'text/primary',
+      bindingName: 'text/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: 'text/secondary',
+      resourceType: 'token',
+      resourceName: 'text/secondary',
+      bindingName: 'text/secondary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'host',
+      nestedOwnerRelativePath: 'Title',
+    },
+    candidateRuleIds: [
+      'component:web-corp.title-view.title-and-subtitle-color-is-fixed',
+    ],
+  }];
+
+  const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+  const compiledRule = output.rules.find((item) => (
+    item.ruleId === 'component:web-corp.title-view.title-and-subtitle-color-is-fixed'
+  ));
+  assert.equal(
+    compiledRule.source.anchor,
+    'rules/component:web-corp.title-view.title-and-subtitle-color-is-fixed',
+  );
+  const violation = output.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.title-view.title-and-subtitle-color-is-fixed' &&
+    item.classification === 'violation'
+  ));
+  assert.equal(violation.focusNodeId, '2:color-title');
+  const baselineTrace = violation.trace.children.find((child) => (
+    child.predicate === 'matches-effective-baseline'
+  ));
+  assert.equal(baselineTrace.actual, 'text/secondary');
+  assert.equal(baselineTrace.expected, 'text/primary');
   assert.equal(output.result.coverage.unclassified, 0);
 });
 
@@ -1970,6 +3381,12 @@ test('isolated predicate endpoint evaluates P05 without sending raw padding to a
     'component:web-corp.background-plate.padding-uses-spacing-tokens.right',
   );
   assert.equal(violations[0].focusNodeId, '3:0');
+  assert.equal(violations[0].trace.predicate, 'all');
+  assert.equal(violations[0].trace.children[0].predicate, 'exists');
+  assert.equal(violations[0].trace.children[0].actual, 32);
+  assert.deepEqual(violations[0].trace.children[0].factPaths, [
+    'layout.padding.right',
+  ]);
   assert.equal(output.result.coverage.unclassified, 0);
 });
 
@@ -2097,4 +3514,432 @@ test('isolated predicate endpoint evaluates P06 from sibling overlay composition
   assert.equal(evaluation.trace.children[7].predicate, 'after');
   assert.equal(evaluation.trace.children[8].predicate, 'contains');
   assert.equal(output.result.coverage.unclassified, 0);
+});
+
+function onboardingTooltipFillRequest(mode) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const rootComponent = component(
+    ONBOARDING_TOOLTIP_KEY,
+    'Onboarding Tooltip [D]',
+    { Direction: 'Top' },
+  );
+  if (mode === 'unknown') {
+    rootComponent.directOverrides = [{ nodeId: '30:1', fields: ['fills'] }];
+  }
+  const owner = {
+    nodeId: '30:0',
+    componentKey: ONBOARDING_TOOLTIP_KEY,
+    name: 'Onboarding Tooltip [D]',
+    path: 'C16 / Onboarding Tooltip [D]',
+    relativePath: 'Surface',
+    variantProperties: { Direction: 'Top' },
+    componentProperties: { Direction: 'Top' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['30:0'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '30:0',
+    childNodeIds: ['30:1'],
+    path: 'C16 / Onboarding Tooltip [D]',
+    name: 'Onboarding Tooltip [D]',
+    component: rootComponent,
+  }), evidenceNode({
+    nodeId: '30:1',
+    parentNodeId: '30:0',
+    depth: 1,
+    path: 'C16 / Onboarding Tooltip [D] / Surface',
+    name: 'Surface',
+    type: 'FRAME',
+    component: null,
+    componentOwner: owner,
+    appearance: {
+      opacity: 1,
+      radius: 16,
+      fill: {
+        value: mode === 'fail' ? 'base-bg/primary' : 'base-bg/secondary',
+        resourceType: 'token',
+        resourceId: mode === 'fail' ? 'actual-token-key' : 'baseline-token-key',
+        resourceName: mode === 'fail' ? 'base-bg/primary' : 'base-bg/secondary',
+        bindingName: mode === 'fail' ? 'base-bg/primary' : 'base-bg/secondary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = mode === 'fail' ? [{
+    id: 'baseline-tooltip-fill',
+    componentKey: ONBOARDING_TOOLTIP_KEY,
+    nestedOwnerComponentKey: ONBOARDING_TOOLTIP_KEY,
+    nestedOwnerRelativePath: 'Surface',
+    variantProperties: { Direction: 'Top' },
+  }] : [];
+  input.evidenceBundle.changes = mode === 'fail' ? [{
+    id: 'change-tooltip-fill',
+    nodeId: '30:1',
+    nodeName: 'Surface',
+    nodePath: 'C16 / Onboarding Tooltip [D] / Surface',
+    property: 'fill',
+    kind: 'paint',
+    ownerComponentKey: ONBOARDING_TOOLTIP_KEY,
+    baselineReferenceId: 'baseline-tooltip-fill',
+    baseline: {
+      value: '#FFFFFF',
+      resourceType: 'token',
+      resourceName: 'base-bg/secondary',
+      bindingName: 'base-bg/secondary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#FFFFFF',
+      resourceType: 'token',
+      resourceName: 'base-bg/primary',
+      bindingName: 'base-bg/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: 'Surface',
+    },
+    candidateRuleIds: [
+      'component:web-corp.onboarding-tooltip.visuals-follow-effective-baseline',
+    ],
+  }] : [];
+  return input;
+}
+
+test('C16 compiles generic paint baseline PASS, FAIL and UNKNOWN from rules.json', () => {
+  const ruleId = 'component:web-corp.onboarding-tooltip.visuals-follow-effective-baseline';
+  const evaluate = (mode) => {
+    const output = evaluatePredicatePilotRequest(onboardingTooltipFillRequest(mode), {
+      designSystemRoot,
+    });
+    return output.result.evaluations.find((item) => item.ruleId === ruleId);
+  };
+
+  const pass = evaluate('pass');
+  assert.equal(pass.classification, 'compliant');
+  assert.equal(pass.focusNodeId, '30:1');
+
+  const fail = evaluate('fail');
+  assert.equal(fail.classification, 'violation');
+  assert.equal(fail.focusNodeId, '30:1');
+  assert.equal(fail.trace.children[1].actual, 'base-bg/primary');
+  assert.equal(fail.trace.children[1].expected, 'base-bg/secondary');
+
+  const unknown = evaluate('unknown');
+  assert.equal(unknown.classification, 'not-evaluable');
+  assert.equal(unknown.focusNodeId, '30:1');
+});
+
+function onboardingTooltipTypographyRequest(mode) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const textNodeId = '30:text';
+  const changed = mode !== 'pass';
+  const actualStyleId = mode === 'raw' ? null : (
+    mode === 'wrong-style' ? 'style-paragraph-14' : 'style-headline-18'
+  );
+  const actualStyleName = mode === 'raw' ? null : (
+    mode === 'wrong-style' ? 'Paragraph/14–18 Component Secondary' : 'Headline/18–24 Small'
+  );
+  const rootComponent = component(
+    ONBOARDING_TOOLTIP_KEY,
+    'Onboarding Tooltip [D]',
+    { Direction: 'Top' },
+  );
+  rootComponent.directOverrides = changed
+    ? [{ nodeId: textNodeId, fields: ['textStyleId'] }]
+    : [];
+  const owner = {
+    nodeId: '30:tooltip',
+    componentKey: ONBOARDING_TOOLTIP_KEY,
+    name: 'Onboarding Tooltip [D]',
+    path: 'C19 / Onboarding Tooltip [D]',
+    relativePath: 'Title',
+    variantProperties: { Direction: 'Top' },
+    componentProperties: { Direction: 'Top' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['30:tooltip'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '30:tooltip',
+    childNodeIds: [textNodeId],
+    path: 'C19 / Onboarding Tooltip [D]',
+    name: 'Onboarding Tooltip [D]',
+    component: rootComponent,
+  }), evidenceNode({
+    nodeId: textNodeId,
+    parentNodeId: '30:tooltip',
+    depth: 1,
+    path: 'C19 / Onboarding Tooltip [D] / Title',
+    name: 'Title',
+    type: 'TEXT',
+    component: null,
+    componentOwner: owner,
+    text: {
+      characters: 'Title 18–24',
+      length: 11,
+      textStyleId: actualStyleId,
+    },
+    styles: {
+      fillStyleId: null,
+      strokeStyleId: null,
+      textStyleId: actualStyleId,
+      effectStyleId: null,
+    },
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = changed ? [{
+    id: 'baseline-tooltip-title-style',
+    componentKey: ONBOARDING_TOOLTIP_KEY,
+    nestedOwnerComponentKey: ONBOARDING_TOOLTIP_KEY,
+    nestedOwnerRelativePath: 'Title',
+    variantProperties: { Direction: 'Top' },
+  }] : [];
+  input.evidenceBundle.changes = changed ? [{
+    id: 'change-tooltip-title-style',
+    nodeId: textNodeId,
+    nodeName: 'Title',
+    nodePath: 'C19 / Onboarding Tooltip [D] / Title',
+    property: 'styles.text',
+    kind: 'text-style',
+    ownerComponentKey: ONBOARDING_TOOLTIP_KEY,
+    baselineReferenceId: 'baseline-tooltip-title-style',
+    baseline: {
+      value: 'Headline/18–24 Small',
+      resourceType: 'style',
+      resourceName: 'Headline/18–24 Small',
+    },
+    actual: {
+      value: actualStyleName,
+      resourceType: actualStyleId ? 'style' : null,
+      resourceName: actualStyleName,
+    },
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: 'Title',
+    },
+    candidateRuleIds: [
+      'component:web-corp.onboarding-tooltip.typography-follows-effective-baseline',
+      'component:web-corp.onboarding-tooltip.text-style-binding-required',
+    ],
+  }] : [];
+  return input;
+}
+
+test('C19 separates wrong canonical Text Style from missing Text Style binding', () => {
+  const evaluate = (mode) => evaluatePredicatePilotRequest(
+    onboardingTooltipTypographyRequest(mode),
+    { designSystemRoot },
+  ).result.evaluations;
+  const baselineId = 'component:web-corp.onboarding-tooltip.typography-follows-effective-baseline';
+  const bindingId = 'component:web-corp.onboarding-tooltip.text-style-binding-required.text-style';
+
+  const pass = evaluate('pass');
+  assert.equal(pass.find((item) => item.ruleId === baselineId).classification, 'compliant');
+  assert.equal(pass.find((item) => item.ruleId === bindingId).classification, 'compliant');
+
+  const wrong = evaluate('wrong-style');
+  assert.equal(wrong.find((item) => item.ruleId === baselineId).classification, 'violation');
+  assert.equal(wrong.find((item) => item.ruleId === bindingId).classification, 'compliant');
+  assert.equal(wrong.find((item) => item.ruleId === baselineId).focusNodeId, '30:text');
+
+  const raw = evaluate('raw');
+  assert.equal(raw.find((item) => item.ruleId === baselineId).classification, 'not-applicable');
+  assert.equal(raw.find((item) => item.ruleId === bindingId).classification, 'violation');
+  assert.equal(raw.find((item) => item.ruleId === bindingId).focusNodeId, '30:text');
+});
+
+function tabsViewStrokeRequest(mode) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const rootComponent = component(TABS_VIEW_KEY, '[D] TabsView', { View: 'Primary' });
+  if (mode === 'unknown') {
+    rootComponent.directOverrides = [{ nodeId: '31:1', fields: ['strokes'] }];
+  }
+  const owner = {
+    nodeId: '31:0',
+    componentKey: TABS_VIEW_KEY,
+    name: '[D] TabsView',
+    path: 'C17 / [D] TabsView',
+    relativePath: 'Divider',
+    variantProperties: { View: 'Primary' },
+    componentProperties: { View: 'Primary' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['31:0'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '31:0',
+    childNodeIds: ['31:1'],
+    path: 'C17 / [D] TabsView',
+    name: '[D] TabsView',
+    component: rootComponent,
+  }), evidenceNode({
+    nodeId: '31:1',
+    parentNodeId: '31:0',
+    depth: 1,
+    path: 'C17 / [D] TabsView / Divider',
+    name: 'Divider',
+    type: 'FRAME',
+    component: null,
+    componentOwner: owner,
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: null,
+      stroke: {
+        value: mode === 'fail' ? 'border/secondary' : 'border/primary',
+        resourceType: 'token',
+        resourceId: mode === 'fail' ? 'stroke-actual-key' : 'stroke-baseline-key',
+        resourceName: mode === 'fail' ? 'border/secondary' : 'border/primary',
+        bindingName: mode === 'fail' ? 'border/secondary' : 'border/primary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = mode === 'fail' ? [{
+    id: 'baseline-tabs-stroke',
+    componentKey: TABS_VIEW_KEY,
+    nestedOwnerComponentKey: TABS_VIEW_KEY,
+    nestedOwnerRelativePath: 'Divider',
+    variantProperties: { View: 'Primary' },
+  }] : [];
+  input.evidenceBundle.changes = mode === 'fail' ? [{
+    id: 'change-tabs-stroke',
+    nodeId: '31:1',
+    nodeName: 'Divider',
+    nodePath: 'C17 / [D] TabsView / Divider',
+    property: 'stroke',
+    kind: 'paint',
+    ownerComponentKey: TABS_VIEW_KEY,
+    baselineReferenceId: 'baseline-tabs-stroke',
+    baseline: {
+      value: '#D2D3D9',
+      resourceType: 'token',
+      resourceName: 'border/primary',
+      bindingName: 'border/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#B8BAC2',
+      resourceType: 'token',
+      resourceName: 'border/secondary',
+      bindingName: 'border/secondary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: 'Divider',
+    },
+    candidateRuleIds: [
+      'component:web-corp.tabs-view.manual-visual-overrides-forbidden',
+    ],
+  }] : [];
+  return input;
+}
+
+test('C17 compiles generic stroke baseline PASS, FAIL and UNKNOWN from rules.json', () => {
+  const ruleId = 'component:web-corp.tabs-view.manual-visual-overrides-forbidden';
+  const evaluate = (mode) => {
+    const output = evaluatePredicatePilotRequest(tabsViewStrokeRequest(mode), {
+      designSystemRoot,
+    });
+    return output.result.evaluations.find((item) => item.ruleId === ruleId);
+  };
+
+  const pass = evaluate('pass');
+  assert.equal(pass.classification, 'compliant');
+  assert.equal(pass.focusNodeId, '31:1');
+
+  const fail = evaluate('fail');
+  assert.equal(fail.classification, 'violation');
+  assert.equal(fail.focusNodeId, '31:1');
+  assert.equal(fail.trace.children[1].actual, 'border/secondary');
+  assert.equal(fail.trace.children[1].expected, 'border/primary');
+
+  const unknown = evaluate('unknown');
+  assert.equal(unknown.classification, 'not-evaluable');
+  assert.equal(unknown.focusNodeId, '31:1');
+});
+
+function backgroundPlateStrokeBindingRequest(mode) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  input.evidenceBundle.context.selectionNodeIds = ['32:0'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '32:0',
+    path: 'C17 / [D] Style Level 1, Type=Border',
+    name: '[D] Style Level 1',
+    component: component(
+      BACKGROUND_PLATE_STYLE_LEVEL_1_KEY,
+      '[D] Style Level 1',
+      { Type: 'Border' },
+    ),
+    appearance: {
+      opacity: 1,
+      radius: 16,
+      fill: null,
+      stroke: {
+        value: mode === 'fail' ? '#747474' : 'border/primary',
+        resourceType: mode === 'fail' ? 'paint' : 'token',
+        resourceId: mode === 'fail' ? null : 'stroke-token-key',
+        resourceName: mode === 'fail' ? null : 'border/primary',
+        bindingName: mode === 'fail' ? null : 'border/primary',
+        bindingCollection: mode === 'fail' ? null : 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+    variableBindings: mode === 'fail' ? [] : [{
+      property: 'strokes',
+      variableIds: ['VariableID:stroke-token'],
+      variables: [{
+        id: 'VariableID:stroke-token',
+        key: mode === 'unknown' ? null : 'stroke-token-key',
+        name: mode === 'unknown' ? null : 'border/primary',
+        collectionId: mode === 'unknown' ? null : 'collection:interface-dynamic',
+        collectionName: mode === 'unknown' ? null : 'Interface Dynamic',
+      }],
+    }],
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = [];
+  input.evidenceBundle.changes = [];
+  return input;
+}
+
+test('C17 compiles generic stroke token binding PASS, FAIL and UNKNOWN from rules.json', () => {
+  const ruleId = 'component:web-corp.background-plate.colored-and-border-use-color-tokens.stroke';
+  const evaluate = (mode) => {
+    const output = evaluatePredicatePilotRequest(backgroundPlateStrokeBindingRequest(mode), {
+      designSystemRoot,
+    });
+    return output.result.evaluations.find((item) => item.ruleId === ruleId);
+  };
+
+  const pass = evaluate('pass');
+  assert.equal(pass.classification, 'compliant');
+  assert.equal(pass.focusNodeId, '32:0');
+
+  const fail = evaluate('fail');
+  assert.equal(fail.classification, 'violation');
+  assert.equal(fail.focusNodeId, '32:0');
+  assert.equal(fail.trace.children[1].actual.bound, false);
+
+  const unknown = evaluate('unknown');
+  assert.equal(unknown.classification, 'not-evaluable');
+  assert.equal(unknown.focusNodeId, '32:0');
 });

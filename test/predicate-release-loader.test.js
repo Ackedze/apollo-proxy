@@ -1,10 +1,79 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const path = require('node:path');
 
-const { loadPredicateRelease } = require('../src/predicate-engine/release-loader');
+const {
+  loadPredicateRelease,
+  validateComponentExecutionPolicy,
+} = require('../src/predicate-engine/release-loader');
 
 const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+
+test('TitleView execution policy closes every real component rule exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/TitleView/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  const release = loadPredicateRelease(designSystemRoot, []);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(
+    document,
+    release.compositionDefinitions.filter((definition) => definition.id.startsWith('title-view.')),
+  ));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.predicateRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(
+      incomplete,
+      release.compositionDefinitions.filter((definition) => definition.id.startsWith('title-view.')),
+    ),
+    /is not closed/,
+  );
+});
+
+test('Core Button execution policy closes every real component rule exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-core/core/Button/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 12);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.delegatedRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
+test('ButtonsGroup execution policy closes every source rule and both platform contracts', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/ButtonGroup [D]/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  const release = loadPredicateRelease(designSystemRoot, []);
+  const definitions = release.compositionDefinitions.filter(
+    (definition) => definition.id.startsWith('buttons-group.'),
+  );
+  assert.equal(document.manual.rules.length, 32);
+  assert.deepEqual(
+    definitions.map((definition) => definition.id),
+    ['buttons-group.desktop-composition', 'buttons-group.mobile-composition'],
+  );
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, definitions));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, definitions),
+    /is not closed/,
+  );
+});
 
 test('predicate release resolves canonical Figma keys and pins source checksums', () => {
   const release = loadPredicateRelease(designSystemRoot, [
@@ -22,6 +91,12 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     '1e8647f2b51a623083755fdad5c677fc38770e3e',
     '26b847ef2dadd62ff9728ab50c728f6c7dcef455',
     'a54fc8de49f424f46ddb87e1f14103cda8a5456e',
+    '3bfd179dc3b4c996f58db4cbcd26687a356fb3b7',
+    '6d5d4dda10be00621991e9b5a0152db4e47f4e2f',
+    '2bbced82d96c1347fea71a3922cd11cf4c25ad6a',
+    '44f1398a704dba217a9da9694913ec61b5bb15bf',
+    'e0b688215640e6280ff9effdbf880ccf248cc65a',
+    'c9a8db25e3fb6bc7907464f81547a6295816c59b',
   ]);
   assert.equal(release.release.knowledgeSource, 'design-system_ab');
   assert.equal(release.release.checksum.length, 64);
@@ -30,6 +105,38 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   assert.equal(release.sourceChecksums.buttonPattern.length, 64);
   assert.equal(release.sourceChecksums.benefitsRules.length, 64);
   assert.equal(release.sourceChecksums.tableViewRules.length, 64);
+  assert.equal(release.compositionDefinitions.length, 6);
+  assert.deepEqual(
+    release.compositionDefinitions.map((definition) => definition.id),
+    [
+      'buttons-group.desktop-composition',
+      'buttons-group.mobile-composition',
+      'title-view.button-group.composition',
+      'title-view.desktop-button-size.composition',
+      'title-view.mobile-button-size.composition',
+      'title-view.status.composition',
+    ],
+  );
+  assert.equal(
+    release.compositionDefinitions[0].schemaVersion,
+    'apollo.composition-predicate-contract.v1',
+  );
+  assert.deepEqual(
+    release.compositionDefinitions[0].match.hostComponentIdentities,
+    ['web-corp.buttons-group'],
+  );
+  assert.equal(release.compositionDefinitions[0].sourceChecksum.length, 64);
+  assert.equal(release.slotOrderPolicies.length, 1);
+  assert.equal(
+    release.slotOrderPolicies[0].ruleId,
+    'component:web-corp.title-view.visible-slots-follow-required-order',
+  );
+  assert.deepEqual(
+    release.slotOrderPolicies[0].ownerComponentIdentities,
+    ['web-corp.title-view', 'web-corp.title-view-mobile'],
+  );
+  assert.deepEqual(release.slotOrderPolicies[0].containerNames, ['MainContent']);
+  assert.equal(release.slotOrderPolicies[0].sourceChecksum.length, 64);
 
   const buttonsGroup = release.componentIndex.f05915599f71e822fd8b46a2b2509a2e395005cf;
   assert.equal(buttonsGroup.identity, 'web-corp.buttons-group');
@@ -38,6 +145,21 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
 
   const button = release.componentIndex['0012e7a5e420b87136b910b29578a4d06e6dd30c'];
   assert.equal(button.identity, 'web-core.button');
+  const buttonFillContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-core.button.manual-fill-is-layer-property'
+  ));
+  assert.equal(
+    buttonFillContour.sourcePath,
+    'design-system_ab/JSONS/web/components/web-core/core/Button/rules.json',
+  );
+  const desktopButtonContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:controls.buttons-and-button-groups.desktop-safe-variants'
+  ));
+  assert.equal(
+    desktopButtonContour.sourcePath,
+    'design-system_ab/patterns/p_buttons-and-buttons-group.md',
+  );
+  assert.equal(desktopButtonContour.kind, 'fact-assertion');
 
   const benefits = release.componentIndex['0b1fd301e14ae7dab9eb62de83c8f4b8d9eab376'];
   assert.equal(benefits.identity, 'web.benefits');
@@ -48,6 +170,64 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   assert.equal(tableView.family, 'table-view-horizontal');
   const tableRow = release.componentIndex.af607289bf050cc8236b882039cf787d32296383;
   assert.equal(tableRow.family, 'row');
+  const cardImage = release.componentIndex.e0b688215640e6280ff9effdbf880ccf248cc65a;
+  assert.equal(cardImage.identity, 'web-corp.card-image');
+  const compactOneColumnContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.table-view.horizontal-compact-one-column'
+  ));
+  assert.deepEqual(compactOneColumnContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'fact-domain',
+    select: {
+      from: 'selection-root',
+      traverse: 'descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'type' },
+        expected: { literal: 'INSTANCE' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'web-corp.table-view' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.family' },
+        expected: { literal: 'row' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'component.properties.Presets' },
+        expected: { literal: 'Body' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'composition.tableViewOwner.component.family' },
+        expected: { literal: 'table-view-horizontal' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'composition.tableViewOwner.component.properties.Compact' },
+        expected: { literal: 'True' },
+      }],
+    },
+    actual: { fact: 'composition.visibleDataColumnCount' },
+    allowedValues: [1],
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: 'В Compact TableView обнаружено несколько колонок данных',
+      observed: 'В строке Compact TableView найдено колонок данных: {{actual}}.',
+      expectation: 'Каждая Body Row в Horizontal TableView с Compact=true должна содержать ровно одну колонку данных.',
+      action: 'Оставить в строке одну колонку данных или отключить Compact.',
+    },
+    ruleId: 'component:web-corp.table-view.horizontal-compact-one-column',
+    revision: 2,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TableView/rules.json',
+    sourceChecksum: compactOneColumnContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web-corp.table-view.horizontal-compact-one-column',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(compactOneColumnContour.sourceChecksum.length, 64);
   const accountItemSum = release.componentIndex['7b188529df2fdf9c6e93989b2173f6cc95fc77d6'];
   const accountItemNumber = release.componentIndex['b0e271a2c5e94e00b753d223c1bce95b87da95af'];
   assert.equal(accountItemSum.identity, 'web-corp.account-select');
@@ -209,6 +389,605 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   });
   assert.equal(benefitsSizingContour.sourceChecksum.length, 64);
 
+  const buttonsGroupSizingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.buttons-group.root-sizing-is-hug-hug'
+  ));
+  assert.deepEqual(buttonsGroupSizingContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'sizing',
+    identity: 'web-corp.buttons-group',
+    expectations: {
+      'layout.sizingHorizontal': 'HUG',
+      'layout.sizingVertical': 'HUG',
+    },
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: 'Sizing ButtonsGroup изменён',
+      observed: 'Размер корня ButtonsGroup не соответствует контракту Hug по ширине и Hug по высоте.',
+      expectation: 'Корень ButtonsGroup должен использовать Hug contents по обеим осям.',
+      action: 'Установить для ButtonsGroup ширину Hug и высоту Hug.',
+    },
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+    ruleId: 'component:web-corp.buttons-group.root-sizing-is-hug-hug',
+    revision: 2,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/ButtonGroup [D]/rules.json',
+    sourceChecksum: buttonsGroupSizingContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web-corp.buttons-group.root-sizing-is-hug-hug',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(buttonsGroupSizingContour.sourceChecksum.length, 64);
+
+  const backgroundPlateSlotSizingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height'
+  ));
+  assert.deepEqual(backgroundPlateSlotSizingContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'sizing',
+    identity: 'web-corp.background-plate',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'component.family' },
+      expected: { literal: 'background-plate-slot' },
+    }, {
+      predicate: 'not',
+      args: [{
+        predicate: 'exists',
+        actual: { fact: 'ownership.ownerNodeId' },
+      }],
+    }],
+    expectations: {
+      'layout.sizingHorizontal': 'FILL',
+      'layout.sizingVertical': 'HUG',
+    },
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: 'Sizing BackgroundPlateSlot изменён',
+      observed: 'Размер корня BackgroundPlateSlot не соответствует контракту Fill по ширине и Hug по высоте.',
+      expectation: 'Корень BackgroundPlateSlot должен использовать Fill container по ширине и Hug contents по высоте.',
+      action: 'Установить для BackgroundPlateSlot ширину Fill и высоту Hug.',
+    },
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+    ruleId: 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height',
+    revision: 2,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+    sourceChecksum: backgroundPlateSlotSizingContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web-corp.background-plate.slot-sizing-fill-width-hug-height',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(backgroundPlateSlotSizingContour.sourceChecksum.length, 64);
+
+  const titleViewBaselineContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.title-view.root-style-and-clickability-prohibited'
+  ));
+  assert.equal(titleViewBaselineContour.kind, 'baseline-set');
+  assert.equal(titleViewBaselineContour.revision, 2);
+  assert.deepEqual(
+    titleViewBaselineContour.paths.map((item) => item.suffix),
+    ['fill', 'stroke', 'radius', 'opacity'],
+  );
+  assert.equal(
+    titleViewBaselineContour.sourcePath,
+    'design-system_ab/JSONS/web/components/web-corp/TitleView/rules.json',
+  );
+  assert.equal(titleViewBaselineContour.sourceChecksum.length, 64);
+
+  const backgroundPlateRadiusBaselineContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.background-plate.radius-is-fixed-by-component-baseline'
+  ));
+  assert.deepEqual(backgroundPlateRadiusBaselineContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'baseline',
+    identity: 'web-corp.background-plate',
+    pairs: [{
+      actualFact: 'appearance.radius',
+      baselineFact: 'baseline.effective.appearance.radius',
+    }],
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: 'Изменено скругление BackgroundPlate',
+      observed: 'Скругление изменено с {{expected}} на {{actual}}.',
+      expectation: 'Скругление BackgroundPlate должно совпадать с effective baseline выбранного варианта.',
+      action: 'Сбросить скругление BackgroundPlate к effective baseline.',
+      targetFact: 'appearance.radius',
+    },
+    scope: { platform: ['desktop', 'mobile-web'] },
+    unknownPolicy: 'not-evaluable',
+    ruleId: 'component:web-corp.background-plate.radius-is-fixed-by-component-baseline',
+    revision: 2,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+    sourceChecksum: backgroundPlateRadiusBaselineContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web-corp.background-plate.radius-is-fixed-by-component-baseline',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(backgroundPlateRadiusBaselineContour.sourceChecksum.length, 64);
+
+  const titleViewTypographyContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.title-view.title-and-subtitle-typography-is-fixed'
+  ));
+  assert.equal(titleViewTypographyContour.kind, 'baseline');
+  assert.deepEqual(titleViewTypographyContour.pairs, [{
+    actualFact: 'appearance.styles.textStyle',
+    baselineFact: 'baseline.effective.appearance.styles.textStyle',
+    required: true,
+  }]);
+  assert.equal(titleViewTypographyContour.select.traverse, 'descendants');
+  assert.equal(titleViewTypographyContour.sourceChecksum.length, 64);
+
+  const titleViewColorContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.title-view.title-and-subtitle-color-is-fixed'
+  ));
+  assert.equal(titleViewColorContour.kind, 'baseline');
+  assert.deepEqual(titleViewColorContour.pairs, [{
+    actualFact: 'appearance.fill.value',
+    baselineFact: 'baseline.effective.appearance.fill.value',
+    required: true,
+  }]);
+  assert.equal(titleViewColorContour.select.traverse, 'descendants');
+  assert.equal(titleViewColorContour.revision, 2);
+  assert.equal(titleViewColorContour.sourceChecksum.length, 64);
+
+  const onboardingTooltipFillContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.onboarding-tooltip.visuals-follow-effective-baseline'
+  ));
+  assert.equal(onboardingTooltipFillContour.kind, 'baseline');
+  assert.equal(onboardingTooltipFillContour.select.traverse, 'descendants');
+  assert.deepEqual(onboardingTooltipFillContour.select.where, [{
+    predicate: 'equals',
+    actual: { fact: 'ownership.owner.component.identity' },
+    expected: { literal: 'web-corp.onboarding-tooltip' },
+  }, {
+    predicate: 'exists',
+    actual: { fact: 'appearance.fill.value' },
+  }]);
+  assert.deepEqual(onboardingTooltipFillContour.pairs, [{
+    actualFact: 'appearance.fill.value',
+    baselineFact: 'baseline.effective.appearance.fill.value',
+    required: true,
+  }]);
+  assert.equal(onboardingTooltipFillContour.revision, 2);
+  assert.equal(onboardingTooltipFillContour.sourceChecksum.length, 64);
+
+  const onboardingTooltipTypographyContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.onboarding-tooltip.typography-follows-effective-baseline'
+  ));
+  assert.equal(onboardingTooltipTypographyContour.kind, 'baseline');
+  assert.deepEqual(onboardingTooltipTypographyContour.pairs, [{
+    actualFact: 'appearance.styles.textStyle',
+    baselineFact: 'baseline.effective.appearance.styles.textStyle',
+    required: true,
+  }]);
+  assert.equal(onboardingTooltipTypographyContour.select.traverse, 'descendants');
+
+  const onboardingTooltipTextStyleBindingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.onboarding-tooltip.text-style-binding-required'
+  ));
+  assert.equal(onboardingTooltipTextStyleBindingContour.kind, 'binding-set');
+  assert.equal(onboardingTooltipTextStyleBindingContour.paths[0].requireValue, false);
+  assert.deepEqual(onboardingTooltipTextStyleBindingContour.expectedBinding, {
+    bound: true,
+    kind: 'text-style',
+  });
+  assert.equal(onboardingTooltipTextStyleBindingContour.select.traverse, 'descendants');
+
+  const titleViewStatusContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.title-view.status-and-title-status-color-match'
+  ));
+  assert.equal(titleViewStatusContour.kind, 'owned-peer-property-equality');
+  assert.deepEqual(titleViewStatusContour.ownerIdentities, [
+    'web-corp.title-view',
+    'web-corp.title-view-mobile',
+  ]);
+  assert.deepEqual(titleViewStatusContour.target, {
+    identities: ['web-corp.title-view', 'web-corp.title-view-mobile'],
+    names: ['[D] TitleStatus', '[M] TitleStatus'],
+  });
+  assert.deepEqual(titleViewStatusContour.requiredRoles, ['Status', 'TitleStatus']);
+  assert.deepEqual(
+    titleViewStatusContour.members.map((member) => member.propertyFact),
+    ['component.properties.Type', 'component.properties.Type'],
+  );
+  assert.equal(titleViewStatusContour.collectionKey, 'statusTypeConsistency');
+
+  const titleStatusRequiresStatusContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.title-view.title-status-requires-status'
+  ));
+  assert.equal(titleStatusRequiresStatusContour.kind, 'fact-domain');
+  assert.equal(titleStatusRequiresStatusContour.revision, 2);
+  assert.deepEqual(titleStatusRequiresStatusContour.actual, {
+    fact: 'component.properties.Status',
+  });
+  assert.deepEqual(titleStatusRequiresStatusContour.allowedValues, [true]);
+  assert.equal(
+    titleStatusRequiresStatusContour.select.where.some((condition) => (
+      condition.actual?.fact === 'component.properties.TitleStatus' &&
+      condition.expected?.literal === true
+    )),
+    true,
+  );
+  assert.equal(
+    titleStatusRequiresStatusContour.select.where.some((condition) => (
+      condition.actual?.fact === 'component.properties.View' &&
+      condition.expected?.literal === 'xLarge'
+    )),
+    true,
+  );
+  assert.equal(titleStatusRequiresStatusContour.sourceChecksum.length, 64);
+
+  const cardImageXsStateContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.card-image.xs-active-only'
+  ));
+  assert.equal(cardImageXsStateContour.kind, 'fact-domain');
+  assert.equal(cardImageXsStateContour.revision, 2);
+  assert.equal(cardImageXsStateContour.select.traverse, 'self-and-descendants');
+  assert.equal(
+    cardImageXsStateContour.select.where.some((condition) => (
+      condition.actual?.fact === 'component.identity' &&
+      condition.expected?.literal === 'web-corp.card-image'
+    )),
+    true,
+  );
+  assert.equal(
+    cardImageXsStateContour.select.where.some((condition) => (
+      condition.actual?.fact === 'component.properties.Size' &&
+      condition.expected?.literal === '24x16'
+    )),
+    true,
+  );
+  assert.deepEqual(cardImageXsStateContour.actual, {
+    fact: 'component.properties.State',
+  });
+  assert.deepEqual(cardImageXsStateContour.allowedValues, ['Active']);
+  assert.equal(cardImageXsStateContour.sourceChecksum.length, 64);
+
+  const tabsSecondarySingleIconContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.tabs-view.secondary-single-icon-forbidden'
+  ));
+  assert.equal(tabsSecondarySingleIconContour.kind, 'fact-domain');
+  assert.equal(tabsSecondarySingleIconContour.revision, 2);
+  assert.equal(tabsSecondarySingleIconContour.select.traverse, 'descendants');
+  assert.equal(
+    tabsSecondarySingleIconContour.select.where.some((condition) => (
+      condition.actual?.fact === 'component.identity' &&
+      condition.expected?.literal === 'web-core.tag'
+    )),
+    true,
+  );
+  assert.equal(
+    tabsSecondarySingleIconContour.select.where.some((condition) => (
+      condition.actual?.fact === 'ownership.owner.component.key' &&
+      condition.expected?.literal === 'd44e07075d37245006c02b03ca28fa9a8681fa1e'
+    )),
+    true,
+  );
+  assert.deepEqual(tabsSecondarySingleIconContour.actual, {
+    fact: 'component.properties.SingleIcon',
+  });
+  assert.deepEqual(tabsSecondarySingleIconContour.allowedValues, ['False']);
+  assert.equal(tabsSecondarySingleIconContour.sourceChecksum.length, 64);
+
+  const tabsSecondaryUniformityContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.tabs-view.secondary-single-icon-is-uniform'
+  ));
+  assert.equal(tabsSecondaryUniformityContour.kind, 'uniform-collection-properties');
+  assert.equal(tabsSecondaryUniformityContour.revision, 2);
+  assert.equal(tabsSecondaryUniformityContour.identity, 'web-core-navigation.tabs');
+  assert.equal(tabsSecondaryUniformityContour.memberIdentity, 'web-core.tag');
+  assert.equal(tabsSecondaryUniformityContour.traverse, 'descendants');
+  assert.deepEqual(
+    tabsSecondaryUniformityContour.propertyFacts,
+    ['component.properties.SingleIcon'],
+  );
+  const tabsCompatibilityTrace = release.contourCompatibilityTraces.find((trace) => (
+    trace.ruleId === tabsSecondaryUniformityContour.ruleId
+  ));
+  assert.equal(tabsCompatibilityTrace.decision, 'reuse');
+  assert.equal(tabsCompatibilityTrace.selectedContourId, 'uniform-collection-properties');
+  assert.equal(
+    tabsCompatibilityTrace.matchedPrecedentRuleIds.includes(
+      'component:web.benefits.nested-card-settings-are-uniform',
+    ),
+    true,
+  );
+  assert.deepEqual(
+    tabsCompatibilityTrace.profile.propertyPathFamilies,
+    ['component.properties.*'],
+  );
+
+  const tabsUniqueLabelsContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.tabs-view.labels-are-unique-within-level'
+  ));
+  assert.equal(tabsUniqueLabelsContour.kind, 'query-unique');
+  assert.equal(tabsUniqueLabelsContour.revision, 3);
+  assert.equal(tabsUniqueLabelsContour.select.traverse, 'self-and-descendants');
+  assert.deepEqual(
+    tabsUniqueLabelsContour.select.where.find((condition) => (
+      condition.actual?.fact === 'component.key'
+    )).expected.literal,
+    [
+      '0b6cbeb2069d15adf5be7b9a4ba17acc6a397017',
+      'd44e07075d37245006c02b03ca28fa9a8681fa1e',
+    ],
+  );
+  assert.equal(tabsUniqueLabelsContour.query.from, 'subject');
+  assert.equal(tabsUniqueLabelsContour.query.traverse, 'descendants');
+  assert.deepEqual(tabsUniqueLabelsContour.query.project, {
+    fact: 'text.characters',
+  });
+  assert.equal(
+    tabsUniqueLabelsContour.presentation.observed,
+    'На одном уровне повторяются названия табов: {{duplicates}}.',
+  );
+  assert.equal(tabsUniqueLabelsContour.sourceChecksum.length, 64);
+  assert.equal(titleViewStatusContour.authorityStatus, 'active');
+  assert.equal(titleViewStatusContour.sourceChecksum.length, 64);
+
+  const tabsStrokeContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.tabs-view.manual-visual-overrides-forbidden'
+  ));
+  assert.equal(tabsStrokeContour.kind, 'baseline');
+  assert.equal(tabsStrokeContour.revision, 2);
+  assert.deepEqual(tabsStrokeContour.pairs, [{
+    actualFact: 'appearance.stroke.value',
+    baselineFact: 'baseline.effective.appearance.stroke.value',
+    required: true,
+  }]);
+  assert.equal(tabsStrokeContour.sourceChecksum.length, 64);
+
+  const backgroundPlatePaddingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.background-plate.padding-uses-spacing-tokens'
+  ));
+  assert.equal(backgroundPlatePaddingContour.kind, 'binding-set');
+  assert.equal(backgroundPlatePaddingContour.identity, 'web-corp.background-plate');
+  assert.equal(backgroundPlatePaddingContour.publicRootOnly, true);
+  assert.deepEqual(
+    backgroundPlatePaddingContour.paths.map((entry) => entry.suffix),
+    ['top', 'right', 'bottom', 'left'],
+  );
+  assert.deepEqual(backgroundPlatePaddingContour.expectedBinding, {
+    bound: true,
+    collection: 'Spacing',
+  });
+  assert.equal(backgroundPlatePaddingContour.sourceChecksum.length, 64);
+
+  const backgroundPlateStrokeBindingContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.background-plate.colored-and-border-use-color-tokens'
+  ));
+  assert.equal(backgroundPlateStrokeBindingContour.kind, 'binding-set');
+  assert.equal(backgroundPlateStrokeBindingContour.revision, 2);
+  assert.deepEqual(backgroundPlateStrokeBindingContour.paths, [{
+    suffix: 'stroke',
+    label: 'Обводка',
+    valueFact: 'appearance.stroke.value',
+    bindingFact: 'bindings.strokes',
+  }]);
+  assert.deepEqual(backgroundPlateStrokeBindingContour.expectedBinding, { bound: true });
+  assert.equal(backgroundPlateStrokeBindingContour.sourceChecksum.length, 64);
+
+  const corporateSectionGutterContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.corporate-content.section-gutter-required'
+  ));
+  assert.deepEqual(corporateSectionGutterContour, {
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'binding-set',
+    identity: 'web-corp.corporate-content',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'component.name' },
+      expected: { literal: '[D] Section' },
+    }],
+    paths: [{
+      suffix: 'gutter',
+      label: 'Gutter между Content и Isle',
+      valueFact: 'layout.itemSpacing',
+      bindingFact: 'bindings.itemSpacing',
+    }],
+    expectedBinding: { bound: true, token: 'Grid/Gutter' },
+    presentation: {
+      schemaVersion: 'apollo.predicate-presentation.v1',
+      title: '{{property}} задан без переменной Gutter',
+      observed: '{{property}} имеет значение {{actual}} px без привязки к переменной Gutter.',
+      expectation: 'Отступ между Content и Isle в [D] Section должен быть привязан к переменной Gutter.',
+      action: 'Привязать текущее значение itemSpacing к переменной Gutter.',
+    },
+    scope: { platform: ['desktop'] },
+    unknownPolicy: 'not-evaluable',
+    ruleId: 'component:web-corp.corporate-content.section-gutter-required',
+    revision: 2,
+    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/CorporateContent/rules.json',
+    sourceChecksum: corporateSectionGutterContour.sourceChecksum,
+    sourceAnchor: 'rules/component:web-corp.corporate-content.section-gutter-required',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+  });
+  assert.equal(corporateSectionGutterContour.sourceChecksum.length, 64);
+
+  const backgroundPlateUnderlayContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.background-plate.level-2-requires-level-1'
+  ));
+  assert.equal(backgroundPlateUnderlayContour.kind, 'co-located-underlay');
+  assert.deepEqual(backgroundPlateUnderlayContour.subject, {
+    identity: 'web-corp.background-plate',
+    properties: { Position: 'Level 2 (inner)' },
+    publicRootOnly: true,
+  });
+  assert.deepEqual(backgroundPlateUnderlayContour.underlay, {
+    identity: 'web-corp.background-plate',
+    properties: { Position: 'Level 1 (outer)' },
+    positioning: 'ABSOLUTE',
+  });
+  assert.equal(backgroundPlateUnderlayContour.relationKey, 'level1Underlay');
+  assert.equal(backgroundPlateUnderlayContour.authorityStatus, 'active');
+  assert.equal(backgroundPlateUnderlayContour.revision, 2);
+  assert.equal(backgroundPlateUnderlayContour.sourceChecksum.length, 64);
+
+  const titleViewPageCountContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:components.title-view.single-xlarge'
+  ));
+  assert.equal(titleViewPageCountContour.kind, 'query-count');
+  assert.deepEqual(titleViewPageCountContour.select, {
+    from: 'selection-root',
+    traverse: 'self',
+    where: [],
+  });
+  assert.equal(titleViewPageCountContour.lower, 0);
+  assert.equal(titleViewPageCountContour.upper, 1);
+  assert.equal(
+    titleViewPageCountContour.sourcePath,
+    'design-system_ab/patterns/p_title-view.md',
+  );
+  assert.equal(titleViewPageCountContour.sourceChecksum.length, 64);
+
+  const formEightFourContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.layout-8-4'
+  ));
+  assert.equal(formEightFourContour.kind, 'derived-geometry');
+  assert.deepEqual(formEightFourContour.scope, {
+    platform: ['desktop'],
+    pageType: ['form'],
+  });
+  assert.equal(formEightFourContour.checks.length, 3);
+  assert.equal(formEightFourContour.sourcePath, 'design-system_ab/patterns/p_form-construction-rules.md');
+  assert.equal(formEightFourContour.sourceChecksum.length, 64);
+  assert.equal(titleViewPageCountContour.authorityStatus, 'active');
+  assert.equal(titleViewPageCountContour.provenance, 'design-system-author');
+
+  const benefitsCapacityContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web.benefits.capacity-matches-card-count'
+  ));
+  assert.equal(benefitsCapacityContour.kind, 'context-map');
+  assert.equal(benefitsCapacityContour.revision, 2);
+  assert.equal(benefitsCapacityContour.identity, 'web.benefits');
+  assert.equal(benefitsCapacityContour.contextFact, 'composition.capacity');
+  assert.equal(benefitsCapacityContour.targetFact, 'composition.visibleBenefitCardCount');
+  assert.deepEqual(benefitsCapacityContour.mappingEntries, [
+    { context: 3, target: 3 },
+    { context: 4, target: 4 },
+  ]);
+  assert.equal(benefitsCapacityContour.sourceChecksum.length, 64);
+
+  const benefitsUniformityContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web.benefits.nested-card-settings-are-uniform'
+  ));
+  assert.equal(benefitsUniformityContour.kind, 'uniform-collection-properties');
+  assert.equal(benefitsUniformityContour.revision, 4);
+  assert.equal(benefitsUniformityContour.identity, 'web.benefits');
+  assert.equal(benefitsUniformityContour.memberIdentity, 'web.benefit-card');
+  assert.equal(benefitsUniformityContour.traverse, 'direct-children');
+  assert.equal(benefitsUniformityContour.memberNames, undefined);
+  assert.deepEqual(benefitsUniformityContour.propertyFacts, [
+    'component.properties.Background',
+    'component.properties.CardAxis',
+    'component.properties.Compact',
+    'component.properties.GraphicPosition',
+  ]);
+  assert.equal(benefitsUniformityContour.sourceChecksum.length, 64);
+
+  const tableViewHeaderContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.table-view.horizontal-multi-column-header-required'
+  ));
+  assert.equal(tableViewHeaderContour.kind, 'fact-domain');
+  assert.equal(tableViewHeaderContour.revision, 2);
+  assert.deepEqual(tableViewHeaderContour.actual, {
+    fact: 'composition.visibleHeaderRowCount',
+  });
+  assert.deepEqual(tableViewHeaderContour.allowedValues, [1]);
+  assert.equal(tableViewHeaderContour.sourceChecksum.length, 64);
+
+  const formFirstLevelDistanceContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.block-spacing.first-level'
+  ));
+  assert.equal(formFirstLevelDistanceContour.kind, 'distance');
+  assert.equal(formFirstLevelDistanceContour.revision, 4);
+  assert.deepEqual(formFirstLevelDistanceContour.scope, {
+    platform: ['desktop', 'mobile-web'],
+    pageType: ['form'],
+  });
+  assert.deepEqual(formFirstLevelDistanceContour.actual, { fact: 'bounds' });
+  assert.deepEqual(formFirstLevelDistanceContour.target, {
+    fact: 'composition.previousFormFirstLevelBlock.bounds',
+  });
+  assert.deepEqual(formFirstLevelDistanceContour.expected, { literal: 24 });
+  assert.equal(formFirstLevelDistanceContour.axis, 'vertical');
+  assert.equal(formFirstLevelDistanceContour.sourcePath, 'design-system_ab/patterns/p_form-construction-rules.md');
+  assert.equal(formFirstLevelDistanceContour.sourceChecksum.length, 64);
+
+  const formSecondLevelActionDistanceContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.block-spacing.second-level-actions'
+  ));
+  assert.equal(formSecondLevelActionDistanceContour.kind, 'distance');
+  assert.equal(formSecondLevelActionDistanceContour.revision, 3);
+  assert.deepEqual(formSecondLevelActionDistanceContour.scope, {
+    platform: ['desktop', 'mobile-web'],
+    pageType: ['form'],
+  });
+  assert.deepEqual(formSecondLevelActionDistanceContour.select.where[1], {
+    predicate: 'equals',
+    actual: { fact: 'composition.previousFormContent.hierarchyLevel' },
+    expected: { literal: 'second-level' },
+  });
+  assert.deepEqual(formSecondLevelActionDistanceContour.actual, { fact: 'bounds' });
+  assert.deepEqual(formSecondLevelActionDistanceContour.target, {
+    fact: 'composition.previousFormContent.bounds',
+  });
+  assert.deepEqual(formSecondLevelActionDistanceContour.expected, { literal: 32 });
+  assert.equal(formSecondLevelActionDistanceContour.axis, 'vertical');
+  assert.equal(formSecondLevelActionDistanceContour.sourceChecksum.length, 64);
+
+  const formTitleContentDistanceContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.inner-padding-standard.title-to-content'
+  ));
+  assert.equal(formTitleContentDistanceContour.kind, 'distance');
+  assert.deepEqual(formTitleContentDistanceContour.target, {
+    fact: 'composition.previousFormMediumTitle.bounds',
+  });
+  assert.deepEqual(formTitleContentDistanceContour.expected, { literal: 24 });
+  assert.equal(formTitleContentDistanceContour.axis, 'vertical');
+  assert.equal(formTitleContentDistanceContour.sourceChecksum.length, 64);
+
+  const formContentInsetsContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.inner-padding-standard.content-insets'
+  ));
+  assert.equal(formContentInsetsContour.kind, 'derived-geometry');
+  assert.equal(formContentInsetsContour.checks.length, 4);
+  assert.deepEqual(
+    formContentInsetsContour.checks.map((check) => check.actual.fact),
+    [
+      'composition.formFirstLevelSurface.contentInsets.top',
+      'composition.formFirstLevelSurface.contentInsets.right',
+      'composition.formFirstLevelSurface.contentInsets.bottom',
+      'composition.formFirstLevelSurface.contentInsets.left',
+    ],
+  );
+  assert.deepEqual(
+    formContentInsetsContour.checks.map((check) => check.expected.literal),
+    [32, 32, 32, 32],
+  );
+  assert.equal(formContentInsetsContour.sourceChecksum.length, 64);
+
+  const formMediumTitleDomainContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'rule:forms.construction-rules.title-medium-one-per-plate'
+  ));
+  assert.equal(formMediumTitleDomainContour.kind, 'fact-domain');
+  assert.equal(formMediumTitleDomainContour.revision, 2);
+  assert.deepEqual(formMediumTitleDomainContour.actual, {
+    fact: 'composition.formFirstLevelSurface.mediumTitlePosition',
+  });
+  assert.deepEqual(formMediumTitleDomainContour.allowedValues, ['single', 'first']);
+  assert.deepEqual(formMediumTitleDomainContour.scope, {
+    platform: ['desktop', 'mobile-web'],
+    pageType: ['form'],
+  });
+  assert.equal(formMediumTitleDomainContour.sourceChecksum.length, 64);
+
   const statusShapeContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'component:web-corp.status-property.shape-is-fixed-by-preset'
   ));
@@ -254,4 +1033,22 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     severity: 'error',
   });
   assert.equal(statusShapeContour.sourceChecksum.length, 64);
+
+  const statusFillContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.status-property.fill-follows-effective-baseline'
+  ));
+  assert.equal(statusFillContour.kind, 'baseline-set');
+  assert.equal(statusFillContour.revision, 2);
+  assert.deepEqual(statusFillContour.paths, [{
+    suffix: 'fill',
+    label: 'Заливка',
+    actualFact: 'appearance.fill.value',
+    baselineFact: 'baseline.effective.appearance.fill.value',
+  }]);
+  assert.deepEqual(statusFillContour.select.where[1], {
+    predicate: 'equals',
+    actual: { fact: 'ownership.contour.host.component.identity' },
+    expected: { literal: 'web-corp.status-property' },
+  });
+  assert.equal(statusFillContour.sourceChecksum.length, 64);
 });

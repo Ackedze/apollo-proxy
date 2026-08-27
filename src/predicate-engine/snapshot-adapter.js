@@ -29,11 +29,13 @@ function resolveComponent(component, componentIndex) {
     copyRecord(component.componentProperties),
   );
   const unknownFacts = [];
+  if (!component.name) unknownFacts.push('component.name');
   if (!metadata?.identity) unknownFacts.push('component.identity');
   if (!metadata?.lifecycle) unknownFacts.push('component.lifecycle');
   return {
     value: {
       key: component.key || null,
+      name: component.name || null,
       identity: metadata?.identity || null,
       family: metadata?.family || null,
       library: metadata?.library || null,
@@ -137,6 +139,7 @@ function addComponentContourFacts(nodes) {
         identity,
         rootNodeId: unresolvedBoundary ? null : root.id,
         isRoot: unresolvedBoundary ? null : root.id === node.id,
+        isResolvedRoot: !unresolvedBoundary && root.id === node.id,
         root: unresolvedBoundary ? null : { component: root.component },
         ancestorNodeIds: ancestorNodeIds.slice(),
       },
@@ -155,6 +158,46 @@ function addComponentContourFacts(nodes) {
     }
   }
 
+  // Non-instance layers belong to the contour of their nearest component
+  // owner. Propagating that contour makes nested visual facts addressable
+  // without hard-coding layer names or component-specific tree depths.
+  for (const node of nodes) {
+    if (node.type === 'INSTANCE' && node.component) continue;
+    const ownerNode = node.ownership?.ownerNodeId
+      ? nodeById.get(node.ownership.ownerNodeId)
+      : null;
+    const ownerContour = ownerNode?.ownership?.contour;
+    if (!ownerContour) continue;
+    node.ownership = Object.assign({}, node.ownership || {}, {
+      contour: Object.assign({}, ownerContour, {
+        isRoot: false,
+        isResolvedRoot: false,
+        ancestorNodeIds: Array.isArray(ownerContour.ancestorNodeIds)
+          ? ownerContour.ancestorNodeIds.slice()
+          : [],
+      }),
+    });
+  }
+
+  // Expose the first component outside the current contour. This is the
+  // semantic host (for example StatusPreset for a nested Core Status) and is
+  // required for host-dependent exceptions such as PropertyPreset Color=Custom.
+  for (const node of nodes) {
+    const contour = node.ownership?.contour;
+    const rootNode = contour?.rootNodeId ? nodeById.get(contour.rootNodeId) : null;
+    if (!rootNode) continue;
+    const host = nextComponentAncestor(rootNode);
+    if (!host.node?.component) continue;
+    node.ownership = Object.assign({}, node.ownership || {}, {
+      contour: Object.assign({}, contour, {
+        host: {
+          nodeId: host.node.id,
+          component: host.node.component,
+        },
+      }),
+    });
+  }
+
   return nodes;
 }
 
@@ -164,9 +207,26 @@ function snapshotBindingProperty(property) {
   return property;
 }
 
-function bindingRecord(variableBindings, layout) {
+function bindingRecord(variableBindings, layout, appearance, styles, nodeType) {
   const result = {};
   const unknownFacts = [];
+  if (nodeType === 'TEXT') {
+    if (styles && Object.prototype.hasOwnProperty.call(styles, 'textStyleId')) {
+      const textStyleId = styles.textStyleId;
+      const bound = typeof textStyleId === 'string'
+        && textStyleId.length > 0
+        && textStyleId !== 'MIXED';
+      setObjectPath(result, 'styles.text', {
+        bound,
+        kind: 'text-style',
+        value: bound ? textStyleId : null,
+        styleId: bound ? textStyleId : null,
+      });
+      if (textStyleId === 'MIXED') unknownFacts.push('bindings.styles.text');
+    } else {
+      unknownFacts.push('bindings.styles.text');
+    }
+  }
   if (layout?.padding && typeof layout.padding === 'object') {
     for (const side of ['top', 'right', 'bottom', 'left']) {
       setObjectPath(result, `padding.${side}`, {
@@ -179,6 +239,30 @@ function bindingRecord(variableBindings, layout) {
         variableId: null,
       });
     }
+  }
+  if (layout?.itemSpacing !== undefined && layout?.itemSpacing !== null) {
+    setObjectPath(result, 'itemSpacing', {
+      bound: false,
+      value: layout.itemSpacing,
+      variableIds: [],
+      variables: [],
+      collection: null,
+      token: null,
+      variableId: null,
+    });
+  }
+  for (const property of ['fills', 'strokes']) {
+    const paint = property === 'fills' ? appearance?.fill : appearance?.stroke;
+    if (!paint || paint.visible !== true) continue;
+    setObjectPath(result, property, {
+      bound: false,
+      value: paint.value ?? null,
+      variableIds: [],
+      variables: [],
+      collection: null,
+      token: null,
+      variableId: null,
+    });
   }
   for (const item of variableBindings || []) {
     if (!item || typeof item.property !== 'string') continue;
@@ -205,7 +289,9 @@ function bindingRecord(variableBindings, layout) {
       bound: variableIds.length > 0,
       value: property.startsWith('padding.')
         ? layout?.padding?.[property.slice('padding.'.length)] ?? null
-        : null,
+        : property === 'itemSpacing'
+          ? layout?.itemSpacing ?? null
+          : null,
       variableIds,
       variables,
       collection: collections.length === 1 ? collections[0] : null,
@@ -235,12 +321,48 @@ function changesByNode(changes) {
   return result;
 }
 
-function baselineForNode(changes) {
+function paintChangeValue(value) {
+  if (!value || typeof value !== 'object') return null;
+  const resourceName = typeof value.resourceName === 'string' && value.resourceName
+    ? value.resourceName
+    : null;
+  const bindingName = typeof value.bindingName === 'string' && value.bindingName
+    ? value.bindingName
+    : null;
+  return {
+    value: resourceName || bindingName || value.value || null,
+    resourceType: value.resourceType || null,
+    resourceName,
+    bindingName,
+    bindingCollection: value.bindingCollection || null,
+  };
+}
+
+function baselineForNode(changes, baselineReferences) {
   const effective = {};
+  const origins = {};
   const overrides = [];
   for (const change of changes || []) {
     const property = snapshotPropertyForChange(change.property);
-    setObjectPath(effective, property, readableChangeValue(change.baseline));
+    setObjectPath(
+      effective,
+      property,
+      readableChangeValue(change.baseline, change.property),
+    );
+    const reference = baselineReferences.get(change.baselineReferenceId) || null;
+    setObjectPath(origins, property, {
+      baselineReferenceId: change.baselineReferenceId || null,
+      ownerComponentKey: change.ownerComponentKey || null,
+      componentKey: reference?.componentKey || null,
+      nestedOwnerComponentKey: reference?.nestedOwnerComponentKey || null,
+      nestedOwnerRelativePath: reference?.nestedOwnerRelativePath || null,
+      variantProperties: copyRecord(reference?.variantProperties),
+      mapping: change.mapping || null,
+      resourceType: change.baseline?.resourceType || null,
+      resourceName: change.baseline?.resourceName || null,
+      bindingName: change.baseline?.bindingName || null,
+      bindingCollection: change.baseline?.bindingCollection || null,
+    });
     overrides.push({
       id: change.id,
       property: change.property,
@@ -256,15 +378,31 @@ function baselineForNode(changes) {
       .map((override) => override.property)
       .filter((property) => typeof property === 'string' && property),
   )).sort();
-  return { effective, overrides, overrideProperties };
+  return { effective, origins, overrides, overrideProperties };
 }
 
 function snapshotPropertyForChange(property) {
   if (property === 'styles.text') return 'appearance.styles.textStyle';
+  if (property === 'fill' || property === 'styles.fill') return 'appearance.fill';
+  if (property === 'stroke' || property === 'styles.stroke') return 'appearance.stroke';
+  if (property === 'radius' || property === 'appearance.radius') {
+    return 'appearance.radius';
+  }
+  if (property === 'opacity' || property === 'appearance.opacity') {
+    return 'appearance.opacity';
+  }
   return property;
 }
 
-function readableChangeValue(value) {
+function readableChangeValue(value, property = null) {
+  if (
+    property === 'fill' ||
+    property === 'styles.fill' ||
+    property === 'stroke' ||
+    property === 'styles.stroke'
+  ) {
+    return paintChangeValue(value);
+  }
   if (!value || typeof value !== 'object') return null;
   if (typeof value.resourceName === 'string' && value.resourceName) {
     return value.resourceName;
@@ -298,6 +436,65 @@ function hasTextStyleOverride(ownerNode, nodeId) {
   );
 }
 
+const OBSERVED_BASELINE_FACTS = Object.freeze([{
+  factPath: 'appearance.opacity',
+  overrideFields: ['opacity'],
+}, {
+  factPath: 'appearance.radius',
+  overrideFields: [
+    'cornerRadius',
+    'topLeftRadius',
+    'topRightRadius',
+    'bottomRightRadius',
+    'bottomLeftRadius',
+  ],
+}, {
+  factPath: 'appearance.fill.value',
+  overrideFields: ['fills', 'fillStyleId'],
+}, {
+  factPath: 'appearance.stroke.value',
+  overrideFields: ['strokes', 'strokeStyleId'],
+}]);
+
+function readSnapshotPath(root, factPath) {
+  let current = root;
+  for (const part of factPath.split('.')) {
+    if (
+      current === null ||
+      current === undefined ||
+      typeof current !== 'object' ||
+      !Object.prototype.hasOwnProperty.call(current, part)
+    ) {
+      return { exists: false, value: undefined };
+    }
+    current = current[part];
+  }
+  return { exists: true, value: current };
+}
+
+function addObservedBaselineFacts(node, nodeById) {
+  const ownerNodeId = node.ownership?.ownerNodeId;
+  const ownerNode = node.component
+    ? node
+    : (ownerNodeId ? nodeById.get(ownerNodeId) : null);
+  if (!ownerNode?.component) return;
+  const overrideFields = directOverrideFields(ownerNode, node.id);
+  for (const descriptor of OBSERVED_BASELINE_FACTS) {
+    const actual = readSnapshotPath(node, descriptor.factPath);
+    if (!actual.exists) continue;
+    const baselineFactPath = `baseline.effective.${descriptor.factPath}`;
+    if (readSnapshotPath(node, baselineFactPath).exists) continue;
+    if (descriptor.overrideFields.some((field) => overrideFields.includes(field))) {
+      node.unknownFacts = Array.from(new Set([
+        ...node.unknownFacts,
+        baselineFactPath,
+      ])).sort();
+      continue;
+    }
+    setObjectPath(node.baseline.effective, descriptor.factPath, actual.value);
+  }
+}
+
 function addEffectiveBaselineFacts(nodes, sourceNodes, indexedChanges) {
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
   const sourceById = new Map(sourceNodes.map((node) => [node.nodeId, node]));
@@ -308,9 +505,10 @@ function addEffectiveBaselineFacts(nodes, sourceNodes, indexedChanges) {
       setObjectPath(
         node,
         snapshotPropertyForChange(change.property),
-        readableChangeValue(change.actual),
+        readableChangeValue(change.actual, change.property),
       );
     }
+    addObservedBaselineFacts(node, nodeById);
     if (!source || source.type !== 'TEXT') continue;
     node.appearance.styles.textStyle = source.styles?.textStyleId ?? null;
     const textStyleChange = changes.find((change) => change.property === 'styles.text');
@@ -399,6 +597,72 @@ function addCompositionFacts(nodes) {
     }
   }
 
+  return nodes;
+}
+
+function addDeclaredCompositionFacts(nodes, definitions) {
+  if (!Array.isArray(definitions) || !definitions.length) return nodes;
+
+  for (const definition of definitions) {
+    const hostIdentities = new Set(definition?.match?.hostComponentIdentities || []);
+    const memberIdentities = new Set(definition?.select?.nestedComponentIdentities || []);
+    const visibleMemberFact = definition?.facts?.visibleMemberNodeIds;
+    const siblingPrefix = definition?.facts?.siblingPropertyValuesPrefix;
+    if (!hostIdentities.size || !memberIdentities.size || !visibleMemberFact || !siblingPrefix) {
+      continue;
+    }
+
+    const hosts = nodes.filter((node) => (
+      node.type === 'INSTANCE' && hostIdentities.has(node.component?.identity)
+    ));
+    for (const host of hosts) {
+      const members = nodes.filter((node) => (
+        node.visible === true &&
+        node.ownership?.ownerNodeId === host.id &&
+        memberIdentities.has(node.component?.identity)
+      )).sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
+      const memberNodeIds = members.map((member) => member.id);
+      setObjectPath(host, visibleMemberFact, memberNodeIds.slice());
+
+      const contractPropertyNames = (definition.constraints || [])
+        .map((constraint) => constraint?.property)
+        .filter((propertyName) => typeof propertyName === 'string' && propertyName);
+      const propertyNames = Array.from(new Set([
+        ...contractPropertyNames,
+        ...members.flatMap((member) => Object.keys(member.component?.properties || {})),
+      ])).sort();
+      const propertyValues = {};
+      const unknownPropertyPaths = [];
+      for (const propertyName of propertyNames) {
+        const values = members.map((member) => member.component?.properties?.[propertyName]);
+        if (values.every((value) => value !== undefined)) {
+          propertyValues[propertyName] = values;
+        } else {
+          unknownPropertyPaths.push(`${siblingPrefix}.${propertyName}`);
+        }
+      }
+
+      for (const [index, member] of members.entries()) {
+        member.composition = Object.assign({}, member.composition || {}, {
+          ownerNodeId: host.id,
+          siblingNodeIds: memberNodeIds.slice(),
+          position: compositionPosition(index, members.length),
+        });
+        for (const [propertyName, values] of Object.entries(propertyValues)) {
+          setObjectPath(member, `${siblingPrefix}.${propertyName}`, values.slice());
+        }
+        member.unknownFacts = Array.from(new Set([
+          ...member.unknownFacts,
+          ...unknownPropertyPaths,
+          ...contractPropertyNames
+            .filter((propertyName) => (
+              member.component?.properties?.[propertyName] === undefined
+            ))
+            .map((propertyName) => `component.properties.${propertyName}`),
+        ])).sort();
+      }
+    }
+  }
   return nodes;
 }
 
@@ -664,50 +928,77 @@ function addCollectionErrors(nodes, collectionErrors) {
   return nodes;
 }
 
-function addTitleViewStatusFacts(nodes) {
-  const nodeById = new Map(nodes.map((node) => [node.id, node]));
-  const titleViewOwners = nodes.filter((node) => (
-    node.component?.identity === 'web-corp.title-view' &&
-    node.component?.properties?.View !== undefined
+function addOwnedPeerPropertyFacts(nodes, definitions) {
+  const policies = (definitions || []).filter((definition) => (
+    definition?.kind === 'owned-peer-property-equality'
   ));
+  if (!policies.length) return nodes;
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
-  function belongsToOwner(node, ownerId) {
+  function nearestOwner(node, ownerIdentities) {
     let current = node.parentId ? nodeById.get(node.parentId) : null;
     while (current) {
-      if (current.id === ownerId) return true;
+      if (ownerIdentities.has(current.component?.identity)) return current;
       current = current.parentId ? nodeById.get(current.parentId) : null;
     }
-    return false;
+    return null;
   }
 
-  for (const owner of titleViewOwners) {
-    const status = nodes.find((node) => (
-      node.name === 'StatusPreset' &&
-      node.component?.properties?.Type !== undefined &&
-      belongsToOwner(node, owner.id)
+  for (const policy of policies) {
+    const ownerIdentities = new Set(
+      policy.ownerIdentities || (policy.ownerIdentity ? [policy.ownerIdentity] : []),
+    );
+    const collectionKey = policy.collectionKey;
+    const rolesFact = `composition.peerCollections.${collectionKey}.roles`;
+    const valuesFact = `composition.peerCollections.${collectionKey}.values`;
+    const targetNames = new Set(policy.target?.names || []);
+    const targetIdentities = new Set(
+      policy.target?.identities || (policy.target?.identity ? [policy.target.identity] : []),
+    );
+    const targets = nodes.filter((node) => (
+      targetIdentities.has(node.component?.identity) &&
+      targetNames.has(node.name)
     ));
-    const titleStatus = nodes.find((node) => (
-      ['[D] TitleStatus', '[M] TitleStatus'].includes(node.name) &&
-      belongsToOwner(node, owner.id)
-    ));
-    if (!titleStatus) continue;
 
-    const items = [
-      status ? { role: 'Status', node: status } : null,
-      { role: 'TitleStatus', node: titleStatus },
-    ].filter(Boolean);
-    const typeValues = items.map((item) => item.node.component?.properties?.Type);
-    const complete = typeValues.every((value) => value !== undefined);
-    titleStatus.composition = Object.assign({}, titleStatus.composition || {}, {
-      ownerStatusTypeNodeIds: items.map((item) => item.node.id),
-      ownerVisibleStatusRoles: items.map((item) => item.role),
-      ownerStatusTypeValues: complete ? typeValues : null,
-    });
-    if (!complete) {
-      titleStatus.unknownFacts = Array.from(new Set([
-        ...titleStatus.unknownFacts,
-        'composition.ownerStatusTypeValues',
-      ])).sort();
+    for (const target of targets) {
+      const owner = nearestOwner(target, ownerIdentities);
+      if (!owner) continue;
+      const members = [];
+      let ambiguous = false;
+      let incomplete = false;
+
+      for (const descriptor of policy.members || []) {
+        const names = new Set(descriptor.names || []);
+        const candidates = nodes.filter((node) => (
+          names.has(node.name) && nearestOwner(node, ownerIdentities)?.id === owner.id
+        ));
+        if (!candidates.length) continue;
+        if (candidates.length !== 1) {
+          ambiguous = true;
+          continue;
+        }
+        const member = candidates[0];
+        const property = readSnapshotPath(member, descriptor.propertyFact);
+        members.push({ role: descriptor.role, node: member, property });
+        if (!property.exists) incomplete = true;
+      }
+
+      target.composition = Object.assign({}, target.composition || {});
+      if (!target.composition.peerCollections) target.composition.peerCollections = {};
+      target.composition.peerCollections[collectionKey] = {
+        memberNodeIds: members.map((member) => member.node.id),
+        roles: members.map((member) => member.role),
+        values: !ambiguous && !incomplete
+          ? members.map((member) => member.property.value)
+          : null,
+      };
+      if (ambiguous || incomplete) {
+        target.unknownFacts = Array.from(new Set([
+          ...target.unknownFacts,
+          valuesFact,
+          ...(ambiguous ? [rolesFact] : []),
+        ])).sort();
+      }
     }
   }
   return nodes;
@@ -717,61 +1008,64 @@ function normalizeSlotRole(name) {
   return String(name || '').replace(/^\[(?:D|M)\]\s*/, '').trim();
 }
 
-function addTitleViewSlotFacts(nodes, requiredOrder) {
-  if (!Array.isArray(requiredOrder) || !requiredOrder.length) return nodes;
+function addSlotOrderFacts(nodes, policies) {
+  if (!Array.isArray(policies) || !policies.length) return nodes;
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
-  const roleByNormalizedName = new Map(
-    requiredOrder.map((role) => [normalizeSlotRole(role), role]),
-  );
-  const owners = nodes.filter((node) => (
-    node.component?.identity === 'web-corp.title-view'
-  ));
+  for (const policy of policies) {
+    const requiredOrder = policy.order;
+    const ownerIdentities = new Set(policy.ownerComponentIdentities || []);
+    const containerNames = new Set(policy.containerNames || []);
+    const roleByNormalizedName = new Map(
+      requiredOrder.map((role) => [normalizeSlotRole(role), role]),
+    );
+    const owners = nodes.filter((node) => ownerIdentities.has(node.component?.identity));
 
-  for (const owner of owners) {
-    const mainContent = (owner.childIds || [])
-      .map((nodeId) => nodeById.get(nodeId))
-      .find((node) => node?.name === 'MainContent');
-    if (!mainContent) continue;
+    for (const owner of owners) {
+      const container = (owner.childIds || [])
+        .map((nodeId) => nodeById.get(nodeId))
+        .find((node) => containerNames.has(node?.name));
+      if (!container) continue;
 
-    const slots = (mainContent.childIds || [])
-      .map((nodeId) => nodeById.get(nodeId))
-      .filter((node) => node?.visible === true)
-      .map((node) => ({
-        node,
-        role: roleByNormalizedName.get(normalizeSlotRole(node.name)) || null,
-      }))
-      .filter((entry) => entry.role !== null);
-    const nodesByRole = new Map();
-    for (const entry of slots) {
-      if (!nodesByRole.has(entry.role)) nodesByRole.set(entry.role, []);
-      nodesByRole.get(entry.role).push(entry.node);
-    }
-    const ambiguous = Array.from(nodesByRole.values()).some((items) => items.length !== 1);
-    const actualRoles = slots.map((entry) => entry.role);
-    const expectedRoles = requiredOrder.filter((role) => nodesByRole.has(role));
-
-    for (const entry of slots) {
-      entry.node.slot = {
-        ownerNodeId: owner.id,
-        ownerComponentIdentity: owner.component.identity,
-        role: entry.role,
-      };
-      entry.node.composition = Object.assign({}, entry.node.composition || {}, {
-        ownerVisibleSlotSequence: actualRoles.slice(),
-        ownerExpectedVisibleSlotSequence: expectedRoles.slice(),
-      });
-      if (ambiguous) {
-        entry.node.unknownFacts = Array.from(new Set([
-          ...entry.node.unknownFacts,
-          'composition.expectedPreviousSlotNodeId',
-        ])).sort();
-        continue;
+      const slots = (container.childIds || [])
+        .map((nodeId) => nodeById.get(nodeId))
+        .filter((node) => node?.visible === true)
+        .map((node) => ({
+          node,
+          role: roleByNormalizedName.get(normalizeSlotRole(node.name)) || null,
+        }))
+        .filter((entry) => entry.role !== null);
+      const nodesByRole = new Map();
+      for (const entry of slots) {
+        if (!nodesByRole.has(entry.role)) nodesByRole.set(entry.role, []);
+        nodesByRole.get(entry.role).push(entry.node);
       }
-      const expectedIndex = expectedRoles.indexOf(entry.role);
-      const previousRole = expectedIndex > 0 ? expectedRoles[expectedIndex - 1] : null;
-      const previousNode = previousRole ? nodesByRole.get(previousRole)?.[0] : null;
-      entry.node.composition.expectedPreviousSlotNodeId = previousNode?.id || null;
-      entry.node.composition.expectedPreviousSlotRole = previousRole;
+      const ambiguous = Array.from(nodesByRole.values()).some((items) => items.length !== 1);
+      const actualRoles = slots.map((entry) => entry.role);
+      const expectedRoles = requiredOrder.filter((role) => nodesByRole.has(role));
+
+      for (const entry of slots) {
+        entry.node.slot = {
+          ownerNodeId: owner.id,
+          ownerComponentIdentity: owner.component.identity,
+          role: entry.role,
+        };
+        entry.node.composition = Object.assign({}, entry.node.composition || {}, {
+          ownerVisibleSlotSequence: actualRoles.slice(),
+          ownerExpectedVisibleSlotSequence: expectedRoles.slice(),
+        });
+        if (ambiguous) {
+          entry.node.unknownFacts = Array.from(new Set([
+            ...entry.node.unknownFacts,
+            'composition.expectedPreviousSlotNodeId',
+          ])).sort();
+          continue;
+        }
+        const expectedIndex = expectedRoles.indexOf(entry.role);
+        const previousRole = expectedIndex > 0 ? expectedRoles[expectedIndex - 1] : null;
+        const previousNode = previousRole ? nodesByRole.get(previousRole)?.[0] : null;
+        entry.node.composition.expectedPreviousSlotNodeId = previousNode?.id || null;
+        entry.node.composition.expectedPreviousSlotRole = previousRole;
+      }
     }
   }
   return nodes;
@@ -809,93 +1103,109 @@ function addParentCompositionFacts(nodes) {
   return nodes;
 }
 
-function addBackgroundPlateOverlayFacts(nodes) {
+function nodeMatchesContourDescriptor(node, descriptor) {
+  if (!node || !descriptor) return false;
+  if (descriptor.identity && node.component?.identity !== descriptor.identity) return false;
+  if (descriptor.family && node.component?.family !== descriptor.family) return false;
+  if (Array.isArray(descriptor.names) && !descriptor.names.includes(node.name)) return false;
+  for (const [property, expected] of Object.entries(descriptor.properties || {})) {
+    if (node.component?.properties?.[property] !== expected) return false;
+  }
+  if (
+    descriptor.positioning !== undefined &&
+    node.layout?.positioning !== descriptor.positioning
+  ) return false;
+  return true;
+}
+
+function addCoLocatedUnderlayFacts(nodes, definitions) {
+  const policies = (definitions || []).filter((definition) => (
+    definition?.kind === 'co-located-underlay'
+  ));
+  if (!policies.length) return nodes;
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
-  for (const node of nodes) {
-    if (
-      node.component?.identity !== 'web-corp.background-plate' ||
-      node.component?.properties?.Position !== 'Level 2 (inner)'
-    ) {
-      continue;
-    }
 
-    const parent = node.parentId ? nodeById.get(node.parentId) : null;
-    if (!parent) {
-      node.unknownFacts = Array.from(new Set([
-        ...node.unknownFacts,
-        'composition.level1Underlay',
-      ])).sort();
-      continue;
-    }
+  for (const policy of policies) {
+    const relationPath = `composition.underlayRelations.${policy.relationKey}`;
+    const targets = nodes.filter((node) => (
+      nodeMatchesContourDescriptor(node, policy.subject) &&
+      (policy.subject.publicRootOnly !== true || !node.ownership?.ownerNodeId)
+    ));
 
-    let host = parent;
-    let candidates = [];
-    while (host) {
-      candidates = (host.childIds || [])
-        .map((nodeId) => nodeById.get(nodeId))
-        .filter((candidate) => (
-          candidate &&
-          candidate.visible === true &&
-          candidate.component?.identity === 'web-corp.background-plate' &&
-          candidate.component?.properties?.Position === 'Level 1 (outer)'
-        ));
-      if (candidates.length) break;
-      host = host.parentId ? nodeById.get(host.parentId) : null;
-    }
+    for (const node of targets) {
 
-    if (candidates.length > 1) {
-      node.unknownFacts = Array.from(new Set([
-        ...node.unknownFacts,
-        'composition.level1Underlay',
-      ])).sort();
-      continue;
-    }
-
-    const underlay = candidates[0] || null;
-    let contentNode = node;
-    if (underlay && host) {
-      while (contentNode.parentId && contentNode.parentId !== host.id) {
-        const ancestor = nodeById.get(contentNode.parentId);
-        if (!ancestor) break;
-        contentNode = ancestor;
+      const parent = node.parentId ? nodeById.get(node.parentId) : null;
+      if (!parent) {
+        node.unknownFacts = Array.from(new Set([
+          ...node.unknownFacts,
+          relationPath,
+        ])).sort();
+        continue;
       }
-    }
-    node.composition = Object.assign({}, node.composition || {}, {
-      level1Underlay: underlay
+
+      let host = parent;
+      let candidates = [];
+      while (host) {
+        candidates = (host.childIds || [])
+          .map((nodeId) => nodeById.get(nodeId))
+          .filter((candidate) => (
+            candidate?.visible === true &&
+            nodeMatchesContourDescriptor(candidate, policy.underlay)
+          ));
+        if (candidates.length) break;
+        host = host.parentId ? nodeById.get(host.parentId) : null;
+      }
+
+      if (candidates.length > 1) {
+        node.unknownFacts = Array.from(new Set([
+          ...node.unknownFacts,
+          relationPath,
+        ])).sort();
+        continue;
+      }
+
+      const underlay = candidates[0] || null;
+      let contentNode = node;
+      if (underlay && host) {
+        while (contentNode.parentId && contentNode.parentId !== host.id) {
+          const ancestor = nodeById.get(contentNode.parentId);
+          if (!ancestor) break;
+          contentNode = ancestor;
+        }
+      }
+      node.composition = Object.assign({}, node.composition || {});
+      if (!node.composition.underlayRelations) node.composition.underlayRelations = {};
+      node.composition.underlayRelations[policy.relationKey] = underlay
         ? {
             nodeId: underlay.id,
             contentNodeId: contentNode.id,
-            contentLayout: {
-              positioning: contentNode.layout?.positioning ?? null,
-            },
-            parentNodeId: underlay.parentId,
-            parentLayoutMode: host?.layout?.mode ?? null,
+            contentLayout: { positioning: contentNode.layout?.positioning ?? null },
+            hostNodeId: host?.id ?? null,
+            hostLayoutMode: host?.layout?.mode ?? null,
             component: underlay.component,
-            layout: {
-              positioning: underlay.layout?.positioning ?? null,
-            },
+            layout: { positioning: underlay.layout?.positioning ?? null },
             bounds: underlay.bounds,
           }
-        : null,
-    });
+        : null;
 
-    if (underlay) {
-      const underlayUnknownFacts = (underlay.unknownFacts || [])
-        .filter((factPath) => (
-          factPath === 'component' ||
-          factPath.startsWith('component.') ||
-          factPath === 'bounds' ||
-          factPath === 'layout.positioning'
-        ))
-        .map((factPath) => `composition.level1Underlay.${factPath}`);
-      const contentUnknownFacts = (contentNode.unknownFacts || [])
-        .filter((factPath) => factPath === 'layout.positioning')
-        .map((factPath) => `composition.level1Underlay.contentLayout.${factPath.slice('layout.'.length)}`);
-      node.unknownFacts = Array.from(new Set([
-        ...node.unknownFacts,
-        ...underlayUnknownFacts,
-        ...contentUnknownFacts,
-      ])).sort();
+      if (underlay) {
+        const underlayUnknownFacts = (underlay.unknownFacts || [])
+          .filter((factPath) => (
+            factPath === 'component' ||
+            factPath.startsWith('component.') ||
+            factPath === 'bounds' ||
+            factPath === 'layout.positioning'
+          ))
+          .map((factPath) => `${relationPath}.${factPath}`);
+        const contentUnknownFacts = (contentNode.unknownFacts || [])
+          .filter((factPath) => factPath === 'layout.positioning')
+          .map((factPath) => `${relationPath}.contentLayout.${factPath.slice('layout.'.length)}`);
+        node.unknownFacts = Array.from(new Set([
+          ...node.unknownFacts,
+          ...underlayUnknownFacts,
+          ...contentUnknownFacts,
+        ])).sort();
+      }
     }
   }
   return nodes;
@@ -1499,11 +1809,23 @@ function buildPredicateSnapshotV2(input) {
   }
   const componentIndex = input.componentIndex || {};
   const indexedChanges = changesByNode(bundle.changes);
+  const baselineReferences = new Map(
+    (bundle.baselines || []).map((reference) => [reference.id, reference]),
+  );
   let nodes = bundle.graph.nodes.map((source, order) => {
     const component = resolveComponent(source.component, componentIndex);
     const ownership = resolveOwner(source.componentOwner, componentIndex);
-    const baseline = baselineForNode(indexedChanges.get(source.nodeId));
-    const bindings = bindingRecord(source.variableBindings, source.layout);
+    const baseline = baselineForNode(
+      indexedChanges.get(source.nodeId),
+      baselineReferences,
+    );
+    const bindings = bindingRecord(
+      source.variableBindings,
+      source.layout,
+      source.appearance,
+      source.styles,
+      source.type,
+    );
     const unknownFacts = Array.from(new Set([
       ...component.unknownFacts,
       ...ownership.unknownFacts,
@@ -1519,6 +1841,11 @@ function buildPredicateSnapshotV2(input) {
         source.layout?.sizingVertical === undefined ||
         source.layout?.sizingVertical === null
           ? ['layout.sizingVertical']
+          : []
+      ),
+      ...(
+        source.type === 'TEXT' && !Number.isFinite(source.text?.length)
+          ? ['text.length']
           : []
       ),
     ])).sort();
@@ -1545,7 +1872,25 @@ function buildPredicateSnapshotV2(input) {
         itemSpacing: source.layout.itemSpacing,
         clipsContent: source.layout.clipsContent,
       },
-      appearance: { styles: copyRecord(source.styles) },
+      appearance: {
+        styles: copyRecord(source.styles),
+        opacity: source.appearance?.opacity ?? null,
+        radius: source.appearance?.radius ?? null,
+        fill: source.appearance?.fill
+          ? Object.assign({}, source.appearance.fill, {
+              paintTypes: Array.isArray(source.appearance.fill.paintTypes)
+                ? source.appearance.fill.paintTypes.slice()
+                : [],
+            })
+          : null,
+        stroke: source.appearance?.stroke
+          ? Object.assign({}, source.appearance.stroke, {
+              paintTypes: Array.isArray(source.appearance.stroke.paintTypes)
+                ? source.appearance.stroke.paintTypes.slice()
+                : [],
+            })
+          : null,
+      },
       bindings: bindings.value,
       text: source.text
         ? {
@@ -1557,18 +1902,22 @@ function buildPredicateSnapshotV2(input) {
       ownership: ownership.value,
       slot: null,
       composition: null,
-      baseline: { effective: baseline.effective },
+      baseline: {
+        effective: baseline.effective,
+        origins: baseline.origins,
+      },
       overrides: baseline.overrides,
       overrideProperties: baseline.overrideProperties,
       unknownFacts,
     };
   });
   nodes = addCompositionFacts(nodes);
+  nodes = addDeclaredCompositionFacts(nodes, input.compositionDefinitions);
   nodes = addBenefitsCompositionFacts(nodes);
   nodes = addTableViewCompositionFacts(nodes);
   nodes = addParentCompositionFacts(nodes);
   nodes = addComponentContourFacts(nodes);
-  nodes = addBackgroundPlateOverlayFacts(nodes);
+  nodes = addCoLocatedUnderlayFacts(nodes, input.contourDefinitions);
   nodes = addFormFirstLevelBlockFacts(
     nodes,
     input.pageType ?? bundle.context.pageType ?? null,
@@ -1593,8 +1942,8 @@ function buildPredicateSnapshotV2(input) {
     nodes,
     input.pageType ?? bundle.context.pageType ?? null,
   );
-  nodes = addTitleViewSlotFacts(nodes, input.titleViewSlotOrder);
-  nodes = addTitleViewStatusFacts(nodes);
+  nodes = addSlotOrderFacts(nodes, input.slotOrderPolicies);
+  nodes = addOwnedPeerPropertyFacts(nodes, input.contourDefinitions);
   nodes = addEffectiveBaselineFacts(nodes, bundle.graph.nodes, indexedChanges);
   nodes = addCollectionErrors(nodes, input.collectionErrors);
   const snapshot = {
@@ -1630,5 +1979,7 @@ function buildPredicateSnapshotV2(input) {
 }
 
 module.exports = {
+  addDeclaredCompositionFacts,
+  addSlotOrderFacts,
   buildPredicateSnapshotV2,
 };
