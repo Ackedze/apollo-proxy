@@ -17,9 +17,17 @@ test('migration wave audit exposes freshness and production closure without chan
   const benefits = audit.packages.find((entry) => entry.packageId === 'web-corp-promo.benefits');
   const backgroundPlate = audit.packages.find((entry) => entry.packageId === 'web-corp.background-plate');
   const buttonStack = audit.packages.find((entry) => entry.packageId === 'web-corp.button-stack');
+  const amount = audit.packages.find((entry) => entry.packageId === 'web-core.amount');
+  const tagGroup = audit.packages.find((entry) => entry.packageId === 'web-core.tag-group');
+  const paymentMaskedNumber = audit.packages.find(
+    (entry) => entry.packageId === 'web-corp.payment-masked-number',
+  );
   assert.equal(benefits.runtimeStatus, 'production-closed');
   assert.equal(backgroundPlate.runtimeStatus, 'production-closed');
   assert.equal(buttonStack.runtimeStatus, 'production-closed');
+  assert.equal(amount.runtimeStatus, 'production-closed');
+  assert.equal(tagGroup.runtimeStatus, 'production-closed');
+  assert.equal(paymentMaskedNumber.runtimeStatus, 'production-closed');
   assert.deepEqual(benefits.routes, {
     predicate: 3,
     composition: 0,
@@ -34,9 +42,30 @@ test('migration wave audit exposes freshness and production closure without chan
     policy: 5,
     contextOnly: 5,
   });
+  assert.deepEqual(amount.routes, {
+    predicate: 2,
+    composition: 0,
+    delegated: 0,
+    policy: 0,
+    contextOnly: 0,
+  });
+  assert.deepEqual(tagGroup.routes, {
+    predicate: 1,
+    composition: 0,
+    delegated: 0,
+    policy: 1,
+    contextOnly: 0,
+  });
+  assert.deepEqual(paymentMaskedNumber.routes, {
+    predicate: 1,
+    composition: 0,
+    delegated: 0,
+    policy: 1,
+    contextOnly: 0,
+  });
   assert.equal(benefits.missingRoutes.length, 0);
   assert.equal(buttonStack.missingRoutes.length, 0);
   assert.equal(backgroundPlate.sourceRuleCount, 27);
   assert.equal(backgroundPlate.missingRoutes.length, 0);
-  assert.equal(audit.safeToPromote, false);
+  assert.equal(audit.safeToPromote, true);
 });

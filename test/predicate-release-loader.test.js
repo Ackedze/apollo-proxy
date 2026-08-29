@@ -203,6 +203,33 @@ test('ButtonStack production policy closes all rules without inventing predicate
   );
 });
 
+test('supporting packages are production-closed and expose only approved contours', () => {
+  const packages = [
+    ['web/components/web-core/core/Amount', 'web-core.amount', 2],
+    ['web/components/web-core/core/TagGroup', 'web-core.tag-group', 1],
+    ['web/components/web-corp/PaymentMaskedNumber', 'web-corp.payment-masked-number', 1],
+  ];
+  const figmaKeys = [
+    'fe3399f71c9e0971646821d935b64657e462c28e',
+    'a3dc186947232ebf1978ba767c8d46fc355e3b3e',
+    'bd25bbd83bfc28176b42284659f21c8a7cd8e97b',
+  ];
+  const release = loadPredicateRelease(designSystemRoot, figmaKeys);
+
+  for (const [packagePath, identity, predicateCount] of packages) {
+    const rulesPath = path.join(designSystemRoot, 'JSONS', packagePath, 'rules.json');
+    const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+    assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []), identity);
+    assert.equal(
+      release.contourDefinitions.filter(
+        (definition) => definition.ruleId.startsWith(`component:${identity}.`),
+      ).length,
+      predicateCount,
+      identity,
+    );
+  }
+});
+
 test('FilterCompanySelect execution policy closes every real component rule exactly once', () => {
   const rulesPath = path.join(
     designSystemRoot,
