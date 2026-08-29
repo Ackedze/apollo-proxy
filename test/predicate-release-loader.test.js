@@ -29,7 +29,6 @@ test('BenefitCard execution policy closes the DS AI Hub rules and exposes execut
     [
       ['component:web.benefit-card-bottom-content-link-only', 'fact-domain'],
       ['component:web.benefit-card-platform-version-must-match', 'platform-match'],
-      ['component:web.benefit-card-secondary-surface-not-recommended', 'fact-domain'],
       ['component:web.benefit-card.compact-required-at-1024', 'fact-domain'],
       ['component:web.benefit-card.compact-uses-secondary-title', 'fact-domain'],
       ['component:web.benefit-card.public-roots-only', 'public-root'],
