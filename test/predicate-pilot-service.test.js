@@ -41,6 +41,7 @@ const CARD_IMAGE_XS_ACTIVE_KEY = 'acc0bda0cee8df12ef3be8b215b5858fbd19afcb';
 const CARD_IMAGE_XS_INACTIVE_KEY = '54a5bac509c2fb21b12d21b5471b1e0d180a37c1';
 const ONBOARDING_TOOLTIP_KEY = 'c9a8db25e3fb6bc7907464f81547a6295816c59b';
 const BACKGROUND_PLATE_STYLE_LEVEL_1_KEY = 'adb65a62cde9ebedc5d0d41d2d77cd63e71e0745';
+const BACKGROUND_PLATE_STYLE_LEVEL_2_KEY = '3db7b24d3047696007a36a13c8da09f9256014e0';
 const BACKGROUND_PLATE_DESKTOP_ROOT_KEY = '2c7332d281570f4d5af6d334f8df378d24a1f235';
 const BACKGROUND_PLATE_DESKTOP_SLOT_KEY = '5b6c5ac720154aff36be2f8a883bd058faa663cf';
 const BACKGROUND_PLATE_MOBILE_ROOT_KEY = '4cfe3915785e5c37255190ae16314f6f2a1d05b3';
@@ -4653,6 +4654,46 @@ function backgroundPlateAppearanceRequest({
   return input;
 }
 
+function backgroundPlateLevel2TypeRequest(type) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const owner = {
+    nodeId: '33:10',
+    componentKey: BACKGROUND_PLATE_KEY,
+    name: '[D] BackgroundPlate',
+    path: '[D] BackgroundPlate',
+    relativePath: '',
+    variantProperties: { Position: 'Level 2 (inner)' },
+    componentProperties: { Position: 'Level 2 (inner)' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['33:10'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '33:10',
+      childNodeIds: ['33:11'],
+      path: '[D] BackgroundPlate',
+      name: '[D] BackgroundPlate',
+      component: component(BACKGROUND_PLATE_KEY, '[D] BackgroundPlate', {
+        Position: 'Level 2 (inner)',
+      }),
+    }),
+    evidenceNode({
+      nodeId: '33:11',
+      parentNodeId: '33:10',
+      depth: 1,
+      path: '[D] BackgroundPlate / [D] Style Level 2',
+      name: '[D] Style Level 2',
+      component: component(BACKGROUND_PLATE_STYLE_LEVEL_2_KEY, '[D] Style Level 2', {
+        Type: type,
+      }),
+      componentOwner: owner,
+    }),
+  ];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = [];
+  input.evidenceBundle.changes = [];
+  return input;
+}
+
 test('BackgroundPlate package applies independent Level-2 and Colored appearance predicates', () => {
   const evaluate = (options, ruleId) => {
     const output = evaluatePredicatePilotRequest(backgroundPlateAppearanceRequest(options), {
@@ -4665,16 +4706,17 @@ test('BackgroundPlate package applies independent Level-2 and Colored appearance
   const paintRule = 'component:web-corp.background-plate.colored-uses-fill-without-stroke';
   const borderRule = 'component:web-corp.background-plate.border-has-no-visible-fill';
 
-  assert.equal(evaluate({
-    type: 'Primary',
-    position: 'Level 2 (inner)',
-  }, typeRule).classification, 'compliant');
-  const invalidType = evaluate({
-    type: 'Secondary',
-    position: 'Level 2 (inner)',
-  }, typeRule);
+  const evaluateLevel2Type = (type) => {
+    const output = evaluatePredicatePilotRequest(backgroundPlateLevel2TypeRequest(type), {
+      designSystemRoot,
+    });
+    return output.result.evaluations.find((item) => item.ruleId === typeRule);
+  };
+
+  assert.equal(evaluateLevel2Type('Primary').classification, 'compliant');
+  const invalidType = evaluateLevel2Type('Secondary');
   assert.equal(invalidType.classification, 'violation');
-  assert.equal(invalidType.focusNodeId, '33:0');
+  assert.equal(invalidType.focusNodeId, '33:11');
 
   assert.equal(evaluate({ type: 'Colored', fillBound: true }, bindingRule).classification, 'compliant');
   const rawFill = evaluate({ type: 'Colored', fillBound: false }, bindingRule);
