@@ -10,6 +10,41 @@ const {
 
 const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
 
+test('BenefitCard execution policy closes the DS AI Hub rules and exposes executable contours', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp-promo/BenefitCard/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 30);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '61cba21130d5adfd36b798bb4a41f6ccd148c1aa',
+  ]);
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.includes('benefit-card'))
+      .map((definition) => [definition.ruleId, definition.kind]),
+    [
+      ['component:web.benefit-card-bottom-content-link-only', 'fact-domain'],
+      ['component:web.benefit-card-platform-version-must-match', 'platform-match'],
+      ['component:web.benefit-card-secondary-surface-not-recommended', 'fact-domain'],
+      ['component:web.benefit-card.compact-required-at-1024', 'fact-domain'],
+      ['component:web.benefit-card.compact-uses-secondary-title', 'fact-domain'],
+      ['component:web.benefit-card.public-roots-only', 'public-root'],
+      ['component:web.benefit-card.visuals-follow-effective-baseline', 'baseline-set'],
+    ],
+  );
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
 test('TitleView execution policy closes every real component rule exactly once', () => {
   const rulesPath = path.join(
     designSystemRoot,
