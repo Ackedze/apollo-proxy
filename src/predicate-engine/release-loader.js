@@ -327,6 +327,7 @@ function loadPredicateRelease(designSystemRoot, requestedFigmaKeys = []) {
       family: packageEntry.packageName || null,
       library: null,
       lifecycle: null,
+      platform: null,
       api: null,
     };
     for (const figmaKey of figmaKeys) {
@@ -343,6 +344,7 @@ function loadPredicateRelease(designSystemRoot, requestedFigmaKeys = []) {
         family: contract.normalizedName || baseMetadata.family,
         library: contract.source?.library || generated.source?.library || null,
         lifecycle: contract.status || null,
+        platform: contract.platform || null,
       });
       for (const figmaKey of contractKeys(contract)) {
         if (requested.has(figmaKey)) componentIndex[figmaKey] = metadata;

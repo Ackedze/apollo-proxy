@@ -30,7 +30,14 @@
           "classification": { "enum": ["violation", "compliant", "allowed", "human-review", "not-applicable", "not-evaluable"] },
           "severity": { "enum": ["error", "warning", "info"] },
           "trace": { "$ref": "apollo-predicate-trace-v1.schema.json" },
-          "actionId": { "type": ["string", "null"] }
+          "actionId": { "type": ["string", "null"] },
+          "rootFindingId": { "type": "string", "minLength": 1 },
+          "derivedFindingIds": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true
+          },
+          "causalGroupingReason": { "type": "string", "minLength": 1 }
         }
       }
     },

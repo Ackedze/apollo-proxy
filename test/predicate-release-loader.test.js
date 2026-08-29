@@ -50,6 +50,64 @@ test('Core Button execution policy closes every real component rule exactly once
   );
 });
 
+test('Core IconView execution policy closes the reusable boundary rules exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-core/core/IconView/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.metadata.status, 'ready');
+  assert.equal(document.manual.rules.length, 5);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    'f188fb1de981b2f32966f4844a4b10cffdb81c35',
+    '913a526e98f177533ca3e4495d6658d0120e6afe',
+  ]);
+  const main = release.componentIndex.f188fb1de981b2f32966f4844a4b10cffdb81c35;
+  const content = release.componentIndex['913a526e98f177533ca3e4495d6658d0120e6afe'];
+  assert.deepEqual(
+    { identity: main.identity, family: main.family, platform: main.platform },
+    { identity: 'web-core.icon-view', family: 'icon-view', platform: 'universal' },
+  );
+  assert.deepEqual(
+    { identity: content.identity, family: content.family, platform: content.platform },
+    { identity: 'web-core.icon-view', family: 'content', platform: 'universal' },
+  );
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web-core.icon-view.'))
+      .map((definition) => [definition.ruleId, definition.kind]),
+    [
+      ['component:web-core.icon-view.layer-properties-use-effective-baseline', 'baseline-set'],
+      ['component:web-core.icon-view.public-root-only', 'public-root'],
+    ],
+  );
+
+  const baselineRule = document.manual.rules.find(
+    (rule) => rule.ruleId === 'component:web-core.icon-view.layer-properties-use-effective-baseline',
+  );
+  assert.equal(baselineRule.appliesTo, 'layout.*|radius|opacity');
+  assert.equal(
+    baselineRule.predicateContour.paths.some((entry) =>
+      ['appearance.fill.value', 'appearance.stroke.value'].includes(entry.actualFact),
+    ),
+    false,
+  );
+  const paintRule = document.manual.rules.find(
+    (rule) => rule.ruleId === 'component:web-core.icon-view.paint-colors-are-public-settings',
+  );
+  assert.equal(paintRule.classification.treatAsViolation, false);
+  assert.equal(paintRule.authority.status, 'active');
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
 test('ButtonsGroup execution policy closes every source rule and both platform contracts', () => {
   const rulesPath = path.join(
     designSystemRoot,
@@ -75,6 +133,203 @@ test('ButtonsGroup execution policy closes every source rule and both platform c
   );
 });
 
+test('BackgroundPlate execution policy closes every real component rule exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/BackgroundPlate/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 27);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
+test('Benefits production policy closes every rule and exposes only declared predicates', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp-promo/Benefits/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 19);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '5eb973ab22e01c40d556cc600f1a5c15101b8192',
+  ]);
+  assert.equal(
+    release.componentIndex['5eb973ab22e01c40d556cc600f1a5c15101b8192'].identity,
+    'web.benefits',
+  );
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web.benefits.'))
+      .map((definition) => definition.ruleId)
+      .sort(),
+    [
+      'component:web.benefits.capacity-matches-card-count',
+      'component:web.benefits.fill-width-hug-height',
+      'component:web.benefits.nested-card-settings-are-uniform',
+    ],
+  );
+});
+
+test('ButtonStack production policy closes all rules without inventing predicates', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/ButtonStack [M]/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 15);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '1e9261fa9df082fa82b6ec3b42b429797f906cd9',
+  ]);
+  assert.equal(
+    release.componentIndex['1e9261fa9df082fa82b6ec3b42b429797f906cd9'].identity,
+    'web-corp.button-stack',
+  );
+  assert.deepEqual(
+    release.contourDefinitions.filter(
+      (definition) => definition.ruleId.startsWith('component:web-corp.button-stack.'),
+    ),
+    [],
+  );
+});
+
+test('FilterCompanySelect execution policy closes every real component rule exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/FilterCompanySelect/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 32);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
+test('AccountSelect execution policy closes every real component rule exactly once', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/AccountSelect/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 41);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
+test('next ten Corp packages close every source rule and compile from canonical Figma keys', () => {
+  const packages = [
+    ['AmountStyles', '46d9453084998704a7c26aefd8c2d4427e3a4f5c', 'web-corp.amount-styles'],
+    ['CorporateAppHeaderNew [D]', 'd187029a0a1af08dbb499e13b3ef2ac98efaaac2', 'web-corp.corporate-app-header-new'],
+    ['CorporateSystemMessage', '985497c1f5a102a52e4d4dc40b6953303db72f8e', 'web-corp.corporate-system-message'],
+    ['CorporateTopbar [D]', '636e6d4474770d65d5b077757a9c1c62c08a8f8c', 'web-corp.corporate-topbar'],
+    ['FAQ', '4ea9c627c5990f79b4acff821221db8cc1191308', 'web-corp.faq'],
+    ['HoldingPlate', '2ae29ad1eedf15fcc9cdc927a718121e3595f156', 'web-corp.holding-plate'],
+    ['ScenarioModel ! interruption', 'f7644c318f200ae2d63acba8f6def7a1aa3a749b', 'web-corp.scenario-model-interruption'],
+    ['Table Basic [D]', 'aca58bac6a6137109081a0f7289424b5a240d0fd', 'web-corp.table-basic-d'],
+    ['Table Wide [D]', '4ebc8002c21ea12d0e149fb782cdf0b219769a8a', 'web-corp.table-wide-d'],
+    ['[D] FilterCompanySelect_UniversalModal', '9a23ab30e0b4c5e60362fd0eb4905e9fe1fc1b21', 'web-corp.filter-company-select-universal-modal'],
+  ];
+  const release = loadPredicateRelease(designSystemRoot, packages.map((entry) => entry[1]));
+  const canonicalRootFamilies = new Map([
+    ['web-corp.amount-styles', ['amount-headline', 'amount-paragraph']],
+    ['web-corp.corporate-app-header-new', ['header', 'side-menu', '768-header-menu']],
+    ['web-corp.corporate-system-message', ['corporate-system-message']],
+    ['web-corp.corporate-topbar', ['top-bar']],
+    ['web-corp.faq', ['faq']],
+    ['web-corp.scenario-model-interruption', ['scenario-model-interruption']],
+  ]);
+  const platformPublicFamilies = new Map([
+    ['web-corp.amount-styles', ['amount-headline', 'amount-paragraph']],
+    ['web-corp.corporate-app-header-new', ['header', 'side-menu', '768-header-menu']],
+    ['web-corp.corporate-system-message', ['corporate-system-message']],
+    ['web-corp.corporate-topbar', ['top-bar']],
+    ['web-corp.holding-plate', ['holding-plate']],
+    ['web-corp.scenario-model-interruption', ['scenario-model-interruption']],
+    ['web-corp.table-basic-d', [
+      'body-action-cell-basic',
+      'body-cell-basic',
+      'body-control-cell-basic',
+      'group-divider-basic',
+      'body-cell',
+      'body-row-basic',
+    ]],
+    ['web-corp.table-wide-d', [
+      'body-action-cell-wide',
+      'body-cell-wide',
+      'body-control-cell-wide',
+      'head-action-cell',
+      'head-cell',
+      'head-control-cell',
+      'body-group-row-wide',
+      'body-row-wide',
+      'head-row-universal',
+    ]],
+    ['web-corp.filter-company-select-universal-modal', [
+      'filter-company-select-universal-modal',
+    ]],
+  ]);
+  for (const [directory, , identity] of packages) {
+    const rulesPath = path.join(
+      designSystemRoot,
+      `JSONS/web/components/web-corp/${directory}/rules.json`,
+    );
+    const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+    assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []), directory);
+    assert.ok(
+      release.contourDefinitions.some((definition) => definition.ruleId.startsWith(`component:${identity}.`)),
+      `${directory} has no compiled contour`,
+    );
+    if (canonicalRootFamilies.has(identity)) {
+      const publicBoundary = release.contourDefinitions.find((definition) => (
+        definition.kind === 'fact-domain'
+        && definition.actual?.fact === 'component.family'
+        && definition.select?.where?.some((condition) => (
+          condition.actual?.fact === 'component.identity'
+          && condition.expected?.literal === identity
+        ))
+      ));
+      assert.ok(publicBoundary, `${directory} has no stable root-family contour`);
+      assert.deepEqual(
+        publicBoundary.allowedValues,
+        canonicalRootFamilies.get(identity),
+        `${directory} public families are not canonical`,
+      );
+    }
+    if (platformPublicFamilies.has(identity)) {
+      const platformRule = release.contourDefinitions.find((definition) => (
+        definition.kind === 'platform-match' && definition.identity === identity
+      ));
+      assert.ok(platformRule, `${directory} has no platform contour`);
+      assert.deepEqual(
+        platformRule.publicFamilies,
+        platformPublicFamilies.get(identity),
+        `${directory} platform contour has no explicit public boundary`,
+      );
+    }
+  }
+});
+
 test('predicate release resolves canonical Figma keys and pins source checksums', () => {
   const release = loadPredicateRelease(designSystemRoot, [
     'f05915599f71e822fd8b46a2b2509a2e395005cf',
@@ -83,6 +338,7 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     '0fb58a88030651af939c278b544143643cdd1223',
     '6e9a72189d150779165acb1dde3a800b92daa2f9',
     'af607289bf050cc8236b882039cf787d32296383',
+    '77938b4511abfbafdd13b13f6bb6f3fbe87cf2a2',
     '1043a9208a949b1af3f708637de5fd13721a4519',
     '7b188529df2fdf9c6e93989b2173f6cc95fc77d6',
     'b0e271a2c5e94e00b753d223c1bce95b87da95af',
@@ -230,10 +486,14 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   assert.equal(compactOneColumnContour.sourceChecksum.length, 64);
   const accountItemSum = release.componentIndex['7b188529df2fdf9c6e93989b2173f6cc95fc77d6'];
   const accountItemNumber = release.componentIndex['b0e271a2c5e94e00b753d223c1bce95b87da95af'];
+  const accountSelectDesktop = release.componentIndex['77938b4511abfbafdd13b13f6bb6f3fbe87cf2a2'];
+  const accountSelectMobile = release.componentIndex['1043a9208a949b1af3f708637de5fd13721a4519'];
   assert.equal(accountItemSum.identity, 'web-corp.account-select');
   assert.equal(accountItemNumber.identity, 'web-corp.account-select');
   assert.equal(accountItemSum.family, 'account-item');
   assert.equal(accountItemNumber.family, 'account-item');
+  assert.equal(accountSelectDesktop.platform, 'desktop');
+  assert.equal(accountSelectMobile.platform, 'mobile-web');
   const cardSwiper360 = release.componentIndex['0ccaf9d784aa8b603d6229a898f46433ee74b925'];
   const cardSwiper320 = release.componentIndex.d115bb68174c21fe7475748dc31f651221db4558;
   assert.equal(cardSwiper360.identity, 'web-corp.card-swiper-mobile');
@@ -247,6 +507,7 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     schemaVersion: 'apollo.contour-definition.v1',
     kind: 'public-root',
     identity: 'web-corp.account-select',
+    standaloneOnly: true,
     familyFact: 'component.family',
     allowedFamilies: ['account-option-list-content'],
     presentation: {
@@ -272,6 +533,16 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     severity: 'error',
   });
   assert.equal(accountSelectContour.sourceChecksum.length, 64);
+
+  const accountSelectPlatformContour = release.contourDefinitions.find((definition) => (
+    definition.ruleId === 'component:web-corp.account-select.platform-match'
+  ));
+  assert.equal(accountSelectPlatformContour.kind, 'platform-match');
+  assert.equal(accountSelectPlatformContour.identity, 'web-corp.account-select');
+  assert.equal(accountSelectPlatformContour.publicRootOnly, true);
+  assert.deepEqual(accountSelectPlatformContour.publicFamilies, ['account-option-list-content']);
+  assert.deepEqual(accountSelectPlatformContour.supportedPlatforms, ['desktop', 'mobile-web']);
+  assert.equal(accountSelectPlatformContour.sourceChecksum.length, 64);
 
   const accountSelectUniformContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'component:web-corp.account-select.list-content-is-uniform'
@@ -419,48 +690,6 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
     severity: 'error',
   });
   assert.equal(buttonsGroupSizingContour.sourceChecksum.length, 64);
-
-  const backgroundPlateSlotSizingContour = release.contourDefinitions.find((definition) => (
-    definition.ruleId === 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height'
-  ));
-  assert.deepEqual(backgroundPlateSlotSizingContour, {
-    schemaVersion: 'apollo.contour-definition.v1',
-    kind: 'sizing',
-    identity: 'web-corp.background-plate',
-    where: [{
-      predicate: 'equals',
-      actual: { fact: 'component.family' },
-      expected: { literal: 'background-plate-slot' },
-    }, {
-      predicate: 'not',
-      args: [{
-        predicate: 'exists',
-        actual: { fact: 'ownership.ownerNodeId' },
-      }],
-    }],
-    expectations: {
-      'layout.sizingHorizontal': 'FILL',
-      'layout.sizingVertical': 'HUG',
-    },
-    presentation: {
-      schemaVersion: 'apollo.predicate-presentation.v1',
-      title: 'Sizing BackgroundPlateSlot изменён',
-      observed: 'Размер корня BackgroundPlateSlot не соответствует контракту Fill по ширине и Hug по высоте.',
-      expectation: 'Корень BackgroundPlateSlot должен использовать Fill container по ширине и Hug contents по высоте.',
-      action: 'Установить для BackgroundPlateSlot ширину Fill и высоту Hug.',
-    },
-    scope: { platform: ['desktop', 'mobile-web'] },
-    unknownPolicy: 'not-evaluable',
-    ruleId: 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height',
-    revision: 2,
-    sourcePath: 'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/rules.json',
-    sourceChecksum: backgroundPlateSlotSizingContour.sourceChecksum,
-    sourceAnchor: 'rules/component:web-corp.background-plate.slot-sizing-fill-width-hug-height',
-    authorityStatus: 'active',
-    provenance: 'design-system-author',
-    severity: 'error',
-  });
-  assert.equal(backgroundPlateSlotSizingContour.sourceChecksum.length, 64);
 
   const titleViewBaselineContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'component:web-corp.title-view.root-style-and-clickability-prohibited'
@@ -741,32 +970,31 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   }]);
   assert.equal(tabsStrokeContour.sourceChecksum.length, 64);
 
-  const backgroundPlatePaddingContour = release.contourDefinitions.find((definition) => (
-    definition.ruleId === 'component:web-corp.background-plate.padding-uses-spacing-tokens'
-  ));
-  assert.equal(backgroundPlatePaddingContour.kind, 'binding-set');
-  assert.equal(backgroundPlatePaddingContour.identity, 'web-corp.background-plate');
-  assert.equal(backgroundPlatePaddingContour.publicRootOnly, true);
-  assert.deepEqual(
-    backgroundPlatePaddingContour.paths.map((entry) => entry.suffix),
-    ['top', 'right', 'bottom', 'left'],
-  );
-  assert.deepEqual(backgroundPlatePaddingContour.expectedBinding, {
-    bound: true,
-    collection: 'Spacing',
-  });
-  assert.equal(backgroundPlatePaddingContour.sourceChecksum.length, 64);
-
   const backgroundPlateStrokeBindingContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'component:web-corp.background-plate.colored-and-border-use-color-tokens'
   ));
   assert.equal(backgroundPlateStrokeBindingContour.kind, 'binding-set');
-  assert.equal(backgroundPlateStrokeBindingContour.revision, 2);
+  assert.equal(backgroundPlateStrokeBindingContour.revision, 3);
   assert.deepEqual(backgroundPlateStrokeBindingContour.paths, [{
+    suffix: 'fill',
+    label: 'Заливка',
+    valueFact: 'appearance.fill.value',
+    bindingFact: 'bindings.fills',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'component.properties.Type' },
+      expected: { literal: 'Colored' },
+    }],
+  }, {
     suffix: 'stroke',
     label: 'Обводка',
     valueFact: 'appearance.stroke.value',
     bindingFact: 'bindings.strokes',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'component.properties.Type' },
+      expected: { literal: 'Border' },
+    }],
   }]);
   assert.deepEqual(backgroundPlateStrokeBindingContour.expectedBinding, { bound: true });
   assert.equal(backgroundPlateStrokeBindingContour.sourceChecksum.length, 64);

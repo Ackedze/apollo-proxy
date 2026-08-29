@@ -610,6 +610,127 @@ test('inactive authority fails closed before predicate evaluation', () => {
   assert.equal(result.trace.truth, 'unknown');
 });
 
+test('explicit source-rule causality groups violations without changing verdicts', () => {
+  const rootRule = rule('equals', 'component.properties.View', 'Primary', {
+    ruleId: 'rule:test.root-cause',
+    causality: {
+      causes: [{
+        ruleId: 'rule:test.consequence',
+        relation: 'same-subject',
+        reason: 'the invalid root variant determines the dependent visual state',
+      }],
+    },
+  });
+  const consequenceRule = rule('equals', 'component.properties.Size', '56', {
+    ruleId: 'rule:test.consequence',
+  });
+  const result = evaluateRules({
+    snapshot: snapshot({
+      testNode: node({
+        component: {
+          key: 'button-key',
+          identity: 'web-core.button',
+          lifecycle: 'active',
+          properties: { View: 'Accent', Size: '40' },
+        },
+      }),
+    }),
+    rules: [consequenceRule, rootRule],
+    ruleRelease: 'causal-grouping-v1',
+  });
+  const byRule = new Map(result.evaluations.map((item) => [item.ruleId, item]));
+  const root = byRule.get(rootRule.ruleId);
+  const consequence = byRule.get(consequenceRule.ruleId);
+
+  assert.equal(root.classification, 'violation');
+  assert.equal(consequence.classification, 'violation');
+  assert.equal(root.rootFindingId, root.evaluationId);
+  assert.deepEqual(root.derivedFindingIds, [consequence.evaluationId]);
+  assert.equal(consequence.rootFindingId, root.evaluationId);
+  assert.deepEqual(consequence.derivedFindingIds, []);
+  assert.equal(
+    consequence.causalGroupingReason,
+    'the invalid root variant determines the dependent visual state',
+  );
+  assert.equal(result.coverage.byClassification.violation, 2);
+});
+
+test('TableView causal grouping keeps Compact, spacing and column count atomic', () => {
+  const compactRule = rule('equals', 'component.properties.Compact', 'False', {
+    ruleId: 'component:web-corp.table-view.compact-is-consistent-across-rows',
+    causality: {
+      causes: [{
+        ruleId: 'component:web-corp.table-view.horizontal-compact-one-column',
+        relation: 'same-subject',
+        reason: 'row Compact mismatch is the root of its dependent column-count violation',
+      }],
+    },
+  });
+  const spacingRule = rule('equals', 'composition.spacingVertical', 16, {
+    ruleId: 'component:web-corp.table-view.row-spacing-matches-compact',
+  });
+  const columnRule = rule('equals', 'composition.visibleDataColumnCount', 1, {
+    ruleId: 'component:web-corp.table-view.horizontal-compact-one-column',
+  });
+  const tableViewSnapshot = (compact) => snapshot({
+    testNode: node({
+      component: {
+        key: 'table-row-key',
+        identity: 'web-corp.table-view',
+        lifecycle: 'active',
+        properties: { Compact: compact },
+      },
+      composition: {
+        spacingVertical: 12,
+        visibleDataColumnCount: 2,
+      },
+    }),
+  });
+
+  const grouped = evaluateRules({
+    snapshot: tableViewSnapshot('True'),
+    rules: [spacingRule, columnRule, compactRule],
+    ruleRelease: 'table-view-causal-grouping-v1',
+  });
+  const groupedByRule = new Map(grouped.evaluations.map((item) => [item.ruleId, item]));
+  const compactViolation = groupedByRule.get(compactRule.ruleId);
+  const spacingViolation = groupedByRule.get(spacingRule.ruleId);
+  const columnViolation = groupedByRule.get(columnRule.ruleId);
+
+  assert.deepEqual(compactViolation.derivedFindingIds, [columnViolation.evaluationId]);
+  assert.equal(columnViolation.rootFindingId, compactViolation.evaluationId);
+  assert.equal(spacingViolation.rootFindingId, undefined);
+  assert.equal(spacingViolation.causalGroupingReason, undefined);
+
+  const spacingOnlyRootAbsent = evaluateRules({
+    snapshot: tableViewSnapshot('False'),
+    rules: [spacingRule, columnRule, compactRule],
+    ruleRelease: 'table-view-causal-grouping-v1',
+  });
+  const independentByRule = new Map(
+    spacingOnlyRootAbsent.evaluations.map((item) => [item.ruleId, item]),
+  );
+  assert.equal(independentByRule.get(compactRule.ruleId).classification, 'compliant');
+  assert.equal(independentByRule.get(spacingRule.ruleId).classification, 'violation');
+  assert.equal(independentByRule.get(columnRule.ruleId).classification, 'violation');
+  assert.equal(independentByRule.get(columnRule.ruleId).rootFindingId, undefined);
+});
+
+test('causality rejects unsupported implicit relations', () => {
+  assert.throws(
+    () => validateRule(rule('equals', 'component.properties.View', 'Primary', {
+      causality: {
+        causes: [{
+          ruleId: 'rule:test.consequence',
+          relation: 'similar-component',
+          reason: 'implicit similarity is not deterministic',
+        }],
+      },
+    })),
+    (error) => error.code === 'RULE_IR_INVALID',
+  );
+});
+
 test('page context facts preserve explicit unknown state', () => {
   const testRule = rule('exists', 'page.context.fileKey', undefined);
   const result = evaluate(snapshot({

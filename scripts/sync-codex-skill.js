@@ -6,14 +6,6 @@ const path = require('node:path');
 const PROXY_ROOT = path.resolve(__dirname, '..');
 const REPOSITORY_ROOT = path.resolve(PROXY_ROOT, '..', '..');
 const SKILL_NAME = 'apollo-design-validator';
-const SOURCE_ROOT = path.join(
-  REPOSITORY_ROOT,
-  'projects',
-  'Apollo-v2',
-  '.agents',
-  'skills',
-  SKILL_NAME
-);
 const TARGET_ROOT = path.join(
   PROXY_ROOT,
   'codex-workspace',
@@ -21,6 +13,15 @@ const TARGET_ROOT = path.join(
   'skills',
   SKILL_NAME
 );
+const SOURCE_CANDIDATES = [
+  process.env.APOLLO_SKILL_SOURCE_ROOT,
+  path.join(REPOSITORY_ROOT, 'projects', 'Apollo-v3', '.agents', 'skills', SKILL_NAME),
+  path.join(REPOSITORY_ROOT, 'projects', 'Apollo-v2', '.agents', 'skills', SKILL_NAME),
+  TARGET_ROOT,
+].filter(Boolean);
+const SOURCE_ROOT = SOURCE_CANDIDATES.find((candidate) => (
+  fs.existsSync(path.join(candidate, 'SKILL.md'))
+)) || SOURCE_CANDIDATES[0];
 
 function listFiles(root, directory = root) {
   const files = [];
@@ -102,9 +103,11 @@ async function main() {
     validateStructuredOutputSchema(responseSchema);
   }
 
-  await fsp.rm(TARGET_ROOT, { recursive: true, force: true });
-  await fsp.mkdir(path.dirname(TARGET_ROOT), { recursive: true });
-  await fsp.cp(SOURCE_ROOT, TARGET_ROOT, { recursive: true, force: true });
+  if (path.resolve(SOURCE_ROOT) !== path.resolve(TARGET_ROOT)) {
+    await fsp.rm(TARGET_ROOT, { recursive: true, force: true });
+    await fsp.mkdir(path.dirname(TARGET_ROOT), { recursive: true });
+    await fsp.cp(SOURCE_ROOT, TARGET_ROOT, { recursive: true, force: true });
+  }
 
   const sourceChecksum = checksum(SOURCE_ROOT);
   const targetChecksum = checksum(TARGET_ROOT);

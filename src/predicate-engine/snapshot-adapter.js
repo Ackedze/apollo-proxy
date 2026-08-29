@@ -40,6 +40,7 @@ function resolveComponent(component, componentIndex) {
       family: metadata?.family || null,
       library: metadata?.library || null,
       lifecycle: metadata?.lifecycle || null,
+      platform: metadata?.platform || null,
       properties,
       api: metadata?.api || null,
       directOverrides: Array.isArray(component.directOverrides)

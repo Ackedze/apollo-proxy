@@ -73,6 +73,11 @@ const DERIVE_OPERATORS = new Set([
   'length',
   'absolute-difference',
 ]);
+const CAUSAL_RELATIONS = new Set([
+  'same-subject',
+  'same-focus',
+  'descendant-subject',
+]);
 
 function stableStringify(value) {
   if (Array.isArray(value)) return `[${value.map(stableStringify).join(',')}]`;
@@ -282,6 +287,42 @@ function validateRule(rule) {
   if (rule.when) validateExpressionCapabilities(rule.when, 'when');
   for (const [index, expression] of (rule.select?.where || []).entries()) {
     validateExpressionCapabilities(expression, `select.where[${index}]`);
+  }
+  if (rule.causality !== undefined && rule.causality !== null) {
+    if (
+      typeof rule.causality !== 'object'
+      || Array.isArray(rule.causality)
+      || !Array.isArray(rule.causality.causes)
+      || !rule.causality.causes.length
+    ) {
+      throw capabilityError(
+        'RULE_IR_INVALID',
+        'causality.causes must be a non-empty array',
+      );
+    }
+    for (const [index, cause] of rule.causality.causes.entries()) {
+      if (!cause || typeof cause !== 'object' || Array.isArray(cause)) {
+        throw capabilityError('RULE_IR_INVALID', `causality.causes[${index}] must be an object`);
+      }
+      if (typeof cause.ruleId !== 'string' || !cause.ruleId) {
+        throw capabilityError(
+          'RULE_IR_INVALID',
+          `causality.causes[${index}].ruleId must be a non-empty string`,
+        );
+      }
+      if (!CAUSAL_RELATIONS.has(cause.relation)) {
+        throw capabilityError(
+          'RULE_IR_INVALID',
+          `causality.causes[${index}].relation is unsupported: ${cause.relation}`,
+        );
+      }
+      if (typeof cause.reason !== 'string' || !cause.reason) {
+        throw capabilityError(
+          'RULE_IR_INVALID',
+          `causality.causes[${index}].reason must be a non-empty string`,
+        );
+      }
+    }
   }
   return rule;
 }
@@ -610,6 +651,9 @@ function evaluateExpression(expression, subject, snapshot) {
     return makeTrace(expression.predicate, TRUTH.UNKNOWN, 'comparison evidence is unknown', actual, expected, factPaths);
   }
   if (actual.state === 'absent' || expected.state === 'absent') {
+    if (expression.missingPolicy === 'unknown') {
+      return makeTrace(expression.predicate, TRUTH.UNKNOWN, 'comparison value is absent', actual, expected, factPaths);
+    }
     return makeTrace(expression.predicate, TRUTH.FALSE, 'comparison value is absent', actual, expected, factPaths);
   }
   if (expression.predicate === 'equals') {
@@ -971,9 +1015,35 @@ function evaluationId(hash, rule, subject, trace, applicability) {
   });
 }
 
+function traceNodes(trace) {
+  if (!trace || typeof trace !== 'object') return [];
+  return [trace, ...(trace.children || []).flatMap(traceNodes)];
+}
+
+function normalizePlatformTrace(rule, subject, trace) {
+  if (rule.presentation?.causalRole !== 'platform-root') return trace;
+  const componentPlatform = subject.component?.platform;
+  const candidates = traceNodes(trace).filter((item) => (
+    (item.factPaths || []).includes('page.context.platform')
+  ));
+  const comparison = componentPlatform === 'universal'
+    ? candidates.find((item) => item.predicate === 'one-of')
+    : candidates.find((item) => (
+      item.predicate === 'equals'
+      && (item.factPaths || []).includes('component.platform')
+    ));
+  if (!comparison) return trace;
+  return Object.assign({}, trace, {
+    reason: 'page channel compatibility evaluated',
+    actual: comparison.actual,
+    expected: comparison.expected,
+  });
+}
+
 function makeEvaluation(hash, rule, subject, applicability, classification, trace) {
+  const normalizedTrace = normalizePlatformTrace(rule, subject, trace);
   return {
-    evaluationId: evaluationId(hash, rule, subject, trace, applicability),
+    evaluationId: evaluationId(hash, rule, subject, normalizedTrace, applicability),
     ruleId: rule.ruleId,
     ruleRevision: rule.revision,
     subjectNodeId: subject.id,
@@ -983,7 +1053,7 @@ function makeEvaluation(hash, rule, subject, applicability, classification, trac
     applicability,
     classification,
     severity: rule.severity,
-    trace,
+    trace: normalizedTrace,
     actionId: null,
   };
 }
@@ -1000,6 +1070,143 @@ function buildCoverage(evaluations) {
     unclassified: evaluations.filter((item) => !item.classification).length,
     duplicateEvaluationIds: ids.length - new Set(ids).size,
   };
+}
+
+function isDescendantOrSelf(node, ancestorNodeId, index) {
+  let current = node;
+  while (current) {
+    if (current.id === ancestorNodeId) return true;
+    current = current.parentId ? index.get(current.parentId) : null;
+  }
+  return false;
+}
+
+function suppressPlatformDependentViolations(evaluations, rules, snapshot, hash) {
+  const index = nodeIndex(snapshot);
+  const rulesById = new Map(rules.map((rule) => [rule.ruleId, rule]));
+  const platformViolations = evaluations.filter((evaluation) => (
+    evaluation.classification === 'violation'
+    && rulesById.get(evaluation.ruleId)?.presentation?.causalRole === 'platform-root'
+  ));
+  if (!platformViolations.length) return evaluations;
+
+  return evaluations.map((evaluation) => {
+    if (
+      evaluation.classification !== 'violation'
+      || platformViolations.some((platform) => platform.evaluationId === evaluation.evaluationId)
+      || !(evaluation.trace?.factPaths || []).includes('page.context.platform')
+    ) return evaluation;
+
+    const subject = index.get(evaluation.subjectNodeId);
+    const cause = platformViolations.find((platform) => (
+      subject && isDescendantOrSelf(subject, platform.subjectNodeId, index)
+    ));
+    if (!cause) return evaluation;
+
+    const rule = rulesById.get(evaluation.ruleId);
+    if (!rule) return evaluation;
+    const trace = makeTrace(
+      'causal-suppression',
+      TRUTH.UNKNOWN,
+      `platform-dependent violation is suppressed by ${cause.ruleId}`,
+      { state: 'known', value: evaluation.subjectNodeId },
+      { state: 'known', value: cause.subjectNodeId },
+      ['page.context.platform'],
+    );
+    return Object.assign(
+      makeEvaluation(
+        hash,
+        rule,
+        subject,
+        APPLICABILITY.NOT_APPLICABLE,
+        'not-applicable',
+        trace,
+      ),
+      {
+        suppressedByEvaluationId: cause.evaluationId,
+        suppressedByRuleId: cause.ruleId,
+      },
+    );
+  });
+}
+
+function causalRelationMatches(root, derived, relation, index) {
+  if (relation === 'same-subject') {
+    return root.subjectNodeId === derived.subjectNodeId;
+  }
+  if (relation === 'same-focus') {
+    return root.focusNodeId === derived.focusNodeId;
+  }
+  if (relation === 'descendant-subject') {
+    const derivedSubject = index.get(derived.subjectNodeId);
+    return Boolean(
+      derivedSubject
+      && derivedSubject.id !== root.subjectNodeId
+      && isDescendantOrSelf(derivedSubject, root.subjectNodeId, index)
+    );
+  }
+  return false;
+}
+
+function groupCausalViolations(evaluations, rules, snapshot) {
+  const index = nodeIndex(snapshot);
+  const rulesById = new Map(rules.map((rule) => [rule.ruleId, rule]));
+  const violations = evaluations.filter((evaluation) => (
+    evaluation.classification === 'violation'
+  ));
+  const assignmentByDerivedId = new Map();
+  const derivedByRootId = new Map();
+
+  const roots = violations
+    .filter((evaluation) => rulesById.get(evaluation.ruleId)?.causality?.causes?.length)
+    .sort((left, right) => (
+      left.subjectNodeId.localeCompare(right.subjectNodeId)
+      || left.ruleId.localeCompare(right.ruleId)
+      || left.evaluationId.localeCompare(right.evaluationId)
+    ));
+
+  for (const root of roots) {
+    const rule = rulesById.get(root.ruleId);
+    for (const cause of rule.causality.causes) {
+      const candidates = violations
+        .filter((evaluation) => (
+          evaluation.evaluationId !== root.evaluationId
+          && evaluation.ruleId === cause.ruleId
+          && !assignmentByDerivedId.has(evaluation.evaluationId)
+          && causalRelationMatches(root, evaluation, cause.relation, index)
+        ))
+        .sort((left, right) => (
+          left.subjectNodeId.localeCompare(right.subjectNodeId)
+          || left.evaluationId.localeCompare(right.evaluationId)
+        ));
+      for (const derived of candidates) {
+        assignmentByDerivedId.set(derived.evaluationId, {
+          rootFindingId: root.evaluationId,
+          causalGroupingReason: cause.reason,
+        });
+        if (!derivedByRootId.has(root.evaluationId)) {
+          derivedByRootId.set(root.evaluationId, []);
+        }
+        derivedByRootId.get(root.evaluationId).push(derived.evaluationId);
+      }
+    }
+  }
+
+  return evaluations.map((evaluation) => {
+    const derived = assignmentByDerivedId.get(evaluation.evaluationId);
+    if (derived) {
+      return Object.assign({}, evaluation, derived, { derivedFindingIds: [] });
+    }
+    const derivedFindingIds = (derivedByRootId.get(evaluation.evaluationId) || [])
+      .slice()
+      .sort((left, right) => left.localeCompare(right));
+    if (!derivedFindingIds.length) return evaluation;
+    return Object.assign({}, evaluation, {
+      rootFindingId: evaluation.evaluationId,
+      derivedFindingIds,
+      causalGroupingReason: 'explicit source-rule causal relation',
+    });
+  });
 }
 
 function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
@@ -1055,7 +1262,13 @@ function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
       ));
     }
   }
-  evaluations.sort((left, right) => (
+  const normalizedEvaluations = groupCausalViolations(suppressPlatformDependentViolations(
+    evaluations,
+    rules,
+    snapshot,
+    hash,
+  ), rules, snapshot);
+  normalizedEvaluations.sort((left, right) => (
     left.subjectNodeId.localeCompare(right.subjectNodeId) ||
     left.ruleId.localeCompare(right.ruleId) ||
     left.evaluationId.localeCompare(right.evaluationId)
@@ -1064,8 +1277,8 @@ function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
     schemaVersion: 'apollo.predicate-result.v1',
     snapshotHash: hash,
     ruleRelease,
-    evaluations,
-    coverage: buildCoverage(evaluations),
+    evaluations: normalizedEvaluations,
+    coverage: buildCoverage(normalizedEvaluations),
   };
 }
 

@@ -45,7 +45,30 @@
     "assert": { "$ref": "#/$defs/expression" },
     "severity": { "enum": ["error", "warning", "info"] },
     "unknownPolicy": { "enum": ["not-evaluable", "human-review"] },
-    "remediation": { "type": ["object", "null"] }
+    "remediation": { "type": ["object", "null"] },
+    "causality": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["causes"],
+      "properties": {
+        "causes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ruleId", "relation", "reason"],
+            "properties": {
+              "ruleId": { "type": "string", "minLength": 1 },
+              "relation": {
+                "enum": ["same-subject", "same-focus", "descendant-subject"]
+              },
+              "reason": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
   },
   "$defs": {
     "selector": {

@@ -59,6 +59,7 @@ function createRule(options) {
     unknownPolicy: options.unknownPolicy || 'not-evaluable',
     remediation: options.remediation || null,
     presentation: options.presentation || null,
+    causality: options.causality || null,
   };
 }
 
@@ -70,6 +71,15 @@ function publicRootRule(options) {
     actual: { fact: 'ownership.contour.isRoot' },
     expected: { literal: true },
   }]);
+  if (options.standaloneOnly === true) {
+    where.push({
+      predicate: 'not',
+      args: [{
+        predicate: 'exists',
+        actual: { fact: 'ownership.contour.host.component.identity' },
+      }],
+    });
+  }
   return createRule(Object.assign({}, options, {
     presentation: options.presentation
       ? Object.assign({}, options.presentation, { targetFact })
@@ -84,6 +94,121 @@ function publicRootRule(options) {
         fact: targetFact,
       },
       expected: { literal: options.allowedFamilies.slice() },
+    },
+  }));
+}
+
+function platformMatchRule(options) {
+  const platformFact = options.platformFact || 'component.platform';
+  const contextPlatformFact = options.contextPlatformFact || 'page.context.platform';
+  const supportedPlatforms = options.supportedPlatforms || [
+    'desktop',
+    'mobile-web',
+    'ios',
+    'android',
+  ];
+  if (
+    !Array.isArray(supportedPlatforms) ||
+    !supportedPlatforms.length ||
+    supportedPlatforms.some((platform) => typeof platform !== 'string' || !platform)
+  ) {
+    throw new TypeError('platformMatchRule supportedPlatforms must not be empty');
+  }
+  const publicFamilies = options.publicFamilies || [];
+  if (
+    options.publicRootOnly === true
+    && (
+      !Array.isArray(publicFamilies)
+      || !publicFamilies.length
+      || publicFamilies.some((family) => typeof family !== 'string' || !family)
+    )
+  ) {
+    throw new TypeError(
+      'platformMatchRule publicRootOnly requires a non-empty publicFamilies list',
+    );
+  }
+  const suppliedSelect = options.select && typeof options.select === 'object'
+    ? options.select
+    : null;
+  const suppliedWhere = suppliedSelect?.where || options.where || [];
+  // Instance names are mutable document labels. Contract identity/key is the
+  // platform authority, so a renamed PASS/FAIL fixture must remain selectable.
+  const where = suppliedWhere.filter((expression) => (
+    expression?.actual?.fact !== 'component.name'
+    && expression?.actual?.fact !== platformFact
+  ));
+  const hasContourRootConstraint = where.some((expression) => (
+    expression?.actual?.fact === 'ownership.contour.isRoot'
+  ));
+  const hasPublicFamilyConstraint = where.some((expression) => (
+    expression?.actual?.fact === 'component.family'
+  ));
+  if (options.publicRootOnly === true && !hasContourRootConstraint) {
+    where.push({
+      predicate: 'equals',
+      actual: { fact: 'ownership.contour.isRoot' },
+      expected: { literal: true },
+    });
+  }
+  if (options.publicRootOnly === true && !hasPublicFamilyConstraint) {
+    where.push({
+      predicate: 'one-of',
+      actual: { fact: 'component.family' },
+      expected: { literal: publicFamilies.slice() },
+    });
+  }
+  if (options.standaloneOnly !== false) {
+    where.push({
+      predicate: 'not',
+      args: [{
+        predicate: 'exists',
+        actual: { fact: 'ownership.contour.host.component.identity' },
+      }],
+    });
+  }
+  // Supported component platforms are the assertion input, not an
+  // applicability gate. Keeping them in scope would make a desktop-only rule
+  // not-applicable on mobile-web before the mismatch can be evaluated.
+  const scope = Object.assign({}, options.scope || {});
+  delete scope.platform;
+  const select = suppliedSelect
+    ? Object.assign({}, suppliedSelect, { where })
+    : componentSelector(options.identity, where);
+  return createRule(Object.assign({}, options, {
+    scope,
+    // The root trace is normalized to the page channel comparison. Do not set
+    // targetFact here: the UI would otherwise render an internal false branch
+    // (for example the raw `universal` contract marker) instead of that root.
+    presentation: Object.assign({}, options.presentation || {}, {
+      causalRole: 'platform-root',
+    }),
+    select,
+    assert: {
+      predicate: 'any',
+      args: [{
+        predicate: 'all',
+        args: [{
+          predicate: 'one-of',
+          actual: { fact: platformFact },
+          expected: { literal: supportedPlatforms.slice() },
+        }, {
+          predicate: 'equals',
+          actual: { fact: contextPlatformFact },
+          expected: { fact: platformFact },
+        }],
+      }, {
+        predicate: 'all',
+        args: [{
+          predicate: 'equals',
+          actual: { fact: platformFact },
+          expected: { literal: 'universal' },
+        }, {
+          predicate: 'one-of',
+          actual: { fact: contextPlatformFact },
+          expected: { literal: supportedPlatforms.slice() },
+        }],
+      }],
+      missingPolicy: 'unknown',
     },
   }));
 }
@@ -392,17 +517,19 @@ function bindingSetRules(options) {
           targetFact: valueFact,
         })
       : null;
+    const pathWhere = (options.where || []).concat(path.where || []);
+    const pathSelect = path.select || options.select || componentSelector(
+      options.identity,
+      pathWhere.concat(requireValue ? [{
+        predicate: 'exists',
+        actual: { fact: valueFact },
+      }] : []),
+      { publicRootOnly: options.publicRootOnly === true },
+    );
     return createRule(Object.assign({}, options, {
       ruleId: `${options.ruleId}.${suffix}`,
       presentation,
-      select: options.select || componentSelector(
-        options.identity,
-        (options.where || []).concat(requireValue ? [{
-          predicate: 'exists',
-          actual: { fact: valueFact },
-        }] : []),
-        { publicRootOnly: options.publicRootOnly === true },
-      ),
+      select: pathSelect,
       assert: {
         predicate: 'all',
         args: (requireValue ? [{
@@ -620,6 +747,7 @@ function factDomainRule(options) {
       predicate: 'one-of',
       actual: options.actual,
       expected: { literal: options.allowedValues.slice() },
+      missingPolicy: 'unknown',
     },
   }));
 }
@@ -696,6 +824,7 @@ function derivedGeometryRule(options) {
 
 const CONTOUR_BUILDERS = Object.freeze({
   'public-root': publicRootRule,
+  'platform-match': platformMatchRule,
   'context-map': contextMapRule,
   'uniform-allowed-collection': uniformAllowedCollectionRule,
   'uniform-collection-properties': uniformCollectionPropertiesRule,
@@ -744,6 +873,7 @@ module.exports = {
   factDomainRule,
   factAssertionRule,
   publicRootRule,
+  platformMatchRule,
   queryCountRule,
   queryUniqueRule,
   queryRef,

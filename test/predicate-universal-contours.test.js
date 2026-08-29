@@ -15,6 +15,7 @@ const {
   factDomainRule,
   factAssertionRule,
   ownedPeerPropertyEqualityRule,
+  platformMatchRule,
   publicRootRule,
   queryCountRule,
   queryUniqueRule,
@@ -223,6 +224,46 @@ test('P21 public API and ownership contour is tri-state and identity-agnostic', 
   assertClassification(notApplicableSnapshot(pass), rule, 'not-applicable');
 });
 
+test('public-root standalone mode ignores internal component families owned by another DS component', () => {
+  const rule = publicRootRule(Object.assign(options('contour:public-root-standalone'), {
+    identity: 'demo.icon-view',
+    allowedFamilies: ['icon-view'],
+    standaloneOnly: true,
+  }));
+  const internalComponent = component('demo.icon-view', {}, 'content');
+  const standalone = node({
+    component: internalComponent,
+    ownership: {
+      contour: {
+        identity: 'demo.icon-view',
+        rootNodeId: 'root',
+        isRoot: true,
+        root: { component: internalComponent },
+        ancestorNodeIds: [],
+      },
+    },
+  });
+  const nested = node({
+    component: internalComponent,
+    ownership: {
+      contour: {
+        identity: 'demo.icon-view',
+        rootNodeId: 'root',
+        isRoot: true,
+        root: { component: internalComponent },
+        ancestorNodeIds: [],
+        host: {
+          nodeId: 'status-badge',
+          component: component('demo.status-badge', {}, 'status-badge'),
+        },
+      },
+    },
+  });
+
+  assertClassification(snapshot([standalone]), rule, 'violation');
+  assertClassification(snapshot([nested]), rule, 'not-applicable');
+});
+
 test('context mapping preserves typed numeric source values', () => {
   const rule = contextMapRule(Object.assign(options('contour:typed-context-map'), {
     identity: 'demo.capacity-owner',
@@ -406,13 +447,262 @@ test('fact-domain contour accepts only source-declared values with four-state se
   }));
   const pass = node({ composition: { position: 'single' } });
   const fail = node({ composition: { position: 'last' } });
+  const absent = node({ composition: {} });
   const unknown = node({ unknownFacts: ['composition.position'] });
 
   assertClassification(snapshot([pass]), rule, 'compliant');
   assertClassification(snapshot([fail]), rule, 'violation');
+  assertClassification(snapshot([absent]), rule, 'not-evaluable');
   assertClassification(snapshot([unknown]), rule, 'not-evaluable');
   assertClassification(notApplicableSnapshot(fail), rule, 'not-applicable');
   assert.equal(rule.presentation, null);
+});
+
+test('platform-match compares the selected channel with contract platform metadata', () => {
+  const rule = platformMatchRule(Object.assign(options('contour:platform-match'), {
+    identity: 'demo.dual-platform',
+    publicRootOnly: true,
+    publicFamilies: ['public-root'],
+    supportedPlatforms: ['desktop', 'mobile-web'],
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+  }));
+  const subject = node({
+    component: Object.assign(component('demo.dual-platform', {}, 'public-root'), {
+      platform: 'desktop',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+
+  assertClassification(snapshot([subject], { platform: 'desktop' }), rule, 'compliant');
+  assertClassification(snapshot([subject], { platform: 'mobile-web' }), rule, 'violation');
+  assert.equal(rule.presentation.targetFact, undefined);
+  assert.equal(rule.presentation.causalRole, 'platform-root');
+
+  const universal = node({
+    component: Object.assign(component('demo.dual-platform', {}, 'public-root'), {
+      platform: 'universal',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+  assertClassification(snapshot([universal], { platform: 'desktop' }), rule, 'compliant');
+  assertClassification(snapshot([universal], { platform: 'mobile-web' }), rule, 'compliant');
+
+  const unknown = node({
+    component: Object.assign(component('demo.dual-platform', {}, 'public-root'), {
+      platform: null,
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+    unknownFacts: ['component.platform'],
+  });
+  assertClassification(snapshot([unknown]), rule, 'not-evaluable');
+});
+
+test('platform-match fails closed when publicRootOnly has no public family boundary', () => {
+  assert.throws(
+    () => platformMatchRule(Object.assign(options('contour:platform-without-public-family'), {
+      identity: 'demo.desktop-only',
+      publicRootOnly: true,
+      supportedPlatforms: ['desktop'],
+    })),
+    /publicRootOnly requires a non-empty publicFamilies list/,
+  );
+});
+
+test('platform-match evaluates a forbidden channel instead of filtering it by scope', () => {
+  const rule = platformMatchRule(Object.assign(options('contour:platform-desktop-only'), {
+    identity: 'demo.desktop-only',
+    publicRootOnly: true,
+    publicFamilies: ['desktop-root'],
+    supportedPlatforms: ['desktop'],
+    scope: { platform: ['desktop'], pageType: ['form'] },
+  }));
+  const subject = node({
+    name: 'PASS · Renamed desktop component',
+    component: Object.assign(component('demo.desktop-only', {}, 'desktop-root'), {
+      platform: 'desktop',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+
+  assertClassification(snapshot([subject], { platform: 'desktop' }), rule, 'compliant');
+  assertClassification(snapshot([subject], { platform: 'mobile-web' }), rule, 'violation');
+  assertClassification(notApplicableSnapshot(subject), rule, 'not-applicable');
+
+  const universalContract = node({
+    component: Object.assign(component('demo.desktop-only', {}, 'desktop-root'), {
+      platform: 'universal',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+  assertClassification(
+    snapshot([universalContract], { platform: 'desktop' }),
+    rule,
+    'compliant',
+  );
+  assertClassification(
+    snapshot([universalContract], { platform: 'mobile-web' }),
+    rule,
+    'violation',
+  );
+});
+
+test('wrong-channel roots suppress only descendant violations that depend on page platform', () => {
+  const platformRule = platformMatchRule(Object.assign(options('contour:platform-cause'), {
+    identity: 'demo.desktop-only',
+    publicRootOnly: true,
+    publicFamilies: ['desktop-root'],
+    supportedPlatforms: ['desktop'],
+  }));
+  const dependentRule = contextMapRule(Object.assign(options('contour:platform-dependent'), {
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    identity: 'demo.status-label',
+    contextFact: 'page.context.platform',
+    targetFact: 'component.properties.Uppercase',
+    mappingEntries: [{ context: 'desktop', target: true }, { context: 'mobile-web', target: false }],
+  }));
+  const independentRule = factDomainRule(Object.assign(options('contour:independent'), {
+    scope: { platform: ['desktop', 'mobile-web'], pageType: ['form'] },
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'demo.status-label' },
+      }],
+    },
+    actual: { fact: 'component.properties.Shape' },
+    allowedValues: ['Rounded'],
+  }));
+  const root = node({
+    id: 'desktop-root',
+    childIds: ['nested-label'],
+    component: Object.assign(component('demo.desktop-only', {}, 'desktop-root'), { platform: 'universal' }),
+    ownership: { contour: { isRoot: true } },
+  });
+  const child = node({
+    id: 'nested-label',
+    parentId: 'desktop-root',
+    order: 1,
+    component: component('demo.status-label', { Uppercase: true, Shape: 'Rectangular' }),
+  });
+  const result = evaluateRules({
+    snapshot: snapshot([root, child], { platform: 'mobile-web' }),
+    rules: [platformRule, dependentRule, independentRule].map(validateRule),
+    ruleRelease: 'causal-suppression-v1',
+  });
+  const byRule = new Map(result.evaluations.map((item) => [item.ruleId, item]));
+  assert.equal(byRule.get('contour:platform-cause').classification, 'violation');
+  assert.equal(byRule.get('contour:platform-dependent').classification, 'not-applicable');
+  assert.equal(
+    byRule.get('contour:platform-dependent').suppressedByRuleId,
+    'contour:platform-cause',
+  );
+  assert.equal(byRule.get('contour:independent').classification, 'violation');
+});
+
+test('platform-match ignores mutable instance names and nested hosted contour roots', () => {
+  const rule = platformMatchRule(Object.assign(options('contour:platform-source-selector'), {
+    publicRootOnly: true,
+    publicFamilies: ['desktop-root'],
+    supportedPlatforms: ['desktop'],
+    select: {
+      from: 'selection-root',
+      traverse: 'self-and-descendants',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'component.identity' },
+        expected: { literal: 'demo.desktop-only' },
+      }, {
+        predicate: 'equals',
+        actual: { fact: 'ownership.contour.isRoot' },
+        expected: { literal: true },
+      }, {
+        predicate: 'one-of',
+        actual: { fact: 'component.name' },
+        expected: { literal: ['[D] Original name'] },
+      }],
+    },
+    scope: { platform: ['desktop'] },
+  }));
+  const standalone = node({
+    name: 'FAIL · Renamed fixture',
+    component: Object.assign(component('demo.desktop-only', {}, 'desktop-root'), {
+      name: 'FAIL · Renamed fixture',
+      platform: 'desktop',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+  assertClassification(snapshot([standalone], { platform: 'mobile-web' }), rule, 'violation');
+
+  const internalStandalone = node({
+    id: 'internal',
+    name: 'FAIL · Internal fixture',
+    component: Object.assign(component('demo.desktop-only', {}, 'icon-button'), {
+      platform: 'universal',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+      },
+    },
+  });
+  assertClassification(
+    snapshot([internalStandalone], { platform: 'mobile-web' }),
+    rule,
+    'not-applicable',
+    'internal',
+  );
+
+  const host = node({
+    id: 'host',
+    childIds: ['nested'],
+    component: Object.assign(component('demo.host'), { platform: 'universal' }),
+  });
+  const nested = node({
+    id: 'nested',
+    parentId: 'host',
+    order: 1,
+    name: '[D] Original name',
+    component: Object.assign(component('demo.desktop-only', {}, 'desktop-root'), {
+      name: '[D] Original name',
+      platform: 'desktop',
+    }),
+    ownership: {
+      contour: {
+        isRoot: true,
+        host: {
+          nodeId: 'host',
+          component: component('demo.host'),
+        },
+      },
+    },
+  });
+  assertClassification(snapshot([host, nested], { platform: 'mobile-web' }), rule, 'not-applicable', 'host');
 });
 
 test('query-unique contour checks a projected collection with four-state semantics', () => {
@@ -884,6 +1174,49 @@ test('binding-set supports style bindings without requiring a scalar value fact'
   assertClassification(snapshot([pass]), rule, 'compliant', 'pass-text');
   assertClassification(snapshot([fail]), rule, 'violation', 'raw-text');
   assert.equal(evaluation(snapshot([fail]), rule).focusNodeId, 'raw-text');
+});
+
+test('binding-set supports an independent selector extension for each atomic path', () => {
+  const rules = bindingSetRules(Object.assign(options('contour:conditional-binding'), {
+    identity: 'demo.surface',
+    paths: [{
+      suffix: 'fill',
+      label: 'Fill',
+      valueFact: 'appearance.fill.value',
+      bindingFact: 'bindings.fills',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'component.properties.Type' },
+        expected: { literal: 'Colored' },
+      }],
+    }, {
+      suffix: 'stroke',
+      label: 'Stroke',
+      valueFact: 'appearance.stroke.value',
+      bindingFact: 'bindings.strokes',
+      where: [{
+        predicate: 'equals',
+        actual: { fact: 'component.properties.Type' },
+        expected: { literal: 'Border' },
+      }],
+    }],
+    expectedBinding: { bound: true },
+  }));
+  const colored = node({
+    component: component('demo.surface', { Type: 'Colored' }),
+    appearance: { fill: { value: '#f00' } },
+    bindings: { fills: { bound: false } },
+  });
+  const border = node({
+    component: component('demo.surface', { Type: 'Border' }),
+    appearance: { stroke: { value: '#f00' } },
+    bindings: { strokes: { bound: false } },
+  });
+
+  assertClassification(snapshot([colored]), rules[0], 'violation');
+  assertClassification(snapshot([colored]), rules[1], 'not-applicable');
+  assertClassification(snapshot([border]), rules[0], 'not-applicable');
+  assertClassification(snapshot([border]), rules[1], 'violation');
 });
 
 test('owned peer equality compares declared member properties without component-specific code', () => {

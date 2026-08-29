@@ -7,6 +7,7 @@
   "scripts": {
     "skill:sync": "node scripts/sync-codex-skill.js",
     "knowledge:check": "node scripts/sync-contract-knowledge.js --check",
+    "predicate:migration-audit": "node scripts/audit-predicate-migration-wave.js",
     "prestart": "npm run skill:sync",
     "start": "node server.js",
     "test": "npm run skill:sync && npm run knowledge:check && node --test test/*.test.js"

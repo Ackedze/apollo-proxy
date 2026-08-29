@@ -45,7 +45,7 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 - `GET /health` -> `{ ok: true, codex: { skill, knowledge } }`; блок
   `knowledge` показывает полноту contract package (`packageCount`,
   `artifactCount`, checksum).
-- `POST /analyze` -> `{ success, result }`
+- `POST /analyze` -> `{ success, result, source }`
 - `POST /v1/validate/predicates` -> `{ success, validation: { snapshot, result } }`
 - `POST /v1/validate/codex` -> `{ success, validation }`
 - `POST /v1/validate/codex/runs` -> `202 { success, run }`
@@ -53,7 +53,7 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 - `POST /v1/analyze/codex/runs` -> `202 { success, run }`
 - `GET /v1/analyze/codex/runs/:runId` -> `{ success, run }`
 
-`POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`.
+`POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`. Для открытых вопросов поле `source` выбирает маршрут: `langflow` (значение по умолчанию) или `codex`. В режиме `codex` proxy извлекает вопрос из envelope `design-dialogue`, ограничивает историю, запускает отдельный `codex exec` в `read-only`/`ephemeral` режиме и возвращает финальный Markdown из активного `APOLLO_CODEX_KNOWLEDGE_SOURCE`; LangFlow-секреты в процесс Codex не передаются.
 
 `POST /v1/validate/predicates` — изолированный детерминированный контур нового
 Predicate Engine. В MVP endpoint принимает только
@@ -70,6 +70,16 @@ Snapshot v2 и выполняет закрытый набор P01–P14: вар�
 прямых Row и ровно одну `Column` в каждой Row при `Compact=True`. Adapter заранее формирует необходимые ownership, ordered-sequence,
 binding и composition facts, а Predicate Engine проверяет их без участия агента. Неизвестный
 ключ или недостающий факт возвращает `not-evaluable`, а не догадку.
+Платформенные ограничения компилируются универсальным contour
+`platform-match`: release loader читает `platform` конкретного опубликованного
+ключа из `contract.generated.json`, snapshot публикует его как
+`component.platform`, а правило из пакетного `rules.json` сравнивает факт с
+`page.context.platform`. Runtime не содержит ключей или веток конкретного
+компонента. Имя instance не участвует в выборе цели: оно изменяемо в рабочем
+файле. `publicRootOnly` ограничивает проверку публичным contour root, а
+`standaloneOnly` исключает вложенные roots, которыми уже владеет другой
+компонент. Платформа страницы является проверяемым фактом, поэтому не
+используется как applicability-gate самого `platform-match`.
 
 `POST /v1/validate/codex` принимает Apollo v2 snapshot с одним выбранным корнем
 и одним PNG, приводит его к `apollo-design-audit-request` и запускает
@@ -301,6 +311,13 @@ Codex не нужен: proxy запускает изолированный agent
 
 - `services/apollo-proxy/macos-app/dist/ApolloProxyControl.app`
 - `services/apollo-proxy/macos-app/dist/ApolloProxyControl-macOS.zip`
+
+Core component packages are compiled through the same universal contour
+registry as product components. `IconView` is the first reusable boundary
+package: the package owns public-root and effective-baseline rules, while a
+host package owns contextual permissions for its `Content` slot. The runtime
+does not branch on the `IconView` name or Figma key; absent host authority
+remains non-enforcing.
 
 Запуск у пользователя после передачи архива:
 

@@ -20,7 +20,8 @@ const TABLE_VIEW_HEADER_ROW_KEY = 'af607289bf050cc8236b882039cf787d32296383';
 const TABLE_VIEW_COLUMN_KEY = 'af59b50bbe31bfad10b6f9fe6decb9798b465771';
 const BACKGROUND_PLATE_SLOT_KEY = '6d5d4dda10be00621991e9b5a0152db4e47f4e2f';
 const ISLE_BLOCK_KEY = '9dd86bd040376734e605227c0d849d1328e62d76';
-const ACCOUNT_SELECT_PUBLIC_ROOT_KEY = '1043a9208a949b1af3f708637de5fd13721a4519';
+const ACCOUNT_SELECT_PUBLIC_ROOT_KEY = '77938b4511abfbafdd13b13f6bb6f3fbe87cf2a2';
+const ACCOUNT_SELECT_MOBILE_PUBLIC_ROOT_KEY = '1043a9208a949b1af3f708637de5fd13721a4519';
 const ACCOUNT_SELECT_INTERNAL_ITEM_KEY = '1e8647f2b51a623083755fdad5c677fc38770e3e';
 const ACCOUNT_SELECT_SUM_ITEM_KEY = '7b188529df2fdf9c6e93989b2173f6cc95fc77d6';
 const ACCOUNT_SELECT_NUMBER_ITEM_KEY = 'b0e271a2c5e94e00b753d223c1bce95b87da95af';
@@ -37,6 +38,18 @@ const CARD_IMAGE_XS_ACTIVE_KEY = 'acc0bda0cee8df12ef3be8b215b5858fbd19afcb';
 const CARD_IMAGE_XS_INACTIVE_KEY = '54a5bac509c2fb21b12d21b5471b1e0d180a37c1';
 const ONBOARDING_TOOLTIP_KEY = 'c9a8db25e3fb6bc7907464f81547a6295816c59b';
 const BACKGROUND_PLATE_STYLE_LEVEL_1_KEY = 'adb65a62cde9ebedc5d0d41d2d77cd63e71e0745';
+const FILTER_COMPANY_SELECT_SINGLE_KEY = '7a0f566e36767d14d873e7ed22295ac0ac86fa69';
+const FILTER_COMPANY_SELECT_INTERNAL_KEY = '646b38ca55ddc9c7b3837c11ed671c50d0a6d66a';
+const ICON_VIEW_KEY = 'f188fb1de981b2f32966f4844a4b10cffdb81c35';
+const ICON_VIEW_CONTENT_KEY = '913a526e98f177533ca3e4495d6658d0120e6afe';
+const CORPORATE_SYSTEM_MESSAGE_KEY = '985497c1f5a102a52e4d4dc40b6953303db72f8e';
+const HOLDING_PLATE_KEY = '064735a152a60b891ff5c29e89dbc3a5aae18165';
+const SCENARIO_MODEL_INTERRUPTION_KEY = 'f7644c318f200ae2d63acba8f6def7a1aa3a749b';
+const AMOUNT_HEADLINE_DESKTOP_KEY = '46d9453084998704a7c26aefd8c2d4427e3a4f5c';
+const AMOUNT_HEADLINE_MOBILE_KEY = 'cee3a597980650c3d43dbe8bf283d2c4f6c1507e';
+const AMOUNT_PARAGRAPH_KEY = '6276f825ec9ee2ceded5305171c715a7dd73637e';
+const CORPORATE_APP_HEADER_DESKTOP_KEY = 'd187029a0a1af08dbb499e13b3ef2ac98efaaac2';
+const CORPORATE_APP_HEADER_ICON_BUTTON_KEY = 'f2dfdad5655f459cc9ba62db6add21f440f47e5c';
 
 function component(key, name, properties) {
   return {
@@ -262,11 +275,113 @@ function accountSelectPublicRootRequest(componentKey, platform = 'desktop') {
           path: 'P21 / AccountSelect',
           name: componentKey === ACCOUNT_SELECT_PUBLIC_ROOT_KEY
             ? '[D] AccountOptionListContent'
-            : 'AccountItem',
+            : componentKey === ACCOUNT_SELECT_MOBILE_PUBLIC_ROOT_KEY
+              ? '[M] AccountOptionListContent'
+              : 'AccountItem',
           component: component(componentKey, 'AccountSelect fixture', {}),
         })],
         relations: [],
       },
+      baselines: [],
+      changes: [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: 1,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: 1,
+        textNodeCount: 0,
+        baselineChangeCount: 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
+function corporateSystemMessagePlatformRequest({
+  platform = 'mobile-web',
+  name = 'FAIL · renamed fixture',
+  hosted = false,
+} = {}) {
+  const componentNode = evidenceNode({
+    nodeId: hosted ? '22:1' : '22:0',
+    parentNodeId: hosted ? '22:0' : null,
+    depth: hosted ? 1 : 0,
+    path: hosted ? 'Host / CorporateSystemMessage' : 'CorporateSystemMessage',
+    name,
+    component: component(CORPORATE_SYSTEM_MESSAGE_KEY, '[D] CorporateSystemMessage', {}),
+  });
+  const nodes = hosted
+    ? [
+      evidenceNode({
+        nodeId: '22:0',
+        childNodeIds: ['22:1'],
+        path: 'Host',
+        name: '[D] TitleView',
+        component: component(TITLE_VIEW_KEY, '[D] TitleView', { View: 'xLarge' }),
+      }),
+      componentNode,
+    ]
+    : [componentNode];
+  return {
+    ruleSet: 'buttons-group-pilot',
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: 'corporate-system-message-platform:evidence',
+      sourceReportId: 'corporate-system-message-platform',
+      generatedAt: '2026-08-28T12:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform,
+        channel: platform === 'desktop' ? 'Desktop' : 'MobileWeb',
+        pageType: null,
+        viewportWidth: platform === 'desktop' ? 1440 : 390,
+        selectionNodeIds: ['22:0'],
+      },
+      graph: { nodes, relations: [] },
+      baselines: [],
+      changes: [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: nodes.length,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: nodes.length,
+        textNodeCount: 0,
+        baselineChangeCount: 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
+function platformComponentRequest(componentKey, name, platform = 'mobile-web') {
+  const node = evidenceNode({
+    nodeId: '22:10',
+    path: name,
+    name,
+    component: component(componentKey, name, {}),
+  });
+  return {
+    ruleSet: 'buttons-group-pilot',
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: `${componentKey}:platform:evidence`,
+      sourceReportId: `${componentKey}:platform`,
+      generatedAt: '2026-08-28T12:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform,
+        channel: platform === 'desktop' ? 'Desktop' : 'MobileWeb',
+        pageType: null,
+        viewportWidth: platform === 'desktop' ? 1440 : 390,
+        selectionNodeIds: [node.nodeId],
+      },
+      graph: { nodes: [node], relations: [] },
       baselines: [],
       changes: [],
       ruleCandidates: [],
@@ -340,6 +455,253 @@ test('P21 compiles AccountSelect public-root authority from requested rules.json
     )).classification,
     'not-applicable',
   );
+});
+
+test('AccountSelect platform-match covers D/M roots on both selected channels', () => {
+  const ruleId = 'component:web-corp.account-select.platform-match';
+  const evaluate = (componentKey, platform) => evaluatePredicatePilotRequest(
+    accountSelectPublicRootRequest(componentKey, platform),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  const desktopPass = evaluate(ACCOUNT_SELECT_PUBLIC_ROOT_KEY, 'desktop');
+  assert.equal(desktopPass.classification, 'compliant');
+  assert.equal(desktopPass.trace.actual, 'desktop');
+  assert.equal(desktopPass.trace.expected, 'desktop');
+
+  const mobilePass = evaluate(ACCOUNT_SELECT_MOBILE_PUBLIC_ROOT_KEY, 'mobile-web');
+  assert.equal(mobilePass.classification, 'compliant');
+  assert.equal(mobilePass.trace.actual, 'mobile-web');
+  assert.equal(mobilePass.trace.expected, 'mobile-web');
+
+  const mobileOnDesktop = evaluate(ACCOUNT_SELECT_MOBILE_PUBLIC_ROOT_KEY, 'desktop');
+  assert.equal(mobileOnDesktop.classification, 'violation');
+  assert.equal(mobileOnDesktop.focusNodeId, '21:0');
+  assert.equal(mobileOnDesktop.trace.actual, 'desktop');
+  assert.equal(mobileOnDesktop.trace.expected, 'mobile-web');
+
+  const desktopOnMobile = evaluate(ACCOUNT_SELECT_PUBLIC_ROOT_KEY, 'mobile-web');
+  assert.equal(desktopOnMobile.classification, 'violation');
+  assert.equal(desktopOnMobile.focusNodeId, '21:0');
+  assert.equal(desktopOnMobile.trace.actual, 'mobile-web');
+  assert.equal(desktopOnMobile.trace.expected, 'desktop');
+});
+
+test('platform-match uses the published key, evaluates MobileWeb, and skips hosted roots', () => {
+  const ruleId = 'component:web-corp.corporate-system-message.platform-breakpoint';
+  const evaluate = (options) => evaluatePredicatePilotRequest(
+    corporateSystemMessagePlatformRequest(options),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  const renamedDesktop = evaluate({ platform: 'desktop' });
+  assert.equal(renamedDesktop.classification, 'compliant');
+
+  const renamedMobile = evaluate({ platform: 'mobile-web' });
+  assert.equal(renamedMobile.classification, 'violation');
+  assert.equal(renamedMobile.focusNodeId, '22:0');
+  assert.equal(renamedMobile.trace.actual, 'mobile-web');
+  assert.equal(renamedMobile.trace.expected, 'desktop');
+
+  const hostedMobile = evaluate({ platform: 'mobile-web', hosted: true });
+  assert.equal(hostedMobile.classification, 'not-applicable');
+});
+
+for (const fixture of [{
+  componentKey: HOLDING_PLATE_KEY,
+  name: 'HoldingPlate',
+  ruleId: 'component:web-corp.holding-plate.desktop-only',
+}, {
+  componentKey: SCENARIO_MODEL_INTERRUPTION_KEY,
+  name: 'ScenarioModel ! interruption',
+  ruleId: 'component:web-corp.scenario-model-interruption.desktop-only',
+}]) {
+  test(`${fixture.name} treats a universal generated contract as desktop-only authority`, () => {
+    const evaluate = (platform) => evaluatePredicatePilotRequest(
+      platformComponentRequest(fixture.componentKey, fixture.name, platform),
+      { designSystemRoot },
+    ).result.evaluations.find((item) => item.ruleId === fixture.ruleId);
+
+    const desktop = evaluate('desktop');
+    assert.equal(desktop.classification, 'compliant');
+    assert.equal(desktop.trace.actual, 'desktop');
+    assert.deepEqual(desktop.trace.expected, ['desktop']);
+
+    const mobile = evaluate('mobile-web');
+    assert.equal(mobile.classification, 'violation');
+    assert.equal(mobile.focusNodeId, '22:10');
+    assert.equal(mobile.trace.actual, 'mobile-web');
+    assert.deepEqual(mobile.trace.expected, ['desktop']);
+  });
+}
+
+test('AmountStyles platform rule distinguishes D, M and shared Paragraph presets', () => {
+  const ruleId = 'component:web-corp.amount-styles.platform-preset-matches-channel';
+  const evaluate = (componentKey, name, platform) => evaluatePredicatePilotRequest(
+    platformComponentRequest(componentKey, name, platform),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluate(AMOUNT_HEADLINE_DESKTOP_KEY, '🔒 [D] AmountHeadline', 'desktop').classification, 'compliant');
+  assert.equal(evaluate(AMOUNT_HEADLINE_DESKTOP_KEY, '🔒 [D] AmountHeadline', 'mobile-web').classification, 'violation');
+  assert.equal(evaluate(AMOUNT_HEADLINE_MOBILE_KEY, '🔒 [M] AmountHeadline', 'mobile-web').classification, 'compliant');
+  assert.equal(evaluate(AMOUNT_HEADLINE_MOBILE_KEY, '🔒 [M] AmountHeadline', 'desktop').classification, 'violation');
+  assert.equal(evaluate(AMOUNT_PARAGRAPH_KEY, '🔒 AmountParagraph', 'desktop').classification, 'compliant');
+  assert.equal(evaluate(AMOUNT_PARAGRAPH_KEY, '🔒 AmountParagraph', 'mobile-web').classification, 'compliant');
+});
+
+test('CorporateAppHeaderNew public root is desktop-only', () => {
+  const ruleId = 'component:web-corp.corporate-app-header-new.desktop-only';
+  const evaluate = (platform) => evaluatePredicatePilotRequest(
+    platformComponentRequest(CORPORATE_APP_HEADER_DESKTOP_KEY, '[D] Header', platform),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluate('desktop').classification, 'compliant');
+  const mobile = evaluate('mobile-web');
+  assert.equal(mobile.classification, 'violation');
+  assert.equal(mobile.focusNodeId, '22:10');
+  const manifest = evaluatePredicatePilotRequest(
+    platformComponentRequest(CORPORATE_APP_HEADER_DESKTOP_KEY, '[D] Header', 'mobile-web'),
+    { designSystemRoot },
+  ).rules.find((item) => item.ruleId === ruleId);
+  assert.equal(manifest.presentation.targetFact, undefined);
+  assert.equal(manifest.presentation.causalRole, 'platform-root');
+});
+
+test('CorporateAppHeaderNew platform rule ignores standalone internal families', () => {
+  const ruleId = 'component:web-corp.corporate-app-header-new.desktop-only';
+  const evaluation = evaluatePredicatePilotRequest(
+    platformComponentRequest(
+      CORPORATE_APP_HEADER_ICON_BUTTON_KEY,
+      'FAIL · IconButton',
+      'mobile-web',
+    ),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluation.classification, 'not-applicable');
+});
+
+function filterCompanySelectRequest({
+  componentKey = FILTER_COMPANY_SELECT_SINGLE_KEY,
+  platform = 'desktop',
+  showFirstCompany = 'False',
+  radius = 12,
+  baselineRadius = null,
+  overridden = false,
+} = {}) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const properties = componentKey === FILTER_COMPANY_SELECT_SINGLE_KEY
+    ? { View: 'Select', ShowFirstCompany: showFirstCompany }
+    : {};
+  const root = evidenceNode({
+    nodeId: 'c21:0',
+    path: 'C21 / [D] FilterCompanySelect_Single',
+    name: componentKey === FILTER_COMPANY_SELECT_SINGLE_KEY
+      ? '[D] FilterCompanySelect_Single'
+      : '[D] CompactTag',
+    component: component(componentKey, 'FilterCompanySelect fixture', properties),
+    appearance: {
+      opacity: 1,
+      radius,
+    },
+  });
+  if (overridden) {
+    root.component.directOverrides = [{
+      nodeId: 'c21:0',
+      fields: ['cornerRadius'],
+    }];
+  }
+  input.evidenceBundle.reportId = 'filter-company-select:evidence';
+  input.evidenceBundle.sourceReportId = 'filter-company-select';
+  input.evidenceBundle.context.platform = platform;
+  input.evidenceBundle.context.channel = platform === 'desktop' ? 'Desktop' : 'Mobile Web';
+  input.evidenceBundle.context.viewportWidth = platform === 'desktop' ? 1440 : 390;
+  input.evidenceBundle.context.selectionNodeIds = ['c21:0'];
+  input.evidenceBundle.graph.nodes = [root];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.changes = baselineRadius === null ? [] : [{
+    id: 'change-filter-company-select-radius',
+    nodeId: 'c21:0',
+    nodeName: '[D] FilterCompanySelect_Single',
+    nodePath: 'C21 / [D] FilterCompanySelect_Single',
+    property: 'appearance.radius',
+    kind: 'radius',
+    ownerComponentKey: FILTER_COMPANY_SELECT_SINGLE_KEY,
+    baselineReferenceId: 'baseline-filter-company-select-radius',
+    baseline: {
+      value: baselineRadius,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    actual: {
+      value: radius,
+      resourceType: null,
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    bindingStatus: null,
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'host',
+      nestedOwnerRelativePath: '',
+    },
+    candidateRuleIds: [
+      'component:web-corp.filter-company-select.root-visuals-follow-effective-baseline',
+    ],
+  }];
+  input.evidenceBundle.coverage.visibleNodeCount = 1;
+  input.evidenceBundle.coverage.componentNodeCount = 1;
+  input.evidenceBundle.coverage.baselineChangeCount = input.evidenceBundle.changes.length;
+  return input;
+}
+
+test('C21 executes FilterCompanySelect public-root, platform, legacy property and root baseline rules', () => {
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    filterCompanySelectRequest(options),
+    { designSystemRoot },
+  );
+  const find = (output, ruleId) => output.result.evaluations.find(
+    (item) => item.ruleId === ruleId,
+  );
+  const publicRootRule = 'component:web-corp.filter-company-select.public-roots-only';
+  const platformRule = 'component:web-corp.filter-company-select.desktop-only';
+  const legacyRule = 'component:web-corp.filter-company-select.show-first-company-forbidden';
+  const radiusRule = 'component:web-corp.filter-company-select.root-visuals-follow-effective-baseline.radius';
+
+  const pass = evaluate();
+  assert.equal(find(pass, publicRootRule).classification, 'compliant');
+  assert.equal(find(pass, platformRule).classification, 'compliant');
+  assert.equal(find(pass, legacyRule).classification, 'compliant');
+  assert.equal(find(pass, radiusRule).classification, 'compliant');
+
+  const internalRoot = evaluate({ componentKey: FILTER_COMPANY_SELECT_INTERNAL_KEY });
+  assert.equal(find(internalRoot, publicRootRule).classification, 'violation');
+  assert.equal(find(internalRoot, publicRootRule).focusNodeId, 'c21:0');
+
+  const mobileWeb = evaluate({ platform: 'mobile-web' });
+  assert.equal(find(mobileWeb, platformRule).classification, 'violation');
+  assert.equal(find(mobileWeb, platformRule).trace.actual, 'mobile-web');
+
+  const legacyEnabled = evaluate({ showFirstCompany: 'True' });
+  assert.equal(find(legacyEnabled, legacyRule).classification, 'violation');
+  assert.equal(find(legacyEnabled, legacyRule).trace.actual, 'True');
+
+  const changedRadius = evaluate({
+    radius: 20,
+    baselineRadius: 12,
+    overridden: true,
+  });
+  assert.equal(find(changedRadius, radiusRule).classification, 'violation');
+  assert.equal(find(changedRadius, radiusRule).trace.actual, 20);
+  assert.equal(find(changedRadius, radiusRule).trace.expected, 12);
+  assert.equal(changedRadius.result.coverage.unclassified, 0);
+  assert.equal(changedRadius.repeatability.stable, true);
 });
 
 function accountSelectUniformListRequest(types, { platform = 'desktop', unknownIndex = -1 } = {}) {
@@ -461,6 +823,254 @@ test('P23 compiles AccountSelect row Type collection from requested rules.json',
   assert.equal(
     evaluate(['Sum'], { platform: 'ios' }).evaluation.classification,
     'not-applicable',
+  );
+});
+
+function accountSelectRowBaselineRequest({ radius = 12, baselineRadius = null } = {}) {
+  const input = accountSelectUniformListRequest(['Sum']);
+  const row = input.evidenceBundle.graph.nodes.find((node) => node.nodeId === '23:1');
+  row.appearance = {
+    opacity: 1,
+    radius,
+  };
+  if (baselineRadius !== null) {
+    row.component.directOverrides = [{
+      nodeId: row.nodeId,
+      fields: ['cornerRadius'],
+    }];
+    input.evidenceBundle.changes = [{
+      id: 'change-account-select-row-radius',
+      nodeId: row.nodeId,
+      nodeName: row.name,
+      nodePath: row.path,
+      property: 'appearance.radius',
+      kind: 'radius',
+      ownerComponentKey: ACCOUNT_SELECT_PUBLIC_ROOT_KEY,
+      baselineReferenceId: 'baseline-account-select-row-radius',
+      baseline: {
+        value: baselineRadius,
+        resourceType: null,
+        resourceName: null,
+        bindingName: null,
+        bindingCollection: null,
+      },
+      actual: {
+        value: radius,
+        resourceType: null,
+        resourceName: null,
+        bindingName: null,
+        bindingCollection: null,
+      },
+      bindingStatus: null,
+      mapping: {
+        method: 'apollo-effective-baseline-diff',
+        quality: 'exact',
+        referenceOrigin: 'host',
+        nestedOwnerRelativePath: 'AccountItem',
+      },
+      candidateRuleIds: [
+        'component:web-corp.account-select.row-visuals-follow-effective-baseline',
+      ],
+    }];
+    input.evidenceBundle.coverage.baselineChangeCount = 1;
+  }
+  return input;
+}
+
+test('C22 applies the generic baseline-set contour to the exact AccountItem row', () => {
+  const ruleId = 'component:web-corp.account-select.row-visuals-follow-effective-baseline.radius';
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    accountSelectRowBaselineRequest(options),
+    { designSystemRoot },
+  );
+  const find = (output) => output.result.evaluations.find(
+    (item) => item.ruleId === ruleId,
+  );
+
+  assert.equal(find(evaluate()).classification, 'compliant');
+
+  const fail = evaluate({ radius: 20, baselineRadius: 12 });
+  const violation = find(fail);
+  assert.equal(violation.classification, 'violation');
+  assert.equal(violation.focusNodeId, '23:1');
+  assert.equal(violation.trace.actual, 20);
+  assert.equal(violation.trace.expected, 12);
+  assert.equal(fail.result.coverage.unclassified, 0);
+  assert.equal(fail.repeatability.stable, true);
+});
+
+function iconViewBoundaryRequest({
+  componentKey = ICON_VIEW_KEY,
+  componentName = 'IconView',
+  radius = 4,
+  baselineRadius = null,
+  unknownRadius = false,
+  hostedByTitleView = false,
+} = {}) {
+  const changed = baselineRadius !== null;
+  const owner = {
+    nodeId: 'c23:host',
+    componentKey: TITLE_VIEW_KEY,
+    name: '[D] TitleView',
+    path: '[D] TitleView',
+    relativePath: '',
+    variantProperties: { View: 'xLarge' },
+    componentProperties: { View: 'xLarge' },
+  };
+  const iconNode = evidenceNode({
+    nodeId: 'c23:0',
+    parentNodeId: hostedByTitleView ? owner.nodeId : null,
+    depth: hostedByTitleView ? 1 : 0,
+    path: hostedByTitleView
+      ? `[D] TitleView / ${componentName}`
+      : `C23 / ${componentName}`,
+    name: componentName,
+    appearance: {
+      opacity: 1,
+      radius,
+    },
+    component: Object.assign(component(componentKey, componentName, {
+      Size: '48',
+    }), {
+      directOverrides: changed || unknownRadius
+        ? [{ nodeId: 'c23:0', fields: ['cornerRadius'] }]
+        : [],
+    }),
+    componentOwner: hostedByTitleView ? owner : null,
+  });
+  const graphNodes = hostedByTitleView
+    ? [
+      evidenceNode({
+        nodeId: owner.nodeId,
+        childNodeIds: ['c23:0'],
+        path: owner.path,
+        name: owner.name,
+        component: component(
+          TITLE_VIEW_KEY,
+          owner.name,
+          owner.componentProperties,
+        ),
+      }),
+      iconNode,
+    ]
+    : [iconNode];
+  return {
+    ruleSet: 'buttons-group-pilot',
+    collectionErrors: unknownRadius
+      ? [{ nodeId: 'c23:0', factPath: 'appearance.radius' }]
+      : [],
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: 'icon-view-boundary:evidence',
+      sourceReportId: 'icon-view-boundary',
+      generatedAt: '2026-08-27T18:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform: 'desktop',
+        channel: 'Desktop',
+        pageType: null,
+        viewportWidth: 1440,
+        selectionNodeIds: [hostedByTitleView ? owner.nodeId : 'c23:0'],
+      },
+      graph: {
+        nodes: graphNodes,
+        relations: [],
+      },
+      baselines: [],
+      changes: changed ? [{
+        id: 'change-icon-view-radius',
+        nodeId: 'c23:0',
+        nodeName: componentName,
+        nodePath: `C23 / ${componentName}`,
+        property: 'appearance.radius',
+        kind: 'radius',
+        ownerComponentKey: componentKey,
+        baselineReferenceId: 'baseline-icon-view-radius',
+        baseline: {
+          value: baselineRadius,
+          resourceType: null,
+          resourceName: null,
+          bindingName: null,
+          bindingCollection: null,
+        },
+        actual: {
+          value: radius,
+          resourceType: null,
+          resourceName: null,
+          bindingName: null,
+          bindingCollection: null,
+        },
+        bindingStatus: null,
+        mapping: {
+          method: 'apollo-effective-baseline-diff',
+          quality: 'exact',
+          referenceOrigin: 'component',
+          nestedOwnerRelativePath: '',
+        },
+        candidateRuleIds: [
+          'component:web-core.icon-view.layer-properties-use-effective-baseline',
+        ],
+      }] : [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: graphNodes.length,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: graphNodes.length,
+        textNodeCount: 0,
+        baselineChangeCount: changed ? 1 : 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
+test('C23 evaluates the reusable IconView public boundary and effective baseline', () => {
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    iconViewBoundaryRequest(options),
+    { designSystemRoot },
+  );
+  const publicRootRule = 'component:web-core.icon-view.public-root-only';
+  const radiusRule = 'component:web-core.icon-view.layer-properties-use-effective-baseline.radius';
+  const find = (output, ruleId) => output.result.evaluations.find(
+    (item) => item.ruleId === ruleId,
+  );
+
+  const pass = evaluate();
+  assert.equal(find(pass, publicRootRule).classification, 'compliant');
+  assert.equal(find(pass, radiusRule).classification, 'compliant');
+
+  const internalRoot = evaluate({
+    componentKey: ICON_VIEW_CONTENT_KEY,
+    componentName: 'Content',
+  });
+  assert.equal(find(internalRoot, publicRootRule).classification, 'violation');
+  assert.equal(find(internalRoot, publicRootRule).focusNodeId, 'c23:0');
+
+  const hostedInternalRoot = evaluate({
+    componentKey: ICON_VIEW_CONTENT_KEY,
+    componentName: 'Content',
+    hostedByTitleView: true,
+  });
+  assert.equal(
+    find(hostedInternalRoot, publicRootRule).classification,
+    'not-applicable',
+  );
+
+  const changedRadius = evaluate({ radius: 8, baselineRadius: 4 });
+  const violation = find(changedRadius, radiusRule);
+  assert.equal(violation.classification, 'violation');
+  assert.equal(violation.focusNodeId, 'c23:0');
+  assert.equal(violation.trace.actual, 8);
+  assert.equal(violation.trace.expected, 4);
+  assert.equal(changedRadius.result.coverage.unclassified, 0);
+  assert.equal(changedRadius.repeatability.stable, true);
+
+  assert.equal(
+    find(evaluate({ unknownRadius: true }), radiusRule).classification,
+    'not-evaluable',
   );
 });
 
@@ -1067,62 +1677,6 @@ test('C02 reuses the generic sizing contour for ButtonsGroup HUG/HUG', () => {
   assert.equal(failEvaluation.focusNodeId, '1:0');
   assert.equal(failEvaluation.trace.children[0].actual, 'FILL');
   assert.equal(failEvaluation.trace.children[0].expected, 'HUG');
-  assert.equal(fail.result.coverage.unclassified, 0);
-  assert.equal(fail.repeatability.stable, true);
-});
-
-test('C02 reuses the generic sizing contour for BackgroundPlateSlot FILL/HUG', () => {
-  const ruleId = 'component:web-corp.background-plate.slot-sizing-fill-width-hug-height';
-  const evaluate = (horizontal, vertical) => {
-    const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
-    input.evidenceBundle.context.selectionNodeIds = ['3:sizing'];
-    input.evidenceBundle.graph.nodes = [evidenceNode({
-      nodeId: '3:sizing',
-      path: '[D] BackgroundPlateSlot',
-      name: '[D] BackgroundPlateSlot',
-      component: component(BACKGROUND_PLATE_SLOT_KEY, '[D] BackgroundPlateSlot', {
-        Type: 'Primary',
-      }),
-      layout: {
-        mode: 'VERTICAL',
-        positioning: 'AUTO',
-        wrap: 'NO_WRAP',
-        sizingHorizontal: horizontal,
-        sizingVertical: vertical,
-        primaryAxisAlignItems: 'MIN',
-        counterAxisAlignItems: 'MIN',
-        padding: { top: 32, right: 32, bottom: 32, left: 32 },
-        itemSpacing: 16,
-        clipsContent: false,
-      },
-      variableBindings: ['top', 'right', 'bottom', 'left'].map((side) => ({
-        property: `padding${side[0].toUpperCase()}${side.slice(1)}`,
-        variableIds: [`VariableID:spacing-${side}`],
-        variables: [{
-          id: `VariableID:spacing-${side}`,
-          key: `spacing-${side}-key`,
-          name: '32',
-          collectionId: 'collection:spacing',
-          collectionName: 'Spacing',
-        }],
-      })),
-    })];
-    input.evidenceBundle.graph.relations = [];
-    input.evidenceBundle.changes = [];
-    return evaluatePredicatePilotRequest(input, { designSystemRoot });
-  };
-
-  const pass = evaluate('FILL', 'HUG');
-  const passEvaluation = pass.result.evaluations.find((item) => item.ruleId === ruleId);
-  assert.equal(passEvaluation.classification, 'compliant');
-  assert.equal(passEvaluation.focusNodeId, '3:sizing');
-
-  const fail = evaluate('HUG', 'HUG');
-  const failEvaluation = fail.result.evaluations.find((item) => item.ruleId === ruleId);
-  assert.equal(failEvaluation.classification, 'violation');
-  assert.equal(failEvaluation.focusNodeId, '3:sizing');
-  assert.equal(failEvaluation.trace.children[0].actual, 'HUG');
-  assert.equal(failEvaluation.trace.children[0].expected, 'FILL');
   assert.equal(fail.result.coverage.unclassified, 0);
   assert.equal(fail.repeatability.stable, true);
 });
@@ -2419,7 +2973,7 @@ test('source-driven TitleStatus dependency requires Status=true on the same Titl
   );
   assert.equal(
     unknown.result.evaluations.find((item) => item.ruleId === ruleId).classification,
-    'violation',
+    'not-evaluable',
   );
 
   const disabled = evaluatePredicatePilotRequest(
@@ -3327,7 +3881,7 @@ test('isolated predicate endpoint evaluates P07 on the exact mismatching TitleSt
   assert.equal(output.result.coverage.unclassified, 0);
 });
 
-test('isolated predicate endpoint evaluates P05 without sending raw padding to an agent', () => {
+test('BackgroundPlateSlot padding no longer produces executable predicate findings', () => {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   input.evidenceBundle.context.selectionNodeIds = ['3:0'];
   input.evidenceBundle.graph.nodes = [evidenceNode({
@@ -3371,26 +3925,15 @@ test('isolated predicate endpoint evaluates P05 without sending raw padding to a
   }));
 
   const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
-  const violations = output.result.evaluations.filter(
-    (item) => item.classification === 'violation',
-  );
+  const paddingEvaluations = output.result.evaluations.filter((item) => (
+    item.ruleId.includes('padding-uses-spacing-tokens')
+  ));
 
-  assert.equal(violations.length, 1);
-  assert.equal(
-    violations[0].ruleId,
-    'component:web-corp.background-plate.padding-uses-spacing-tokens.right',
-  );
-  assert.equal(violations[0].focusNodeId, '3:0');
-  assert.equal(violations[0].trace.predicate, 'all');
-  assert.equal(violations[0].trace.children[0].predicate, 'exists');
-  assert.equal(violations[0].trace.children[0].actual, 32);
-  assert.deepEqual(violations[0].trace.children[0].factPaths, [
-    'layout.padding.right',
-  ]);
+  assert.equal(paddingEvaluations.length, 0);
   assert.equal(output.result.coverage.unclassified, 0);
 });
 
-test('P05 does not apply padding token rules to legacy BackgroundPlate roots', () => {
+test('legacy BackgroundPlate roots do not load removed padding token rules', () => {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   input.evidenceBundle.context.selectionNodeIds = ['3:legacy'];
   input.evidenceBundle.graph.nodes = [evidenceNode({
@@ -3423,8 +3966,7 @@ test('P05 does not apply padding token rules to legacy BackgroundPlate roots', (
     item.ruleId.includes('padding-uses-spacing-tokens')
   ));
 
-  assert.equal(paddingEvaluations.length, 4);
-  assert.ok(paddingEvaluations.every((item) => item.classification === 'not-applicable'));
+  assert.equal(paddingEvaluations.length, 0);
 });
 
 test('isolated predicate endpoint evaluates P06 from sibling overlay composition', () => {
@@ -3942,4 +4484,123 @@ test('C17 compiles generic stroke token binding PASS, FAIL and UNKNOWN from rule
   const unknown = evaluate('unknown');
   assert.equal(unknown.classification, 'not-evaluable');
   assert.equal(unknown.focusNodeId, '32:0');
+});
+
+function backgroundPlateAppearanceRequest({
+  type = 'Colored',
+  position = 'Level 1 (outer)',
+  fill = 'status/positive',
+  stroke = null,
+  fillBound = true,
+  family = 'style-level-1',
+} = {}) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  input.evidenceBundle.context.selectionNodeIds = ['33:0'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '33:0',
+    path: `BackgroundPlate / ${position} / ${type}`,
+    name: family === 'background-plate-slot' ? '[D] BackgroundPlateSlot' : '[D] Style Level 1',
+    component: component(
+      family === 'background-plate-slot'
+        ? BACKGROUND_PLATE_SLOT_KEY
+        : BACKGROUND_PLATE_STYLE_LEVEL_1_KEY,
+      family === 'background-plate-slot' ? '[D] BackgroundPlateSlot' : '[D] Style Level 1',
+      { Type: type, Position: position },
+    ),
+    appearance: {
+      opacity: 1,
+      radius: 16,
+      fill: fill === null ? null : {
+        value: fill,
+        resourceType: fillBound ? 'token' : 'paint',
+        resourceName: fillBound ? fill : null,
+        bindingName: fillBound ? fill : null,
+        bindingCollection: fillBound ? 'Interface Dynamic' : null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+      stroke: stroke === null ? null : {
+        value: stroke,
+        resourceType: 'paint',
+        resourceName: null,
+        bindingName: null,
+        bindingCollection: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+    variableBindings: fill === null || !fillBound ? [] : [{
+      property: 'fills',
+      variableIds: ['VariableID:fill-token'],
+      variables: [{
+        id: 'VariableID:fill-token',
+        key: 'fill-token-key',
+        name: fill,
+        collectionId: 'collection:interface-dynamic',
+        collectionName: 'Interface Dynamic',
+      }],
+    }],
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = [];
+  input.evidenceBundle.changes = [];
+  return input;
+}
+
+test('BackgroundPlate package applies independent Level-2 and Colored appearance predicates', () => {
+  const evaluate = (options, ruleId) => {
+    const output = evaluatePredicatePilotRequest(backgroundPlateAppearanceRequest(options), {
+      designSystemRoot,
+    });
+    return output.result.evaluations.find((item) => item.ruleId === ruleId);
+  };
+  const typeRule = 'component:web-corp.background-plate.no-secondary-for-level-2';
+  const bindingRule = 'component:web-corp.background-plate.colored-and-border-use-color-tokens.fill';
+  const paintRule = 'component:web-corp.background-plate.colored-uses-fill-without-stroke';
+  const borderRule = 'component:web-corp.background-plate.border-has-no-visible-fill';
+
+  assert.equal(evaluate({
+    type: 'Primary',
+    position: 'Level 2 (inner)',
+  }, typeRule).classification, 'compliant');
+  const invalidType = evaluate({
+    type: 'Secondary',
+    position: 'Level 2 (inner)',
+  }, typeRule);
+  assert.equal(invalidType.classification, 'violation');
+  assert.equal(invalidType.focusNodeId, '33:0');
+
+  assert.equal(evaluate({ type: 'Colored', fillBound: true }, bindingRule).classification, 'compliant');
+  const rawFill = evaluate({ type: 'Colored', fillBound: false }, bindingRule);
+  assert.equal(rawFill.classification, 'violation');
+  assert.equal(rawFill.focusNodeId, '33:0');
+
+  assert.equal(evaluate({ type: 'Colored', stroke: null }, paintRule).classification, 'compliant');
+  const coloredWithStroke = evaluate({ type: 'Colored', stroke: '#747474' }, paintRule);
+  assert.equal(coloredWithStroke.classification, 'violation');
+  assert.equal(coloredWithStroke.focusNodeId, '33:0');
+
+  const rawSlotFill = evaluate({
+    type: 'Colored',
+    fillBound: false,
+    family: 'background-plate-slot',
+  }, bindingRule);
+  assert.equal(rawSlotFill.classification, 'violation');
+
+  const coloredSlotWithStroke = evaluate({
+    type: 'Colored',
+    stroke: '#747474',
+    family: 'background-plate-slot',
+  }, paintRule);
+  assert.equal(coloredSlotWithStroke.classification, 'violation');
+
+  const borderSlotWithFill = evaluate({
+    type: 'Border',
+    fill: '#f5e0e0',
+    fillBound: false,
+    family: 'background-plate-slot',
+  }, borderRule);
+  assert.equal(borderSlotWithFill.classification, 'violation');
 });
