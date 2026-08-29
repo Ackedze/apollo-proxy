@@ -34,6 +34,9 @@ const CORPORATE_SECTION_KEY = '2bbced82d96c1347fea71a3922cd11cf4c25ad6a';
 const TABS_VIEW_KEY = '519118350c338878dff70f5c8e62cf9c7d53bffd';
 const TABS_SECONDARY_KEY = 'd44e07075d37245006c02b03ca28fa9a8681fa1e';
 const TAG_FILLED_KEY = 'da874fbc1750ce68c942384fc3f0c95d1660e2fc';
+const TAG_GROUP_KEY = 'fd28f1f379a3724a09842273bce45f9bbccb9f4c';
+const PAYMENT_MASKED_NUMBER_KEY = 'bd25bbd83bfc28176b42284659f21c8a7cd8e97b';
+const PAYMENT_MASKED_NUMBER_MAJOR_KEY = 'e1f5bf7317b09ffcd37f011dcf88ceb2d346b5eb';
 const CARD_IMAGE_XS_ACTIVE_KEY = 'acc0bda0cee8df12ef3be8b215b5858fbd19afcb';
 const CARD_IMAGE_XS_INACTIVE_KEY = '54a5bac509c2fb21b12d21b5471b1e0d180a37c1';
 const ONBOARDING_TOOLTIP_KEY = 'c9a8db25e3fb6bc7907464f81547a6295816c59b';
@@ -4603,4 +4606,170 @@ test('BackgroundPlate package applies independent Level-2 and Colored appearance
     family: 'background-plate-slot',
   }, borderRule);
   assert.equal(borderSlotWithFill.classification, 'violation');
+});
+
+test('TagGroup size predicate selects published Tag variants by component identity', () => {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const owner = {
+    nodeId: '34:0',
+    componentKey: TAG_GROUP_KEY,
+    name: '[D] TagGroup',
+    path: 'TagGroup',
+    relativePath: '[D] Tag_Filled',
+    variantProperties: { Size: '56' },
+    componentProperties: { Size: '56' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['34:section'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '34:section',
+      childNodeIds: ['34:0'],
+      path: 'TagGroup test section',
+      type: 'SECTION',
+      name: 'TagGroup test section',
+    }),
+    evidenceNode({
+      nodeId: '34:0',
+      parentNodeId: '34:section',
+      childNodeIds: ['34:1'],
+      depth: 1,
+      path: 'TagGroup test section / [D] TagGroup',
+      name: '[D] TagGroup',
+      component: component(TAG_GROUP_KEY, '[D] TagGroup', { Size: '56' }),
+    }),
+    evidenceNode({
+      nodeId: '34:1',
+      parentNodeId: '34:0',
+      depth: 2,
+      path: 'TagGroup test section / [D] TagGroup / [D] Tag_Filled',
+      name: '[D] Tag_Filled',
+      component: component(TAG_FILLED_KEY, '[D] Tag_Filled', { Size: '40' }),
+      componentOwner: owner,
+    }),
+  ];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = [];
+  input.evidenceBundle.changes = [];
+
+  const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+  const evaluation = output.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-core.tag-group.nested-tag-size-matches-group'
+    && item.classification === 'violation'
+  ));
+  assert.equal(evaluation.focusNodeId, '34:1');
+});
+
+test('PaymentMaskedNumber baseline predicate selects published pen-prefixed text layers', () => {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const owner = {
+    nodeId: '35:1',
+    componentKey: PAYMENT_MASKED_NUMBER_MAJOR_KEY,
+    name: 'Major',
+    path: 'PaymentMaskedNumber / Major',
+    relativePath: '✎ Major',
+    variantProperties: { 'Mask Number': 'False' },
+    componentProperties: { 'Mask Number': 'False' },
+  };
+  input.evidenceBundle.context.selectionNodeIds = ['35:section'];
+  input.evidenceBundle.graph.nodes = [
+    evidenceNode({
+      nodeId: '35:section',
+      childNodeIds: ['35:0'],
+      path: 'PaymentMaskedNumber test section',
+      type: 'SECTION',
+      name: 'PaymentMaskedNumber test section',
+    }),
+    evidenceNode({
+      nodeId: '35:0',
+      parentNodeId: '35:section',
+      childNodeIds: ['35:1'],
+      depth: 1,
+      path: 'PaymentMaskedNumber test section / PaymentMaskedNumber',
+      name: 'PaymentMaskedNumber',
+      component: component(PAYMENT_MASKED_NUMBER_KEY, 'PaymentMaskedNumber', { RightAddon: false }),
+    }),
+    evidenceNode({
+      nodeId: '35:1',
+      parentNodeId: '35:0',
+      childNodeIds: ['35:text'],
+      depth: 2,
+      path: 'PaymentMaskedNumber test section / PaymentMaskedNumber / Major',
+      name: 'Major',
+      component: component(PAYMENT_MASKED_NUMBER_MAJOR_KEY, 'Major', { 'Mask Number': 'False' }),
+    }),
+    evidenceNode({
+      nodeId: '35:text',
+      parentNodeId: '35:1',
+      depth: 3,
+      path: 'PaymentMaskedNumber test section / PaymentMaskedNumber / Major / ✎ Major',
+      type: 'TEXT',
+      name: '✎ Major',
+      componentOwner: owner,
+      appearance: {
+        opacity: 1,
+        radius: 0,
+        fill: {
+          value: '#F21F14',
+          resourceType: 'raw',
+          resourceId: null,
+          resourceName: null,
+          bindingName: null,
+          bindingCollection: null,
+          styleId: null,
+          visible: true,
+          paintCount: 1,
+          paintTypes: ['SOLID'],
+        },
+      },
+    }),
+  ];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = [{
+    id: 'baseline-payment-major',
+    componentKey: PAYMENT_MASKED_NUMBER_KEY,
+    nestedOwnerComponentKey: PAYMENT_MASKED_NUMBER_MAJOR_KEY,
+    nestedOwnerRelativePath: '✎ Major',
+    variantProperties: { 'Mask Number': 'False' },
+  }];
+  input.evidenceBundle.changes = [{
+    id: 'change-payment-major-fill',
+    nodeId: '35:text',
+    nodeName: '✎ Major',
+    nodePath: 'PaymentMaskedNumber test section / PaymentMaskedNumber / Major / ✎ Major',
+    property: 'fill',
+    kind: 'paint',
+    ownerComponentKey: PAYMENT_MASKED_NUMBER_KEY,
+    baselineReferenceId: 'baseline-payment-major',
+    baseline: {
+      value: 'text/primary',
+      resourceType: 'token',
+      resourceName: 'text/primary',
+      bindingName: 'text/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#F21F14',
+      resourceType: 'raw',
+      resourceName: null,
+      bindingName: null,
+      bindingCollection: null,
+    },
+    bindingStatus: 'unbound',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'nested-component',
+      nestedOwnerRelativePath: '✎ Major',
+    },
+    candidateRuleIds: [
+      'component:web-corp.payment-masked-number.text-color-follows-baseline',
+    ],
+  }];
+
+  const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+  const evaluation = output.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.payment-masked-number.text-color-follows-baseline'
+    && item.classification === 'violation'
+  ));
+  assert.equal(evaluation.focusNodeId, '35:text');
 });
