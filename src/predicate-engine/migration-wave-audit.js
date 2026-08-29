@@ -63,8 +63,9 @@ function auditMigrationWave(designSystemRoot) {
       (ruleId, index) => sourceRuleIds.indexOf(ruleId) !== index,
     );
     const rulesSourcePath = `${entry.sourcePath}/rules.json`;
+    const contractRulesSourceFile = entry.contractRulesSourceFile || rulesSourcePath;
     const pinnedRules = (contract.package?.sourceFiles || []).find(
-      (source) => source.file === rulesSourcePath,
+      (source) => source.file === contractRulesSourceFile,
     );
     const actualRulesChecksum = sha256File(rulesPath);
     const executionPolicy = rulesDocument.manual?.executionPolicy || null;
@@ -81,6 +82,16 @@ function auditMigrationWave(designSystemRoot) {
       && !missingRoutes.length
       && !unknownRoutes.length
       && !duplicateRoutes.length;
+    const predicateRuleIds = new Set(executionPolicy?.predicateRules || []);
+    const sourceRuleById = new Map(sourceRules.map((rule) => [rule.ruleId, rule]));
+    const productionPredicateBridgeRuleIds = entry.productionPredicateBridgeRuleIds || [];
+    const invalidProductionPredicateBridgeRuleIds = productionPredicateBridgeRuleIds.filter(
+      (ruleId) => (
+        !predicateRuleIds.has(ruleId)
+        || !sourceRuleById.get(ruleId)?.predicateContour
+      ),
+    );
+    const blockingUnsupportedRuleIds = entry.blockingUnsupportedRuleIds || [];
 
     return {
       packageId: entry.packageId,
@@ -93,9 +104,13 @@ function auditMigrationWave(designSystemRoot) {
       humanReviewRuleCount: entry.humanReviewRules,
       contractFresh,
       pinnedRulesChecksum: pinnedRules?.sha256 || null,
+      contractRulesSourceFile,
       actualRulesChecksum,
       productionPolicyPresent: Boolean(executionPolicy),
       productionClosed,
+      productionPredicateBridgeRuleIds,
+      invalidProductionPredicateBridgeRuleIds,
+      blockingUnsupportedRuleIds,
       runtimeStatus: productionClosed ? 'production-closed' : 'shadow-only',
       routes: routeSummary(executionPolicy),
       missingRoutes,
@@ -114,6 +129,8 @@ function auditMigrationWave(designSystemRoot) {
       entry.contractFresh
       && entry.productionClosed
       && !entry.duplicateSourceRuleIds.length
+      && !entry.invalidProductionPredicateBridgeRuleIds.length
+      && !entry.blockingUnsupportedRuleIds.length
     )),
     packages,
   };

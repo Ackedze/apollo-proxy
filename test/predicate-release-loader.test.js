@@ -173,8 +173,24 @@ test('BackgroundPlate execution policy closes every real component rule exactly 
     'JSONS/web/components/web-corp/BackgroundPlate/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  assert.equal(document.manual.rules.length, 27);
+  assert.equal(document.manual.rules.length, 30);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '5b6c5ac720154aff36be2f8a883bd058faa663cf',
+    '1745af83255e324781c2fbadfe0ad8cc7f13e0d8',
+  ]);
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web-corp.background-plate.'))
+      .filter((definition) => ['public-root', 'platform-match'].includes(definition.kind))
+      .map((definition) => definition.ruleId)
+      .sort(),
+    [
+      'component:web-corp.background-plate.platform-version-must-match',
+      'component:web-corp.background-plate.public-roots-only',
+    ],
+  );
 
   const incomplete = structuredClone(document);
   incomplete.manual.executionPolicy.contextOnlyRules.pop();

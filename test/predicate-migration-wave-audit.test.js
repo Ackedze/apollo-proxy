@@ -10,13 +10,15 @@ test('migration wave audit exposes freshness and production closure without chan
   const audit = auditMigrationWave(designSystemRoot);
   assert.equal(audit.schemaVersion, 'apollo.predicate-migration-audit.v1');
   assert.equal(audit.waveId, 'wave-1-no-new-operators');
-  assert.equal(audit.packages.length, 6);
+  assert.equal(audit.packages.length, 8);
   assert.equal(audit.packages.every((entry) => entry.contractFresh), true);
   assert.equal(audit.packages.every((entry) => !entry.duplicateSourceRuleIds.length), true);
 
   const benefits = audit.packages.find((entry) => entry.packageId === 'web-corp-promo.benefits');
   const backgroundPlate = audit.packages.find((entry) => entry.packageId === 'web-corp.background-plate');
   const buttonStack = audit.packages.find((entry) => entry.packageId === 'web-corp.button-stack');
+  const statusProperty = audit.packages.find((entry) => entry.packageId === 'web-corp.status-property');
+  const titleView = audit.packages.find((entry) => entry.packageId === 'web-corp.title-view');
   const amount = audit.packages.find((entry) => entry.packageId === 'web-core.amount');
   const tagGroup = audit.packages.find((entry) => entry.packageId === 'web-core.tag-group');
   const paymentMaskedNumber = audit.packages.find(
@@ -25,6 +27,8 @@ test('migration wave audit exposes freshness and production closure without chan
   assert.equal(benefits.runtimeStatus, 'production-closed');
   assert.equal(backgroundPlate.runtimeStatus, 'production-closed');
   assert.equal(buttonStack.runtimeStatus, 'production-closed');
+  assert.equal(statusProperty.runtimeStatus, 'production-closed');
+  assert.equal(titleView.runtimeStatus, 'production-closed');
   assert.equal(amount.runtimeStatus, 'production-closed');
   assert.equal(tagGroup.runtimeStatus, 'production-closed');
   assert.equal(paymentMaskedNumber.runtimeStatus, 'production-closed');
@@ -65,7 +69,13 @@ test('migration wave audit exposes freshness and production closure without chan
   });
   assert.equal(benefits.missingRoutes.length, 0);
   assert.equal(buttonStack.missingRoutes.length, 0);
-  assert.equal(backgroundPlate.sourceRuleCount, 27);
+  assert.equal(backgroundPlate.sourceRuleCount, 30);
   assert.equal(backgroundPlate.missingRoutes.length, 0);
+  assert.deepEqual(backgroundPlate.productionPredicateBridgeRuleIds, [
+    'component:web-corp.background-plate.platform-version-must-match',
+    'component:web-corp.background-plate.slot-content-levels',
+  ]);
+  assert.deepEqual(backgroundPlate.invalidProductionPredicateBridgeRuleIds, []);
+  assert.deepEqual(backgroundPlate.blockingUnsupportedRuleIds, []);
   assert.equal(audit.safeToPromote, true);
 });

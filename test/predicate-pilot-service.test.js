@@ -41,6 +41,11 @@ const CARD_IMAGE_XS_ACTIVE_KEY = 'acc0bda0cee8df12ef3be8b215b5858fbd19afcb';
 const CARD_IMAGE_XS_INACTIVE_KEY = '54a5bac509c2fb21b12d21b5471b1e0d180a37c1';
 const ONBOARDING_TOOLTIP_KEY = 'c9a8db25e3fb6bc7907464f81547a6295816c59b';
 const BACKGROUND_PLATE_STYLE_LEVEL_1_KEY = 'adb65a62cde9ebedc5d0d41d2d77cd63e71e0745';
+const BACKGROUND_PLATE_DESKTOP_ROOT_KEY = '2c7332d281570f4d5af6d334f8df378d24a1f235';
+const BACKGROUND_PLATE_DESKTOP_SLOT_KEY = '5b6c5ac720154aff36be2f8a883bd058faa663cf';
+const BACKGROUND_PLATE_MOBILE_ROOT_KEY = '4cfe3915785e5c37255190ae16314f6f2a1d05b3';
+const BACKGROUND_PLATE_MOBILE_SLOT_KEY = '1745af83255e324781c2fbadfe0ad8cc7f13e0d8';
+const BACKGROUND_PLATE_MOBILE_STYLE_LEVEL_1_KEY = 'efc528bd86582d96a824edeb2c257dc8b22a8f14';
 const FILTER_COMPANY_SELECT_SINGLE_KEY = '7a0f566e36767d14d873e7ed22295ac0ac86fa69';
 const FILTER_COMPANY_SELECT_INTERNAL_KEY = '646b38ca55ddc9c7b3837c11ed671c50d0a6d66a';
 const ICON_VIEW_KEY = 'f188fb1de981b2f32966f4844a4b10cffdb81c35';
@@ -301,6 +306,49 @@ function accountSelectPublicRootRequest(componentKey, platform = 'desktop') {
   };
 }
 
+function backgroundPlatePublicRootRequest(componentKey, platform = 'desktop') {
+  return {
+    ruleSet: 'buttons-group-pilot',
+    evidenceBundle: {
+      schemaVersion: 2,
+      documentType: 'apollo-audit-evidence-bundle',
+      reportId: 'background-plate-public-root:evidence',
+      sourceReportId: 'background-plate-public-root',
+      generatedAt: '2026-08-30T12:00:00.000Z',
+      context: {
+        fileKey: 'figma-file-key',
+        pageId: '0:1',
+        platform,
+        channel: platform === 'desktop' ? 'Desktop' : 'MobileWeb',
+        pageType: null,
+        viewportWidth: platform === 'desktop' ? 1440 : 390,
+        selectionNodeIds: ['21:20'],
+      },
+      graph: {
+        nodes: [evidenceNode({
+          nodeId: '21:20',
+          path: 'C20 / renamed BackgroundPlate fixture',
+          name: 'renamed fixture',
+          component: component(componentKey, 'renamed fixture', {}),
+        })],
+        relations: [],
+      },
+      baselines: [],
+      changes: [],
+      ruleCandidates: [],
+      coverage: {
+        visibleNodeCount: 1,
+        excludedHiddenNodeCount: 0,
+        excludedDecorativeNodeCount: 0,
+        componentNodeCount: 1,
+        textNodeCount: 0,
+        baselineChangeCount: 0,
+        limitations: [],
+      },
+    },
+  };
+}
+
 function corporateSystemMessagePlatformRequest({
   platform = 'mobile-web',
   name = 'FAIL · renamed fixture',
@@ -488,6 +536,59 @@ test('AccountSelect platform-match covers D/M roots on both selected channels', 
   assert.equal(desktopOnMobile.focusNodeId, '21:0');
   assert.equal(desktopOnMobile.trace.actual, 'mobile-web');
   assert.equal(desktopOnMobile.trace.expected, 'desktop');
+});
+
+test('BackgroundPlate public-root rejects standalone Style Level and accepts published roots', () => {
+  const ruleId = 'component:web-corp.background-plate.public-roots-only';
+  const evaluate = (componentKey, platform = 'desktop') => evaluatePredicatePilotRequest(
+    backgroundPlatePublicRootRequest(componentKey, platform),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  for (const componentKey of [
+    BACKGROUND_PLATE_DESKTOP_ROOT_KEY,
+    BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+  ]) {
+    assert.equal(evaluate(componentKey).classification, 'compliant');
+  }
+
+  for (const componentKey of [
+    BACKGROUND_PLATE_STYLE_LEVEL_1_KEY,
+    BACKGROUND_PLATE_MOBILE_STYLE_LEVEL_1_KEY,
+  ]) {
+    const violation = evaluate(
+      componentKey,
+      componentKey === BACKGROUND_PLATE_STYLE_LEVEL_1_KEY ? 'desktop' : 'mobile-web',
+    );
+    assert.equal(violation.classification, 'violation');
+    assert.equal(violation.focusNodeId, '21:20');
+    assert.equal(violation.trace.actual, 'style-level-1');
+    assert.deepEqual(violation.trace.expected, ['background-plate', 'background-plate-slot']);
+  }
+});
+
+test('BackgroundPlate platform-match covers D/M roots on both selected channels', () => {
+  const ruleId = 'component:web-corp.background-plate.platform-version-must-match';
+  const evaluate = (componentKey, platform) => evaluatePredicatePilotRequest(
+    backgroundPlatePublicRootRequest(componentKey, platform),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  for (const componentKey of [
+    BACKGROUND_PLATE_DESKTOP_ROOT_KEY,
+    BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+  ]) {
+    assert.equal(evaluate(componentKey, 'desktop').classification, 'compliant');
+    assert.equal(evaluate(componentKey, 'mobile-web').classification, 'violation');
+  }
+
+  for (const componentKey of [
+    BACKGROUND_PLATE_MOBILE_ROOT_KEY,
+    BACKGROUND_PLATE_MOBILE_SLOT_KEY,
+  ]) {
+    assert.equal(evaluate(componentKey, 'mobile-web').classification, 'compliant');
+    assert.equal(evaluate(componentKey, 'desktop').classification, 'violation');
+  }
 });
 
 test('platform-match uses the published key, evaluates MobileWeb, and skips hosted roots', () => {
