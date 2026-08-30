@@ -821,11 +821,14 @@ function addTableViewCompositionFacts(nodes) {
       .sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
     const headerRows = rows.filter((row) => row.component?.properties?.Presets === 'Header');
     const ownerCompact = owner.component?.properties?.Compact;
-    const expectedRowSpacing = ownerCompact === 'False'
-      ? 16
-      : ownerCompact === 'True'
-        ? 12
-        : null;
+    const sidePanelOwner = owner.component?.family === 'table-view-horizontal-side-panel';
+    const expectedRowSpacing = sidePanelOwner
+      ? 12
+      : ownerCompact === 'False'
+        ? 16
+        : ownerCompact === 'True'
+          ? 12
+          : null;
     for (const row of rows) {
       const columns = descendants
         .filter((node) => (
@@ -840,15 +843,25 @@ function addTableViewCompositionFacts(nodes) {
         node.unknownFacts.includes('component.identity') &&
         nearestTableRow(node, owner.id)?.id === row.id
       ));
-      const directSpacingNodes = (row.childIds || [])
-        .map((nodeId) => nodeById.get(nodeId))
-        .filter((child) => child?.name === '↕ SpacingVertical');
+      // Published instances do not always expose childNodeIds on nested Row
+      // nodes. Resolve spacing components from the normalized parent graph
+      // instead, and bind them to the nearest Row so wrappers and deeper
+      // descendants cannot leak spacing from another row.
+      const directSpacingNodes = descendants
+        .filter((child) => (
+          child.component?.family === 'spacing-vertical' &&
+          nearestTableRow(child, owner.id)?.id === row.id
+        ))
+        .sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
       const spacingVerticalValues = directSpacingNodes.map((child) => (
         numericComponentProperty(child.component?.properties?.Size)
       ));
-      const spacingVertical = (
+      const spacingValuesKnown = (
         spacingVerticalValues.length > 0 &&
-        spacingVerticalValues.every((value) => value !== null) &&
+        spacingVerticalValues.every((value) => value !== null)
+      );
+      const spacingVertical = (
+        spacingValuesKnown &&
         spacingVerticalValues.every((value) => value === spacingVerticalValues[0])
       )
         ? spacingVerticalValues[0]
@@ -859,6 +872,7 @@ function addTableViewCompositionFacts(nodes) {
           component: owner.component,
         },
         expectedRowSpacing,
+        expectedRowSpacingValues: expectedRowSpacing === null ? null : [expectedRowSpacing],
         visibleDataColumnNodeIds: columns.map((column) => column.id),
         visibleDataColumnCount: columns.length,
         spacingVerticalNodeIds: directSpacingNodes.map((child) => child.id),
@@ -866,24 +880,33 @@ function addTableViewCompositionFacts(nodes) {
         spacingVertical,
       });
       const rowUnknownFacts = [];
-      if (ownerCompact !== 'False' && ownerCompact !== 'True') {
+      if (!sidePanelOwner && ownerCompact !== 'False' && ownerCompact !== 'True') {
         rowUnknownFacts.push(
           'composition.tableViewOwner.component.properties.Compact',
           'composition.expectedRowSpacing',
+          'composition.expectedRowSpacingValues',
         );
       }
       if (
+        row.component?.family === 'row' &&
         row.component?.properties?.Compact !== 'False' &&
         row.component?.properties?.Compact !== 'True'
       ) {
         rowUnknownFacts.push('component.properties.Compact');
       }
-      if (!directSpacingNodes.length || spacingVertical === null) {
+      if (!directSpacingNodes.length) {
         rowUnknownFacts.push(
           'composition.spacingVerticalNodeIds',
           'composition.spacingVerticalValues',
           'composition.spacingVertical',
         );
+      } else if (!spacingValuesKnown) {
+        rowUnknownFacts.push(
+          'composition.spacingVerticalValues',
+          'composition.spacingVertical',
+        );
+      } else if (spacingVertical === null) {
+        rowUnknownFacts.push('composition.spacingVertical');
       }
       if (unresolvedColumns.length) {
         rowUnknownFacts.push(

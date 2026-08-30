@@ -18,7 +18,12 @@ const BENEFITS_KEY = '0b1fd301e14ae7dab9eb62de83c8f4b8d9eab376';
 const BENEFIT_CARD_KEY = '0fb58a88030651af939c278b544143643cdd1223';
 const TABLE_VIEW_HORIZONTAL_KEY = '6e9a72189d150779165acb1dde3a800b92daa2f9';
 const TABLE_VIEW_HEADER_ROW_KEY = 'af607289bf050cc8236b882039cf787d32296383';
+const TABLE_VIEW_ROW_KEY = 'c65ca1d60347f0eecae4bf9acd8b89c417f6d648';
+const TABLE_VIEW_SIDE_PANEL_KEY = '46fdafb593b319e287d29eb6bc875a951b812a5e';
+const TABLE_VIEW_SIDE_PANEL_ROW_KEY = '37854b6b3fbb8818735970825a47f477600c19f1';
 const TABLE_VIEW_COLUMN_KEY = 'af59b50bbe31bfad10b6f9fe6decb9798b465771';
+const SPACING_VERTICAL_16_KEY = '452ccc2cfcaa139709c7538d175c592b00232332';
+const SPACING_VERTICAL_12_KEY = 'e20ee33385ac041ce04e356b5ba698cad16e18d5';
 const BACKGROUND_PLATE_SLOT_KEY = '6d5d4dda10be00621991e9b5a0152db4e47f4e2f';
 const ISLE_BLOCK_KEY = '9dd86bd040376734e605227c0d849d1328e62d76';
 const ACCOUNT_SELECT_PUBLIC_ROOT_KEY = '77938b4511abfbafdd13b13f6bb6f3fbe87cf2a2';
@@ -2395,6 +2400,138 @@ test('P14 evaluates one data Column per Row in compact Horizontal TableView', ()
   assert.equal(violation.trace.actual, 2);
 });
 
+function tableViewRowSpacingRequest({
+  sidePanel = false,
+  spacingValues = [12, 12],
+  columnCount = 1,
+  standalone = false,
+} = {}) {
+  const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const rootId = '11:spacing-root';
+  const rowId = '11:spacing-row';
+  const spacingIds = spacingValues.map((_, index) => `11:spacing-${index + 1}`);
+  const columnIds = Array.from({ length: columnCount }, (_, index) => `11:data-${index + 1}`);
+  const rootKey = sidePanel ? TABLE_VIEW_SIDE_PANEL_KEY : TABLE_VIEW_HORIZONTAL_KEY;
+  const rowKey = sidePanel ? TABLE_VIEW_SIDE_PANEL_ROW_KEY : TABLE_VIEW_ROW_KEY;
+  const rootName = sidePanel
+    ? '[D] TableView :: Horizontal SidePanel'
+    : '[D] TableView :: Horizontal';
+  const rowName = sidePanel ? 'Row :: SidePanel' : 'Row';
+  const rootProperties = sidePanel ? {} : { Compact: 'True' };
+  const rowProperties = sidePanel ? { Presets: 'Body' } : {
+    Presets: 'Body', Compact: 'True', Skeleton: 'False',
+  };
+  const rowNode = evidenceNode({
+    nodeId: rowId,
+    parentNodeId: standalone ? null : rootId,
+    childNodeIds: [],
+    childOrder: 0,
+    depth: standalone ? 0 : 1,
+    path: `${rootName} / ${rowName}`,
+    name: rowName,
+    component: component(rowKey, rowName, rowProperties),
+  });
+  const descendantNodes = [
+    ...spacingIds.map((nodeId, index) => evidenceNode({
+      nodeId,
+      parentNodeId: rowId,
+      childOrder: index,
+      depth: standalone ? 1 : 2,
+      path: `${rootName} / ${rowName} / ↕ SpacingVertical ${index + 1}`,
+      name: '↕ SpacingVertical',
+      component: component(
+        spacingValues[index] === 12 ? SPACING_VERTICAL_12_KEY : SPACING_VERTICAL_16_KEY,
+        '↕ SpacingVertical',
+        { Size: String(spacingValues[index]) },
+      ),
+    })),
+    ...columnIds.map((nodeId, index) => evidenceNode({
+      nodeId,
+      parentNodeId: rowId,
+      childOrder: spacingIds.length + index,
+      depth: standalone ? 1 : 2,
+      path: `${rootName} / ${rowName} / Column ${index + 1}`,
+      name: 'Column',
+      component: component(TABLE_VIEW_COLUMN_KEY, 'Column', { Skeleton: 'False' }),
+    })),
+  ];
+  output.evidenceBundle.reportId = 'table-view-spacing:evidence';
+  output.evidenceBundle.sourceReportId = 'table-view-spacing';
+  output.evidenceBundle.context.selectionNodeIds = [standalone ? rowId : rootId];
+  output.evidenceBundle.graph.nodes = standalone ? [rowNode, ...descendantNodes] : [
+    evidenceNode({
+      nodeId: rootId,
+      childNodeIds: [rowId],
+      path: rootName,
+      name: rootName,
+      component: component(rootKey, rootName, rootProperties),
+    }),
+    rowNode,
+    ...descendantNodes,
+  ];
+  output.evidenceBundle.graph.relations = [];
+  output.evidenceBundle.coverage.visibleNodeCount = output.evidenceBundle.graph.nodes.length;
+  output.evidenceBundle.coverage.componentNodeCount = output.evidenceBundle.graph.nodes.length;
+  return output;
+}
+
+test('TableView row spacing evaluates every published SpacingVertical value', () => {
+  const ruleId = 'component:web-corp.table-view.row-spacing-matches-compact';
+  const evaluate = (spacingValues) => evaluatePredicatePilotRequest(
+    tableViewRowSpacingRequest({ spacingValues }),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  const pass = evaluate([12, 12]);
+  assert.equal(pass.classification, 'compliant');
+  assert.equal(pass.focusNodeId, '11:spacing-row');
+
+  const fail = evaluate([12, 16]);
+  assert.equal(fail.classification, 'violation');
+  assert.equal(fail.focusNodeId, '11:spacing-row');
+  assert.deepEqual(fail.trace.actual, [12, 16]);
+  assert.deepEqual(fail.trace.expected, [12]);
+  assert.equal(fail.ruleRevision, 2);
+});
+
+test('standalone TableView Row does not receive owner-dependent row findings', () => {
+  const evaluations = evaluatePredicatePilotRequest(
+    tableViewRowSpacingRequest({ standalone: true, spacingValues: [16, 12] }),
+    { designSystemRoot },
+  ).result.evaluations;
+  const violations = evaluations.filter((item) => item.classification === 'violation');
+
+  assert.ok(violations.some((item) => (
+    item.ruleId === 'component:web-corp.table-view.internal-parts-not-standalone'
+  )));
+  assert.ok(!violations.some((item) => (
+    item.ruleId === 'component:web-corp.table-view.compact-is-consistent-across-rows' ||
+    item.ruleId === 'component:web-corp.table-view.row-spacing-matches-compact'
+  )));
+});
+
+test('TableView SidePanel evaluates one data column and every 12 px spacing without Compact', () => {
+  const ruleId = 'component:web-corp.table-view.horizontal-sidepanel-is-single-column-compact';
+  const evaluate = (spacingValues, columnCount = 1) => evaluatePredicatePilotRequest(
+    tableViewRowSpacingRequest({ sidePanel: true, spacingValues, columnCount }),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  const pass = evaluate([12, 12]);
+  assert.equal(pass.classification, 'compliant');
+  assert.equal(pass.focusNodeId, '11:spacing-row');
+
+  const spacingFail = evaluate([12, 16]);
+  assert.equal(spacingFail.classification, 'violation');
+  assert.deepEqual(spacingFail.trace.children[1].actual, [12, 16]);
+  assert.deepEqual(spacingFail.trace.children[1].expected, [12]);
+
+  const columnFail = evaluate([12, 12], 2);
+  assert.equal(columnFail.classification, 'violation');
+  assert.equal(columnFail.trace.children[0].actual, 2);
+  assert.equal(columnFail.ruleRevision, 3);
+});
+
 function formFirstLevelSpacingRequest(gap) {
   const output = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   output.evidenceBundle.reportId = 'form-spacing:evidence';
@@ -4533,6 +4670,104 @@ test('C17 compiles generic stroke baseline PASS, FAIL and UNKNOWN from rules.jso
   const unknown = evaluate('unknown');
   assert.equal(unknown.classification, 'not-evaluable');
   assert.equal(unknown.focusNodeId, '31:1');
+});
+
+function tableViewRootStrokeRequest(mode) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const rootComponent = component(
+    TABLE_VIEW_HORIZONTAL_KEY,
+    '[D] TableView :: Horizontal',
+    { Compact: 'False' },
+  );
+  if (mode === 'unknown') {
+    rootComponent.directOverrides = [{ nodeId: '31:table-root', fields: ['strokes'] }];
+  }
+  input.evidenceBundle.context.selectionNodeIds = ['31:table-root'];
+  input.evidenceBundle.graph.nodes = [evidenceNode({
+    nodeId: '31:table-root',
+    path: 'TV-12 / [D] TableView :: Horizontal',
+    name: '[D] TableView :: Horizontal',
+    component: rootComponent,
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: null,
+      stroke: {
+        value: mode === 'fail' ? 'status/error' : 'border/primary',
+        resourceType: 'token',
+        resourceId: mode === 'fail' ? 'stroke-error-key' : 'stroke-baseline-key',
+        resourceName: mode === 'fail' ? 'status/error' : 'border/primary',
+        bindingName: mode === 'fail' ? 'status/error' : 'border/primary',
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
+  })];
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.baselines = mode === 'fail' ? [{
+    id: 'baseline-table-root-stroke',
+    componentKey: TABLE_VIEW_HORIZONTAL_KEY,
+    nestedOwnerComponentKey: TABLE_VIEW_HORIZONTAL_KEY,
+    nestedOwnerRelativePath: '',
+    variantProperties: { Compact: 'False' },
+  }] : [];
+  input.evidenceBundle.changes = mode === 'fail' ? [{
+    id: 'change-table-root-stroke',
+    nodeId: '31:table-root',
+    nodeName: '[D] TableView :: Horizontal',
+    nodePath: 'TV-12 / [D] TableView :: Horizontal',
+    property: 'stroke',
+    kind: 'paint',
+    ownerComponentKey: TABLE_VIEW_HORIZONTAL_KEY,
+    baselineReferenceId: 'baseline-table-root-stroke',
+    baseline: {
+      value: '#D2D3D9',
+      resourceType: 'token',
+      resourceName: 'border/primary',
+      bindingName: 'border/primary',
+      bindingCollection: 'Interface Dynamic',
+    },
+    actual: {
+      value: '#FF0000',
+      resourceType: 'token',
+      resourceName: 'status/error',
+      bindingName: 'status/error',
+      bindingCollection: 'Interface Dynamic',
+    },
+    bindingStatus: 'different-binding',
+    mapping: {
+      method: 'apollo-effective-baseline-diff',
+      quality: 'exact',
+      referenceOrigin: 'component-root',
+      nestedOwnerRelativePath: '',
+    },
+    candidateRuleIds: [
+      'component:web-corp.table-view.manual-visual-overrides-forbidden',
+    ],
+  }] : [];
+  return input;
+}
+
+test('TableView root stroke is evaluated while radius and opacity remain outside authority', () => {
+  const sourceRuleId = 'component:web-corp.table-view.manual-visual-overrides-forbidden';
+  const ruleId = `${sourceRuleId}.stroke`;
+  const evaluations = evaluatePredicatePilotRequest(
+    tableViewRootStrokeRequest('fail'),
+    { designSystemRoot },
+  ).result.evaluations;
+  const violation = evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(violation.classification, 'violation');
+  assert.equal(violation.focusNodeId, '31:table-root');
+  assert.equal(violation.ruleRevision, 3);
+  assert.equal(violation.trace.actual, 'status/error');
+  assert.equal(violation.trace.expected, 'border/primary');
+  assert.ok(!evaluations.some((item) => (
+    item.ruleId === `${sourceRuleId}.radius` || item.ruleId === `${sourceRuleId}.opacity`
+  )));
 });
 
 function backgroundPlateStrokeBindingRequest(mode) {

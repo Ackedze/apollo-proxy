@@ -2572,6 +2572,62 @@ test('TableView SidePanel exposes owner, row spacing and data-column facts on Ro
   assert.deepEqual(row.composition.visibleDataColumnNodeIds, ['11:column-1']);
 });
 
+test('TableView spacing facts preserve mixed published spacing values without childNodeIds', () => {
+  const evidenceBundle = tableViewCompactColumnBundle(1);
+  const row = evidenceBundle.graph.nodes[1];
+  row.childNodeIds = [];
+  const spacingNodes = evidenceBundle.graph.nodes.slice(2, 4);
+  spacingNodes[0].component.variantProperties.Size = '16';
+  spacingNodes[0].component.componentProperties.Size = '16';
+  spacingNodes[1].component.variantProperties.Size = '12';
+  spacingNodes[1].component.componentProperties.Size = '12';
+
+  const snapshot = adapt(evidenceBundle);
+  const normalizedRow = snapshot.nodes.find((node) => node.id === '11:1');
+  assert.deepEqual(normalizedRow.composition.spacingVerticalValues, [16, 12]);
+  assert.deepEqual(normalizedRow.composition.expectedRowSpacingValues, [12]);
+  assert.equal(normalizedRow.composition.spacingVertical, null);
+  assert.equal(
+    normalizedRow.unknownFacts.includes('composition.spacingVerticalValues'),
+    false,
+  );
+});
+
+test('TableView SidePanel derives compact spacing semantics without a public Compact property', () => {
+  const evidenceBundle = tableViewCompactColumnBundle(1);
+  evidenceBundle.graph.nodes[0].name = '[D] TableView :: Horizontal SidePanel';
+  evidenceBundle.graph.nodes[0].path = '[D] TableView :: Horizontal SidePanel';
+  evidenceBundle.graph.nodes[0].component.key = 'table-view-side-panel-key';
+  evidenceBundle.graph.nodes[0].component.variantProperties = {};
+  evidenceBundle.graph.nodes[0].component.componentProperties = {};
+  evidenceBundle.graph.nodes[1].name = 'Row :: SidePanel';
+  evidenceBundle.graph.nodes[1].path = '[D] TableView :: Horizontal SidePanel / Row :: SidePanel';
+  evidenceBundle.graph.nodes[1].component.key = 'table-view-row-side-panel-key';
+  evidenceBundle.graph.nodes[1].component.variantProperties = { Skeleton: 'False' };
+  evidenceBundle.graph.nodes[1].component.componentProperties = { Skeleton: 'False' };
+  evidenceBundle.graph.nodes[1].childNodeIds = [];
+  evidenceBundle.graph.nodes[2].component.variantProperties.Size = '16';
+  evidenceBundle.graph.nodes[2].component.componentProperties.Size = '16';
+  evidenceBundle.graph.nodes[3].component.variantProperties.Size = '12';
+  evidenceBundle.graph.nodes[3].component.componentProperties.Size = '12';
+
+  const snapshot = adapt(evidenceBundle);
+  const normalizedRow = snapshot.nodes.find((node) => node.id === '11:1');
+  assert.equal(normalizedRow.composition.expectedRowSpacing, 12);
+  assert.deepEqual(normalizedRow.composition.expectedRowSpacingValues, [12]);
+  assert.deepEqual(normalizedRow.composition.spacingVerticalValues, [16, 12]);
+  assert.equal(
+    normalizedRow.unknownFacts.includes('component.properties.Compact'),
+    false,
+  );
+  assert.equal(
+    normalizedRow.unknownFacts.includes(
+      'composition.tableViewOwner.component.properties.Compact',
+    ),
+    false,
+  );
+});
+
 function formFirstLevelBlocksBundle(gap = 24) {
   const output = bundle();
   output.graph.nodes = [
