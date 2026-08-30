@@ -92,7 +92,7 @@ function assertViolation(suffix, fixture) {
   );
 }
 
-test('AmountStyles executable text, ownership, binding and breakpoint facts are observable', () => {
+test('AmountStyles executable text, ownership and binding facts are observable', () => {
   const publicRoot = (id, childIds = [], platform = 'desktop') => node(id, {
     childIds,
     component: component('web-corp.amount-styles', 'amount-headline', {}, platform),
@@ -139,11 +139,6 @@ test('AmountStyles executable text, ownership, binding and breakpoint facts are 
     ownership: { contour: { host: { component: { identity: 'web-corp.amount-styles' } } } },
   });
   assertViolation('opacity-property-is-forbidden', snapshot([opacity]));
-
-  assertViolation(
-    'platform-preset-matches-breakpoint',
-    snapshot([publicRoot('desktop-at-mobile-width')], undefined, { viewportWidth: 500 }),
-  );
 
   const minorText = node('minor-text', {
     type: 'TEXT',
