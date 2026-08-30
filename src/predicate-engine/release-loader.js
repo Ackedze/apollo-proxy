@@ -4,14 +4,6 @@ const path = require('node:path');
 
 const { balanceSourceRules } = require('./source-rule-balancer');
 
-const BUTTONS_GROUP_CONTRACT = 'web/components/web-corp/ButtonGroup [D]/composition-contract.json';
-const TITLE_VIEW_RULES = 'web/components/web-corp/TitleView/rules.json';
-const TITLE_VIEW_COMPOSITION = 'web/components/web-corp/TitleView/composition-contract.json';
-const BENEFITS_RULES = 'web/components/web-corp-promo/Benefits/rules.json';
-const TABLE_VIEW_RULES = 'web/components/web-corp/TableView/rules.json';
-const FORM_PATTERN = 'patterns/p_form-construction-rules.md';
-const BUTTON_PATTERN = 'patterns/p_buttons-and-buttons-group.md';
-
 function sha256File(filePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
 }
@@ -235,6 +227,65 @@ function loadComponentContourCatalog(jsonRoot, packages) {
   return loadRequestedContourDefinitions(jsonRoot, packagesForCatalog);
 }
 
+function loadRequestedPackageDefinitions(jsonRoot, requestedByPackage) {
+  const compositionDefinitions = [];
+  const slotOrderPolicies = [];
+  const sourceChecksums = {};
+  const packages = Array.from(requestedByPackage.values())
+    .map((entry) => entry.packageEntry)
+    .sort((left, right) => String(left.packagePath).localeCompare(String(right.packagePath)));
+
+  for (const packageEntry of packages) {
+    const compositionName = packageEntry.artifacts?.composition;
+    if (typeof compositionName !== 'string' || !compositionName) continue;
+    const compositionPath = path.join(jsonRoot, packageEntry.packagePath, compositionName);
+    if (!fs.statSync(compositionPath, { throwIfNoEntry: false })?.isFile()) continue;
+
+    const sourcePath = `design-system_ab/JSONS/${packageEntry.packagePath}/${compositionName}`;
+    const sourceChecksum = sha256File(compositionPath);
+    const source = { path: sourcePath, checksum: sourceChecksum };
+    const document = readJson(compositionPath);
+    sourceChecksums[sourcePath] = sourceChecksum;
+
+    for (const contract of document?.manual?.contracts || []) {
+      const definition = compositionDefinitionFromContract(contract, source);
+      if (definition) compositionDefinitions.push(definition);
+    }
+    const slotOrderPolicy = slotOrderDefinitionFromPolicy(
+      document?.manual?.slotOrderPolicy,
+      source,
+    );
+    if (slotOrderPolicy) slotOrderPolicies.push(slotOrderPolicy);
+  }
+
+  const definitionIds = new Set();
+  for (const definition of compositionDefinitions) {
+    if (definitionIds.has(definition.id)) {
+      const error = new Error(`Duplicate composition predicate contract: ${definition.id}`);
+      error.code = 'PREDICATE_RELEASE_INCOMPLETE';
+      throw error;
+    }
+    definitionIds.add(definition.id);
+  }
+  const slotRuleIds = new Set();
+  for (const policy of slotOrderPolicies) {
+    if (slotRuleIds.has(policy.ruleId)) {
+      const error = new Error(`Duplicate slot order predicate policy: ${policy.ruleId}`);
+      error.code = 'PREDICATE_RELEASE_INCOMPLETE';
+      throw error;
+    }
+    slotRuleIds.add(policy.ruleId);
+  }
+
+  return {
+    compositionDefinitions: compositionDefinitions
+      .sort((left, right) => left.id.localeCompare(right.id)),
+    slotOrderPolicies: slotOrderPolicies
+      .sort((left, right) => left.ruleId.localeCompare(right.ruleId)),
+    sourceChecksums,
+  };
+}
+
 function loadPatternContourDefinitions(designSystemRoot) {
   const patternsRoot = path.join(designSystemRoot, 'patterns');
   if (!fs.statSync(patternsRoot, { throwIfNoEntry: false })?.isDirectory()) return [];
@@ -352,158 +403,10 @@ function loadPredicateRelease(designSystemRoot, requestedFigmaKeys = []) {
     }
   }
 
-  const contractPath = path.join(jsonRoot, BUTTONS_GROUP_CONTRACT);
-  if (!fs.statSync(contractPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`ButtonsGroup predicate contract is missing: ${contractPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const buttonsGroupComposition = readJson(contractPath);
-  const buttonsGroupCompositionDefinitions = (buttonsGroupComposition?.manual?.contracts || [])
-    .map((contract) => compositionDefinitionFromContract(contract, {
-      path: `design-system_ab/JSONS/${BUTTONS_GROUP_CONTRACT}`,
-      checksum: sha256File(contractPath),
-    }))
-    .filter(Boolean)
-    .sort((left, right) => left.id.localeCompare(right.id));
-  if (!buttonsGroupCompositionDefinitions.length) {
-    const error = new Error('ButtonsGroup composition has no active predicate contract');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const titleViewRulesPath = path.join(jsonRoot, TITLE_VIEW_RULES);
-  if (!fs.statSync(titleViewRulesPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`TitleView predicate rules are missing: ${titleViewRulesPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const titleViewRules = readJson(titleViewRulesPath);
-  const titleViewCompositionPath = path.join(jsonRoot, TITLE_VIEW_COMPOSITION);
-  if (!fs.statSync(titleViewCompositionPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`TitleView predicate composition is missing: ${titleViewCompositionPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const titleViewComposition = readJson(titleViewCompositionPath);
-  const titleViewCompositionDefinitions = (titleViewComposition?.manual?.contracts || [])
-    .map((contract) => compositionDefinitionFromContract(contract, {
-      path: `design-system_ab/JSONS/${TITLE_VIEW_COMPOSITION}`,
-      checksum: sha256File(titleViewCompositionPath),
-    }))
-    .filter(Boolean)
-    .sort((left, right) => left.id.localeCompare(right.id));
-  if (!titleViewCompositionDefinitions.length) {
-    const error = new Error('TitleView composition has no active predicate contract');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const compositionDefinitions = buttonsGroupCompositionDefinitions
-    .concat(titleViewCompositionDefinitions)
-    .sort((left, right) => left.id.localeCompare(right.id));
-  validateComponentExecutionPolicy(titleViewRules, titleViewCompositionDefinitions);
+  const packageDefinitions = loadRequestedPackageDefinitions(jsonRoot, requestedByPackage);
+  const compositionDefinitions = packageDefinitions.compositionDefinitions;
+  const slotOrderPolicies = packageDefinitions.slotOrderPolicies;
   validateRequestedExecutionPolicies(jsonRoot, requestedByPackage, compositionDefinitions);
-  const slotOrderPolicies = [slotOrderDefinitionFromPolicy(
-    titleViewComposition?.manual?.slotOrderPolicy,
-    {
-      path: `design-system_ab/JSONS/${TITLE_VIEW_COMPOSITION}`,
-      checksum: sha256File(titleViewCompositionPath),
-    },
-  )].filter(Boolean);
-  if (!slotOrderPolicies.length) {
-    const error = new Error('TitleView composition has no active slot order policy');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const benefitsRulesPath = path.join(jsonRoot, BENEFITS_RULES);
-  if (!fs.statSync(benefitsRulesPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`Benefits predicate rules are missing: ${benefitsRulesPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const benefitsRules = readJson(benefitsRulesPath);
-  const capacityRule = benefitsRules?.manual?.rules?.find((rule) => (
-    rule?.ruleId === 'component:web.benefits.capacity-matches-card-count'
-  ));
-  const nestedCardSettingsRule = benefitsRules?.manual?.rules?.find((rule) => (
-    rule?.ruleId === 'component:web.benefits.nested-card-settings-are-uniform'
-  ));
-  if (
-    capacityRule?.ruleKind !== 'design-rule' ||
-    capacityRule?.authority?.status !== 'active'
-  ) {
-    const error = new Error('Benefits capacity predicate has no active design-rule authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  if (
-    nestedCardSettingsRule?.ruleKind !== 'design-rule' ||
-    nestedCardSettingsRule?.authority?.status !== 'active'
-  ) {
-    const error = new Error('Benefits nested card settings predicate has no active design-rule authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const tableViewRulesPath = path.join(jsonRoot, TABLE_VIEW_RULES);
-  if (!fs.statSync(tableViewRulesPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`TableView predicate rules are missing: ${tableViewRulesPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const tableViewRules = readJson(tableViewRulesPath);
-  const horizontalHeaderRule = tableViewRules?.manual?.rules?.find((rule) => (
-    rule?.ruleId === 'component:web-corp.table-view.horizontal-multi-column-header-required'
-  ));
-  const compactConsistencyRule = tableViewRules?.manual?.rules?.find((rule) => (
-    rule?.ruleId === 'component:web-corp.table-view.compact-is-consistent-across-rows'
-  ));
-  if (
-    horizontalHeaderRule?.ruleKind !== 'design-rule' ||
-    horizontalHeaderRule?.authority?.status !== 'active'
-  ) {
-    const error = new Error('TableView header predicate has no active design-rule authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  if (
-    compactConsistencyRule?.ruleKind !== 'design-rule' ||
-    compactConsistencyRule?.authority?.status !== 'active'
-  ) {
-    const error = new Error('TableView Compact consistency predicate has no active design-rule authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const formPatternPath = path.join(designSystemRoot, FORM_PATTERN);
-  if (!fs.statSync(formPatternPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`Form predicate pattern is missing: ${formPatternPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const formPattern = fs.readFileSync(formPatternPath, 'utf8');
-  if (
-    !/^- status:\s*active\s*$/mu.test(formPattern) ||
-    !/^- ruleId:\s*rule:forms\.construction-rules\.block-spacing\s*$/mu.test(formPattern) ||
-    !/^- ruleId:\s*rule:forms\.construction-rules\.title-medium-one-per-plate\s*$/mu.test(formPattern) ||
-    !/^- ruleId:\s*rule:forms\.construction-rules\.inner-padding-standard\s*$/mu.test(formPattern)
-  ) {
-    const error = new Error('Form predicates have no active pattern authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const buttonPatternPath = path.join(designSystemRoot, BUTTON_PATTERN);
-  if (!fs.statSync(buttonPatternPath, { throwIfNoEntry: false })?.isFile()) {
-    const error = new Error(`Button predicate pattern is missing: ${buttonPatternPath}`);
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
-  const buttonPattern = fs.readFileSync(buttonPatternPath, 'utf8');
-  if (
-    !/^- status:\s*active\s*$/mu.test(buttonPattern) ||
-    !/^- ruleId:\s*rule:controls\.buttons-and-button-groups\.desktop-safe-variants\s*$/mu.test(buttonPattern)
-  ) {
-    const error = new Error('Desktop Button predicate has no active pattern authority');
-    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
-    throw error;
-  }
   const patternContourDefinitions = loadPatternContourDefinitions(designSystemRoot);
   const requestedContourDefinitions = loadRequestedContourDefinitions(jsonRoot, requestedByPackage)
     .concat(patternContourDefinitions)
@@ -521,15 +424,7 @@ function loadPredicateRelease(designSystemRoot, requestedFigmaKeys = []) {
       checksum: releaseChecksum,
     },
     componentIndex,
-    sourceChecksums: {
-      buttonsGroupComposition: sha256File(contractPath),
-      titleViewRules: sha256File(titleViewRulesPath),
-      titleViewComposition: sha256File(titleViewCompositionPath),
-      benefitsRules: sha256File(benefitsRulesPath),
-      tableViewRules: sha256File(tableViewRulesPath),
-      formPattern: sha256File(formPatternPath),
-      buttonPattern: sha256File(buttonPatternPath),
-    },
+    sourceChecksums: packageDefinitions.sourceChecksums,
     slotOrderPolicies,
     compositionDefinitions,
     contourDefinitions,
@@ -538,14 +433,8 @@ function loadPredicateRelease(designSystemRoot, requestedFigmaKeys = []) {
 }
 
 module.exports = {
-  BUTTONS_GROUP_CONTRACT,
-  BENEFITS_RULES,
-  TABLE_VIEW_RULES,
-  FORM_PATTERN,
-  BUTTON_PATTERN,
-  TITLE_VIEW_RULES,
-  TITLE_VIEW_COMPOSITION,
   loadRequestedContourDefinitions,
+  loadRequestedPackageDefinitions,
   loadComponentContourCatalog,
   loadPatternContourDefinitions,
   compositionDefinitionFromContract,

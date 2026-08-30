@@ -9,8 +9,8 @@ const { spawn } = require('child_process');
 const express = require('express');
 const cors = require('cors');
 const {
-  evaluatePredicatePilotRequest,
-} = require('./src/predicate-engine/pilot-service');
+  evaluatePredicateReleaseRequest,
+} = require('./src/predicate-engine/release-service');
 
 const HOST = process.env.HOST || '127.0.0.1';
 const PORT = process.env.PORT || 3001;
@@ -8880,90 +8880,12 @@ app.get('/health', (req, res) => {
 
 app.post('/v1/validate/predicates', (req, res) => {
   try {
-    const validation = evaluatePredicatePilotRequest(req.body ?? {}, {
+    const validation = evaluatePredicateReleaseRequest(req.body ?? {}, {
       designSystemRoot: CODEX_DESIGN_SYSTEM,
     });
     const evaluations = Array.isArray(validation?.result?.evaluations)
       ? validation.result.evaluations
       : [];
-    const p13Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'component:web.benefits.nested-card-settings-are-uniform'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p14Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'component:web-corp.table-view.horizontal-compact-one-column'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        actual: item.trace?.actual ?? null,
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p15Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'rule:forms.construction-rules.block-spacing.first-level'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        expected: item.trace?.expected ?? null,
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p16Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'rule:forms.construction-rules.title-medium-one-per-plate'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        actual: item.trace?.actual ?? null,
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p17Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'rule:forms.construction-rules.inner-padding-standard.title-to-content'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        expected: item.trace?.expected ?? null,
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p18Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'rule:forms.construction-rules.inner-padding-standard.content-insets'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        actual: item.trace?.actual ?? null,
-        children: item.trace?.children || [],
-        factPaths: item.trace?.factPaths || [],
-      }));
-    const p19Evaluations = evaluations
-      .filter((item) => (
-        item?.ruleId === 'rule:forms.construction-rules.layout-8-4.geometry'
-      ))
-      .map((item) => ({
-        subjectNodeId: item.subjectNodeId,
-        focusNodeId: item.focusNodeId,
-        classification: item.classification,
-        actual: item.trace?.actual ?? null,
-        children: item.trace?.children || [],
-        factPaths: item.trace?.factPaths || [],
-      }));
     console.log('[Apollo][predicate] validation completed', {
       auditId: validation?.snapshot?.auditId || null,
       nodeCount: validation?.snapshot?.nodeCount || 0,
@@ -8971,13 +8893,6 @@ app.post('/v1/validate/predicates', (req, res) => {
       evaluationCount: evaluations.length,
       findingCount: evaluations.filter((item) => item?.classification === 'violation').length,
       repeatability: validation?.repeatability || null,
-      p13Evaluations,
-      p14Evaluations,
-      p15Evaluations,
-      p16Evaluations,
-      p17Evaluations,
-      p18Evaluations,
-      p19Evaluations,
     });
     res.json({ success: true, validation });
   } catch (error) {
@@ -9172,7 +9087,7 @@ module.exports = {
   compactApolloTextReport,
   compactApolloCustomizationReport,
   collectApolloReportComponentKeys,
-  evaluatePredicatePilotRequest,
+  evaluatePredicateReleaseRequest,
   buildCodexPrompt,
   buildCodexInputMetrics,
   assertCodexInputWithinBudget,

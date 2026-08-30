@@ -5,10 +5,124 @@ const path = require('node:path');
 
 const {
   loadPredicateRelease,
+  loadRequestedPackageDefinitions,
   validateComponentExecutionPolicy,
 } = require('../src/predicate-engine/release-loader');
+const { compileCompositionContract } = require('../src/predicate-engine/composition-compiler');
+const { compileContourRule } = require('../src/predicate-engine/contour-rules');
+const { compilePredicateReleaseRules } = require('../src/predicate-engine/release-service');
 
 const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+
+test('generic package loader compiles only composition artifacts declared by requested packages', () => {
+  const jsonRoot = path.join(designSystemRoot, 'JSONS');
+  const index = JSON.parse(fs.readFileSync(
+    path.join(jsonRoot, 'apollo/indexes/componentContractIndex.json'),
+    'utf8',
+  ));
+  const titleView = index.packages.find((entry) => entry.componentKey === 'web-corp.title-view');
+  const amountStyles = index.packages.find((entry) => entry.componentKey === 'web-corp.amount-styles');
+  assert.ok(titleView);
+  assert.ok(amountStyles);
+
+  const requestedByPackage = new Map([
+    [titleView.componentKey, { packageEntry: titleView, figmaKeys: [] }],
+    [amountStyles.componentKey, { packageEntry: amountStyles, figmaKeys: [] }],
+  ]);
+  const loaded = loadRequestedPackageDefinitions(jsonRoot, requestedByPackage);
+
+  assert.deepEqual(
+    loaded.compositionDefinitions.map((definition) => definition.id),
+    [
+      'title-view.button-group.composition',
+      'title-view.desktop-button-size.composition',
+      'title-view.mobile-button-size.composition',
+      'title-view.status.composition',
+    ],
+  );
+  assert.deepEqual(
+    loaded.slotOrderPolicies.map((definition) => definition.ruleId),
+    ['component:web-corp.title-view.visible-slots-follow-required-order'],
+  );
+  assert.deepEqual(
+    Object.keys(loaded.sourceChecksums),
+    [
+      'design-system_ab/JSONS/web/components/web-corp/AmountStyles/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/TitleView/composition-contract.json',
+    ],
+  );
+});
+
+test('source-derived release replaces ButtonsGroup pilot rules and exposes remaining coverage gap', () => {
+  const release = loadPredicateRelease(designSystemRoot, [
+    '007cc201f1166fe3411674225da1bc4e8b967850',
+    '04408ef7f3e1e9e85fcca24bc92067ce2ea726cb',
+  ]);
+  const sourceRuleIds = new Set(
+    release.compositionDefinitions
+      .flatMap((definition) => compileCompositionContract(definition))
+      .concat(release.contourDefinitions.flatMap((definition) => compileContourRule(definition)))
+      .map((rule) => rule.ruleId),
+  );
+  assert.deepEqual(
+    [
+      'component:web-corp.buttons-group.button-count',
+      'component:web-corp.buttons-group.allowed-views',
+      'component:web-corp.buttons-group.overflow-enables-last-single-icon',
+      'component:web-corp.buttons-group.uniform-size',
+      'component:web-corp.buttons-group.single-icon-position',
+    ].filter((ruleId) => !sourceRuleIds.has(ruleId)),
+    [],
+  );
+  assert.equal(
+    sourceRuleIds.has('component:web-corp.table-view.compact-is-consistent-across-rows'),
+    false,
+    'TableView Compact stays non-executable until its source rule receives predicateContour',
+  );
+});
+
+test('production rule compiler uses only definitions loaded from the knowledge release', () => {
+  const release = loadPredicateRelease(designSystemRoot, [
+    '007cc201f1166fe3411674225da1bc4e8b967850',
+  ]);
+  const rules = compilePredicateReleaseRules(release);
+  const ruleIds = new Set(rules.map((rule) => rule.ruleId));
+  assert.deepEqual(
+    [
+      'component:web-corp.buttons-group.allowed-views',
+      'component:web-corp.buttons-group.button-count',
+      'component:web-corp.buttons-group.overflow-enables-last-single-icon',
+      'component:web-corp.buttons-group.single-icon-position',
+      'component:web-corp.buttons-group.uniform-size',
+    ].filter((ruleId) => !ruleIds.has(ruleId)),
+    [],
+  );
+  assert.equal(
+    ruleIds.has('component:web-corp.table-view.compact-is-consistent-across-rows'),
+    false,
+  );
+});
+
+test('every executable rule in the production catalog declares its UI presentation in source', () => {
+  const index = JSON.parse(fs.readFileSync(
+    path.join(
+      designSystemRoot,
+      'JSONS/apollo/indexes/componentContractIndex.json',
+    ),
+    'utf8',
+  ));
+  const release = loadPredicateRelease(
+    designSystemRoot,
+    Object.keys(index.components || {}),
+  );
+  const missing = compilePredicateReleaseRules(release)
+    .filter((rule) => (
+      !rule.presentation
+      || rule.presentation.schemaVersion !== 'apollo.predicate-presentation.v1'
+    ))
+    .map((rule) => `${rule.ruleId} (${rule.source.path})`);
+  assert.deepEqual(missing, []);
+});
 
 test('BenefitCard execution policy closes the DS AI Hub rules and exposes executable contours', () => {
   const rulesPath = path.join(
@@ -50,7 +164,9 @@ test('TitleView execution policy closes every real component rule exactly once',
     'JSONS/web/components/web-corp/TitleView/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  const release = loadPredicateRelease(designSystemRoot, []);
+  const release = loadPredicateRelease(designSystemRoot, [
+    '3bfd179dc3b4c996f58db4cbcd26687a356fb3b7',
+  ]);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(
     document,
     release.compositionDefinitions.filter((definition) => definition.id.startsWith('title-view.')),
@@ -148,7 +264,9 @@ test('ButtonsGroup execution policy closes every source rule and both platform c
     'JSONS/web/components/web-corp/ButtonGroup [D]/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  const release = loadPredicateRelease(designSystemRoot, []);
+  const release = loadPredicateRelease(designSystemRoot, [
+    'f05915599f71e822fd8b46a2b2509a2e395005cf',
+  ]);
   const definitions = release.compositionDefinitions.filter(
     (definition) => definition.id.startsWith('buttons-group.'),
   );
@@ -433,11 +551,29 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   ]);
   assert.equal(release.release.knowledgeSource, 'design-system_ab');
   assert.equal(release.release.checksum.length, 64);
-  assert.equal(release.sourceChecksums.buttonsGroupComposition.length, 64);
-  assert.equal(release.sourceChecksums.titleViewRules.length, 64);
-  assert.equal(release.sourceChecksums.buttonPattern.length, 64);
-  assert.equal(release.sourceChecksums.benefitsRules.length, 64);
-  assert.equal(release.sourceChecksums.tableViewRules.length, 64);
+  assert.deepEqual(
+    Object.keys(release.sourceChecksums).sort(),
+    [
+      'design-system_ab/JSONS/web/components/web-core/core/Button/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-core/core/Status/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp-promo/BenefitCard/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp-promo/Benefits/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/AccountSelect/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/BackgroundPlate/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/ButtonGroup [D]/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/CardImage/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/CardSwiperMobile [M]/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/CorporateContent/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/Onboarding Tooltip [D]/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/Status & Property/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/TableView/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/TabsView/composition-contract.json',
+      'design-system_ab/JSONS/web/components/web-corp/TitleView/composition-contract.json',
+    ],
+  );
+  for (const checksum of Object.values(release.sourceChecksums)) {
+    assert.match(checksum, /^[a-f0-9]{64}$/);
+  }
   assert.equal(release.compositionDefinitions.length, 6);
   assert.deepEqual(
     release.compositionDefinitions.map((definition) => definition.id),

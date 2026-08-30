@@ -55,21 +55,18 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 
 `POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`. Для открытых вопросов поле `source` выбирает маршрут: `langflow` (значение по умолчанию) или `codex`. В режиме `codex` proxy извлекает вопрос из envelope `design-dialogue`, ограничивает историю, запускает отдельный `codex exec` в `read-only`/`ephemeral` режиме и возвращает финальный Markdown из активного `APOLLO_CODEX_KNOWLEDGE_SOURCE`; LangFlow-секреты в процесс Codex не передаются.
 
-`POST /v1/validate/predicates` — изолированный детерминированный контур нового
-Predicate Engine. В MVP endpoint принимает только
-`{ ruleSet: "buttons-group-pilot", evidenceBundle }`, не запускает Codex и не
-принимает исполняемые правила от клиента. Proxy разрешает только componentKey,
-встречающиеся в frozen bundle, через pinned `componentContractIndex`, закрепляет
-checksum нормативных component rules и composition contracts, строит и хеширует
-Snapshot v2 и выполняет закрытый набор P01–P14: варианты, размер, SingleIcon и
-количество кнопок ButtonsGroup; типографику, согласованность статусов и порядок
-слотов TitleView; токенизацию padding и композицию уровней BackgroundPlate;
-соответствие `Benefits.Capacity` числу видимых `BenefitCard` и единообразие их
-`Background`, `CardAxis`, `Compact`, `GraphicPosition`; обязательный Header
-в Horizontal TableView, согласованность `Compact`/`SpacingVertical` всех его
-прямых Row и ровно одну `Column` в каждой Row при `Compact=True`. Adapter заранее формирует необходимые ownership, ordered-sequence,
-binding и composition facts, а Predicate Engine проверяет их без участия агента. Неизвестный
-ключ или недостающий факт возвращает `not-evaluable`, а не догадку.
+`POST /v1/validate/predicates` — изолированный детерминированный production-контур
+Predicate Engine. Endpoint принимает `{ auditId, pageType, evidenceBundle }`, не
+запускает Codex и отвергает `rules` и `ruleSet`, переданные клиентом. Proxy
+разрешает встречающиеся в frozen bundle `componentKey` через pinned
+`componentContractIndex`, загружает только соответствующие source packages,
+компилирует их `predicateContour`, composition contracts и применимые активные
+страничные контуры, закрепляет checksum release, строит и хеширует Snapshot v2.
+Adapter заранее формирует необходимые ownership, ordered-sequence, binding и
+composition facts, а Predicate Engine проверяет их без участия агента. Неизвестный
+ключ или недостающий факт возвращает `not-evaluable`, а не догадку. Правило без
+source `apollo.predicate-presentation.v1` делает release неполным и не может
+молча получить текст из runtime-кода.
 Платформенные ограничения компилируются универсальным contour
 `platform-match`: release loader читает `platform` конкретного опубликованного
 ключа из `contract.generated.json`, snapshot публикует его как

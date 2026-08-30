@@ -4,11 +4,19 @@ const {
   compileSlotOrderPolicy,
 } = require('./composition-compiler');
 const { compileContourRule } = require('./contour-rules');
-const { predicateMvpRules } = require('./pilot-rules');
 const { loadPredicateRelease } = require('./release-loader');
 const { buildPredicateSnapshotV2 } = require('./snapshot-adapter');
 
 const PREDICATE_REPEATABILITY_RUNS = 10;
+
+function compilePredicateReleaseRules(loaded) {
+  return loaded.compositionDefinitions.flatMap((definition) => (
+    compileCompositionContract(definition)
+  )).concat(
+    loaded.slotOrderPolicies.map((definition) => compileSlotOrderPolicy(definition)),
+    loaded.contourDefinitions.flatMap((definition) => compileContourRule(definition)),
+  );
+}
 
 function runPredicateRepeatabilityGate({
   snapshot,
@@ -71,22 +79,49 @@ function collectComponentKeys(bundle) {
   return Array.from(keys).sort();
 }
 
-function evaluatePredicatePilotRequest(payload, options) {
-  if (!payload || payload.ruleSet !== 'buttons-group-pilot') {
-    const error = new Error('Predicate MVP accepts ruleSet=buttons-group-pilot');
-    error.code = 'PREDICATE_RULE_SET_UNSUPPORTED';
+function assertReleaseRulePresentations(rules) {
+  const missingRuleIds = rules
+    .filter((rule) => !rule.presentation || typeof rule.presentation !== 'object')
+    .map((rule) => rule.ruleId);
+  if (missingRuleIds.length > 0) {
+    const error = new Error(
+      `Predicate release contains rules without presentation: ${missingRuleIds.join(', ')}`,
+    );
+    error.code = 'PREDICATE_RELEASE_INCOMPLETE';
+    error.status = 503;
+    error.details = { missingRuleIds };
+    throw error;
+  }
+}
+
+function evaluatePredicateReleaseRequest(payload, options) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    const error = new Error('Predicate validation requires a request object');
+    error.code = 'PREDICATE_REQUEST_INVALID';
+    error.status = 400;
+    throw error;
+  }
+  if (Object.prototype.hasOwnProperty.call(payload, 'rules')) {
+    const error = new Error('Client-supplied predicate rules are forbidden');
+    error.code = 'PREDICATE_CLIENT_RULES_FORBIDDEN';
+    error.status = 400;
+    throw error;
+  }
+  if (Object.prototype.hasOwnProperty.call(payload, 'ruleSet')) {
+    const error = new Error('Client-selected predicate rule sets are forbidden');
+    error.code = 'PREDICATE_CLIENT_RULE_SET_FORBIDDEN';
     error.status = 400;
     throw error;
   }
   const evidenceBundle = payload.evidenceBundle;
   if (!evidenceBundle || evidenceBundle.documentType !== 'apollo-audit-evidence-bundle') {
-    const error = new Error('Predicate MVP requires evidenceBundle');
+    const error = new Error('Predicate validation requires evidenceBundle');
     error.code = 'PREDICATE_EVIDENCE_INVALID';
     error.status = 400;
     throw error;
   }
   if (!options?.designSystemRoot) {
-    const error = new Error('Predicate MVP design-system release is not configured');
+    const error = new Error('Predicate design-system release is not configured');
     error.code = 'PREDICATE_RELEASE_INCOMPLETE';
     error.status = 503;
     throw error;
@@ -109,13 +144,8 @@ function evaluatePredicatePilotRequest(payload, options) {
     contourDefinitions: loaded.contourDefinitions,
     collectionErrors: payload.collectionErrors,
   });
-  const rules = loaded.compositionDefinitions.flatMap((definition) => (
-    compileCompositionContract(definition)
-  )).concat(
-    loaded.slotOrderPolicies.map((definition) => compileSlotOrderPolicy(definition)),
-    predicateMvpRules(loaded.sourceChecksums),
-    loaded.contourDefinitions.flatMap((definition) => compileContourRule(definition)),
-  );
+  const rules = compilePredicateReleaseRules(loaded);
+  assertReleaseRulePresentations(rules);
   const { result, repeatability } = runPredicateRepeatabilityGate({
     snapshot,
     rules,
@@ -168,7 +198,9 @@ function evaluatePredicatePilotRequest(payload, options) {
 
 module.exports = {
   PREDICATE_REPEATABILITY_RUNS,
+  assertReleaseRulePresentations,
+  compilePredicateReleaseRules,
   collectComponentKeys,
-  evaluatePredicatePilotRequest,
+  evaluatePredicateReleaseRequest,
   runPredicateRepeatabilityGate,
 };

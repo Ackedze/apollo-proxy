@@ -3,16 +3,30 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const { evaluateRules } = require('../src/predicate-engine');
-const {
-  buttonsGroupPilotRules,
-  formEightFourLayoutRule,
-  tableViewCompactConsistencyRule,
-} = require('../src/predicate-engine/pilot-rules');
 const { buildPredicateSnapshotV2 } = require('../src/predicate-engine/snapshot-adapter');
 const { compileContourRule, publicRootRule } = require('../src/predicate-engine/contour-rules');
-const { loadPatternContourDefinitions } = require('../src/predicate-engine/release-loader');
+const {
+  loadPatternContourDefinitions,
+  loadPredicateRelease,
+} = require('../src/predicate-engine/release-loader');
+const { compilePredicateReleaseRules } = require('../src/predicate-engine/release-service');
 
 const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const BUTTONS_GROUP_KEY = 'f05915599f71e822fd8b46a2b2509a2e395005cf';
+
+function buttonsGroupReleaseRules() {
+  return compilePredicateReleaseRules(
+    loadPredicateRelease(designSystemRoot, [BUTTONS_GROUP_KEY]),
+  ).filter((rule) => rule.ruleId.startsWith('component:web-corp.buttons-group.'));
+}
+
+function formEightFourLayoutReleaseRule() {
+  const definition = loadPatternContourDefinitions(designSystemRoot).find((candidate) => (
+    candidate.ruleId === 'rule:forms.construction-rules.layout-8-4'
+  ));
+  assert.ok(definition, 'form 8+4 contour must be available in the source release');
+  return compileContourRule(definition);
+}
 
 function desktopButtonSafeVariantsContourRule() {
   const definition = loadPatternContourDefinitions(designSystemRoot).find((candidate) => (
@@ -844,7 +858,7 @@ test('Snapshot v2 adapter treats unavailable Developer VM fileKey as an explicit
 
   const result = evaluateRules({
     snapshot,
-    rules: buttonsGroupPilotRules({ sourceChecksum: 'composition-contract-checksum' }),
+    rules: buttonsGroupReleaseRules(),
     ruleRelease: 'pilot-1',
   });
   assert.equal(result.coverage.byClassification.violation, 2);
@@ -1327,29 +1341,31 @@ test('P26 keeps an overridden appearance fact unknown without an exact baseline 
 });
 
 test('P01, P02, P03 and P09 produce stable exact focus without an agent call', () => {
-  const rules = buttonsGroupPilotRules({ sourceChecksum: 'composition-contract-checksum' });
+  const rules = buttonsGroupReleaseRules();
   assert.equal(
     rules[0].source.path,
     'design-system_ab/JSONS/web/components/web-corp/ButtonGroup [D]/composition-contract.json',
   );
   assert.equal(
     rules[0].source.anchor,
-    'buttons-group.composition/constraints/button-count',
+    'manual/contracts/buttons-group.desktop-composition/constraints/button-count',
   );
   assert.equal(
     rules[1].source.anchor,
-    'buttons-group.composition/constraints/allowed-views',
+    'manual/contracts/buttons-group.desktop-composition/constraints/allowed-views',
   );
   assert.equal(
     rules[2].source.anchor,
-    'buttons-group.composition/constraints/uniform-size',
+    'manual/contracts/buttons-group.desktop-composition/constraints/uniform-size',
   );
   assert.equal(
-    rules[3].source.anchor,
-    'buttons-group.composition/constraints/single-icon-position',
+    rules.find((rule) => (
+      rule.ruleId === 'component:web-corp.buttons-group.single-icon-position'
+    )).source.anchor,
+    'manual/contracts/buttons-group.desktop-composition/constraints/single-icon-position',
   );
   const pass = evaluateRules({ snapshot: adapt(bundle()), rules, ruleRelease: 'pilot-1' });
-  assert.equal(pass.coverage.byClassification.compliant, 6);
+  assert.equal(pass.coverage.byClassification.compliant, 12);
   assert.equal(pass.coverage.unclassified, 0);
 
   const fail = evaluateRules({
@@ -1371,9 +1387,13 @@ test('P01, P02, P03 and P09 produce stable exact focus without an agent call', (
   assert.equal(fail.coverage.duplicateEvaluationIds, 0);
 });
 
-test('P03 classifies PASS, FAIL and UNKNOWN from ordered sibling facts', () => {
-  const rule = buttonsGroupPilotRules({ sourceChecksum: 'composition-contract-checksum' })
+test('P03 and SingleIcon dependency classify position and Overflow independently', () => {
+  const rules = buttonsGroupReleaseRules();
+  const rule = rules
     .find((item) => item.ruleId === 'component:web-corp.buttons-group.single-icon-position');
+  const dependencyRule = rules.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.overflow-enables-last-single-icon'
+  ));
 
   const pass = evaluateRules({ snapshot: adapt(bundle()), rules: [rule] });
   const passEvaluation = pass.evaluations.find((item) => item.classification === 'compliant');
@@ -1387,20 +1407,30 @@ test('P03 classifies PASS, FAIL and UNKNOWN from ordered sibling facts', () => {
   assert.equal(violation.focusNodeId, '1:1');
   assert.deepEqual(violation.trace.factPaths, [
     'composition.siblingPropertyValues.SingleIcon',
-    'ownership.owner.component.properties.Overflow',
   ]);
 
   const overflowDisabledBundle = bundle();
-  overflowDisabledBundle.graph.nodes[1].componentOwner.variantProperties.Overflow = 'false';
-  overflowDisabledBundle.graph.nodes[1].componentOwner.componentProperties.Overflow = 'false';
+  overflowDisabledBundle.graph.nodes[0].component.variantProperties.Overflow = 'false';
+  overflowDisabledBundle.graph.nodes[0].component.componentProperties.Overflow = 'false';
+  for (const node of overflowDisabledBundle.graph.nodes.slice(1)) {
+    node.componentOwner.variantProperties.Overflow = 'false';
+    node.componentOwner.componentProperties.Overflow = 'false';
+  }
   const overflowDisabled = evaluateRules({
     snapshot: adapt(overflowDisabledBundle),
-    rules: [rule],
+    rules: [rule, dependencyRule],
   });
   const overflowViolation = overflowDisabled.evaluations.find(
-    (item) => item.classification === 'violation',
+    (item) => (
+      item.ruleId === dependencyRule.ruleId &&
+      item.classification === 'violation'
+    ),
   );
   assert.equal(overflowViolation.focusNodeId, '1:2');
+  assert.equal(
+    overflowDisabled.evaluations.find((item) => item.ruleId === rule.ruleId).classification,
+    'not-applicable',
+  );
 
   const unknownBundle = bundle();
   delete unknownBundle.graph.nodes[1].component.variantProperties.SingleIcon;
@@ -1427,7 +1457,7 @@ test('unresolved component metadata becomes unknown instead of a guessed identit
   assert.ok(snapshot.nodes[1].unknownFacts.includes('component.identity'));
   const result = evaluateRules({
     snapshot,
-    rules: buttonsGroupPilotRules({ sourceChecksum: 'composition-contract-checksum' }),
+    rules: buttonsGroupReleaseRules(),
   });
   assert.equal(result.evaluations[0].classification, 'not-evaluable');
 });
@@ -1455,7 +1485,7 @@ test('component selectors ignore non-instance nodes without producing unknown ca
   });
   const result = evaluateRules({
     snapshot,
-    rules: buttonsGroupPilotRules({ sourceChecksum: 'composition-contract-checksum' }),
+    rules: buttonsGroupReleaseRules(),
   });
   assert.deepEqual(
     new Set(result.evaluations.map((item) => item.classification)),
@@ -2444,56 +2474,6 @@ function tableViewCompactBundle({
   return evidenceBundle;
 }
 
-test('P12 direct TableView rows match root Compact and its canonical spacing', () => {
-  const rule = tableViewCompactConsistencyRule({
-    sourceChecksum: 'table-view-rules-checksum',
-  });
-  for (const fixture of [
-    { ownerCompact: 'False', rowCompact: 'False', rowSpacing: 16 },
-    { ownerCompact: 'True', rowCompact: 'True', rowSpacing: 12 },
-  ]) {
-    const snapshot = adapt(tableViewCompactBundle(fixture));
-    const row = snapshot.nodes.find((node) => node.id === '11:1');
-    assert.equal(
-      row.composition.tableViewOwner.component.properties.Compact,
-      fixture.ownerCompact,
-    );
-    assert.equal(row.composition.expectedRowSpacing, fixture.rowSpacing);
-    assert.equal(row.composition.spacingVertical, fixture.rowSpacing);
-    assert.equal(
-      evaluateRules({ snapshot, rules: [rule] }).evaluations[0].classification,
-      'compliant',
-    );
-  }
-
-  const mismatch = evaluateRules({
-    snapshot: adapt(tableViewCompactBundle({ rowCompact: 'True', rowSpacing: 12 })),
-    rules: [rule],
-  }).evaluations[0];
-  assert.equal(mismatch.classification, 'violation');
-  assert.equal(mismatch.focusNodeId, '11:1');
-  assert.equal(mismatch.trace.children[0].actual, 'True');
-  assert.equal(mismatch.trace.children[0].expected, 'False');
-  assert.equal(mismatch.trace.children[1].actual, 12);
-  assert.equal(mismatch.trace.children[1].expected, 16);
-
-  const spacingOnly = evaluateRules({
-    snapshot: adapt(tableViewCompactBundle({ rowCompact: 'False', rowSpacing: 12 })),
-    rules: [rule],
-  }).evaluations[0];
-  assert.equal(spacingOnly.classification, 'violation');
-  assert.equal(spacingOnly.focusNodeId, '11:1');
-  assert.equal(spacingOnly.trace.children[0].truth, 'true');
-  assert.equal(spacingOnly.trace.children[1].truth, 'false');
-
-  const unresolved = tableViewCompactBundle({ rowSpacing: null });
-  assert.equal(
-    evaluateRules({ snapshot: adapt(unresolved), rules: [rule] })
-      .evaluations[0].classification,
-    'not-evaluable',
-  );
-});
-
 function tableViewCompactColumnBundle(columnCount = 1) {
   const evidenceBundle = tableViewCompactBundle({
     ownerCompact: 'True',
@@ -3114,9 +3094,7 @@ function formEightFourLayoutBundle(gap = 24, overrides = {}) {
 }
 
 test('P19 evaluates the desktop form 8+4 grid and focuses its horizontal owner', () => {
-  const rule = formEightFourLayoutRule({
-    sourceChecksum: 'form-pattern-checksum',
-  });
+  const rule = formEightFourLayoutReleaseRule();
   const passSnapshot = adapt(formEightFourLayoutBundle(24));
   const body = passSnapshot.nodes.find((node) => node.id === '19:1');
   assert.deepEqual(body.composition.formEightFourLayout, {
@@ -3142,10 +3120,11 @@ test('P19 evaluates the desktop form 8+4 grid and focuses its horizontal owner',
   assert.equal(fail.classification, 'violation');
   assert.equal(fail.focusNodeId, '19:1');
   const gapTrace = fail.trace.children.find((child) => (
-    child.factPaths.includes('composition.formEightFourLayout.gutter')
+    child.factPaths.length === 1 &&
+    child.factPaths[0] === 'composition.formEightFourLayout.gutter'
   ));
   assert.equal(gapTrace.actual, 12);
-  assert.equal(gapTrace.expected, 24);
+  assert.equal(gapTrace.expected.value, 24);
 
   const wrongProportions = evaluateRules({
     snapshot: adapt(formEightFourLayoutBundle(24, {
@@ -3156,10 +3135,12 @@ test('P19 evaluates the desktop form 8+4 grid and focuses its horizontal owner',
   }).evaluations[0];
   assert.equal(wrongProportions.classification, 'violation');
   const mainWidthTrace = wrongProportions.trace.children.find((child) => (
-    child.factPaths.includes('composition.formEightFourLayout.mainWidth')
+    child.truth === 'false' &&
+    child.factPaths.includes('composition.formEightFourLayout.mainWidth') &&
+    child.factPaths.includes('composition.formEightFourLayout.islandWidth')
   ));
-  assert.equal(mainWidthTrace.actual, 760);
-  assert.equal(mainWidthTrace.expected, 720);
+  assert.equal(mainWidthTrace.actual, 640);
+  assert.equal(mainWidthTrace.expected.value, 760);
 
   const unknown = evaluateRules({
     snapshot: adapt(formEightFourLayoutBundle(24, { islandBounds: null })),
@@ -3364,7 +3345,7 @@ test('Semantic Form Surface v2 evaluates absolute underlays, spacers and a stand
     formMediumTitleOnePerPlateContourRule(),
     formTitleContentGapContourRule(),
     formStandardContentInsetsContourRule(),
-    formEightFourLayoutRule({ sourceChecksum: 'form-pattern-checksum' }),
+    formEightFourLayoutReleaseRule(),
   ];
   const result = evaluateRules({ snapshot, rules });
 
@@ -3408,7 +3389,7 @@ test('Semantic Form Surface v2 evaluates absolute underlays, spacers and a stand
     ['compliant', 'compliant'],
   );
   assert.deepEqual(
-    classifications['rule:forms.construction-rules.layout-8-4.geometry'],
+    classifications['rule:forms.construction-rules.layout-8-4'],
     ['violation'],
   );
 });

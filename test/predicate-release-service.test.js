@@ -3,8 +3,9 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 
 const {
-  evaluatePredicatePilotRequest,
-} = require('../src/predicate-engine/pilot-service');
+  evaluatePredicateReleaseRequest,
+} = require('../src/predicate-engine/release-service');
+const evaluatePredicatePilotRequest = evaluatePredicateReleaseRequest;
 
 const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
 const BUTTONS_GROUP_KEY = 'f05915599f71e822fd8b46a2b2509a2e395005cf';
@@ -122,7 +123,6 @@ function request(secondProperties, firstProperties = {
     componentProperties: { Size: '56', Overflow: 'false' },
   };
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -184,6 +184,28 @@ function request(secondProperties, firstProperties = {
   };
 }
 
+test('production predicate service evaluates only rules from the knowledge release', () => {
+  const input = request({ View: 'Accent', Size: '40' });
+  delete input.ruleSet;
+  const output = evaluatePredicateReleaseRequest(input, { designSystemRoot });
+  const ruleIds = new Set(output.rules.map((rule) => rule.ruleId));
+
+  assert.equal(ruleIds.has('component:web-corp.buttons-group.allowed-views'), true);
+  assert.equal(ruleIds.has('component:web-corp.buttons-group.uniform-size'), true);
+  assert.equal(
+    ruleIds.has('component:web-corp.table-view.compact-is-consistent-across-rows'),
+    false,
+  );
+  assert.equal(
+    output.result.evaluations.some((evaluation) => (
+      evaluation.ruleId === 'component:web-corp.buttons-group.allowed-views'
+      && evaluation.classification === 'violation'
+    )),
+    true,
+  );
+  assert.equal(output.repeatability.stable, true);
+});
+
 test('isolated predicate endpoint service evaluates P01/P02/P03 without an agent', () => {
   const output = evaluatePredicatePilotRequest(
     request({ View: 'Accent', Size: '40' }),
@@ -202,10 +224,10 @@ test('isolated predicate endpoint service evaluates P01/P02/P03 without an agent
   for (const ruleId of [
     'component:web-corp.buttons-group.button-count',
     'component:web-corp.buttons-group.allowed-views',
+    'component:web-corp.buttons-group.overflow-enables-last-single-icon',
     'component:web-corp.buttons-group.uniform-size',
     'component:web-corp.buttons-group.primary-position',
     'component:web-corp.buttons-group.single-icon-position',
-    'component:web-corp.table-view.compact-is-consistent-across-rows',
     'component:web-core.button.desktop-hint-restricted',
     'component:web-core.button.label-text-style-locked',
     'component:web-core.button.manual-fill-is-layer-property.fill',
@@ -262,7 +284,6 @@ test('composition contract compiles Primary position from source data', () => {
 
 function accountSelectPublicRootRequest(componentKey, platform = 'desktop') {
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -309,7 +330,6 @@ function accountSelectPublicRootRequest(componentKey, platform = 'desktop') {
 
 function backgroundPlatePublicRootRequest(componentKey, platform = 'desktop') {
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -376,7 +396,6 @@ function corporateSystemMessagePlatformRequest({
     ]
     : [componentNode];
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -417,7 +436,6 @@ function platformComponentRequest(componentKey, name, platform = 'mobile-web') {
     component: component(componentKey, name, {}),
   });
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -841,7 +859,6 @@ function accountSelectUniformListRequest(types, { platform = 'desktop', unknownI
     });
   });
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -1060,7 +1077,6 @@ function iconViewBoundaryRequest({
     ]
     : [iconNode];
   return {
-    ruleSet: 'buttons-group-pilot',
     collectionErrors: unknownRadius
       ? [{ nodeId: 'c23:0', factPath: 'appearance.radius' }]
       : [],
@@ -1189,7 +1205,6 @@ function cardSwiperBreakpointRequest({
     ? CARD_SWIPER_MOBILE_320_KEY
     : CARD_SWIPER_MOBILE_360_KEY;
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -1294,7 +1309,6 @@ function statusShapeRequest({
     componentProperties: { Size: '24' },
   };
   return {
-    ruleSet: 'buttons-group-pilot',
     collectionErrors: unknown
       ? [{ nodeId: '22:1', factPath: 'component.properties.Shape' }]
       : [],
@@ -1587,7 +1601,6 @@ test('StatusPreset nested Status fill follows baseline with exact focus and Cust
 function benefitsRequest(capacity, cardCount, platform = 'desktop', cardPropertyOverrides = {}) {
   const cardIds = Array.from({ length: cardCount }, (_, index) => `10:${index + 1}`);
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -2327,38 +2340,6 @@ test('P11 evaluates required Header row in non-compact Horizontal TableView', ()
   );
 });
 
-test('P12 evaluates Compact and canonical spacing on each direct TableView Row', () => {
-  const passInput = tableViewRequest(1);
-  const pass = evaluatePredicatePilotRequest(passInput, { designSystemRoot });
-  const passEvaluation = pass.result.evaluations.find((item) => (
-    item.ruleId === 'component:web-corp.table-view.compact-is-consistent-across-rows'
-  ));
-  assert.equal(passEvaluation.classification, 'compliant');
-  assert.equal(passEvaluation.focusNodeId, '11:1');
-
-  const failInput = tableViewRequest(1);
-  failInput.evidenceBundle.graph.nodes[1].component = component(
-    TABLE_VIEW_HEADER_ROW_KEY,
-    'Row',
-    { Presets: 'Header', Compact: 'True', Skeleton: 'False' },
-  );
-  for (const node of failInput.evidenceBundle.graph.nodes.slice(2)) {
-    node.component = component(TABLE_VIEW_HEADER_ROW_KEY, '↕ SpacingVertical', {
-      Size: '12',
-    });
-  }
-  const fail = evaluatePredicatePilotRequest(failInput, { designSystemRoot });
-  const violation = fail.result.evaluations.find((item) => (
-    item.ruleId === 'component:web-corp.table-view.compact-is-consistent-across-rows'
-  ));
-  assert.equal(violation.classification, 'violation');
-  assert.equal(violation.focusNodeId, '11:1');
-  assert.equal(violation.trace.children[0].actual, 'True');
-  assert.equal(violation.trace.children[0].expected, 'False');
-  assert.equal(violation.trace.children[1].actual, 12);
-  assert.equal(violation.trace.children[1].expected, 16);
-});
-
 function compactTableViewColumnRequest(columnCount) {
   const output = tableViewRequest(1);
   output.evidenceBundle.graph.nodes[0].component = component(
@@ -2954,7 +2935,6 @@ test('ButtonsGroup applies the mobile-web limit independently from desktop', () 
 function titleViewSlotRequest(slotNames, platform = 'desktop') {
   const slotIds = slotNames.map((_, index) => `8:${index + 2}`);
   return {
-    ruleSet: 'buttons-group-pilot',
     evidenceBundle: {
       schemaVersion: 2,
       documentType: 'apollo-audit-evidence-bundle',
@@ -3664,6 +3644,24 @@ test('isolated predicate endpoint reports P03 on the exact non-last button', () 
   assert.equal(output.result.coverage.unclassified, 0);
 });
 
+test('source rule requires Overflow=true whenever a nested Button uses SingleIcon=true', () => {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'True' });
+  const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
+  const finding = output.result.evaluations.find((item) => (
+    item.ruleId === 'component:web-corp.buttons-group.overflow-enables-last-single-icon'
+    && item.classification === 'violation'
+  ));
+
+  assert.equal(finding.focusNodeId, '1:2');
+  assert.deepEqual(finding.trace.factPaths, [
+    'ownership.owner.component.properties.Overflow',
+  ]);
+  assert.equal(
+    output.rules.find((rule) => rule.ruleId === finding.ruleId).presentation.title,
+    'SingleIcon включён без Overflow',
+  );
+});
+
 test('unknown nested components do not replace known button evaluations with a root fallback', () => {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   input.evidenceBundle.graph.nodes[0].component.variantProperties.Overflow = 'true';
@@ -3709,13 +3707,29 @@ test('unknown nested components do not replace known button evaluations with a r
   );
 });
 
-test('isolated predicate endpoint rejects unregistered rule sets', () => {
+test('isolated predicate endpoint rejects client-supplied rules', () => {
   assert.throws(
     () => evaluatePredicatePilotRequest(
-      { ruleSet: 'arbitrary-client-rules', evidenceBundle: request({ View: 'Secondary', Size: '56' }).evidenceBundle },
+      {
+        rules: [{ ruleId: 'client-rule' }],
+        evidenceBundle: request({ View: 'Secondary', Size: '56' }).evidenceBundle,
+      },
       { designSystemRoot },
     ),
-    (error) => error.code === 'PREDICATE_RULE_SET_UNSUPPORTED',
+    (error) => error.code === 'PREDICATE_CLIENT_RULES_FORBIDDEN',
+  );
+});
+
+test('production predicate endpoint rejects a client-selected rule set', () => {
+  assert.throws(
+    () => evaluatePredicatePilotRequest(
+      {
+        ruleSet: 'buttons-group-pilot',
+        evidenceBundle: request({ View: 'Secondary', Size: '56' }).evidenceBundle,
+      },
+      { designSystemRoot },
+    ),
+    (error) => error.code === 'PREDICATE_CLIENT_RULE_SET_FORBIDDEN',
   );
 });
 
