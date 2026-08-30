@@ -76,8 +76,8 @@ test('source-derived release replaces ButtonsGroup pilot rules and exposes remai
   );
   assert.equal(
     sourceRuleIds.has('component:web-corp.table-view.compact-is-consistent-across-rows'),
-    false,
-    'TableView Compact stays non-executable until its source rule receives predicateContour',
+    true,
+    'TableView Compact must compile from the production predicate contour',
   );
 });
 
@@ -179,6 +179,48 @@ test('TitleView execution policy closes every real component rule exactly once',
       incomplete,
       release.compositionDefinitions.filter((definition) => definition.id.startsWith('title-view.')),
     ),
+    /is not closed/,
+  );
+});
+
+test('TableView execution policy closes every real component rule and exposes the production contours', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/TableView/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.metadata.status, 'draft');
+  assert.equal(document.manual.rules.length, 41);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '6e9a72189d150779165acb1dde3a800b92daa2f9',
+  ]);
+  const contourKinds = new Map(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web-corp.table-view.'))
+      .map((definition) => [definition.ruleId, definition.kind]),
+  );
+  assert.deepEqual(
+    Object.fromEntries(contourKinds),
+    {
+      'component:web-corp.table-view.horizontal-compact-one-column': 'fact-domain',
+      'component:web-corp.table-view.horizontal-multi-column-min-two-data-columns': 'fact-assertion',
+      'component:web-corp.table-view.compact-is-consistent-across-rows': 'fact-assertion',
+      'component:web-corp.table-view.row-spacing-matches-compact': 'fact-assertion',
+      'component:web-corp.table-view.internal-parts-not-standalone': 'public-root',
+      'component:web-corp.table-view.manual-visual-overrides-forbidden': 'baseline-set',
+      'component:web-corp.table-view.vertical-has-one-data-column': 'fact-domain',
+      'component:web-corp.table-view.horizontal-sidepanel-is-single-column-compact': 'fact-assertion',
+      'component:web-corp.table-view.horizontal-multi-column-header-required': 'fact-domain',
+      'component:web-corp.table-view.public-root-platforms': 'platform-match',
+    },
+  );
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
     /is not closed/,
   );
 });
@@ -688,7 +730,7 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
       action: 'Оставить в строке одну колонку данных или отключить Compact.',
     },
     ruleId: 'component:web-corp.table-view.horizontal-compact-one-column',
-    revision: 2,
+    revision: 3,
     sourcePath: 'design-system_ab/JSONS/web/components/web-corp/TableView/rules.json',
     sourceChecksum: compactOneColumnContour.sourceChecksum,
     sourceAnchor: 'rules/component:web-corp.table-view.horizontal-compact-one-column',

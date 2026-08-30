@@ -769,7 +769,8 @@ function addTableViewCompositionFacts(nodes) {
     node.component?.identity === 'web-corp.table-view' &&
     tableViewRootFamilies.has(node.component?.family)
   ));
-  const canonicalRowNames = new Set(['Row', 'Row / Presets=Header']);
+  const tableViewRowFamilies = new Set(['row', 'row-side-panel']);
+  const canonicalRowNames = new Set(['Row', 'Row / Presets=Header', 'Row :: SidePanel']);
 
   function nearestTableViewOwner(node) {
     let current = node.parentId ? nodeById.get(node.parentId) : null;
@@ -786,7 +787,7 @@ function addTableViewCompositionFacts(nodes) {
   function hasRowAncestorBeforeOwner(node, ownerId) {
     let current = node.parentId ? nodeById.get(node.parentId) : null;
     while (current && current.id !== ownerId) {
-      if (current.component?.family === 'row') return true;
+      if (tableViewRowFamilies.has(current.component?.family)) return true;
       current = current.parentId ? nodeById.get(current.parentId) : null;
     }
     return false;
@@ -797,7 +798,7 @@ function addTableViewCompositionFacts(nodes) {
     while (current && current.id !== ownerId) {
       if (
         current.component?.identity === 'web-corp.table-view' &&
-        current.component?.family === 'row'
+        tableViewRowFamilies.has(current.component?.family)
       ) return current;
       current = current.parentId ? nodeById.get(current.parentId) : null;
     }
@@ -814,7 +815,7 @@ function addTableViewCompositionFacts(nodes) {
     const rows = descendants
       .filter((node) => (
         node.component?.identity === 'web-corp.table-view' &&
-        node.component?.family === 'row' &&
+        tableViewRowFamilies.has(node.component?.family) &&
         !hasRowAncestorBeforeOwner(node, owner.id)
       ))
       .sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));

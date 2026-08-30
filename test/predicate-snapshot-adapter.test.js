@@ -561,6 +561,18 @@ const componentIndex = {
     library: 'Web _ Corp Components',
     lifecycle: 'active',
   },
+  'table-view-side-panel-key': {
+    identity: 'web-corp.table-view',
+    family: 'table-view-horizontal-side-panel',
+    library: 'Web _ Corp Components',
+    lifecycle: 'active',
+  },
+  'table-view-row-side-panel-key': {
+    identity: 'web-corp.table-view',
+    family: 'row-side-panel',
+    library: 'Web _ Corp Components',
+    lifecycle: 'active',
+  },
   'table-view-column-key': {
     identity: 'web-corp.table-view',
     family: 'column',
@@ -2536,6 +2548,28 @@ test('P14 compact Horizontal TableView requires exactly one data Column per Row'
     evaluateRules({ snapshot: adapt(nonCompact), rules: [rule] }).evaluations[0].classification,
     'not-applicable',
   );
+});
+
+test('TableView SidePanel exposes owner, row spacing and data-column facts on Row :: SidePanel', () => {
+  const evidenceBundle = tableViewCompactColumnBundle(1);
+  evidenceBundle.graph.nodes[0].name = '[D] TableView :: Horizontal SidePanel';
+  evidenceBundle.graph.nodes[0].path = '[D] TableView :: Horizontal SidePanel';
+  evidenceBundle.graph.nodes[0].component.key = 'table-view-side-panel-key';
+  evidenceBundle.graph.nodes[1].name = 'Row :: SidePanel';
+  evidenceBundle.graph.nodes[1].path = '[D] TableView :: Horizontal SidePanel / Row :: SidePanel';
+  evidenceBundle.graph.nodes[1].component.key = 'table-view-row-side-panel-key';
+
+  const snapshot = adapt(evidenceBundle);
+  const row = snapshot.nodes.find((node) => node.id === '11:1');
+  assert.equal(row.component.family, 'row-side-panel');
+  assert.equal(
+    row.composition.tableViewOwner.component.family,
+    'table-view-horizontal-side-panel',
+  );
+  assert.equal(row.composition.expectedRowSpacing, 12);
+  assert.equal(row.composition.spacingVertical, 12);
+  assert.equal(row.composition.visibleDataColumnCount, 1);
+  assert.deepEqual(row.composition.visibleDataColumnNodeIds, ['11:column-1']);
 });
 
 function formFirstLevelBlocksBundle(gap = 24) {
