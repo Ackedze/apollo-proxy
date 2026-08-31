@@ -4683,6 +4683,7 @@ function tableViewRootStrokeRequest(mode) {
     rootComponent.directOverrides = [{ nodeId: '31:table-root', fields: ['strokes'] }];
   }
   input.evidenceBundle.context.selectionNodeIds = ['31:table-root'];
+  const hasChange = mode === 'fail' || mode === 'null-baseline';
   input.evidenceBundle.graph.nodes = [evidenceNode({
     nodeId: '31:table-root',
     path: 'TV-12 / [D] TableView :: Horizontal',
@@ -4693,11 +4694,11 @@ function tableViewRootStrokeRequest(mode) {
       radius: 0,
       fill: null,
       stroke: {
-        value: mode === 'fail' ? 'status/error' : 'border/primary',
+        value: hasChange ? 'status/error' : 'border/primary',
         resourceType: 'token',
-        resourceId: mode === 'fail' ? 'stroke-error-key' : 'stroke-baseline-key',
-        resourceName: mode === 'fail' ? 'status/error' : 'border/primary',
-        bindingName: mode === 'fail' ? 'status/error' : 'border/primary',
+        resourceId: hasChange ? 'stroke-error-key' : 'stroke-baseline-key',
+        resourceName: hasChange ? 'status/error' : 'border/primary',
+        bindingName: hasChange ? 'status/error' : 'border/primary',
         bindingCollection: 'Interface Dynamic',
         styleId: null,
         visible: true,
@@ -4707,14 +4708,14 @@ function tableViewRootStrokeRequest(mode) {
     },
   })];
   input.evidenceBundle.graph.relations = [];
-  input.evidenceBundle.baselines = mode === 'fail' ? [{
+  input.evidenceBundle.baselines = hasChange ? [{
     id: 'baseline-table-root-stroke',
     componentKey: TABLE_VIEW_HORIZONTAL_KEY,
     nestedOwnerComponentKey: TABLE_VIEW_HORIZONTAL_KEY,
     nestedOwnerRelativePath: '',
     variantProperties: { Compact: 'False' },
   }] : [];
-  input.evidenceBundle.changes = mode === 'fail' ? [{
+  input.evidenceBundle.changes = hasChange ? [{
     id: 'change-table-root-stroke',
     nodeId: '31:table-root',
     nodeName: '[D] TableView :: Horizontal',
@@ -4724,11 +4725,11 @@ function tableViewRootStrokeRequest(mode) {
     ownerComponentKey: TABLE_VIEW_HORIZONTAL_KEY,
     baselineReferenceId: 'baseline-table-root-stroke',
     baseline: {
-      value: '#D2D3D9',
-      resourceType: 'token',
-      resourceName: 'border/primary',
-      bindingName: 'border/primary',
-      bindingCollection: 'Interface Dynamic',
+      value: mode === 'null-baseline' ? null : '#D2D3D9',
+      resourceType: mode === 'null-baseline' ? null : 'token',
+      resourceName: mode === 'null-baseline' ? null : 'border/primary',
+      bindingName: mode === 'null-baseline' ? null : 'border/primary',
+      bindingCollection: mode === 'null-baseline' ? null : 'Interface Dynamic',
     },
     actual: {
       value: '#FF0000',
@@ -4768,6 +4769,15 @@ test('TableView root stroke is evaluated while radius and opacity remain outside
   assert.ok(!evaluations.some((item) => (
     item.ruleId === `${sourceRuleId}.radius` || item.ruleId === `${sourceRuleId}.opacity`
   )));
+
+  const noStrokeBaseline = evaluatePredicatePilotRequest(
+    tableViewRootStrokeRequest('null-baseline'),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+  assert.equal(noStrokeBaseline.classification, 'violation');
+  assert.equal(noStrokeBaseline.focusNodeId, '31:table-root');
+  assert.equal(noStrokeBaseline.trace.actual, 'status/error');
+  assert.equal(noStrokeBaseline.trace.expected, null);
 });
 
 function backgroundPlateStrokeBindingRequest(mode) {

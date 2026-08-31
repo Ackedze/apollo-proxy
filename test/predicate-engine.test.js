@@ -90,6 +90,31 @@ function evaluate(testSnapshot, testRule) {
   }).evaluations[0];
 }
 
+test('fact-present distinguishes a known null from an absent or unknown fact', () => {
+  const testRule = rule('fact-present', 'baseline.effective.appearance.stroke.value');
+
+  const knownNull = evaluate(snapshot({
+    testNode: node({
+      baseline: { effective: { appearance: { stroke: { value: null } } } },
+    }),
+  }), testRule);
+  assert.equal(knownNull.classification, 'compliant');
+  assert.equal(knownNull.trace.truth, 'true');
+  assert.equal(knownNull.trace.actual, null);
+
+  const absent = evaluate(snapshot({ testNode: node() }), testRule);
+  assert.equal(absent.classification, 'violation');
+  assert.equal(absent.trace.truth, 'false');
+
+  const unknown = evaluate(snapshot({
+    testNode: node({
+      unknownFacts: ['baseline.effective.appearance.stroke.value'],
+    }),
+  }), testRule);
+  assert.equal(unknown.classification, 'not-evaluable');
+  assert.equal(unknown.trace.truth, 'unknown');
+});
+
 for (const fixture of [
   {
     predicate: 'exists',
@@ -756,7 +781,7 @@ test('unknown predicates and invalid implemented shapes are rejected', () => {
     () => validateRule(rule('compare', 'layout.itemSpacing', 24)),
     (error) => error.code === 'RULE_IR_INVALID',
   );
-  assert.equal(IMPLEMENTED_PREDICATES.size, 36);
+  assert.equal(IMPLEMENTED_PREDICATES.size, 37);
 });
 
 test('ten equivalent reruns produce byte-identical normalized results', () => {

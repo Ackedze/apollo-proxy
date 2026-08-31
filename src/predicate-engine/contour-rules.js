@@ -463,7 +463,7 @@ function baselineSetRules(options) {
         })
       : null;
     const baselineWhere = [{
-      predicate: 'exists',
+      predicate: 'fact-present',
       actual: { fact: baselineFact },
     }].concat(path.where || []);
     const select = path.select || (options.select

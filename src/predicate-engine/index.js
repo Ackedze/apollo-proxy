@@ -20,6 +20,7 @@ const IMPLEMENTED_PREDICATES = new Set([
   'any',
   'not',
   'exists',
+  'fact-present',
   'equals',
   'not-equals',
   'one-of',
@@ -646,6 +647,20 @@ function evaluateExpression(expression, subject, snapshot) {
     }
     const truth = actual.state === 'known' && actual.value !== null ? TRUTH.TRUE : TRUTH.FALSE;
     return makeTrace('exists', truth, truth === TRUTH.TRUE ? 'fact exists' : 'fact is absent', actual, expected, factPaths);
+  }
+  if (expression.predicate === 'fact-present') {
+    if (actual.state === 'unknown') {
+      return makeTrace('fact-present', TRUTH.UNKNOWN, 'fact presence is unknown', actual, expected, factPaths);
+    }
+    const truth = actual.state === 'known' ? TRUTH.TRUE : TRUTH.FALSE;
+    return makeTrace(
+      'fact-present',
+      truth,
+      truth === TRUTH.TRUE ? 'fact path is present' : 'fact path is absent',
+      actual,
+      expected,
+      factPaths,
+    );
   }
   if (actual.state === 'unknown' || expected.state === 'unknown') {
     return makeTrace(expression.predicate, TRUTH.UNKNOWN, 'comparison evidence is unknown', actual, expected, factPaths);

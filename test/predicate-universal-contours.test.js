@@ -1345,6 +1345,7 @@ test('universal contour compiler accepts only the closed registered template set
   assert.equal(baselineRules.length, 1);
   assert.equal(baselineRules[0].ruleId, 'compiled.baseline-set.fill');
   assert.equal(baselineRules[0].assert.predicate, 'matches-effective-baseline');
+  assert.equal(baselineRules[0].select.where[0].predicate, 'fact-present');
   const assertionRule = factAssertionRule(Object.assign(options('compiled.fact-assertion'), {
     select: { from: 'selection-root', traverse: 'self', where: [] },
     assert: {
