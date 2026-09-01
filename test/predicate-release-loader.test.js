@@ -417,7 +417,7 @@ test('supporting packages are production-closed and expose only approved contour
   const packages = [
     ['web/components/web-core/core/Amount', 'web-core.amount', 2],
     ['web/components/web-core/core/TagGroup', 'web-core.tag-group', 1],
-    ['web/components/web-corp/PaymentMaskedNumber', 'web-corp.payment-masked-number', 1],
+    ['web/components/web-corp/PaymentMaskedNumber', 'web-corp.payment-masked-number', 9],
   ];
   const figmaKeys = [
     'fe3399f71c9e0971646821d935b64657e462c28e',
@@ -438,6 +438,38 @@ test('supporting packages are production-closed and expose only approved contour
       identity,
     );
   }
+
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => (
+        definition.ruleId.startsWith('component:web-corp.payment-masked-number.')
+      ))
+      .map((definition) => definition.ruleId)
+      .sort(),
+    [
+      'component:web-corp.payment-masked-number.addon-geometry',
+      'component:web-corp.payment-masked-number.addon-uses-final-component',
+      'component:web-corp.payment-masked-number.mask-format',
+      'component:web-corp.payment-masked-number.minor-last-four-digits',
+      'component:web-corp.payment-masked-number.parts-share-color-token',
+      'component:web-corp.payment-masked-number.public-root-only',
+      'component:web-corp.payment-masked-number.text-style-binding-required',
+      'component:web-corp.payment-masked-number.typography-follows-effective-pair',
+      'component:web-corp.payment-masked-number.unmasked-major-format',
+    ],
+  );
+
+  assert.deepEqual(
+    compilePredicateReleaseRules(release)
+      .filter((rule) => rule.ruleId.startsWith('component:web-corp.payment-masked-number.addon-'))
+      .map((rule) => rule.ruleId)
+      .sort(),
+    [
+      'component:web-corp.payment-masked-number.addon-geometry.gap',
+      'component:web-corp.payment-masked-number.addon-geometry.height',
+      'component:web-corp.payment-masked-number.addon-uses-final-component',
+    ],
+  );
 });
 
 test('FilterCompanySelect execution policy closes every real component rule exactly once', () => {

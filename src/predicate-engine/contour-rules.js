@@ -5,6 +5,13 @@ function requireString(value, name) {
   return value;
 }
 
+function requireStringArray(value, name) {
+  if (!Array.isArray(value) || !value.length || value.some((item) => typeof item !== 'string' || !item)) {
+    throw new TypeError(`${name} must be a non-empty string array`);
+  }
+  return value.slice();
+}
+
 function sourceRecord(options) {
   return {
     path: requireString(options.sourcePath, 'sourcePath'),
@@ -822,6 +829,108 @@ function derivedGeometryRule(options) {
   }));
 }
 
+function slotContractRule(options) {
+  const ownerIdentity = requireString(options.ownerIdentity, 'ownerIdentity');
+  const slotFamily = requireString(options.slot?.family, 'slot.family');
+  if (!Array.isArray(options.checks) || !options.checks.length) {
+    throw new TypeError('slot-contract requires a non-empty checks array');
+  }
+
+  const select = {
+    from: options.from || 'selection-root',
+    traverse: options.traverse || 'self-and-descendants',
+    where: [{
+      predicate: 'equals',
+      actual: { fact: 'type' },
+      expected: { literal: 'INSTANCE' },
+    }, {
+      predicate: 'equals',
+      actual: { fact: 'ownership.contour.root.component.identity' },
+      expected: { literal: ownerIdentity },
+    }, {
+      predicate: 'equals',
+      actual: { fact: 'component.family' },
+      expected: { literal: slotFamily },
+    }],
+  };
+
+  return options.checks.map((check) => {
+    const id = requireString(check?.id, 'slot-contract check.id');
+    const presentation = check.presentation;
+    if (!presentation || typeof presentation !== 'object') {
+      throw new TypeError(`slot-contract ${id} requires presentation`);
+    }
+    let assert;
+    if (check.op === 'forbid-descendant-families') {
+      const forbiddenFamilies = requireStringArray(
+        check.forbiddenFamilies,
+        `${id}.forbiddenFamilies`,
+      );
+      const descendantsQuery = {
+        from: 'subject',
+        traverse: 'descendants',
+        where: [{
+          predicate: 'equals',
+          actual: { fact: 'type' },
+          expected: { literal: 'INSTANCE' },
+        }],
+        project: { fact: 'component.family' },
+      };
+      const assertions = [{
+        predicate: 'none',
+        actual: { query: descendantsQuery },
+        expected: { literal: forbiddenFamilies },
+      }];
+      if (check.minNestedComponents !== undefined) {
+        if (!Number.isInteger(check.minNestedComponents) || check.minNestedComponents < 1) {
+          throw new TypeError(`${id}.minNestedComponents must be a positive integer`);
+        }
+        assertions.unshift({
+          predicate: 'count-between',
+          actual: { query: descendantsQuery },
+          lower: { literal: check.minNestedComponents },
+          upper: { literal: Number.MAX_SAFE_INTEGER },
+          bounds: 'inclusive',
+        });
+      }
+      assert = assertions.length === 1 ? assertions[0] : { predicate: 'all', args: assertions };
+    } else if (check.op === 'previous-sibling-gap') {
+      if (!Number.isFinite(check.expectedPx) || check.expectedPx < 0) {
+        throw new TypeError(`${id}.expectedPx must be a non-negative finite number`);
+      }
+      assert = {
+        predicate: 'all',
+        args: [{
+          predicate: 'equals',
+          actual: { fact: 'composition.previousVisibleSibling.axis' },
+          expected: { literal: check.axis || 'horizontal' },
+        }, {
+          predicate: 'approximately-equals',
+          actual: { fact: 'composition.previousVisibleSibling.gap' },
+          expected: { literal: check.expectedPx },
+          tolerance: check.tolerance || 0,
+        }],
+      };
+    } else if (check.op === 'height-lte-previous-sibling-line-height') {
+      assert = {
+        predicate: 'compare',
+        operator: 'lte',
+        actual: { fact: 'bounds.height' },
+        expected: { fact: 'composition.previousVisibleSibling.maxTextLineHeight' },
+      };
+    } else {
+      throw new TypeError(`unsupported slot-contract check op: ${check.op}`);
+    }
+
+    return createRule(Object.assign({}, options, {
+      ruleId: options.checks.length === 1 ? options.ruleId : `${options.ruleId}.${id}`,
+      presentation,
+      select,
+      assert,
+    }));
+  });
+}
+
 const CONTOUR_BUILDERS = Object.freeze({
   'public-root': publicRootRule,
   'platform-match': platformMatchRule,
@@ -837,6 +946,7 @@ const CONTOUR_BUILDERS = Object.freeze({
   'query-count': queryCountRule,
   'query-unique': queryUniqueRule,
   'derived-geometry': derivedGeometryRule,
+  'slot-contract': slotContractRule,
   distance: distanceRule,
   'binding-set': bindingSetRules,
   'owned-peer-property-equality': ownedPeerPropertyEqualityRule,
@@ -865,6 +975,7 @@ module.exports = {
   compileContourRule,
   coLocatedUnderlayRule,
   ownedPeerPropertyEqualityRule,
+  slotContractRule,
   componentSelector,
   contextMapRule,
   createRule,

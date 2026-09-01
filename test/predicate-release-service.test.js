@@ -5061,7 +5061,7 @@ test('TagGroup size predicate selects published Tag variants by component identi
   assert.equal(evaluation.focusNodeId, '34:1');
 });
 
-test('PaymentMaskedNumber baseline predicate selects published pen-prefixed text layers', () => {
+test('PaymentMaskedNumber requires Major and Minor to share one bound color token', () => {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   const owner = {
     nodeId: '35:1',
@@ -5084,7 +5084,7 @@ test('PaymentMaskedNumber baseline predicate selects published pen-prefixed text
     evidenceNode({
       nodeId: '35:0',
       parentNodeId: '35:section',
-      childNodeIds: ['35:1'],
+      childNodeIds: ['35:1', '35:minor'],
       depth: 1,
       path: 'PaymentMaskedNumber test section / PaymentMaskedNumber',
       name: 'PaymentMaskedNumber',
@@ -5117,6 +5117,41 @@ test('PaymentMaskedNumber baseline predicate selects published pen-prefixed text
           resourceName: null,
           bindingName: null,
           bindingCollection: null,
+          styleId: null,
+          visible: true,
+          paintCount: 1,
+          paintTypes: ['SOLID'],
+        },
+      },
+    }),
+    evidenceNode({
+      nodeId: '35:minor',
+      parentNodeId: '35:0',
+      depth: 2,
+      path: 'PaymentMaskedNumber test section / PaymentMaskedNumber / ✎ Minor',
+      type: 'TEXT',
+      name: '✎ Minor',
+      variableBindings: [{
+        property: 'fills',
+        variableIds: ['VariableID:text-secondary'],
+        variables: [{
+          id: 'VariableID:text-secondary',
+          key: 'text-secondary-key',
+          name: 'text/secondary',
+          collectionId: 'VariableCollectionId:interface-dynamic',
+          collectionName: 'Interface Dynamic',
+        }],
+      }],
+      appearance: {
+        opacity: 1,
+        radius: 0,
+        fill: {
+          value: 'text/secondary',
+          resourceType: 'token',
+          resourceId: 'text-secondary-key',
+          resourceName: 'text/secondary',
+          bindingName: 'text/secondary',
+          bindingCollection: 'Interface Dynamic',
           styleId: null,
           visible: true,
           paintCount: 1,
@@ -5164,14 +5199,14 @@ test('PaymentMaskedNumber baseline predicate selects published pen-prefixed text
       nestedOwnerRelativePath: '✎ Major',
     },
     candidateRuleIds: [
-      'component:web-corp.payment-masked-number.text-color-follows-baseline',
+      'component:web-corp.payment-masked-number.parts-share-color-token',
     ],
   }];
 
   const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
   const evaluation = output.result.evaluations.find((item) => (
-    item.ruleId === 'component:web-corp.payment-masked-number.text-color-follows-baseline'
+    item.ruleId === 'component:web-corp.payment-masked-number.parts-share-color-token'
     && item.classification === 'violation'
   ));
-  assert.equal(evaluation.focusNodeId, '35:text');
+  assert.equal(evaluation.focusNodeId, '35:0');
 });

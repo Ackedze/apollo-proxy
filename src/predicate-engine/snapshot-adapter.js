@@ -1128,6 +1128,64 @@ function addParentCompositionFacts(nodes) {
   return nodes;
 }
 
+function visibleTextLineHeights(node, nodeById) {
+  const values = [];
+  const visit = (candidate) => {
+    if (!candidate || candidate.visible !== true) return;
+    const lineHeight = candidate.text?.lineHeight;
+    if (Number.isFinite(lineHeight)) values.push(lineHeight);
+    for (const childNodeId of candidate.childIds || []) {
+      visit(nodeById.get(childNodeId));
+    }
+  };
+  visit(node);
+  return values;
+}
+
+function axisGap(first, second, axis) {
+  if (!first || !second) return null;
+  if (axis === 'horizontal') return second.x - (first.x + first.width);
+  return second.y - (first.y + first.height);
+}
+
+// Every visible direct child receives a stable, structural reference to its
+// preceding sibling. This is deliberately component-agnostic: slot rules can
+// compare spacing and height without relying on a bespoke walker per component.
+function addSiblingLayoutFacts(nodes) {
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  for (const parent of nodes) {
+    const children = (parent.childIds || [])
+      .map((nodeId) => nodeById.get(nodeId))
+      .filter((node) => node?.visible === true)
+      .sort((left, right) => left.order - right.order || left.id.localeCompare(right.id));
+    const axis = parent.layout?.mode === 'HORIZONTAL' ? 'horizontal'
+      : (parent.layout?.mode === 'VERTICAL' ? 'vertical' : null);
+    for (const [index, child] of children.entries()) {
+      const previous = index > 0 ? children[index - 1] : null;
+      if (!previous || !axis || !previous.bounds || !child.bounds) continue;
+      const lineHeights = visibleTextLineHeights(previous, nodeById);
+      child.composition = Object.assign({}, child.composition || {}, {
+        previousVisibleSibling: {
+          nodeId: previous.id,
+          bounds: previous.bounds,
+          axis,
+          gap: axisGap(previous.bounds, child.bounds, axis),
+          maxTextLineHeight: lineHeights.length ? Math.max(...lineHeights) : null,
+          minTextLineHeight: lineHeights.length ? Math.min(...lineHeights) : null,
+        },
+      });
+      if (!lineHeights.length) {
+        child.unknownFacts = Array.from(new Set([
+          ...child.unknownFacts,
+          'composition.previousVisibleSibling.maxTextLineHeight',
+          'composition.previousVisibleSibling.minTextLineHeight',
+        ])).sort();
+      }
+    }
+  }
+  return nodes;
+}
+
 function nodeMatchesContourDescriptor(node, descriptor) {
   if (!node || !descriptor) return false;
   if (descriptor.identity && node.component?.identity !== descriptor.identity) return false;
@@ -1882,7 +1940,7 @@ function buildPredicateSnapshotV2(input) {
       path: source.path,
       name: source.name,
       type: source.type,
-      visible: true,
+      visible: source.visible !== false,
       bounds: source.bounds,
       component: component.value,
       layout: {
@@ -1922,6 +1980,9 @@ function buildPredicateSnapshotV2(input) {
             characters: source.text.characters,
             length: source.text.length,
             textStyleId: source.text.textStyleId,
+            lineHeight: Number.isFinite(source.text.lineHeight)
+              ? source.text.lineHeight
+              : null,
           }
         : null,
       ownership: ownership.value,
@@ -1941,6 +2002,7 @@ function buildPredicateSnapshotV2(input) {
   nodes = addBenefitsCompositionFacts(nodes);
   nodes = addTableViewCompositionFacts(nodes);
   nodes = addParentCompositionFacts(nodes);
+  nodes = addSiblingLayoutFacts(nodes);
   nodes = addComponentContourFacts(nodes);
   nodes = addCoLocatedUnderlayFacts(nodes, input.contourDefinitions);
   nodes = addFormFirstLevelBlockFacts(
@@ -2005,6 +2067,7 @@ function buildPredicateSnapshotV2(input) {
 
 module.exports = {
   addDeclaredCompositionFacts,
+  addSiblingLayoutFacts,
   addSlotOrderFacts,
   buildPredicateSnapshotV2,
 };

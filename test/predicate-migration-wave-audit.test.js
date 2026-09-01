@@ -61,11 +61,11 @@ test('migration wave audit exposes freshness and production closure without chan
     contextOnly: 0,
   });
   assert.deepEqual(paymentMaskedNumber.routes, {
-    predicate: 1,
+    predicate: 9,
     composition: 0,
     delegated: 0,
     policy: 1,
-    contextOnly: 0,
+    contextOnly: 2,
   });
   assert.equal(benefits.missingRoutes.length, 0);
   assert.equal(buttonStack.missingRoutes.length, 0);
