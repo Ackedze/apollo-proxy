@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.card-swiper-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "owner-confirmed",
+      "updatedAt": "2026-08-03"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "CardSwiperMobile",
+        "key": "71276eaed89138c3a234084b2f7339019a558aec",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Screen Size"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "CardSwiperMobile",
+        "componentKey": "71276eaed89138c3a234084b2f7339019a558aec",
+        "role": "main",
+        "platform": "mobile-web"
+      },
+      {
+        "name": "CardImage",
+        "componentKey": "e0b688215640e6280ff9effdbf880ccf248cc65a",
+        "role": "nested-configurable",
+        "platform": "universal"
+      }
+    ],
+    "publicApi": {
+      "figmaRoots": [
+        "CardSwiperMobile"
+      ],
+      "internalRoots": [
+        "CardsCollection",
+        "LeftCardWrapper",
+        "RightCardWrapper",
+        "↕ SpacingVertical",
+        "CardImage"
+      ],
+      "lifecycle": "active",
+      "figmaOnly": false,
+      "codeConnectStatus": "not-configured",
+      "codeExports": [],
+      "runtimeEvidence": "Владелец подтвердил наличие runtime-аналога для corp-компонента; точный package/import, prop API и React motion contract не подтверждены.",
+      "generationPolicy": "Вставляй только CardSwiperMobile по published component key. Не вставляй внутренние слои отдельно, не detach и не пересобирай карусель из отдельных CardImage."
+    },
+    "usage": {
+      "purpose": "Mobile-web карусель для просмотра и выбора банковской карты.",
+      "useWhen": [
+        "Нужно показать одну или несколько банковских карт на mobile-web.",
+        "Нужно выбрать текущую карту свайпом или тапом по соседней карте."
+      ],
+      "doNotUseWhen": [
+        "Нужен desktop-интерфейс.",
+        "Нужно показать пустое, loading или error состояние без карт.",
+        "Нужна циклическая карусель или произвольная галерея изображений."
+      ]
+    },
+    "variantSemantics": {
+      "Screen Size": {
+        "320-360": {
+          "viewport": "320–359 px",
+          "selection": "automatic"
+        },
+        "360+": {
+          "viewport": "360 px and wider within mobile-web",
+          "selection": "automatic"
+        },
+        "manualChoiceAllowed": false,
+        "ownerOverride": "Верхний spacing равен 24 px и нижний 32 px для обоих значений. Generated delta с нижним 24 px для 320-360 не является целевым правилом."
+      }
+    },
+    "componentPropertySemantics": {
+      "Show Start#17127:0": {
+        "type": "BOOLEAN",
+        "default": true,
+        "meaning": "Show previous card in LeftCardWrapper.",
+        "requiredWhen": "selectedIndex > 0"
+      },
+      "Show End#17127:3": {
+        "type": "BOOLEAN",
+        "default": true,
+        "meaning": "Show next card in RightCardWrapper.",
+        "requiredWhen": "selectedIndex < cards.length - 1"
+      },
+      "source": "live Figma inspection 2026-08-03; current raw exporter omits these definitions"
+    },
+    "dataModel": {
+      "cards": {
+        "minimum": 1,
+        "maximum": null,
+        "preserveInputOrder": true
+      },
+      "selectedIndex": {
+        "recommendedExplicitWhenMultiple": true,
+        "default": 0,
+        "definesCurrentCard": true,
+        "independentFromCardImageState": true
+      }
+    },
+    "compositionPolicy": {
+      "visibleWindow": [
+        "previous",
+        "current",
+        "next"
+      ],
+      "singleCard": "Только current по центру.",
+      "twoCards": "Current по центру и один доступный сосед; сторона зависит от selectedIndex.",
+      "threeOrMoreCards": "Previous/current/next; остальные карты находятся за пределами видимого окна.",
+      "edgeBehavior": "Current остаётся по центру; отсутствующий сосед не отображается.",
+      "currentCard": {
+        "Size": "264x164",
+        "Stack": false
+      },
+      "neighborCard": {
+        "Size": "212x132",
+        "Stack": false
+      },
+      "manualResizeAllowed": false,
+      "detachAllowed": false,
+      "internalReorderAllowed": false,
+      "nestedCardImage": {
+        "inheritsContract": "web-corp.card-image",
+        "independentlyEditable": [
+          "Cover",
+          "State",
+          "content",
+          "allowed leaf overrides"
+        ],
+        "hostOwned": [
+          "Size",
+          "Stack",
+          "position",
+          "geometry"
+        ]
+      }
+    },
+    "layoutPolicy": {
+      "containerWidth": "Fill viewport",
+      "overflow": "Clip horizontal overflow outside the visible window",
+      "topSpacing": 24,
+      "bottomSpacing": 32,
+      "manualSpacingOrOffsetAllowed": false
+    },
+    "interactionPolicy": {
+      "cyclic": false,
+      "step": 1,
+      "selectionInputs": [
+        "horizontal swipe",
+        "tap side card"
+      ],
+      "sideCardTap": "Select that adjacent card.",
+      "currentCardTap": "No carousel CTA; nested CardImage action may handle the tap, for example reveal details.",
+      "gestureMustPreserveNestedActions": true,
+      "motion": "Horizontal translation plus size transition remains enabled; exact duration, easing and reduced-motion belong to the React contract.",
+      "internalAuxiliaryControlsAllowed": false
+    },
+    "systemStatePolicy": {
+      "empty": "not-provided",
+      "loading": "not-provided",
+      "error": "not-provided",
+      "zeroCards": "Do not create CardSwiperMobile."
+    },
+    "accessibilityPolicy": {
+      "semantics": "carousel/list of cards",
+      "currentCard": "Expose current/selected.",
+      "announcement": "Expose position N of M and CardImage state.",
+      "focusOrder": "Same as input card order.",
+      "nonGestureAlternative": "Tap the adjacent card."
+    },
+    "resetModel": {
+      "variant.Screen Size|boolean.Show Start#17127:0|boolean.Show End#17127:3": "reset-component-properties",
+      "content.cards|content.selectedIndex": "reset-data-and-selection",
+      "nested.CardImage.Cover|nested.CardImage.State|nested.CardImage.content": "reset-against-card-image-effective-baseline",
+      "layout.*|nested.CardImage.Size|nested.CardImage.Stack|component.composition": "reset-host-owned-carousel-composition"
+    }
+  }
+}

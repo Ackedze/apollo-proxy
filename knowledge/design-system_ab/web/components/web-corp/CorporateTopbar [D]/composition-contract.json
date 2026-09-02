@@ -1,0 +1,3002 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.corporate-topbar",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "CorporateTopbar [D]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Top Addon / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Top Addon / [D] OptionListCell / Switch",
+        "componentName": "Switch",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Top Addon / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select",
+        "componentName": "[D] Select",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Placeholder": "True",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "True",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / Content / Value",
+        "componentName": "Value",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / Arrow_Down / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / Columns Group / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListFooter / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListFooter / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListFooter / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListFooter / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "Mode=Wide / [D] OptionListFooter / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] Button / LeftAddon / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] Button / LeftAddon / 🔩 Addon / Fixer / PaintMe / gear",
+        "componentName": "gear",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-up",
+        "componentName": "chevron-up",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList",
+        "componentName": "[D] OptionList",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Mode": "Wide"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Top Addon / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Top Addon / [D] OptionListCell / Switch",
+        "componentName": "Switch",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Top Addon / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select",
+        "componentName": "[D] Select",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Placeholder": "True",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "True",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / Content / Value",
+        "componentName": "Value",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / Arrow_Down / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / [D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / Columns Group / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListFooter / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListFooter / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListFooter / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListFooter / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Settings",
+        "path": "Dropdown=True / [D] OptionList / [D] OptionListFooter / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] StartAddon",
+        "path": "Presets=Select All / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] StartAddon",
+        "path": "Presets=Select All / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] StartAddon",
+        "path": "Presets=Select All / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] StartAddon",
+        "path": "Presets=Select All / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] StartAddon",
+        "path": "Presets=Select All / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon",
+        "componentName": "[D] StartAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Select All"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Count Group / [D] StartAddon / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings",
+        "componentName": "[D] Settings",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Dropdown": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings / [D] Button / LeftAddon / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings / [D] Button / LeftAddon / 🔩 Addon / Fixer / PaintMe / gear",
+        "componentName": "gear",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Settings / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopBar",
+        "path": "Filtered=false, Skeleton=false / Content / Button Group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Top Addon / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Top Addon / [D] OptionListCell / Switch",
+        "componentName": "Switch",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Top Addon / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select",
+        "componentName": "[D] Select",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Placeholder": "True",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "True",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / Content / Value",
+        "componentName": "Value",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / Group View / [D] OptionListCell / [D] Select / Field / RightAddons / Arrow_Down / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] SortableListItem",
+        "path": "[D] SortableListItem / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] SortableListItem",
+        "path": "[D] SortableListItem / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] SortableListItem",
+        "path": "[D] SortableListItem / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] SortableListItem",
+        "path": "[D] SortableListItem / RightControl / Drag / Fixer / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "publicRoots": [
+      "[D] TopBar"
+    ],
+    "internalComponentsAreStandalone": false,
+    "internalComponents": [
+      "[D] OptionList",
+      "[D] Settings",
+      "[D] StartAddon",
+      "[D] OptionListHeader",
+      "[D] SortableListItem",
+      "Control",
+      "Divider"
+    ],
+    "supportedDataViews": [
+      "table",
+      "list",
+      "cards"
+    ],
+    "effectiveComposition": {
+      "Filtered=false": {
+        "counterLabel": "Всего",
+        "meaning": "unfiltered-data"
+      },
+      "Filtered=true": {
+        "counterLabel": "Найдено",
+        "meaning": "filtered-data"
+      },
+      "Skeleton=true": {
+        "meaning": "loading",
+        "interactionAllowed": false
+      }
+    },
+    "slotPermissions": {
+      "Control": {
+        "required": false,
+        "contentPolicy": "context-defined",
+        "regulated": false,
+        "instanceSwapAllowed": true,
+        "multipleItemsAllowed": true
+      }
+    },
+    "counterComposition": {
+      "required": true,
+      "labelOverrideAllowed": false,
+      "valueScope": "all-available-data-not-current-page",
+      "filteredZeroAllowed": true,
+      "labelsByFilteredState": {
+        "false": "Всего",
+        "true": "Найдено"
+      }
+    },
+    "startAddonComposition": {
+      "required": false,
+      "canBeHidden": true,
+      "Select All": {
+        "buttonLabel": "Выбрать все",
+        "selectionScope": "all-available-data-including-non-visible-pages",
+        "postSelectionState": "unchanged"
+      },
+      "Custom": {
+        "contentPolicy": "context-defined-data-view-setting"
+      }
+    },
+    "settingsComposition": {
+      "required": false,
+      "canBeHidden": true,
+      "Dropdown=false": "settings-list-hidden",
+      "Dropdown=true": "show-[D]-OptionList",
+      "capabilitiesByMode": {
+        "Basic": [
+          "column-visibility",
+          "column-order",
+          "switch-data-view"
+        ],
+        "Wide": [
+          "column-visibility",
+          "column-order",
+          "switch-data-view"
+        ],
+        "Core": [
+          "switch-data-view"
+        ]
+      }
+    },
+    "optionListModeSelection": {
+      "Basic": "Table Basic",
+      "Wide": "Table Wide",
+      "Core": "🔄 [D] HeadRow :: Core and other Web Corp Components data views"
+    },
+    "additionalButtonComposition": {
+      "required": false,
+      "maxCount": 1,
+      "size": "32",
+      "allowedViews": [
+        "Primary",
+        "Secondary"
+      ],
+      "actionPolicy": "context-defined",
+      "rightAddonConfigurable": true,
+      "leftAddonConfigurable": false
+    },
+    "optionListContent": {
+      "mustMatchDataColumns": true,
+      "editable": [
+        "row-labels",
+        "row-count",
+        "row-order"
+      ],
+      "minimumVisibleColumns": 1,
+      "lockedColumnsAllowed": false,
+      "changesApply": "immediately"
+    },
+    "platformSelection": {
+      "desktopMinWidth": 768,
+      "mobileWebAllowed": false
+    },
+    "effectiveBaselineProtection": {
+      "scope": "root-and-all-internal-layers",
+      "properties": [
+        "layout.*",
+        "layoutSizing*",
+        "styles.text",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "effects.*"
+      ],
+      "manualOverridesAllowed": false
+    },
+    "rootSizing": {
+      "width": "FILL",
+      "height": "HUG"
+    },
+    "externalSpacing": {
+      "TitleView-to-TopBar": 12,
+      "TopBar-to-table-BackgroundPlate": 0,
+      "TopBar-to-cards": 16
+    },
+    "optionListActions": {
+      "resetAll": {
+        "resets": [
+          "column-visibility",
+          "column-order",
+          "grouping",
+          "data-view"
+        ],
+        "otherControlsIncluded": false
+      },
+      "grouping": {
+        "availableInModes": [
+          "Wide"
+        ],
+        "required": false,
+        "canBeHidden": true,
+        "parameterPolicy": "defined-by-product-team"
+      },
+      "dataViewTransitions": {
+        "allowed": [
+          "Basic<->Wide",
+          "Core<->Wide"
+        ],
+        "prohibited": [
+          "Basic<->Core"
+        ]
+      }
+    },
+    "regionOrder": {
+      "left": [
+        "Counter",
+        "StartAddon"
+      ],
+      "right": [
+        "Control",
+        "Divider",
+        "Settings",
+        "AdditionalButton"
+      ],
+      "reorderAllowed": false
+    },
+    "dividerComposition": {
+      "visibleWhen": "Control-is-present",
+      "hiddenWhen": "Control-is-absent"
+    },
+    "dataViewRequirement": {
+      "required": true,
+      "allowed": [
+        "table",
+        "list",
+        "cards"
+      ],
+      "genericActionBarUsageAllowed": false
+    },
+    "textOverrides": {
+      "prohibited": [
+        "Настройки",
+        "Выбрать все",
+        "Сбросить всё",
+        "Вид таблицы",
+        "Группировать",
+        "Столбцы",
+        "Всего",
+        "Найдено"
+      ],
+      "allowed": [
+        "column-labels",
+        "grouping-parameter",
+        "additional-button-label"
+      ]
+    },
+    "loadingComposition": {
+      "allowedCombinations": [
+        "Filtered=false, Skeleton=true",
+        "Filtered=true, Skeleton=true"
+      ],
+      "restoresFilteredStateAfterLoading": true
+    },
+    "structureProtection": {
+      "detachAllowed": false,
+      "internalDetachAllowed": false,
+      "internalInstanceSwapAllowed": false,
+      "slotInstanceSwapAllowed": true,
+      "arbitraryChildrenAllowed": false,
+      "rootClickable": false,
+      "interactiveElements": "nested-controls-and-buttons"
+    },
+    "component": {
+      "name": "[D] TopBar",
+      "library": "Web _ Corp Components"
+    }
+  }
+}

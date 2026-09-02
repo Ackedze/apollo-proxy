@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.button-stack",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "button-stack.valid-bottom-primary",
+        "title": "Одна основная кнопка закреплена внизу экрана",
+        "inputState": {
+          "root": "🔒 [M] ButtonStack",
+          "Presets": "Primary",
+          "position": "absolute",
+          "bottom": 0,
+          "contentSpaceReserved": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать композицию корректной и не требовать runtime-компонент ButtonStack.",
+        "mustNotSay": "ButtonStack должен находиться в обычном потоке страницы."
+      },
+      {
+        "exampleId": "button-stack.invalid-inline-placement",
+        "title": "ButtonStack прокручивается вместе с контентом",
+        "inputState": {
+          "position": "static",
+          "scrollsWithContent": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.button-stack.must-be-bottom-anchored"
+        },
+        "expectedAgent": "Предложить абсолютно закрепить ButtonStack у нижнего края с bottom=0.",
+        "mustNotSay": "ButtonStack можно использовать как обычный inline-блок."
+      },
+      {
+        "exampleId": "button-stack.invalid-content-overlap",
+        "title": "Нижний контент перекрыт зоной действий",
+        "inputState": {
+          "position": "absolute",
+          "bottom": 0,
+          "contentSpaceReserved": false,
+          "contentOverlapped": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.button-stack.page-reserves-space"
+        },
+        "expectedAgent": "Предложить зарезервировать под контентом фактическую высоту ButtonStack.",
+        "mustNotSay": "Перекрытие нижнего контента допустимо для абсолютной зоны действий."
+      },
+      {
+        "exampleId": "button-stack.invalid-horizontal-wrapping",
+        "title": "Labels горизонтальной группы не помещаются в одну строку",
+        "inputState": {
+          "Presets": "Group Horizontal",
+          "buttonLabelsFitOneLine": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.button-stack.horizontal-group-requires-single-line-labels"
+        },
+        "expectedAgent": "Предложить сократить labels или выбрать Group Vertical.",
+        "mustNotSay": "В Group Horizontal допустим перенос label на вторую строку."
+      },
+      {
+        "exampleId": "button-stack.valid-contextual-option",
+        "title": "Checkbox дополняет основное действие",
+        "inputState": {
+          "Checkbox": true,
+          "checkboxLabel": "Сохранить настройку для следующих операций",
+          "controlsPrimaryAvailability": false,
+          "Info Icon": true
+        },
+        "expectedAudit": {
+          "category": "info",
+          "ruleIds": [
+            "component:web-corp.button-stack.option-is-contextual",
+            "component:web-corp.button-stack.option-information-addon-is-fixed"
+          ]
+        },
+        "expectedAgent": "Считать опцию допустимой и не требовать, чтобы она обязательно блокировала Primary.",
+        "mustNotSay": "Checkbox всегда обязан управлять доступностью основной кнопки."
+      },
+      {
+        "exampleId": "button-stack.valid-primary-icon-override",
+        "title": "В Primary + Icon используется другая уместная иконка",
+        "inputState": {
+          "Presets": "Primary + Icon",
+          "icon": "contextual glyph-26 icon",
+          "iconIsDotsThreeHorizontal": false
+        },
+        "expectedAudit": {
+          "category": "info",
+          "ruleId": "component:web-corp.button-stack.primary-icon-is-contextual"
+        },
+        "expectedAgent": "Считать иконку допустимой; при необходимости упомянуть dots-three-horizontal только как предпочтение.",
+        "mustNotSay": "Любая иконка кроме dots-three-horizontal запрещена."
+      },
+      {
+        "exampleId": "button-stack.invalid-responsive-action-mismatch",
+        "title": "Mobile-web теряет desktop-действие",
+        "inputState": {
+          "desktopActions": [
+            "Продолжить",
+            "Отмена"
+          ],
+          "mobileActions": [
+            "Продолжить"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.button-stack.desktop-mobile-action-parity"
+        },
+        "expectedAgent": "Предложить восстановить второе действие с тем же смыслом и label.",
+        "mustNotSay": "На mobile-web можно произвольно удалять desktop-действия."
+      },
+      {
+        "exampleId": "button-stack.contextual-background",
+        "title": "Background выбран без подтверждённого сценарного правила",
+        "inputState": {
+          "Background": "True"
+        },
+        "expectedAudit": {
+          "category": "info",
+          "ruleId": "component:web-corp.button-stack.background-selection-is-unresolved"
+        },
+        "expectedAgent": "Не считать Background=True или Background=False нарушением и не придумывать правило выбора.",
+        "mustNotSay": "Background=True обязателен для sticky-зоны или Background=False обязателен для страницы."
+      }
+    ]
+  }
+}

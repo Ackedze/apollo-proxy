@@ -1,0 +1,630 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.header",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Header",
+      "library": "Web :: Corp Presets"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader",
+        "componentName": "[D] UniversalModalHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets",
+        "componentName": "ModalNavigationPresets",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Cross": "False",
+          "Back": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation",
+        "componentName": "Navigation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SecondLevel": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal",
+        "componentName": "[D] FilterCompanySelect_UniversalModal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo",
+        "componentName": "CompanyLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / CompanyLogo / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / [D] CompactTag",
+        "componentName": "[D] CompactTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "true"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / [D] CompactTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / CompanySelect / [D] CompactTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "FilledState": "False",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "OuterLabel": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / Control / Fixer / PaintMe / checkmark",
+        "componentName": "checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "TopCaption": "False",
+          "BottomCaption": "False",
+          "Icon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / [D] FilterCompanySelect_UniversalModal / [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / 🔩 [D] MiddleSlot",
+        "componentName": "🔩 [D] MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Empty": "True",
+          "Custom": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / 🔩 [D] Cross",
+        "componentName": "🔩 [D] Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "Cross": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / Navigation / 🔩 [D] Cross / Cross / IconWrapper / Wrapper / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] UniversalModalHeaderHolding",
+        "path": "Compact=False / [D] UniversalModalHeader / ModalNavigationPresets / BottomAddon",
+        "componentName": "BottomAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Custom": "True",
+          "Title": "False"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

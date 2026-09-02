@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-core.amount-input",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] AmountInput",
+        "key": "a90688f769a54a8975d82859e2079ae155fec102",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] AmountInput_Inverted",
+        "key": "a8bb38c8f281585728559ae262e02992df0057bc",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] AmountInput",
+        "key": "745d901f468e63132530e3c5ef45c6b925ee9c2f",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] AmountInput_Inverted",
+        "key": "a7b906dac0ffd2318b3aec3b057730ac510193a4",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] AmountInput",
+        "key": "db0e6fbb9b3e9e1bc8ba59c7a3bac5b12993aca2",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] AmountInput_Inverted",
+        "key": "fd7939020cc3d9b1565c14c12dbd18ed94174450",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][AO] AmountInput",
+        "key": "5cc7b5010bc7e0531a6844e854fdff360aa25324",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][AO] AmountInput_Inverted",
+        "key": "eecf44794d0f388dfe8c13e4b2a1b36966ae7ce8",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "appliesTo": {
+      "generatedContract": "contract.generated.json",
+      "rawCatalog": "Web _ Core -- AmountInput.json"
+    },
+    "publicApi": {
+      "variantProperties": {
+        "Size": {
+          "kind": "component-property",
+          "values": [
+            "40",
+            "48",
+            "56",
+            "64",
+            "72"
+          ]
+        },
+        "FilledState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "ActiveState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "DisabledState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "ErrorState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "OuterLabel": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        }
+      }
+    },
+    "anatomySemantics": {
+      "root": {
+        "path": "<variant root>",
+        "scope": "component-root",
+        "designerEditable": false,
+        "notes": "Root layout/visibility управляется component variant properties."
+      },
+      "keyNodes": {
+        "Label / Label": {
+          "path": "Label / Label",
+          "scope": "content-layer",
+          "designerEditable": "content-only"
+        },
+        "Field": {
+          "path": "Field",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Field / LeftAddons": {
+          "path": "Field / LeftAddons",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Field / Content / Placeholder": {
+          "path": "Field / Content / Placeholder",
+          "scope": "content-layer",
+          "designerEditable": "content-only"
+        },
+        "Field / RightAddons": {
+          "path": "Field / RightAddons",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Hint / HintMessage": {
+          "path": "Hint / HintMessage",
+          "scope": "content-layer",
+          "designerEditable": "content-only"
+        }
+      }
+    },
+    "resetModel": {
+      "componentProperties": [
+        "variant.Size",
+        "variant.FilledState",
+        "variant.ActiveState",
+        "variant.DisabledState",
+        "variant.ErrorState",
+        "variant.OuterLabel"
+      ],
+      "slotProperties": [
+        "LeftAddon1.variant.Type",
+        "LeftAddon2.variant.Type",
+        "RightAddon1.variant.Type",
+        "RightAddon2.variant.Type",
+        "Placeholder.variant.Accent"
+      ],
+      "layerProperties": [
+        "fills",
+        "strokes",
+        "strokeWeight",
+        "cornerRadius",
+        "opacity",
+        "layout.padding",
+        "layout.itemSpacing",
+        "styles.text",
+        "typography"
+      ],
+      "contentProperties": [
+        "Label.characters",
+        "Placeholder.characters",
+        "HintMessage.characters",
+        "Amount.characters"
+      ],
+      "dependencyPolicy": "При reset состояния компонента layer differences, вызванные только этим состоянием, могут исчезнуть автоматически. Ручные layer overrides должны оставаться независимо сбрасываемыми, пока reset родительского состояния не уберёт их target state."
+    }
+  }
+}

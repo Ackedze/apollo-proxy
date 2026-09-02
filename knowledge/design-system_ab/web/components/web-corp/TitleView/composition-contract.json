@@ -1,0 +1,3814 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.title-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "TitleView",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Style": "Contrast",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL",
+        "componentName": "[D] TitleAddonXL",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL",
+        "componentName": "[D] RightAddonXL",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "Link"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "componentName": "[D] FilterCompanySelect_Single",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Selected": "True",
+          "ShowFirstCompany": "False",
+          "View": "Compact"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "componentName": "[D] CompactTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "true"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus",
+        "componentName": "[D] TitleStatus",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "56",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Style": "Contrast",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / Label",
+        "componentName": "Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL",
+        "componentName": "[M] TitleAddonXL",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL",
+        "componentName": "[M] RightAddonXL",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "Link"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "componentName": "[D] FilterCompanySelect_Single",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Selected": "True",
+          "ShowFirstCompany": "False",
+          "View": "Compact"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "componentName": "[D] CompactTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "true"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus",
+        "componentName": "[M] TitleStatus",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "48",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "contracts": [
+      {
+        "id": "title-view.status.composition",
+        "schemaVersion": "apollo.composition-predicate-contract.v1",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "scope": {
+          "platform": ["desktop", "mobile-web"]
+        },
+        "match": {
+          "hostComponentIdentities": [
+            "web-corp.title-view",
+            "web-corp.title-view-mobile"
+          ],
+          "hostComponentNames": ["[D] TitleView", "[M] TitleView"]
+        },
+        "select": {
+          "nestedComponentIdentities": ["web-corp.status-property"],
+          "nestedComponentNames": [
+            "StatusPreset",
+            "🔒 [D] StatusPreset",
+            "🔒 [M] StatusPreset"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "facts": {
+          "visibleMemberNodeIds": "composition.visibleTitleViewStatusNodeIds",
+          "siblingPropertyValuesPrefix": "composition.titleViewStatusSiblingPropertyValues"
+        },
+        "constraints": [
+          {
+            "id": "status-size",
+            "ruleId": "component:web-corp.title-view.status-size-24",
+            "op": "propertyDomain",
+            "property": "Size",
+            "values": ["24"],
+            "message": "StatusPreset внутри TitleView должен использовать Size=24",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Неверный размер Status в TitleView",
+              "observed": "У StatusPreset внутри TitleView используется Size={{actual}}.",
+              "expectation": "Верхний Status внутри TitleView должен использовать Size=24.",
+              "action": "Установить StatusPreset значение Size=24."
+            }
+          }
+        ]
+      },
+      {
+        "id": "title-view.button-group.composition",
+        "schemaVersion": "apollo.composition-predicate-contract.v1",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "scope": {
+          "platform": ["desktop", "mobile-web"]
+        },
+        "match": {
+          "hostComponentIdentities": [
+            "web-corp.title-view",
+            "web-corp.title-view-mobile"
+          ],
+          "hostComponentNames": ["[D] TitleView", "[M] TitleView"]
+        },
+        "select": {
+          "nestedComponentIdentities": ["web-core.button"],
+          "nestedComponentNames": ["[D] Button", "[M] Button"],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "facts": {
+          "visibleMemberNodeIds": "composition.visibleTitleViewButtonNodeIds",
+          "siblingPropertyValuesPrefix": "composition.titleViewButtonSiblingPropertyValues"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "ruleId": "component:web-corp.title-view.button-group-max-four-actions",
+            "op": "countBetween",
+            "min": 0,
+            "max": 4,
+            "severity": "warning",
+            "message": "В Button group внутри TitleView рекомендуется не больше четырёх действий",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "В TitleView слишком много действий",
+              "observed": "В Button group найдено {{actual}} видимых действий.",
+              "expectation": "В TitleView рекомендуется показывать не больше четырёх действий.",
+              "action": "Оставить до четырёх действий, остальные перенести в PickerButton."
+            }
+          },
+          {
+            "id": "allowed-views",
+            "ruleId": "component:web-corp.title-view.button-group-allowed-views",
+            "op": "propertyDomain",
+            "property": "View",
+            "values": ["Primary", "Secondary"],
+            "message": "В Button group внутри TitleView допускаются только View=Primary и View=Secondary",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Недопустимый вид кнопки в TitleView",
+              "observed": "В Button group используется кнопка View={{actual}}.",
+              "expectation": "В TitleView допускаются только кнопки View=Primary и View=Secondary.",
+              "action": "Изменить View кнопки на Primary или Secondary."
+            }
+          },
+          {
+            "id": "primary-position",
+            "ruleId": "component:web-corp.title-view.button-group-single-primary-action",
+            "op": "valuePosition",
+            "property": "View",
+            "value": "Primary",
+            "positions": ["first"],
+            "maxCount": 1,
+            "replacement": "Secondary",
+            "message": "Primary-кнопка внутри TitleView необязательна, но может быть только первой",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Нарушен приоритет действий TitleView",
+              "observed": "Primary-кнопка расположена не первой или используется несколько раз.",
+              "expectation": "В TitleView может быть только одна Primary-кнопка и только на первом месте.",
+              "action": "Оставить первую целевую кнопку Primary, остальные изменить на Secondary."
+            }
+          },
+          {
+            "id": "single-icon-position",
+            "ruleId": "component:web-corp.title-view.button-group-single-icon-position",
+            "op": "valuePosition",
+            "property": "SingleIcon",
+            "value": "True",
+            "positions": ["last"],
+            "maxCount": 1,
+            "replacement": "False",
+            "message": "SingleIcon внутри TitleView допускается только у последней кнопки и только один раз",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Неверное положение иконки-действия TitleView",
+              "observed": "SingleIcon используется не у последней кнопки или больше одного раза.",
+              "expectation": "SingleIcon допускается только у одной последней кнопки группы.",
+              "action": "Оставить SingleIcon=True только у последней кнопки."
+            }
+          }
+        ]
+      },
+      {
+        "id": "title-view.desktop-button-size.composition",
+        "schemaVersion": "apollo.composition-predicate-contract.v1",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "scope": {
+          "platform": ["desktop"]
+        },
+        "match": {
+          "hostComponentIdentities": ["web-corp.title-view"],
+          "hostComponentNames": ["[D] TitleView"]
+        },
+        "select": {
+          "nestedComponentIdentities": ["web-core.button"],
+          "nestedComponentNames": ["[D] Button"],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "facts": {
+          "visibleMemberNodeIds": "composition.visibleTitleViewDesktopButtonNodeIds",
+          "siblingPropertyValuesPrefix": "composition.titleViewDesktopButtonSiblingPropertyValues"
+        },
+        "constraints": [
+          {
+            "id": "button-size",
+            "ruleId": "component:web-corp.title-view.button-size-desktop",
+            "op": "propertyDomain",
+            "property": "Size",
+            "values": ["56"],
+            "message": "Button внутри [D] TitleView должен использовать Size=56",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Неверный размер кнопки в desktop TitleView",
+              "observed": "У кнопки используется Size={{actual}}.",
+              "expectation": "Кнопки внутри [D] TitleView должны использовать Size=56.",
+              "action": "Установить кнопке Size=56."
+            }
+          }
+        ]
+      },
+      {
+        "id": "title-view.mobile-button-size.composition",
+        "schemaVersion": "apollo.composition-predicate-contract.v1",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "scope": {
+          "platform": ["mobile-web"]
+        },
+        "match": {
+          "hostComponentIdentities": ["web-corp.title-view-mobile"],
+          "hostComponentNames": ["[M] TitleView"]
+        },
+        "select": {
+          "nestedComponentIdentities": ["web-core.button"],
+          "nestedComponentNames": ["[M] Button"],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "facts": {
+          "visibleMemberNodeIds": "composition.visibleTitleViewMobileButtonNodeIds",
+          "siblingPropertyValuesPrefix": "composition.titleViewMobileButtonSiblingPropertyValues"
+        },
+        "constraints": [
+          {
+            "id": "button-size",
+            "ruleId": "component:web-corp.title-view.button-size-mobile",
+            "op": "propertyDomain",
+            "property": "Size",
+            "values": ["48"],
+            "message": "Button внутри [M] TitleView должен использовать Size=48",
+            "presentation": {
+              "schemaVersion": "apollo.predicate-presentation.v1",
+              "title": "Неверный размер кнопки в mobile TitleView",
+              "observed": "У кнопки используется Size={{actual}}.",
+              "expectation": "Кнопки внутри [M] TitleView должны использовать Size=48.",
+              "action": "Установить кнопке Size=48."
+            }
+          }
+        ]
+      }
+    ],
+    "ownershipModel": {
+      "defaultNestedDiffPolicy": "compare-against-component-effective-baseline",
+      "wrapperOwnedOverridePolicy": "Не показывай wrapper-owned nested overrides, когда actual совпадает с effective baseline этого компонента. Если actual отличается, показывай effectiveBaseline -> actual.",
+      "layerPropertyPolicy": "Изменения layer/style/layout должны оставаться отдельно от component properties и сбрасываться независимо."
+    },
+    "rootLayoutPolicy": {
+      "width": "Fill container",
+      "height": "Hug contents",
+      "platformDifference": false,
+      "requirement": "recommendation"
+    },
+    "slotOrderPolicy": {
+      "schemaVersion": "apollo.slot-order-policy.v1",
+      "ruleId": "component:web-corp.title-view.visible-slots-follow-required-order",
+      "ruleKind": "design-rule",
+      "authority": {
+        "status": "active",
+        "provenance": "design-system-author",
+        "revision": 1
+      },
+      "scope": {
+        "platform": [
+          "desktop",
+          "mobile-web"
+        ]
+      },
+      "ownerComponentIdentities": [
+        "web-corp.title-view",
+        "web-corp.title-view-mobile"
+      ],
+      "containerNames": [
+        "MainContent"
+      ],
+      "required": true,
+      "order": [
+        "Status",
+        "Heading",
+        "Holding",
+        "Subtitle",
+        "TitleStatus",
+        "Button group"
+      ],
+      "presentation": {
+        "schemaVersion": "apollo.predicate-presentation.v1",
+        "title": "Нарушен порядок элементов TitleView",
+        "observed": "Элемент {{actual}} расположен раньше обязательного предыдущего элемента {{expected}}.",
+        "expectation": "Видимые элементы TitleView должны сохранять порядок, заданный контрактом компонента.",
+        "action": "Восстановить порядок элементов через свойства опубликованного TitleView."
+      }
+    },
+    "slotContentPolicy": {
+      "instanceSwapAllowed": true,
+      "arbitraryComponentsAllowed": true,
+      "mustPreserveSlotOrderAndRootStructure": true
+    },
+    "overridePolicy": {
+      "scope": "root-and-all-descendants",
+      "manualLayoutAndStyleOverridesAllowed": false,
+      "textContentOverridesAllowed": true,
+      "instanceSwapAllowed": true
+    },
+    "rootInteractionPolicy": {
+      "clickable": false,
+      "styleOverridesAllowed": false
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      }
+    ],
+    "standaloneBaselines": [
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "token": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonLeft / Wrapper / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+        "token": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonRight / Wrapper / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "token": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "styles.text",
+        "expectedValue": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonLeft / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:35ea1ba98cfbbc081b766a140740e82ab3e01c92/1930:77",
+        "token": "VariableID:35ea1ba98cfbbc081b766a140740e82ab3e01c92/1930:77",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonRight / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved",
+        "property": "layout.itemSpacing",
+        "expectedValue": 12,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Title",
+        "property": "styles.text",
+        "expectedValue": "S:69723bb178c1d1f9ec90e7b5670389dadb9de724,134161:72741",
+        "styleKey": "S:69723bb178c1d1f9ec90e7b5670389dadb9de724,134161:72741",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "property": "fill",
+        "expectedValue": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146",
+        "token": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / 🔩 Label",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / 🔩 Label / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+        "token": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / Title",
+        "property": "styles.text",
+        "expectedValue": "S:e451446afce66cddd400f39abc5837a829b5a6c2,134161:112586",
+        "styleKey": "S:e451446afce66cddd400f39abc5837a829b5a6c2,134161:112586",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "token": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "styles.text",
+        "expectedValue": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonLeft / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:35ea1ba98cfbbc081b766a140740e82ab3e01c92/1930:77",
+        "token": "VariableID:35ea1ba98cfbbc081b766a140740e82ab3e01c92/1930:77",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonRight / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / :",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Value",
+        "property": "styles.text",
+        "expectedValue": "S:aae5de06136376c7653394d3648478f48372d63f,134161:94382",
+        "styleKey": "S:aae5de06136376c7653394d3648478f48372d63f,134161:94382",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Value",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus",
+        "property": "layout.itemSpacing",
+        "expectedValue": 12,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus / Content / Title",
+        "property": "styles.text",
+        "expectedValue": "S:69723bb178c1d1f9ec90e7b5670389dadb9de724,134161:72741",
+        "styleKey": "S:69723bb178c1d1f9ec90e7b5670389dadb9de724,134161:72741",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus / Content / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus / Content / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus / Content / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group",
+        "property": "layout.itemSpacing",
+        "expectedValue": 16,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:f69ee5ae7afe3efb9f9874cdb3eab9ec61722b61/2011:244",
+        "token": "VariableID:f69ee5ae7afe3efb9f9874cdb3eab9ec61722b61/2011:244",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "token": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "token": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "styles.text",
+        "expectedValue": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "fill",
+        "expectedValue": "VariableID:2693fb3b793bfbcab106a29492e52ce50c790b37/2011:246",
+        "token": "VariableID:2693fb3b793bfbcab106a29492e52ce50c790b37/2011:246",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "token": "VariableID:283f98b54a532429abc402689e3a6448f47a99dd/2011:245",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "token": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "styles.text",
+        "expectedValue": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "token": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "styles.text",
+        "expectedValue": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,134161:58972",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / Text / Hint",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "token": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "token": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonLeft / Wrapper / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+        "token": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddon",
+        "targetPathPattern": "Type=Link / Link / AddonRight / Wrapper / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "token": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "styles.text",
+        "expectedValue": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "token": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonLeft / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] RightAddonXL",
+        "targetPathPattern": "Type=Link / Link / AddonRight / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddon",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleAddonXL",
+        "targetPathPattern": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved",
+        "property": "layout.itemSpacing",
+        "expectedValue": 12,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Title",
+        "property": "styles.text",
+        "expectedValue": "S:5ab7406f0d64e21264049625acb68806389dbbe3,134161:72810",
+        "styleKey": "S:5ab7406f0d64e21264049625acb68806389dbbe3,134161:72810",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleStatus",
+        "targetPathPattern": "Type=Approved / Content / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "property": "fill",
+        "expectedValue": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146",
+        "token": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / Label",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / Label / Label",
+        "property": "styles.text",
+        "expectedValue": "S:0f9096a276c520f4567ccf3c1a0f9bbf7744817a,134161:98073",
+        "styleKey": "S:0f9096a276c520f4567ccf3c1a0f9bbf7744817a,134161:98073",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / Label / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+        "token": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / Title",
+        "property": "styles.text",
+        "expectedValue": "S:e16784bdce8a29100f40300ab8b132c3c3eac27f,134161:112948",
+        "styleKey": "S:e16784bdce8a29100f40300ab8b132c3c3eac27f,134161:112948",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge",
+        "property": "fill",
+        "expectedValue": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "token": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "token": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "property": "fill",
+        "expectedValue": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "token": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / BgColor",
+        "property": "fill",
+        "expectedValue": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "token": "VariableID:d8fdd2d33bde75b054a497055e53d61a7553c3e3/3541:169",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "styles.text",
+        "expectedValue": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,134150:410130",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Text",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "token": "VariableID:c9f32b7fb1cec7dcbbb56e9920f76ac8326d6fd8/1930:2",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border / Mask",
+        "property": "fill",
+        "expectedValue": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "token": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonLeft",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonLeft / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / Content / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonRight",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonRight / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / :",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Value",
+        "property": "styles.text",
+        "expectedValue": "S:aae5de06136376c7653394d3648478f48372d63f,134161:94382",
+        "styleKey": "S:aae5de06136376c7653394d3648478f48372d63f,134161:94382",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Text / Value",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,134161:55803",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Subtitle / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "token": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus",
+        "property": "layout.itemSpacing",
+        "expectedValue": 12,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus / Content",
+        "property": "layout.itemSpacing",
+        "expectedValue": 8,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus / Content / Title",
+        "property": "styles.text",
+        "expectedValue": "S:5ab7406f0d64e21264049625acb68806389dbbe3,134161:72810",
+        "styleKey": "S:5ab7406f0d64e21264049625acb68806389dbbe3,134161:72810",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus / Content / Title",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus / Content / Subtitle",
+        "property": "styles.text",
+        "expectedValue": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,134161:42044",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus / Content / Subtitle",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group",
+        "property": "layout.itemSpacing",
+        "expectedValue": 16,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 4,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:d52c0f0fb8cd8562b1314c4bc8318625b466017b/3541:105",
+        "token": "VariableID:d52c0f0fb8cd8562b1314c4bc8318625b466017b/3541:105",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "token": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / Text",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / Text / Label",
+        "property": "styles.text",
+        "expectedValue": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,134161:42040",
+        "scope": "text-style"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / Text / Label",
+        "property": "fill",
+        "expectedValue": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "token": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "token": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "property": "fill",
+        "expectedValue": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+        "token": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] TitleView",
+        "targetPathPattern": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+        "property": "fill",
+        "expectedValue": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "token": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+        "scope": "paint"
+      }
+    ]
+  }
+}

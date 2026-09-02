@@ -1,0 +1,447 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.file-upload",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "file-upload.primary-standalone",
+        "title": "Самостоятельный FileUpload в форме",
+        "inputState": {
+          "root": "[D] FileUpload",
+          "View": "Primary",
+          "State": "Default"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.secondary-inside-block",
+        "title": "FileUpload внутри другого блока",
+        "inputState": {
+          "root": "[D] FileUpload",
+          "View": "Secondary",
+          "container": "content block"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-attach-standalone",
+        "title": "Служебный Attach используется отдельно",
+        "inputState": {
+          "root": "[D] Attach"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.public-roots-only"
+        }
+      },
+      {
+        "exampleId": "file-upload.disable-existing-actions",
+        "title": "Disable блокирует только новую загрузку",
+        "inputState": {
+          "State": "Disable",
+          "newUploadAllowed": false,
+          "existingFileInteractionsAllowed": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-detached-slot",
+        "title": "Внутренняя часть скрыта вручную",
+        "inputState": {
+          "slotVisibilityChangedManually": true,
+          "componentPropertyUsed": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.slots-use-component-properties"
+        }
+      },
+      {
+        "exampleId": "file-upload.desktop-drag-drop",
+        "title": "Drag-and-drop на desktop",
+        "inputState": {
+          "platform": "desktop",
+          "systemPicker": true,
+          "dragAndDrop": true,
+          "backgroundSurface": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.mobile-system-picker",
+        "title": "Системный выбор на Mobile Web",
+        "inputState": {
+          "platform": "mobile-web",
+          "systemPicker": true,
+          "dragAndDrop": false,
+          "backgroundSurface": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.block-validation-error",
+        "title": "Ошибка обязательного блока без файлов",
+        "inputState": {
+          "required": true,
+          "listItems": 0,
+          "validationTriggered": true,
+          "State": "Error",
+          "errorText": "Прикрепите файл"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.independent-file-errors",
+        "title": "Разные ошибки у разных файлов",
+        "inputState": {
+          "files": [
+            {
+              "name": "document.psd",
+              "error": "format"
+            },
+            {
+              "name": "document.pdf",
+              "error": "size"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-root-and-file-errors",
+        "title": "Общая и файловая ошибки показаны одновременно",
+        "inputState": {
+          "rootState": "Error",
+          "fileItemErrorVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.root-and-file-errors-are-exclusive"
+        }
+      },
+      {
+        "exampleId": "file-upload.uploading-preset",
+        "title": "Файл загружается",
+        "inputState": {
+          "component": "FileUploadItem",
+          "Preset": "Uploading"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-retry-in-disable",
+        "title": "Повторная загрузка доступна в Disable",
+        "inputState": {
+          "State": "Disable",
+          "action": "retry",
+          "visible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.file-actions-follow-state"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-border-disable",
+        "title": "Border включён в Disable",
+        "inputState": {
+          "State": "Disable",
+          "Border": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.disable-hides-border"
+        }
+      },
+      {
+        "exampleId": "file-upload.allowed-limit-values",
+        "title": "Изменены значения внутри шаблона ограничения",
+        "inputState": {
+          "before": "До [20] МБ каждый, всего — не больше [5] файлов",
+          "after": "До [30] МБ каждый, всего — не больше [10] файлов"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.upload-order",
+        "title": "Файлы сохраняют порядок загрузки",
+        "inputState": {
+          "uploadSequence": [
+            "first.pdf",
+            "second.docx",
+            "third.xls"
+          ],
+          "displayOrder": [
+            "first.pdf",
+            "second.docx",
+            "third.xls"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-reorder",
+        "title": "Порядок файлов изменён вручную",
+        "inputState": {
+          "manualReorder": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.file-order-follows-upload"
+        }
+      },
+      {
+        "exampleId": "file-upload.more-extensions",
+        "title": "Ещё N показывает дополнительные форматы",
+        "inputState": {
+          "allowedFormats": [
+            "docx",
+            "xls",
+            "pdf",
+            "png",
+            "jpg"
+          ],
+          "visibleText": "docx, xls, pdf, ещё 2"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.counter-total",
+        "title": "Counter показывает все элементы списка",
+        "inputState": {
+          "defaultFiles": 54,
+          "uploadingFiles": 2,
+          "errorFiles": 1,
+          "counterText": "Всего файлов 57"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-radius",
+        "title": "Радиус FileUpload изменён вручную",
+        "inputState": {
+          "property": "radius",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "file-upload.mobile-border-forbidden",
+        "title": "Border включён в Mobile Web",
+        "inputState": {
+          "component": "[M] FileUpload",
+          "Border": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.border-platform-matrix"
+        }
+      },
+      {
+        "exampleId": "file-upload.desktop-border",
+        "title": "Border включён в desktop Default",
+        "inputState": {
+          "component": "[D] FileUpload",
+          "View": "Secondary",
+          "State": "Default",
+          "Border": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.fill-hug",
+        "title": "Корректное sizing компонента",
+        "inputState": {
+          "component": "[D] FileUpload",
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.max-files-disable",
+        "title": "При достижении лимита компонент переходит в Disable",
+        "inputState": {
+          "listItems": 5,
+          "maxFiles": 5,
+          "State": "Disable",
+          "dropzoneVisible": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.limit-counts-error-and-uploading",
+        "title": "Лимит учитывает Uploading и Error",
+        "inputState": {
+          "defaultFiles": 3,
+          "uploadingFiles": 1,
+          "errorFiles": 1,
+          "maxFiles": 5,
+          "State": "Disable"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.return-default-after-delete",
+        "title": "После удаления FileUpload возвращается в Default",
+        "inputState": {
+          "previousState": "Disable",
+          "reason": "max-files",
+          "scenarioAllowsFurtherUploads": true,
+          "listCountBelowLimit": true,
+          "currentState": "Default"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-hidden-dropzone-at-max",
+        "title": "Dropzone скрыт после достижения лимита",
+        "inputState": {
+          "listItems": 5,
+          "maxFiles": 5,
+          "dropzoneVisible": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.disable-file-upload-at-max-files"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-collapsed-list",
+        "title": "Список загруженных файлов свёрнут",
+        "inputState": {
+          "listItems": 12,
+          "visibleFiles": 5,
+          "collapsed": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.file-list-is-always-expanded"
+        }
+      },
+      {
+        "exampleId": "file-upload.invalid-missing-title",
+        "title": "Title скрыт",
+        "inputState": {
+          "Title": false,
+          "Subtitle": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.title-required-subtitle-optional"
+        }
+      },
+      {
+        "exampleId": "file-upload.mobile-button-selection",
+        "title": "Mobile Web открывает выбор по кнопке",
+        "inputState": {
+          "component": "[M] FileUpload",
+          "clickTarget": "attach-button"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.empty-state",
+        "title": "Пустой FileUpload скрывает список и счётчик",
+        "inputState": {
+          "files": [],
+          "FilesGroup": false,
+          "Counter": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "file-upload.error-before-validation",
+        "title": "Общая ошибка снята до успешной валидации",
+        "inputState": {
+          "previousState": "Error",
+          "repeatedValidation": "failed",
+          "currentState": "Default"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.file-upload.error-clears-after-successful-validation"
+        }
+      }
+    ]
+  }
+}

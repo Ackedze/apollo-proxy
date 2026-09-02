@@ -1,0 +1,830 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.faq",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1,
+    "executablePackageRevision": 1,
+    "executablePackageUpdatedAt": "2026-08-28"
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.faq.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "FAQ",
+          "layers": [
+            "[D][Promo] FAQ",
+            "[D][Promo] FAQItem",
+            "[M][Promo] FAQ",
+            "[M][Promo] FAQItem",
+            "FAQ",
+            "FAQItem"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.faq.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "FAQ",
+          "layers": [
+            "[D][Promo] FAQ",
+            "[D][Promo] FAQItem",
+            "[M][Promo] FAQ",
+            "[M][Promo] FAQItem",
+            "FAQ",
+            "FAQItem"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.faq.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.faq.public-roots-only",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.public-roots-only",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй только публичные корни [D][Promo] FAQ, [M][Promo] FAQ или FAQ. FAQItem является служебной частью и не используется отдельно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.faq"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.family"
+          },
+          "allowedValues": [
+            "faq"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебный компонент FAQ используется отдельно",
+            "observed": "Компонент {{actual}} размещён как самостоятельный корень.",
+            "expectation": "Самостоятельно допускаются только публичные корни FAQ.",
+            "action": "Заменить служебный компонент на публичный библиотечный корень."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.family-must-match-host",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.family-must-match-host",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не смешивай семейства FAQ: desktop promo содержит только [D][Promo] FAQItem, mobile promo — только [M][Promo] FAQItem, универсальный FAQ — только FAQItem.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.platform-version-must-match",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.platform-version-must-match",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "На promo-странице используй [D][Promo] FAQ на desktop и [M][Promo] FAQ на mobile-web. Универсальный FAQ разрешён на продуктовых desktop и mobile-web страницах.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.minimum-two-items",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.minimum-two-items",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В FAQ должно быть не менее двух отображаемых вопросов.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "query-count",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.faq"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.name"
+                },
+                "expected": {
+                  "literal": [
+                    "[D][Promo] FAQ",
+                    "[M][Promo] FAQ",
+                    "FAQ"
+                  ]
+                }
+              }
+            ]
+          },
+          "query": {
+            "from": "subject",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.name"
+                },
+                "expected": {
+                  "literal": [
+                    "[D][Promo] FAQItem",
+                    "[M][Promo] FAQItem",
+                    "FAQItem"
+                  ]
+                }
+              }
+            ]
+          },
+          "lower": 2,
+          "upper": 1000000,
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В FAQ меньше двух вопросов",
+            "observed": "Найдено элементов: {{actual}}.",
+            "expectation": "В FAQ должно быть не менее двух отображаемых вопросов.",
+            "action": "Добавить второй библиотечный FAQItem."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.maximum-eight-per-category",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.maximum-eight-per-category",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Рекомендуется использовать не более восьми вопросов в одном FAQ или в одной категории. Больший набор разделяй по категориям и показывай в отдельных табах."
+      },
+      {
+        "ruleId": "component:web-corp.faq.single-open-item",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.single-open-item",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Одновременно может быть открыт только один FAQItem. Открытие нового вопроса закрывает предыдущий.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "query-count",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.faq"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.name"
+                },
+                "expected": {
+                  "literal": [
+                    "[D][Promo] FAQ",
+                    "[M][Promo] FAQ",
+                    "FAQ"
+                  ]
+                }
+              }
+            ]
+          },
+          "query": {
+            "from": "subject",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.name"
+                },
+                "expected": {
+                  "literal": [
+                    "[D][Promo] FAQItem",
+                    "[M][Promo] FAQItem",
+                    "FAQItem"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.Open"
+                },
+                "expected": {
+                  "literal": "True"
+                }
+              }
+            ]
+          },
+          "lower": 0,
+          "upper": 1,
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В FAQ одновременно открыто несколько вопросов",
+            "observed": "Найдено элементов: {{actual}}.",
+            "expectation": "Одновременно может быть открыт только один FAQItem.",
+            "action": "Оставить Open=True только у одного FAQItem."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.default-state-is-closed",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.default-state-is-closed",
+        "appliesTo": "component",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Начальное состояние FAQ содержит только FAQItem с Open=False. Для демонстрации сценария допустимо открыть один вопрос.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.question-and-answer-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.question-and-answer-required",
+        "appliesTo": "text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Каждый отображаемый FAQItem должен содержать непустые вопрос и ответ.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.question-length-limit",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.question-length-limit",
+        "appliesTo": "text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текст вопроса не должен превышать 120 символов. Перенос на несколько строк допустим.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.answer-length-limit",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.answer-length-limit",
+        "appliesTo": "text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текст ответа в одном FAQItem не должен превышать 800 символов.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.links-only-in-answer",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.links-only-in-answer",
+        "appliesTo": "text",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Ссылки разрешены только внутри ответа и должны соответствовать контракту Link. Вопрос не должен содержать ссылку.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.visuals-follow-effective-baseline",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.visuals-follow-effective-baseline",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не меняй вручную отступы, интервалы, скругления, заливки, обводки, разделители, типографику, opacity, эффекты и иконку раскрытия FAQ.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.faq"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.faq"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "padding-top",
+              "label": "Верхний padding",
+              "actualFact": "layout.padding.top",
+              "baselineFact": "baseline.effective.layout.padding.top"
+            },
+            {
+              "suffix": "padding-right",
+              "label": "Правый padding",
+              "actualFact": "layout.padding.right",
+              "baselineFact": "baseline.effective.layout.padding.right"
+            },
+            {
+              "suffix": "padding-bottom",
+              "label": "Нижний padding",
+              "actualFact": "layout.padding.bottom",
+              "baselineFact": "baseline.effective.layout.padding.bottom"
+            },
+            {
+              "suffix": "padding-left",
+              "label": "Левый padding",
+              "actualFact": "layout.padding.left",
+              "baselineFact": "baseline.effective.layout.padding.left"
+            },
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между элементами",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            },
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "where": [
+                {
+                  "predicate": "equals",
+                  "actual": {
+                    "fact": "type"
+                  },
+                  "expected": {
+                    "literal": "TEXT"
+                  }
+                }
+              ]
+            },
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value"
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value"
+            },
+            {
+              "suffix": "radius",
+              "label": "Скругление",
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            },
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство FAQ: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline FAQ.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.surface-is-fixed-by-family",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.surface-is-fixed-by-family",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Promo FAQ сохраняет встроенный Promo BackgroundPlate, а универсальный FAQ — штатные разделители без BackgroundPlate. Поверхности нельзя отключать или заменять.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.fill-hug-sizing",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.fill-hug-sizing",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "FAQ использует Fill по ширине и Hug по высоте. Внешнюю ширину контейнера можно ограничивать сеткой страницы.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.entire-question-row-is-clickable",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.entire-question-row-is-clickable",
+        "appliesTo": "component",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Вся строка вопроса является единой областью раскрытия. Не ограничивай действие только иконкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.faq.instance-swap-forbidden",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.faq",
+        "patternRuleId": "rule:components.faq.instance-swap-forbidden",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не заменяй вложенные FAQItem, AccordionControl, AccordionHeader, AccordionBody и поверхности через instance swap.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.faq"
+      ],
+      "predicateRules": [
+        "component:web-corp.faq.public-roots-only",
+        "component:web-corp.faq.minimum-two-items",
+        "component:web-corp.faq.single-open-item",
+        "component:web-corp.faq.visuals-follow-effective-baseline"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.faq.lifecycle-context-is-informational",
+          "missingFacts": [
+            "component.status"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.family-must-match-host",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.platform-version-must-match",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.maximum-eight-per-category",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.default-state-is-closed",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.question-and-answer-required",
+          "missingFacts": [
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.question-length-limit",
+          "missingFacts": [
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.answer-length-limit",
+          "missingFacts": [
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.links-only-in-answer",
+          "missingFacts": [
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.surface-is-fixed-by-family",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.fill-hug-sizing",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.entire-question-row-is-clickable",
+          "missingFacts": [
+            "component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.faq.instance-swap-forbidden",
+          "missingFacts": [
+            "component"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.faq.visuals-follow-effective-baseline",
+          "missingFacts": [
+            "appearance.effects",
+            "interaction.prototype"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web.spotlight-input",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web.spotlight-input.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "SpotlightInput",
+          "layers": [
+            "[D] SpotlightInput",
+            "🔩 Addon",
+            "Actions",
+            "Addon",
+            "GlowGradient",
+            "SpotlightInput"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web.spotlight-input.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "SpotlightInput",
+          "layers": [
+            "[D] SpotlightInput",
+            "🔩 Addon",
+            "Actions",
+            "Addon",
+            "GlowGradient",
+            "SpotlightInput"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {}
+}

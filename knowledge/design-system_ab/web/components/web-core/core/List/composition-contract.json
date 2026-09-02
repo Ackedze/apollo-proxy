@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.list",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "List",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "List",
+        "path": "Caption=False / Marker",
+        "componentName": "Marker",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "style": "default",
+          "Type": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

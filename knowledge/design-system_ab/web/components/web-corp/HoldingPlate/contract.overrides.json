@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.holding-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔒 HoldingPlate",
+        "key": "2ae29ad1eedf15fcc9cdc927a718121e3595f156",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.width"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicApi": {
+      "figmaRoots": [
+        "🔒 HoldingPlate"
+      ],
+      "codeExports": [],
+      "figmaOnly": true,
+      "lifecycle": "active",
+      "plannedReplacement": false,
+      "detachAllowed": false,
+      "manualRebuildAllowed": false
+    },
+    "usage": {
+      "purpose": "Информационная плашка режима холдинга, которая показывает, от лица какой компании сейчас работает пользователь.",
+      "placement": "Сразу под TitleView и перед основным контентом страницы.",
+      "platform": "desktop",
+      "interactive": false,
+      "showWhen": [
+        "Пользователь находится в режиме холдинга.",
+        "Текущая страница или действие относятся к одной выбранной компании.",
+        "Нужна дополнительная идентификация компании, от которой отображаются данные."
+      ],
+      "doNotShowWhen": [
+        "Пользователь не находится в режиме холдинга.",
+        "Страница остаётся в общем multi-company контексте.",
+        "TitleView уже использует Holding для выбора или отображения компании."
+      ]
+    },
+    "variantSemantics": {
+      "width": {
+        "12 col": "Используется в родительском контейнере шириной 12 колонок.",
+        "8 col": "Используется в родительском контейнере шириной 8 колонок.",
+        "selectionPolicy": "Значение выбирается по ширине родительского контейнера, а не по breakpoint.",
+        "arbitraryWidthAllowed": false
+      }
+    },
+    "content": {
+      "requiredTextTemplate": "Вы работаете от лица [Название компании]",
+      "editablePlaceholder": "Название компании",
+      "otherTextChangesAllowed": false,
+      "lineCount": 1,
+      "overflow": "ellipsis",
+      "wrapAllowed": false,
+      "overflowTooltip": false
+    },
+    "anatomy": {
+      "requiredVisible": [
+        "Title"
+      ],
+      "requiredHidden": [
+        "Caption",
+        "StatusBadge",
+        "Controls"
+      ],
+      "instanceSwapAllowed": false
+    },
+    "visualBaseline": {
+      "nestedPlate": {
+        "Border": "True",
+        "BorderRadius": "16",
+        "padding": 12
+      },
+      "tokenBoundProperties": [
+        "fill",
+        "stroke",
+        "typography",
+        "text color"
+      ],
+      "manualOverridesAllowed": false
+    },
+    "states": {
+      "supported": [],
+      "notSupported": [
+        "loading",
+        "skeleton",
+        "disabled",
+        "error",
+        "hover",
+        "focus"
+      ]
+    },
+    "knownIssues": {
+      "outdatedNestedPlate": {
+        "status": "resolved",
+        "owner": "AB component owner",
+        "description": "Предыдущая версия HoldingPlate использовала устаревший [D] Plate.",
+        "resolutionEvidence": "Targeted export от 2026-08-14 содержит актуальный component key 71b20ddb5ef2e8477eaf8afb046c6d9f3d96f372."
+      }
+    }
+  }
+}

@@ -1,0 +1,958 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core",
+    "file": "Web _ Core",
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 4,
+    "contractCount": 4,
+    "activeCount": 4,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "scrollbar.universal",
+      "name": "Scrollbar",
+      "normalizedName": "scrollbar",
+      "componentKey": "7f65c86cebe181f94601e9487370b14b2764a69b",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4fe34b93231529eb47dc5dcdc171df74b9732d1e",
+        "variants": {
+          "properties": {
+            "Position": [
+              "Center",
+              "End",
+              "Start"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Position": "Start"
+            },
+            {
+              "Position": "Center"
+            },
+            {
+              "Position": "End"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "4fe34b93231529eb47dc5dcdc171df74b9732d1e",
+              "id": "206:69757",
+              "name": "Position=Start",
+              "properties": {
+                "Position": "Start"
+              }
+            },
+            {
+              "key": "f51d62f5a01121f2443773dea6e20079f6680817",
+              "id": "206:69759",
+              "name": "Position=Center",
+              "properties": {
+                "Position": "Center"
+              }
+            },
+            {
+              "key": "586649a334ed858751028606927d7261f559a0b5",
+              "id": "206:69761",
+              "name": "Position=End",
+              "properties": {
+                "Position": "End"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Position=Start",
+            "type": "COMPONENT",
+            "path": "Position=Start",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Position=Start",
+            "path": "Position=Start",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "kolbaska",
+            "path": "Position=Start / kolbaska",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+            ],
+            "layout": {
+              "padding": {
+                "top": 18,
+                "right": 0,
+                "bottom": 18,
+                "left": 0
+              },
+              "itemSpacing": 10
+            },
+            "radius": 100,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.2800000011920929,
+                "tokenKey": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112",
+                "colorHex": "#090C25"
+              }
+            ],
+            "fillToken": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / kolbaska / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "4fe34b93231529eb47dc5dcdc171df74b9732d1e",
+            "when": {
+              "Position": "Start"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "f51d62f5a01121f2443773dea6e20079f6680817",
+            "when": {
+              "Position": "Center"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "586649a334ed858751028606927d7261f559a0b5",
+            "when": {
+              "Position": "End"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "scrollbar-inverted.universal",
+      "name": "Scrollbar_Inverted",
+      "normalizedName": "scrollbar-inverted",
+      "componentKey": "a5a513250825c23f5e0d923db3c52f7cb38d0023",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "2161f241ca9b605c9a31f7c7eab14997e83febc0",
+        "variants": {
+          "properties": {
+            "Position": [
+              "Center",
+              "End",
+              "Start"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Position": "Start"
+            },
+            {
+              "Position": "Center"
+            },
+            {
+              "Position": "End"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "2161f241ca9b605c9a31f7c7eab14997e83febc0",
+              "id": "206:69750",
+              "name": "Position=Start",
+              "properties": {
+                "Position": "Start"
+              }
+            },
+            {
+              "key": "70ab14a099c979dc58e487f7d5e01b762e2e61ea",
+              "id": "206:69752",
+              "name": "Position=Center",
+              "properties": {
+                "Position": "Center"
+              }
+            },
+            {
+              "key": "be35e4dc7419ea0e65c2441debbe2fb0a9c446be",
+              "id": "206:69754",
+              "name": "Position=End",
+              "properties": {
+                "Position": "End"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Position=Start",
+            "type": "COMPONENT",
+            "path": "Position=Start",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Position=Start",
+            "path": "Position=Start",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "kolbaska",
+            "path": "Position=Start / kolbaska",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+            ],
+            "layout": {
+              "padding": {
+                "top": 18,
+                "right": 0,
+                "bottom": 18,
+                "left": 0
+              },
+              "itemSpacing": 10
+            },
+            "radius": 100,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.2800000011920929,
+                "tokenKey": "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109",
+                "colorHex": "#E4E4FB"
+              }
+            ],
+            "fillToken": "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / kolbaska / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "2161f241ca9b605c9a31f7c7eab14997e83febc0",
+            "when": {
+              "Position": "Start"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "70ab14a099c979dc58e487f7d5e01b762e2e61ea",
+            "when": {
+              "Position": "Center"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "be35e4dc7419ea0e65c2441debbe2fb0a9c446be",
+            "when": {
+              "Position": "End"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "scrollbar-vertical.universal",
+      "name": "Scrollbar_Vertical",
+      "normalizedName": "scrollbar-vertical",
+      "componentKey": "57e90266c89e5ecf718f4ca4e5179d1f63426c7d",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "8462c8b8d6e655eb109e6ba0495877d0733ab110",
+        "variants": {
+          "properties": {
+            "Position": [
+              "Center",
+              "End",
+              "Start"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Position": "Start"
+            },
+            {
+              "Position": "Center"
+            },
+            {
+              "Position": "End"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "8462c8b8d6e655eb109e6ba0495877d0733ab110",
+              "id": "206:69763",
+              "name": "Position=Start",
+              "properties": {
+                "Position": "Start"
+              }
+            },
+            {
+              "key": "4e239de76695e96e240a3c91e7ce4f7f3405380e",
+              "id": "206:69765",
+              "name": "Position=Center",
+              "properties": {
+                "Position": "Center"
+              }
+            },
+            {
+              "key": "d40c9f1459d9460e6673ff333b6814a565df6fe0",
+              "id": "206:69767",
+              "name": "Position=End",
+              "properties": {
+                "Position": "End"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Position=Start",
+            "type": "COMPONENT",
+            "path": "Position=Start",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Position=Start",
+            "path": "Position=Start",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "kolbaska",
+            "path": "Position=Start / kolbaska",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 18,
+                "bottom": 0,
+                "left": 18
+              },
+              "itemSpacing": 10
+            },
+            "radius": 100,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.2800000011920929,
+                "tokenKey": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112",
+                "colorHex": "#090C25"
+              }
+            ],
+            "fillToken": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / kolbaska / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "8462c8b8d6e655eb109e6ba0495877d0733ab110",
+            "when": {
+              "Position": "Start"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "4e239de76695e96e240a3c91e7ce4f7f3405380e",
+            "when": {
+              "Position": "Center"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d40c9f1459d9460e6673ff333b6814a565df6fe0",
+            "when": {
+              "Position": "End"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "scrollbar-vertical-inverted.universal",
+      "name": "Scrollbar_Vertical_Inverted",
+      "normalizedName": "scrollbar-vertical-inverted",
+      "componentKey": "b0f3155478675454a75c1bd1ec410b28dd20bc9a",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "0cb4d37556a879ea016c87c74b66166be284b285",
+        "variants": {
+          "properties": {
+            "Position": [
+              "Center",
+              "End",
+              "Start"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Position": "Start"
+            },
+            {
+              "Position": "Center"
+            },
+            {
+              "Position": "End"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "0cb4d37556a879ea016c87c74b66166be284b285",
+              "id": "206:69744",
+              "name": "Position=Start",
+              "properties": {
+                "Position": "Start"
+              }
+            },
+            {
+              "key": "ecf5cb044bd3b4687fd0d2356462b4ccc21d607b",
+              "id": "206:69746",
+              "name": "Position=Center",
+              "properties": {
+                "Position": "Center"
+              }
+            },
+            {
+              "key": "2680c0bea074d9a6935d44106b730824574b35d7",
+              "id": "206:69748",
+              "name": "Position=End",
+              "properties": {
+                "Position": "End"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Position=Start",
+            "type": "COMPONENT",
+            "path": "Position=Start",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Position=Start",
+            "path": "Position=Start",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "kolbaska",
+            "path": "Position=Start / kolbaska",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 18,
+                "bottom": 0,
+                "left": 18
+              },
+              "itemSpacing": 10
+            },
+            "radius": 100,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.2800000011920929,
+                "tokenKey": "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109",
+                "colorHex": "#E4E4FB"
+              }
+            ],
+            "fillToken": "VariableID:aafe87fe728b68facde98cad3d334151ebc4b3ed/3541:109"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / kolbaska / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "0cb4d37556a879ea016c87c74b66166be284b285",
+            "when": {
+              "Position": "Start"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "ecf5cb044bd3b4687fd0d2356462b4ccc21d607b",
+            "when": {
+              "Position": "Center"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2680c0bea074d9a6935d44106b730824574b35d7",
+            "when": {
+              "Position": "End"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    }
+  ]
+}

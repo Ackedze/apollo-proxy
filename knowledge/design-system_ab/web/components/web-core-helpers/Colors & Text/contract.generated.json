@@ -1,0 +1,1568 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core Helpers",
+    "file": "Web :: Core Helpers",
+    "generatedAt": "2026-04-29T11:41:53.151Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 4,
+    "contractCount": 4,
+    "activeCount": 4,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "type-cell.universal",
+      "name": "Type cell",
+      "normalizedName": "type-cell",
+      "componentKey": "2245dc94df2fb0ae0683f0677b08c7089ec01043",
+      "source": {
+        "library": "Web :: Core Helpers",
+        "file": "Web :: Core Helpers",
+        "generatedAt": "2026-04-29T11:41:53.151Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "2245dc94df2fb0ae0683f0677b08c7089ec01043",
+        "variants": {
+          "properties": {
+            "raw": [
+              "Type cell"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "Type cell"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "2245dc94df2fb0ae0683f0677b08c7089ec01043",
+              "id": "442:418",
+              "name": "Type cell",
+              "properties": {
+                "raw": "Type cell"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type cell",
+            "type": "COMPONENT",
+            "path": "Type cell",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_Title",
+            "type": "TEXT",
+            "path": "Type cell / _Title",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          },
+          {
+            "name": "_Caption",
+            "type": "TEXT",
+            "path": "Type cell / _Caption",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type cell",
+            "path": "Type cell",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 20,
+                "right": 0,
+                "bottom": 20,
+                "left": 0
+              },
+              "itemSpacing": 4
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "_Title",
+            "path": "Type cell / _Title",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#0B1F35"
+              }
+            ],
+            "text": {
+              "characters": "Name",
+              "fontName": "SF Pro Medium",
+              "fontSize": 24,
+              "lineHeight": 32,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "_Caption",
+            "path": "Type cell / _Caption",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#6D7986"
+              }
+            ],
+            "text": {
+              "characters": "Caption",
+              "fontName": "SF Pro Text Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "2245dc94df2fb0ae0683f0677b08c7089ec01043",
+            "when": {
+              "raw": "Type cell"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: Type cell"
+        ]
+      }
+    },
+    {
+      "id": "details-color-cell.universal",
+      "name": ".Details / Color cell",
+      "normalizedName": "details-color-cell",
+      "componentKey": "73781a55972c9a4831dea4c2e2fceda8ebc57dac",
+      "source": {
+        "library": "Web :: Core Helpers",
+        "file": "Web :: Core Helpers",
+        "generatedAt": "2026-04-29T11:41:53.151Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "d4167d873a46be17409ed28b4b18d03d08a449c6",
+        "variants": {
+          "properties": {
+            "View": [
+              "Default",
+              "Split"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Default"
+            },
+            {
+              "View": "Split"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "d4167d873a46be17409ed28b4b18d03d08a449c6",
+              "id": "325:514",
+              "name": "View=Default",
+              "properties": {
+                "View": "Default"
+              }
+            },
+            {
+              "key": "06c42e063ef60b6fa7ba84eb9487dddef6010086",
+              "id": "325:518",
+              "name": "View=Split",
+              "properties": {
+                "View": "Split"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Default",
+            "type": "COMPONENT",
+            "path": "View=Default",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Default",
+            "path": "View=Default",
+            "visible": true,
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "color",
+            "path": "View=Default / color",
+            "visible": true,
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#CF70FF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Border dark",
+            "path": "View=Default / Border dark",
+            "visible": false,
+            "radius": 8,
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.07000000029802322,
+                "tokenKey": null,
+                "colorHex": "#000000"
+              }
+            ]
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Border light",
+            "path": "View=Default / Border light",
+            "visible": false,
+            "radius": 8,
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.15000000596046448,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "06c42e063ef60b6fa7ba84eb9487dddef6010086": [
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "d4167d873a46be17409ed28b4b18d03d08a449c6",
+            "when": {
+              "View": "Default"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "06c42e063ef60b6fa7ba84eb9487dddef6010086",
+            "when": {
+              "View": "Split"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Default",
+                "nodePath": "View=Default",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "color",
+                "nodePath": "View=Default / color",
+                "affects": [
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "color new",
+                "nodePath": "View=Split / color new",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Border",
+                "nodePath": "View=Split / Border",
+                "affects": [
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Border dark",
+                "nodePath": "View=Default / Border dark",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "Border light",
+                "nodePath": "View=Default / Border light",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "color-plate.universal",
+      "name": "Color plate",
+      "normalizedName": "color-plate",
+      "componentKey": "43a2cca82959626fff6211754472de5f8b104112",
+      "source": {
+        "library": "Web :: Core Helpers",
+        "file": "Web :: Core Helpers",
+        "generatedAt": "2026-04-29T11:41:53.151Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "c193691c15ce5b251e17601953dca0d6abd4f0a1",
+        "variants": {
+          "properties": {
+            "View": [
+              "Dark",
+              "Light"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Light"
+            },
+            {
+              "View": "Dark"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "c193691c15ce5b251e17601953dca0d6abd4f0a1",
+              "id": "325:499",
+              "name": "View=Light",
+              "properties": {
+                "View": "Light"
+              }
+            },
+            {
+              "key": "e15efd64543a814066ce0fb5cfebd8764485692b",
+              "id": "325:505",
+              "name": "View=Dark",
+              "properties": {
+                "View": "Dark"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Light",
+            "type": "COMPONENT",
+            "path": "View=Light",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_name",
+            "type": "TEXT",
+            "path": "View=Light / Text content / _name",
+            "required": false,
+            "visible": true,
+            "nodeId": 7
+          },
+          {
+            "name": "_caption",
+            "type": "TEXT",
+            "path": "View=Light / Text content / _caption",
+            "required": false,
+            "visible": true,
+            "nodeId": 8
+          },
+          {
+            "name": "_caption",
+            "type": "TEXT",
+            "path": "View=Light / Text content / .Details / Usage / _caption",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Light",
+            "path": "View=Light",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 24,
+                "right": 24,
+                "bottom": 24,
+                "left": 24
+              },
+              "itemSpacing": 20
+            },
+            "radius": 24,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": ".Details / Color cell",
+            "path": "View=Light / .Details / Color cell",
+            "visible": true,
+            "variantProperties": {
+              "View": "Default"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Default"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "color",
+            "path": "View=Light / .Details / Color cell / color",
+            "visible": true,
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#CF70FF"
+              }
+            ]
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "Border dark",
+            "path": "View=Light / .Details / Color cell / Border dark",
+            "visible": true,
+            "radius": 8,
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.07000000029802322,
+                "tokenKey": null,
+                "colorHex": "#000000"
+              }
+            ]
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "Border light",
+            "path": "View=Light / .Details / Color cell / Border light",
+            "visible": false,
+            "radius": 8,
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.15000000596046448,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 6,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Text content",
+            "path": "View=Light / Text content",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 4
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "TEXT",
+            "name": "_name",
+            "path": "View=Light / Text content / _name",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#000000"
+              }
+            ],
+            "text": {
+              "characters": "Theme / mode / point / style-sheme",
+              "fontName": "SF Pro Text Medium",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": 0.5,
+              "paragraphSpacing": 12
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 6,
+            "type": "TEXT",
+            "name": "_caption",
+            "path": "View=Light / Text content / _caption",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#6D7986"
+              }
+            ],
+            "text": {
+              "characters": "Caption",
+              "fontName": "SF Pro Text Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.5,
+              "paragraphSpacing": 8
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": ".Details / Usage",
+            "path": "View=Light / Text content / .Details / Usage",
+            "visible": true,
+            "variantProperties": {
+              "View": "Text"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Text"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "_caption",
+            "path": "View=Light / Text content / .Details / Usage / _caption",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#6D7986"
+              }
+            ],
+            "text": {
+              "characters": "Usage",
+              "fontName": "SF Pro Text Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.5,
+              "paragraphSpacing": 8
+            }
+          }
+        ],
+        "variantStructures": {
+          "e15efd64543a814066ce0fb5cfebd8764485692b": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Dark",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#0B1F35"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "visible": false
+              }
+            },
+            {
+              "op": "update",
+              "id": 5,
+              "value": {
+                "visible": true
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#B6BCC3"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#B6BCC3"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "c193691c15ce5b251e17601953dca0d6abd4f0a1",
+            "when": {
+              "View": "Light"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "e15efd64543a814066ce0fb5cfebd8764485692b",
+            "when": {
+              "View": "Dark"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Light",
+                "nodePath": "View=Light",
+                "affects": [
+                  "fills"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Border dark",
+                "nodePath": "View=Light / .Details / Color cell / Border dark",
+                "affects": [
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 5,
+                "nodeName": "Border light",
+                "nodePath": "View=Light / .Details / Color cell / Border light",
+                "affects": [
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "_name",
+                "nodePath": "View=Light / Text content / _name",
+                "affects": [
+                  "fills"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "_caption",
+                "nodePath": "View=Light / Text content / _caption",
+                "affects": [
+                  "fills"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "_caption",
+                "nodePath": "View=Light / Text content / .Details / Usage / _caption",
+                "affects": [
+                  "fills"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "details-usage.universal",
+      "name": ".Details / Usage",
+      "normalizedName": "details-usage",
+      "componentKey": "138fd2cbd63bf09643f488a318b950decc699936",
+      "source": {
+        "library": "Web :: Core Helpers",
+        "file": "Web :: Core Helpers",
+        "generatedAt": "2026-04-29T11:41:53.151Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "3693d21d6fc62ff4f731c4467a580d2a82b6e29c",
+        "variants": {
+          "properties": {
+            "View": [
+              "Bg",
+              "Font",
+              "Text"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Text"
+            },
+            {
+              "View": "Bg"
+            },
+            {
+              "View": "Font"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "3693d21d6fc62ff4f731c4467a580d2a82b6e29c",
+              "id": "325:460",
+              "name": "View=Text",
+              "properties": {
+                "View": "Text"
+              }
+            },
+            {
+              "key": "03b9576bdac83d1594c6e04ac3b2cedace7b68a9",
+              "id": "325:462",
+              "name": "View=Bg",
+              "properties": {
+                "View": "Bg"
+              }
+            },
+            {
+              "key": "4adca3f3ada9d8a4fef7172ed014bad4f6e3c2a3",
+              "id": "325:473",
+              "name": "View=Font",
+              "properties": {
+                "View": "Font"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Text",
+            "type": "COMPONENT",
+            "path": "View=Text",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_caption",
+            "type": "TEXT",
+            "path": "View=Text / _caption",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Text",
+            "path": "View=Text",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "_caption",
+            "path": "View=Text / _caption",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#6D7986"
+              }
+            ],
+            "text": {
+              "characters": "Usage",
+              "fontName": "SF Pro Text Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.5,
+              "paragraphSpacing": 8
+            }
+          }
+        ],
+        "variantStructures": {
+          "03b9576bdac83d1594c6e04ac3b2cedace7b68a9": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Bg",
+                "layout": {
+                  "itemSpacing": 4
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ],
+          "4adca3f3ada9d8a4fef7172ed014bad4f6e3c2a3": [
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "3693d21d6fc62ff4f731c4467a580d2a82b6e29c",
+            "when": {
+              "View": "Text"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "03b9576bdac83d1594c6e04ac3b2cedace7b68a9",
+            "when": {
+              "View": "Bg"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Text",
+                "nodePath": "View=Text",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 1",
+                "nodePath": "View=Bg / Ellipse 1",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 2",
+                "nodePath": "View=Bg / Ellipse 2",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 3",
+                "nodePath": "View=Bg / Ellipse 3",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 4",
+                "nodePath": "View=Bg / Ellipse 4",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 5",
+                "nodePath": "View=Bg / Ellipse 5",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 6",
+                "nodePath": "View=Bg / Ellipse 6",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 7",
+                "nodePath": "View=Bg / Ellipse 7",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 8",
+                "nodePath": "View=Bg / Ellipse 8",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 9",
+                "nodePath": "View=Bg / Ellipse 9",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 10",
+                "nodePath": "View=Bg / Ellipse 10",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "_caption",
+                "nodePath": "View=Text / _caption",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4adca3f3ada9d8a4fef7172ed014bad4f6e3c2a3",
+            "when": {
+              "View": "Font"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Text",
+                "nodePath": "View=Text",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "а",
+                "nodePath": "View=Font / а",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "_caption",
+                "nodePath": "View=Text / _caption",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token"
+        ]
+      }
+    }
+  ]
+}

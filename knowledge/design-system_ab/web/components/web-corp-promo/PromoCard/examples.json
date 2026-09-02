@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web.promo-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "promo-card.desktop-standard",
+        "title": "Стандартная PromoCard на desktop",
+        "inputState": {
+          "root": "[D] PromoCard",
+          "viewportWidth": 1440,
+          "Size": "Medium",
+          "Image": "Top",
+          "ImageCrop": false,
+          "verticalResizing": "Hug",
+          "Stopper.verticalResizing": "Fill"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.mobile-standard",
+        "title": "Стандартная PromoCard на mobile-web",
+        "inputState": {
+          "root": "[M] PromoCard",
+          "viewportWidth": 375,
+          "Size": "Small",
+          "Image": "Top"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-internal-root",
+        "title": "Служебный ContentWrapper используется отдельно",
+        "inputState": {
+          "root": "[D] ContentWrapper"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card.public-roots-only"
+        }
+      },
+      {
+        "exampleId": "promo-card.bento-without-image",
+        "title": "PromoCard без изображения внутри бенто",
+        "inputState": {
+          "parentComposition": "bento",
+          "Image": "None (Figma only)",
+          "ImageCrop": false,
+          "Offset": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-image-none-outside-bento",
+        "title": "PromoCard без изображения вне бенто",
+        "inputState": {
+          "parentComposition": "standalone",
+          "Image": "None (Figma only)"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-image-none-bento-only"
+        }
+      },
+      {
+        "exampleId": "promo-card.top-offset-crop",
+        "title": "Верхнее изображение использует Offset и Crop",
+        "inputState": {
+          "Image": "Top",
+          "ImageCrop": true,
+          "Offset": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-bottom-offset",
+        "title": "Offset включён для нижнего изображения",
+        "inputState": {
+          "Image": "Bottom",
+          "Offset": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-offset-top-only"
+        }
+      },
+      {
+        "exampleId": "promo-card.image-view-segment",
+        "title": "У ImageView изменён разрешённый Segment",
+        "inputState": {
+          "ImageView.Segment": "SB"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-image-view-crop",
+        "title": "Crop изменён внутри ImageView",
+        "inputState": {
+          "changedProperty": "ImageView.Crop"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-image-view-overrides"
+        }
+      },
+      {
+        "exampleId": "promo-card.bottom-content-local-instance",
+        "title": "BottomContent заменён на локальный component instance",
+        "inputState": {
+          "BottomContent.Presets": "custom-instance",
+          "nestedInstances": 1,
+          "detached": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-bottom-swapme",
+        "title": "В готовом макете оставлен SwapMe",
+        "inputState": {
+          "BottomContent.Presets": "SwapMe"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-bottom-content-single-instance"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-bottom-detach",
+        "title": "Вложенный компонент BottomContent детачен",
+        "inputState": {
+          "BottomContent.detached": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-bottom-content-follows-own-contract"
+        }
+      },
+      {
+        "exampleId": "promo-card.single-primary-button",
+        "title": "Одна Primary кнопка",
+        "inputState": {
+          "platform": "desktop",
+          "buttons": [
+            {
+              "View": "Primary",
+              "Size": 48
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.two-buttons",
+        "title": "Две кнопки с разными действиями",
+        "inputState": {
+          "entireCardClickable": false,
+          "buttons": [
+            {
+              "View": "Primary",
+              "action": "open-offer"
+            },
+            {
+              "View": "Secondary",
+              "action": "show-terms"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-clickable-two-buttons",
+        "title": "Кликабельная карточка содержит две кнопки",
+        "inputState": {
+          "entireCardClickable": true,
+          "buttonCount": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-two-buttons-disable-card-click"
+        }
+      },
+      {
+        "exampleId": "promo-card.inline-explanation-link",
+        "title": "Текстовая ссылка открывает пояснение",
+        "inputState": {
+          "entireCardAction": "open-offer",
+          "inlineTextLink.action": "open-tooltip"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.colored-fade",
+        "title": "Fade использует токен цветной поверхности",
+        "inputState": {
+          "Image": "Top",
+          "BackgroundPlate.Type": "Colored",
+          "BackgroundPlate.fillToken": "promo/green",
+          "fade.colorToken": "promo/green"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-colored-fade",
+        "title": "Fade не совпадает с цветной поверхностью",
+        "inputState": {
+          "Image": "Top",
+          "BackgroundPlate.Type": "Colored",
+          "BackgroundPlate.fillToken": "promo/green",
+          "fade.colorToken": "promo/blue"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-top-fade-matches-surface"
+        }
+      },
+      {
+        "exampleId": "promo-card.full-skeleton",
+        "title": "Skeleton скрывает всю карточку",
+        "inputState": {
+          "BackgroundPlate.Skeleton": true,
+          "contentVisible": false,
+          "interactionEnabled": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-card.secondary-surface",
+        "title": "Использован нерекомендованный Secondary",
+        "inputState": {
+          "BackgroundPlate.Type": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web.promo-card-secondary-surface-not-recommended"
+        }
+      },
+      {
+        "exampleId": "promo-card.invalid-manual-radius",
+        "title": "Скругление изменено вручную",
+        "inputState": {
+          "changedProperty": "radius"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.promo-card-visuals-follow-effective-baseline"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web.benefit-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "benefit-card.desktop-standard",
+        "title": "Стандартная карточка преимущества на desktop",
+        "inputState": {
+          "root": "[D] BenefitCard",
+          "viewportWidth": 1440,
+          "Compact": false,
+          "Graphic.Presets": "Image",
+          "graphicSource": "Corp :: Image Library",
+          "verticalResizing": "Hug",
+          "Stopper.verticalResizing": "Fill"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.compact-at-1024",
+        "title": "Компактная карточка на ширине 1024 px",
+        "inputState": {
+          "root": "[D] BenefitCard",
+          "viewportWidth": 1024,
+          "Compact": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-non-compact-at-1024",
+        "title": "Не включён Compact на ширине 1024 px",
+        "inputState": {
+          "root": "[D] BenefitCard",
+          "viewportWidth": 1024,
+          "Compact": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.compact-required-at-1024"
+        }
+      },
+      {
+        "exampleId": "benefit-card.equal-height-group",
+        "title": "Карточки выровнены по высоте в группе",
+        "inputState": {
+          "cards": 3,
+          "verticalResizing": "Fill",
+          "equalHeight": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-standalone-graphic",
+        "title": "Graphic используется отдельно",
+        "inputState": {
+          "root": "[D] Graphic"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.public-roots-only"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-icon-library",
+        "title": "В Graphic.Presets=Icon использована иконка не из glyph-26",
+        "inputState": {
+          "Graphic.Presets": "Icon",
+          "iconLibrary": "custom"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.icon-uses-glyph-26"
+        }
+      },
+      {
+        "exampleId": "benefit-card.background-plate-type",
+        "title": "Type вложенного Promo BackgroundPlate изменён штатным параметром",
+        "inputState": {
+          "nestedComponent": "[D][Promo] BackgroundPlate",
+          "changedProperty": "variant.Type",
+          "followsNestedContract": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.shared-surface",
+        "title": "Несколько карточек размещены на общей подложке",
+        "inputState": {
+          "cards": 3,
+          "Background": false,
+          "sharedSurface": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.centered-one-line-content",
+        "title": "Однострочные Title и Subtitle выровнены по центру",
+        "inputState": {
+          "Title.lines": 1,
+          "Subtitle.lines": 1,
+          "contentAlignment": "center"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-centered-wrapped-content",
+        "title": "Многострочный контент ошибочно выровнен по центру",
+        "inputState": {
+          "Title.lines": 2,
+          "Subtitle.lines": 2,
+          "contentAlignment": "center"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.content-alignment-follows-lines"
+        }
+      },
+      {
+        "exampleId": "benefit-card-colored-surface",
+        "title": "Изменён цвет заливки Colored Promo BackgroundPlate",
+        "inputState": {
+          "nestedComponent": "[D][Promo] BackgroundPlate",
+          "Type": "Colored",
+          "changedProperty": "fill",
+          "followsNestedContract": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card-clickable-with-link",
+        "title": "Кликабельная карточка содержит дополнительную ссылку",
+        "inputState": {
+          "entireCardClickable": true,
+          "BottomContent.Presets": "Link"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.compact-secondary-title",
+        "title": "Compact использует уменьшенную типографику заголовка",
+        "inputState": {
+          "Compact": true,
+          "ContentWrapper.Title": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-compact-primary-title",
+        "title": "Compact использует Title=Primary",
+        "inputState": {
+          "Compact": true,
+          "ContentWrapper.Title": "Primary"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.compact-uses-secondary-title"
+        }
+      },
+      {
+        "exampleId": "benefit-card.image-view-segment",
+        "title": "У ImageView изменён разрешённый Segment",
+        "inputState": {
+          "Graphic.Presets": "Image",
+          "ImageView.Segment": "custom-library-segment"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-image-view-size",
+        "title": "У ImageView вручную изменён Size",
+        "inputState": {
+          "Graphic.Presets": "Image",
+          "changedProperty": "ImageView.Size"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card-image-view-segment-only"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-bottom-placeholder",
+        "title": "В готовом макете оставлен BottomContent=SwapMe",
+        "inputState": {
+          "BottomContent.Presets": "SwapMe"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card-bottom-content-link-only"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-raw-surface-color",
+        "title": "Для Colored BackgroundPlate задан нетокенизированный цвет",
+        "inputState": {
+          "nestedComponent": "[D][Promo] BackgroundPlate",
+          "Type": "Colored",
+          "fill": "raw-color"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card.background-plate-colors-use-tokens"
+        }
+      },
+      {
+        "exampleId": "benefit-card.mobile-compact",
+        "title": "Mobile BenefitCard использует Compact",
+        "inputState": {
+          "root": "[M] BenefitCard",
+          "Compact": true,
+          "ContentWrapper.Title": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.mobile-non-compact",
+        "title": "Mobile BenefitCard использует Compact=False",
+        "inputState": {
+          "root": "[M] BenefitCard",
+          "Compact": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.full-skeleton",
+        "title": "Skeleton включён для всей карточки",
+        "inputState": {
+          "nestedComponent": "[D][Promo] BackgroundPlate",
+          "Background": true,
+          "Skeleton": true,
+          "scope": "entire-card",
+          "contentVisible": false,
+          "interactionEnabled": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.group-in-benefits",
+        "title": "Группа карточек собрана через пресет Benefits",
+        "inputState": {
+          "container": "🔒 Benefits",
+          "cards": 3
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.background-false-without-surface",
+        "title": "Карточка без собственной и внешней подложки",
+        "inputState": {
+          "Background": false,
+          "sharedSurface": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.secondary-surface",
+        "title": "Для поверхности выбран нерекомендованный Secondary",
+        "inputState": {
+          "Background": true,
+          "BackgroundPlate.Type": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web.benefit-card-secondary-surface-not-recommended"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-different-actions",
+        "title": "Карточка и ссылка ведут в разные сценарии",
+        "inputState": {
+          "entireCardAction": "open-details",
+          "BottomContent.Link.action": "open-application"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card-card-and-link-actions-match"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-link-style",
+        "title": "У BottomContent.Link изменён визуальный параметр",
+        "inputState": {
+          "changedProperty": "BottomContent.Link.View"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card-bottom-link-text-only"
+        }
+      },
+      {
+        "exampleId": "benefit-card.invalid-skeleton-without-background",
+        "title": "Skeleton включён при Background=False",
+        "inputState": {
+          "Background": false,
+          "Skeleton": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefit-card-skeleton-covers-entire-card"
+        }
+      },
+      {
+        "exampleId": "benefit-card.non-compact-secondary-title",
+        "title": "Не компактная карточка использует Title=Secondary",
+        "inputState": {
+          "Compact": false,
+          "ContentWrapper.Title": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "benefit-card.centered-title-without-subtitle",
+        "title": "Однострочный Title без Subtitle выровнен по центру",
+        "inputState": {
+          "Title.lines": 1,
+          "Subtitle.visible": false,
+          "contentAlignment": "center"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      }
+    ]
+  }
+}

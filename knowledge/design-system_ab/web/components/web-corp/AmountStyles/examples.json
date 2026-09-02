@@ -1,0 +1,399 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.amount-styles",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "amount-paragraph-operation-sign-fill",
+        "title": "Manual fill change on operation sign",
+        "inputDiff": {
+          "component": "[D] BodyCell :: Basic",
+          "nodePath": "Presets=Text, Skeleton=False / Content / Text / Operation / Minus",
+          "property": "fill",
+          "referenceValue": "text/primary",
+          "actualValue": "text/positive"
+        },
+        "expectedInterpretation": "The exact reset target is the Minus leaf layer. The recommendation should describe it as a manual color customization of the amount operation sign inside AmountParagraph / Operation."
+      },
+      {
+        "exampleId": "amount-paragraph-style-and-fill",
+        "title": "Style variant plus manual leaf fill",
+        "inputDiffs": [
+          {
+            "nodePath": "Style=Paragraph 14/20",
+            "property": "variant.Style",
+            "referenceValue": "Paragraph 14/20",
+            "actualValue": "Action 16/20"
+          },
+          {
+            "nodePath": "Style=Action 16/20 / Operation / Minus",
+            "property": "fill",
+            "referenceValue": "text/primary",
+            "actualValue": "text/positive"
+          }
+        ],
+        "expectedInterpretation": "Покажи отдельно штатное изменение component property Style и ручной fill override слоя Minus. Сравнивай fill с effective baseline текущего Style."
+      },
+      {
+        "exampleId": "amount-style-property-is-allowed",
+        "title": "Штатный выбор Style для всего Amount",
+        "inputDiff": {
+          "component": "🔒 AmountParagraph",
+          "property": "variant.Style",
+          "referenceValue": "Paragraph 14/20",
+          "actualValue": "Action 16/20"
+        },
+        "expectedAudit": {
+          "classification": "component-property",
+          "violation": false
+        },
+        "expectedAgent": "Объяснить, что Style является штатной настройкой Figma-only preset и сам по себе не нарушает правило.",
+        "mustNotSay": "Не утверждать, что любой выбор Style запрещён."
+      },
+      {
+        "exampleId": "amount-leaf-text-style-is-forbidden",
+        "title": "Ручное изменение text style отдельной части Amount",
+        "inputDiff": {
+          "component": "🔒 AmountParagraph",
+          "nodePath": "Amount / Minor / Minor",
+          "property": "styles.text",
+          "referenceValue": "Paragraph/16–20 Component Primary",
+          "actualValue": "Accent/14–20 Primary Small"
+        },
+        "expectedAudit": {
+          "classification": "layer-property",
+          "ruleId": "component:web-corp.amount-styles.manual-text-style-is-layer-property",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать сбросить ручной text style слоя Minor и выбрать требуемую типографику через Style всего Amount.",
+        "mustNotSay": "Не разрешать изменение на основании того, что остальные части можно вручную привести к тому же стилю."
+      },
+      {
+        "exampleId": "amount-positive-color-in-table",
+        "title": "Положительная операция в таблице",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "container": "table",
+          "operation": "positive",
+          "token": "text/positive",
+          "sameTokenForAllParts": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить допустимость text/positive для пополнения в таблице.",
+        "mustNotSay": "Не запрещать text/positive во всех контекстах без проверки контейнера."
+      },
+      {
+        "exampleId": "amount-positive-color-outside-table",
+        "title": "Положительная операция вне таблицы",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "container": "card",
+          "operation": "positive",
+          "token": "text/positive"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.positive-color-context",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать убрать text/positive и выбрать токен, разрешённый точным правилом текущего контекста.",
+        "mustNotSay": "Не объяснять нарушение общим запретом зелёного цвета для Amount."
+      },
+      {
+        "exampleId": "amount-contextual-color-token",
+        "title": "Контекстный цвет всей суммы",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "token": "context-specific-token",
+          "sameTokenForAllParts": true,
+          "appliedManuallyToAllTextParts": true,
+          "exactContextRuleAllowsToken": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить ручную перекраску всего Amount, если точное правило разрешает токен и все части используют один цвет.",
+        "mustNotSay": "Не требовать text/primary для любого Amount вне таблицы."
+      },
+      {
+        "exampleId": "amount-currency-duplicated-after-column-header",
+        "title": "Валюта продублирована в одновалютной колонке",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "container": "table",
+          "currencyInColumnHeader": true,
+          "singleCurrencyColumn": true,
+          "currencyVisibleInValue": true
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.table-currency-not-duplicated",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать обязательно скрыть Currency в значениях одновалютной колонки.",
+        "mustNotSay": "Не описывать скрытие Currency как необязательную рекомендацию."
+      },
+      {
+        "exampleId": "amount-steps-non-regular",
+        "title": "Другой штатный Style в steps",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "container": "steps",
+          "style": "Medium"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.steps-use-regular",
+          "severity": "warning"
+        },
+        "expectedAgent": "Рекомендовать Regular, не объявляя другой штатный Style безусловным нарушением.",
+        "mustNotSay": "Не повышать рекомендацию до error."
+      },
+      {
+        "exampleId": "amount-side-panel-format-mismatch",
+        "title": "Формат в сайд-панели отличается от исходной страницы",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "container": "side-panel",
+          "sourceValue": "+1 234,00 ₽",
+          "sidePanelValue": "1 234,00 ₽"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.side-panel-matches-source",
+          "severity": "error"
+        },
+        "expectedAgent": "Потребовать восстановить знак, формат и цвет исходной суммы.",
+        "mustNotSay": "Не описывать совпадение с исходной страницей как необязательную рекомендацию."
+      },
+      {
+        "exampleId": "amount-custom-currency",
+        "title": "Отсутствующая валюта через Type=Custom",
+        "inputContext": {
+          "component": "Currency",
+          "type": "Custom",
+          "value": "AED",
+          "typeExistsInComponent": false
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить Type=Custom, если нужного кода или символа нет среди штатных Type.",
+        "mustNotSay": "Не запрещать Custom и не требовать заменить отсутствующую валюту на ₽."
+      },
+      {
+        "exampleId": "amount-layout-override",
+        "title": "Ручное изменение item spacing",
+        "inputDiff": {
+          "component": "🔒 AmountParagraph",
+          "property": "layout.itemSpacing",
+          "referenceValue": 0,
+          "actualValue": 4
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.geometry-follows-effective-baseline",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать вернуть item spacing к effective baseline текущего Style.",
+        "mustNotSay": "Не разрешать spacing как контекстную настройку Amount."
+      },
+      {
+        "exampleId": "amount-wrap-is-forbidden",
+        "title": "Перенос частей суммы",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "wrap": true,
+          "renderedLines": 2
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.amount-stays-on-one-line",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать вернуть отображение Amount в одну строку.",
+        "mustNotSay": "Не предписывать перенос, ellipsis, fade или ручное сокращение значения: при недостатке ширины Amount клипуется контейнером."
+      },
+      {
+        "exampleId": "amount-clickable-by-context",
+        "title": "Кликабельная сумма",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "clickable": true,
+          "action": "open-details"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не считать кликабельность Amount нарушением без отдельного контекстного конфликта.",
+        "mustNotSay": "Не утверждать, что Amount всегда является только статическим текстом."
+      },
+      {
+        "exampleId": "amount-interactive-addon-same-action",
+        "title": "Интерактивный Addon в кликабельном Amount",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "amountAction": "open-details",
+          "addon": "StatusBadge",
+          "addonAction": "open-details"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить композицию, поскольку действия Amount и Addon совпадают.",
+        "mustNotSay": "Не запрещать интерактивный Addon внутри кликабельного Amount."
+      },
+      {
+        "exampleId": "amount-addon-exceeds-line-height",
+        "title": "Addon выше текстовой строки",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "textLineHeight": 20,
+          "addon": "IconView",
+          "addonHeight": 24
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.addon-does-not-exceed-text-line-height",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать выбрать штатный размер IconView, не превышающий line-height текстовой части Amount.",
+        "mustNotSay": "Не разрешать Addon большего размера только потому, что он является компонентом дизайн-системы."
+      },
+      {
+        "exampleId": "amount-input-uses-core-amount",
+        "title": "Amount внутри AmountInput",
+        "inputContext": {
+          "host": "AmountInput",
+          "embeddedComponent": "Web Core / Amount"
+        },
+        "expectedAudit": {
+          "usesCorpAmountStylesContract": false
+        },
+        "expectedAgent": "Не применять к Web Core Amount внутри AmountInput правила Figma-only presets Web Corp AmountStyles.",
+        "mustNotSay": "Не называть вложенный Core Amount компонентом AmountParagraph или AmountHeadline."
+      },
+      {
+        "exampleId": "amount-clickable-manual-underline",
+        "title": "Ручное подчёркивание кликабельной суммы",
+        "inputContext": {
+          "component": "🔒 AmountParagraph",
+          "clickable": true,
+          "manualTextDecoration": "underline"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.manual-interactive-decoration-is-forbidden",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать убрать ручное подчёркивание и сохранить effective baseline Amount.",
+        "mustNotSay": "Не придумывать hover-состояние до появления отдельного правила."
+      },
+      {
+        "exampleId": "amount-unknown-value",
+        "title": "Неизвестное значение",
+        "inputContext": {
+          "value": "unknown",
+          "renderedAs": "Amount"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.unknown-value-uses-separate-placeholder",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать убрать Amount и вывести отдельным текстовым элементом длинное тире —.",
+        "mustNotSay": "Не предлагать записывать тире в Major или Currency самого Amount."
+      },
+      {
+        "exampleId": "amount-zero-with-minor",
+        "title": "Нулевое значение с Minor",
+        "inputContext": {
+          "major": "0",
+          "minor": "00"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить формат 0,00.",
+        "mustNotSay": "Не требовать скрыть Minor для нулевого значения."
+      },
+      {
+        "exampleId": "amount-rounds-third-fraction-digit",
+        "title": "Округление дробной части",
+        "inputContext": {
+          "sourceValue": "10,126",
+          "renderedValue": "10,13"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить округление исходного значения до двух знаков.",
+        "mustNotSay": "Не предлагать обрезать третий знак без округления."
+      },
+      {
+        "exampleId": "amount-parts-reordered",
+        "title": "Изменён порядок частей Amount",
+        "inputContext": {
+          "renderedOrder": [
+            "Major",
+            "Operation",
+            "Minor",
+            "Currency"
+          ]
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.fixed-part-order",
+          "severity": "error"
+        },
+        "expectedAgent": "Потребовать восстановить порядок Operation, Major, Minor, Currency, Addon.",
+        "mustNotSay": "Не разрешать перестановку частей как композиционную настройку."
+      },
+      {
+        "exampleId": "amount-addon-keeps-own-color",
+        "title": "Addon использует собственный контекстный цвет",
+        "inputContext": {
+          "amountTextToken": "text/primary",
+          "addon": "StatusBadge",
+          "addonToken": "status/context-token"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не требовать перекрашивать StatusBadge в цвет текста Amount.",
+        "mustNotSay": "Не включать Addon в правило единого цвета Operation, Major, Minor и Currency."
+      },
+      {
+        "exampleId": "amount-major-too-long",
+        "title": "Major превышает 13 символов",
+        "inputContext": {
+          "majorCharactersExcludingGroupSeparators": 14
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.amount-styles.major-max-13-digits",
+          "severity": "error"
+        },
+        "expectedAgent": "Сообщить о превышении лимита Major в 13 символов без учёта разделителей разрядов.",
+        "mustNotSay": "Не учитывать математические пробелы как символы лимита."
+      }
+    ]
+  }
+}

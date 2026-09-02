@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web.benefit-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "BenefitCard",
+      "library": "Web _ Сorp Promo Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / GraphicContainer / [D] Graphic",
+        "componentName": "[D] Graphic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Image"
+        }
+      },
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / GraphicContainer / [D] Graphic / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Graphic",
+        "path": "Presets=Image / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / GraphicContainer / [M] Graphic",
+        "componentName": "[M] Graphic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Image"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / GraphicContainer / [M] Graphic / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M] BenefitCard",
+        "path": "GraphicPosition=Left, CardAxis=Vertical, Background=True, Compact=False / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Graphic",
+        "path": "Presets=Image / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "80"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "[D] BenefitCard",
+        "[M] BenefitCard"
+      ],
+      "internalComponents": [
+        "[D] BottomContent",
+        "[D] ContentWrapper",
+        "[D] Graphic",
+        "[M] BottomContent",
+        "[M] ContentWrapper",
+        "[M] Graphic"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-benefit-card-effective-baseline"
+    },
+    "compositionPolicy": {
+      "platforms": {
+        "[D] BenefitCard": "desktop at viewport width 768 px or greater",
+        "[M] BenefitCard": "mobile-web below 768 px"
+      },
+      "requiredContent": [
+        "Title",
+        "Graphic"
+      ],
+      "optionalContent": [
+        "Subtitle",
+        "BottomContent.Link"
+      ],
+      "arbitraryContentAllowed": false,
+      "contentLimits": {
+        "Title": {
+          "maximumCharacters": 60,
+          "maximumLines": 2,
+          "severity": "error"
+        },
+        "Subtitle": {
+          "maximumCharacters": 120,
+          "maximumLines": 3,
+          "severity": "error"
+        },
+        "BottomContent.Link": {
+          "maximumCharacters": 32,
+          "maximumLines": 1,
+          "severity": "error"
+        }
+      },
+      "layoutVariants": {
+        "CardAxis": [
+          "Horizontal",
+          "Vertical"
+        ],
+        "GraphicPosition": [
+          "Left",
+          "Right"
+        ],
+        "selectionPolicy": "all catalog combinations are allowed and selected according to context"
+      },
+      "contentAlignment": {
+        "oneLineTitleAndSubtitle": "center",
+        "oneLineTitleWithoutSubtitle": "center",
+        "wrappedTitleOrSubtitle": "top",
+        "designerMaySetAlignment": true,
+        "selectionRuleRequired": true
+      },
+      "graphic": {
+        "allowedPresets": [
+          "Image",
+          "Icon",
+          "IconView"
+        ],
+        "selectionPolicy": "according to content context",
+        "sourceLibrary": "Corp :: Image Library",
+        "sourceLibraryRequired": true,
+        "iconPresetLibrary": "glyph-26",
+        "iconPresetLibraryRequired": true,
+        "Icon": {
+          "glyphMayChange": true,
+          "glyphLibrary": "glyph-26",
+          "fixedByEffectiveBaseline": [
+            "Size",
+            "color",
+            "all other visual properties"
+          ]
+        },
+        "imageReplacementTarget": "ImageView",
+        "ImageView": {
+          "allowedOverrides": [
+            "Segment"
+          ],
+          "fixedByEffectiveBaseline": [
+            "Crop",
+            "Size",
+            "all other properties"
+          ]
+        },
+        "IconView": {
+          "allowedOverrides": "all public IconView component properties",
+          "configurationPolicy": "follow the IconView component contract"
+        }
+      },
+      "compact": {
+        "requiredForRoot": "[D] BenefitCard",
+        "requiredAtOrBelowViewportPx": 1024,
+        "mobileRootMayUseEitherValue": true,
+        "severity": "error",
+        "requiredTitleTypography": "Secondary",
+        "secondaryTitleAllowedWhenNotCompact": true,
+        "recommendedContexts": [
+          "content does not fit the standard format",
+          "benefits block after the main banner"
+        ]
+      },
+      "sizing": {
+        "outerWidth": "contextual",
+        "outerHeight": "contextual",
+        "standaloneVerticalResizing": "Hug",
+        "equalHeightGroupVerticalResizing": "Fill",
+        "stopperDefaultVerticalResizing": "Fill",
+        "stopperFixedAllowedWhen": "content must remain visually integral"
+      },
+      "surface": {
+        "component": "[Promo] BackgroundPlate",
+        "BackgroundTrueMeaning": "standalone card with its own surface",
+        "BackgroundFalseMeaning": "BenefitCard is composed with other BenefitCard instances on a shared surface",
+        "BackgroundFalseWithoutSurfaceAllowed": true,
+        "typeMayChange": true,
+        "configurationPolicy": "follow the nested [Promo] BackgroundPlate component contract",
+        "allowedStyleOverrides": {
+          "Colored": [
+            "tokenized fill color"
+          ],
+          "Border": [
+            "tokenized stroke color"
+          ]
+        },
+        "colorTokenRequired": true,
+        "currentPaletteRestrictions": "none",
+        "plannedPaletteSegmentation": [
+          "MMB",
+          "SB",
+          "CIB"
+        ]
+      },
+      "bottomContent": {
+        "allowedPresets": [
+          "Link"
+        ],
+        "placeholderPresets": [
+          "SwapMe"
+        ],
+        "placeholderAllowedInFinishedDesign": false,
+        "allowedOverrides": [
+          "text"
+        ],
+        "otherLinkProperties": "effective baseline"
+      },
+      "loading": {
+        "supported": true,
+        "control": "Skeleton on nested [Promo] BackgroundPlate",
+        "scope": "entire BenefitCard",
+        "partialSkeletonAllowed": false,
+        "contentVisibility": "hidden",
+        "interaction": "blocked",
+        "requiresBackground": true,
+        "availableWhenBackgroundFalse": false
+      },
+      "grouping": {
+        "preferredContainer": "🔒 Benefits",
+        "manualGroupingAllowed": true,
+        "manualGroupingSeverity": "warning"
+      },
+      "interaction": {
+        "entireCardMayBeClickable": true,
+        "bottomLinkMayBeClickable": true,
+        "entireCardAndBottomLinkMayCoexist": true,
+        "coexistingActionsMustMatch": true
+      },
+    "visualBaseline": {
+      "scope": "root-and-all-internal-layers",
+      "manualChangesAllowed": false,
+        "properties": [
+          "padding",
+          "gap",
+          "radius",
+          "fill",
+          "stroke",
+          "typography",
+          "opacity",
+          "effects"
+        ],
+        "exceptions": [
+          "nested [Promo] BackgroundPlate.Type",
+          "nested Colored [Promo] BackgroundPlate fill color",
+          "nested Border [Promo] BackgroundPlate stroke color",
+          "outer width and height",
+          "content alignment according to contentAlignment policy",
+          "BenefitCard and Stopper vertical resizing according to sizing policy"
+        ],
+      "baseline": "effective baseline by BenefitCard variant and nested owner"
+    },
+      "instanceSwapAllowed": false
+    }
+  }
+}

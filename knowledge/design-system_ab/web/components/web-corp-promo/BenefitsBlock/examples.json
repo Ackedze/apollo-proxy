@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web.benefits-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "benefits-block.desktop-standard",
+        "title": "Один промо-баннер на широком desktop",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "viewport": 1280,
+          "Compact": "False",
+          "Background": "True",
+          "HeightCustom": "False"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать root и стандартный desktop-режим допустимыми при отсутствии переполнения."
+      },
+      {
+        "exampleId": "benefits-block.desktop-compact-1024",
+        "title": "Компактный баннер на viewport 1024",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "viewport": 1024,
+          "Compact": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Подтвердить Compact=True как обязательный режим для viewport 1024 px."
+      },
+      {
+        "exampleId": "benefits-block.desktop-wrong-compact",
+        "title": "Стандартный режим на узком desktop",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "viewport": 900,
+          "Compact": "False"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.desktop-compact-required"
+        },
+        "expectedAgent": "Потребовать Compact=True."
+      },
+      {
+        "exampleId": "benefits-block.responsive-image-independent",
+        "title": "Независимая позиция изображения",
+        "inputState": {
+          "desktop": {
+            "Image": "Right"
+          },
+          "mobileWeb": {
+            "Image": "Top"
+          }
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Не требовать D Right → M Bottom: позиции выбираются независимо."
+      },
+      {
+        "exampleId": "benefits-block.height-custom-overlap",
+        "title": "Custom height приводит к перекрытию контента",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "HeightCustom": "True",
+          "contentImageOverlap": true
+        },
+        "expectedAudit": {
+          "category": "layer-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.height-custom-controls-background-height"
+        },
+        "expectedAgent": "Потребовать высоту BackgroundPlate без перекрытия контента изображением."
+      },
+      {
+        "exampleId": "benefits-block.steps-instruction",
+        "title": "Промо-блок с инструкцией из четырёх шагов",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "ContentPresets": "Steps",
+          "stepCount": 4,
+          "content": "Подключение продукта за четыре шага"
+        },
+        "expectedAudit": {
+          "category": "component-composition",
+          "severity": "warning",
+          "ruleId": "component:web.benefits-block.steps-count-recommendation"
+        },
+        "expectedAgent": "Считать Steps корректным типом, но предупредить, что рекомендуется сократить инструкцию до 3 шагов."
+      },
+      {
+        "exampleId": "benefits-block.missing-image",
+        "title": "Промо-блок без изображения",
+        "inputState": {
+          "root": "[M] BenefitsBlock",
+          "Title": true,
+          "Image": false
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.title-and-image-are-required"
+        },
+        "expectedAgent": "Потребовать обязательное изображение."
+      },
+      {
+        "exampleId": "benefits-block.background-border",
+        "title": "Недопустимая собственная Border-поверхность",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "Background": "True",
+          "surfaceType": "Border"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.allowed-background-types"
+        },
+        "expectedAgent": "Потребовать Primary или Colored."
+      },
+      {
+        "exampleId": "benefits-block.responsive-action-mismatch",
+        "title": "На mobile исчезло второе действие",
+        "inputState": {
+          "desktopActions": [
+            "Primary",
+            "Secondary"
+          ],
+          "mobileActions": [
+            "Primary"
+          ]
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.responsive-content-parity"
+        },
+        "expectedAgent": "Потребовать одинаковые количество и порядок действий между D/M."
+      },
+      {
+        "exampleId": "benefits-block.image-owner-override",
+        "title": "ImageView использует целевой Size 348",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "ImageView": {
+            "Crop": "Center",
+            "Size": "348",
+            "Segment": "KIB"
+          },
+          "rawBaselineSize": "534"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Применить owner-confirmed Size=348 и не считать raw baseline 534 приоритетнее."
+      },
+      {
+        "exampleId": "benefits-block.visible-right-addon",
+        "title": "В BenefitsBlock показан RightAddon",
+        "inputState": {
+          "root": "[M] BenefitsBlock",
+          "RightAddonVisible": true
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.right-addon-must-be-hidden"
+        },
+        "expectedAgent": "Потребовать скрыть RightAddon."
+      },
+      {
+        "exampleId": "benefits-block.primary-color-override",
+        "title": "Цветовой override поверхности Primary",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "surfaceType": "Primary",
+          "fillOverride": true
+        },
+        "expectedAudit": {
+          "category": "layer-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.surface-color-overrides"
+        },
+        "expectedAgent": "Восстановить Primary baseline без цветового override."
+      },
+      {
+        "exampleId": "benefits-block.text-limit",
+        "title": "Title занимает три строки",
+        "inputState": {
+          "root": "[M] BenefitsBlock",
+          "TitleCharacters": 58,
+          "TitleLines": 3
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.text-limits"
+        },
+        "expectedAgent": "Потребовать сократить Title до двух строк, даже если символьный лимит не превышен."
+      },
+      {
+        "exampleId": "benefits-block-loading-without-background",
+        "title": "Loading на общей поверхности",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "Background": "False",
+          "wholeBlockLoading": true,
+          "actionsBlocked": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать loading допустимым при Background=False."
+      },
+      {
+        "exampleId": "benefits-block-partial-loading",
+        "title": "Loading включён только для изображения",
+        "inputState": {
+          "root": "[M] BenefitsBlock",
+          "loadingParts": [
+            "Image"
+          ],
+          "actionsBlocked": false
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.loading-covers-whole-block"
+        },
+        "expectedAgent": "Потребовать loading всего блока и блокировку действий."
+      },
+      {
+        "exampleId": "benefits-block-image-overflow-standard-height",
+        "title": "Изображение выходит за поверхность при стандартной высоте",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "HeightCustom": "False",
+          "imageOutsideBackgroundPlate": true,
+          "contentImageOverlap": false,
+          "imageOutsideRoot": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Разрешить overflow изображения за BackgroundPlate при сохранении границ root и отсутствии перекрытия контента."
+      },
+      {
+        "exampleId": "benefits-block-multiple-per-page",
+        "title": "Два BenefitsBlock на одной промо-странице",
+        "inputState": {
+          "pageType": "promo",
+          "BenefitsBlockCount": 2
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Не считать второй BenefitsBlock нарушением; один блок остаётся рекомендацией."
+      },
+      {
+        "exampleId": "benefits-block-manual-gap",
+        "title": "Ручное изменение gap",
+        "inputState": {
+          "root": "[D] BenefitsBlock",
+          "manualGapOverride": true
+        },
+        "expectedAudit": {
+          "category": "layer-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.layout-is-component-owned"
+        },
+        "expectedAgent": "Восстановить preset gap из effective baseline."
+      },
+      {
+        "exampleId": "benefits-block-raw-colored-fill",
+        "title": "Raw fill у Colored",
+        "inputState": {
+          "root": "[M] BenefitsBlock",
+          "surfaceType": "Colored",
+          "fillBinding": "raw-color"
+        },
+        "expectedAudit": {
+          "category": "layer-property",
+          "severity": "error",
+          "ruleId": "component:web.benefits-block.raw-colors-forbidden"
+        },
+        "expectedAgent": "Потребовать token-bound fill соответствующего Segment."
+      }
+    ]
+  }
+}

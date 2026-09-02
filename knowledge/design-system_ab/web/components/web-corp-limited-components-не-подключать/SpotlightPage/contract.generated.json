@@ -1,0 +1,5495 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Corp Limited Components (не подключать)",
+    "file": "Web _ Corp Limited Components (не подключать)",
+    "generatedAt": "2026-07-27T16:06:42.739Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 8,
+    "contractCount": 8,
+    "activeCount": 8,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "action-button.desktop",
+      "name": "[D] ActionButton",
+      "normalizedName": "action-button",
+      "componentKey": "cb45469e173508ee5e177726dcad92cd778537e2",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "7efff98ba4f4b01e8aefe2c8f16463057b9feac7",
+        "variants": {
+          "properties": {
+            "Inverted": [
+              "false",
+              "true"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Inverted": "false"
+            },
+            {
+              "Inverted": "true"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "7efff98ba4f4b01e8aefe2c8f16463057b9feac7",
+              "id": "22:11398",
+              "name": "Inverted=false",
+              "properties": {
+                "Inverted": "false"
+              }
+            },
+            {
+              "key": "84045ab52cb0c74ea4b97a9955776b3d9d127ee8",
+              "id": "76:24320",
+              "name": "Inverted=true",
+              "properties": {
+                "Inverted": "true"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Inverted=false",
+            "type": "COMPONENT",
+            "path": "Inverted=false",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Inverted=false / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Inverted=false",
+            "path": "Inverted=false",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Inverted=false / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=false / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=false / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Inverted=false / Content / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=false / Content / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "84045ab52cb0c74ea4b97a9955776b3d9d127ee8": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Inverted=true",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.47999998927116394,
+                    "tokenKey": "VariableID:4d1d8b6f81a75d0c0cd157b78179a314f7aa7b74/80:36",
+                    "colorHex": "#FFFFFF"
+                  }
+                ],
+                "fillToken": "VariableID:4d1d8b6f81a75d0c0cd157b78179a314f7aa7b74/80:36"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "7efff98ba4f4b01e8aefe2c8f16463057b9feac7",
+            "when": {
+              "Inverted": "false"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "84045ab52cb0c74ea4b97a9955776b3d9d127ee8",
+            "when": {
+              "Inverted": "true"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Inverted=false",
+                "nodePath": "Inverted=false",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "close-button.desktop",
+      "name": "[D] CloseButton",
+      "normalizedName": "close-button",
+      "componentKey": "549b91a45afc4bf494ea5759c424003a3dde2ca9",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "13965b405480d0e07f2b0ec32ad27dc097b88a74",
+        "variants": {
+          "properties": {
+            "Inverted": [
+              "false",
+              "true"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Inverted": "false"
+            },
+            {
+              "Inverted": "true"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "13965b405480d0e07f2b0ec32ad27dc097b88a74",
+              "id": "22:11396",
+              "name": "Inverted=false",
+              "properties": {
+                "Inverted": "false"
+              }
+            },
+            {
+              "key": "d1067585c018173786403b0460f366c04d72b8e7",
+              "id": "76:24313",
+              "name": "Inverted=true",
+              "properties": {
+                "Inverted": "true"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Inverted=false",
+            "type": "COMPONENT",
+            "path": "Inverted=false",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Inverted=false / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Inverted=false",
+            "path": "Inverted=false",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Inverted=false / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=false / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=false / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "cross",
+            "path": "Inverted=false / Content / Fixer / PaintMe / cross",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "24",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "24",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=false / Content / Fixer / PaintMe / cross / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "d1067585c018173786403b0460f366c04d72b8e7": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Inverted=true",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.47999998927116394,
+                    "tokenKey": "VariableID:4d1d8b6f81a75d0c0cd157b78179a314f7aa7b74/80:36",
+                    "colorHex": "#FFFFFF"
+                  }
+                ],
+                "fillToken": "VariableID:4d1d8b6f81a75d0c0cd157b78179a314f7aa7b74/80:36"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "13965b405480d0e07f2b0ec32ad27dc097b88a74",
+            "when": {
+              "Inverted": "false"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "d1067585c018173786403b0460f366c04d72b8e7",
+            "when": {
+              "Inverted": "true"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Inverted=false",
+                "nodePath": "Inverted=false",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "left-addon.desktop",
+      "name": "[D] LeftAddon",
+      "normalizedName": "left-addon",
+      "componentKey": "556d9f0b2a39751f58a8b946cad78fa4bdc6e315",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "556d9f0b2a39751f58a8b946cad78fa4bdc6e315",
+        "variants": {
+          "properties": {
+            "raw": [
+              "[D] LeftAddon"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "[D] LeftAddon"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "556d9f0b2a39751f58a8b946cad78fa4bdc6e315",
+              "id": "22:13115",
+              "name": "[D] LeftAddon",
+              "properties": {
+                "raw": "[D] LeftAddon"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "[D] LeftAddon",
+            "type": "COMPONENT",
+            "path": "[D] LeftAddon",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+            "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220",
+            "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "[D] LeftAddon",
+            "path": "[D] LeftAddon",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "[D] IconButton",
+            "path": "[D] LeftAddon / [D] IconButton",
+            "visible": true,
+            "variantProperties": {
+              "Size": "40",
+              "TransparentBg": "False",
+              "View": "Secondary"
+            },
+            "radius": 10,
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "40",
+                "TransparentBg": "False",
+                "View": "Secondary"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Icon",
+            "path": "[D] LeftAddon / [D] IconButton / Icon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "icon-20"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "icon-20"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] LeftAddon / [D] IconButton / Icon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "list",
+            "path": "[D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 8,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Logotype",
+            "path": "[D] LeftAddon / Logotype",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 999
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "NeuroLogo",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo",
+            "visible": true,
+            "variantProperties": {
+              "Size": "32"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "32"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "INSTANCE",
+            "name": "Icon 32",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+            "visible": true,
+            "variantProperties": {
+              "Animate": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Animate": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "INSTANCE",
+            "name": "🔩 Shadow",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "ELLIPSE",
+            "name": "Spot",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow / Spot",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+            ],
+            "opacity": 0.30000001192092896,
+            "fillToken": "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+          },
+          {
+            "nodeId": 13,
+            "parentId": 10,
+            "type": "INSTANCE",
+            "name": "🔩 Shape",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+            ],
+            "fillToken": "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 10,
+            "type": "INSTANCE",
+            "name": "neural-assistant",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant / icon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+          },
+          {
+            "nodeId": 17,
+            "parentId": 9,
+            "type": "FRAME",
+            "name": "Label",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Label",
+            "visible": false,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Нейропомощник",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": 0.4300000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d16140c22dd6431b15814fa9632f4bdc91a4f129,3:1868"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "556d9f0b2a39751f58a8b946cad78fa4bdc6e315",
+            "when": {
+              "raw": "[D] LeftAddon"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: [D] LeftAddon"
+        ]
+      }
+    },
+    {
+      "id": "page-header.desktop",
+      "name": "[D] PageHeader",
+      "normalizedName": "page-header",
+      "componentKey": "3bb16545d789ee6277461d1cb3934bc0ece07f79",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "3bb16545d789ee6277461d1cb3934bc0ece07f79",
+        "variants": {
+          "properties": {
+            "raw": [
+              "[D] PageHeader"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "[D] PageHeader"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "3bb16545d789ee6277461d1cb3934bc0ece07f79",
+              "id": "18:17611",
+              "name": "[D] PageHeader",
+              "properties": {
+                "raw": "[D] PageHeader"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "[D] PageHeader",
+            "type": "COMPONENT",
+            "path": "[D] PageHeader",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 20
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 24
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 30
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+            "VariableID:80:40252",
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220",
+            "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "[D] PageHeader",
+            "path": "[D] PageHeader",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:80:40252"
+            ],
+            "layout": {
+              "padding": {
+                "top": 24,
+                "right": 24,
+                "bottom": 8,
+                "left": 20
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:80:40252",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:80:40252"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Navigation",
+            "path": "[D] PageHeader / Navigation",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "[D] LeftAddon",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon",
+            "visible": false,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "[D] IconButton",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton",
+            "visible": true,
+            "variantProperties": {
+              "Size": "40",
+              "TransparentBg": "False",
+              "View": "Secondary"
+            },
+            "radius": 10,
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "40",
+                "TransparentBg": "False",
+                "View": "Secondary"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "Icon",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "icon-20"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "icon-20"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "INSTANCE",
+            "name": "list",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 10,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Logotype",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 999
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "INSTANCE",
+            "name": "NeuroLogo",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo",
+            "visible": true,
+            "variantProperties": {
+              "Size": "32"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "32"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "Icon 32",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+            "visible": true,
+            "variantProperties": {
+              "Animate": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Animate": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "🔩 Shadow",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow",
+            "visible": false
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "ELLIPSE",
+            "name": "Spot",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow / Spot",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+            ],
+            "opacity": 0.30000001192092896,
+            "fillToken": "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "🔩 Shape",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape",
+            "visible": true
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+            ],
+            "fillToken": "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+          },
+          {
+            "nodeId": 17,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "neural-assistant",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant / icon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+          },
+          {
+            "nodeId": 19,
+            "parentId": 11,
+            "type": "FRAME",
+            "name": "Label",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label",
+            "visible": false,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 20,
+            "parentId": 19,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Нейропомощник",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": 0.4300000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d16140c22dd6431b15814fa9632f4bdc91a4f129,3:1868"
+              }
+            }
+          },
+          {
+            "nodeId": 21,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Middle",
+            "path": "[D] PageHeader / Navigation / Middle",
+            "visible": true
+          },
+          {
+            "nodeId": 22,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "[D] PageHeader / Navigation / RightAddon",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 22,
+            "type": "INSTANCE",
+            "name": "[D] ActionButton",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "Inverted": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "Inverted": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 27,
+            "parentId": 26,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 29,
+            "parentId": 22,
+            "type": "INSTANCE",
+            "name": "[D] CloseButton",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "Inverted": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "Inverted": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 32,
+            "type": "INSTANCE",
+            "name": "cross",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "24",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "24",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 34,
+            "parentId": 33,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "3bb16545d789ee6277461d1cb3934bc0ece07f79",
+            "when": {
+              "raw": "[D] PageHeader"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: [D] PageHeader"
+        ]
+      }
+    },
+    {
+      "id": "spotligh-content.desktop",
+      "name": "[D] SpotlighContent",
+      "normalizedName": "spotligh-content",
+      "componentKey": "378c3081b8f0c01081fd22b782df354cd960dc4b",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "378c3081b8f0c01081fd22b782df354cd960dc4b",
+        "variants": {
+          "properties": {
+            "raw": [
+              "[D] SpotlighContent"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "[D] SpotlighContent"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "378c3081b8f0c01081fd22b782df354cd960dc4b",
+              "id": "18:2296",
+              "name": "[D] SpotlighContent",
+              "properties": {
+                "raw": "[D] SpotlighContent"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "[D] SpotlighContent",
+            "type": "COMPONENT",
+            "path": "[D] SpotlighContent",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "[D] Body",
+            "type": "SLOT",
+            "path": "[D] SpotlighContent / [D] Body",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          },
+          {
+            "name": "Content",
+            "type": "TEXT",
+            "path": "[D] SpotlighContent / [D] Body / 🔩 SwapMe / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 4
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:21:3409",
+            "VariableID:21:3412"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+          ],
+          "strokes": [
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "[D] SpotlighContent",
+            "path": "[D] SpotlighContent",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:21:3409",
+              "VariableID:21:3412",
+              "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+            ],
+            "layout": {
+              "padding": {
+                "top": 32,
+                "right": 264,
+                "bottom": 156,
+                "left": 264
+              },
+              "paddingTokens": {
+                "top": "VariableID:21:3409",
+                "right": "VariableID:21:3412",
+                "bottom": null,
+                "left": "VariableID:21:3412"
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+                "colorHex": "#F2F3F5"
+              }
+            ],
+            "fillToken": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "[D] Body",
+            "path": "[D] SpotlighContent / [D] Body",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "🔩 SwapMe",
+            "path": "[D] SpotlighContent / [D] Body / 🔩 SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 16,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "strokeToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "TEXT",
+            "name": "Content",
+            "path": "[D] SpotlighContent / [D] Body / 🔩 SwapMe / Content",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "fillToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Content",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "letterSpacing": 1.25,
+              "paragraphSpacing": 0,
+              "case": "UPPER"
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:ad18a9a57c5f4e305430df89e88d879cf06eb4c5,17:801"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "378c3081b8f0c01081fd22b782df354cd960dc4b",
+            "when": {
+              "raw": "[D] SpotlighContent"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "variant name cannot be fully parsed: [D] SpotlighContent"
+        ]
+      }
+    },
+    {
+      "id": "spotlight-page.desktop",
+      "name": "[D] SpotlightPage",
+      "normalizedName": "spotlight-page",
+      "componentKey": "a8ad3905e3f3d51a8c81cba26b1d3b88ef0542a2",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "a8ad3905e3f3d51a8c81cba26b1d3b88ef0542a2",
+        "variants": {
+          "properties": {
+            "raw": [
+              "[D] SpotlightPage"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "[D] SpotlightPage"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "a8ad3905e3f3d51a8c81cba26b1d3b88ef0542a2",
+              "id": "91:30672",
+              "name": "[D] SpotlightPage",
+              "properties": {
+                "raw": "[D] SpotlightPage"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "[D] SpotlightPage",
+            "type": "COMPONENT",
+            "path": "[D] SpotlightPage",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 6
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 16
+          },
+          {
+            "name": "BodyContent",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent",
+            "required": false,
+            "visible": true,
+            "nodeId": 22
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 25
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 28
+          },
+          {
+            "name": "Text",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Text",
+            "required": false,
+            "visible": false,
+            "nodeId": 38
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 49
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 51
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 55
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 58
+          },
+          {
+            "name": "Text",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Text",
+            "required": false,
+            "visible": false,
+            "nodeId": 68
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 79
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 81
+          },
+          {
+            "name": "Body",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / Body",
+            "required": true,
+            "visible": true,
+            "nodeId": 84
+          },
+          {
+            "name": "[D] Body",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent / [D] Body",
+            "required": false,
+            "visible": true,
+            "nodeId": 86
+          },
+          {
+            "name": "Content",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent / [D] Body / 🔩 SwapMe / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 88
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 108
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 112
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 118
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 124
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 130
+          },
+          {
+            "name": "Placeholder",
+            "type": "TEXT",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder / Placeholder",
+            "required": false,
+            "visible": true,
+            "nodeId": 132
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:21:3409",
+            "VariableID:21:3412"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "VariableID:14ac29210fc546f67acfa8e0dfd252c210d0c78b/3541:157",
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+            "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120",
+            "VariableID:80:40252",
+            "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220",
+            "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173",
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+            "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35",
+            "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+            "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [
+            "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "[D] SpotlightPage",
+            "path": "[D] SpotlightPage",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "strokeToken": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔒 [D] SpotlightMenu",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "[D] HubMenu",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.07999999821186066,
+                "tokenKey": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+                "colorHex": "#1E2B44"
+              }
+            ],
+            "strokeToken": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "🔩 MenuHeader",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader",
+            "visible": true,
+            "variantProperties": {
+              "Content": "true"
+            },
+            "layout": {
+              "padding": {
+                "top": 12,
+                "right": 12,
+                "bottom": 20,
+                "left": 12
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Content": "true"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "🔩 Logo",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo",
+            "visible": true,
+            "variantProperties": {
+              "View": "SwapMe"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "View": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "SpotlightLogo",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo",
+            "visible": true,
+            "variantProperties": {
+              "Size": "40"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "40"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "INSTANCE",
+            "name": "Icon 40",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40",
+            "visible": true,
+            "variantProperties": {
+              "Animate": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Animate": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "🔩 Shadow",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / 🔩 Shadow",
+            "visible": false
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "ELLIPSE",
+            "name": "Spot",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / 🔩 Shadow / Spot",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+            ],
+            "opacity": 0.30000001192092896,
+            "fillToken": "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+          },
+          {
+            "nodeId": 11,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "🔩 Shape",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / 🔩 Shape",
+            "visible": true
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / 🔩 Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+            ],
+            "fillToken": "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+          },
+          {
+            "nodeId": 13,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "neural-assistant",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / neural-assistant",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / neural-assistant / icon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 7,
+            "type": "FRAME",
+            "name": "Label",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Label",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 0,
+                "bottom": 8,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Нейропомощник",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "letterSpacing": 0.3799999952316284,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:92e9a9e9ef07551eca0316447d0913d0b4297f13,3:1961"
+              }
+            }
+          },
+          {
+            "nodeId": 17,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "MenuFooter",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter",
+            "visible": true,
+            "variantProperties": {
+              "Footer": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Footer": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "GROUP",
+            "name": "Overflow",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter / Overflow",
+            "visible": false
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "RECTANGLE",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter / Overflow / Mask",
+            "visible": true
+          },
+          {
+            "nodeId": 20,
+            "parentId": 18,
+            "type": "RECTANGLE",
+            "name": "Fade Line",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter / Overflow / Fade Line",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:14ac29210fc546f67acfa8e0dfd252c210d0c78b/3541:157"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:14ac29210fc546f67acfa8e0dfd252c210d0c78b/3541:157",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:14ac29210fc546f67acfa8e0dfd252c210d0c78b/3541:157"
+          },
+          {
+            "nodeId": 21,
+            "parentId": 17,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 22,
+            "parentId": 3,
+            "type": "SLOT",
+            "name": "BodyContent",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 16,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 22,
+            "type": "INSTANCE",
+            "name": "MenuItem",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem",
+            "visible": true,
+            "variantProperties": {
+              "Hover": "false",
+              "Selected": "false",
+              "Skeleton": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Hover": "false",
+                "Selected": "false",
+                "Skeleton": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "INSTANCE",
+            "name": "🔩 ItemContent",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+            ],
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 12,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 8
+            },
+            "radius": 12,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "INSTANCE",
+            "name": "🔩 LeftAddon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Image": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Image": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 27,
+            "parentId": 26,
+            "type": "INSTANCE",
+            "name": "IconView",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+            "visible": true,
+            "variantProperties": {
+              "Size": "32"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "32"
+              }
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 29,
+            "parentId": 28,
+            "type": "INSTANCE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "variantProperties": {
+              "Border": "False",
+              "Size": "8",
+              "View": "Red"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "componentInstance": {
+              "variantProperties": {
+                "Border": "False",
+                "Size": "8",
+                "View": "Red"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "fixer",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator / fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 31,
+            "parentId": 28,
+            "type": "BOOLEAN_OPERATION",
+            "name": "Shape",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#CF70FF"
+              }
+            ]
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "INSTANCE",
+            "name": "Shape",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+            "visible": true,
+            "variantProperties": {
+              "Form": "Superellipse"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Form": "Superellipse"
+              }
+            }
+          },
+          {
+            "nodeId": 33,
+            "parentId": 32,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "fillToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 34,
+            "parentId": 31,
+            "type": "ELLIPSE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Indicator",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#3778FB"
+              }
+            ]
+          },
+          {
+            "nodeId": 35,
+            "parentId": 28,
+            "type": "FRAME",
+            "name": "ShapeContent",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent",
+            "visible": true
+          },
+          {
+            "nodeId": 36,
+            "parentId": 35,
+            "type": "RECTANGLE",
+            "name": "BgColor",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / BgColor",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173",
+                "colorHex": "#F2F3F5"
+              }
+            ],
+            "fillToken": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+          },
+          {
+            "nodeId": 37,
+            "parentId": 35,
+            "type": "RECTANGLE",
+            "name": "BgImg",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / BgImg",
+            "visible": false
+          },
+          {
+            "nodeId": 38,
+            "parentId": 35,
+            "type": "TEXT",
+            "name": "Text",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Text",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "ЙО",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 11,
+              "lineHeight": 16,
+              "letterSpacing": 0.5400000214576721,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,3:1880"
+              }
+            }
+          },
+          {
+            "nodeId": 39,
+            "parentId": 35,
+            "type": "INSTANCE",
+            "name": "🔩 Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+            "visible": true,
+            "variantProperties": {
+              "Size": "24",
+              "Type": "Icon"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "24",
+                "Type": "Icon"
+              }
+            }
+          },
+          {
+            "nodeId": 40,
+            "parentId": 39,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 41,
+            "parentId": 40,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 42,
+            "parentId": 41,
+            "type": "INSTANCE",
+            "name": "crown",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / crown",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "24",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "24",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 43,
+            "parentId": 42,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / crown / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 44,
+            "parentId": 35,
+            "type": "BOOLEAN_OPERATION",
+            "name": "Border",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.07999999821186066,
+                "tokenKey": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+                "colorHex": "#1E2B44"
+              }
+            ],
+            "strokeToken": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+          },
+          {
+            "nodeId": 45,
+            "parentId": 44,
+            "type": "INSTANCE",
+            "name": "Border",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+            "visible": true,
+            "variantProperties": {
+              "Form": "Superellipse"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Form": "Superellipse"
+              }
+            }
+          },
+          {
+            "nodeId": 46,
+            "parentId": 45,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "fillToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 47,
+            "parentId": 44,
+            "type": "ELLIPSE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Indicator",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#3778FB"
+              }
+            ]
+          },
+          {
+            "nodeId": 48,
+            "parentId": 25,
+            "type": "RECTANGLE",
+            "name": "FadeGradient",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / FadeGradient",
+            "visible": true
+          },
+          {
+            "nodeId": 49,
+            "parentId": 25,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Главная",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.05000000074505806,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:aae5de06136376c7653394d3648478f48372d63f,17:6824"
+              }
+            }
+          },
+          {
+            "nodeId": 50,
+            "parentId": 24,
+            "type": "INSTANCE",
+            "name": "🔩 RightAddon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+            "visible": false,
+            "variantProperties": {
+              "Presets": "SwapMe"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Presets": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 51,
+            "parentId": 50,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 52,
+            "parentId": 51,
+            "type": "INSTANCE",
+            "name": "🔩 SwapMe",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content / 🔩 SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 53,
+            "parentId": 22,
+            "type": "INSTANCE",
+            "name": "MenuItem",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem",
+            "visible": true,
+            "variantProperties": {
+              "Hover": "false",
+              "Selected": "true",
+              "Skeleton": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Hover": "false",
+                "Selected": "true",
+                "Skeleton": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 54,
+            "parentId": 53,
+            "type": "INSTANCE",
+            "name": "🔩 ItemContent",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+            ],
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 12,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 8
+            },
+            "radius": 12,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+          },
+          {
+            "nodeId": 55,
+            "parentId": 54,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 56,
+            "parentId": 55,
+            "type": "INSTANCE",
+            "name": "🔩 LeftAddon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Image": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Image": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 57,
+            "parentId": 56,
+            "type": "INSTANCE",
+            "name": "IconView",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+            "visible": true,
+            "variantProperties": {
+              "Size": "32"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "32"
+              }
+            }
+          },
+          {
+            "nodeId": 58,
+            "parentId": 57,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 59,
+            "parentId": 58,
+            "type": "INSTANCE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "variantProperties": {
+              "Border": "False",
+              "Size": "8",
+              "View": "Red"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "componentInstance": {
+              "variantProperties": {
+                "Border": "False",
+                "Size": "8",
+                "View": "Red"
+              }
+            }
+          },
+          {
+            "nodeId": 60,
+            "parentId": 59,
+            "type": "FRAME",
+            "name": "fixer",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator / fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 61,
+            "parentId": 58,
+            "type": "BOOLEAN_OPERATION",
+            "name": "Shape",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#CF70FF"
+              }
+            ]
+          },
+          {
+            "nodeId": 62,
+            "parentId": 61,
+            "type": "INSTANCE",
+            "name": "Shape",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+            "visible": true,
+            "variantProperties": {
+              "Form": "Superellipse"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Form": "Superellipse"
+              }
+            }
+          },
+          {
+            "nodeId": 63,
+            "parentId": 62,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "fillToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 64,
+            "parentId": 61,
+            "type": "ELLIPSE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Indicator",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#3778FB"
+              }
+            ]
+          },
+          {
+            "nodeId": 65,
+            "parentId": 58,
+            "type": "FRAME",
+            "name": "ShapeContent",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent",
+            "visible": true
+          },
+          {
+            "nodeId": 66,
+            "parentId": 65,
+            "type": "RECTANGLE",
+            "name": "BgColor",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / BgColor",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173",
+                "colorHex": "#F2F3F5"
+              }
+            ],
+            "fillToken": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+          },
+          {
+            "nodeId": 67,
+            "parentId": 65,
+            "type": "RECTANGLE",
+            "name": "BgImg",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / BgImg",
+            "visible": false
+          },
+          {
+            "nodeId": 68,
+            "parentId": 65,
+            "type": "TEXT",
+            "name": "Text",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Text",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "ЙО",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 11,
+              "lineHeight": 16,
+              "letterSpacing": 0.5400000214576721,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:3b8f755205216e2142f722883e68078b09e41ff5,3:1880"
+              }
+            }
+          },
+          {
+            "nodeId": 69,
+            "parentId": 65,
+            "type": "INSTANCE",
+            "name": "🔩 Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+            "visible": true,
+            "variantProperties": {
+              "Size": "24",
+              "Type": "Icon"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "24",
+                "Type": "Icon"
+              }
+            }
+          },
+          {
+            "nodeId": 70,
+            "parentId": 69,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 71,
+            "parentId": 70,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 72,
+            "parentId": 71,
+            "type": "INSTANCE",
+            "name": "bubble-lines",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / bubble-lines",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "24",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "24",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 73,
+            "parentId": 72,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / bubble-lines / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 74,
+            "parentId": 65,
+            "type": "BOOLEAN_OPERATION",
+            "name": "Border",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border",
+            "visible": false,
+            "tokenRefs": [
+              "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+            ],
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.07999999821186066,
+                "tokenKey": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+                "colorHex": "#1E2B44"
+              }
+            ],
+            "strokeToken": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+          },
+          {
+            "nodeId": 75,
+            "parentId": 74,
+            "type": "INSTANCE",
+            "name": "Border",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+            "visible": true,
+            "variantProperties": {
+              "Form": "Superellipse"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Form": "Superellipse"
+              }
+            }
+          },
+          {
+            "nodeId": 76,
+            "parentId": 75,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "fillToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 77,
+            "parentId": 74,
+            "type": "ELLIPSE",
+            "name": "Indicator",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Indicator",
+            "visible": false,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#3778FB"
+              }
+            ]
+          },
+          {
+            "nodeId": 78,
+            "parentId": 55,
+            "type": "RECTANGLE",
+            "name": "FadeGradient",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / FadeGradient",
+            "visible": true
+          },
+          {
+            "nodeId": 79,
+            "parentId": 55,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Чат",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.05000000074505806,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:aae5de06136376c7653394d3648478f48372d63f,17:6824"
+              }
+            }
+          },
+          {
+            "nodeId": 80,
+            "parentId": 54,
+            "type": "INSTANCE",
+            "name": "🔩 RightAddon",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+            "visible": false,
+            "variantProperties": {
+              "Presets": "SwapMe"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Presets": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 81,
+            "parentId": 80,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 82,
+            "parentId": 81,
+            "type": "INSTANCE",
+            "name": "🔩 SwapMe",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon / Content / 🔩 SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 83,
+            "parentId": 53,
+            "type": "RECTANGLE",
+            "name": "Selector",
+            "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / Selector",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          },
+          {
+            "nodeId": 84,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Body",
+            "path": "[D] SpotlightPage / Body",
+            "visible": true
+          },
+          {
+            "nodeId": 85,
+            "parentId": 84,
+            "type": "INSTANCE",
+            "name": "[D] SpotlighContent",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:21:3409",
+              "VariableID:21:3412",
+              "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+            ],
+            "layout": {
+              "padding": {
+                "top": 32,
+                "right": 264,
+                "bottom": 156,
+                "left": 264
+              },
+              "paddingTokens": {
+                "top": "VariableID:21:3409",
+                "right": "VariableID:21:3412",
+                "bottom": null,
+                "left": "VariableID:21:3412"
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:88dd7ea8641361035fe8ba4f5626d20b317dcd63/136950:22"
+          },
+          {
+            "nodeId": 86,
+            "parentId": 85,
+            "type": "SLOT",
+            "name": "[D] Body",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent / [D] Body",
+            "visible": true
+          },
+          {
+            "nodeId": 87,
+            "parentId": 86,
+            "type": "INSTANCE",
+            "name": "🔩 SwapMe",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent / [D] Body / 🔩 SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 16,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "strokeToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          },
+          {
+            "nodeId": 88,
+            "parentId": 87,
+            "type": "TEXT",
+            "name": "Content",
+            "path": "[D] SpotlightPage / Body / [D] SpotlighContent / [D] Body / 🔩 SwapMe / Content",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "fillToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Content",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "letterSpacing": 1.25,
+              "paragraphSpacing": 0,
+              "case": "UPPER"
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:ad18a9a57c5f4e305430df89e88d879cf06eb4c5,17:801"
+              }
+            }
+          },
+          {
+            "nodeId": 89,
+            "parentId": 84,
+            "type": "INSTANCE",
+            "name": "[D] PageHeader",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:80:40252"
+            ],
+            "layout": {
+              "padding": {
+                "top": 24,
+                "right": 24,
+                "bottom": 8,
+                "left": 20
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:80:40252",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:80:40252"
+          },
+          {
+            "nodeId": 90,
+            "parentId": 89,
+            "type": "FRAME",
+            "name": "Navigation",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation",
+            "visible": true
+          },
+          {
+            "nodeId": 91,
+            "parentId": 90,
+            "type": "INSTANCE",
+            "name": "[D] LeftAddon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon",
+            "visible": false,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 92,
+            "parentId": 91,
+            "type": "INSTANCE",
+            "name": "[D] IconButton",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton",
+            "visible": true,
+            "variantProperties": {
+              "Size": "40",
+              "TransparentBg": "False",
+              "View": "Secondary"
+            },
+            "radius": 10,
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "40",
+                "TransparentBg": "False",
+                "View": "Secondary"
+              }
+            }
+          },
+          {
+            "nodeId": 93,
+            "parentId": 92,
+            "type": "INSTANCE",
+            "name": "Icon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "icon-20"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "icon-20"
+              }
+            }
+          },
+          {
+            "nodeId": 94,
+            "parentId": 93,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 95,
+            "parentId": 94,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 96,
+            "parentId": 95,
+            "type": "INSTANCE",
+            "name": "list",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 97,
+            "parentId": 96,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 98,
+            "parentId": 91,
+            "type": "FRAME",
+            "name": "Logotype",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 999
+          },
+          {
+            "nodeId": 99,
+            "parentId": 98,
+            "type": "INSTANCE",
+            "name": "NeuroLogo",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo",
+            "visible": true,
+            "variantProperties": {
+              "Size": "32"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "32"
+              }
+            }
+          },
+          {
+            "nodeId": 100,
+            "parentId": 99,
+            "type": "INSTANCE",
+            "name": "Icon 32",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+            "visible": true,
+            "variantProperties": {
+              "Animate": "false"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Animate": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 101,
+            "parentId": 100,
+            "type": "INSTANCE",
+            "name": "🔩 Shadow",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow",
+            "visible": false
+          },
+          {
+            "nodeId": 102,
+            "parentId": 101,
+            "type": "ELLIPSE",
+            "name": "Spot",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shadow / Spot",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+            ],
+            "opacity": 0.30000001192092896,
+            "fillToken": "VariableID:94048f7771f418337ba399a7eadcbdfb27043c7c/4011:220"
+          },
+          {
+            "nodeId": 103,
+            "parentId": 100,
+            "type": "INSTANCE",
+            "name": "🔩 Shape",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape",
+            "visible": true
+          },
+          {
+            "nodeId": 104,
+            "parentId": 103,
+            "type": "VECTOR",
+            "name": "Mask",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / 🔩 Shape / Mask",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+            ],
+            "fillToken": "VariableID:d16ea6fb03c97c28f90e873c4b8ff01e0135569b/2391:122"
+          },
+          {
+            "nodeId": 105,
+            "parentId": 100,
+            "type": "INSTANCE",
+            "name": "neural-assistant",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 106,
+            "parentId": 105,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant / icon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:301d7bbf1c36b77ee22fa00b2008e56228859595/1930:47"
+          },
+          {
+            "nodeId": 107,
+            "parentId": 99,
+            "type": "FRAME",
+            "name": "Label",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label",
+            "visible": false,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 108,
+            "parentId": 107,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Нейропомощник",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": 0.4300000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d16140c22dd6431b15814fa9632f4bdc91a4f129,3:1868"
+              }
+            }
+          },
+          {
+            "nodeId": 109,
+            "parentId": 90,
+            "type": "FRAME",
+            "name": "Middle",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / Middle",
+            "visible": true
+          },
+          {
+            "nodeId": 110,
+            "parentId": 90,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            }
+          },
+          {
+            "nodeId": 111,
+            "parentId": 110,
+            "type": "INSTANCE",
+            "name": "[D] ActionButton",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "Inverted": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "Inverted": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 112,
+            "parentId": 111,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 113,
+            "parentId": 112,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 114,
+            "parentId": 113,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 115,
+            "parentId": 114,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "20",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "20",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 116,
+            "parentId": 115,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 117,
+            "parentId": 110,
+            "type": "INSTANCE",
+            "name": "[D] CloseButton",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "Inverted": "false"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "Inverted": "false"
+              }
+            }
+          },
+          {
+            "nodeId": 118,
+            "parentId": 117,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 119,
+            "parentId": 118,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 120,
+            "parentId": 119,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 121,
+            "parentId": 120,
+            "type": "INSTANCE",
+            "name": "cross",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross",
+            "visible": true,
+            "variantProperties": {
+              "Color": "False",
+              "Size": "24",
+              "Style": "Line"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "False",
+                "Size": "24",
+                "Style": "Line"
+              }
+            }
+          },
+          {
+            "nodeId": 122,
+            "parentId": 121,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#9032EE"
+              }
+            ]
+          },
+          {
+            "nodeId": 123,
+            "parentId": 84,
+            "type": "INSTANCE",
+            "name": "🔒 [D] PageFooter",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:21:3412"
+            ],
+            "layout": {
+              "padding": {
+                "top": 60,
+                "right": 264,
+                "bottom": 24,
+                "left": 264
+              },
+              "paddingTokens": {
+                "top": null,
+                "right": "VariableID:21:3412",
+                "bottom": null,
+                "left": "VariableID:21:3412"
+              }
+            }
+          },
+          {
+            "nodeId": 124,
+            "parentId": 123,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 125,
+            "parentId": 124,
+            "type": "INSTANCE",
+            "name": "[D] SpotlightInput",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput",
+            "visible": true,
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 126,
+            "parentId": 125,
+            "type": "FRAME",
+            "name": "Field",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 8,
+                "bottom": 0,
+                "left": 8
+              }
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35"
+          },
+          {
+            "nodeId": 127,
+            "parentId": 126,
+            "type": "FRAME",
+            "name": "LeftAddons",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons",
+            "visible": false,
+            "layout": {
+              "padding": {
+                "top": 24,
+                "right": 0,
+                "bottom": 24,
+                "left": 12
+              },
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 128,
+            "parentId": 127,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons / LeftAddon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              }
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 129,
+            "parentId": 128,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 130,
+            "parentId": 126,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 26,
+                "right": 12,
+                "bottom": 26,
+                "left": 12
+              },
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 131,
+            "parentId": 130,
+            "type": "FRAME",
+            "name": "Placeholder",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 132,
+            "parentId": 131,
+            "type": "TEXT",
+            "name": "Placeholder",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder / Placeholder",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Что будем искать?",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:020582d780ac6ecbb4d8916c4b68099e42b09126,3:1257"
+              }
+            }
+          },
+          {
+            "nodeId": 133,
+            "parentId": 125,
+            "type": "INSTANCE",
+            "name": "GlowGradient",
+            "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput / GlowGradient",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120"
+            ],
+            "opacity": 0.5,
+            "fillToken": "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120"
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "a8ad3905e3f3d51a8c81cba26b1d3b88ef0542a2",
+            "when": {
+              "raw": "[D] SpotlightPage"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: [D] SpotlightPage"
+        ]
+      }
+    },
+    {
+      "id": "page-footer.desktop",
+      "name": "🔒 [D] PageFooter",
+      "normalizedName": "page-footer",
+      "componentKey": "12005ca95a600cf8b545d7a349fa40f1b6e55f22",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "12005ca95a600cf8b545d7a349fa40f1b6e55f22",
+        "variants": {
+          "properties": {
+            "raw": [
+              "🔒 [D] PageFooter"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "🔒 [D] PageFooter"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "12005ca95a600cf8b545d7a349fa40f1b6e55f22",
+              "id": "22:8025",
+              "name": "🔒 [D] PageFooter",
+              "properties": {
+                "raw": "🔒 [D] PageFooter"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔒 [D] PageFooter",
+            "type": "COMPONENT",
+            "path": "🔒 [D] PageFooter",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "🔒 [D] PageFooter / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 2
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 8
+          },
+          {
+            "name": "Placeholder",
+            "type": "TEXT",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder / Placeholder",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:21:3412"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120",
+            "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔒 [D] PageFooter",
+            "path": "🔒 [D] PageFooter",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:21:3412"
+            ],
+            "layout": {
+              "padding": {
+                "top": 60,
+                "right": 264,
+                "bottom": 24,
+                "left": 264
+              },
+              "paddingTokens": {
+                "top": null,
+                "right": "VariableID:21:3412",
+                "bottom": null,
+                "left": "VariableID:21:3412"
+              }
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "🔒 [D] PageFooter / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "[D] SpotlightInput",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput",
+            "visible": true,
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Field",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 8,
+                "bottom": 0,
+                "left": 8
+              }
+            },
+            "radius": 20,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:bdf2b3d8232fd462f1fca91686fa8dfad42cce4c/80:35"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "LeftAddons",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons",
+            "visible": false,
+            "layout": {
+              "padding": {
+                "top": 24,
+                "right": 0,
+                "bottom": 24,
+                "left": 12
+              },
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons / LeftAddon",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              }
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / LeftAddons / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 26,
+                "right": 12,
+                "bottom": 26,
+                "left": 12
+              },
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "FRAME",
+            "name": "Placeholder",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Placeholder",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / Field / Content / Placeholder / Placeholder",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Что будем искать?",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:020582d780ac6ecbb4d8916c4b68099e42b09126,3:1257"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "GlowGradient",
+            "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput / GlowGradient",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120"
+            ],
+            "opacity": 0.5,
+            "fillToken": "VariableID:59ab13cbe895e7e898908a4a67dde082668189b8/1816:120"
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "12005ca95a600cf8b545d7a349fa40f1b6e55f22",
+            "when": {
+              "raw": "🔒 [D] PageFooter"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "FigmaOnly – такого компонента в ДС не существует, это пресет для дизайна",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: 🔒 [D] PageFooter"
+        ]
+      }
+    },
+    {
+      "id": "swap-me.universal",
+      "name": "🔩 SwapMe",
+      "normalizedName": "swap-me",
+      "componentKey": "b50a758a49ead74fef496c83dba2d70fe98a4003",
+      "source": {
+        "library": "Web _ Corp Limited Components (не подключать)",
+        "file": "Web _ Corp Limited Components (не подключать)",
+        "generatedAt": "2026-07-27T16:06:42.739Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "b50a758a49ead74fef496c83dba2d70fe98a4003",
+        "variants": {
+          "properties": {
+            "raw": [
+              "🔩 SwapMe"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "🔩 SwapMe"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "b50a758a49ead74fef496c83dba2d70fe98a4003",
+              "id": "91:27016",
+              "name": "🔩 SwapMe",
+              "properties": {
+                "raw": "🔩 SwapMe"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 SwapMe",
+            "type": "COMPONENT",
+            "path": "🔩 SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "TEXT",
+            "path": "🔩 SwapMe / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          ],
+          "strokes": [
+            "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 SwapMe",
+            "path": "🔩 SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 10,
+                "bottom": 10,
+                "left": 10
+              },
+              "itemSpacing": 10
+            },
+            "radius": 16,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:38fa42e016fb4001ded17e3f2861bba0578458a9/1930:57",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "strokeToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Content",
+            "path": "🔩 SwapMe / Content",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+                "colorHex": "#4A9DFC"
+              }
+            ],
+            "fillToken": "VariableID:50b0cf07737d0379d42370717a3f47de6f18cb8b/3541:162",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Content",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "letterSpacing": 1.25,
+              "paragraphSpacing": 0,
+              "case": "UPPER"
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:ad18a9a57c5f4e305430df89e88d879cf06eb4c5,17:801"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "b50a758a49ead74fef496c83dba2d70fe98a4003",
+            "when": {
+              "raw": "🔩 SwapMe"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "variant name cannot be fully parsed: 🔩 SwapMe"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.corporate-system-message",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CorporateSystemMessage.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CorporateSystemMessage"
+      ]
+    },
+    "summary": {
+      "componentFamily": "CorporateSystemMessage",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] ButtonsGroupLarge",
+        "key": "4feb6b888da6be0f442df7519094e336b45cf285",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] ButtonsGroupSmall",
+        "key": "ca52e4e654a9a2b8a9250f7e2903f158256b630a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] CorporateSystemMessage",
+        "key": "985497c1f5a102a52e4d4dc40b6953303db72f8e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "BG plate": [
+            "False",
+            "True"
+          ],
+          "Size": [
+            "Large",
+            "Small"
+          ],
+          "View": [
+            "Base",
+            "Empty",
+            "Error",
+            "No adaptive",
+            "Progress"
+          ]
+        }
+      },
+      {
+        "name": "[D] EmptyView",
+        "key": "940e0a614754b1f6238478dfbfe73f7c55652028",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Nothing Found",
+            "Nothing Found Yet"
+          ]
+        }
+      },
+      {
+        "name": "[D] ErrorView",
+        "key": "b93e3006c818fc80198cd8f1d1333e40ad1a4407",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Forbidden",
+            "Internal Server Error",
+            "Not Found",
+            "Not Internet Connection"
+          ]
+        }
+      },
+      {
+        "name": "[D] ProcessView",
+        "key": "e11846f951b3f0f04e91e9ca545ea7287ae49d41",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Icon",
+            "Spinner",
+            "Timer"
+          ]
+        }
+      },
+      {
+        "name": "[M] ButtonsGroupLarge",
+        "key": "c9f9869f6cc21135983254b79058ca1fde1da586",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] ButtonsGroupSmall",
+        "key": "30f07e545734c3aabc6cdd96fd6c5f07fe198510",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] CorporateSystemMessage",
+        "key": "37f65f46311fb00b68b95280064e905fad50e0eb",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "BG plate": [
+            "False",
+            "True"
+          ],
+          "Size": [
+            "Large",
+            "Small"
+          ],
+          "View": [
+            "Base",
+            "Empty",
+            "Error",
+            "No adaptive",
+            "Progress"
+          ]
+        }
+      },
+      {
+        "name": "[M] EmptyView",
+        "key": "42c8301555a6d53e871729aa58cf8364ded65c00",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Nothing Found",
+            "Nothing Found Yet"
+          ]
+        }
+      },
+      {
+        "name": "[M] ErrorView",
+        "key": "a0c6c664b3952e0d32ec11d1f0730500cec1e0b7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Forbidden",
+            "Internal Server Error",
+            "Not Found",
+            "Not Internet Connection"
+          ]
+        }
+      },
+      {
+        "name": "[M] ProcessView",
+        "key": "e41c9df8f34dccb7b7174a0b7abe8e08123a6d3f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Icon",
+            "Spinner",
+            "Timer"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D] Buttons group",
+        "key": "f3ea816b9604f78b96e9ce5d3f5cd5593389b0db",
+        "description": "Desktop",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Group",
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D] Graphic",
+        "key": "a1f7ea37823739679c0e135903ef7c97a8a894de",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "IconView",
+            "Сountdown"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D] IconView",
+        "key": "d0c1f14c4395f6f67becf9cd46dbd49557588d9a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Blocked",
+            "Card blocks",
+            "Empty",
+            "Error",
+            "IconView",
+            "Important",
+            "Info",
+            "Internet off",
+            "List",
+            "Logout",
+            "Success",
+            "Technical error",
+            "Warning"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D] Сountdown",
+        "key": "b0c3e867f673bc7788ee2d870ce5042a3700d87c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Spinner",
+            "Timer"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [M] Graphic",
+        "key": "867fa723a6277a4962714287ddcc872dda6233ff",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "IconView",
+            "Сountdown"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [M] IconView",
+        "key": "60d5b28e024dbbee3efb80a6c95ba909c0224ffe",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "Blocked",
+            "Card blocks",
+            "Empty",
+            "Error",
+            "IconView",
+            "Important",
+            "Info",
+            "Internet off",
+            "List",
+            "Logout",
+            "Success",
+            "Technical error",
+            "Warning"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [M] Сountdown",
+        "key": "bdc21d7666b6cbd25d9cd9f680fdbb44218200cf",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "Spinner",
+            "Timer"
+          ]
+        }
+      },
+      {
+        "name": ".🔄 [D] StatusScreen",
+        "key": "60cdf75d7281b88b7c0b15295371cc975c85a320",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": ".🔄 [D] StatusScreenModal",
+        "key": "16755d89fe6007f49084c296a5b25184192b7448",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": ".🔄 [D] StatusScreenPage",
+        "key": "429a3c5e04bcf33ef8eb7d6b100a9a2006bcf38b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": ".🔄 [M] StatusScreen",
+        "key": "6fd42d03cae5cc93c1128248b88468de257bc108",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": ".🔄 [M] StatusScreenModal",
+        "key": "80d5d813fec22b87a116a1eda4d618e5fcde17e2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": ".🔄 [M] StatusScreenPage",
+        "key": "214fea37b6f322649821e7052d2abf17ace6dfb6",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] SystemMessageLarge",
+        "key": "2d5fd9a8fd9cf6f63eaa20cb1db7cf1a41095595",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] SystemMessageSmall",
+        "key": "28f84c97ba2f4a6162fb2c8aa27420e0d5f12b93",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] SystemMessageLarge",
+        "key": "b3e43dea166eb8fd87282ea9bd1972c6d47c3aca",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] SystemMessageSmall",
+        "key": "7c2714a260e43473d79676b3b0ff7d79541fe87d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "componentSemantics": [
+      {
+        "componentKey": "985497c1f5a102a52e4d4dc40b6953303db72f8e",
+        "name": "[D] CorporateSystemMessage",
+        "purpose": "Desktop-композиция для системного состояния страницы или отдельной области: пустого результата, ошибки, процесса, сообщения или недоступности функции.",
+        "useWhen": [
+          "Нужно объяснить состояние крупной desktop-области и при необходимости предложить до двух действий."
+        ],
+        "doNotUseWhen": [
+          "Нужно показать короткий локальный статус внутри строки, поля или небольшого контролла."
+        ],
+        "relationship": "Публичный desktop-корень семейства CorporateSystemMessage; View, Size и BG plate выбирают внутреннюю композицию.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      },
+      {
+        "componentKey": "37f65f46311fb00b68b95280064e905fad50e0eb",
+        "name": "[M] CorporateSystemMessage",
+        "purpose": "Mobile-web композиция для системного состояния страницы или отдельной области: пустого результата, ошибки, процесса, сообщения или недоступности функции.",
+        "useWhen": [
+          "Нужно объяснить состояние крупной mobile-web области и при необходимости предложить до двух действий."
+        ],
+        "doNotUseWhen": [
+          "Нужно показать короткий локальный статус внутри строки, поля или небольшого контролла."
+        ],
+        "relationship": "Публичный mobile-web корень семейства CorporateSystemMessage с мобильным effective baseline.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      }
+    ],
+    "purpose": "CorporateSystemMessage показывает системное состояние страницы или отдельной контентной области: обычное сообщение, ошибку, пустое состояние, процесс или недоступность функции на текущей платформе.",
+    "publicComponents": [
+      "[D] CorporateSystemMessage",
+      "[M] CorporateSystemMessage"
+    ],
+    "internalComponents": [
+      "ButtonsGroupLarge/Small",
+      "EmptyView",
+      "ErrorView",
+      "ProcessView",
+      "SystemMessageLarge/Small"
+    ],
+    "instructions": [
+      "Не рекомендуй использовать внутренние компоненты семейства отдельно от CorporateSystemMessage.",
+      "Считай компоненты с маркерами 🔄 и .🔄 запрещёнными для новых макетов.",
+      "Интерпретируй View=No adaptive как недоступность функции на текущей платформе, а не как техническую ошибку.",
+      "BG plate=True ожидается у самостоятельного сообщения в собственной подложке; BG plate=False — у сообщения внутри существующего контента или поверхности.",
+      "Size=Small выбирается для локальной области страницы, Size=Large — для страницы или крупной самостоятельной области.",
+      "Для Large обязательны Graphic, Title и Description. Для Small обязателен Title.",
+      "После выбора View разрешай выбрать подходящий Type этого View.",
+      "Graphic можно менять только в Base.",
+      "Title можно менять только в Base и Progress.",
+      "Description можно менять только в Base, Empty/Type=Nothing Found Yet и Progress.",
+      "Текст оценивай по паттерну StatusScreen; не придумывай дополнительные ограничения.",
+      "Допускай не более двух кнопок: одну Primary и одну Secondary.",
+      "Axis группы кнопок можно менять только при Size=Large; для Small изменение Axis запрещено.",
+      "Кнопки необязательны: допустимы без кнопок, только Primary, только Secondary или Primary вместе с Secondary.",
+      "Для Large используй Vertical Axis только когда две кнопки не помещаются в одну горизонталь по ширине контейнера.",
+      "Subtitle является Description. Caption — опциональное дополнительное описание, доступное в любом View.",
+      "Не разрешай ручные изменения геометрии и визуальных стилей корня или внутренних слоёв: используй effective baseline выбранных View, Size и BG plate.",
+      "Для Large после формы в 8 колонок сохраняй 8 колонок; на странице с таблицей используй 12 колонок или 100% ширины. Ширина Small определяется родительским контейнером.",
+      "Корень использует Fill по ширине и Hug по высоте; ограничений min/max height нет.",
+      "Всегда центрируй содержимое CorporateSystemMessage и не разрешай менять alignment.",
+      "Не разрешай detach корня и внутренних компонентов, instance swap внутренних View или добавление произвольных слоёв.",
+      "На ширине 768 и выше используй [D] CorporateSystemMessage; ниже 768, в mobile-web и адаптиве — [M] CorporateSystemMessage.",
+      "Не делай кликабельной всю поверхность и не добавляй hover-состояние корню: интерактивность разрешена только кнопкам.",
+      "Не разрешай менять Type, Level, color, stroke или radius встроенного BackgroundPlate: их определяет компонент поверхности.",
+      "Разрешай BG plate=False с внешней обёрткой BackgroundPlateSlot, когда этого требует композиция.",
+      "CorporateSystemMessage можно использовать в Modal, UniversalModal и PopUpSheet; допустимы Large и Small.",
+      "В No adaptive не разрешай менять Graphic, Title и Description; Caption можно добавить как уточнение."
+    ],
+    "typeGuidance": {
+      "Error": {
+        "Internal Server Error": "Техническая или серверная ошибка.",
+        "Not Found": "Такой страницы нет: её удалили или ссылка устарела.",
+        "Forbidden": "Недостаточно прав.",
+        "Not Internet Connection": "Нет интернета."
+      },
+      "Empty": {
+        "Nothing Found": "Ничего не нашлось по поиску, фильтрам или периоду.",
+        "Nothing Found Yet": "Объектов для показа ещё не было или всё удалено."
+      },
+      "Progress": {
+        "Icon": "Статичное ожидание без активной выполняющейся операции; точное время предсказать нельзя.",
+        "Spinner": "Операция выполняется прямо сейчас; неизвестно, сколько она займёт.",
+        "Timer": "Время ожидания известно."
+      }
+    },
+    "summary": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста.",
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

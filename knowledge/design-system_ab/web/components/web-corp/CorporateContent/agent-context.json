@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.corporate-content",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CorporateContent.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CorporateContent"
+      ]
+    },
+    "summary": {
+      "componentFamily": "CorporateContent",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] Section",
+        "key": "2bbced82d96c1347fea71a3922cd11cf4c25ad6a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "👽 TabletIsle": [
+            "false",
+            "true"
+          ],
+          "Position": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[D] CorporateContent",
+        "key": "a8d13cb6e1ae67a7296709f669238f41971c7197",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] CorporateContent",
+        "key": "11ae074b596a6b3dfb6696f51531439723c0225b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌ [D] Body",
+        "key": "28b1ffd86a806eab0daa7c5c75975c5ed103dca2",
+        "description": "SwapMe or DetachMe",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌ [M} Body",
+        "key": "1119d41dfbb9ff16f27f5fee96fdc73d1588ddf6",
+        "description": "SwapMe or DetachMe",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌ [T] Body",
+        "key": "71d8e8a07ab68673e4cb61bea9d92f3b68212087",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌ [T] CorporateContent",
+        "key": "598681c2a2dbe45e5529de354d8681cabc9a42d6",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "componentSemantics": [
+      {
+        "componentKey": "a8d13cb6e1ae67a7296709f669238f41971c7197",
+        "name": "[D] CorporateContent",
+        "purpose": "Основная desktop-контентная область корпоративной продуктовой страницы с системной сеткой, фоном и адаптивными отступами.",
+        "useWhen": [
+          "Собирается содержимое корпоративной страницы на ширине 768 px и выше."
+        ],
+        "doNotUseWhen": [
+          "Нужен вложенный контейнер внутри другого CorporateContent."
+        ],
+        "relationship": "Единственный корневой контентный контейнер CorporatePage на desktop; принимает произвольную композицию в Body.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      },
+      {
+        "componentKey": "11ae074b596a6b3dfb6696f51531439723c0225b",
+        "name": "[M] CorporateContent",
+        "purpose": "Основная mobile-web контентная область корпоративной продуктовой страницы с системным фоном и мобильными отступами.",
+        "useWhen": [
+          "Собирается содержимое корпоративной страницы ниже 768 px."
+        ],
+        "doNotUseWhen": [
+          "Макет использует desktop breakpoint 768 px или выше."
+        ],
+        "relationship": "Mobile-web версия корневого CorporateContent; принимает произвольную композицию в Body.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      },
+      {
+        "componentKey": "2bbced82d96c1347fea71a3922cd11cf4c25ad6a",
+        "name": "[D] Section",
+        "purpose": "Вспомогательная горизонтальная композиция для размещения основного контента и опционального Isle по колонкам системной сетки.",
+        "useWhen": [
+          "Внутри CorporateContent нужно собрать горизонтальную секцию из Content и Isle."
+        ],
+        "doNotUseWhen": [
+          "Для композиции достаточно Body или произвольного горизонтального контейнера без Section."
+        ],
+        "relationship": "Необязательная часть комплекта CorporateContent; управляет колонками и Gutter между Content и Isle.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      }
+    ],
+    "summary": "CorporateContent — обязательная контентная область продуктовой страницы. Используй [D] CorporateContent для desktop и [M] CorporateContent для mobile-web.",
+    "lifecyclePolicy": {
+      "allowed": [
+        "[D] CorporateContent",
+        "[M] CorporateContent"
+      ],
+      "prohibited": [
+        "[T] CorporateContent",
+        "🔄 [T] CorporateContent"
+      ]
+    },
+    "pageComposition": {
+      "maxCorporateContentPerPage": 1,
+      "corporateContentRequired": true,
+      "figmaParentComponentRequired": false,
+      "standaloneFigmaUsageAllowed": true,
+      "frontendParentAssembly": "CorporatePage"
+    },
+    "platformSelection": {
+      "768-and-above": "[D] CorporateContent",
+      "320-767": "[M] CorporateContent",
+      "at768": {
+        "component": "[D] CorporateContent",
+        "gridAndColsMode": "768"
+      }
+    },
+    "bodySlotPolicy": {
+      "arbitraryContentAllowed": true,
+      "arbitraryCompositionAllowed": true,
+      "multipleChildrenAllowed": true,
+      "instanceSwapAllowed": true,
+      "directionAndItemSpacing": "Определяются вложенной композицией.",
+      "gutterRule": "Gutter не обязателен для Body; его можно использовать в любой вложенной горизонтальной композиции, Section не обязателен.",
+      "nestedCorporateContentAllowed": false,
+      "swapMeMustBeReplaced": true
+    },
+    "rootConfiguration": {
+      "background": "Выбирается через mode коллекции BackgroundPlate Color для всего фрейма; default — base-bg-alt (grey), разрешены base-bg-alt (grey) и base-bg (white), modal-bg-* запрещены; выбор page mode будет определён отдельным паттерном; ручной fill запрещён.",
+      "gridStyle": "Системный grid style нельзя менять вручную.",
+      "spacing": "Определяется mode коллекции [D] Grid & Cols или [M] Grid & Cols; ручные padding запрещены.",
+      "sizing": {
+        "width": "Fill container",
+        "height": "Hug contents"
+      },
+      "prohibitedManualOverrides": [
+        "radius",
+        "stroke",
+        "effects.*",
+        "opacity",
+        "clipsContent"
+      ],
+      "clickable": false,
+      "detachAllowed": false,
+      "bodyDetachAllowed": false,
+      "layoutDirection": "VERTICAL",
+      "itemSpacing": 0,
+      "clipsContent": false,
+      "mobileWebRequiredMargins": {
+        "TopMargin": "24",
+        "BottomMargin": "24"
+      }
+    },
+    "agentInstructions": [
+      "Не считай произвольный контент или несколько дочерних элементов внутри Body нарушением сами по себе.",
+      "Проверяй содержимое Body по собственным компонентным контрактам и паттернам.",
+      "Считай использование переходного [T] CorporateContent явным нарушением.",
+      "Не рекомендуй ручную правку fill, grid style или padding корня CorporateContent; рекомендуй правильный mode переменных.",
+      "Не требуй наличия родительского компонента CorporatePage в Figma: такого компонента нет, самостоятельное использование CorporateContent допустимо.",
+      "Не применяй Gutter как обязательный itemSpacing внутри Body; он допустим в любой горизонтальной композиции без обязательного Section.",
+      "На ширине 768 требуй [D] CorporateContent и mode 768 коллекции [D] Grid & Cols.",
+      "Не придумывай условия выбора между base-bg-alt и base-bg до появления отдельного паттерна; default — base-bg-alt (grey).",
+      "Не разрешай кликабельность корня или detach CorporateContent и Body.",
+      "Не разрешай вкладывать CorporateContent внутрь CorporateContent и не оставляй SwapMe после добавления реального содержимого.",
+      "Требуй Header или HeaderMenu непосредственно над CorporateContent в общем вертикальном контейнере с gap 0.",
+      "Не разрешай менять вертикальное направление, itemSpacing=0 или clipsContent=false корня CorporateContent."
+    ],
+    "pageHeaderRelation": {
+      "requiredPreviousSibling": "Header or HeaderMenu",
+      "sharedParentDirection": "VERTICAL",
+      "itemSpacing": 0
+    },
+    "sectionPolicy": {
+      "component": "[D] Section",
+      "role": "nested-supporting",
+      "required": false,
+      "purpose": "Горизонтальная группировка блоков и управление колонками.",
+      "gutterMayBeUsedWithoutSection": true,
+      "rootSizing": {
+        "width": "Fill container",
+        "height": "Hug contents"
+      },
+      "directionAndAlignment": "Определяются компонентом и текущим Grid & Cols mode; ручное изменение запрещено.",
+      "position": {
+        "true": "Isle ниже Content",
+        "false": "Isle выше Content"
+      },
+      "tabletIsle": {
+        "automatic": true,
+        "trueInModes": [
+          "1024",
+          "768"
+        ],
+        "manualToggleAllowed": false
+      },
+      "slots": {
+        "Content": "arbitrary-content",
+        "Isle": "arbitrary-content"
+      },
+      "instanceSwapAllowed": false,
+      "gutter": {
+        "required": true,
+        "source": "Gutter variable",
+        "manualItemSpacingAllowed": false
+      },
+      "columnWidths": {
+        "source": "Grid & Cols column variables",
+        "manualWidthAllowed": false
+      },
+      "swapMeMustBeReplacedIn": [
+        "Content",
+        "Isle"
+      ],
+      "detachAllowed": false,
+      "manualStyleOverridesAllowed": false
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

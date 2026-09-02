@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.spotlight-page",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "component": {
+      "name": "SpotlightPage",
+      "library": "Web _ Corp Limited Components (не подключать)"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] ActionButton",
+        "path": "Inverted=false / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] CloseButton",
+        "path": "Inverted=false / Content / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "TransparentBg": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+        "componentName": "list",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / Logotype / NeuroLogo",
+        "componentName": "NeuroLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+        "componentName": "Icon 32",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Animate": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] LeftAddon",
+        "path": "[D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+        "componentName": "neural-assistant",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "TransparentBg": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+        "componentName": "list",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo",
+        "componentName": "NeuroLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+        "componentName": "Icon 32",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Animate": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+        "componentName": "neural-assistant",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton",
+        "componentName": "[D] ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton",
+        "componentName": "[D] CloseButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] PageHeader",
+        "path": "[D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader",
+        "componentName": "🔩 MenuHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "true"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo",
+        "componentName": "🔩 Logo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo",
+        "componentName": "SpotlightLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40",
+        "componentName": "Icon 40",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Animate": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / 🔩 MenuHeader / 🔩 Logo / Content / SpotlightLogo / Icon 40 / neural-assistant",
+        "componentName": "neural-assistant",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / MenuFooter",
+        "componentName": "MenuFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Footer": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / crown",
+        "componentName": "crown",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "true",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / bubble-lines",
+        "componentName": "bubble-lines",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / 🔒 [D] SpotlightMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "TransparentBg": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / [D] IconButton / Icon / Fixer / PaintMe / list",
+        "componentName": "list",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo",
+        "componentName": "NeuroLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32",
+        "componentName": "Icon 32",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Animate": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / [D] LeftAddon / Logotype / NeuroLogo / Icon 32 / neural-assistant",
+        "componentName": "neural-assistant",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton",
+        "componentName": "[D] ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] ActionButton / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton",
+        "componentName": "[D] CloseButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / [D] PageHeader / Navigation / RightAddon / [D] CloseButton / Content / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SpotlightPage",
+        "path": "[D] SpotlightPage / Body / 🔒 [D] PageFooter / Content / [D] SpotlightInput",
+        "componentName": "[D] SpotlightInput",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] PageFooter",
+        "path": "🔒 [D] PageFooter / Content / [D] SpotlightInput",
+        "componentName": "[D] SpotlightInput",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

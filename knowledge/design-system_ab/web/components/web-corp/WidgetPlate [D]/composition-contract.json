@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.widget-plate",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "WidgetPlate [D]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / [D] BackgroundPlate",
+        "componentName": "[D] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / [D] BackgroundPlate / [D] Style Level 1",
+        "componentName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / Header / Left / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / Header / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconPrimary"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / Header / Addon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / GraphicsGap",
+        "componentName": "GraphicsGap",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "Header",
+        "path": "Header / Left / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "Header",
+        "path": "Header / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconPrimary"
+        }
+      },
+      {
+        "hostComponentName": "Header",
+        "path": "Header / Addon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "[D] WidgetPlate",
+        "path": "Skeleton=False / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      }
+    ]
+  }
+}

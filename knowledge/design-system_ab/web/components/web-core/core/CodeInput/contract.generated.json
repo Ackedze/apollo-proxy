@@ -1,0 +1,5420 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core",
+    "file": "Web _ Core",
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 9,
+    "contractCount": 9,
+    "activeCount": 9,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "code-input.desktop",
+      "name": "[D] CodeInput",
+      "normalizedName": "code-input",
+      "componentKey": "09e64a7b0e0d8d6b9f94b18db117256d5eb3b52e",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "0c9a92652f5a137899ae98031a074e1b770fe209",
+        "variants": {
+          "properties": {
+            "Compact": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "0c9a92652f5a137899ae98031a074e1b770fe209",
+              "id": "777:44612",
+              "name": "Compact=False, ErrorState=False",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "50ac01e8b1c3d16fed75ddae36b2f1557919891c",
+              "id": "777:44641",
+              "name": "Compact=False, ErrorState=True",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "74fa09f1e81108b0f2107ae0aba099b91a97daee",
+              "id": "777:44672",
+              "name": "Compact=True, ErrorState=False",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "710755c243aab46664fc5b0413e233caa485b832",
+              "id": "777:44679",
+              "name": "Compact=True, ErrorState=True",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Compact=False, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Compact=False, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Compact=False, ErrorState=False",
+            "path": "Compact=False, ErrorState=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Digits",
+            "path": "Compact=False, ErrorState=False / Digits",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "50ac01e8b1c3d16fed75ddae36b2f1557919891c": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ],
+          "710755c243aab46664fc5b0413e233caa485b832": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "0c9a92652f5a137899ae98031a074e1b770fe209",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "50ac01e8b1c3d16fed75ddae36b2f1557919891c",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "74fa09f1e81108b0f2107ae0aba099b91a97daee",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "710755c243aab46664fc5b0413e233caa485b832",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "code-input.desktop.93054cea",
+      "name": "[D][Corporate] CodeInput",
+      "normalizedName": "code-input",
+      "componentKey": "c82a121d95fcdc11e252e431d44f6f31e8e1ff30",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "36d50aef4bc1c8a71c5c8d2818e8e6d346897380",
+        "variants": {
+          "properties": {
+            "Compact": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "36d50aef4bc1c8a71c5c8d2818e8e6d346897380",
+              "id": "34461:40378",
+              "name": "Compact=False, ErrorState=False",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "6efbdb5209155f539c0278f9c6ce62f7ca01b522",
+              "id": "34461:40386",
+              "name": "Compact=False, ErrorState=True",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "494e76f41f35a9129c7c8f559efb7c301a2da74f",
+              "id": "34461:40396",
+              "name": "Compact=True, ErrorState=False",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "62fb61fc40db92a360d60e4c33eec2cf204c29e3",
+              "id": "34461:40406",
+              "name": "Compact=True, ErrorState=True",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Compact=False, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Compact=False, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Compact=False, ErrorState=False",
+            "path": "Compact=False, ErrorState=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Digits",
+            "path": "Compact=False, ErrorState=False / Digits",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "6efbdb5209155f539c0278f9c6ce62f7ca01b522": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ],
+          "62fb61fc40db92a360d60e4c33eec2cf204c29e3": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "36d50aef4bc1c8a71c5c8d2818e8e6d346897380",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "6efbdb5209155f539c0278f9c6ce62f7ca01b522",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "494e76f41f35a9129c7c8f559efb7c301a2da74f",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "62fb61fc40db92a360d60e4c33eec2cf204c29e3",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "🔄 Замени на актуальный",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component uses raw color without token",
+          "generated id collision for code-input.desktop; appended key suffix 93054cea"
+        ]
+      }
+    },
+    {
+      "id": "code-input.mobile-web",
+      "name": "[M] CodeInput",
+      "normalizedName": "code-input",
+      "componentKey": "4e45cbf3787b16d0953f56808f938aee05158b1c",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "2493b4533c7d97379aad40b91e5584b2d2cc2bc9",
+        "variants": {
+          "properties": {
+            "Compact": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            {
+              "Compact": "True",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "2493b4533c7d97379aad40b91e5584b2d2cc2bc9",
+              "id": "777:44651",
+              "name": "Compact=False, ErrorState=False",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "6c1ccbed6c47eb6a3484ea28a4be82ccb841b615",
+              "id": "777:44658",
+              "name": "Compact=False, ErrorState=True",
+              "properties": {
+                "Compact": "False",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "63eb7b0bf2aeb4eaa66b8caab3085b059d082ff7",
+              "id": "777:44693",
+              "name": "Compact=True, ErrorState=False",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "1e01d766881ecccaf693c2c62afd1a432dd854df",
+              "id": "777:44700",
+              "name": "Compact=True, ErrorState=True",
+              "properties": {
+                "Compact": "True",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Compact=False, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Compact=False, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Compact=False, ErrorState=False",
+            "path": "Compact=False, ErrorState=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Digits",
+            "path": "Compact=False, ErrorState=False / Digits",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "CodeInputDigit",
+            "path": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "ActiveState": "False",
+              "DisabledState": "False",
+              "ErrorState": "False",
+              "FilledState": "False"
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "ActiveState": "False",
+                "DisabledState": "False",
+                "ErrorState": "False",
+                "FilledState": "False"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "6c1ccbed6c47eb6a3484ea28a4be82ccb841b615": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ],
+          "1e01d766881ecccaf693c2c62afd1a432dd854df": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                "componentInstance": {
+                  "variantProperties": {
+                    "ActiveState": "False",
+                    "DisabledState": "False",
+                    "ErrorState": "True",
+                    "FilledState": "True"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "2493b4533c7d97379aad40b91e5584b2d2cc2bc9",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "6c1ccbed6c47eb6a3484ea28a4be82ccb841b615",
+            "when": {
+              "Compact": "False",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=False, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=False, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "63eb7b0bf2aeb4eaa66b8caab3085b059d082ff7",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "1e01d766881ecccaf693c2c62afd1a432dd854df",
+            "when": {
+              "Compact": "True",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Compact=False, ErrorState=False",
+                "nodePath": "Compact=False, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "CodeInputDigit",
+                "nodePath": "Compact=False, ErrorState=False / Digits / CodeInputDigit",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "Compact=True, ErrorState=True / Digits / CodeInputDigit / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Compact=True, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit.desktop",
+      "name": "🔩 [D] CodeInputDigit",
+      "normalizedName": "code-input-digit",
+      "componentKey": "3357eb768818e459eeb27de79b7595549a52b1da",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "976a28724c76de1208099aa95c285012cee90490",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "976a28724c76de1208099aa95c285012cee90490",
+              "id": "777:44346",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "9cd3c444e24341b233ae447e3ae53d2b546dcc37",
+              "id": "777:44348",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "22f9e1f2ed66e9d0e10317715dba94583db49a55",
+              "id": "777:44531",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "dd3cb62862d259853309b72aa277cd23254f2309",
+              "id": "777:44356",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "a2b5f50bdb0453d4b6397be301420a5c78b0251a",
+              "id": "777:44537",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "f9d27fc725a6b335058d403f9b9a765d224cb220",
+              "id": "777:44364",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "6c771a47b466cf8ea6ef030b3fd5ddd5759128d9",
+              "id": "777:44360",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "a2b5f50bdb0453d4b6397be301420a5c78b0251a": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "f9d27fc725a6b335058d403f9b9a765d224cb220": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "976a28724c76de1208099aa95c285012cee90490",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "9cd3c444e24341b233ae447e3ae53d2b546dcc37",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "22f9e1f2ed66e9d0e10317715dba94583db49a55",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "dd3cb62862d259853309b72aa277cd23254f2309",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a2b5f50bdb0453d4b6397be301420a5c78b0251a",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "f9d27fc725a6b335058d403f9b9a765d224cb220",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "6c771a47b466cf8ea6ef030b3fd5ddd5759128d9",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Desktop",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit-compact.desktop",
+      "name": "🔩 [D] CodeInputDigit_Compact",
+      "normalizedName": "code-input-digit-compact",
+      "componentKey": "d4bc1f946c265ad5186bcefeb06afe8e08ca3b4a",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "a3f06e9a682cd8f3a5095b1c4b98aa1277db4232",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "a3f06e9a682cd8f3a5095b1c4b98aa1277db4232",
+              "id": "777:44552",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "f2a40ebacbcf3f555b569969abf11dde33f52430",
+              "id": "777:44553",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "0f8d33c58011214dd150684d692e2acc68b94851",
+              "id": "777:44555",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "60f01d90ac0b37523a80ccf715e3b087a2353bd3",
+              "id": "777:44558",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "1a8ee27307ce0ae6f1d59abd5b6898073a0d4cb5",
+              "id": "777:44564",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "7d74886adcd87204f9ef8f615d0f855760e7ac51",
+              "id": "777:44562",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "c2259d9db602f0246bd0d589b75f31e6b91f525e",
+              "id": "777:44560",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "1a8ee27307ce0ae6f1d59abd5b6898073a0d4cb5": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "7d74886adcd87204f9ef8f615d0f855760e7ac51": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "a3f06e9a682cd8f3a5095b1c4b98aa1277db4232",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "f2a40ebacbcf3f555b569969abf11dde33f52430",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "0f8d33c58011214dd150684d692e2acc68b94851",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "60f01d90ac0b37523a80ccf715e3b087a2353bd3",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "1a8ee27307ce0ae6f1d59abd5b6898073a0d4cb5",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "7d74886adcd87204f9ef8f615d0f855760e7ac51",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c2259d9db602f0246bd0d589b75f31e6b91f525e",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Desktop Compact",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit.desktop.425789b0",
+      "name": "🔩 [D][Corporate] CodeInputDigit",
+      "normalizedName": "code-input-digit",
+      "componentKey": "7be977087e69043d7a04c588f6f3f16ecd2debe8",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "b9a094bb32402bcb93b9c395ae8e116a70fc8d02",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "b9a094bb32402bcb93b9c395ae8e116a70fc8d02",
+              "id": "34461:40460",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "b975a132179e401f7d74cc4e2738f5374ab453ee",
+              "id": "34461:40461",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "099092e56643c886fbf0ac06461693f7f9c2c009",
+              "id": "34461:40463",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "56508bbfdfcfb6bb6fe7de921263c8f794b2744c",
+              "id": "34461:40466",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "0546cc4eab7b698fd6229c0c03b1aff8e60aff9a",
+              "id": "34461:40468",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "d80eb4197754927d11804b51f7034ea7611660f0",
+              "id": "34461:40469",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "fe61f64789e2fe1e4c6d745d73b9f8992e03aab8",
+              "id": "34461:40471",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "0546cc4eab7b698fd6229c0c03b1aff8e60aff9a": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "d80eb4197754927d11804b51f7034ea7611660f0": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "b9a094bb32402bcb93b9c395ae8e116a70fc8d02",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "b975a132179e401f7d74cc4e2738f5374ab453ee",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "099092e56643c886fbf0ac06461693f7f9c2c009",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "56508bbfdfcfb6bb6fe7de921263c8f794b2744c",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "0546cc4eab7b698fd6229c0c03b1aff8e60aff9a",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d80eb4197754927d11804b51f7034ea7611660f0",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "fe61f64789e2fe1e4c6d745d73b9f8992e03aab8",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Desktop",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "generated id collision for code-input-digit.desktop; appended key suffix 425789b0"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit-compact.desktop.17eb9434",
+      "name": "🔩 [D][Corporate] CodeInputDigit_Compact",
+      "normalizedName": "code-input-digit-compact",
+      "componentKey": "ec9102096d6831ab17ec261dd456d8b1bf4434bc",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "ae14090d4a72e6fb848a8de83b6fc3749643b20d",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "ae14090d4a72e6fb848a8de83b6fc3749643b20d",
+              "id": "34461:40488",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "ea17c8e820661dbb0b00a33b73aaa4ba325e1ba6",
+              "id": "34461:40489",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "25d8eea4f0bd30594fdb4deffb56afcd9b72be19",
+              "id": "34461:40491",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "b3eb848b83cb3fc1caa4a9c9cdf7a624f199616d",
+              "id": "34461:40494",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "0fa1e09474d5546925ecd032751342e7102f9c9f",
+              "id": "34461:40496",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "51d53a3a214d5f2af0898cb3a424fd6f5eb672fd",
+              "id": "34461:40497",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "c7c5980e11cde3232010254438036711d66802c6",
+              "id": "34461:40499",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "0fa1e09474d5546925ecd032751342e7102f9c9f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "51d53a3a214d5f2af0898cb3a424fd6f5eb672fd": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "ae14090d4a72e6fb848a8de83b6fc3749643b20d",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "ea17c8e820661dbb0b00a33b73aaa4ba325e1ba6",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "25d8eea4f0bd30594fdb4deffb56afcd9b72be19",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b3eb848b83cb3fc1caa4a9c9cdf7a624f199616d",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "0fa1e09474d5546925ecd032751342e7102f9c9f",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "51d53a3a214d5f2af0898cb3a424fd6f5eb672fd",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c7c5980e11cde3232010254438036711d66802c6",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Desktop Compact",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "generated id collision for code-input-digit-compact.desktop; appended key suffix 17eb9434"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit.mobile-web",
+      "name": "🔩 [M] CodeInputDigit",
+      "normalizedName": "code-input-digit",
+      "componentKey": "f8916eb79b04fdedfc00236024d83de6cabf37f1",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "35dae338b5d3a2091d6237f4531f64b39165d781",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "35dae338b5d3a2091d6237f4531f64b39165d781",
+              "id": "777:44566",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "1954bfd2d4bcb1c538c5b9306c3cf921359f6d07",
+              "id": "777:44568",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "ac836302631976fab72167a52fa8b925be810937",
+              "id": "777:44572",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "0d9391f53710fe1273449cf94c1b3afaee5f248b",
+              "id": "777:44578",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "8a651244f585fa70ddc6657844b47e17309005f5",
+              "id": "777:44590",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "b91ac2d1c59a29f4b227732ac84be0ae94e9df2f",
+              "id": "777:44586",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "8bac687feb27c62cfad42bd936e0a36e8861b0f0",
+              "id": "777:44582",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          }
+        ],
+        "variantStructures": {
+          "8a651244f585fa70ddc6657844b47e17309005f5": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "b91ac2d1c59a29f4b227732ac84be0ae94e9df2f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "35dae338b5d3a2091d6237f4531f64b39165d781",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "1954bfd2d4bcb1c538c5b9306c3cf921359f6d07",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "ac836302631976fab72167a52fa8b925be810937",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "0d9391f53710fe1273449cf94c1b3afaee5f248b",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "8a651244f585fa70ddc6657844b47e17309005f5",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b91ac2d1c59a29f4b227732ac84be0ae94e9df2f",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "8bac687feb27c62cfad42bd936e0a36e8861b0f0",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Mobile",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "code-input-digit-compact.mobile-web",
+      "name": "🔩 [M] CodeInputDigit_Compact",
+      "normalizedName": "code-input-digit-compact",
+      "componentKey": "bee0751c3e5cce65a989372c67648d326c6c6171",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "be3cb4ab9ff4668e8d8495641f52681228674566",
+        "variants": {
+          "properties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ],
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "FilledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "be3cb4ab9ff4668e8d8495641f52681228674566",
+              "id": "777:44567",
+              "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "1c3a9995b9f54005c583ff67a531dca34dab6c7c",
+              "id": "777:44570",
+              "name": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "False",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "4f59332bd96fd5c6133b00661cefdc8d48147a13",
+              "id": "777:44575",
+              "name": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "True",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "43cc41b6499777d20aa619a629ab34c5601ec594",
+              "id": "777:44580",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "3aa2f5546fe2d14551cede6f7a7bc73de1577ead",
+              "id": "777:44591",
+              "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "False",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "b470fd43b45041019f216c0b99bb5237c303ad4c",
+              "id": "777:44588",
+              "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "True",
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "2779872ed0d4aec5e7b29fb2fb01fa000d15a599",
+              "id": "777:44584",
+              "name": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True",
+              "properties": {
+                "ActiveState": "False",
+                "FilledState": "True",
+                "ErrorState": "False",
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "type": "COMPONENT",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "path": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          }
+        ],
+        "variantStructures": {
+          "3aa2f5546fe2d14551cede6f7a7bc73de1577ead": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=False, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ],
+          "b470fd43b45041019f216c0b99bb5237c303ad4c": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:5e69677d8d33234d6d050cfc7e411750ca9f3aa4/3541:193"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "be3cb4ab9ff4668e8d8495641f52681228674566",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "1c3a9995b9f54005c583ff67a531dca34dab6c7c",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "False",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=False, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4f59332bd96fd5c6133b00661cefdc8d48147a13",
+            "when": {
+              "ActiveState": "True",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Cursor",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Cursor",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=True, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "43cc41b6499777d20aa619a629ab34c5601ec594",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "3aa2f5546fe2d14551cede6f7a7bc73de1577ead",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "False",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b470fd43b45041019f216c0b99bb5237c303ad4c",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "True",
+              "DisabledState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=True, DisabledState=False / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2779872ed0d4aec5e7b29fb2fb01fa000d15a599",
+            "when": {
+              "ActiveState": "False",
+              "FilledState": "True",
+              "ErrorState": "False",
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "nodePath": "ActiveState=False, FilledState=False, ErrorState=False, DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Digit",
+                "nodePath": "ActiveState=False, FilledState=True, ErrorState=False, DisabledState=True / Digit",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Mobile compact",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

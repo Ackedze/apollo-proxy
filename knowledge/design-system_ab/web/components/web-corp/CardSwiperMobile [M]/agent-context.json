@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.card-swiper-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "owner-confirmed",
+      "updatedAt": "2026-08-03"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CardSwiperMobile [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CardSwiperMobile [M]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "CardSwiperMobile [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "CardSwiperMobile",
+        "key": "71276eaed89138c3a234084b2f7339019a558aec",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Screen Size": [
+            "320-360",
+            "360+"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "CardSwiperMobile [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Активный mobile-web компонент для просмотра и выбора банковской карты в нециклической карусели."
+    },
+    "usageGuidance": [
+      "Используй CardSwiperMobile только на mobile-web и только с одной или более банковскими картами.",
+      "Сохраняй исходный порядок карт. Если selectedIndex не задан, используется индекс 0; при нескольких картах явный selectedIndex рекомендуется.",
+      "Текущая карта находится по центру и использует CardImage Size=264x164; доступные соседи используют 212x132.",
+      "При одной карте показывай только current; при двух — current и доступного соседа; при трёх и более — previous/current/next.",
+      "Управляй соседями exact root properties: Show Start#17127:0 для previous и Show End#17127:3 для next; значения следуют selectedIndex.",
+      "На краях списка current остаётся по центру, отсутствующий сосед не отображается.",
+      "Карусель нециклическая. Один свайп или тап по боковой карте переключает ровно одну позицию.",
+      "Screen Size=320-360 соответствует viewport 320–359 px, Screen Size=360+ — от 360 px включительно.",
+      "Верхний spacing всегда 24 px, нижний всегда 32 px; generated delta 24 px снизу для 320-360 не является целевым правилом.",
+      "Cover, State и данные карт могут различаться и наследуют exact contract CardImage. Размер, Stack=false, позиция и геометрия принадлежат CardSwiperMobile.",
+      "Active, Inactive и Locked разрешены и не блокируют прокрутку; current определяется позицией, а не State.",
+      "Центральная карта не является CTA карусели, но вложенное действие CardImage допустимо, например показ реквизитов по иконке.",
+      "Не добавляй pagination indicators, стрелки, подписи, Loading, Error или Empty внутрь компонента.",
+      "Сохраняй motion; точные duration, easing и reduced-motion проверяй по React-контракту."
+    ],
+    "criticalBaselines": [
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.mobile-web-only",
+        "baseline": "CardSwiperMobile применяется только на mobile-web."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.requires-at-least-one-card",
+        "baseline": "Минимум одна карта; при нуле компонент отсутствует."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.selection-geometry",
+        "baseline": "Current = center/264x164; previous и next = 212x132; Stack=false."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.neighbor-visibility-properties",
+        "baseline": "Show Start истинно только при previous; Show End — только при next."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.screen-size-follows-viewport",
+        "baseline": "Screen Size автоматически следует viewport с границей 360 px."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.fixed-vertical-spacing",
+        "baseline": "24 px сверху и 32 px снизу для обоих Screen Size."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.non-cyclic-navigation",
+        "baseline": "Навигация нециклическая и останавливается на краях."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.card-image-contract-is-inherited",
+        "baseline": "Каждая карта наследует CardImage contract; host владеет Size, Stack и позицией."
+      }
+    ],
+    "ruleHighlights": [
+      "component:web-corp.card-swiper-mobile.public-root-only",
+      "component:web-corp.card-swiper-mobile.mobile-web-only",
+      "component:web-corp.card-swiper-mobile.requires-at-least-one-card",
+      "component:web-corp.card-swiper-mobile.preserves-source-order",
+      "component:web-corp.card-swiper-mobile.selection-geometry",
+      "component:web-corp.card-swiper-mobile.edge-window-behavior",
+      "component:web-corp.card-swiper-mobile.neighbor-visibility-properties",
+      "component:web-corp.card-swiper-mobile.screen-size-follows-viewport",
+      "component:web-corp.card-swiper-mobile.fixed-vertical-spacing",
+      "component:web-corp.card-swiper-mobile.non-cyclic-navigation",
+      "component:web-corp.card-swiper-mobile.one-step-navigation",
+      "component:web-corp.card-swiper-mobile.card-image-contract-is-inherited",
+      "component:web-corp.card-swiper-mobile.interaction-ownership",
+      "component:web-corp.card-swiper-mobile.accessibility-contract"
+    ],
+    "agentInstructions": [
+      "Не выводи product rule только из raw, screenshot или примера; используй exact ruleId и owner-confirmed manual context.",
+      "Не считай разные Cover или State нарушением: они разрешены и проверяются по CardImage contract независимо для каждой карты.",
+      "Не называй Locked или Inactive недоступной для выбора: State не блокирует прокрутку и не определяет current.",
+      "Не объявляй любой тап по центральной карте запрещённым: разрешено вложенное действие CardImage, не меняющее carousel selection.",
+      "Не придумывай package, import, prop names, duration, easing или reduced-motion behavior до получения evidence из React-контракта.",
+      "Не предлагай detach или ручную сборку из CardImage для изменения количества карт."
+    ],
+    "codeExports": [],
+    "codeTarget": {
+      "availability": "existing-unverified-api",
+      "codeConnect": false,
+      "requiredEvidence": [
+        "package",
+        "import",
+        "props",
+        "motion and reduced-motion contract"
+      ]
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.Screen Size",
+        "boolean.Show Start#17127:0",
+        "boolean.Show End#17127:3"
+      ],
+      "contentProperties": [
+        "cards",
+        "selectedIndex",
+        "card order"
+      ],
+      "nestedProperties": [
+        "CardImage Cover",
+        "CardImage State",
+        "CardImage content"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сначала разреши viewport, selectedIndex, роль previous/current/next и host-owned CardImage Size/Stack; затем сравнивай nested CardImage с его effective baseline."
+    }
+  }
+}

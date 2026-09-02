@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-core.button",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "button.variant-view-change",
+        "title": "Changed component state",
+        "inputChange": {
+          "node": "[D] Button",
+          "property": "variant.View",
+          "referenceValue": "Primary",
+          "actualValue": "Accent"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "showAs": "view: primary → accent",
+          "ruleCandidates": [
+            "component:web-core.button.desktop-safe-variants"
+          ]
+        }
+      },
+      {
+        "exampleId": "button.variant-and-manual-fill-change",
+        "title": "Changed component state and then manually recolored current state",
+        "inputChanges": [
+          {
+            "node": "[D] Button",
+            "property": "variant.View",
+            "referenceValue": "Primary",
+            "actualValue": "Accent"
+          },
+          {
+            "node": "[D] Button",
+            "property": "fill",
+            "referenceValue": "Button/Desktop/Colors/Accent/bg",
+            "actualValue": "text/positive"
+          }
+        ],
+        "expectedAudit": {
+          "category": "customizations",
+          "groups": [
+            {
+              "scope": "component-property",
+              "showAs": "view: primary → accent"
+            },
+            {
+              "scope": "layer-property",
+              "showAs": "заливка: Button/Desktop/Colors/Accent/bg → text/positive"
+            }
+          ]
+        }
+      },
+      {
+        "exampleId": "button.single-icon-change",
+        "title": "Changed icon-only state inside composed component",
+        "inputChange": {
+          "node": "[D] Button",
+          "property": "variant.SingleIcon",
+          "referenceValue": "False",
+          "actualValue": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "showAs": "singleIcon: false → true"
+        }
+      },
+      {
+        "exampleId": "button.label-text-style-change",
+        "title": "Changed label text style manually",
+        "inputChange": {
+          "node": "Text / Label",
+          "property": "styles.text",
+          "referenceValue": "Action/16–20 Component Primary",
+          "actualValue": "Action/11–16 Secondary Small"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "layer-property",
+          "showAs": "Стиль текст: Action/16–20 Component Primary → Action/11–16 Secondary Small"
+        }
+      }
+    ]
+  }
+}

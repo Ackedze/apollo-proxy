@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.gallery",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-06-17"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/misc/Web _ Core Misc -- Gallery.json",
+      "library": "Web _ Core Misc",
+      "file": "Web _ Core Misc",
+      "generatedAt": "2026-06-17T08:57:18.024Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Gallery"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Gallery",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] Gallery",
+        "key": "8441026251194d74182025e1f2d7fd6c36f512c2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Image",
+            "Video"
+          ]
+        }
+      },
+      {
+        "name": "[M] Gallery",
+        "key": "96d2830ff69f8cea5060c62d8fc01f1553bf317c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Image",
+            "Video"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] GalleryMedia",
+        "key": "5ed9552f4ba24f1b99075207185773a4423a9d24",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Arrows": [
+            "false",
+            "true"
+          ],
+          "Expanded": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] GalleryMediaContent / Video",
+        "key": "46c128ba5ffa32defc420ecb2523593b9859a69f",
+        "description": "Desktop",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Error",
+            "Loading"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] GalleryNavigationItem",
+        "key": "5f3f195fd8d7dc6393a9554cdc1efb45edc8ce8c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Selected": [
+            "false",
+            "true"
+          ],
+          "State": [
+            "Default",
+            "Error",
+            "Loading"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] GalleryMediaContent / Video",
+        "key": "818bdfe197406ca4d4ca8241c368b8d0f04dfc3c",
+        "description": "Mobile",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Error",
+            "Loading"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] GalleryNavigation",
+        "key": "da3835003e6374324ead0fd7907b652150ddcf5c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Photo",
+            "Video"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] GalleryNavigationItem",
+        "key": "43d347a4f8dce73d5d2bd396d8f2658a402d137c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Selected": [
+            "false",
+            "true"
+          ],
+          "State": [
+            "Default",
+            "Error",
+            "Loading"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] GalleryTitle",
+        "key": "6ddd03365a78c5e9193f320b777a52e8b4e6e436",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Photo",
+            "Video"
+          ]
+        }
+      },
+      {
+        "name": "🔩 GalleryArrowsButton",
+        "key": "e93fda9152e030f4940bafb4cedf0572ce70cd5e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Left",
+            "Right"
+          ]
+        }
+      },
+      {
+        "name": "🔩 GalleryMediaContent / Image",
+        "key": "159a3e0f8245c90e98731730ecb9ecc4d15b7db3",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Error",
+            "Loading"
+          ]
+        }
+      },
+      {
+        "name": "🔩 GallerySoundButton",
+        "key": "37740fc5cbb338e8a696341d2628d2bfeb1823f2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Sound": [
+            "off",
+            "on"
+          ]
+        }
+      },
+      {
+        "name": "🔩 GalleryZoomButton",
+        "key": "50689f522ebbe0bbd08fda97fcdcc372c796bcbf",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Action": [
+            "Collapse",
+            "Expand"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] GalleryHeader",
+        "key": "c154ff82a222d314dc76969bb6e1afbd4fce8d3a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] GalleryNavigation",
+        "key": "768dbd0e3074ae2ec0e3a0bd1e83b0dc9adb968b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] GalleryTitle",
+        "key": "73d50779aa6b4652d528bb077e02234a3d113b51",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] GalleryHeader",
+        "key": "44437c71504884832f24f0455dbabef60f0629b4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] GalleryMedia",
+        "key": "910cb914d299d5dac318be3f1a72a210b6672041",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 Gallery ButtonPlay",
+        "key": "c09eb53441ad1865121749585bbb4abbe76565d2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Gallery",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

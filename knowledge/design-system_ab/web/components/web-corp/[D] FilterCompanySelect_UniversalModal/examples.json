@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select-universal-modal",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "filter-company-select-universal-modal.single-company",
+        "title": "Выбор одной компании внутри UniversalModal",
+        "inputState": {
+          "platform": "desktop",
+          "host": "UniversalModal",
+          "Open": "False",
+          "selectionModel": "single"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.open-demo",
+        "title": "Открытый список показан в демонстрационном макете",
+        "inputState": {
+          "platform": "desktop",
+          "host": "UniversalModal",
+          "Open": "true",
+          "purpose": "interaction-demo"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Open=true всегда является нарушением."
+        ]
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.outside-modal",
+        "title": "Preset использован самостоятельно на странице",
+        "inputState": {
+          "platform": "desktop",
+          "host": "page-content"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.universal-modal-only"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.search-at-ten",
+        "title": "Поиск показан при десяти компаниях",
+        "inputState": {
+          "companyCount": 10,
+          "searchVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.search-visible-over-ten"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.mobile-web",
+        "title": "Desktop preset использован на mobile-web",
+        "inputState": {
+          "platform": "mobile-web",
+          "host": "UniversalModal"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.desktop-only"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.header-hidden-at-ten",
+        "title": "При десяти компаниях скрыт весь OptionListHeader",
+        "inputState": {
+          "companyCount": 10,
+          "optionListHeaderVisible": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.empty-selection",
+        "title": "В preset отсутствует текущая выбранная компания",
+        "inputState": {
+          "selectedCompany": null,
+          "companyLogoVisible": false,
+          "selectedRowCheckmark": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.selection-required"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.visible-compact-label",
+        "title": "В CompactTag включена подпись Компания",
+        "inputState": {
+          "compactTagLabelVisible": true,
+          "compactTagSeparatorVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.compact-tag-content"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.detached",
+        "title": "Preset отсоединён от библиотеки",
+        "inputState": {
+          "instanceStatus": "detached"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.preserve-library-composition"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.two-per-modal",
+        "title": "В UniversalModal размещены два экземпляра preset",
+        "inputState": {
+          "host": "UniversalModal",
+          "instanceCount": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.one-per-modal"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.option-with-inn",
+        "title": "В строку списка добавлен ИНН",
+        "inputState": {
+          "optionListCellVisibleFields": [
+            "companyName",
+            "inn"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.option-cell-company-name-only"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.width-customized",
+        "title": "Ширина trigger и dropdown адаптирована к модалке",
+        "inputState": {
+          "rootWidthChanged": true,
+          "dropdownWidthChanged": true,
+          "internalPaddingChanged": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Любое изменение ширины preset запрещено."
+        ]
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.correct-header-composition",
+        "title": "Preset корректно собран в UniversalModalHeader",
+        "inputState": {
+          "host": "[D] UniversalModalHeader",
+          "Content": "True",
+          "Custom": "True",
+          "FilledBg": "host-owned",
+          "LeftAddon.Custom": "True",
+          "LeftAddon.Back": "False",
+          "LeftAddon.swapComponent": "🔒 [D] FilterCompanySelect_UniversalModal",
+          "MiddleSlot.Custom": "False",
+          "MiddleSlot.Empty": "True",
+          "MiddleSlot.Title": "False",
+          "MiddleSlot.BigTitle": "False",
+          "RightAddon.Custom": "False",
+          "RightAddon.Cross": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.wrong-header-slot",
+        "title": "Preset помещён в MiddleSlot вместо LeftAddon",
+        "inputState": {
+          "host": "[D] UniversalModalHeader",
+          "Custom": "True",
+          "MiddleSlot.swapComponent": "🔒 [D] FilterCompanySelect_UniversalModal"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.header-composition"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.logo-separate-action",
+        "title": "Логотипу назначено отдельное действие",
+        "inputState": {
+          "triggerAction": "open company list",
+          "companyLogoAction": "open company profile"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.trigger-and-open-state"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.visual-override",
+        "title": "Вручную изменён цвет trigger",
+        "inputState": {
+          "property": "fill",
+          "actual": "raw-color"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.visual-baseline"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.long-name",
+        "title": "Длинное название компании сокращено без tooltip",
+        "inputState": {
+          "lineCount": 1,
+          "overflow": "ellipsis",
+          "tooltip": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.tooltip-added",
+        "title": "К сокращённому названию компании добавлен tooltip",
+        "inputState": {
+          "lineCount": 1,
+          "overflow": "ellipsis",
+          "tooltip": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.company-name-overflow"
+        }
+      },
+      {
+        "exampleId": "filter-company-select-universal-modal.selection-closes-modal",
+        "title": "Выбор компании закрывает всю модалку",
+        "inputState": {
+          "action": "select-company",
+          "dropdownOpenAfter": false,
+          "universalModalOpenAfter": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select-universal-modal.trigger-and-open-state"
+        }
+      }
+    ]
+  }
+}

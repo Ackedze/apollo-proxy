@@ -1,0 +1,578 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.button-stack",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "ButtonStack [M]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / Checkbox / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / Checkbox / CheckboxLabel_24 / Checkbox",
+        "componentName": "Checkbox",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / Checkbox / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / Checkbox / Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / Checkbox / Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / MainButtonStack / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / MainButtonStack / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / MainButtonStack / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / MainButtonStack / [M] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] ButtonStack",
+        "path": "Presets=Primary, Background=False / Content / MainButtonStack / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "presetRoots": [
+        "🔒 [M] ButtonStack"
+      ],
+      "figmaOnly": true,
+      "lifecycle": "active",
+      "codeExportExpected": false,
+      "nestedComponents": [
+        "[M] Button",
+        "CheckboxLabel_24",
+        "Checkbox",
+        "StatusBadge",
+        "information-compact"
+      ],
+      "nestedButtonEditable": true,
+      "nestedInstanceSwapAllowed": false,
+      "defaultNestedDiffPolicy": "resolve the ButtonStack preset and nested component variants before comparing layer changes"
+    },
+    "contracts": [
+      {
+        "id": "button-stack.primary",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Presets": "Primary"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "[M] Button"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "op": "countBetween",
+            "min": 1,
+            "max": 1,
+            "message": "Presets=Primary должен содержать ровно одну кнопку"
+          },
+          {
+            "id": "button-view-order",
+            "op": "propertySequence",
+            "property": "View",
+            "values": [
+              "Primary"
+            ],
+            "message": "Presets=Primary должен содержать одну Primary-кнопку"
+          }
+        ]
+      },
+      {
+        "id": "button-stack.secondary",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Presets": "Secondary"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "[M] Button"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "op": "countBetween",
+            "min": 1,
+            "max": 1,
+            "message": "Presets=Secondary должен содержать ровно одну кнопку"
+          },
+          {
+            "id": "button-view-order",
+            "op": "propertySequence",
+            "property": "View",
+            "values": [
+              "Secondary"
+            ],
+            "message": "Presets=Secondary должен содержать одну Secondary-кнопку"
+          }
+        ]
+      },
+      {
+        "id": "button-stack.group-horizontal",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Presets": "Group Horizontal"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "[M] Button"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "op": "countBetween",
+            "min": 2,
+            "max": 2,
+            "message": "Presets=Group Horizontal должен содержать ровно две кнопки"
+          },
+          {
+            "id": "button-view-order",
+            "op": "propertySequence",
+            "property": "View",
+            "values": [
+              "Secondary",
+              "Primary"
+            ],
+            "message": "В Group Horizontal Secondary должна быть слева, Primary — справа"
+          }
+        ]
+      },
+      {
+        "id": "button-stack.group-vertical",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Presets": "Group Vertical"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "[M] Button"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "op": "countBetween",
+            "min": 2,
+            "max": 2,
+            "message": "Presets=Group Vertical должен содержать ровно две кнопки"
+          },
+          {
+            "id": "button-view-order",
+            "op": "propertySequence",
+            "property": "View",
+            "values": [
+              "Primary",
+              "Secondary"
+            ],
+            "message": "В Group Vertical Primary должна быть сверху, Secondary — снизу"
+          }
+        ]
+      },
+      {
+        "id": "button-stack.primary-icon",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Presets": "Primary + Icon"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "[M] Button"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "button-count",
+            "op": "countBetween",
+            "min": 2,
+            "max": 2,
+            "message": "Presets=Primary + Icon должен содержать ровно две кнопки"
+          },
+          {
+            "id": "button-view-order",
+            "op": "propertySequence",
+            "property": "View",
+            "values": [
+              "Primary",
+              "Secondary"
+            ],
+            "message": "В Primary + Icon основной Primary action должен быть первым"
+          },
+          {
+            "id": "single-icon-order",
+            "op": "propertySequence",
+            "property": "SingleIcon",
+            "values": [
+              "False",
+              "True"
+            ],
+            "message": "В Primary + Icon icon-only кнопка должна быть второй"
+          }
+        ]
+      },
+      {
+        "id": "button-stack.information-addon",
+        "match": {
+          "hostComponentNames": [
+            "🔒 [M] ButtonStack"
+          ]
+        },
+        "select": {
+          "nestedComponentNames": [
+            "StatusBadge"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "status-size",
+            "op": "propertyDomain",
+            "property": "Size",
+            "values": [
+              "16"
+            ],
+            "message": "Information addon должен использовать StatusBadge Size=16"
+          },
+          {
+            "id": "status-view",
+            "op": "propertyDomain",
+            "property": "View",
+            "values": [
+              "NeutralInformation"
+            ],
+            "message": "Information addon должен использовать StatusBadge View=NeutralInformation"
+          }
+        ]
+      }
+    ],
+    "compositionPolicy": {
+      "usage": {
+        "platform": "mobile-web",
+        "role": "bottom action zone",
+        "position": "absolute",
+        "bottom": 0,
+        "scrollsWithContent": false,
+        "inlinePlacementAllowed": false,
+        "contentSpaceMustBeReserved": true
+      },
+      "presets": {
+        "Primary": {
+          "children": [
+            {
+              "component": "[M] Button",
+              "View": "Primary",
+              "width": "Fill"
+            }
+          ]
+        },
+        "Secondary": {
+          "children": [
+            {
+              "component": "[M] Button",
+              "View": "Secondary",
+              "width": "Fill"
+            }
+          ]
+        },
+        "Group Horizontal": {
+          "direction": "horizontal",
+          "children": [
+            {
+              "component": "[M] Button",
+              "View": "Secondary",
+              "position": "left",
+              "width": "equal"
+            },
+            {
+              "component": "[M] Button",
+              "View": "Primary",
+              "position": "right",
+              "width": "equal"
+            }
+          ],
+          "requiresSingleLineLabels": true
+        },
+        "Group Vertical": {
+          "direction": "vertical",
+          "children": [
+            {
+              "component": "[M] Button",
+              "View": "Primary",
+              "position": "top",
+              "width": "Fill"
+            },
+            {
+              "component": "[M] Button",
+              "View": "Secondary",
+              "position": "bottom",
+              "width": "Fill"
+            }
+          ]
+        },
+        "Primary + Icon": {
+          "direction": "horizontal",
+          "children": [
+            {
+              "component": "[M] Button",
+              "View": "Primary",
+              "position": "left",
+              "width": "Fill remaining width"
+            },
+            {
+              "component": "[M] Button",
+              "kind": "icon-only",
+              "position": "right",
+              "width": "component fixed size",
+              "preferredIcon": "glyph-26/dots-three-horizontal"
+            }
+          ]
+        }
+      },
+      "structure": {
+        "manualAddOrRemoveAllowed": false,
+        "instanceSwapAllowed": false,
+        "presetOwnedProperties": [
+          "button count",
+          "button order",
+          "View hierarchy",
+          "direction",
+          "gap",
+          "padding",
+          "sizing"
+        ]
+      },
+      "rootSizing": {
+        "horizontal": "Fill",
+        "vertical": "Hug",
+        "padding": {
+          "top": 16,
+          "right": 20,
+          "bottom": 16,
+          "left": 20
+        }
+      },
+      "option": {
+        "component": "CheckboxLabel_24",
+        "optional": true,
+        "purpose": "contextual option that complements the main action",
+        "controlsPrimaryAvailability": "context-dependent",
+        "labelLimit": {
+          "characters": 80,
+          "lines": 2,
+          "severity": "warning",
+          "upstreamContractWins": true
+        },
+        "states": {
+          "DisabledLabel": false,
+          "ErrorMessage": false,
+          "Hint": false
+        },
+        "informationAddon": {
+          "optional": true,
+          "component": "StatusBadge",
+          "View": "NeutralInformation",
+          "icon": "information-compact"
+        }
+      },
+      "nestedButtons": {
+        "inheritFrom": "[M] Button",
+        "editableProperties": [
+          "Label",
+          "loading",
+          "DisabledState",
+          "allowed addons",
+          "allowed icons"
+        ],
+        "presetOwnedProperties": [
+          "count",
+          "order",
+          "View",
+          "layout",
+          "sizing"
+        ]
+      },
+      "responsiveParity": {
+        "compareWithDesktopWhenPresent": true,
+        "preserve": [
+          "action count",
+          "action priority",
+          "labels",
+          "action meaning"
+        ]
+      },
+      "background": {
+        "allowedValues": [
+          false,
+          true
+        ],
+        "selectionRule": "unresolved",
+        "readyBlocking": false
+      },
+      "effectiveBaseline": {
+        "resolveOrder": [
+          "ButtonStack Presets",
+          "ButtonStack Background",
+          "optional Checkbox",
+          "nested [M] Button state"
+        ],
+        "compareManualLayersAfterResolution": true
+      }
+    }
+  }
+}

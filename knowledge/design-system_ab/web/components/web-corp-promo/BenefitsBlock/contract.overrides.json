@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web.benefits-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] BenefitsBlock",
+        "key": "b4d629a4d705312eedc26628d11d37af7c6e03d5",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Background",
+          "variant.Compact",
+          "variant.HeightCustom",
+          "variant.Image"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ButtonGroup",
+        "key": "355e767e0af8740570556d308a72bab68999c5c4",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.PrimaryButton",
+          "variant.SecondaryButton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ContentPresets",
+        "key": "2e3a9f9558c7e1a69689a514c9d18d6a7a99da06",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BenefitsBlock",
+        "key": "c7c7736a5c8e3b0afe950319c397f1de8660099a",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Background",
+          "variant.Image"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ButtonGroup",
+        "key": "e7512592ea6efc3ef7ba9a80809f4d7b9549756f",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.PrimaryButton",
+          "variant.SecondaryButton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ContentPresets",
+        "key": "2d0776f621a4b72b7d20633267d3c89f0ecab74b",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "[D] BenefitsBlock",
+        "role": "public-root",
+        "platform": "desktop",
+        "componentKey": "b4d629a4d705312eedc26628d11d37af7c6e03d5"
+      },
+      {
+        "name": "[M] BenefitsBlock",
+        "role": "public-root",
+        "platform": "mobile-web",
+        "componentKey": "c7c7736a5c8e3b0afe950319c397f1de8660099a"
+      }
+    ],
+    "publicApi": {
+      "figmaRoots": [
+        "[D] BenefitsBlock",
+        "[M] BenefitsBlock"
+      ],
+      "internalFamilies": [
+        "[D] ButtonGroup",
+        "[M] ButtonGroup",
+        "[D] ContentPresets",
+        "[M] ContentPresets"
+      ],
+      "internalFamiliesAreStandalone": false
+    },
+    "usage": {
+      "purpose": "Промо-баннер для яркой подачи ключевой информации и преимуществ пользователю.",
+      "context": "promo page",
+      "recommendedMaximumPerPage": 1,
+      "multiplePerPageAllowed": true,
+      "multiplePerPageIsViolation": false
+    },
+    "variantSemantics": {
+      "Image": "Desktop Left/Right и mobile-web Top/Bottom выбираются независимо.",
+      "Compact": "Desktop Compact=True при viewport ≤1024 px или когда контент не помещается в стандартный формат.",
+      "Background": "False означает размещение на внешней общей поверхности без собственного BackgroundPlate.",
+      "HeightCustom": "True позволяет задавать произвольную высоту BackgroundPlate; False растягивает BackgroundPlate только по высоте контента без учёта изображения."
+    },
+    "layoutSafety": {
+      "heightCustomAffects": "BackgroundPlate height",
+      "widthRestrictedByHeightCustom": false,
+      "contentImageOverlapAllowed": false
+    },
+    "contentModel": {
+      "required": [
+        "Title",
+        "Image"
+      ],
+      "contentPresets": {
+        "optional": true,
+        "types": {
+          "Text": "Простой текстовый блок с поддержкой заголовка.",
+          "List": "Перечень элементов.",
+          "Steps": "Инструкция или последовательность шагов."
+        }
+      },
+      "buttonGroup": {
+        "optional": true,
+        "allowed": [
+          "Primary only",
+          "Secondary only",
+          "Primary + Secondary"
+        ]
+      }
+    },
+    "responsivePolicy": {
+      "preserveAcrossPlatforms": [
+        "content",
+        "image",
+        "action count",
+        "action order"
+      ],
+      "imagePositionMayDiffer": true
+    },
+    "surfacePolicy": {
+      "Background=True": [
+        "Primary",
+        "Colored"
+      ],
+      "Background=False": "host shared surface"
+    },
+    "mobilePolicy": {
+      "heightCustomExposed": false,
+      "heightSource": "content and mobile preset layout"
+    },
+    "titleViewPolicy": {
+      "rightAddonVisible": false,
+      "titleAddonAllowedType": "StatusBadge"
+    },
+    "imagePolicy": {
+      "required": true,
+      "Crop": "Center",
+      "Size": "348",
+      "Segment": "match landing segment",
+      "rawBaselineDifference": {
+        "rawSize": "534",
+        "ownerConfirmedSize": "348",
+        "resolution": "use owner-confirmed curated value"
+      }
+    },
+    "surfaceOverrides": {
+      "Colored": "token-bound fill only",
+      "Primary": "preserve baseline; no color override"
+    },
+    "loadingPolicy": {
+      "allowedWhenBackgroundFalse": true,
+      "scope": "entire BenefitsBlock",
+      "covers": [
+        "Title",
+        "ContentPresets",
+        "Image",
+        "ButtonGroup"
+      ],
+      "actionsBlocked": true
+    },
+    "sizing": {
+      "horizontal": "Fill",
+      "vertical": "Hug",
+      "heightCustomScope": "BackgroundPlate height only",
+      "manualSizingOfOtherPartsAllowed": false
+    },
+    "collectionPolicy": {
+      "List": "item count is constrained by nested component",
+      "Steps": {
+        "countSource": "nested component",
+        "recommendedCount": 3,
+        "warnWhenGreaterThan": 3,
+        "severity": "warning"
+      }
+    },
+    "textLimits": {
+      "Title": {
+        "characters": 60,
+        "lines": 2
+      },
+      "Text": {
+        "characters": 240,
+        "lines": 4
+      },
+      "ButtonLabel": "inherit Button contract"
+    },
+    "imageSource": {
+      "library": "Corp :: Image Library",
+      "swapWithinLibraryAllowed": true,
+      "requiredSettings": {
+        "Crop": "Center",
+        "Size": "348",
+        "Segment": "landing segment"
+      }
+    },
+    "interactionPolicy": {
+      "containerAction": false,
+      "actionsSource": "ButtonGroup only"
+    },
+    "segmentPolicy": {
+      "imageAndColoredSurfaceMustMatch": true
+    },
+    "imageOverflow": {
+      "HeightCustom=False": "allowed outside BackgroundPlate when content is not overlapped and image stays inside root",
+      "HeightCustom=True": "not allowed outside BackgroundPlate"
+    },
+    "lifecycle": {
+      "status": "active",
+      "canonical": true,
+      "plannedReplacement": false,
+      "legacyVariants": false
+    },
+    "layoutOwnership": {
+      "owner": "BenefitsBlock",
+      "manualChangesAllowed": false,
+      "properties": [
+        "gap",
+        "padding",
+        "axis",
+        "internal region order",
+        "ImageContainer size"
+      ]
+    },
+    "titleAddonPolicy": {
+      "component": "StatusBadge",
+      "inheritFullContract": true,
+      "additionalBenefitsBlockRestrictions": false
+    },
+    "colorPolicy": {
+      "rawColorsAllowed": false,
+      "Colored": "token-bound fill matching Segment"
+    }
+  }
+}

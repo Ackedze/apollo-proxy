@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.filter-bar",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "owner-interview+figma+readiness-review",
+      "updatedAt": "2026-07-30"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] Date_Field",
+        "key": "0ec17f81ffd54425b3a98c35d428ea24efe6ccad",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Date_Muted",
+        "key": "22ded7328eddb413dd1e2375821a2ba28f58f69f",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] FilterBar",
+        "key": "2a247a2c7b2a13618bf76e2d63f29af784e11aa1",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Skeleton",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] FilterCell_Field",
+        "key": "7d8b03981f0f09fe3537ee99aad6607488ccb948",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Preset"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] FilterCell_Muted",
+        "key": "98f9be8b34c8f4ed76881d53576ae832407158d9",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Preset"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ShowAll_Field",
+        "key": "f2ebc5d61a67b882722220bca8aea26f360b3013",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.State"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ShowAll_Muted",
+        "key": "a0658cf3b693e7540520f5dee7470726f1f96725",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.State"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Date",
+        "key": "90777505d0ffbf5b47c7bb729b67d05b0a0d790d",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] FilterBar",
+        "key": "3b14f314fb1ee7df802d3f55f61cd125a27f9c13",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Skeleton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] FilterCell",
+        "key": "c07a402174b21635133094f02d10d7a727d2418a",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Preset"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ShowAll",
+        "key": "1320d5f7620571bde8506c1799a818d8194f4042",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] CalendarRange",
+        "key": "32432990b7d24928c4557a1a4124124ed04c5fcb",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ConfigureModal",
+        "key": "9a0267176e26ddbd266c9414f6a7d178bb50c81b",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DateOptionList",
+        "key": "7e6fab005f441f36acc1a24f29cb330e9d6f4f83",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] HistoryOptionList",
+        "key": "5b30aaca27447d72663d108d88cc05aaf8705f89",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] pinnedItem",
+        "key": "cd897f86eb9dc4d69ed6c84d9631e54dc13a648a",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ResetAll",
+        "key": "20a1727f81e39a82a3daf73dd373332f031a5488",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Search_Field",
+        "key": "79903a642c5b789213a4fa76b2a7122e924e4830",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Search_Muted",
+        "key": "d43f8d15de7614ef56b6e994302341454fadcafe",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ShowAllOptionList",
+        "key": "374c11b5ca48a89a8ac288536f7af806250c8d1f",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] sortableItem",
+        "key": "9d87d94529ca87bc1cec1221180c2a84562fb58d",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔒 [M] SubFilter",
+        "key": "8b569933a20ad188de4d3f57f658544e3eea2713",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "identity": {
+      "canonicalName": "FilterBar",
+      "family": [
+        "FilterBarDesktop",
+        "FilterBarMobile"
+      ],
+      "replaces": {
+        "component": "FiltersBlock",
+        "platforms": [
+          "desktop",
+          "mobile-web"
+        ]
+      },
+      "figmaFile": {
+        "name": "Web — Corp Components",
+        "fileKey": "NrzEFUSTXgzOUmsfYym0xD",
+        "pageNodeId": "151016:27699",
+        "url": "https://www.figma.com/design/NrzEFUSTXgzOUmsfYym0xD/Web----Corp-Components?node-id=151016-27699&p=f&t=RG0TDLM01YcZmfF5-11"
+      },
+      "figmaRoots": [
+        {
+          "name": "[D] FilterBar",
+          "semanticAlias": "FilterBarDesktop",
+          "nodeId": "151181:10280",
+          "platform": "desktop",
+          "componentKey": "2a247a2c7b2a13618bf76e2d63f29af784e11aa1"
+        },
+        {
+          "name": "[M] FilterBar",
+          "semanticAlias": "FilterBarMobile",
+          "nodeId": "151203:3398",
+          "platform": "mobile-web",
+          "componentKey": "3b14f314fb1ee7df802d3f55f61cd125a27f9c13"
+        }
+      ],
+      "logicalComponentKeyStatus": "confirmed",
+      "figmaKeysStatus": "available"
+    },
+    "publicApi": {
+      "desktop": {
+        "observedProperties": [
+          "View",
+          "FiltersConfig",
+          "SearchConfig",
+          "Search",
+          "ShowAll",
+          "ResetAll",
+          "Skeleton"
+        ],
+        "observedPropertyKeys": {
+          "ResetAll": "ResetAll#151181:0",
+          "ShowAll": "ShowAll#151181:1",
+          "SearchConfig": "SearchConfig#151186:0",
+          "FiltersConfig": "FiltersConfig#151186:3",
+          "Search": "Search#151198:0",
+          "View": "View",
+          "Skeleton": "Skeleton"
+        },
+        "semanticProperties": {
+          "View": [
+            "Muted",
+            "Field"
+          ],
+          "Search": "Опциональное подключение поиска.",
+          "SearchConfig": "Desktop slot для платформенного Search того же View.",
+          "FiltersConfig": "Закрытый slot поддерживаемых пресетов.",
+          "ShowAll": "Платформенная механика More или FilterSettings.",
+          "ResetAll": "Действие с каноническим текстом «Сбросить».",
+          "Skeleton": "Наблюдаемый Figma variant; не подтверждает ownership загрузки."
+        }
+      },
+      "mobile-web": {
+        "observedProperties": [
+          "Search",
+          "FilterAll",
+          "Filters",
+          "FiltersConfig",
+          "Skeleton"
+        ],
+        "observedPropertyKeys": {
+          "FiltersConfig": "FiltersConfig#151203:2",
+          "Search": "Search#151203:3",
+          "FilterAll": "FilterAll#151203:6",
+          "Filters": "Filters#151203:9",
+          "Skeleton": "Skeleton"
+        },
+        "semanticProperties": {
+          "Search": "Опциональный host-owned мобильный Search.",
+          "FilterAll": "Показ контроля «Все фильтры».",
+          "Filters": "Показ быстрого ряда.",
+          "FiltersConfig": "Закрытый slot поддерживаемых пресетов.",
+          "Skeleton": "Наблюдаемый Figma variant; не подтверждает ownership загрузки."
+        }
+      },
+      "excludedFromConfirmedApi": [
+        "Skeleton"
+      ]
+    },
+    "variantSemantics": {
+      "View": {
+        "Muted": "Белые контролы на сером фоне.",
+        "Field": "Серые контролы на белом фоне."
+      }
+    },
+    "responsive": {
+      "mobileWeb": {
+        "minWidth": 320,
+        "maxWidth": 767
+      },
+      "desktop": {
+        "minWidth": 768
+      },
+      "stateTransfer": "Выбранные значения сохраняются при смене платформенного представления."
+    },
+    "interactionResetModel": {
+      "label": "Сбросить",
+      "position": "end",
+      "disabledState": "not-used",
+      "clears": [
+        "filter-values",
+        "search-query"
+      ],
+      "preserves": [
+        "visibility",
+        "order",
+        "user-added-filters"
+      ],
+      "layoutResetAction": "absent"
+    },
+    "stateOwnership": {
+      "component": [
+        "control-layout",
+        "control-state",
+        "mobile-apply-mode",
+        "callbacks"
+      ],
+      "product": [
+        "data",
+        "loading",
+        "error",
+        "empty-state",
+        "search-history-storage",
+        "filter-configuration-storage",
+        "dependent-filter-behavior",
+        "alfametrics"
+      ]
+    },
+    "configurationPersistence": {
+      "storageKey": [
+        "user",
+        "screen"
+      ],
+      "stored": [
+        "visibility",
+        "order",
+        "user-added-filters"
+      ],
+      "notStored": [
+        "filter-values",
+        "search-query"
+      ],
+      "transport": "product-callback",
+      "baseConfigurationMerge": "Удалить отсутствующие фильтры, добавить новые и по возможности сохранить пользовательские видимость и порядок."
+    },
+    "unresolvedForRuntime": [
+      "Фактические public code exports и Code Connect mapping.",
+      "Является ли Skeleton публичным продуктовым prop в коде или только представлением Figma."
+    ],
+    "interactionModel": {
+      "valueTransport": "product-callback",
+      "singleSelection": "applies-immediately",
+      "multipleSelection": "requires-apply",
+      "customDatePeriod": "requires-apply",
+      "closeWithoutApply": "discard-pending-changes",
+      "settingsVisibilityAndOrder": "applies-immediately-through-product-callback"
+    },
+    "searchModel": {
+      "suggestionsWhileTyping": "none",
+      "emptyFocusContent": "recent-searches",
+      "submit": "Enter applies the query and sends it to the product for history storage",
+      "historyClear": "required when recent searches are shown",
+      "recentCount": "up-to-3-recommended-more-allowed"
+    },
+    "filterCount": {
+      "hardLimit": null,
+      "recommendation": "Показывать основные фильтры сразу; второстепенные можно вынести в «Ещё». Количество определяет команда."
+    },
+    "familyClassification": {
+      "status": "confirmed",
+      "confirmedBy": "component-owner",
+      "confirmedAt": "2026-07-30",
+      "evidence": "Наблюдаемая Figma-структура, имена, public roots и generated composition; роли и standalone policy подтверждены владельцем компонента 2026-07-30.",
+      "counts": {
+        "public": 2,
+        "supporting": 6,
+        "preset": 3,
+        "service-private": 11,
+        "legacy": 0,
+        "total": 22
+      },
+      "members": [
+        {
+          "name": "[D] FilterBar",
+          "candidateRole": "public",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "allowed"
+        },
+        {
+          "name": "[M] FilterBar",
+          "candidateRole": "public",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "allowed"
+        },
+        {
+          "name": "[D] Date_Field",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] Date_Muted",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] ShowAll_Field",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] ShowAll_Muted",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[M] Date",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[M] ShowAll",
+          "candidateRole": "supporting",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] FilterCell_Field",
+          "candidateRole": "preset",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] FilterCell_Muted",
+          "candidateRole": "preset",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[M] FilterCell",
+          "candidateRole": "preset",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] CalendarRange",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] ConfigureModal",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] DateOptionList",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] HistoryOptionList",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] pinnedItem",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] ResetAll",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] Search_Field",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] Search_Muted",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] ShowAllOptionList",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "[D] sortableItem",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        },
+        {
+          "name": "🔒 [M] SubFilter",
+          "candidateRole": "service-private",
+          "confirmationStatus": "confirmed",
+          "standaloneUse": "not-allowed"
+        }
+      ],
+      "unresolved": []
+    }
+  }
+}

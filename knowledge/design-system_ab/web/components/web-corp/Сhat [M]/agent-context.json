@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.сhat",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- Сhat [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Сhat [M]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Сhat [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": ".Details / ChatBubbleView",
+        "key": "1b89f21f6417f699bf5e1c3ffb7de843fe39362e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Length": [
+            "Multiline",
+            "SignleLine"
+          ],
+          "Position": [
+            "First",
+            "Last",
+            "Middle",
+            "Single"
+          ],
+          "Sender": [
+            "Incoming",
+            "Outgoing"
+          ],
+          "Style": [
+            "Disable",
+            "Primary"
+          ]
+        }
+      },
+      {
+        "name": ".Details / FeedSectionView",
+        "key": "b368630ddc8d266a651edbb119ae975a44feea0f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "On Scroll"
+          ],
+          "Type": [
+            "Section",
+            "Time"
+          ]
+        }
+      },
+      {
+        "name": ".Details / Incoming BubblesStack",
+        "key": "71da2297401b61747504766bb40fab63e59719e3",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Bubbles": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      {
+        "name": ".Details / Label",
+        "key": "b20bc528d0684b109f56727a3fb683d6ae16e1ed",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "State": [
+            "Delivered",
+            "Error",
+            "In Progress",
+            "Name"
+          ]
+        }
+      },
+      {
+        "name": ".Details / Outgoing BubblesStack",
+        "key": "0d445e5ebef4b06723485722ad4a5f1233007a53",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Bubbles": [
+            "1",
+            "2",
+            "3"
+          ],
+          "Status": [
+            "Default",
+            "Delivered",
+            "Error",
+            "In Progress"
+          ]
+        }
+      },
+      {
+        "name": "ChatBubbleView",
+        "key": "17a8d8ef4ca2f5b5b9cf010cb57e5e74d634ebcb",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Sender": [
+            "Incoming",
+            "Outgoing"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Сhat [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

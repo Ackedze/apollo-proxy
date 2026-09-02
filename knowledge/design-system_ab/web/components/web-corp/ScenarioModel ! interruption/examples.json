@@ -1,0 +1,398 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.scenario-model-interruption",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "scenario-model-interruption.default-desktop",
+        "title": "Выход без сохранения на desktop",
+        "inputState": {
+          "root": "🔒 ScenarioModel ! interruption",
+          "platform": "desktop",
+          "type": {
+            "header": "Default",
+            "body": "Default",
+            "footer": "Default"
+          },
+          "realDataLossRisk": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": {
+          "result": "Допустимый desktop-сценарий выхода без сохранения."
+        },
+        "mustNotSay": [
+          "Компонент можно использовать без риска потери данных."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.save-as-desktop",
+        "title": "Сохранение перед выходом на desktop",
+        "inputState": {
+          "root": "🔒 ScenarioModel ! interruption",
+          "platform": "desktop",
+          "type": {
+            "header": "SaveAs",
+            "body": "SaveAs",
+            "footer": "SaveAs"
+          },
+          "rememberChoiceVisible": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": {
+          "result": "Допустимый desktop-сценарий сохранения перед выходом."
+        },
+        "mustNotSay": [
+          "Чекбокс «Запомнить выбор» обязателен."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.internal-part-standalone",
+        "title": "Служебная секция используется отдельно",
+        "inputState": {
+          "root": "🔒 ModalDesktopBody ! interruption"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.public-root-only"
+        },
+        "expectedAgent": {
+          "recommendation": "Замени служебную секцию на public root 🔒 ScenarioModel ! interruption."
+        },
+        "mustNotSay": [
+          "ModalDesktopBody является самостоятельным публичным компонентом."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.deprecated-root",
+        "title": "Deprecated root используется в новом макете",
+        "inputState": {
+          "root": "❌ ScenarioModel ! interruption"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.deprecated-root-forbidden"
+        },
+        "expectedAgent": {
+          "recommendation": "Замени deprecated root на 🔒 ScenarioModel ! interruption."
+        },
+        "mustNotSay": [
+          "Deprecated root разрешён как равноценная версия."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.mobile-web",
+        "title": "Desktop preset используется на mobile-web",
+        "inputState": {
+          "root": "🔒 ScenarioModel ! interruption",
+          "platform": "mobile-web"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.desktop-only"
+        },
+        "expectedAgent": {
+          "recommendation": "Собери mobile-web сценарий через PopUpSheet по ptrn:flow.interruption-scenario."
+        },
+        "mustNotSay": [
+          "ScenarioModel ! interruption адаптируется для mobile-web."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.mixed-types",
+        "title": "Секции используют разные Type",
+        "inputState": {
+          "root": "🔒 ScenarioModel ! interruption",
+          "type": {
+            "header": "SaveAs",
+            "body": "Default",
+            "footer": "SaveAs"
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.type-must-match"
+        },
+        "expectedAgent": {
+          "recommendation": "Установи одинаковый Type для Header, Body и Footer."
+        },
+        "mustNotSay": [
+          "Type секций можно выбирать независимо."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.hidden-body",
+        "title": "Обязательная секция Body скрыта",
+        "inputState": {
+          "root": "🔒 ScenarioModel ! interruption",
+          "hiddenPart": "🔒 ModalDesktopBody ! interruption"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.required-parts"
+        },
+        "expectedAgent": {
+          "recommendation": "Верни обязательную секцию Body и её effective baseline."
+        },
+        "mustNotSay": [
+          "Body можно скрыть, если текста нет."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.default-edit-payment",
+        "title": "Подтверждённый текст последствия Default",
+        "inputState": {
+          "type": "Default",
+          "consequence": "Придётся создавать платёж заново"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": {
+          "result": "Допустимая подстановка в placeholder шаблона."
+        },
+        "mustNotSay": [
+          "Весь текст последствия можно переписать свободно."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.default-contextual-entity",
+        "title": "Контекстная подстановка другой сущности",
+        "inputState": {
+          "type": "Default",
+          "consequence": "Придётся заполнять анкету заново",
+          "template": "Придётся [вносить изменения] заново"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": {
+          "result": "Допустимая контекстная подстановка с сохранением конструкции."
+        },
+        "mustNotSay": [
+          "Разрешены только сущности «платёж» и «заявка»."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.save-as-contextual-entity",
+        "title": "Контекстная сущность в SaveAs",
+        "inputState": {
+          "type": "SaveAs",
+          "title": "Сохранить анкету?",
+          "consequence": "Вы сможете вернуться к ней позже",
+          "actions": [
+            "Сохранить и выйти",
+            "Выйти без сохранения"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": {
+          "result": "Допустимая подстановка сущности и согласованного местоимения."
+        },
+        "mustNotSay": [
+          "Подписи действий можно адаптировать вместе с сущностью."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.remember-choice-visible",
+        "title": "Чекбокс показан в исходном невыбранном состоянии",
+        "inputState": {
+          "type": "SaveAs",
+          "rememberChoiceVisible": true,
+          "rememberChoiceSelected": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.scenario-model-interruption.remember-choice-visible-by-default"
+        },
+        "expectedAgent": {
+          "recommendation": "Убедись, что продукт позволяет позднее изменить сохранённый выбор."
+        },
+        "mustNotSay": [
+          "Чекбокс должен быть выбран по умолчанию."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.remember-choice-preselected",
+        "title": "Чекбокс предвыбран при первом показе",
+        "inputState": {
+          "type": "SaveAs",
+          "rememberChoiceVisible": true,
+          "rememberChoiceSelected": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.scenario-model-interruption.remember-choice-selected-by-default"
+        },
+        "expectedAgent": {
+          "recommendation": "Сними предвыбор чекбокса; пользователь должен принять решение сам."
+        },
+        "mustNotSay": [
+          "Предвыбранный чекбокс является блокирующей ошибкой."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.close-control-hidden",
+        "title": "Обязательный крестик скрыт",
+        "inputState": {
+          "closeControlVisible": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.close-control-required"
+        },
+        "expectedAgent": {
+          "recommendation": "Верни крестик, отменяющий прерывание и возвращающий в сценарий."
+        },
+        "mustNotSay": [
+          "Крестик можно убрать, потому что есть кнопка «Остаться»."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.default-title-changed",
+        "title": "Изменён фиксированный заголовок Default",
+        "inputState": {
+          "type": "Default",
+          "title": "Покинуть страницу?"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.default-title-fixed"
+        },
+        "expectedAgent": {
+          "recommendation": "Верни заголовок «Выйти без сохранения?»."
+        },
+        "mustNotSay": [
+          "Заголовок Default можно свободно адаптировать."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.invalid-text-construction",
+        "title": "Текст не соответствует рецепту",
+        "inputState": {
+          "type": "Default",
+          "consequence": "Все данные исчезнут"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.text-recipe-must-match"
+        },
+        "expectedAgent": {
+          "recommendation": "Пересобери текст по recipe:web-corp.scenario-model-interruption.texts."
+        },
+        "mustNotSay": [
+          "Любая формулировка о потере данных допустима."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.footer-order-changed",
+        "title": "Изменён порядок кнопок Footer",
+        "inputState": {
+          "type": "Default",
+          "actions": [
+            {
+              "order": 1,
+              "label": "Остаться",
+              "view": "Primary"
+            },
+            {
+              "order": 2,
+              "label": "Выйти",
+              "view": "Secondary"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.footer-actions-fixed"
+        },
+        "expectedAgent": {
+          "recommendation": "Верни Primary «Выйти», затем Secondary «Остаться»."
+        },
+        "mustNotSay": [
+          "Главное действие можно выбирать по продуктовой приоритетности."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.width-changed",
+        "title": "Внешняя ширина пресета изменена вручную",
+        "inputState": {
+          "property": "layout.width",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.sizing-is-fixed"
+        },
+        "expectedAgent": {
+          "recommendation": "Верни preset-owned ширину ScenarioModel ! interruption."
+        },
+        "mustNotSay": [
+          "Ширину модального окна можно менять под объём текста."
+        ]
+      },
+      {
+        "exampleId": "scenario-model-interruption.additional-modal-wrapper",
+        "title": "Public root помещён в дополнительный Modal",
+        "inputState": {
+          "wrapper": "[D] Modal",
+          "child": "🔒 ScenarioModel ! interruption"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.scenario-model-interruption.no-additional-modal-wrapper"
+        },
+        "expectedAgent": {
+          "recommendation": "Удали дополнительный Modal-wrapper и используй public root как готовую модальную поверхность."
+        },
+        "mustNotSay": [
+          "ScenarioModel ! interruption является только содержимым модального окна."
+        ]
+      }
+    ]
+  }
+}

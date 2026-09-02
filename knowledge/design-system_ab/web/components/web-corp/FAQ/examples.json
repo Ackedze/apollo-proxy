@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.faq",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "faq.product-page",
+        "title": "Универсальный FAQ на продуктовой странице",
+        "inputState": {
+          "root": "FAQ",
+          "platform": "desktop",
+          "visibleItems": 4,
+          "openItems": 0
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.desktop-promo",
+        "title": "Promo FAQ на desktop",
+        "inputState": {
+          "root": "[D][Promo] FAQ",
+          "items": "[D][Promo] FAQItem",
+          "surface": "[D][Promo] BackgroundPlate"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.mobile-promo",
+        "title": "Promo FAQ на Mobile Web",
+        "inputState": {
+          "root": "[M][Promo] FAQ",
+          "items": "[M][Promo] FAQItem",
+          "surface": "[M][Promo] BackgroundPlate"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-standalone-item",
+        "title": "FAQItem используется отдельно",
+        "inputState": {
+          "root": "FAQItem"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.public-roots-only"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-family-mix",
+        "title": "Универсальный FAQItem помещён в promo FAQ",
+        "inputState": {
+          "root": "[D][Promo] FAQ",
+          "nestedItem": "FAQItem"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.family-must-match-host"
+        }
+      },
+      {
+        "exampleId": "faq.single-open-item",
+        "title": "Открыт один вопрос",
+        "inputState": {
+          "visibleItems": 6,
+          "openItems": 1
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-two-open-items",
+        "title": "Одновременно открыты два вопроса",
+        "inputState": {
+          "openItems": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.single-open-item"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-one-item",
+        "title": "FAQ содержит один вопрос",
+        "inputState": {
+          "visibleItems": 1
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.minimum-two-items"
+        }
+      },
+      {
+        "exampleId": "faq.more-than-eight",
+        "title": "В одной категории девять вопросов",
+        "inputState": {
+          "visibleItems": 9,
+          "categories": 1
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.faq.maximum-eight-per-category"
+        }
+      },
+      {
+        "exampleId": "faq.categories-in-tabs",
+        "title": "Большой FAQ разделён по категориям",
+        "inputState": {
+          "container": "TabsView",
+          "categories": 3,
+          "maximumItemsPerCategory": 8
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.answer-with-link",
+        "title": "Ссылка размещена внутри ответа",
+        "inputState": {
+          "questionHasLink": false,
+          "answerHasLink": true,
+          "linkComponent": "Link"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-link-in-question",
+        "title": "Ссылка размещена в вопросе",
+        "inputState": {
+          "questionHasLink": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.links-only-in-answer"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-question-length",
+        "title": "Вопрос превышает 120 символов",
+        "inputState": {
+          "questionCharacters": 121
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.question-length-limit"
+        }
+      },
+      {
+        "exampleId": "faq.invalid-manual-style",
+        "title": "Изменена типографика вопроса",
+        "inputState": {
+          "property": "styles.text",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.faq.visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "faq.fill-hug",
+        "title": "Корректный sizing FAQ",
+        "inputState": {
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      }
+    ]
+  }
+}

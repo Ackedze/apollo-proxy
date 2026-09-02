@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.corporate-content",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] Section",
+        "key": "2bbced82d96c1347fea71a3922cd11cf4c25ad6a",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Position",
+          "variant.👽 TabletIsle"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] CorporateContent",
+        "key": "a8d13cb6e1ae67a7296709f669238f41971c7197",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] CorporateContent",
+        "key": "11ae074b596a6b3dfb6696f51531439723c0225b",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "❌ [D] Body",
+        "key": "28b1ffd86a806eab0daa7c5c75975c5ed103dca2",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "❌ [M} Body",
+        "key": "1119d41dfbb9ff16f27f5fee96fdc73d1588ddf6",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "❌ [T] Body",
+        "key": "71d8e8a07ab68673e4cb61bea9d92f3b68212087",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "❌ [T] CorporateContent",
+        "key": "598681c2a2dbe45e5529de354d8681cabc9a42d6",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "corporateContent": {
+      "activeComponents": {
+        "desktop": "[D] CorporateContent",
+        "mobile-web": "[M] CorporateContent"
+      },
+      "prohibitedComponents": [
+        "[T] CorporateContent",
+        "🔄 [T] CorporateContent"
+      ],
+      "requiredOnProductPage": true,
+      "maxCorporateContentPerPage": 1,
+      "figmaParentComponentRequired": false,
+      "standaloneFigmaUsageAllowed": true,
+      "frontendParentAssembly": "CorporatePage",
+      "platformSelection": {
+        "768-and-above": "[D] CorporateContent",
+        "320-767": "[M] CorporateContent",
+        "at768GridMode": "768"
+      },
+      "bodySlot": {
+        "arbitraryContentAllowed": true,
+        "arbitraryCompositionAllowed": true,
+        "multipleChildrenAllowed": true,
+        "instanceSwapAllowed": true,
+        "directionAndItemSpacing": "nested-composition-defined",
+        "gutterRequired": false,
+        "gutterAllowedInAnyHorizontalComposition": true,
+        "sectionRequiredForGutter": false,
+        "nestedCorporateContentAllowed": false,
+        "swapMeMustBeReplaced": true
+      },
+      "root": {
+        "backgroundVariableCollection": "BackgroundPlate Color",
+        "allowedBackgroundModes": [
+          "base-bg-alt (grey)",
+          "base-bg (white)"
+        ],
+        "defaultBackgroundMode": "base-bg-alt (grey)",
+        "backgroundModeSelectionPolicy": "separate-pattern",
+        "prohibitedBackgroundModes": [
+          "modal-bg-alt (grey)",
+          "modal-bg (white)"
+        ],
+        "manualFillAllowed": false,
+        "gridStyleOverrideAllowed": false,
+        "layoutSizingHorizontal": "FILL",
+        "layoutSizingVertical": "HUG",
+        "manualVisualOverridesAllowed": false,
+        "clickable": false,
+        "detachAllowed": false,
+        "bodyDetachAllowed": false,
+        "layoutDirection": "VERTICAL",
+        "itemSpacing": 0,
+        "clipsContent": false,
+        "prohibitedManualOverrides": [
+          "radius",
+          "stroke",
+          "effects.*",
+          "opacity",
+          "clipsContent"
+        ],
+        "spacingVariableCollections": {
+          "desktop": "[D] Grid & Cols",
+          "mobile-web": "[M] Grid & Cols"
+        },
+        "manualPaddingAllowed": false,
+        "mobileWebRequiredMargins": {
+          "TopMargin": "24",
+          "BottomMargin": "24"
+        }
+      },
+      "headerRelation": {
+        "requiredPreviousSibling": "Header or HeaderMenu",
+        "sharedParentDirection": "VERTICAL",
+        "itemSpacing": 0
+      },
+      "sectionPolicy": {
+        "component": "[D] Section",
+        "role": "nested-supporting",
+        "required": false,
+        "purpose": "horizontal-block-grouping-and-column-management",
+        "gutterMayBeUsedWithoutSection": true,
+        "rootSizing": {
+          "width": "FILL",
+          "height": "HUG"
+        },
+        "directionAndAlignment": "effective-baseline-by-grid-mode",
+        "position": {
+          "true": "Isle below Content",
+          "false": "Isle above Content"
+        },
+        "tabletIsle": {
+          "automatic": true,
+          "trueInModes": [
+            "1024",
+            "768"
+          ],
+          "manualToggleAllowed": false
+        },
+        "slots": {
+          "Content": "arbitrary-content",
+          "Isle": "arbitrary-content"
+        },
+        "instanceSwapAllowed": false,
+        "gutter": {
+          "required": true,
+          "source": "Gutter variable",
+          "manualItemSpacingAllowed": false
+        },
+        "columnWidths": {
+          "source": "Grid & Cols column variables",
+          "manualWidthAllowed": false
+        },
+        "swapMeMustBeReplacedIn": [
+          "Content",
+          "Isle"
+        ],
+        "detachAllowed": false,
+        "manualStyleOverridesAllowed": false
+      }
+    },
+    "note": "Authored semantic overlay для CorporateContent и вложенного Section. Сгенерированный raw baseline хранится отдельно в contract.generated.json."
+  }
+}

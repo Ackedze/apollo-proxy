@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.icon-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "component-contract",
+      "updatedAt": "2026-08-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.icon-view.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "IconView",
+          "layers": [
+            "🔩 Border",
+            "🔩 Content",
+            "🔩 Shape",
+            "Border",
+            "Content",
+            "IconView",
+            "Shape"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.icon-view.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "IconView",
+          "layers": [
+            "🔩 Border",
+            "🔩 Content",
+            "🔩 Shape",
+            "Border",
+            "Content",
+            "IconView",
+            "Shape"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.icon-view.public-properties-are-component-settings",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|component.properties",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.icon-view",
+          "layers": [
+            "IconView"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "scope": "component-property",
+          "doNotExpandDerivedVisualChanges": true
+        },
+        "ruleText": "Публичные настройки IconView изменяются только через component properties. Изменение Size является настройкой компонента, а не ручным изменением его внутренних слоёв."
+      },
+      {
+        "ruleId": "component:web-core.icon-view.paint-colors-are-public-settings",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "fill|stroke",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.icon-view",
+          "layers": [
+            "IconView",
+            "Border",
+            "Shape",
+            "BgColor",
+            "Content",
+            "PaintMe"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "scope": "layer-property",
+          "treatAsViolation": false
+        },
+        "ruleText": "В IconView разрешено менять токен или цвет обводки Border, заливки Shape/BgColor и самой иконки Content/PaintMe. Эти paint overrides являются публичными настройками IconView и сами по себе не нарушают effective baseline. Компонент-хост может ограничить их только отдельным active contextual rule.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-core.icon-view.public-root-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.identity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.icon-view",
+          "layers": [
+            "IconView",
+            "Border",
+            "Content",
+            "Shape"
+          ]
+        },
+        "ruleText": "Самостоятельно используется только публичный IconView. Border, Content и Shape являются внутренними частями IconView и не размещаются отдельно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "public-root",
+          "identity": "web-core.icon-view",
+          "standaloneOnly": true,
+          "allowedFamilies": [
+            "icon-view"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебная часть IconView используется отдельно",
+            "observed": "{{actual}} размещён как самостоятельный компонент.",
+            "expectation": "Самостоятельно допускается использовать только IconView.",
+            "action": "Заменить служебную часть на публичный IconView."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.icon-view.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.icon-view",
+          "layers": [
+            "IconView",
+            "Border",
+            "Content",
+            "Shape"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": true,
+          "resetSurface": "layer"
+        },
+        "ruleText": "Layout, radius и opacity корня и внутренних слоёв IconView должны совпадать с effective baseline текущего состояния. Paint-цвета не входят в это правило: IconView разрешает менять цвет обводки, заливки и иконки. Ограничение компонента-хоста имеет приоритет и должно быть выражено отдельным contextual rule.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.icon-view"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.icon-view"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "padding-top",
+              "label": "Верхний padding",
+              "actualFact": "layout.padding.top",
+              "baselineFact": "baseline.effective.layout.padding.top"
+            },
+            {
+              "suffix": "padding-right",
+              "label": "Правый padding",
+              "actualFact": "layout.padding.right",
+              "baselineFact": "baseline.effective.layout.padding.right"
+            },
+            {
+              "suffix": "padding-bottom",
+              "label": "Нижний padding",
+              "actualFact": "layout.padding.bottom",
+              "baselineFact": "baseline.effective.layout.padding.bottom"
+            },
+            {
+              "suffix": "padding-left",
+              "label": "Левый padding",
+              "actualFact": "layout.padding.left",
+              "baselineFact": "baseline.effective.layout.padding.left"
+            },
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между элементами",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            },
+            {
+              "suffix": "sizing-horizontal",
+              "label": "Горизонтальный sizing",
+              "actualFact": "layout.sizingHorizontal",
+              "baselineFact": "baseline.effective.layout.sizingHorizontal"
+            },
+            {
+              "suffix": "sizing-vertical",
+              "label": "Вертикальный sizing",
+              "actualFact": "layout.sizingVertical",
+              "baselineFact": "baseline.effective.layout.sizingVertical"
+            },
+            {
+              "suffix": "radius",
+              "label": "Скругление",
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            },
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство IconView: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline текущего состояния IconView.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline IconView."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.icon-view.content-replacement-is-host-controlled",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "Content.component.identity",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.icon-view",
+          "layers": [
+            "Content"
+          ]
+        },
+        "ruleText": "IconView предоставляет семантический слот Content, но допустимые замены определяет компонент-хост. Замена не становится ошибкой или разрешением без точного active host rule."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-core.icon-view"
+      ],
+      "predicateRules": [
+        "component:web-core.icon-view.public-root-only",
+        "component:web-core.icon-view.layer-properties-use-effective-baseline"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-core.icon-view.public-properties-are-component-settings",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-core.icon-view.paint-colors-are-public-settings",
+          "effect": "allow-customization"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-core.icon-view.content-replacement-is-host-controlled",
+          "missingFacts": [
+            "ownership.host.component.identity",
+            "ownership.host.rule.allowed-replacements"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-core.icon-view.layer-properties-use-effective-baseline",
+          "missingFacts": [
+            "appearance.effects",
+            "appearance.blendMode",
+            "ownership.host.rule.visual-exceptions"
+          ]
+        }
+      ]
+    }
+  }
+}

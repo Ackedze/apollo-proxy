@@ -1,0 +1,5274 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.table-basic-d",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Table Basic [D]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] BodyActionCell :: Basic",
+        "path": "Presets=Button, Skeleton=false / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Picker"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyActionCell :: Basic",
+        "path": "Presets=Button, Skeleton=false / ActionButton / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyActionCell :: Basic",
+        "path": "Presets=Button, Skeleton=false / ActionButton / [D] IconButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyActionCell :: Basic",
+        "path": "Presets=Button, Skeleton=false / ActionButton / [D] IconButton / 🔩 Icon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Style": "Muted",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyControlCell :: Basic",
+        "path": "Presets=Controls, Skeleton=false / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyControlCell :: Basic",
+        "path": "Presets=Controls, Skeleton=false / Addon / ControlAddon",
+        "componentName": "ControlAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / LeftContent / LabelAddon / LabelAddon",
+        "componentName": "LabelAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / LeftContent / LabelAddon / LabelAddon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / LeftContent / LabelAddon / LabelAddon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / LeftContent / LabelAddon / LabelAddon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconPrimary"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 1",
+        "componentName": "Button 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 1 / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 2",
+        "componentName": "Button 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 2 / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / PickerButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / PickerButton / 🔩 Icon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Style": "Muted",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconTertiary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Checkbox"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Chevron",
+        "componentName": "Chevron",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Chevron / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadControlCell",
+        "path": "Presets=Controls, Skeleton=False / HeaderControl",
+        "componentName": "HeaderControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Checkbox"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadControlCell",
+        "path": "Presets=Controls, Skeleton=False / HeaderControl / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 Chevron",
+        "path": "Presets=Down Chevron, Open=False / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 HeadControl",
+        "path": "Presets=Checkbox / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 Sorting",
+        "path": "Presets=Not selected, Active=False / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "ActionButton",
+        "path": "Presets=Picker / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "ActionButton",
+        "path": "Presets=Picker / [D] IconButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "ActionButton",
+        "path": "Presets=Picker / [D] IconButton / 🔩 Icon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "Control",
+        "path": "Presets=Checkbox / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "Graphics",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "GraphicsSkeleton",
+        "path": "Presets=IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "Text",
+        "path": "Presets=Text, Accent=True / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "Text",
+        "path": "Presets=Text, Accent=True / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyControlCell :: Basic",
+        "componentName": "[D] BodyControlCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Controls",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyControlCell :: Basic / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyControlCell :: Basic / Addon / ControlAddon",
+        "componentName": "ControlAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic",
+        "componentName": "[D] BodyCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic",
+        "componentName": "[D] BodyCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic",
+        "componentName": "[D] BodyCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Account"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Major",
+        "componentName": "Major",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Mask Number": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic",
+        "componentName": "[D] BodyCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Status",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Style": "Muted",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic",
+        "componentName": "[D] BodyCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Amount"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic",
+        "componentName": "[D] BodyActionCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Button",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Picker"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / ActionButton / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / ActionButton / [D] IconButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / ActionButton / [D] IconButton / 🔩 Icon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / BorderLine",
+        "componentName": "BorderLine",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell",
+        "componentName": "🔄 [D] BodyControlCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Controls",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Checkbox"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Chevron",
+        "componentName": "Chevron",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Chevron / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell",
+        "componentName": "🔄 [D] BodyCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell",
+        "componentName": "🔄 [D] BodyCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell",
+        "componentName": "🔄 [D] BodyCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Account"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Major",
+        "componentName": "Major",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Mask Number": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell",
+        "componentName": "🔄 [D] BodyCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Status",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Style": "Muted",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconTertiary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell",
+        "componentName": "🔄 [D] BodyCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "True",
+          "Presets": "Amount"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Accent": "False",
+          "Presets": "Text"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell",
+        "componentName": "🔄 [D] BodyActionCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Actions",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 1",
+        "componentName": "Button 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 1 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 1 / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 2",
+        "componentName": "Button 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 2 / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 2 / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / PickerButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / PickerButton / 🔩 Icon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / BorderLine",
+        "componentName": "BorderLine",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadControlCell",
+        "componentName": "🔄 [D] HeadControlCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Controls",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadControlCell / HeaderControl",
+        "componentName": "HeaderControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Checkbox"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadControlCell / HeaderControl / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell",
+        "componentName": "🔄 [D] HeadCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Title",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell",
+        "componentName": "🔄 [D] HeadCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Title",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Max -> Min"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-desc",
+        "componentName": "list-desc",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell",
+        "componentName": "🔄 [D] HeadCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Title",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell",
+        "componentName": "🔄 [D] HeadCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Title",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell",
+        "componentName": "🔄 [D] HeadCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Title",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Active": "False",
+          "Presets": "Not selected"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting / Fixer / PaintMe / list-default",
+        "componentName": "list-default",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadActionCell",
+        "componentName": "🔄 [D] HeadActionCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / BorderLine",
+        "componentName": "BorderLine",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Transparent": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / LeftContent / RightAddon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / LeftContent / RightAddon / Addon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / RightContent / ListAddon",
+        "componentName": "ListAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "❌ IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / RightContent / ListAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "defaultNestedDiffPolicy": "compare-against-table-effective-baseline",
+      "wrapperOwnedOverridePolicy": "Не показывай wrapper-owned nested differences как customizations, когда actual совпадает с effective baseline семейства таблиц. Если actual отличается, показывай effectiveBaseline -> actual."
+    },
+    "contracts": [
+      {
+        "id": "table-basic.body-row.cells",
+        "match": {
+          "hostComponentKeys": [
+            "aca58bac6a6137109081a0f7289424b5a240d0fd"
+          ]
+        },
+        "select": {
+          "nestedComponentKeys": [
+            "04acf0fa2142daa01998e1a39d18167a64a64a9a"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "visible-data-cell-count",
+            "op": "countBetween",
+            "min": 2,
+            "max": 5,
+            "message": "В BodyRow :: Basic должно быть от двух до пяти видимых информационных ячеек"
+          }
+        ]
+      }
+    ],
+    "forbiddenOverrides": [
+      "arbitrary instance swap",
+      "width of ControlCell and ActionCell",
+      "row height",
+      "typography",
+      "fill",
+      "stroke",
+      "opacity",
+      "padding",
+      "spacing",
+      "radius"
+    ],
+    "compositionPolicy": {
+      "workflow": "detach [D] HeadRow :: Universal and [D] BodyRow :: Basic, then add library cells",
+      "requiredComponents": [
+        "CorporateTopbar",
+        "[D] HeadRow :: Universal",
+        "[D] BodyRow :: Basic",
+        "Pagination",
+        "[D] BackgroundPlateSlot"
+      ],
+      "equalFillWidth": true,
+      "maxColumns": 5,
+      "horizontalScroll": false,
+      "emptyOrErrorBodyReplacement": "CorporateSystemMessage"
+    },
+    "suppressedWhenEqualToEffectiveBaseline": [],
+    "component": {
+      "name": "Table Basic [D]",
+      "library": "Web :: Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / LeftContent / LabelAddon / LabelAddon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] GroupDivider :: Basic",
+        "path": "Skeleton=false / Content / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyControlCell / Chevron",
+        "componentName": "Chevron",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Accent": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber",
+        "componentName": "PaymentMaskedNumber",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 2 / LeftAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconTertiary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Amount",
+        "componentName": "Amount",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Amount / Major",
+        "componentName": "Major",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyCell / Content / Text 1 / Amount / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 1",
+        "componentName": "Button 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Transparent",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / Buttons / Button 2",
+        "componentName": "Button 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Transparent",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyRow :: Core",
+        "path": "🔄 [D] BodyRow :: Core / Cells / 🔄 [D] BodyActionCell / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 HeadControl",
+        "path": "Presets=Checkbox / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadControlCell",
+        "path": "Presets=Controls, Skeleton=False / HeaderControl / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "Not selected",
+          "Active": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadCell",
+        "path": "Presets=Title, Skeleton=False / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadControlCell / HeaderControl / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Sorting",
+        "componentName": "Sorting",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "Not selected",
+          "Active": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] HeadRow :: Core",
+        "path": "🔄 [D] HeadRow :: Core / Cells / 🔄 [D] HeadCell / TitleBlock / Title + Addon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyCell",
+        "path": "Presets=Status, Skeleton=False / Content / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconTertiary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 1",
+        "componentName": "Button 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Transparent",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / Buttons / Button 2",
+        "componentName": "Button 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Transparent",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyActionCell",
+        "path": "Presets=Actions, Skeleton=False / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] BodyControlCell",
+        "path": "Presets=Controls, Skeleton=False / Chevron",
+        "componentName": "Chevron",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / LeftContent / RightAddon / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] ListHeaderRow :: Core",
+        "path": "🔄 [D] ListHeaderRow :: Core / Content / RightContent / ListAddon",
+        "componentName": "ListAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BodyCell",
+        "path": "Presets=IconView, Skeleton=false / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyControlCell :: Basic / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics",
+        "componentName": "Graphics",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1",
+        "componentName": "Text 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Accent": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2",
+        "componentName": "Text 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Text",
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber",
+        "componentName": "PaymentMaskedNumber",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / PaymentMaskedNumber / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 2 / LeftAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Addon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Amount",
+        "componentName": "Amount",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Amount / Major",
+        "componentName": "Major",
+        "role": "internal-instance",
+        "visible": true
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyCell :: Basic / Content / Text 1 / Amount / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic",
+        "componentName": "[D] BodyActionCell :: Basic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "PickerButton",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / PickerButton / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyRow :: Basic",
+        "path": "[D] BodyRow :: Basic / Cells / [D] BodyActionCell :: Basic / PickerButton / 🔩 Icon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset",
+        "componentName": "StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyCell :: Basic",
+        "path": "Presets=Status, Skeleton=False / Content / Addon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyControlCell :: Basic",
+        "path": "Presets=Controls, Skeleton=false / Control / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] BodyActionCell :: Basic",
+        "path": "Presets=PickerButton, Skeleton=false / PickerButton",
+        "componentName": "PickerButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      }
+    ],
+    "allowedOverrides": [
+      "characters",
+      "variant.* supported by component",
+      "alignment in HeadCell and BodyCell",
+      "width of ordinary HeadCell and matching BodyCell without horizontal scroll"
+    ]
+  }
+}

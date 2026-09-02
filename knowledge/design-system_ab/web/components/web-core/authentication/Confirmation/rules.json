@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.confirmation",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.confirmation.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Confirmation",
+          "layers": [
+            "[D] BottomAddonCenter",
+            "[D] BottomAddonLeft",
+            "[D] CodeInputBlockCenter",
+            "[D] CodeInputBlockLeft",
+            "[D] Confirmation",
+            "[D] ResendBlockCenter",
+            "[D] ResendBlockLeft",
+            "[D][AO] Confirmation",
+            "[D][Corporate] CodeInputBlockCenter",
+            "[D][Corporate] Confirmation",
+            "[D][Corporate] ResendBlock",
+            "[M] BottomAddonCenter",
+            "[M] BottomAddonLeft",
+            "[M] CodeInputBlockCenter",
+            "[M] CodeInputBlockLeft",
+            "[M] Confirmation",
+            "[M] ResendBlockCenter",
+            "[M] ResendBlockLeft",
+            "[M][AO] Confirmation",
+            "[M][Corporate] Confirmation",
+            "[M][Corporate] ResendBlock",
+            "🔄 [D][AO] Confirmation",
+            "🔄 [D][Corporate] Confirmation",
+            "🔄 [M][AO] Confirmation",
+            "🔄 [M][Corporate] Confirmation",
+            "🔩 [D] BottomAddonCenter",
+            "🔩 [D] BottomAddonLeft",
+            "🔩 [D] CodeInputBlockCenter",
+            "🔩 [D] CodeInputBlockLeft",
+            "🔩 [D] ResendBlockCenter",
+            "🔩 [D] ResendBlockLeft",
+            "🔩 [D][Corporate] CodeInputBlockCenter",
+            "🔩 [D][Corporate] ResendBlock",
+            "🔩 [M] BottomAddonCenter",
+            "🔩 [M] BottomAddonLeft",
+            "🔩 [M] CodeInputBlockCenter",
+            "🔩 [M] CodeInputBlockLeft",
+            "🔩 [M] ResendBlockCenter",
+            "🔩 [M] ResendBlockLeft",
+            "🔩 [M][Corporate] ResendBlock",
+            "Confirmation"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.confirmation.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Confirmation",
+          "layers": [
+            "[D] BottomAddonCenter",
+            "[D] BottomAddonLeft",
+            "[D] CodeInputBlockCenter",
+            "[D] CodeInputBlockLeft",
+            "[D] Confirmation",
+            "[D] ResendBlockCenter",
+            "[D] ResendBlockLeft",
+            "[D][AO] Confirmation",
+            "[D][Corporate] CodeInputBlockCenter",
+            "[D][Corporate] Confirmation",
+            "[D][Corporate] ResendBlock",
+            "[M] BottomAddonCenter",
+            "[M] BottomAddonLeft",
+            "[M] CodeInputBlockCenter",
+            "[M] CodeInputBlockLeft",
+            "[M] Confirmation",
+            "[M] ResendBlockCenter",
+            "[M] ResendBlockLeft",
+            "[M][AO] Confirmation",
+            "[M][Corporate] Confirmation",
+            "[M][Corporate] ResendBlock",
+            "🔄 [D][AO] Confirmation",
+            "🔄 [D][Corporate] Confirmation",
+            "🔄 [M][AO] Confirmation",
+            "🔄 [M][Corporate] Confirmation",
+            "🔩 [D] BottomAddonCenter",
+            "🔩 [D] BottomAddonLeft",
+            "🔩 [D] CodeInputBlockCenter",
+            "🔩 [D] CodeInputBlockLeft",
+            "🔩 [D] ResendBlockCenter",
+            "🔩 [D] ResendBlockLeft",
+            "🔩 [D][Corporate] CodeInputBlockCenter",
+            "🔩 [D][Corporate] ResendBlock",
+            "🔩 [M] BottomAddonCenter",
+            "🔩 [M] BottomAddonLeft",
+            "🔩 [M] CodeInputBlockCenter",
+            "🔩 [M] CodeInputBlockLeft",
+            "🔩 [M] ResendBlockCenter",
+            "🔩 [M] ResendBlockLeft",
+            "🔩 [M][Corporate] ResendBlock",
+            "Confirmation"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

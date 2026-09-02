@@ -1,0 +1,1574 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.title-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-11"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] RightAddon",
+        "key": "edd174301746415867bc998cd0c0322b68c6269c",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] RightAddonXL",
+        "key": "8edd3829b4b7091209299a5b5c838f0a159018aa",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TitleAddon",
+        "key": "f32313498fd345a1a41584c8d9edc61c3e2053bf",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TitleAddonXL",
+        "key": "b4cd3e21d108962a24b75aec2de71fba0672d63f",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TitleStatus",
+        "key": "6a8aa56ae7c8b57b9d9dfbbf23af14c348d83763",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TitleView",
+        "key": "fbc4ff889c9fe2db128bc76471f512271d4cc229",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Skeleton",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] RightAddon",
+        "key": "b762143a2872257a497f9c3e0a012a9bed92f9ca",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] RightAddonXL",
+        "key": "c1092f678271e7de3291bb5699eeab4ad43c7710",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TitleAddon",
+        "key": "50d8b48cc1dcd4052efc7a151219578d1d993e2f",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TitleAddonXL",
+        "key": "a40e2549a5a23e645fb38c2af4c15df0f6813153",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TitleStatus",
+        "key": "e64c6d19cadc818b180b9176a51e3f65714b84b0",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TitleView",
+        "key": "227149bd55130d69d63e33cd3c8c52ae3f4e7e19",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Skeleton",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "component": {
+      "name": "TitleView",
+      "library": "Web _ Corp Components"
+    },
+    "publicApi": {
+      "components": [
+        {
+          "name": "[D] RightAddon",
+          "key": "edd174301746415867bc998cd0c0322b68c6269c",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "IconButton",
+              "Link"
+            ]
+          }
+        },
+        {
+          "name": "[D] RightAddonXL",
+          "key": "8edd3829b4b7091209299a5b5c838f0a159018aa",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "IconButton",
+              "Link"
+            ]
+          }
+        },
+        {
+          "name": "[D] TitleAddon",
+          "key": "f32313498fd345a1a41584c8d9edc61c3e2053bf",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "StatusBadge"
+            ]
+          }
+        },
+        {
+          "name": "[D] TitleAddonXL",
+          "key": "b4cd3e21d108962a24b75aec2de71fba0672d63f",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Button",
+              "Icon 24",
+              "Neurohelper",
+              "StatusBadge"
+            ]
+          }
+        },
+        {
+          "name": "[D] TitleStatus",
+          "key": "6a8aa56ae7c8b57b9d9dfbbf23af14c348d83763",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Action",
+              "Approved",
+              "Attention",
+              "Error / Risk",
+              "Neutral",
+              "Processing"
+            ]
+          }
+        },
+        {
+          "name": "[D] TitleView",
+          "key": "fbc4ff889c9fe2db128bc76471f512271d4cc229",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "View": [
+              "Large",
+              "Medium",
+              "Small",
+              "xLarge"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M] RightAddon",
+          "key": "b762143a2872257a497f9c3e0a012a9bed92f9ca",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "IconButton",
+              "Link"
+            ]
+          }
+        },
+        {
+          "name": "[M] RightAddonXL",
+          "key": "c1092f678271e7de3291bb5699eeab4ad43c7710",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "IconButton",
+              "Link"
+            ]
+          }
+        },
+        {
+          "name": "[M] TitleAddon",
+          "key": "50d8b48cc1dcd4052efc7a151219578d1d993e2f",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 24",
+              "StatusBadge"
+            ]
+          }
+        },
+        {
+          "name": "[M] TitleAddonXL",
+          "key": "a40e2549a5a23e645fb38c2af4c15df0f6813153",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Button",
+              "Icon 24",
+              "Neurohelper",
+              "StatusBadge"
+            ]
+          }
+        },
+        {
+          "name": "[M] TitleStatus",
+          "key": "e64c6d19cadc818b180b9176a51e3f65714b84b0",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Action",
+              "Approved",
+              "Attention",
+              "Error / Risk",
+              "Neutral",
+              "Processing"
+            ]
+          }
+        },
+        {
+          "name": "[M] TitleView",
+          "key": "227149bd55130d69d63e33cd3c8c52ae3f4e7e19",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "View": [
+              "Large",
+              "Medium",
+              "Small",
+              "xLarge"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        }
+      ]
+    },
+    "nestedComponentAliases": [
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddon",
+        "path": "Type=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[D] RightAddonXL",
+        "path": "Type=Link / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "displayName": "StatusPreset",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "24",
+          "Style": "Contrast",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "displayName": "Status",
+        "role": "internal-instance",
+        "variantProperties": {
+          "LeftAddon": "False",
+          "Shape": "Rounded",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / 🔩 Label",
+        "displayName": "🔩 Label",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL",
+        "displayName": "[D] TitleAddonXL",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL",
+        "displayName": "[D] RightAddonXL",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Link"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [D] RightAddonXL / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "displayName": "[D] FilterCompanySelect_Single",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Open": "False",
+          "Selected": "True",
+          "ShowFirstCompany": "False",
+          "View": "Compact"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "displayName": "[D] CompactTag",
+        "role": "internal-instance",
+        "variantProperties": {
+          "SelectedState": "true"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "displayName": "Arrow",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe / chevron-down",
+        "displayName": "chevron-down",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / [D] TitleStatus",
+        "displayName": "[D] TitleStatus",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button",
+        "displayName": "[D] Button",
+        "role": "internal-instance",
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon",
+        "displayName": "LeftAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon",
+        "displayName": "RightAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-three-horizontal",
+        "displayName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddon",
+        "path": "Type=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] RightAddonXL",
+        "path": "Type=Link / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddon",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleAddonXL",
+        "path": "Type=StatusBadge / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset",
+        "displayName": "StatusPreset",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "24",
+          "Style": "Contrast",
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status",
+        "displayName": "Status",
+        "role": "internal-instance",
+        "variantProperties": {
+          "LeftAddon": "False",
+          "Shape": "Rounded",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Status / StatusPreset / Status / Label",
+        "displayName": "Label",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Uppercase": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL",
+        "displayName": "[M] TitleAddonXL",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge",
+        "displayName": "StatusBadge",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content",
+        "displayName": "🔩 Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] TitleAddonXL / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL",
+        "displayName": "[M] RightAddonXL",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Link"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView",
+        "displayName": "IconView",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "displayName": "Indicator",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "displayName": "🔩 Shape",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "displayName": "Content",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "displayName": "information-compact",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "displayName": "Border",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link",
+        "displayName": "Link",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / Content / 🔩 Underline",
+        "displayName": "🔩 Underline",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Heading / [M] RightAddonXL / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single",
+        "displayName": "[D] FilterCompanySelect_Single",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Open": "False",
+          "Selected": "True",
+          "ShowFirstCompany": "False",
+          "View": "Compact"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag",
+        "displayName": "[D] CompactTag",
+        "role": "internal-instance",
+        "variantProperties": {
+          "SelectedState": "true"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow",
+        "displayName": "Arrow",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Holding / [D] FilterCompanySelect_Single / [D] CompactTag / Arrow / Fixer / PaintMe / chevron-down",
+        "displayName": "chevron-down",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / [M] TitleStatus",
+        "displayName": "[M] TitleStatus",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Approved"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button",
+        "displayName": "[M] Button",
+        "role": "internal-instance",
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon",
+        "displayName": "LeftAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon",
+        "displayName": "RightAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleView",
+        "path": "View=xLarge, Skeleton=False / MainContent / Button group / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-three-horizontal",
+        "displayName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      }
+    ],
+    "slotAvailability": {
+      "xLarge": [
+        "Status",
+        "Title",
+        "TitleAddonXL",
+        "RightAddonXL",
+        "Holding",
+        "Subtitle",
+        "TitleStatus",
+        "Button group"
+      ],
+      "Large": [
+        "Title",
+        "Subtitle",
+        "TitleAddon",
+        "RightAddon"
+      ],
+      "Medium": [
+        "Title",
+        "Subtitle",
+        "TitleAddon",
+        "RightAddon"
+      ],
+      "Small": [
+        "Title",
+        "Subtitle",
+        "TitleAddon",
+        "RightAddon"
+      ]
+    },
+    "contentOverrides": {
+      "allowed": [
+        "Title.characters",
+        "Subtitle.characters",
+        "Status.label.characters",
+        "TitleStatus.Title.characters",
+        "TitleStatus.Subtitle.characters",
+        "Button.label.characters"
+      ],
+      "policy": "Текстовое содержание меняется через content override без ручного изменения оформления слоя.",
+      "recommendations": {
+        "Subtitle.maxCharacters": 120,
+        "TitleStatus.Subtitle.maxCharacters": 120
+      }
+    },
+    "requiredContent": {
+      "Title": {
+        "required": true,
+        "nonEmpty": true,
+        "visible": true
+      }
+    },
+    "primaryActionPlacement": {
+      "xLarge": "Button group",
+      "Large": "outside TitleView",
+      "Medium": "outside TitleView",
+      "Small": "outside TitleView",
+      "disallowedForAllViews": [
+        "RightAddon",
+        "RightAddonXL"
+      ]
+    },
+    "nestedComponentDelegation": {
+      "Holding / FilterCompanySelect_Single": "Используй public API и правила собственного компонентного контракта FilterCompanySelect_Single; TitleView не вводит дополнительных ограничений его параметров.",
+      "Button group / Button": "Используй public API Button и правила ptrn:controls.buttons-and-button-groups. TitleView фиксирует Size=56 для [D] TitleView и Size=48 для [M] TitleView, но не вводит дополнительных ограничений для View, addons, hint и singleIcon."
+    },
+    "statusConfiguration": {
+      "Size": [
+        "24"
+      ],
+      "Type": "Любое значение из public API StatusPreset.",
+      "StyleBySurface": {
+        "gray": "Contrast",
+        "white": "Muted"
+      },
+      "TitleStatusRequiresStatus": true
+    },
+    "statusRelation": {
+      "whenVisible": [
+        "Status",
+        "TitleStatus"
+      ],
+      "requiredRelation": "variant.Type must match",
+      "reason": "Type определяет статусный цвет."
+    },
+    "addonInteractionPolicy": {
+      "TitleAddon": "Может быть кликабельным; Type=StatusBadge может реагировать только на hover.",
+      "RightAddon": "Состав и поведение определяются выбранным Type."
+    },
+    "buttonGroupConfiguration": {
+      "buttonSizeByHost": {
+        "[D] TitleView": "56",
+        "[M] TitleView": "48"
+      },
+      "otherProperties": "Делегированы public API Button и паттерну ptrn:controls.buttons-and-button-groups."
+    },
+    "editableTitlePolicy": {
+      "partOfTitleViewPattern": true,
+      "source": "patterns/p_title-view-editable.md",
+      "lineBehavior": "single-line-ellipsis",
+      "fullTitle": {
+        "trigger": "button-with-pencil-icon",
+        "subtitleRequired": true
+      },
+      "partialTitle": {
+        "trigger": "context-action-button",
+        "dateTrigger": "button-with-calendar-icon"
+      },
+      "otherCasesAllowed": true,
+      "completionDependsOn": [
+        "context",
+        "platform"
+      ]
+    },
+    "layerStyleOverrides": {
+      "allowed": false,
+      "scope": "root-and-all-descendants",
+      "targets": [
+        "TitleView root",
+        "all internal layers and nested instances"
+      ],
+      "properties": [
+        "layout.*",
+        "width",
+        "height",
+        "layoutSizingHorizontal",
+        "layoutSizingVertical",
+        "styles.text",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "effects.*",
+        "blendMode"
+      ],
+      "policy": "Layout, sizing и оформление корня и всего внутреннего дерева определяются компонентами и не меняются вручную. Text content overrides и instance swap внутри предусмотренных слотов разрешены."
+    },
+    "rootLayoutPolicy": {
+      "width": "Fill container",
+      "height": "Hug contents",
+      "platformDifference": false,
+      "requirement": "recommendation"
+    },
+    "slotOrderPolicy": {
+      "required": true,
+      "order": [
+        "Status",
+        "Heading",
+        "Holding",
+        "Subtitle",
+        "TitleStatus",
+        "Button group"
+      ]
+    },
+    "slotContentPolicy": {
+      "instanceSwapAllowed": true,
+      "arbitraryComponentsAllowed": true,
+      "mustPreserveSlotOrderAndRootStructure": true
+    },
+    "rootInteractionPolicy": {
+      "clickable": false,
+      "styleOverridesAllowed": false
+    },
+    "resetModel": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "layout.*",
+        "styles.*",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "text.*"
+      ],
+      "dependencyPolicy": "Component-property reset и layer-property reset разделены. Layer reset должен использовать effective baseline после nested variant/materialization resolution."
+    }
+  }
+}

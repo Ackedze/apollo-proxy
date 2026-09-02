@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.segmented-control",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "SegmentedControl",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "SegmentedControl",
+        "path": "Size=32, Shape=Rectangular, Capacity=2, Inverted=False / Segment",
+        "componentName": "Segment",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "Selected": "True"
+        }
+      },
+      {
+        "hostComponentName": "SegmentedControl",
+        "path": "Size=32, Shape=Rectangular, Capacity=2, Inverted=False / Segment",
+        "componentName": "Segment",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "Selected": "False"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "SegmentedControl",
+        "path": "Size=32, Shape=Rectangular, Capacity=2, Inverted=False / Segment",
+        "componentName": "Segment",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "False",
+          "Selected": "True"
+        }
+      }
+    ]
+  }
+}

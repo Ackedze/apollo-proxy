@@ -1,0 +1,404 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.table-bulk-actions",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TableBulkActions",
+          "layers": [
+            "[D] AmountItem",
+            "[D] AmountRow",
+            "[D] AmountRowSlider",
+            "[D] ButtonsGroup",
+            "[D] Counter",
+            "[D] Slider",
+            "[D] TableBulkActions",
+            "[M] AmountItem",
+            "[M] AmountRow",
+            "[M] ButtonsGroup",
+            "[M] Counter",
+            "[M] TableBulkActions",
+            "🔄 [D] TableBulkActions",
+            "🔄 [M] TableBulkActions",
+            "TableBulkActions"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TableBulkActions",
+          "layers": [
+            "[D] AmountItem",
+            "[D] AmountRow",
+            "[D] AmountRowSlider",
+            "[D] ButtonsGroup",
+            "[D] Counter",
+            "[D] Slider",
+            "[D] TableBulkActions",
+            "[M] AmountItem",
+            "[M] AmountRow",
+            "[M] ButtonsGroup",
+            "[M] Counter",
+            "[M] TableBulkActions",
+            "🔄 [D] TableBulkActions",
+            "🔄 [M] TableBulkActions",
+            "TableBulkActions"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.scheduled-use-is-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "TableBulkActions имеет lifecycle status scheduled: компонент пока разрешено использовать, но он запланирован к выводу из эксплуатации. Не трактуй scheduled как немедленный запрет или как требование заменить компонент во всех существующих сценариях."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.new-tables-use-pagination-bulk-actions",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.table",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В новых Table Basic и Table Wide не используй отдельный TableBulkActions. Для массовых действий используй Pagination с preset BulkActions."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.mobile-is-adaptive-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "🔄 [M] TableBulkActions разрешён только в адаптивном интерфейсе на ширине 320–767 px. В Mobile Web этот компонент не используется."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.service-components-are-internal",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.usage",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] AmountItem",
+            "[D] AmountRow",
+            "[D] AmountRowSlider",
+            "[D] ButtonsGroup",
+            "[D] Slider",
+            "[M] AmountItem",
+            "[M] AmountRow",
+            "[D] Counter",
+            "[M] ButtonsGroup",
+            "[M] Counter"
+          ]
+        },
+        "ruleText": "Служебные части TableBulkActions нельзя использовать как самостоятельные компоненты. Используй публичный корень 🔄 [D] TableBulkActions или 🔄 [M] TableBulkActions."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.top-row-follows-composition-fit",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "variant.TopRow",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Если суммы и кнопки не помещаются на общей верхней линии, включи TopRow, чтобы кнопки отображались на отдельной линии. Если элементы помещаются, TopRow выбирается по композиции."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.react-name",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "code.mapping",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "CorporateTableBulkActions — название React-компонента, соответствующего TableBulkActions. Это не отдельный replacement-компонент и не рекомендация по миграции."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-is-required",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.Counter",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Counter обязателен в TableBulkActions с массовым выбором. Counter=false разрешён только для самостоятельной sticky-панели кнопок без массового выбора."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.spacer-follows-selection-alignment",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "component.Spacer",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Включай Spacer, когда Counter должен быть выровнен с checkbox элементов таблицы, списка или карточек. Для самостоятельной sticky-панели кнопок используй Spacer=false."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.multiple-amounts-fit-one-line",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Amount",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Amount=single используй для одной суммы. Amount=multiple используй для нескольких сумм только при условии, что все суммы помещаются в одну линию без слайдера."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.max-four-visible-buttons",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В TableBulkActions допускается не более четырёх видимых кнопок. Дополнительные действия переноси в PickerButton через Overflow=true."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.max-one-primary-button",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В TableBulkActions допускается не более одной кнопки Primary. Группа только из Secondary разрешена."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.overflow-uses-last-picker-button",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Overflow",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При Overflow=true последняя видимая кнопка должна быть PickerButton и открывать скрытые действия. TopRow=true и Overflow=true могут использоваться одновременно."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-label-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.Counter.Label",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текст Counter фиксирован в формате «Выбрано N» и не должен переименовываться. На ширине 768–1023 px Label можно скрыть, чтобы освободить место для сумм или кнопок."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-overflow-uses-slider",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.amount",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Если несколько сумм не помещаются в одну линию, используй AmountRowSlider. Amount=multiple без слайдера допустим только когда все суммы помещаются в одну линию."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-count-recommendation",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "composition.amount.items",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Жёсткого ограничения на количество сумм нет, но рекомендуется показывать не более 10. Суммы могут быть в разных валютах."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.button-visuals-use-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.variant.Size|composition.buttons.variant.Shape|composition.buttons.variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Size, Shape и View вложенных кнопок должны соответствовать effective baseline TableBulkActions. Не изменяй эти параметры вручную вне предусмотренного состояния компонента."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.overflow-hides-actions-right-to-left",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.order",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При переносе действий в PickerButton скрывай кнопки справа налево, начиная с наименее приоритетного правого действия. Количество скрытых действий не ограничено."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-checkbox-state-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.Counter.Checkbox",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Checkbox Counter по умолчанию находится в SelectedState. Нажатие снимает выбор со всех объектов. IndeterminateState в Counter недопустим."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.button-api-customizations-are-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.Label|composition.buttons.addons|composition.buttons.DisabledState|composition.buttons.loading",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Label, addons, DisabledState и loading вложенных кнопок можно настраивать через штатные параметры Button. Эти изменения сами по себе не являются нарушениями."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.picker-surface-follows-platform",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.overflowSurface",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "PickerButton открывает OptionList на desktop и tablet. В adaptive mobile на ширине 320–767 px он открывает BottomSheet."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-slider-controls-follow-platform",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.amount.slider",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "AmountRowSlider на desktop и tablet использует боковые кнопки прокрутки и fade переполнения. В adaptive mobile используется touch-scroll без fade и без дополнительных кнопок."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.sticky-geometry-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.position|fill|effects.*|layout.height|layout.padding.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "TableBulkActions всегда закреплён по нижнему краю, а контент страницы прокручивается под ним. Боковые отступы следуют сетке страницы; fill, shadow, height и padding сохраняются по effective baseline и не меняются вручную."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.tablet-variant-is-automatic",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Tablet",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Tablet=true автоматически используется на ширине 768–1023 px, Tablet=false — от 1024 px. Дизайнер не должен переключать Tablet вручную вопреки ширине viewport."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.adaptive-top-row-is-required",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.TopRow",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В adaptive mobile на ширине 320–767 px кнопки всегда располагаются на отдельной второй линии. TopRow должен быть включён и не должен отключаться вручную."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-value-matches-selection",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.Counter.N",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Значение N в Counter всегда равно количеству выбранных объектов и обновляется автоматически. Произвольное ручное значение недопустимо."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-item-content-is-configurable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "content.AmountItem",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Название показателя, сумму, валюту и штатные параметры вложенного Amount можно менять. Typography, spacing, dividers и остальные визуальные стили должны сохраняться по effective baseline."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-item-count-matches-objects",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.AmountItem.N",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "N внутри AmountItem должно соответствовать количеству объектов, относящихся к этой сумме. Произвольное значение недопустимо."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.has-no-global-loading-or-disabled-state",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.loading|component.disabled",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "У TableBulkActions нет общего loading или disabled состояния. Loading и DisabledState допустимы только у отдельных вложенных кнопок."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.visible-only-with-selection",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "TableBulkActions отображается только когда выбран хотя бы один объект. При нулевом выборе панель должна быть полностью скрыта."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.selection-covers-entire-data-set",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "selection.scope|text.Counter.N",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Counter учитывает все выбранные объекты во всём наборе данных, включая объекты вне текущей страницы. Не ограничивай N текущей страницей."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amounts-follow-selection",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "content.AmountItem",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Суммы в AmountItem рассчитываются только по выбранным объектам и автоматически обновляются при изменении выбора."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.buttons-act-on-selection",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "composition.buttons.actionScope",
+        "checkType": "contextual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Все действия TableBulkActions должны относиться к выбранным объектам. Не добавляй в панель общие действия, не связанные с текущим выбором."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.post-action-selection-is-contextual",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "interaction.afterAction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Сброс или сохранение выбора после выполнения действия определяется контекстным сценарием. Не требуй универсального автоматического сброса."
+      }
+    ]
+  }
+}

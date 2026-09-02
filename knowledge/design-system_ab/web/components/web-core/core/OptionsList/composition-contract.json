@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.options-list",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "OptionsList",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] OptionList",
+        "path": "FixedHeight=True / Body / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListCell",
+        "path": "LeftControl=True, RightControl=False / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "True",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] OptionListCell",
+        "path": "LeftControl=True, RightControl=False / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "True",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListFooter",
+        "path": "[D] OptionListFooter / FooterContent",
+        "componentName": "FooterContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] OptionListHeader",
+        "path": "[D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] OptionListHeader",
+        "path": "[M] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

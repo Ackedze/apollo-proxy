@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- Onboarding Hint [D].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Onboarding Hint [D]"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "classificationRules": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "component",
+        "baselinePolicy": "Используй effective baseline выбранных Tail Direction и Tail Position."
+      },
+      {
+        "when": {
+          "layer": "Content/Content/[D] Button",
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "component",
+        "baselinePolicy": "Сравнивай с фиксированной конфигурацией вложенной кнопки Onboarding Hint."
+      },
+      {
+        "when": {
+          "layers": [
+            "Title",
+            "Content/Content/[D] Button",
+            "Content/Cross",
+            "Tail"
+          ],
+          "property": "visible"
+        },
+        "category": "component-property",
+        "resetSurface": "component",
+        "baselinePolicy": "Обязательные части должны оставаться видимыми."
+      },
+      {
+        "when": {
+          "property": "layout.width"
+        },
+        "category": "allowed-override",
+        "resetSurface": "layer",
+        "baselinePolicy": "Рекомендуемая ширина — 360 px. Значения до 420 px разрешены по контексту; больше 420 px запрещено."
+      },
+      {
+        "when": {
+          "property": "layout.height"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Высота должна оставаться Hug."
+      },
+      {
+        "when": {
+          "layers": [
+            "Content / Cross / 🔩 Icon",
+            "Content / Cross / Icon"
+          ],
+          "property": "variant.Type"
+        },
+        "category": "component-property",
+        "resetSurface": "component",
+        "baselinePolicy": "Используй Type=icon-20 из effective baseline Onboarding Hint."
+      },
+      {
+        "when": {
+          "layers": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe",
+            "Content / Cross / Icon / Fixer / PaintMe"
+          ],
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Используй fill из effective baseline вложенной иконки Close."
+      },
+      {
+        "when": {
+          "layers": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe / cross",
+            "Content / Cross / Icon / Fixer / PaintMe / cross"
+          ],
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "component",
+        "baselinePolicy": "Используй Size=20, Color=False и Style=Thinline из effective baseline Onboarding Hint."
+      }
+    ],
+    "runtimeLimitations": [
+      "Назначение Onboarding Hint и смысл действия кнопки требуют контекстной проверки агентом.",
+      "Проверка лимита Title требует наличия текстового значения в отчёте Apollo.",
+      "Замена desktop-компонента на BottomSheet в mobile-web проверяется по платформенному контексту, а не по layer diff.",
+      "Направление Tail, перекрытие цели, доступность целевого объекта, способ закрытия и попадание во viewport требуют проверки композиционного или интерактивного контекста.",
+      "Количество одновременно видимых hints и отсутствие блокировки остального интерфейса требуют анализа всей композиции.",
+      "Apollo может зафиксировать swap или variant change в Close, но смысловую замену иконки нужно подтверждать по nested owner context.",
+      "Перенос Title, кликабельность поверхности и последовательный flow требуют анализа текстового и прототипного контекста.",
+      "Изменение Tail Direction или Tail Position является штатной настройкой, пока Tail указывает на связанный объект.",
+      "Количество кнопок можно проверить по композиции; назначение текста, отсутствие backdrop и выбор компонента для результата действия требуют контекстной проверки агентом.",
+      "Финальная точка в Title не является нарушением для Onboarding Hint."
+    ]
+  }
+}

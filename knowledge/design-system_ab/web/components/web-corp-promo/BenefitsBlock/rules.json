@@ -1,0 +1,641 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web.benefits-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web.benefits-block.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "BenefitsBlock",
+          "layers": [
+            "[D] BenefitsBlock",
+            "[D] ButtonGroup",
+            "[D] ContentPresets",
+            "[M] BenefitsBlock",
+            "[M] ButtonGroup",
+            "[M] ContentPresets",
+            "BenefitsBlock"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web.benefits-block.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "BenefitsBlock",
+          "layers": [
+            "[D] BenefitsBlock",
+            "[D] ButtonGroup",
+            "[D] ContentPresets",
+            "[M] BenefitsBlock",
+            "[M] ButtonGroup",
+            "[M] ContentPresets",
+            "BenefitsBlock"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web.benefits-block.promo-banner-purpose",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "BenefitsBlock — промо-баннер для яркой подачи ключевой информации и преимуществ пользователю. Используй его на промо-странице."
+      },
+      {
+        "ruleId": "component:web.benefits-block.one-per-promo-page-recommended",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "page.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "recommendedMaximum": 1,
+          "context": "promo page",
+          "multipleAllowed": true
+        },
+        "classification": {
+          "doNotTreatAsViolation": true,
+          "reportAsCustomization": false
+        },
+        "ruleText": "На промо-странице рекомендуется один BenefitsBlock, но несколько блоков допустимы и не являются нарушением."
+      },
+      {
+        "ruleId": "component:web.benefits-block.only-platform-roots-are-public",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "publicRoots": [
+            "[D] BenefitsBlock",
+            "[M] BenefitsBlock"
+          ],
+          "internalFamilies": [
+            "[D] ButtonGroup",
+            "[M] ButtonGroup",
+            "[D] ContentPresets",
+            "[M] ContentPresets"
+          ]
+        },
+        "remediation": "Создайте платформенный BenefitsBlock root и настраивайте ButtonGroup/ContentPresets только внутри него.",
+        "ruleText": "Публичны только [D] BenefitsBlock и [M] BenefitsBlock. Вложенные ButtonGroup и ContentPresets отдельно не используются.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.image-position-is-platform-independent",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.variant.Image",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Позиции изображения выбираются независимо: desktop допускает Left/Right, mobile-web — Top/Bottom. Не требуй фиксированного D→M соответствия."
+      },
+      {
+        "ruleId": "component:web.benefits-block.desktop-compact-required",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Compact|layout.contentFit",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "[D] BenefitsBlock",
+          "compactTrueWhen": [
+            "viewport<=1024",
+            "content-does-not-fit-standard-format"
+          ]
+        },
+        "remediation": "Установите Compact=True при viewport 1024 px и меньше или при переполнении стандартного формата.",
+        "ruleText": "Desktop BenefitsBlock использует Compact=True при viewport 1024 px и меньше, а также когда контент не помещается в стандартный формат.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.background-false-uses-host-surface",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Background|nested.BackgroundPlate",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "Background": "False",
+          "ownBackgroundPlate": false,
+          "surfaceSource": "host"
+        },
+        "remediation": "При Background=False удалите собственную дополнительную поверхность и разместите блок на подходящей общей поверхности host-контейнера.",
+        "ruleText": "Background=False означает работу на внешней общей поверхности без собственного BackgroundPlate."
+      },
+      {
+        "ruleId": "component:web.benefits-block.height-custom-controls-background-height",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.HeightCustom|nested.BackgroundPlate.layout.height|layout.overlap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "HeightCustom=True": "custom BackgroundPlate height",
+          "HeightCustom=False": "BackgroundPlate height follows content and ignores image bounds",
+          "widthRestricted": false,
+          "contentImageOverlapAllowed": false
+        },
+        "remediation": "Настройте HeightCustom и высоту BackgroundPlate так, чтобы изображение не перекрывало контент; не трактуйте HeightCustom как ограничение ширины.",
+        "ruleText": "HeightCustom управляет произвольной высотой BackgroundPlate. При False поверхность следует только высоте контента без учёта изображения; ширина не ограничивается, но перекрытие контента изображением запрещено."
+      },
+      {
+        "ruleId": "component:web.benefits-block.title-and-image-are-required",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Title|content.Image",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "required": [
+            "Title",
+            "Image"
+          ]
+        },
+        "remediation": "Восстановите Title и Image внутри BenefitsBlock.",
+        "ruleText": "Title и изображение обязательны для BenefitsBlock на обеих платформах.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.content-preset-semantics",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ContentPresets.variant.Type|content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "optional": true,
+          "types": {
+            "Text": "simple text block with heading support",
+            "List": "list of items",
+            "Steps": "instructional sequence"
+          }
+        },
+        "ruleText": "ContentPresets можно скрыть. Text используй для простого текста с заголовком, List — для перечня, Steps — для инструкции или последовательности шагов."
+      },
+      {
+        "ruleId": "component:web.benefits-block.button-group-is-optional",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ButtonGroup|action.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "groupMayBeHidden": true,
+          "allowedVisibleStates": [
+            "Primary only",
+            "Secondary only",
+            "Primary + Secondary"
+          ]
+        },
+        "remediation": "Скройте ButtonGroup целиком или оставьте Primary, Secondary либо оба действия.",
+        "ruleText": "ButtonGroup опционален. Если он показан, допустимы только Primary, только Secondary или оба действия.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.responsive-content-parity",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.content|responsive.actions|responsive.image",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "requiredParity": [
+          "content",
+          "image",
+          "action count",
+          "action order"
+        ],
+        "classification": {
+          "imagePositionMayDiffer": true
+        },
+        "remediation": "Синхронизируйте контент, изображение, количество и порядок действий между D/M; позицию изображения можно оставить различной.",
+        "ruleText": "Desktop и mobile-web сохраняют контент, изображение, количество и порядок действий. Позиция изображения выбирается независимо."
+      },
+      {
+        "ruleId": "component:web.benefits-block.allowed-background-types",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Background|nested.BackgroundPlate.variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "whenBackgroundTrue": [
+            "Primary",
+            "Colored"
+          ]
+        },
+        "remediation": "При Background=True выберите Promo BackgroundPlate типа Primary или Colored.",
+        "ruleText": "BenefitsBlock с собственной поверхностью допускает только типы Primary и Colored.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.mobile-height-follows-content",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "platform.mobile-web|layout.height|variant.HeightCustom",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "[M] BenefitsBlock",
+          "heightCustomExposed": false,
+          "heightSource": "content and preset layout"
+        },
+        "remediation": "Удалите искусственный HeightCustom у mobile-web и восстановите высоту по содержимому и preset baseline.",
+        "ruleText": "У [M] BenefitsBlock нет HeightCustom: высота определяется содержимым и штатным mobile layout.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.right-addon-must-be-hidden",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.TitleView.RightAddon.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "visible": false
+        },
+        "remediation": "Скройте RightAddon внутри TitleView.",
+        "ruleText": "RightAddon в BenefitsBlock должен быть скрыт.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.title-addon-status-badge-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.TitleView.TitleAddon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowedType": "StatusBadge"
+        },
+        "remediation": "Скройте TitleAddon или используйте штатный StatusBadge.",
+        "ruleText": "TitleAddon в BenefitsBlock допускается только как StatusBadge.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.image-view-settings",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ImageView.variant.Crop|nested.ImageView.variant.Size|nested.ImageView.variant.Segment",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Crop": "Center",
+          "Size": "348",
+          "Segment": "landing segment"
+        },
+        "sourceDiscrepancy": {
+          "rawBaselineSize": "534",
+          "ownerConfirmedSize": "348",
+          "resolution": "owner-confirmed curated override"
+        },
+        "remediation": "Установите Crop=Center, Size=348 и Segment по сегменту лендинга; не восстанавливайте raw Size=534 автоматически.",
+        "ruleText": "ImageView использует Crop=Center и Size=348; Segment соответствует сегменту лендинга. Size=348 — подтверждённая владельцем дельта от raw baseline 534.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.surface-color-overrides",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BackgroundPlate.fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Colored": "token-bound fill only",
+          "Primary": "baseline only"
+        },
+        "remediation": "Для Colored используйте разрешённый token-bound fill; для Primary восстановите baseline без цветового override.",
+        "ruleText": "Colored разрешает только token-bound fill. Primary сохраняет исходный цветовой baseline без overrides.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.loading-allowed-without-background",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Background|state.loading",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "classification": {
+          "Background=False": "loading allowed",
+          "doNotTreatAsViolation": true
+        },
+        "ruleText": "Loading допустим при Background=False; отсутствие собственной BackgroundPlate не делает loading нарушением."
+      },
+      {
+        "ruleId": "component:web.benefits-block.root-sizing-and-height-scope",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.sizing.*|variant.HeightCustom",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredValues": {
+          "layout.sizing.horizontal": "FILL",
+          "layout.sizing.vertical": "HUG"
+        },
+        "conditions": {
+          "HeightCustomAffectsOnly": "BackgroundPlate height",
+          "manualSizingOfOtherPartsAllowed": false
+        },
+        "remediation": "Восстановите root Fill/Hug; используйте HeightCustom только для высоты BackgroundPlate.",
+        "ruleText": "BenefitsBlock использует Fill по ширине и Hug по высоте. HeightCustom меняет только высоту BackgroundPlate и не разрешает ручные размеры остальных частей.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.list-and-steps-count-owned-by-nested-component",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ContentPresets.items",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Количество элементов List и Steps определяется возможностями соответствующих вложенных компонентов; BenefitsBlock не вводит жёсткий дополнительный лимит."
+      },
+      {
+        "ruleId": "component:web.benefits-block.steps-count-recommendation",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ContentPresets[Type=Steps].items",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "recommendedCount": 3,
+          "warnWhenGreaterThan": 3
+        },
+        "remediation": "По возможности сократите инструкцию до 3 шагов; большее количество допустимо, но требует предупреждения.",
+        "ruleText": "Для ContentPresets=Steps рекомендуется 3 шага. Если шагов больше 3, возвращайте warning."
+      },
+      {
+        "ruleId": "component:web.benefits-block.text-limits",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Title|content.Text|nested.Button.label",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Title": {
+            "charactersMax": 60,
+            "linesMax": 2
+          },
+          "Text": {
+            "charactersMax": 240,
+            "linesMax": 4
+          },
+          "ButtonLabel": "inherit Button contract"
+        },
+        "remediation": "Сократите Title/Text до лимита; label кнопки проверьте по exact Button rule.",
+        "ruleText": "Title ограничен 60 символами и двумя строками, Text — 240 символами и четырьмя строками. Button label наследует контракт Button.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.image-source-and-swap",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ImageView.source|nested.ImageView.variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "library": "Corp :: Image Library",
+          "swapWithinLibraryAllowed": true,
+          "Crop": "Center",
+          "Size": "348",
+          "Segment": "landing segment"
+        },
+        "remediation": "Выберите изображение из Corp :: Image Library и восстановите Crop=Center, Size=348, Segment лендинга.",
+        "ruleText": "Изображение берётся только из Corp :: Image Library. Swap внутри библиотеки разрешён при сохранении Crop=Center, Size=348 и корректного Segment.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.loading-covers-whole-block",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "state.loading|interaction.*",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "scope": "whole BenefitsBlock",
+          "covers": [
+            "Title",
+            "ContentPresets",
+            "Image",
+            "ButtonGroup"
+          ],
+          "actionsBlocked": true,
+          "allowedWhenBackgroundFalse": true
+        },
+        "remediation": "Синхронизируйте loading для всего блока и заблокируйте действия; Background=False не требует отключать loading.",
+        "ruleText": "Loading охватывает весь BenefitsBlock и блокирует действия. Он допустим и при Background=False; частичный loading запрещён."
+      },
+      {
+        "ruleId": "component:web.benefits-block.container-is-not-clickable",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.container|nested.ButtonGroup",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "containerAction": false,
+          "actionsSource": "ButtonGroup only"
+        },
+        "remediation": "Удалите действие с контейнера и перенесите допустимые действия в ButtonGroup.",
+        "ruleText": "Контейнер BenefitsBlock некликабелен; действия доступны только через ButtonGroup."
+      },
+      {
+        "ruleId": "component:web.benefits-block.segment-matches-colored-surface",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.ImageView.variant.Segment|nested.BackgroundPlate.fill",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "whenSurfaceType": "Colored",
+          "imageSegmentMatchesFillSegment": true
+        },
+        "remediation": "Выберите Segment ImageView и token-bound fill Colored для одного сегмента лендинга.",
+        "ruleText": "При поверхности Colored Segment изображения должен совпадать с сегментом token-bound fill."
+      },
+      {
+        "ruleId": "component:web.benefits-block.image-overflow-by-height-custom",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.HeightCustom|nested.ImageView.layout.bounds|layout.overlap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "HeightCustom=False": {
+            "outsideBackgroundPlateAllowed": true,
+            "contentOverlapAllowed": false,
+            "outsideRootAllowed": false
+          },
+          "HeightCustom=True": {
+            "outsideBackgroundPlateAllowed": false
+          }
+        },
+        "remediation": "При HeightCustom=False оставьте изображение внутри root и исключите перекрытие контента; при True удерживайте изображение внутри BackgroundPlate.",
+        "ruleText": "Изображение может выходить за BackgroundPlate только при HeightCustom=False, если не перекрывает контент и остаётся внутри BenefitsBlock root."
+      },
+      {
+        "ruleId": "component:web.benefits-block.layout-is-component-owned",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.gap|layout.padding|layout.axis|layout.order|nested.ImageContainer.layout.size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "manualChangesAllowed": false
+        },
+        "remediation": "Восстановите effective baseline BenefitsBlock для gap, padding, axis, порядка областей и ImageContainer size.",
+        "ruleText": "Gap, padding, axis, порядок внутренних областей и размеры ImageContainer принадлежат BenefitsBlock и вручную не изменяются.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits-block.active-canonical-component",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.lifecycle",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "active": true,
+          "canonical": true,
+          "plannedReplacement": false,
+          "legacy": false
+        },
+        "ruleText": "BenefitsBlock — активный канонический компонент без planned replacement и legacy-вариантов."
+      },
+      {
+        "ruleId": "component:web.benefits-block.title-addon-inherits-status-badge",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.TitleView.TitleAddon.StatusBadge",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "inheritFullStatusBadgeContract": true,
+          "additionalRestrictions": false
+        },
+        "remediation": "Проверьте TitleAddon по exact StatusBadge rule; не вводите локальные варианты вне его контракта.",
+        "ruleText": "TitleAddon допускает только StatusBadge и полностью наследует его контракт без дополнительных ограничений BenefitsBlock."
+      },
+      {
+        "ruleId": "component:web.benefits-block.raw-colors-forbidden",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "fill|stroke|color",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "rawColorsAllowed": false,
+          "ColoredFill": "token-bound and Segment-matched"
+        },
+        "remediation": "Замените raw color на разрешённый token-bound fill соответствующего Segment.",
+        "ruleText": "Raw colors запрещены. Поверхность Colored использует только token-bound fill, совпадающий с Segment изображения.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-core.icon-view",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "icon-view.public-root-pass",
+        "title": "Published IconView is used as a public root",
+        "inputChange": {
+          "node": "IconView",
+          "property": "component.identity",
+          "referenceValue": "web-core.icon-view/icon-view",
+          "actualValue": "web-core.icon-view/icon-view"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.public-root-only",
+          "classification": "compliant",
+          "focus": "IconView"
+        }
+      },
+      {
+        "exampleId": "icon-view.internal-content-root-fail",
+        "title": "Internal Content is placed as a standalone component",
+        "inputChange": {
+          "node": "Content",
+          "property": "component.family",
+          "referenceValue": "icon-view",
+          "actualValue": "content"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.public-root-only",
+          "classification": "violation",
+          "focus": "Content"
+        }
+      },
+      {
+        "exampleId": "icon-view.radius-baseline-fail",
+        "title": "IconView radius is changed manually",
+        "inputChange": {
+          "node": "IconView",
+          "property": "appearance.radius",
+          "referenceValue": 4,
+          "actualValue": 8
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.layer-properties-use-effective-baseline.radius",
+          "classification": "violation",
+          "focus": "IconView",
+          "action": "reset-to-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "icon-view.radius-baseline-unknown",
+        "title": "Direct radius override has no exact effective baseline",
+        "inputChange": {
+          "node": "IconView",
+          "property": "appearance.radius",
+          "referenceValue": null,
+          "actualValue": 8
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.layer-properties-use-effective-baseline.radius",
+          "classification": "not-evaluable",
+          "focus": "IconView"
+        }
+      },
+      {
+        "exampleId": "icon-view.border-color-allowed",
+        "title": "IconView border color is changed through a token override",
+        "inputChange": {
+          "node": "Border",
+          "property": "appearance.stroke.value",
+          "referenceValue": "neutral-translucent/200",
+          "actualValue": "status/info"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.paint-colors-are-public-settings",
+          "classification": "allowed",
+          "focus": "Border"
+        }
+      },
+      {
+        "exampleId": "icon-view.background-color-allowed",
+        "title": "IconView background fill color is changed",
+        "inputChange": {
+          "node": "BgColor",
+          "property": "appearance.fill.value",
+          "referenceValue": "neutral/100",
+          "actualValue": "neutral/500"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.paint-colors-are-public-settings",
+          "classification": "allowed",
+          "focus": "BgColor"
+        }
+      },
+      {
+        "exampleId": "icon-view.icon-color-allowed",
+        "title": "IconView icon fill color is changed",
+        "inputChange": {
+          "node": "Content/PaintMe",
+          "property": "appearance.fill.value",
+          "referenceValue": "neutral-translucent/700",
+          "actualValue": "text/positive"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-core.icon-view.paint-colors-are-public-settings",
+          "classification": "allowed",
+          "focus": "PaintMe"
+        }
+      }
+    ]
+  }
+}

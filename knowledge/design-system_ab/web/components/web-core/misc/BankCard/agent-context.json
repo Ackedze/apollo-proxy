@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.bank-card",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-06-17"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/misc/Web _ Core Misc -- BankCard.json",
+      "library": "Web _ Core Misc",
+      "file": "Web _ Core Misc",
+      "generatedAt": "2026-06-17T08:57:18.024Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "BankCard"
+      ]
+    },
+    "summary": {
+      "componentFamily": "BankCard",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 BankLogo",
+        "key": "03351556a6eaf19020c5822f3a888ffc789066f0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Alfa",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔩 CardNumber",
+        "key": "3ae43117b6c691b67bb89e646f518753a38d009a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Filled"
+          ]
+        }
+      },
+      {
+        "name": "🔩 PaymentSystemLogo",
+        "key": "2e9b42ba86eb846ec071ec9db2c44f49973f6295",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Mir",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "BankCard",
+        "key": "4eebc9f77ff32f459e7fe5c771045f89a527a87f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "BankCard",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

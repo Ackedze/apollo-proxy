@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.payment-control.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentControl [M]",
+          "layers": [
+            "[M] Amount",
+            "[M] Hint",
+            "[M] PaymentControl",
+            "PaymentControl [M]"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentControl [M]",
+          "layers": [
+            "[M] Amount",
+            "[M] Hint",
+            "[M] PaymentControl",
+            "PaymentControl [M]"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.payment-control.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.payment-control"
+        },
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Runtime-реализация существует, но Code Connect не настроен, а точные package/import/API требуют [VERIFY]."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.mobile-web-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "screen.platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "requiredContext": {
+          "platforms": [
+            "mobile-web"
+          ]
+        },
+        "ruleText": "[M] PaymentControl разрешён только в mobile-web."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.deprecated-component-forbidden",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "❌ PaymentControl",
+          "componentKey": "a4bbfdbd9c6c5f39225532008bea45c75b02c84e"
+        },
+        "requiredReplacement": "[M] PaymentControl",
+        "ruleText": "Использование deprecated-компонента ❌ PaymentControl запрещено. Устаревшие экземпляры в Figma-разделах Anatomy и Properties являются ошибкой документации и не входят в контракт."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.required-internal-parts",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[M] PaymentControl"
+          ]
+        },
+        "requiredComposition": {
+          "required": [
+            "[M] Amount",
+            "[M] Hint"
+          ],
+          "standaloneUseForbidden": [
+            "[M] Amount",
+            "[M] Hint"
+          ]
+        },
+        "ruleText": "[M] Amount и [M] Hint — обязательные внутренние части [M] PaymentControl. Их нельзя скрывать, удалять или использовать отдельно."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.fixed-bottom-layout",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.position|layout.width|flow.scroll",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[M] PaymentControl"
+          ]
+        },
+        "requiredComposition": {
+          "position": "fixed-bottom",
+          "width": "fill-viewport",
+          "scrollsWithContent": false,
+          "focusedPosition": "directly-above-system-numeric-keyboard"
+        },
+        "ruleText": "PaymentControl закреплён у нижнего края viewport, заполняет его ширину, не скроллится с контентом и при фокусе располагается непосредственно над системной цифровой клавиатурой."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.state-machine",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.State|flow.behavior",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "requiredTransitions": {
+          "focus-empty": "Active",
+          "focus-filled": "ActiveFilled",
+          "blur-filled": "Filled",
+          "disable-empty": "DisabledEmpty",
+          "disable-filled": "DisabledFilled",
+          "invalid-filled": "ErrorFilled",
+          "correct-invalid-value-while-focused": "ActiveFilled"
+        },
+        "ruleText": "Состояние PaymentControl определяется автоматически фокусом, наличием значения, disabled-флагом и валидацией. Ручная подмена переходов является ошибкой."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.error-filled-focus",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "flow.validation",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[M] PaymentControl"
+          ],
+          "variant": {
+            "State": "ErrorFilled"
+          }
+        },
+        "requiredBehavior": {
+          "appearsImmediatelyAfterInvalidValue": true,
+          "keepsFocus": true,
+          "keepsKeyboardOpen": true,
+          "returnsToActiveFilledAfterCorrection": true
+        },
+        "ruleText": "Недопустимое значение сразу переводит контрол в ErrorFilled; фокус и клавиатура сохраняются. После исправления значения контрол возвращается в ActiveFilled."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.continue-action-visibility",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.composition|flow.action",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "requiredVisibility": {
+          "visible": [
+            "ActiveFilled",
+            "Filled"
+          ],
+          "hidden": [
+            "Empty",
+            "Active",
+            "DisabledEmpty",
+            "DisabledFilled",
+            "ErrorFilled"
+          ]
+        },
+        "requiredAction": "proceed-to-next-step",
+        "ruleText": "Действие продолжения показывается только в ActiveFilled и Filled и переводит пользователя на следующий шаг."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.action-appearance-immutable",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.*|component.swap|styles.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "nestedParts": {
+          "roles": [
+            "continue-action-button",
+            "continue-action-icon-view"
+          ]
+        },
+        "disallowedCustomization": {
+          "anyParameterChange": true,
+          "hideOrDelete": true
+        },
+        "ruleText": "Запрещено изменять любые параметры, swap, стили или состав Button и action IconView, а также скрывать или удалять их вне установленной state-модели."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.amount-inherits-core",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "amount.content|amount.format",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[M] Amount"
+          ]
+        },
+        "allowedCustomizations": [
+          "currency",
+          "minor-part-visibility",
+          "addon"
+        ],
+        "ruleText": "Встроенный Amount наследует Core Amount. Валюту, дробную часть и addon разрешено настраивать по продуктовому сценарию; форматирование и ограничения берутся из Core Amount и бизнес-логики."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.hint-single-line",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "text.content|layout.text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] Hint"
+        },
+        "requiredTextBehavior": {
+          "maxLines": 1,
+          "overflow": "ellipsis",
+          "textClickable": false
+        },
+        "ruleText": "Hint и текст ошибки занимают максимум одну строку с ellipsis. Сам текст Hint не является интерактивным."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.error-copy",
+        "severity": "error",
+        "source": "redpolicy-link",
+        "appliesTo": "text.error",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "patternRuleIds": [
+          "rule:controls.input-fields.human-error-message",
+          "rule:controls.input-fields.concrete-format-constraints"
+        ],
+        "ruleText": "Текст ошибки должен по-человечески объяснять проблему и указывать конкретные форматные ограничения согласно ptrn:controls.input-fields."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.info-icon-bottomsheet",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "flow.interaction",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[M] Hint",
+            "IconView"
+          ],
+          "infoIconVisible": true
+        },
+        "requiredBehavior": {
+          "separateHitArea": true,
+          "interactionModel": "mobile Tooltip",
+          "opens": "[M] BottomSheet",
+          "interactiveInDisabled": true
+        },
+        "ruleText": "Видимая информационная иконка имеет отдельную зону нажатия и открывает [M] BottomSheet по модели мобильного Tooltip, включая Disabled-состояния."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.info-icon-error-filled",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.visibility",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl",
+          "variant": {
+            "State": "ErrorFilled"
+          }
+        },
+        "requiredContext": {
+          "hiddenByDefault": true,
+          "mayBeVisibleWhen": "error requires fuller explanation"
+        },
+        "ruleText": "В ErrorFilled инфоиконка скрыта по умолчанию, но её можно показать, если ошибке требуется более полная расшифровка в [M] BottomSheet."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.unsupported-states-forbidden",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.State|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "disallowedStates": [
+          "Loading",
+          "Skeleton",
+          "Success"
+        ],
+        "ruleText": "PaymentControl не поддерживает Loading, Skeleton и Success. Добавление таких состояний является ошибкой."
+      },
+      {
+        "ruleId": "component:web-corp.payment-control.baseline-immutable",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[M] PaymentControl"
+        },
+        "disallowedCustomization": {
+          "properties": [
+            "background",
+            "typography",
+            "colors",
+            "spacing",
+            "padding",
+            "size",
+            "position",
+            "internal-geometry"
+          ]
+        },
+        "ruleText": "Запрещены отклонения от component baseline: фон, типографика, цвета, отступы, размеры, позиция и внутренняя геометрия не настраиваются вручную."
+      }
+    ]
+  }
+}

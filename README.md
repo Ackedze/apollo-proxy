@@ -47,11 +47,19 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
   `artifactCount`, checksum).
 - `POST /analyze` -> `{ success, result, source }`
 - `POST /v1/validate/predicates` -> `{ success, validation: { snapshot, result } }`
+- `POST /v1/generation/plan` -> `{ success, plan }`
 - `POST /v1/validate/codex` -> `{ success, validation }`
 - `POST /v1/validate/codex/runs` -> `202 { success, run }`
 - `GET /v1/validate/codex/runs/:runId` -> `{ success, run }`
 - `POST /v1/analyze/codex/runs` -> `202 { success, run }`
 - `GET /v1/analyze/codex/runs/:runId` -> `{ success, run }`
+
+`POST /v1/generation/plan` — независимый от проверки MVP-планировщик макетов.
+Он принимает `{ "prompt": "..." }`, разрешает активные Figma-компоненты только
+по локальным `contract.generated.json` Apollo Proxy и возвращает белый список
+frame/component-узлов формата `apollo.generation-plan.v1`. Endpoint не запускает
+predicate engine и не принимает клиентские правила. MVP распознаёт формы,
+табличные/списочные экраны, экраны результата и явные имена компонентов.
 
 `POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`. Для открытых вопросов поле `source` выбирает маршрут: `langflow` (значение по умолчанию) или `codex`. В режиме `codex` proxy извлекает вопрос из envelope `design-dialogue`, ограничивает историю, запускает отдельный `codex exec` в `read-only`/`ephemeral` режиме и возвращает финальный Markdown из активного `APOLLO_CODEX_KNOWLEDGE_SOURCE`; LangFlow-секреты в процесс Codex не передаются.
 

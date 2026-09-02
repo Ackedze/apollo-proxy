@@ -1,0 +1,484 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core ProgressBars",
+    "file": "Web :: Core ProgressBars",
+    "generatedAt": "2026-04-28T18:15:05.041Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 2,
+    "contractCount": 2,
+    "activeCount": 2,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "progress-bar-inverted.universal",
+      "name": "ProgressBar_Inverted",
+      "normalizedName": "progress-bar-inverted",
+      "componentKey": "2a944e3a3e251f1db3c7905cc9d783a00d6aa7d7",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:05.041Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "9a801cbc3055decce9fbb1e89f348aa402370a02",
+        "variants": {
+          "properties": {
+            "Size": [
+              "4px",
+              "8px"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "8px"
+            },
+            {
+              "Size": "4px"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "9a801cbc3055decce9fbb1e89f348aa402370a02",
+              "id": "3009:1002",
+              "name": "Size=8px",
+              "properties": {
+                "Size": "8px"
+              }
+            },
+            {
+              "key": "55cb8649030ee726a798ebca75227f1cc61a321e",
+              "id": "3009:1005",
+              "name": "Size=4px",
+              "properties": {
+                "Size": "4px"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=8px",
+            "type": "COMPONENT",
+            "path": "Size=8px",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=8px",
+            "path": "Size=8px",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fill",
+            "path": "Size=8px / Fill",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 10,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "fixer",
+            "path": "Size=8px / Fill / fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "55cb8649030ee726a798ebca75227f1cc61a321e": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=4px",
+                "radius": 4
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "9a801cbc3055decce9fbb1e89f348aa402370a02",
+            "when": {
+              "Size": "8px"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "55cb8649030ee726a798ebca75227f1cc61a321e",
+            "when": {
+              "Size": "4px"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=8px",
+                "nodePath": "Size=8px",
+                "affects": [
+                  "radius"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "progress-bar.universal",
+      "name": "ProgressBar",
+      "normalizedName": "progress-bar",
+      "componentKey": "13145c0119da23352a256c184e9735f3e07faa91",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:05.041Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "317e46760cc1f18f18d8e13558665cc0388407dc",
+        "variants": {
+          "properties": {
+            "Size": [
+              "4px",
+              "8px"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "8px"
+            },
+            {
+              "Size": "4px"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "317e46760cc1f18f18d8e13558665cc0388407dc",
+              "id": "3:852",
+              "name": "Size=8px",
+              "properties": {
+                "Size": "8px"
+              }
+            },
+            {
+              "key": "0316bb517ea71bdf45a506776941ef8e26f88950",
+              "id": "3:854",
+              "name": "Size=4px",
+              "properties": {
+                "Size": "4px"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=8px",
+            "type": "COMPONENT",
+            "path": "Size=8px",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=8px",
+            "path": "Size=8px",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fill",
+            "path": "Size=8px / Fill",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 10,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "fixer",
+            "path": "Size=8px / Fill / fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "0316bb517ea71bdf45a506776941ef8e26f88950": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=4px",
+                "radius": 4
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "317e46760cc1f18f18d8e13558665cc0388407dc",
+            "when": {
+              "Size": "8px"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "0316bb517ea71bdf45a506776941ef8e26f88950",
+            "when": {
+              "Size": "4px"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=8px",
+                "nodePath": "Size=8px",
+                "affects": [
+                  "radius"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

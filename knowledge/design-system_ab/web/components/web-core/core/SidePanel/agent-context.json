@@ -1,0 +1,556 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.side-panel",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/core/Web _ Core -- SidePanel.json",
+      "library": "Web _ Core",
+      "file": "Web _ Core",
+      "generatedAt": "2026-08-04T19:39:48.305Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "SidePanel"
+      ]
+    },
+    "summary": {
+      "componentFamily": "SidePanel",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] NavigationContent",
+        "key": "4806f8e75cc2668223fa8cc3acb7e1e64ad8c74f",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Back": [
+            "False",
+            "True"
+          ],
+          "Cross": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] SidePanelFooter",
+        "key": "dbffee2b0967c0b7bdca0af23c5029a45d247a18",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Content": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] SidePanelHeader",
+        "key": "0a81eafc4753bce83743b31581e7dd542835ad6e",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Content": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] SidePanelFooter",
+        "key": "186563ff460a82f307b98b5c0182e7379a8865b2",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Content": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] SidePanelHeader",
+        "key": "b1db17dd49d091bf73e608eda049aacf250d45e0",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Content": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔄 🔩 [D][Corporate] SidePanelFooterContent",
+        "key": "ebeaaba43dd491726941d7663c5d1c487ecb708c",
+        "description": "🔄 Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔄 🔩 [M][Corporate] ModalFooterContent",
+        "key": "15b66e143f85612d78d085bb9764106ecbd6b99d",
+        "description": "🔄 Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] BackArrow",
+        "key": "d8e8172f1f4c17c07e68586ef01a37f90c898c1e",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Back": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] Cross",
+        "key": "d4214713ee9ab739d223318aab4d5f520b73da33",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Cross": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] MiddleSlot",
+        "key": "c24678cf83dec832034982bc6121322cb2819f55",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Empty": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] Navigation",
+        "key": "cc573f7493bd937d38787d1807b77f6dc7d02e6e",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "SecondLevel": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] SidePanelFooterContent",
+        "key": "fd51e7ffe8e9d12c9ab949ace6fd5204de9955ad",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] BackArrow",
+        "key": "f9cfca9038f4401313930f8b0c638155914bf84f",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Back": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Empty": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] Cross",
+        "key": "48b40d79a918d8d48b356c396dfba3d0880e101a",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Cross": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Empty": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] MiddleSlot",
+        "key": "d0939742ac124c569973c9f15028e0f8ced6f5e4",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Empty": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] ModalFooterContent",
+        "key": "65c84412eea4cb85eb1c46f5697e660107ca7564",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] Navigation",
+        "key": "b98ac8c20b8b4a6db0a14da69a58ed8d92a6da3f",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "SecondLevel": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] NavigationContent",
+        "key": "b533b09f51c7731b5f949374bbf3e4979a93a5c7",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Back": [
+            "False",
+            "True"
+          ],
+          "Cross": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] SidePanelBody",
+        "key": "8aae17b288aa89ffae0d5cc08190f1baee2f95e2",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] SidePanelBody",
+        "key": "1be6066de006afbeadc0fc904225a743f7ee1fe7",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] BottomAddon",
+        "key": "4dda7d8cba18f1291fd4b64e5ddc6a8f80c4eea0",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] LeftAddon",
+        "key": "70c5f16434dceda01ee35e15680a0d363d221f34",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] RightAddon",
+        "key": "6960cfb5b461fd09bdf3fa80efcef08e7cad9069",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [D] SidePanelBodyContent",
+        "key": "86e1ccea8384814a8f54a813b838388f53bc3a0e",
+        "description": "[D][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] BottomAddon",
+        "key": "fe24bcc3ce805ee3eed3e202ca462631c8926787",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] LeftAddon",
+        "key": "d693d03cc64e32b33e402006a3f1b03ada378633",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] ModalBodySwapContent",
+        "key": "d510bfd41cc4546a53cb26097b19c7a3c1e446fb",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] RightAddon",
+        "key": "5b02052abf043e7c4b34d9ba6440b226aa94a09b",
+        "description": "[M][Default] SidePanel",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "SidePanel",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

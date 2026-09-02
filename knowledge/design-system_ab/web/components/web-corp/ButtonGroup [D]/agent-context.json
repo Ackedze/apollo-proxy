@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.buttons-group",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-14T11:29:36.768Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- ButtonGroup [D].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-08-14T11:29:36.768Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "ButtonGroup [D]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "ButtonGroup [D]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] ButtonsGroup",
+        "key": "f05915599f71e822fd8b46a2b2509a2e395005cf",
+        "description": "Вспомогательный компонент Figma, в коде не существует.",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Overflow": [
+            "false",
+            "true"
+          ],
+          "Size": [
+            "32",
+            "40",
+            "48",
+            "56"
+          ]
+        }
+      },
+      {
+        "name": "[M] ButtonsGroup",
+        "key": "3efdfaf64eddbcf48b183ce917b7a64c0c3d6062",
+        "description": "Вспомогательный компонент Figma, в коде не существует.",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Overflow": [
+            "false",
+            "true"
+          ],
+          "Size": [
+            "32",
+            "40",
+            "48",
+            "56"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": "ButtonsGroup — рабочий компонент для композиции связанных кнопок. [D] ButtonsGroup используется на desktop, [M] ButtonsGroup — на mobile-web; оба компонента существуют в коде.",
+    "criticalBaselines": [
+      "В [D] ButtonsGroup допускается до четырёх видимых кнопок, в [M] ButtonsGroup — до двух.",
+      "Primary необязателен. Если Primary используется, он должен быть единственным и располагаться первым.",
+      "ButtonsGroup содержит минимум две видимые кнопки.",
+      "Все вложенные кнопки используют Size группы; разрешены 32, 40, 48 и 56.",
+      "Остальные настройки вложенных кнопок следуют правилам соответствующего Button.",
+      "Используются только штатные button slots: их можно скрывать и показывать, но нельзя добавлять, дублировать или заменять через instance swap.",
+      "Группа всегда горизонтальная, использует Hug/Hug и itemSpacing по effective baseline выбранного Size.",
+      "Кнопки располагаются слева направо в порядке убывания приоритета.",
+      "Кнопку в середине группы можно скрыть. При переносе действий в платформенный список первым переносится действие непосредственно перед SingleIcon, затем перенос продолжается справа налево.",
+      "У группы нет общего Disabled или Loading state в Figma. Loading допустим у отдельной видимой Button. Skeleton существует только в коде и будет добавлен в Figma позже.",
+      "SingleIcon открывает платформенный список действий, а его заданную компонентом иконку менять нельзя.",
+      "На desktop SingleIcon открывает [D] OptionList, на mobile-web — BottomSheet только со списком действий без footer.",
+      "Перенесённые действия сохраняют label, действие и наличие иконки; если исходная кнопка без иконки, пункт также без иконки. Отдельного лимита пунктов нет.",
+      "Недоступное перенесённое действие сохраняет disabled state и показывает Tooltip с причиной недоступности. У OptionListCell нет Loading state.",
+      "После выбора доступного действия [D] OptionList или BottomSheet сразу закрывается.",
+      "Одно действие нельзя одновременно оставлять видимым и дублировать в списке.",
+      "Labels видимых кнопок следуют правилам соответствующего Button без дополнительных ограничений ButtonsGroup.",
+      "Visual и layout properties сохраняются по effective baseline ButtonsGroup и правилам Button.",
+      "Overflow=true включает SingleIcon=true у последней кнопки группы.",
+      "Overflow=true можно добровольно включать уже при двух кнопках, даже если лимит видимых кнопок не достигнут.",
+      "SingleIcon допустим в группе минимум из двух кнопок и всегда располагается последним.",
+      "Variant properties вложенных [D]/[M] Button являются частью effective baseline группы.",
+      "Ручные layer changes вложенной кнопки сравниваются с её effective baseline после применения variant changes."
+    ],
+    "agentInstructions": [
+      "Не выводи нарушение из примера: используй только точное применимое правило или component contract.",
+      "Variant changes показывай как параметры компонента, а style/layout/paint changes — как параметры слоя.",
+      "Не показывай wrapper-owned nested diff, если actual совпадает с effective baseline ButtonsGroup.",
+      "Если actual отличается, показывай effectiveBaseline → actual.",
+      "Не называй SingleIcon PickerButton: это последняя Button с SingleIcon=true, которая открывает [D] OptionList на desktop или BottomSheet на mobile-web.",
+      "Не требуй Skeleton в Figma: пока это только code state будущей версии компонента.",
+      "Не делай выводов о Loading скрытого действия: поведение пока не определено владельцем, а у OptionListCell нет Loading state."
+    ]
+  }
+}

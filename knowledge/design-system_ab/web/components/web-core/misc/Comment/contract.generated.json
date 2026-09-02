@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core Misc",
+    "file": "Web _ Core Misc",
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 1,
+    "contractCount": 1,
+    "activeCount": 1,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "comment.universal",
+      "name": "Comment",
+      "normalizedName": "comment",
+      "componentKey": "05f04f85457410d179924920c0007a4582953cda",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "05f04f85457410d179924920c0007a4582953cda",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "05f04f85457410d179924920c0007a4582953cda",
+              "id": "5:1276",
+              "name": "Comment",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Comment",
+            "type": "COMPONENT",
+            "path": "Comment",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_Text",
+            "type": "TEXT",
+            "path": "Comment / _Text",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Comment",
+            "path": "Comment",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+            ],
+            "layout": {
+              "padding": {
+                "top": 10,
+                "right": 16,
+                "bottom": 10,
+                "left": 16
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173",
+                "colorHex": "#F2F3F5"
+              }
+            ],
+            "fillToken": "VariableID:aa26b8f4b0aa0245c30526f8217f804393c953b7/3541:173"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "_Text",
+            "path": "Comment / _Text",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Comment",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:020582d780ac6ecbb4d8916c4b68099e42b09126,8326:336"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "05f04f85457410d179924920c0007a4582953cda",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "variant name cannot be fully parsed: Comment"
+        ]
+      }
+    }
+  ]
+}

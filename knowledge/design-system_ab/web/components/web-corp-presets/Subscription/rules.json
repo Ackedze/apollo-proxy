@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web.subscription",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web.subscription.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Subscription",
+          "layers": [
+            "[D] SubscriptionCard :: BottomAddon",
+            "[D] SubscriptionCard :: Content",
+            "[D] SubscriptionCard :: Info",
+            "[D] SubscriptionCard :: TopAddon",
+            "[D] UniversalModal :: SubscriptionCard",
+            "[M] SubscriptionCard :: Content",
+            "[M] SubscriptionCard :: Footer",
+            "[M] SubscriptionCard :: Header",
+            "[M] SubscriptionCard :: Info",
+            "[M] UniversalModal :: SubscriptionCard",
+            "🔒 [D] UniversalModal :: SubscriptionCard",
+            "🔒 [M] UniversalModal :: SubscriptionCard",
+            "Subscription"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web.subscription.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Subscription",
+          "layers": [
+            "[D] SubscriptionCard :: BottomAddon",
+            "[D] SubscriptionCard :: Content",
+            "[D] SubscriptionCard :: Info",
+            "[D] SubscriptionCard :: TopAddon",
+            "[D] UniversalModal :: SubscriptionCard",
+            "[M] SubscriptionCard :: Content",
+            "[M] SubscriptionCard :: Footer",
+            "[M] SubscriptionCard :: Header",
+            "[M] SubscriptionCard :: Info",
+            "[M] UniversalModal :: SubscriptionCard",
+            "🔒 [D] UniversalModal :: SubscriptionCard",
+            "🔒 [M] UniversalModal :: SubscriptionCard",
+            "Subscription"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {}
+}

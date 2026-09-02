@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.international-phone-input",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/core/Web _ Core -- InternationalPhoneInput.json",
+      "library": "Web _ Core",
+      "file": "Web _ Core",
+      "generatedAt": "2026-08-04T19:39:48.305Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "InternationalPhoneInput"
+      ]
+    },
+    "summary": {
+      "componentFamily": "InternationalPhoneInput",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 CountryPicker",
+        "key": "9e7b0dfd18867cdf2741011425f997b76c756b96",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "DefinedCountry": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 OptionListContent_CountryCode",
+        "key": "4dc00752673cd8f0ae40c174ec499c2917055add",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "InternationalPhoneInput",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

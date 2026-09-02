@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web.benefit-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] BenefitCard",
+        "key": "61cba21130d5adfd36b798bb4a41f6ccd148c1aa",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Background",
+          "variant.CardAxis",
+          "variant.Compact",
+          "variant.GraphicPosition"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] BottomContent",
+        "key": "4158b0817d3da15996c620b445d98333276765b1",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ContentWrapper",
+        "key": "50fff839e4e9d53bebdef186d5b82f126fba525f",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Title"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Graphic",
+        "key": "b221a157df3d0f2a3ea77e5ddb2e0481825850c0",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BenefitCard",
+        "key": "88ade0c593a37cf9805f43be9eb82c84d07a56f6",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Background",
+          "variant.CardAxis",
+          "variant.Compact",
+          "variant.GraphicPosition"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BottomContent",
+        "key": "26c17fc60aaf65818137b58279d23ceae0f8458c",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ContentWrapper",
+        "key": "33dc955273cb7f19895895cc1e59e2e9df53154b",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Title"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Graphic",
+        "key": "8e6f3ac5782b25a3155f43992a467717e158fcce",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "[D] BenefitCard",
+        "role": "public-root",
+        "platform": "desktop"
+      },
+      {
+        "name": "[M] BenefitCard",
+        "role": "public-root",
+        "platform": "mobile-web"
+      }
+    ],
+    "internalOnly": [
+      "[D] BottomContent",
+      "[D] ContentWrapper",
+      "[D] Graphic",
+      "[M] BottomContent",
+      "[M] ContentWrapper",
+      "[M] Graphic"
+    ],
+    "baselineProtection": {
+      "scope": "root-and-all-internal-layers",
+      "protected": [
+        "layout.*",
+        "layoutSizing*",
+        "styles.text",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "effects.*"
+      ],
+      "policy": "effective-baseline-by-BenefitCard-variant-and-nested-owner"
+    },
+    "allowedOverrides": {
+      "text": [
+        "Title up to 60 characters and 2 lines",
+        "Subtitle up to 120 characters and 3 lines",
+        "BottomContent.Link text up to 32 characters and 1 line"
+      ],
+      "componentProperties": [
+        "BenefitCard.Background",
+        "BenefitCard.CardAxis",
+        "BenefitCard.Compact",
+        "BenefitCard.GraphicPosition",
+        "Graphic.Presets",
+        "ImageView.Segment",
+        "all public IconView properties",
+        "ContentWrapper.Title",
+        "BottomContent.Presets",
+        "nested [Promo] BackgroundPlate.Type according to its component contract"
+      ],
+      "composition": [
+        "replace ImageView content with graphic from Corp :: Image Library",
+        "use glyph-26 icon when Graphic.Presets=Icon",
+        "change the glyph within glyph-26 while keeping icon size and color at effective baseline",
+        "hide Subtitle",
+        "show BottomContent as Link",
+        "make the entire BenefitCard clickable",
+        "use a clickable BenefitCard together with BottomContent.Link for the same action",
+        "use Background=False without an additional surface"
+      ],
+      "layout": [
+        "outer width according to context",
+        "outer height according to context",
+        "choose CardAxis and GraphicPosition according to context",
+        "center content when Title and Subtitle each occupy one line",
+        "center content when Subtitle is hidden and Title occupies one line",
+        "align content to the top when Title or Subtitle wraps",
+        "BenefitCard vertical resizing Hug for standalone use",
+        "BenefitCard vertical resizing Fill for equal-height card groups",
+        "Stopper vertical resizing Fill",
+        "Stopper vertical resizing Fixed when the content must remain visually integral",
+        "nested Colored [Promo] BackgroundPlate fill color according to its component contract",
+        "nested Border [Promo] BackgroundPlate stroke color according to its component contract"
+      ]
+    },
+    "forbiddenOverrides": [
+      "standalone BottomContent",
+      "standalone ContentWrapper",
+      "standalone Graphic",
+      "graphic outside Corp :: Image Library",
+      "icon outside glyph-26 when Graphic.Presets=Icon",
+      "hide Title",
+      "hide Graphic",
+      "Compact=False on [D] BenefitCard at viewport width 1024 px or less",
+      "ContentWrapper.Title other than Secondary when Compact=True",
+      "BottomContent.Presets=SwapMe in a finished design",
+      "BottomContent.Link properties other than text",
+      "different actions for clickable BenefitCard and BottomContent.Link",
+      "ImageView.Crop override",
+      "ImageView.Size override",
+      "Icon size override when Graphic.Presets=Icon",
+      "Icon color override when Graphic.Presets=Icon",
+      "arbitrary content outside Title, Subtitle and BottomContent.Link",
+      "raw fill or stroke color on nested [Promo] BackgroundPlate",
+      "manual typography",
+      "manual horizontal text alignment",
+      "manual fill outside nested Colored [Promo] BackgroundPlate",
+      "manual stroke outside nested Border [Promo] BackgroundPlate",
+      "manual padding or gap",
+      "manual radius",
+      "manual opacity or effects",
+      "cross-family instance swap"
+    ]
+  }
+}

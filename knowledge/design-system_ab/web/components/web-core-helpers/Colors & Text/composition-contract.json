@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.colors-text",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Colors & Text",
+      "library": "Web :: Core Helpers"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "Color plate",
+        "path": "View=Light / .Details / Color cell",
+        "componentName": ".Details / Color cell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Default"
+        }
+      },
+      {
+        "hostComponentName": "Color plate",
+        "path": "View=Light / Text content / .Details / Usage",
+        "componentName": ".Details / Usage",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Text"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

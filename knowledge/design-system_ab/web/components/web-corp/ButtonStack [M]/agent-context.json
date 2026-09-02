@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.button-stack",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- ButtonStack [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "ButtonStack [M]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "ButtonStack [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [M] ButtonStack",
+        "key": "1e9261fa9df082fa82b6ec3b42b429797f906cd9",
+        "description": "Вспомогательный компонент Figma, в коде не существует.",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Background": [
+            "False",
+            "True"
+          ],
+          "Presets": [
+            "Group Horizontal",
+            "Group Vertical",
+            "Primary",
+            "Primary + Icon",
+            "Secondary"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "ButtonStack [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Активный Figma-only пресет нижней зоны действий mobile-web. Абсолютно закрепляется у нижнего края экрана с bottom=0 и управляет фиксированными композициями одной или двух кнопок."
+    },
+    "usageGuidance": [
+      "Используй 🔒 [M] ButtonStack как нижнюю зону действий mobile-web.",
+      "Размещай root абсолютно с bottom=0; ButtonStack не должен прокручиваться вместе с контентом.",
+      "Резервируй в контенте место, равное фактической высоте ButtonStack.",
+      "Primary содержит одну Primary-кнопку; Secondary — одну Secondary-кнопку.",
+      "Group Horizontal содержит равные Secondary слева и Primary справа и применяется только при однострочных labels.",
+      "Group Vertical содержит Primary сверху и Secondary снизу, обе кнопки используют Fill.",
+      "Primary + Icon содержит Primary, занимающую остаток ширины, и icon-only действие фиксированного размера справа.",
+      "Не добавляй, не удаляй и не заменяй вложенные Button; count, order, View, layout и sizing принадлежат Presets.",
+      "Вложенные [M] Button наследуют полный контракт Button для label, loading/disabled, addons и иконок.",
+      "Для icon-only действия допустима любая уместная иконка; предпочтительна glyph-26/dots-three-horizontal.",
+      "Опциональный CheckboxLabel_24 задаёт контекстную опцию. Его связь с доступностью Primary определяется сценарием.",
+      "Опция не использует DisabledLabel, ErrorMessage и Hint. Допустим опциональный StatusBadge View=NeutralInformation с information-иконкой.",
+      "Рекомендуемый предел label опции — 80 символов и две строки, если актуальный CheckboxLabel_24 не задаёт более точный контракт.",
+      "Между desktop и mobile-web сохраняй количество, приоритет, labels и смысл действий.",
+      "Оба значения Background допустимы; правило выбора пока не подтверждено и не блокирует Ready."
+    ],
+    "criticalBaselines": [
+      {
+        "ruleId": "component:web-corp.button-stack.must-be-bottom-anchored",
+        "baseline": "ButtonStack абсолютно расположен у нижнего края экрана с bottom=0 и не прокручивается с контентом."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.page-reserves-space",
+        "baseline": "Контент страницы резервирует высоту текущего ButtonStack и не перекрывается им."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.preset-composition-is-fixed",
+        "baseline": "Каждый Presets сохраняет точное число, порядок, View и тип действий."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.root-sizing-and-padding-are-fixed",
+        "baseline": "Root использует Fixed/Hug и padding 16 px по вертикали, 20 px по горизонтали."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.preset-sizing-is-fixed",
+        "baseline": "Размеры вложенных действий соответствуют выбранному Presets."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.desktop-mobile-action-parity",
+        "baseline": "Desktop и mobile-web сохраняют количество, приоритет, labels и назначение действий."
+      }
+    ],
+    "ruleHighlights": [
+      "component:web-corp.button-stack.figma-only-bottom-action-preset",
+      "component:web-corp.button-stack.must-be-bottom-anchored",
+      "component:web-corp.button-stack.page-reserves-space",
+      "component:web-corp.button-stack.preset-composition-is-fixed",
+      "component:web-corp.button-stack.horizontal-group-requires-single-line-labels",
+      "component:web-corp.button-stack.root-sizing-and-padding-are-fixed",
+      "component:web-corp.button-stack.preset-sizing-is-fixed",
+      "component:web-corp.button-stack.option-is-contextual",
+      "component:web-corp.button-stack.option-states-are-limited",
+      "component:web-corp.button-stack.option-information-addon-is-fixed",
+      "component:web-corp.button-stack.option-label-length",
+      "component:web-corp.button-stack.nested-buttons-inherit-button-contract",
+      "component:web-corp.button-stack.primary-icon-is-contextual",
+      "component:web-corp.button-stack.desktop-mobile-action-parity",
+      "component:web-corp.button-stack.background-selection-is-unresolved"
+    ],
+    "unresolvedQuestions": [
+      {
+        "id": "Q-001",
+        "question": "Когда следует использовать Background=True, а когда Background=False?",
+        "readyBlocking": false,
+        "tracker": "Google Sheet / Открытые вопросы"
+      }
+    ],
+    "agentInstructions": [
+      "Не требуй Code Connect или отдельный runtime API для ButtonStack: это Figma-only пресет.",
+      "Не разрешай inline-размещение или прокрутку ButtonStack вместе с контентом.",
+      "Проверяй зарезервированное место только при наличии screen composition evidence; иначе проси ручную проверку.",
+      "Сначала разреши Presets и nested Button variants, затем сравнивай layout и визуальные layer changes с effective baseline.",
+      "Не считай разрешённые label, loading/disabled, addon и icon настройки вложенных Button нарушением сами по себе.",
+      "Не требуй dots-three-horizontal как единственную иконку: это предпочтение без warning.",
+      "Не утверждай, что Checkbox всегда блокирует или никогда не блокирует Primary; поведение зависит от контекста.",
+      "Не придумывай назначение Background=True/False и не повышай criticality из-за выбранного значения.",
+      "D/M parity оценивай только при наличии парных desktop/mobile evidence; иначе проси ручную проверку.",
+      "Не выводи обязательное accessible name для icon-only действия только из ButtonStack contract; применяй актуальный upstream Button contract."
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.Background",
+        "variant.Presets",
+        "boolean.Checkbox",
+        "boolean.Info Icon",
+        "nested.Button.variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сначала разреши Presets, Background, видимость Checkbox и состояние вложенных [M] Button. Затем сравнивай layer changes с effective baseline. Screen positioning, content reservation и D/M parity требуют composition evidence."
+    }
+  }
+}

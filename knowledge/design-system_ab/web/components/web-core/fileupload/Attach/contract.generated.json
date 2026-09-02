@@ -1,0 +1,4872 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core File Upload",
+    "file": "Web :: Core File Upload",
+    "generatedAt": "2026-04-28T18:03:27.333Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 5,
+    "contractCount": 5,
+    "activeCount": 3,
+    "deprecatedCount": 0,
+    "scheduledCount": 2
+  },
+  "contracts": [
+    {
+      "id": "label.universal",
+      "name": "🔩 Label",
+      "normalizedName": "label",
+      "componentKey": "85b7f388a81222eaf292b56743e234b715e45cfa",
+      "source": {
+        "library": "Web :: Core File Upload",
+        "file": "Web :: Core File Upload",
+        "generatedAt": "2026-04-28T18:03:27.333Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "cf22bd925f3e99dbc78b59d7e46c0616dc282a8d",
+        "variants": {
+          "properties": {
+            "Loading": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Loading": "False"
+            },
+            {
+              "Loading": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "cf22bd925f3e99dbc78b59d7e46c0616dc282a8d",
+              "id": "70:7911",
+              "name": "Loading=False",
+              "properties": {
+                "Loading": "False"
+              }
+            },
+            {
+              "key": "c0bf9130a68dfdaa37ee47cf8cecbf2ee92eac24",
+              "id": "70:7913",
+              "name": "Loading=True",
+              "properties": {
+                "Loading": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Loading=False",
+            "type": "COMPONENT",
+            "path": "Loading=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Loading=False / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Loading=False",
+            "path": "Loading=False",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Loading=False / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:cbc26c8bed6e1e260dfcb4c620505cd14a9a8668,9221:118"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "c0bf9130a68dfdaa37ee47cf8cecbf2ee92eac24": [
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "cf22bd925f3e99dbc78b59d7e46c0616dc282a8d",
+            "when": {
+              "Loading": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "c0bf9130a68dfdaa37ee47cf8cecbf2ee92eac24",
+            "when": {
+              "Loading": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Loading=False",
+                "nodePath": "Loading=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Content",
+                "nodePath": "Loading=True / Content",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Label",
+                "nodePath": "Loading=True / Content / Label",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "[D] IconButton",
+                "nodePath": "Loading=True / Content / [D] IconButton",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Icon",
+                "nodePath": "Loading=True / Content / [D] IconButton / 🔩 Icon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Loading=True / Content / [D] IconButton / 🔩 Icon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Loading=True / Content / [D] IconButton / 🔩 Icon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "cross",
+                "nodePath": "Loading=True / Content / [D] IconButton / 🔩 Icon / Fixer / PaintMe / cross",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Loading=True / Content / [D] IconButton / 🔩 Icon / Fixer / PaintMe / cross / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ProgressBar",
+                "nodePath": "Loading=True / ProgressBar",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fill",
+                "nodePath": "Loading=True / ProgressBar / Fill",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "fixer",
+                "nodePath": "Loading=True / ProgressBar / Fill / fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Loading=False / Label",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders"
+        ]
+      }
+    },
+    {
+      "id": "attach.mobile-web",
+      "name": "🔄 [M][Corporate] Attach",
+      "normalizedName": "attach",
+      "componentKey": "471b09ff870228ee9a03cc690945c9b0ac474783",
+      "source": {
+        "library": "Web :: Core File Upload",
+        "file": "Web :: Core File Upload",
+        "generatedAt": "2026-04-28T18:03:27.333Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "scheduled",
+      "role": "main",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "efe229dc84975e761099e775617ec68beb76c7c3",
+        "variants": {
+          "properties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56",
+              "64"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "32"
+            },
+            {
+              "Size": "40"
+            },
+            {
+              "Size": "48"
+            },
+            {
+              "Size": "56"
+            },
+            {
+              "Size": "64"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "efe229dc84975e761099e775617ec68beb76c7c3",
+              "id": "78:15043",
+              "name": "Size=32",
+              "properties": {
+                "Size": "32"
+              }
+            },
+            {
+              "key": "fefcb2f64dd83ba804ba1e52f1ccc2769fcf4b6d",
+              "id": "78:15046",
+              "name": "Size=40",
+              "properties": {
+                "Size": "40"
+              }
+            },
+            {
+              "key": "3b7b24eabe824f3af1a36bb0ad20859d81e4340d",
+              "id": "78:15049",
+              "name": "Size=48",
+              "properties": {
+                "Size": "48"
+              }
+            },
+            {
+              "key": "2b25833281990269422922469f965d30c3344db3",
+              "id": "78:15052",
+              "name": "Size=56",
+              "properties": {
+                "Size": "56"
+              }
+            },
+            {
+              "key": "f17bb40f7db9bf168e8346f583f82e81c18917e0",
+              "id": "78:15055",
+              "name": "Size=64",
+              "properties": {
+                "Size": "64"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=32",
+            "type": "COMPONENT",
+            "path": "Size=32",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / Text / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=32",
+            "path": "Size=32",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔄 [M][Corporate] Button",
+            "path": "Size=32 / 🔄 [M][Corporate] Button",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "View": "Secondary",
+              "Size": "32",
+              "Shape": "Rectangular",
+              "SingleIcon": "False",
+              "DisabledState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 12,
+                "bottom": 4,
+                "left": 12
+              },
+              "itemSpacing": 2
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Secondary",
+                "Size": "32",
+                "Shape": "Rectangular",
+                "SingleIcon": "False",
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "LeftAddon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "paperclip",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 4,
+                "bottom": 0,
+                "left": 4
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / Text / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77",
+            "text": {
+              "characters": "Прикрепите файл",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.07000000029802322,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,9221:101"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "RightAddon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 17,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Label",
+            "path": "Size=32 / Label",
+            "visible": true,
+            "variantProperties": {
+              "Loading": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Loading": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "text": {
+              "characters": "Нет файла",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:cbc26c8bed6e1e260dfcb4c620505cd14a9a8668,9221:118"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "fefcb2f64dd83ba804ba1e52f1ccc2769fcf4b6d": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 16,
+                    "bottom": 4,
+                    "left": 16
+                  },
+                  "itemSpacing": 2
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "40",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            }
+          ],
+          "3b7b24eabe824f3af1a36bb0ad20859d81e4340d": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 20,
+                    "bottom": 4,
+                    "left": 20
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "48",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "2b25833281990269422922469f965d30c3344db3": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 24,
+                    "bottom": 4,
+                    "left": 24
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 16,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "56",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "f17bb40f7db9bf168e8346f583f82e81c18917e0": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=64",
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 28,
+                    "bottom": 4,
+                    "left": 28
+                  },
+                  "itemSpacing": 8
+                },
+                "radius": 16,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "64",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:d556185976f9162e21ce3f16b43d652777607237/9221:75",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "letterSpacing": -0.17000000178813934,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:01b1bd37ddfa085d4049683f3d1875f6d741a9da,9221:100"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "efe229dc84975e761099e775617ec68beb76c7c3",
+            "when": {
+              "Size": "32"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "fefcb2f64dd83ba804ba1e52f1ccc2769fcf4b6d",
+            "when": {
+              "Size": "40"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [M][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "3b7b24eabe824f3af1a36bb0ad20859d81e4340d",
+            "when": {
+              "Size": "48"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [M][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2b25833281990269422922469f965d30c3344db3",
+            "when": {
+              "Size": "56"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [M][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=56 / 🔄 [M][Corporate] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "f17bb40f7db9bf168e8346f583f82e81c18917e0",
+            "when": {
+              "Size": "64"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [M][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=64 / 🔄 [M][Corporate] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [M][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-scheduled",
+          "severity": "info",
+          "check": "scheduled component usage should be confirmed",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "🔄 Замени на актуальный",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "attach.desktop",
+      "name": "🔄 [D][Corporate] Attach",
+      "normalizedName": "attach",
+      "componentKey": "e340fead4744d6c2fd3faca21ed7033d16a82864",
+      "source": {
+        "library": "Web :: Core File Upload",
+        "file": "Web :: Core File Upload",
+        "generatedAt": "2026-04-28T18:03:27.333Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "scheduled",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "3b3b38d8de226736626bd829baf7fb3a072c291e",
+        "variants": {
+          "properties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56",
+              "64"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "32"
+            },
+            {
+              "Size": "40"
+            },
+            {
+              "Size": "48"
+            },
+            {
+              "Size": "56"
+            },
+            {
+              "Size": "64"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "3b3b38d8de226736626bd829baf7fb3a072c291e",
+              "id": "78:15027",
+              "name": "Size=32",
+              "properties": {
+                "Size": "32"
+              }
+            },
+            {
+              "key": "6be4d43dbe5825af21dcb4136858205ca513ade3",
+              "id": "78:15030",
+              "name": "Size=40",
+              "properties": {
+                "Size": "40"
+              }
+            },
+            {
+              "key": "507b3e8b3971235f7a25744391e32411c6ddfab1",
+              "id": "78:15033",
+              "name": "Size=48",
+              "properties": {
+                "Size": "48"
+              }
+            },
+            {
+              "key": "c128f305fe73cc4c631557186347f8366f88a3b2",
+              "id": "78:15036",
+              "name": "Size=56",
+              "properties": {
+                "Size": "56"
+              }
+            },
+            {
+              "key": "643029652d3109f2f85a0fe74300ddf1c98bb7db",
+              "id": "78:15039",
+              "name": "Size=64",
+              "properties": {
+                "Size": "64"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=32",
+            "type": "COMPONENT",
+            "path": "Size=32",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / Text / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=32",
+            "path": "Size=32",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔄 [D][Corporate] Button",
+            "path": "Size=32 / 🔄 [D][Corporate] Button",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Secondary",
+              "Size": "32",
+              "Shape": "Rectangular",
+              "SingleIcon": "False",
+              "DisabledState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 12,
+                "bottom": 4,
+                "left": 12
+              },
+              "itemSpacing": 2
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Secondary",
+                "Size": "32",
+                "Shape": "Rectangular",
+                "SingleIcon": "False",
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "LeftAddon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "paperclip",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 4,
+                "bottom": 0,
+                "left": 4
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / Text / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77",
+            "text": {
+              "characters": "Прикрепите файл",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.07000000029802322,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,9221:101"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "RightAddon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 17,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Label",
+            "path": "Size=32 / Label",
+            "visible": true,
+            "variantProperties": {
+              "Loading": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Loading": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "text": {
+              "characters": "Нет файла",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:cbc26c8bed6e1e260dfcb4c620505cd14a9a8668,9221:118"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "6be4d43dbe5825af21dcb4136858205ca513ade3": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 16,
+                    "bottom": 4,
+                    "left": 16
+                  },
+                  "itemSpacing": 2
+                },
+                "radius": 10,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "40",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            }
+          ],
+          "507b3e8b3971235f7a25744391e32411c6ddfab1": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 20,
+                    "bottom": 4,
+                    "left": 20
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 10,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "48",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "c128f305fe73cc4c631557186347f8366f88a3b2": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 24,
+                    "bottom": 4,
+                    "left": 24
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "56",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "643029652d3109f2f85a0fe74300ddf1c98bb7db": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=64",
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 28,
+                    "bottom": 4,
+                    "left": 28
+                  },
+                  "itemSpacing": 8
+                },
+                "radius": 14,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "64",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:d556185976f9162e21ce3f16b43d652777607237/9221:75",
+                "text": {
+                  "characters": "Прикрепите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "letterSpacing": -0.17000000178813934,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:01b1bd37ddfa085d4049683f3d1875f6d741a9da,9221:100"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "3b3b38d8de226736626bd829baf7fb3a072c291e",
+            "when": {
+              "Size": "32"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "6be4d43dbe5825af21dcb4136858205ca513ade3",
+            "when": {
+              "Size": "40"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [D][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "507b3e8b3971235f7a25744391e32411c6ddfab1",
+            "when": {
+              "Size": "48"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [D][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c128f305fe73cc4c631557186347f8366f88a3b2",
+            "when": {
+              "Size": "56"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [D][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=56 / 🔄 [D][Corporate] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "643029652d3109f2f85a0fe74300ddf1c98bb7db",
+            "when": {
+              "Size": "64"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "🔄 [D][Corporate] Button",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=64 / 🔄 [D][Corporate] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / 🔄 [D][Corporate] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-scheduled",
+          "severity": "info",
+          "check": "scheduled component usage should be confirmed",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "🔄 Замени на актуальный",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "attach.mobile-web.7881bf8b",
+      "name": "[M] Attach",
+      "normalizedName": "attach",
+      "componentKey": "9c6d3b1b55a8e14b21127720f86825b6cf9561d5",
+      "source": {
+        "library": "Web :: Core File Upload",
+        "file": "Web :: Core File Upload",
+        "generatedAt": "2026-04-28T18:03:27.333Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "4d18ca33908be3c2c12b0df8200bb0612dbf24a7",
+        "variants": {
+          "properties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56",
+              "64"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "32"
+            },
+            {
+              "Size": "40"
+            },
+            {
+              "Size": "48"
+            },
+            {
+              "Size": "56"
+            },
+            {
+              "Size": "64"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "4d18ca33908be3c2c12b0df8200bb0612dbf24a7",
+              "id": "71:4989",
+              "name": "Size=32",
+              "properties": {
+                "Size": "32"
+              }
+            },
+            {
+              "key": "e537d92a8f0ba0ae363b9e1ee1a7d4a2209e14b6",
+              "id": "71:4992",
+              "name": "Size=40",
+              "properties": {
+                "Size": "40"
+              }
+            },
+            {
+              "key": "7b737e78f72585f89d7329105ae0b19338af675d",
+              "id": "71:4995",
+              "name": "Size=48",
+              "properties": {
+                "Size": "48"
+              }
+            },
+            {
+              "key": "192593aa60b4859bc7fba1cbd807aadc561c0782",
+              "id": "71:4998",
+              "name": "Size=56",
+              "properties": {
+                "Size": "56"
+              }
+            },
+            {
+              "key": "88b121a30ba6235561b268cf47b8828a5638efe4",
+              "id": "75:9424",
+              "name": "Size=64",
+              "properties": {
+                "Size": "64"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=32",
+            "type": "COMPONENT",
+            "path": "Size=32",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / [M] Button / Text / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=32",
+            "path": "Size=32",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "[M] Button",
+            "path": "Size=32 / [M] Button",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "variantProperties": {
+              "View": "Secondary",
+              "Size": "32",
+              "Shape": "Rectangular",
+              "SingleIcon": "False",
+              "DisabledState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 12,
+                "bottom": 4,
+                "left": 12
+              },
+              "itemSpacing": 2
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Secondary",
+                "Size": "32",
+                "Shape": "Rectangular",
+                "SingleIcon": "False",
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "LeftAddon",
+            "path": "Size=32 / [M] Button / LeftAddon",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "Size=32 / [M] Button / LeftAddon / LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "paperclip",
+            "path": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Size=32 / [M] Button / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 4,
+                "bottom": 0,
+                "left": 4
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / [M] Button / Text / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77",
+            "text": {
+              "characters": "Выберите файл",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.07000000029802322,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,9221:101"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "Size=32 / [M] Button / RightAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "RightAddon",
+            "path": "Size=32 / [M] Button / RightAddon / RightAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 17,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Label",
+            "path": "Size=32 / Label",
+            "visible": true,
+            "variantProperties": {
+              "Loading": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Loading": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "text": {
+              "characters": "Нет файла",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:cbc26c8bed6e1e260dfcb4c620505cd14a9a8668,9221:118"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "e537d92a8f0ba0ae363b9e1ee1a7d4a2209e14b6": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 16,
+                    "bottom": 4,
+                    "left": 16
+                  },
+                  "itemSpacing": 2
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "40",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            }
+          ],
+          "7b737e78f72585f89d7329105ae0b19338af675d": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 20,
+                    "bottom": 4,
+                    "left": 20
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "48",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "192593aa60b4859bc7fba1cbd807aadc561c0782": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 24,
+                    "bottom": 4,
+                    "left": 24
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 16,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "56",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "88b121a30ba6235561b268cf47b8828a5638efe4": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=64",
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 28,
+                    "bottom": 4,
+                    "left": 28
+                  },
+                  "itemSpacing": 8
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "64",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:d556185976f9162e21ce3f16b43d652777607237/9221:75",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "letterSpacing": -0.17000000178813934,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:01b1bd37ddfa085d4049683f3d1875f6d741a9da,9221:100"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "4d18ca33908be3c2c12b0df8200bb0612dbf24a7",
+            "when": {
+              "Size": "32"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "e537d92a8f0ba0ae363b9e1ee1a7d4a2209e14b6",
+            "when": {
+              "Size": "40"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[M] Button",
+                "nodePath": "Size=32 / [M] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "7b737e78f72585f89d7329105ae0b19338af675d",
+            "when": {
+              "Size": "48"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[M] Button",
+                "nodePath": "Size=32 / [M] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [M] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "192593aa60b4859bc7fba1cbd807aadc561c0782",
+            "when": {
+              "Size": "56"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[M] Button",
+                "nodePath": "Size=32 / [M] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [M] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=56 / [M] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "88b121a30ba6235561b268cf47b8828a5638efe4",
+            "when": {
+              "Size": "64"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[M] Button",
+                "nodePath": "Size=32 / [M] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [M] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=64 / [M] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "generated id collision for attach.mobile-web; appended key suffix 7881bf8b"
+        ]
+      }
+    },
+    {
+      "id": "attach.desktop.1b0653bf",
+      "name": "[D] Attach",
+      "normalizedName": "attach",
+      "componentKey": "b367eaf5e8aae2ddb923934d60cf22eff3572a09",
+      "source": {
+        "library": "Web :: Core File Upload",
+        "file": "Web :: Core File Upload",
+        "generatedAt": "2026-04-28T18:03:27.333Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "0e741be87f0d8e2accb85ca075a0b4053d9da889",
+        "variants": {
+          "properties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56",
+              "64"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "32"
+            },
+            {
+              "Size": "40"
+            },
+            {
+              "Size": "48"
+            },
+            {
+              "Size": "56"
+            },
+            {
+              "Size": "64"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "0e741be87f0d8e2accb85ca075a0b4053d9da889",
+              "id": "70:7897",
+              "name": "Size=32",
+              "properties": {
+                "Size": "32"
+              }
+            },
+            {
+              "key": "a4338069fbcbdcc6bd2eff2b32cac6e2661b0e19",
+              "id": "70:7900",
+              "name": "Size=40",
+              "properties": {
+                "Size": "40"
+              }
+            },
+            {
+              "key": "384d518d47e4df165194fd0833d7f87ce26b89dc",
+              "id": "70:7903",
+              "name": "Size=48",
+              "properties": {
+                "Size": "48"
+              }
+            },
+            {
+              "key": "a81a6bca060f0dc957dd75512696e387478433d1",
+              "id": "70:7906",
+              "name": "Size=56",
+              "properties": {
+                "Size": "56"
+              }
+            },
+            {
+              "key": "006083b20f5c5ef48ff12d0856798280f8e2eb32",
+              "id": "75:9376",
+              "name": "Size=64",
+              "properties": {
+                "Size": "64"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=32",
+            "type": "COMPONENT",
+            "path": "Size=32",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / [D] Button / Text / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=32 / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=32",
+            "path": "Size=32",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "[D] Button",
+            "path": "Size=32 / [D] Button",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Secondary",
+              "Size": "32",
+              "Shape": "Rectangular",
+              "SingleIcon": "False",
+              "DisabledState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 12,
+                "bottom": 4,
+                "left": 12
+              },
+              "itemSpacing": 2
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Secondary",
+                "Size": "32",
+                "Shape": "Rectangular",
+                "SingleIcon": "False",
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "LeftAddon",
+            "path": "Size=32 / [D] Button / LeftAddon",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "Size=32 / [D] Button / LeftAddon / LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "paperclip",
+            "path": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Size=32 / [D] Button / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 4,
+                "bottom": 0,
+                "left": 4
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / [D] Button / Text / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:e0e1894bf15babdfa68ff71284174c0697114857/9221:77",
+            "text": {
+              "characters": "Выберите файл",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.07000000029802322,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,9221:101"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "Size=32 / [D] Button / RightAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "RightAddon",
+            "path": "Size=32 / [D] Button / RightAddon / RightAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-16"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-16"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "s"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "s"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 17,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Label",
+            "path": "Size=32 / Label",
+            "visible": true,
+            "variantProperties": {
+              "Loading": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Loading": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=32 / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:b99ffde4975cebdf5c56fdd61b35d9fc79fbffac/9221:91",
+            "text": {
+              "characters": "Нет файла",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:cbc26c8bed6e1e260dfcb4c620505cd14a9a8668,9221:118"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "a4338069fbcbdcc6bd2eff2b32cac6e2661b0e19": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 16,
+                    "bottom": 4,
+                    "left": 16
+                  },
+                  "itemSpacing": 2
+                },
+                "radius": 10,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "40",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            }
+          ],
+          "384d518d47e4df165194fd0833d7f87ce26b89dc": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 20,
+                    "bottom": 4,
+                    "left": 20
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 10,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "48",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "a81a6bca060f0dc957dd75512696e387478433d1": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 24,
+                    "bottom": 4,
+                    "left": 24
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 12,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "56",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 16,
+                  "lineHeight": 20,
+                  "letterSpacing": -0.05000000074505806,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ],
+          "006083b20f5c5ef48ff12d0856798280f8e2eb32": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=64",
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 28,
+                    "bottom": 4,
+                    "left": 28
+                  },
+                  "itemSpacing": 8
+                },
+                "radius": 14,
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Secondary",
+                    "Size": "64",
+                    "Shape": "Rectangular",
+                    "SingleIcon": "False",
+                    "DisabledState": "False"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "typographyToken": "VariableID:d556185976f9162e21ce3f16b43d652777607237/9221:75",
+                "text": {
+                  "characters": "Выберите файл",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "letterSpacing": -0.17000000178813934,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:01b1bd37ddfa085d4049683f3d1875f6d741a9da,9221:100"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Type": "Icon-24"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 15,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "m"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "0e741be87f0d8e2accb85ca075a0b4053d9da889",
+            "when": {
+              "Size": "32"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a4338069fbcbdcc6bd2eff2b32cac6e2661b0e19",
+            "when": {
+              "Size": "40"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[D] Button",
+                "nodePath": "Size=32 / [D] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "384d518d47e4df165194fd0833d7f87ce26b89dc",
+            "when": {
+              "Size": "48"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[D] Button",
+                "nodePath": "Size=32 / [D] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [D] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a81a6bca060f0dc957dd75512696e387478433d1",
+            "when": {
+              "Size": "56"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[D] Button",
+                "nodePath": "Size=32 / [D] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [D] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=56 / [D] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "006083b20f5c5ef48ff12d0856798280f8e2eb32",
+            "when": {
+              "Size": "64"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=32",
+                "nodePath": "Size=32",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "[D] Button",
+                "nodePath": "Size=32 / [D] Button",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "LeftAddon",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "paperclip",
+                "nodePath": "Size=32 / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Label",
+                "nodePath": "Size=32 / [D] Button / Text / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Hint",
+                "nodePath": "Size=64 / [D] Button / Text / Hint",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "RightAddon",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 15,
+                "nodeName": "diamonds",
+                "nodePath": "Size=32 / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "generated id collision for attach.desktop; appended key suffix 1b0653bf"
+        ]
+      }
+    }
+  ]
+}

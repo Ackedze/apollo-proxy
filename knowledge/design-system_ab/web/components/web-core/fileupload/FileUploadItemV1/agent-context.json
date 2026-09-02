@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.file-upload-item-v1",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T18:03:54.547Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/fileupload/Web _ Core File Upload -- FileUploadItemV1.json",
+      "library": "Web :: Core File Upload",
+      "file": "Web :: Core File Upload",
+      "generatedAt": "2026-04-28T18:03:54.547Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "FileUploadItemV1"
+      ]
+    },
+    "summary": {
+      "componentFamily": "FileUploadItemV1",
+      "library": "Web :: Core File Upload",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": ".Example",
+        "key": "7c381f5a00892c947fd665c611679bb1004e46d5",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Var": [
+            "1",
+            "1 Error",
+            "2"
+          ]
+        }
+      },
+      {
+        "name": "🔩 LeftAddon",
+        "key": "99b51909f46c90f42f7707463b72cb72f491bfd1",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Icon",
+            "StatusComplete",
+            "StatusDeleted",
+            "StatusError",
+            "StatusLoading",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔩 RightAddon",
+        "key": "e57f3a8dedd0e89c15d7a6318ae85fc2adaf835d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Default",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔄 FileUploadItem",
+        "key": "391d8285993087ab6a89cc68cfa232b0585228e9",
+        "description": "Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Preset": [
+            "CompleteBadge",
+            "CompleteIcon",
+            "Custom",
+            "Deleted",
+            "Error",
+            "Uploading"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "FileUploadItemV1",
+      "library": "Web :: Core File Upload",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

@@ -1,0 +1,3286 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "FilterCompanySelect",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] CompactTag",
+        "path": "SelectedState=false / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] CompactTag",
+        "path": "SelectedState=false / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] CompactTag",
+        "path": "SelectedState=false / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] CompactTag",
+        "path": "SelectedState=false / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled",
+        "componentName": "[D] FilterTag_Filled",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Chevron": "True",
+          "ClearButton": "True",
+          "DisabledState": "False",
+          "MultipleValue": "False",
+          "SelectedState": "True",
+          "Shape": "Rectangular",
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled / 🔩 Arrow",
+        "componentName": "🔩 Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled / 🔩 Arrow / Fixer / PaintMe / chevron-up",
+        "componentName": "chevron-up",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] FilterTag_Filled / Clear / Clear / Fixer / PaintMe / cross-circle",
+        "componentName": "cross-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList",
+        "componentName": "[D] OptionList",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedHeight": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SelectAll"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / Container / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / Container / CheckboxLabel_24 / Checkbox",
+        "componentName": "Checkbox",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "True",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent",
+        "componentName": "FooterContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Buttons"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Multi",
+        "path": "Open=True, Selected=True, ShowFirstCompany=False / [D] DropdownList_MultiSelect / [D] OptionList / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select",
+        "componentName": "[D] Select",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Placeholder": "True",
+          "ActiveState": "True",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "False",
+          "Size": "56"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] Select / Field / RightAddons / Arrow_Up / PaintMe / chevron-up",
+        "componentName": "chevron-up",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList",
+        "componentName": "[D] OptionList",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedHeight": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] FilterCompanySelect_Single",
+        "path": "Open=True, Selected=False, View=Select, ShowFirstCompany=False / [D] DropdownList_SingleSelect / [D] OptionList / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList",
+        "componentName": "[D] OptionList",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedHeight": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SelectAll"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / Container / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / Container / CheckboxLabel_24 / Checkbox",
+        "componentName": "Checkbox",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent",
+        "componentName": "FooterContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Buttons"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / FooterContent / [D] OptionListFooter / FooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionList / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SelectAll"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / CheckboxLabel_24 / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "True",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent",
+        "componentName": "🔩 [D] OptionListFooterContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Buttons"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_MultiSelect",
+        "path": "[D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList",
+        "componentName": "[D] OptionList",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedHeight": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent",
+        "componentName": "HeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / HeaderContent / [D] OptionListHeader / HeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / Control",
+        "componentName": "Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Body / [D] OptionListCell / CellContent",
+        "componentName": "CellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / [D] OptionList / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / FirstCompany / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / FirstCompany / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "True",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / FirstCompany / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] DropdownList_SingleSelect",
+        "path": "[D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SelectAll"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / Header / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / CheckboxLabel_24 / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "True",
+          "RightControl": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent",
+        "componentName": "🔩 [D] OptionListFooterContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Buttons"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_MultiSelect",
+        "path": "🔄 [D] DropdownList_MultiSelect / [D] OptionListFooter / 🔩 [D] OptionListFooterContent / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent",
+        "componentName": "🔩 [D] OptionListHeaderContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Search"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "FilledState": "False",
+          "OuterLabel": "True",
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1",
+        "componentName": "👻 LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / 👻 LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / [D] OptionListHeader / 🔩 [D] OptionListHeaderContent / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell",
+        "componentName": "[D] OptionListCell",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftControl": "False",
+          "RightControl": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 OptionListCellContent",
+        "componentName": "🔩 OptionListCellContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BottomCaption": "False",
+          "Custom": "False",
+          "Icon": "False",
+          "TopCaption": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] DropdownList_SingleSelect",
+        "path": "🔄 [D] DropdownList_SingleSelect / CompaniesList / [D] OptionListCell / 🔩 Checkmark",
+        "componentName": "🔩 Checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "False"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "publicRoots": [
+      "[D] FilterCompanySelect_Multi",
+      "[D] FilterCompanySelect_Single"
+    ],
+    "internalOnly": [
+      "[D] CompactTag",
+      "[D] DropdownList_MultiSelect",
+      "[D] DropdownList_SingleSelect",
+      "🔄 [D] DropdownList_MultiSelect",
+      "🔄 [D] DropdownList_SingleSelect"
+    ],
+    "ownership": {
+      "hostOwns": [
+        "root selection mode",
+        "View for Single",
+        "runtime-derived Open and Selected",
+        "root and dropdown width"
+      ],
+      "nestedComponentsOwn": [
+        "visual tokens",
+        "internal geometry",
+        "system states",
+        "OptionList composition",
+        "CheckboxLabel_24 state rendering"
+      ]
+    },
+    "compositionPolicy": {
+      "detachAllowed": false,
+      "internalStandaloneAllowed": false,
+      "internalInstanceSwapAllowed": false,
+      "replaceDropdownOrOptionListAllowed": false
+    },
+    "effectiveBaseline": {
+      "policy": "Resolve root, View, Open, Selected and nested component state before comparing layer properties.",
+      "allowedManualLayerOverrides": [
+        "root.width",
+        "dropdown.width"
+      ],
+      "allOtherLayerOverrides": "error"
+    },
+    "contentOwnership": {
+      "companyName": "runtime",
+      "inn": "runtime",
+      "address": "runtime"
+    },
+    "relatedButSeparate": [
+      {
+        "component": "[D] FilterCompanySelect_UniversalModal",
+        "host": "UniversalModal",
+        "sameHoldingPattern": true,
+        "partOfCurrentPublicBoundary": false
+      }
+    ],
+    "delegatedBehavior": {
+      "emptyAndNoResults": "OptionList or product",
+      "hoverFocusKeyboardDisabled": "nested Select, FilterTag, CheckboxLabel_24 and OptionList components"
+    }
+  }
+}

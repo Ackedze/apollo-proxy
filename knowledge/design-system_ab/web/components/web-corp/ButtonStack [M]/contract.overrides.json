@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.button-stack",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔒 [M] ButtonStack",
+        "key": "1e9261fa9df082fa82b6ec3b42b429797f906cd9",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Background",
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "🔒 [M] ButtonStack",
+        "role": "figma-only-bottom-action-preset",
+        "platform": "mobile-web",
+        "componentKey": "1e9261fa9df082fa82b6ec3b42b429797f906cd9"
+      }
+    ],
+    "publicApi": {
+      "figmaRoots": [
+        "🔒 [M] ButtonStack"
+      ],
+      "codeExports": [],
+      "figmaOnly": true,
+      "lifecycle": "active",
+      "plannedReplacement": false,
+      "generationPolicy": "instantiate the preset root by component key and keep it absolutely positioned at bottom=0"
+    },
+    "variantSemantics": {
+      "Presets": {
+        "Primary": "Одна основная кнопка.",
+        "Secondary": "Одна secondary-кнопка для второстепенного действия или действия без нужды в primary-акценте.",
+        "Group Horizontal": "Две равные по ширине кнопки: Secondary слева, Primary справа. Используется только когда обе подписи помещаются в одну строку.",
+        "Group Vertical": "Две кнопки на всю ширину: Primary сверху, Secondary снизу. Используется, когда горизонтальная группа не вмещает подписи.",
+        "Primary + Icon": "Primary-кнопка занимает доступную ширину, справа располагается отдельная icon-only кнопка фиксированного размера."
+      },
+      "Background": {
+        "allowedValues": [
+          "False",
+          "True"
+        ],
+        "selectionRule": "unresolved",
+        "readyBlocking": false,
+        "evidencePolicy": "Оба значения допустимы. Не выводить сценарий выбора без дополнительного решения владельца."
+      }
+    },
+    "positioningPolicy": {
+      "position": "absolute",
+      "edge": "bottom",
+      "offset": 0,
+      "scrollsWithContent": false,
+      "contentSpaceMustBeReserved": true,
+      "inlinePlacementAllowed": false
+    },
+    "sizing": {
+      "rootWidth": "Fill",
+      "rootHeight": "Hug",
+      "padding": {
+        "horizontal": 20,
+        "vertical": 16
+      },
+      "Group Horizontal": {
+        "buttonWidths": "equal"
+      },
+      "Group Vertical": {
+        "buttonWidths": "Fill"
+      },
+      "Primary + Icon": {
+        "primaryWidth": "Fill remaining width",
+        "iconButtonWidth": "component fixed size"
+      }
+    },
+    "optionPolicy": {
+      "component": "CheckboxLabel_24",
+      "optional": true,
+      "purpose": "Контекстная опция, дополняющая основное действие.",
+      "controlsPrimaryAvailability": "context-dependent",
+      "labelEditable": true,
+      "recommendedLabelLimit": {
+        "characters": 80,
+        "lines": 2,
+        "upstreamContractWins": true
+      },
+      "disabledLabelAllowed": false,
+      "errorMessageAllowed": false,
+      "hintAllowed": false,
+      "informationAddon": {
+        "optional": true,
+        "component": "StatusBadge",
+        "view": "NeutralInformation",
+        "icon": "information-compact"
+      }
+    },
+    "nestedButtonPolicy": {
+      "inheritFrom": "[M] Button",
+      "editable": [
+        "Label",
+        "loading",
+        "DisabledState",
+        "allowed addons",
+        "allowed icons"
+      ],
+      "presetOwned": [
+        "button count",
+        "button order",
+        "View hierarchy",
+        "layout",
+        "sizing"
+      ],
+      "instanceSwapAllowed": false,
+      "manualAddOrRemoveAllowed": false,
+      "primaryIconPolicy": {
+        "anyContextualIconAllowed": true,
+        "preferredIcon": "glyph-26/dots-three-horizontal",
+        "differentValidIconSeverity": "none",
+        "accessibleLabelRequiredByButtonStack": false
+      }
+    },
+    "responsivePolicy": {
+      "platform": "mobile-web",
+      "universalMobileWebRange": "320–767 px",
+      "desktopCounterpartMayDiffer": true,
+      "preserveAcrossDesktopAndMobile": [
+        "action count",
+        "action priority",
+        "labels",
+        "action meaning"
+      ]
+    },
+    "resetModel": {
+      "variant.*": "reset-component-properties",
+      "nested.button.variant.*": "reset-nested-component-properties",
+      "layout.*|fill|stroke|radius|opacity|effects.*": "reset-layer-properties-against-effective-preset-baseline"
+    }
+  }
+}

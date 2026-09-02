@@ -1,0 +1,583 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.card-image",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.card-image.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CardImage",
+          "layers": [
+            "🔩 CardItem",
+            "🔩 Cover",
+            "🔩 Shadow",
+            "🔩 SilverLine",
+            "🔩 State",
+            "🔩 UserData",
+            "CardImage",
+            "CardItem",
+            "Cover",
+            "Shadow",
+            "SilverLine",
+            "State",
+            "UserData"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CardImage",
+          "layers": [
+            "🔩 CardItem",
+            "🔩 Cover",
+            "🔩 Shadow",
+            "🔩 SilverLine",
+            "🔩 State",
+            "🔩 UserData",
+            "CardImage",
+            "CardItem",
+            "Cover",
+            "Shadow",
+            "SilverLine",
+            "State",
+            "UserData"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.card-image.public-root-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.card-image",
+          "layers": [
+            "CardImage",
+            "🔩 CardItem",
+            "🔩 Cover",
+            "🔩 Shadow",
+            "🔩 SilverLine",
+            "🔩 State",
+            "🔩 UserData"
+          ]
+        },
+        "remediation": "Используйте публичный root CardImage и верните технические части внутрь его штатной композиции.",
+        "ruleText": "Агент и дизайнер вставляют только публичный root CardImage. Компоненты с префиксом 🔩 являются внутренними частями и не используются отдельно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.bank-card-purpose",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используйте CardImage только для визуального представления банковской карты. Для обычного некарточного счёта, общего способа оплаты или декоративного изображения выберите другой компонент."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.fixed-size-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.width|layout.height",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "layers": [
+            "CardImage"
+          ]
+        },
+        "requiredValue": "effective-baseline",
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Верните экземпляр к одному из пяти штатных Size без ручного масштабирования.",
+        "ruleText": "CardImage использует только фиксированные размеры 264x164, 212x132, 68x42, 44x28 и 24x16. Ручное растягивание, изменение пропорций и промежуточные размеры запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.xs-active-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Size|variant.State",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "layers": [
+            "CardImage"
+          ]
+        },
+        "conditions": {
+          "variant": {
+            "Size": "24x16"
+          }
+        },
+        "requiredValues": {
+          "State": "Active"
+        },
+        "remediation": {
+          "kind": "set-variant-properties",
+          "target": "$failingTarget",
+          "properties": {
+            "State": "Active"
+          }
+        },
+        "ruleText": "Размер 24x16 поддерживает только State=Active. Наблюдаемые в raw отдельные Inactive/Locked variants не входят в публичный контракт.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.card-image"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.Size"
+                },
+                "expected": {
+                  "literal": "24x16"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.properties.State"
+          },
+          "allowedValues": [
+            "Active"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Для CardImage 24x16 выбран недопустимый State",
+            "observed": "У CardImage размера 24x16 выбран State={{actual}}.",
+            "expectation": "CardImage размера 24x16 поддерживает только State=Active.",
+            "action": "Установить State=Active или выбрать размер, поддерживающий нужное состояние."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.stack-combination",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Stack|variant.Size|variant.State",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "layers": [
+            "CardImage"
+          ]
+        },
+        "conditions": {
+          "variant": {
+            "Stack": "true"
+          }
+        },
+        "requiredValues": {
+          "State": "Active"
+        },
+        "remediation": {
+          "kind": "set-variant-properties",
+          "target": "$failingTarget",
+          "properties": {
+            "State": "Active"
+          }
+        },
+        "ruleText": "Stack=True разрешён только для размеров 68x42, 44x28 и 24x16, когда нужно показать две или более карты. Стопка всегда использует State=Active.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.stack-disabled-for-large-sizes",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Stack|variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "layers": [
+            "CardImage"
+          ]
+        },
+        "conditions": {
+          "variant": {
+            "Size": [
+              "264x164",
+              "212x132"
+            ]
+          }
+        },
+        "requiredValues": {
+          "Stack": "false"
+        },
+        "remediation": {
+          "kind": "set-variant-properties",
+          "target": "$failingTarget",
+          "properties": {
+            "Stack": "false"
+          }
+        },
+        "ruleText": "Размеры 264x164 и 212x132 не поддерживают Stack. Для стопки выберите 68x42, 44x28 или 24x16.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.stack-anatomy-is-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Stack|component.composition|content.stackCount",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "При Stack=True верхняя карта соответствует первой карте списка, а остальные карты представлены одной служебной подложкой без изображения. M показывает +N карты, где N — число скрытых карт; S и XS показывают ellipsis. Не добавляйте дополнительные CardItem вручную."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.user-data-by-size",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.cardholderName|content.lastFourDigits|variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "264x164": [
+            "cardholderName",
+            "lastFourDigits"
+          ],
+          "212x132": [
+            "lastFourDigits"
+          ],
+          "68x42": [
+            "lastFourDigits"
+          ],
+          "44x28": [],
+          "24x16": []
+        },
+        "ruleText": "Показывайте имя владельца только в размере 264x164. Последние четыре цифры доступны в 264x164, 212x132 и 68x42. В размерах 44x28 и 24x16 пользовательские данные не показываются.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.cardholder-name-format",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.cardholderName",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "uppercase": true,
+          "maxLines": 1,
+          "overflow": "ellipsis"
+        },
+        "remediation": "Переведите имя в uppercase, сохраните одну строку и штатный ellipsis.",
+        "ruleText": "Имя владельца карты обязательно отображается в uppercase, занимает одну строку и при переполнении обрезается штатным ellipsis.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.number-must-stay-masked",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.lastFourDigits",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "format": "·· 1234",
+          "visibleDigits": 4
+        },
+        "remediation": "Скройте номер и оставьте только штатную маску и последние четыре цифры.",
+        "ruleText": "Номер карты должен оставаться маскированным: показывайте только штатную маску и последние четыре цифры в формате ·· 1234. Полный номер запрещён.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.silver-line-follows-size",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.SilverLine.variant.Type|nested.SilverLine.visibility|variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "264x164": "complex",
+          "212x132": "complex",
+          "68x42": "simple",
+          "44x28": "simple",
+          "24x16": "hidden"
+        },
+        "ruleText": "Штатная градиентная полоса определяется размером: complex для XL/L, simple для M/S и hidden для XS. Не меняйте Type вручную. Исключение — разрешённое скрытие SilverLine для собственной рубашки.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.custom-cover-uses-none",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Cover|nested.Cover.fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "customImageRequiresCover": "None",
+          "targetPath": "Details/CardCover / Image Container",
+          "operation": "first Image fill"
+        },
+        "remediation": "Установите Cover=None и добавьте рубашку первым Image fill существующего Image Container.",
+        "ruleText": "Для карты другого банка или альтернативного дизайна Альфы установите Cover=None и замените только рубашку: добавьте новый Image fill первым в списке fills существующего Details/CardCover / Image Container.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.custom-cover-preserves-structure",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.Cover|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Override рубашки не разрешает detach, новые слои, изменение геометрии, радиусов, логотипа, платёжной системы или state overlay. Сохраняйте CardImage instance и структуру 🔩 Cover.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.other-bank-hides-silver-line",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.Cover.fill|nested.SilverLine.visibility",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При рубашке карты другого банка SilverLine обязан быть скрыт. Для альтернативного дизайна Альфы скрывайте SilverLine, если градиентная полоса уже встроена в изображение или конфликтует с дизайном.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.shadow-policy",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "boolean.Show Shadow|variant.Size|variant.Stack",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "singleCard": "optional for XL/L/M/S",
+          "stack68x42": true,
+          "stack44x28": true,
+          "size24x16": "not available"
+        },
+        "ruleText": "Для одиночной карты Show Shadow можно менять в размерах XL, L, M и S. У стопки M и S тень всегда включена. В размере XS тени нет, включая Stack=True.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.visuals-follow-effective-baseline",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|layout.*|styles.text|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedBaselineOverrides": [
+          {
+            "hostVariant": {
+              "Cover": "None"
+            },
+            "properties": [
+              "fill"
+            ],
+            "targetNames": [
+              "Cover",
+              "Image Container"
+            ],
+            "pathSuffixes": [
+              " / CardItem / Cover",
+              " / Details/CardCover / Image Container"
+            ],
+            "actualResourceTypes": [
+              "image"
+            ]
+          }
+        ],
+        "ruleText": "Не меняйте вручную структуру, размеры, пропорции, отступы, типографику, цвета, радиусы, opacity и эффекты CardImage. Разрешены только контент имени/последних четырёх цифр, Show Shadow, рубашка при Cover=None и условное скрытие SilverLine по их точным правилам.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.host-owns-interaction-and-system-states",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction|loading|error|empty",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "CardImage не интерактивен и не имеет собственных Loading, Error или Empty. Клик, выбор, tooltip и системные состояния принадлежат родительскому компоненту. Cover=None является fallback рубашки, а не loading."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.unsupported-scenarios",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.usage|variant.State",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не имитируйте через CardImage состояние доставки карты или сценарий «Добавить новую карту»: текущий компонент покрывает только Active, Inactive и Locked, а добавление карты требует другого компонента.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-image.account-select-card-account-only",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.account-select",
+        "patternRuleId": "rule:components.account-select.card-image-only-for-card-account",
+        "appliesTo": "host.AccountSelect|component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В AccountSelect используйте CardImage только для карточного счёта. Весь список сохраняет единый media-режим: CardImage, IconView или без media."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "CardImage является активным универсальным corp-компонентом. Отсутствие Code Connect не означает отсутствие runtime-реализации и само по себе не является дизайн-нарушением."
+      }
+    ]
+  }
+}

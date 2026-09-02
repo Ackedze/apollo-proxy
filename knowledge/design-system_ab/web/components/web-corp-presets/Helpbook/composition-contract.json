@@ -1,0 +1,4357 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.helpbook",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Helpbook",
+      "library": "Web :: Corp Presets"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / NativeStatusBar",
+        "componentName": "NativeStatusBar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DarkMode": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalHeader",
+        "componentName": "[M] UniversalModalHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True",
+          "Custom": "False",
+          "FilledBg": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalHeader / 🔩 [M] Preset",
+        "componentName": "🔩 [M] Preset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "True",
+          "Back": "False",
+          "LeftTitle": "True",
+          "CentredTitle": "False",
+          "Subtitle": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalHeader / 🔩 [M] Preset / Top /  RightAddon / Cross / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter",
+        "componentName": "[M] UniversalModalFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Content": "True",
+          "FilledBg": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact",
+        "componentName": "🔒[M] Helpbook :: Сontact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "full"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot",
+        "componentName": "[M] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Border",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion",
+        "componentName": "[M] ContactsAccordion",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "false"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / NativeSafariBottom",
+        "componentName": "NativeSafariBottom",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "URL": "True",
+          "Tabs": "False",
+          "DarkMode": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalHeader",
+        "componentName": "[D] UniversalModalHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True",
+          "Custom": "False",
+          "FilledBg": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalHeader / 🔩 [D] Presets",
+        "componentName": "🔩 [D] Presets",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "True",
+          "Back": "False",
+          "Title": "False",
+          "BigTitle": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalHeader / 🔩 [D] Presets / Top / Cross / Cross / Fixer / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalBody / Scrollbar",
+        "componentName": "Scrollbar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter",
+        "componentName": "[D] UniversalModalFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True",
+          "Custom": "True",
+          "FilledBg": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact",
+        "componentName": "🔒 [D] Helpbook :: Сontact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "full"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot",
+        "componentName": "[D] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Border",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion",
+        "componentName": "[D] ContactsAccordion",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Open=false / Accordion",
+        "componentName": "Accordion",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "False",
+          "ControlSide": "Right"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Open=false / Accordion / HeadLine / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Open=false / Accordion / HeadLine / Control / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Open=false / Accordion / HeadLine / Control / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Open=false / Accordion / HeadLine / Control / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": " InfoIcon",
+        "path": "New indicator=true / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot",
+        "componentName": "[M] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Primary",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Card",
+        "path": "Presets=Info / [M] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot",
+        "componentName": "[D] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Primary",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Style": "Line",
+          "Color": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Card",
+        "path": "Presets=Info / [D] BackgroundPlateSlot / Slot / Content / Graphics / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot",
+        "componentName": "[M] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Border",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion",
+        "componentName": "[M] ContactsAccordion",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot",
+        "componentName": "[D] BackgroundPlateSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Border",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion",
+        "componentName": "[D] ContactsAccordion",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / phone-circle",
+        "componentName": "phone-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Down Chevron",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon",
+        "componentName": " InfoIcon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "New indicator": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник /  InfoIcon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: LinkAddon",
+        "path": "Presets=Справочник / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input",
+        "componentName": "[M] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "FilledState": "False",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "OuterLabel": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / LeftAddons / LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "ClearButton"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] Input / Field / RightAddons / RightAddon1 / PaintMe / cross-circle",
+        "componentName": "cross-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView",
+        "componentName": "[M] TabsView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Slider / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Slider / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary",
+        "componentName": "[M] TabsSecondary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "40",
+          "View": "Filled"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag",
+        "componentName": "[M] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag",
+        "componentName": "[M] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag",
+        "componentName": "[M] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag",
+        "componentName": "[M] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / Filters / [M] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "56",
+          "FilledState": "False",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "OuterLabel": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconSecondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / LeftAddons / LeftAddon1 / Fixer / PaintMe / magnifier",
+        "componentName": "magnifier",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "ClearButton"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] Input / Field / RightAddons / RightAddon1 / PaintMe / cross-circle",
+        "componentName": "cross-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView",
+        "componentName": "[D] TabsView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Slider / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Slider / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary",
+        "componentName": "[D] TabsSecondary",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Slider / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Slider / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag",
+        "componentName": "[D] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag",
+        "componentName": "[D] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag",
+        "componentName": "[D] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag",
+        "componentName": "[D] FilterTag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "32",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "ClearButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow",
+        "componentName": "Arrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / Filters / [D] FilterTag / Arrow / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "[M] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [M] UniversalModal / [M] UniversalModalFooter / FooterContent / 🔒[M] Helpbook :: Сontact / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[D] UniversalModal :: Helpbook",
+        "path": "Type=Empty / [D] UniversalMoadal / [D] UniversalModalFooter / FooterContent / 🔒 [D] Helpbook :: Сontact / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContactsAccordion",
+        "path": "Open=false / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒[M] Helpbook :: Сontact",
+        "path": "Presets=full / [M] BackgroundPlateSlot / Slot / [M] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook :: Сontact",
+        "path": "Presets=full / [D] BackgroundPlateSlot / Slot / [D] ContactsAccordion / Content / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Helpbook :: Navigation",
+        "path": "🔒 [M] Helpbook :: Navigation / [M] TabsView / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Helpbook:: Navigation",
+        "path": "🔒 [D] Helpbook:: Navigation / [D] TabsView / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      }
+    ]
+  }
+}

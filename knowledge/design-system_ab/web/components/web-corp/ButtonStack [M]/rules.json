@@ -1,0 +1,526 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.button-stack",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.button-stack.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonStack [M]",
+          "layers": [
+            "[M] ButtonStack",
+            "🔒 [M] ButtonStack",
+            "ButtonStack [M]"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonStack [M]",
+          "layers": [
+            "[M] ButtonStack",
+            "🔒 [M] ButtonStack",
+            "ButtonStack [M]"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.button-stack.figma-only-bottom-action-preset",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.button-stack",
+          "layers": [
+            "🔒 [M] ButtonStack",
+            "[M] ButtonStack",
+            "ButtonStack [M]"
+          ]
+        },
+        "classification": {
+          "figmaOnly": true,
+          "lifecycle": "active",
+          "codeExportExpected": false,
+          "reportAsCustomization": false
+        },
+        "ruleText": "ButtonStack — активный Figma-only пресет нижней зоны действий mobile-web. Не требуй отдельный runtime-компонент или Code Connect mapping для корня."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.must-be-bottom-anchored",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.position|screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "position": "absolute",
+          "bottom": 0,
+          "scrollsWithContent": false
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Переместите ButtonStack в абсолютную нижнюю зону экрана и установите bottom=0.",
+        "ruleText": "ButtonStack должен быть абсолютно расположен у нижнего края экрана с bottom=0 и не должен прокручиваться вместе с контентом. Размещение внутри обычного document flow является ошибкой."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.page-reserves-space",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "screen.content|layout.overlap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "hostMustReserveButtonStackSpace": true
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Добавьте нижний резерв контента, равный фактической высоте ButtonStack в текущем состоянии.",
+        "ruleText": "Контент страницы обязан резервировать место под абсолютный ButtonStack. Нижний контент не должен скрываться или перекрываться зоной действий."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.preset-composition-is-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredComposition": {
+          "Primary": [
+            "Primary button"
+          ],
+          "Secondary": [
+            "Secondary button"
+          ],
+          "Group Horizontal": [
+            "Secondary button left",
+            "Primary button right"
+          ],
+          "Group Vertical": [
+            "Primary button top",
+            "Secondary button bottom"
+          ],
+          "Primary + Icon": [
+            "Primary button left",
+            "icon-only button right"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Верните точное число, порядок, View и тип кнопок выбранного Presets.",
+        "ruleText": "Каждый Presets имеет фиксированное число, порядок и иерархию действий. Нельзя добавлять третью кнопку, удалять кнопку из группы, менять порядок Primary/Secondary или заменять icon-only действие обычной кнопкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.horizontal-group-requires-single-line-labels",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets|text.button-label|layout.overflow",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Presets": "Group Horizontal",
+          "buttonLabelsFitOneLine": true
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Сократите labels либо выберите Presets=Group Vertical.",
+        "ruleText": "Group Horizontal используется только когда подписи обеих кнопок помещаются в одну строку. Перенос, обрезание или столкновение labels требует перехода на Group Vertical.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.root-sizing-and-padding-are-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.sizing.*|layout.padding",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredValues": {
+          "layout.sizing.horizontal": "FIXED",
+          "layout.sizing.vertical": "HUG",
+          "padding.top": 16,
+          "padding.right": 20,
+          "padding.bottom": 16,
+          "padding.left": 20
+        },
+        "target": {
+          "layers": [
+            "[M] ButtonStack",
+            "🔒 [M] ButtonStack",
+            "ButtonStack [M]"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer"
+        },
+        "remediation": "Верните Fixed/Hug и padding 16 px по вертикали, 20 px по горизонтали.",
+        "ruleText": "Корень ButtonStack использует Fixed по горизонтали, Hug по высоте и padding 16 px по вертикали и 20 px по горизонтали. Эти значения принадлежат пресету.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.preset-sizing-is-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.sizing.*|layout.itemSpacing|layout.direction",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredValue": "effective-baseline",
+        "target": {
+          "layers": [
+            "MainButtonStack",
+            "[M] Button"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Восстановите sizing выбранного Presets по effective baseline.",
+        "ruleText": "Group Horizontal использует равные ширины кнопок; Group Vertical растягивает обе кнопки; Primary + Icon растягивает Primary на остаток ширины и сохраняет фиксированный размер icon-only кнопки.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.option-is-contextual",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.Checkbox|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "optional": true,
+          "purpose": "complements the main action",
+          "primaryAvailabilityDependency": "context-dependent",
+          "doNotInferViolation": true
+        },
+        "ruleText": "Над действиями может располагаться опциональный CheckboxLabel_24 с дополнительной опцией. Связь checkbox с доступностью основной кнопки определяется контекстом: не требуй и не запрещай её без отдельного evidence."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.option-states-are-limited",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.CheckboxLabel_24.variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredValues": {
+          "DisabledLabel": "False",
+          "ErrorMessage": "False",
+          "Hint": "False"
+        },
+        "target": {
+          "layers": [
+            "CheckboxLabel_24"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Отключите DisabledLabel, ErrorMessage и Hint внутри опции ButtonStack.",
+        "ruleText": "Опция ButtonStack не использует DisabledLabel, ErrorMessage и Hint. Для пояснения допускается только штатный нейтральный information addon.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.option-information-addon-is-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.StatusBadge|nested.icon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredComposition": {
+          "component": "StatusBadge",
+          "View": "NeutralInformation",
+          "icon": "information-compact"
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Верните нейтральный StatusBadge с information-иконкой либо скройте addon.",
+        "ruleText": "Information addon рядом с Checkbox опционален. Если он показан, используй StatusBadge View=NeutralInformation со штатной information-иконкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.option-label-length",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.CheckboxLabel_24.text",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "recommendedLimit": {
+          "characters": 80,
+          "lines": 2,
+          "upstreamContractWins": true
+        },
+        "classification": {
+          "treatAsRecommendation": true,
+          "designSeverity": "warning"
+        },
+        "remediation": "Сократите формулировку опции до 80 символов и двух строк, если более точный контракт CheckboxLabel_24 не задаёт другое.",
+        "ruleText": "Текст дополнительной опции рекомендуется ограничивать 80 символами и двумя строками. Более точное ограничение актуального CheckboxLabel_24 имеет приоритет."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.nested-buttons-inherit-button-contract",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.Button.variant.*|nested.Button.content|nested.Button.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "editable": [
+            "Label",
+            "loading",
+            "DisabledState",
+            "allowed addons",
+            "allowed icons"
+          ],
+          "preservePreset": [
+            "count",
+            "order",
+            "View hierarchy",
+            "layout",
+            "sizing"
+          ]
+        },
+        "ruleText": "Вложенные [M] Button наследуют полный контракт Button для label, loading/disabled, addons и иконок. Эти настройки допустимы при сохранении структуры и иерархии выбранного Presets."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.primary-icon-is-contextual",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets|nested.icon-only.icon",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Presets": "Primary + Icon",
+          "preferredIcon": "glyph-26/dots-three-horizontal",
+          "otherContextualIconsAllowed": true
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true
+        },
+        "ruleText": "В Primary + Icon допускается любая уместная иконка. Предпочтительна dots-three-horizontal из glyph-26, но другая контекстная иконка не является нарушением."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.desktop-mobile-action-parity",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.actions|content.button-label|component.interaction",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "requiredParity": [
+          "action count",
+          "action priority",
+          "labels",
+          "action meaning"
+        ],
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Синхронизируйте количество, приоритеты, labels и смысл действий между desktop и mobile-web.",
+        "ruleText": "Если для экрана существует desktop-версия, ButtonStack сохраняет количество действий, их приоритет, labels и назначение. Меняется только платформенная компоновка."
+      },
+      {
+        "ruleId": "component:web-corp.button-stack.background-selection-is-unresolved",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Background",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowedValues": [
+            "False",
+            "True"
+          ],
+          "selectionRule": "unresolved",
+          "readyBlocking": false
+        },
+        "classification": {
+          "doNotTreatAsViolationByDefault": true,
+          "requiresManualReview": false
+        },
+        "ruleText": "Оба значения Background доступны. Правило выбора True или False пока не подтверждено; не объявляй ни одно значение обязательным и не блокируй Ready из-за этого открытого вопроса."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.button-stack"
+      ],
+      "predicateRules": [],
+      "compositionRules": [],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web-corp.button-stack.must-be-bottom-anchored",
+          "reason": "Требуется контекст экрана и поведения при прокрутке."
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.page-reserves-space",
+          "reason": "Требуется семантическая оценка перекрытия контента и зарезервированной области."
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.horizontal-group-requires-single-line-labels",
+          "reason": "Требуется оценка фактического переноса подписей."
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.option-label-length",
+          "reason": "Рекомендация зависит от смысла текста и более точного контракта вложенного компонента."
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.desktop-mobile-action-parity",
+          "reason": "Требуется сопоставление действий между desktop и mobile-web."
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-corp.button-stack.figma-only-bottom-action-preset",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.option-is-contextual",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.nested-buttons-inherit-button-contract",
+          "effect": "delegate-to-nested-package"
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.primary-icon-is-contextual",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.background-selection-is-unresolved",
+          "effect": "allow-until-owner-decision"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.button-stack.preset-composition-is-fixed",
+          "missingFacts": [
+            "nested.Button.order",
+            "nested.Button.variant.View",
+            "nested.Button.count"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.root-sizing-and-padding-are-fixed",
+          "missingFacts": [
+            "layout.sizing.horizontal",
+            "layout.sizing.vertical",
+            "layout.padding"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.preset-sizing-is-fixed",
+          "missingFacts": [
+            "nested.Button.layout.sizing.horizontal",
+            "nested.Button.renderedWidth"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.option-states-are-limited",
+          "missingFacts": [
+            "nested.CheckboxLabel_24.variant.DisabledLabel",
+            "nested.CheckboxLabel_24.variant.ErrorMessage",
+            "nested.CheckboxLabel_24.variant.Hint"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.button-stack.option-information-addon-is-fixed",
+          "missingFacts": [
+            "nested.CheckboxLabel_24.InformationAddon.componentIdentity",
+            "nested.CheckboxLabel_24.InformationAddon.variant"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,395 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.corporate-topbar",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "component:web-corp.corporate-topbar.table-unfiltered",
+        "title": "TopBar над таблицей без активной фильтрации",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Filtered": "false",
+          "Skeleton": "false",
+          "counterLabel": "Всего"
+        },
+        "explanation": "Панель управляет табличным представлением данных, активная фильтрация отсутствует."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.cards-filtered",
+        "title": "TopBar над карточками с активной фильтрацией",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Filtered": "true",
+          "Skeleton": "false",
+          "counterLabel": "Найдено"
+        },
+        "explanation": "При активной фильтрации счётчик показывает количество найденных объектов."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.loading",
+        "title": "Загрузка данных",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Skeleton": "true",
+          "interactionAllowed": false
+        },
+        "explanation": "Во время загрузки весь TopBar отображается в skeleton-состоянии и недоступен для взаимодействия."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.internal-settings-standalone",
+        "title": "Самостоятельное использование Settings",
+        "classification": "invalid",
+        "component": "[D] Settings",
+        "explanation": "[D] Settings является служебной частью [D] TopBar и не используется отдельно."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.context-control",
+        "title": "Контекстный Control",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "slot": "Control",
+          "contentPolicy": "context-defined"
+        },
+        "explanation": "Содержимое Control подбирается под задачу конкретного табличного, списочного или карточного представления."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.select-all-across-pages",
+        "title": "Выбор всех доступных элементов",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "StartAddon.Presets": "Select All",
+          "buttonLabel": "Выбрать все",
+          "selectionScope": "all-available-data"
+        },
+        "explanation": "Действие выбирает весь доступный набор данных, а не только элементы на текущей странице."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar.settings-open",
+        "title": "Открытые настройки представления",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Settings.Dropdown": "true",
+          "visibleNestedComponent": "[D] OptionList"
+        },
+        "explanation": "Открытая панель настройки колонок отображает вложенный [D] OptionList."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-secondary-action",
+        "title": "Дополнительное действие TopBar",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Button.Size": "32",
+          "Button.View": "Secondary",
+          "action": "context-defined"
+        },
+        "explanation": "Назначение кнопки зависит от задачи, но размер и допустимый View сохраняются."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-mobile-web",
+        "title": "TopBar на mobile-web",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "platform": "mobile-web"
+        },
+        "explanation": "[D] TopBar предназначен только для desktop от 768 px."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-counter-full-filtered-result",
+        "title": "Количество найденных объектов во всём наборе",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Filtered": "true",
+          "counterLabel": "Найдено",
+          "counterScope": "all-filtered-data"
+        },
+        "explanation": "Counter показывает число всех найденных объектов, включая другие страницы данных."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-without-start-addon",
+        "title": "TopBar без StartAddon",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "StartAddon.visible": false
+        },
+        "explanation": "StartAddon можно скрыть, когда массовый выбор и дополнительная настройка не нужны."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-wide-settings",
+        "title": "Настройки Table Wide",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Settings.Dropdown": "true",
+          "OptionList.Mode": "Wide",
+          "dataView": "Table Wide"
+        },
+        "explanation": "Mode=Wide соответствует Table Wide и позволяет управлять видимостью и порядком колонок."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-basic-with-wide-settings",
+        "title": "Несовпадение таблицы и OptionList Mode",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "OptionList.Mode": "Wide",
+          "dataView": "Table Basic"
+        },
+        "explanation": "Для Table Basic должен использоваться Mode=Basic."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-manual-layout-change",
+        "title": "Ручное изменение геометрии TopBar",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "layout.itemSpacing": "custom"
+        },
+        "explanation": "Геометрия и визуальные параметры должны соответствовать effective baseline компонента."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-without-settings",
+        "title": "TopBar без Settings",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Settings.visible": false
+        },
+        "explanation": "Settings можно скрыть, если настройки представления не требуются."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-two-additional-buttons",
+        "title": "Две дополнительные кнопки",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "additionalButtonCount": 2
+        },
+        "explanation": "TopBar допускает только одну дополнительную [D] Button."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-button-right-addon",
+        "title": "Дополнительная кнопка с RightAddon",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "additionalButtonCount": 1,
+          "Button.Size": "32",
+          "Button.View": "Primary",
+          "Button.RightAddon": "context-defined"
+        },
+        "explanation": "У единственной дополнительной кнопки разрешена настройка RightAddon."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-multiple-controls",
+        "title": "Несколько элементов в Control",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Control.items": 2,
+          "Control.contentPolicy": "context-defined"
+        },
+        "explanation": "Предусмотренный слот Control может содержать несколько контекстных элементов."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-detached-internal",
+        "title": "Detach внутреннего компонента",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "internalDetach": true
+        },
+        "explanation": "Корень и внутренние компоненты TopBar нельзя отсоединять от библиотеки."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-table-spacing",
+        "title": "TopBar перед таблицей в BackgroundPlate",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "nextContent": "table-BackgroundPlate",
+          "verticalGap": 0
+        },
+        "explanation": "TopBar примыкает к BackgroundPlate таблицы без дополнительного вертикального отступа."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-cards-spacing",
+        "title": "TopBar перед карточками",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "nextContent": "cards",
+          "verticalGap": 16
+        },
+        "explanation": "Перед карточным представлением используется отступ 16 px."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-reset-all",
+        "title": "Сброс настроек таблицы",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "action": "Сбросить всё",
+          "resets": [
+            "column-visibility",
+            "column-order",
+            "grouping",
+            "data-view"
+          ]
+        },
+        "explanation": "Сброс возвращает только перечисленные настройки отображения и не затрагивает остальные контролы."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-basic-wide-transition",
+        "title": "Переключение Basic и Wide",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "dataViewTransition": "Basic->Wide"
+        },
+        "explanation": "Basic и Wide образуют разрешённую пару представлений."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-basic-core-transition",
+        "title": "Прямое переключение Basic и Core",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "dataViewTransition": "Basic->Core"
+        },
+        "explanation": "Прямой переход Basic ↔ Core не используется."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-filtered-zero",
+        "title": "Фильтрация без найденных объектов",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Filtered": "true",
+          "counterLabel": "Найдено",
+          "counterValue": 0
+        },
+        "explanation": "Нулевой результат фильтрации отображается как «Найдено 0»."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-hide-all-columns",
+        "title": "Скрытие всех колонок",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "visibleColumnCount": 0
+        },
+        "explanation": "В таблице должна оставаться хотя бы одна видимая колонка."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-one-visible-column",
+        "title": "Одна видимая колонка",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "visibleColumnCount": 1
+        },
+        "explanation": "Одна видимая колонка удовлетворяет минимальному ограничению."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-immediate-settings",
+        "title": "Мгновенное применение настройки",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "setting": "column-order",
+          "applyMode": "immediate"
+        },
+        "explanation": "Изменение порядка колонок применяется без отдельной кнопки подтверждения."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-control-with-divider",
+        "title": "Control с Divider",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Control.visible": true,
+          "Divider.visible": true
+        },
+        "explanation": "Divider появляется вместе с контекстным Control."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-divider-without-control",
+        "title": "Divider без Control",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Control.visible": false,
+          "Divider.visible": true
+        },
+        "explanation": "Divider не используется без Control."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-generic-action-bar",
+        "title": "TopBar без представления данных",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "dataView": null
+        },
+        "explanation": "TopBar нельзя использовать как универсальную панель действий без таблицы, списка или карточек."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-renamed-settings",
+        "title": "Переименованная служебная кнопка",
+        "classification": "invalid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Settings.label": "Параметры"
+        },
+        "explanation": "Служебная подпись «Настройки» не меняется."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-topbar-filtered-skeleton",
+        "title": "Загрузка отфильтрованных данных",
+        "classification": "valid",
+        "component": "[D] TopBar",
+        "configuration": {
+          "Filtered": "true",
+          "Skeleton": "true",
+          "interactionAllowed": false
+        },
+        "explanation": "После завершения загрузки TopBar возвращается к состоянию Filtered=true."
+      }
+    ]
+  }
+}

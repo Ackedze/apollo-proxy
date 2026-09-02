@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- PaymentControl [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "PaymentControl [M]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "PaymentControl [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[M] PaymentControl",
+        "key": "bd58cd9ec1fa8169e6c334c1ee9e4a974eefa86d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "State": [
+            "Active",
+            "ActiveFilled",
+            "DisabledEmpty",
+            "DisabledFilled",
+            "Empty",
+            "ErrorFilled",
+            "Filled"
+          ]
+        }
+      },
+      {
+        "name": "[M] Amount",
+        "key": "d04a931ce171beecabb1be7b18cd34506bc2981d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] Hint",
+        "key": "d27233755497bc8580b3a12812a83700c33a4e37",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "PaymentControl [M]",
+      "library": "Web _ Corp Components",
+      "purpose": "Мобильный контрол ввода суммы для платёжных и переводных сценариев. Он фиксируется внизу viewport и при фокусе располагается над системной цифровой клавиатурой."
+    },
+    "platforms": [
+      "mobile-web"
+    ],
+    "publicRoot": {
+      "name": "[M] PaymentControl",
+      "key": "bd58cd9ec1fa8169e6c334c1ee9e4a974eefa86d"
+    },
+    "requiredInternalComponents": [
+      {
+        "name": "[M] Amount",
+        "key": "d04a931ce171beecabb1be7b18cd34506bc2981d",
+        "standaloneUse": "forbidden"
+      },
+      {
+        "name": "[M] Hint",
+        "key": "d27233755497bc8580b3a12812a83700c33a4e37",
+        "standaloneUse": "forbidden"
+      }
+    ],
+    "instructions": [
+      "Используй только актуальный [M] PaymentControl. Deprecated-компонент ❌ PaymentControl запрещён.",
+      "Не используй старые экземпляры ❌ PaymentControl в Figma-разделах Anatomy и Properties как источник контракта: это ошибка документации. Ориентируйся на live-примеры и текущий component set.",
+      "Закрепляй контрол внизу viewport на всю ширину; он не должен скроллиться вместе с контентом.",
+      "При фокусе размещай контрол непосредственно над системной цифровой клавиатурой.",
+      "Не скрывай и не удаляй [M] Amount или [M] Hint и не используй их отдельно.",
+      "Состояния переключаются автоматически: Empty, Active, ActiveFilled, Filled, DisabledEmpty, DisabledFilled, ErrorFilled.",
+      "В ErrorFilled сохраняй фокус и открытую клавиатуру; после исправления значения переходи в ActiveFilled.",
+      "Действие продолжения показывай только в ActiveFilled и Filled. Не меняй параметры Button или action IconView.",
+      "Amount наследует Core Amount: валюту, minor и addon разрешено настраивать по продуктовому сценарию.",
+      "Hint и error-текст занимают одну строку с ellipsis; текст Hint не кликабелен.",
+      "Инфоиконка опциональна и имеет отдельную hit area. По нажатию открывай [M] BottomSheet по модели мобильного Tooltip.",
+      "В ErrorFilled инфоиконка скрыта по умолчанию, но допустима, если ошибке нужна расширенная расшифровка.",
+      "Не добавляй Loading, Skeleton или Success и не переопределяй фон, типографику, цвета, отступы, размеры, позицию или внутреннюю геометрию."
+    ],
+    "stateTransitions": {
+      "focus-empty": "Active",
+      "focus-filled": "ActiveFilled",
+      "blur-filled": "Filled",
+      "disable-empty": "DisabledEmpty",
+      "disable-filled": "DisabledFilled",
+      "invalid-filled": "ErrorFilled",
+      "correct-invalid-value-while-focused": "ActiveFilled"
+    },
+    "redpolicy": {
+      "pattern": "ptrn:controls.input-fields",
+      "rules": [
+        "rule:controls.input-fields.human-error-message",
+        "rule:controls.input-fields.concrete-format-constraints"
+      ]
+    },
+    "documentationEvidence": {
+      "staleSections": [
+        "Anatomy",
+        "Properties"
+      ],
+      "staleComponent": "❌ PaymentControl",
+      "normative": false,
+      "currentComponent": "[M] PaymentControl"
+    },
+    "codeExports": {
+      "implementationStatus": "exists-unverified",
+      "package": null,
+      "exports": [],
+      "codeConnect": "not-configured"
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния. Разрешены только настройки Core Amount и видимость инфоиконки по подтверждённым правилам; остальные визуальные и layout-отклонения являются error."
+    }
+  }
+}

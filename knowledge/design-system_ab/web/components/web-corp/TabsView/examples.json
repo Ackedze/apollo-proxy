@@ -1,0 +1,443 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.tabs-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "tabs-view.wrapper-owned-spacing",
+        "title": "Штатный отступ TabsView не является кастомизацией",
+        "inputChange": {
+          "node": "TabsPrimary / Items",
+          "property": "layout.itemSpacing",
+          "standaloneReferenceValue": 24,
+          "tabsViewEffectiveValue": 32,
+          "actualValue": 32
+        },
+        "expectedAudit": {
+          "category": "none",
+          "suppressReason": "Фактическое значение совпадает с effective baseline TabsView."
+        }
+      },
+      {
+        "exampleId": "tabs-view.manual-spacing-change",
+        "title": "Ручное изменение отступа сравнивается с effective baseline",
+        "inputChange": {
+          "node": "TabsPrimary / Items",
+          "property": "layout.itemSpacing",
+          "standaloneReferenceValue": 24,
+          "tabsViewEffectiveValue": 32,
+          "actualValue": 40
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "wrapper-owned-layer-property",
+          "showAs": "Отступ между элементами: 32 → 40"
+        }
+      },
+      {
+        "exampleId": "tabs-view.wrapper-owned-label-style",
+        "title": "Штатный стиль Label не является кастомизацией",
+        "inputChange": {
+          "node": "TabsPrimary / Items / TabPrimary / Content / Label",
+          "property": "styles.text",
+          "standaloneReferenceValue": "Paragraph/18–24 Primary Large",
+          "tabsViewEffectiveValue": "Action/18–24 Primary Large",
+          "actualValue": "Action/18–24 Primary Large"
+        },
+        "expectedAudit": {
+          "category": "none",
+          "suppressReason": "Фактическое значение совпадает с effective baseline TabsView."
+        }
+      },
+      {
+        "exampleId": "tabs-view.manual-label-style-change",
+        "title": "Ручное изменение стиля Label сравнивается с effective baseline",
+        "inputChange": {
+          "node": "TabsPrimary / Items / TabPrimary / Content / Label",
+          "property": "styles.text",
+          "standaloneReferenceValue": "Paragraph/18–24 Primary Large",
+          "tabsViewEffectiveValue": "Action/18–24 Primary Large",
+          "actualValue": "Action/11–16 Secondary Small"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "wrapper-owned-layer-property",
+          "showAs": "Стиль текст: Action/18–24 Primary Large → Action/11–16 Secondary Small"
+        }
+      },
+      {
+        "exampleId": "tabs-view.configurable-tab-collection",
+        "title": "Добавление и изменение порядка табов разрешено",
+        "inputState": {
+          "visiblePrimaryTabs": 4,
+          "visibleSecondaryTabs": 3,
+          "tabsReordered": true
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "На каждом показанном уровне осталось минимум два видимых таба."
+        }
+      },
+      {
+        "exampleId": "tabs-view.secondary-context-per-primary",
+        "title": "Набор Secondary зависит от выбранного Primary",
+        "inputState": {
+          "firstPrimarySecondaryTabs": 3,
+          "secondPrimarySecondaryTabs": 0
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Для отдельных Primary второй уровень может отсутствовать."
+        }
+      },
+      {
+        "exampleId": "tabs-view.invalid-secondary-properties",
+        "title": "Изменение обязательных параметров Secondary запрещено",
+        "inputChange": {
+          "node": "[D] TabsSecondary",
+          "properties": {
+            "Size": {
+              "expected": "40",
+              "actual": "32"
+            },
+            "View": {
+              "expected": "Filled",
+              "actual": "Outlined"
+            }
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.secondary-fixed-properties"
+        }
+      },
+      {
+        "exampleId": "tabs-view.allowed-secondary-properties",
+        "title": "Indicator можно менять",
+        "inputChange": {
+          "node": "[D] TabsSecondary",
+          "properties": {
+            "Indicator": "Digit"
+          }
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Indicator — разрешённый штатный параметр Secondary."
+        }
+      },
+      {
+        "exampleId": "tabs-view.manual-visual-override",
+        "title": "Ручное изменение визуального свойства запрещено",
+        "inputChange": {
+          "node": "TabsPrimary / Items",
+          "property": "layout.itemSpacing",
+          "effectiveValue": 32,
+          "actualValue": 40
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.manual-visual-overrides-forbidden",
+          "showAs": "Отступ между элементами: 32 → 40"
+        }
+      },
+      {
+        "exampleId": "tabs-view.mobile-slider",
+        "title": "Slider запрещён на Mobile Web",
+        "inputState": {
+          "platform": "mobile-web",
+          "sliderVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.platform-overflow-behavior",
+          "recommendation": "Скрыть Slider и использовать горизонтальный свайп."
+        }
+      },
+      {
+        "exampleId": "tabs-view.secondary-single-icon",
+        "title": "SingleIcon запрещён у Secondary",
+        "inputChange": {
+          "node": "[D] TabsSecondary",
+          "property": "variant.SingleIcon",
+          "expectedValue": "False",
+          "actualValue": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.secondary-single-icon-forbidden"
+        }
+      },
+      {
+        "exampleId": "tabs-view.active-disabled",
+        "title": "Активный таб не может быть Disabled",
+        "inputState": {
+          "ActiveState": "True",
+          "DisabledState": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.active-tab-cannot-be-disabled"
+        }
+      },
+      {
+        "exampleId": "tabs-view.duplicate-labels",
+        "title": "Названия табов одного уровня должны быть уникальны",
+        "inputState": {
+          "level": "Primary",
+          "labels": [
+            "Главная",
+            "Главная"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.labels-are-unique-within-level"
+        }
+      },
+      {
+        "exampleId": "tabs-view.long-label",
+        "title": "Label длиннее 10 символов запрещён",
+        "inputChange": {
+          "node": "TabsPrimary / Items / TabPrimary / Content / Label",
+          "property": "characters",
+          "actualValue": "Документооборот"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.label-maximum-ten-characters",
+          "recommendation": "Сократить Label до 10 символов; при необходимости увеличить ширину таба."
+        }
+      },
+      {
+        "exampleId": "tabs-view.minimum-enabled-active-tab",
+        "title": "На уровне остаётся доступный активный таб",
+        "inputState": {
+          "visibleTabs": 2,
+          "disabledTabs": 1,
+          "enabledActiveTabs": 1
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Disabled-таб учитывается в минимуме, один доступный таб остаётся активным."
+        }
+      },
+      {
+        "exampleId": "tabs-view.addon-on-inactive-primary",
+        "title": "Addon запрещён у неактивного Primary",
+        "inputState": {
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "addonVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.primary-addon-active-only"
+        }
+      },
+      {
+        "exampleId": "tabs-view.indicator-digit-maximum",
+        "title": "Счётчик Indicator ограничен значением 99+",
+        "inputState": {
+          "Indicator": "Digit",
+          "counterValue": "105"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.indicator-digit-maximum",
+          "recommendation": "Показывать 99+."
+        }
+      },
+      {
+        "exampleId": "tabs-view.fixed-external-spacing",
+        "title": "Отступ между Secondary и контентом фиксирован",
+        "inputChange": {
+          "property": "layout.itemSpacing",
+          "context": "last visible tab level to content",
+          "expectedValue": 24,
+          "actualValue": 32
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.fixed-external-spacing",
+          "showAs": "Отступ между элементами: 24 → 32"
+        }
+      },
+      {
+        "exampleId": "tabs-view.adaptive-parity",
+        "title": "Desktop и Mobile Web используют одинаковый набор табов",
+        "inputState": {
+          "desktopLabels": [
+            "Счета",
+            "Карты"
+          ],
+          "mobileWebLabels": [
+            "Счета",
+            "Карты"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Названия, порядок и количество табов совпадают."
+        }
+      },
+      {
+        "exampleId": "tabs-view.first-enabled-secondary",
+        "title": "При выборе Primary активируется первый доступный Secondary",
+        "inputState": {
+          "selectedPrimary": "Карты",
+          "secondaryTabs": [
+            {
+              "label": "Все",
+              "disabled": true
+            },
+            {
+              "label": "Активные",
+              "disabled": false
+            }
+          ]
+        },
+        "expectedState": {
+          "activeSecondary": "Активные"
+        }
+      },
+      {
+        "exampleId": "tabs-view.inactive-tab-loading",
+        "title": "Неактивный таб может загружаться",
+        "inputState": {
+          "activeTab": "Счета",
+          "loadingTab": "Карты"
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Индивидуальная загрузка разрешена для любого таба."
+        }
+      },
+      {
+        "exampleId": "tabs-view.active-tab-loading-navigation",
+        "title": "Активный загружающийся таб не блокирует навигацию",
+        "inputState": {
+          "activeTab": "Счета",
+          "loadingTab": "Счета",
+          "otherTabsInteractive": true
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Активный таб остаётся выбранным, другие табы доступны."
+        }
+      },
+      {
+        "exampleId": "tabs-view.root-common-skeleton",
+        "title": "Корневой Skeleton заменяет TabsView общим skeleton",
+        "inputState": {
+          "Skeleton": "True"
+        },
+        "expectedState": {
+          "presentation": "single common skeleton",
+          "preserveTabGeometry": false
+        }
+      },
+      {
+        "exampleId": "tabs-view.active-repeat-click",
+        "title": "Повторное нажатие на активный таб ничего не делает",
+        "inputState": {
+          "activeTabClicked": true
+        },
+        "expectedState": {
+          "action": "no-op",
+          "contentReloaded": false
+        }
+      },
+      {
+        "exampleId": "tabs-view.third-level",
+        "title": "Третий уровень табов запрещён",
+        "inputState": {
+          "levels": [
+            "Primary",
+            "Secondary",
+            "Tertiary"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.maximum-two-levels"
+        }
+      },
+      {
+        "exampleId": "tabs-view.content-follows-secondary",
+        "title": "Контент соответствует активному Secondary",
+        "inputState": {
+          "activePrimary": "Карты",
+          "activeSecondary": "Активные",
+          "visibleContent": "Активные карты"
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Контент связан с активным Secondary."
+        }
+      },
+      {
+        "exampleId": "tabs-view.unavailable-hidden",
+        "title": "Недоступный таб нельзя скрывать",
+        "inputState": {
+          "tabUnavailableBecause": "permissions",
+          "tabVisible": false,
+          "DisabledState": "False"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.tabs-view.unavailable-tabs-are-disabled",
+          "recommendation": "Показать таб в состоянии Disabled."
+        }
+      },
+      {
+        "exampleId": "tabs-view.url-navigation",
+        "title": "Таб может вести на другую страницу",
+        "inputState": {
+          "interaction": "navigate-to-page-or-url"
+        },
+        "expectedAudit": {
+          "category": "none",
+          "reason": "Навигация по URL является разрешённым режимом TabsView."
+        }
+      }
+    ]
+  }
+}

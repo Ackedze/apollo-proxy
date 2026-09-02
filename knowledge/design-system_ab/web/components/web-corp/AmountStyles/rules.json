@@ -1,0 +1,1786 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.amount-styles",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-30"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1,
+    "executablePackageRevision": 5,
+    "executablePackageUpdatedAt": "2026-08-30"
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.amount-styles.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "[D] AmountHeadline",
+            "[M] AmountHeadline",
+            "🔒 [D] AmountHeadline",
+            "🔒 [M] AmountHeadline",
+            "🔒 AmountParagraph",
+            "AmountParagraph",
+            "AmountStyles",
+            "Operation"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "[D] AmountHeadline",
+            "[M] AmountHeadline",
+            "🔒 [D] AmountHeadline",
+            "🔒 [M] AmountHeadline",
+            "🔒 AmountParagraph",
+            "AmountParagraph",
+            "AmountStyles",
+            "Operation"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.amount-styles.locked-components-are-figma-only-presets",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.identity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "🔒 [D] AmountHeadline",
+            "🔒 [M] AmountHeadline",
+            "🔒 AmountParagraph"
+          ]
+        },
+        "ruleText": "Компоненты с префиксом 🔒 являются Figma-only presets: дизайнер может использовать их в Figma, но прямых code exports для них нет."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.operation-is-internal",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.usage",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Operation"
+        },
+        "ruleText": "Operation является внутренней служебной частью AmountHeadline и AmountParagraph. Использовать Operation отдельно запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.amount-styles"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.family"
+          },
+          "allowedValues": [
+            "amount-headline",
+            "amount-paragraph"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебный компонент AmountStyles используется отдельно",
+            "observed": "Компонент {{actual}} размещён как самостоятельный корень.",
+            "expectation": "Самостоятельно допускаются только публичные корни AmountStyles.",
+            "action": "Заменить служебный компонент на публичный библиотечный корень."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.parts-default-visibility",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minor",
+            "Currency",
+            "Addon"
+          ]
+        },
+        "ruleText": "По умолчанию Minor и Currency включены, а Operation и Addon выключены. Эти опциональные части разрешено включать и скрывать штатными properties компонента."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.major-is-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.major-required",
+        "appliesTo": "component.structure",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Major"
+          ]
+        },
+        "ruleText": "Major является обязательной частью AmountHeadline и AmountParagraph. Текст Major можно менять, но удалять или скрывать эту часть нельзя.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "query-count",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "INSTANCE" } },
+              { "predicate": "equals", "actual": { "fact": "component.identity" }, "expected": { "literal": "web-corp.amount-styles" } },
+              { "predicate": "one-of", "actual": { "fact": "component.family" }, "expected": { "literal": ["amount-headline", "amount-paragraph"] } },
+              { "predicate": "equals", "actual": { "fact": "ownership.contour.isRoot" }, "expected": { "literal": true } }
+            ]
+          },
+          "query": {
+            "from": "subject",
+            "traverse": "descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+              { "predicate": "equals", "actual": { "fact": "name" }, "expected": { "literal": "Major" } },
+              { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } },
+              { "predicate": "compare", "actual": { "fact": "text.length" }, "expected": { "literal": 0 }, "operator": "gt" }
+            ]
+          },
+          "lower": 1,
+          "upper": 1,
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В AmountStyles отсутствует обязательная целая часть",
+            "observed": "Найдено видимых непустых частей Major: {{actual}}.",
+            "expectation": "AmountHeadline и AmountParagraph должны содержать одну видимую непустую часть Major.",
+            "action": "Показать Major и задать целую часть суммы."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.math-space-is-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.math-space",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Major"
+          ]
+        },
+        "ruleText": "Разряды в Major разделяются математическим пробелом. Обычный пробел для разделения разрядов не используется.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.math-minus-is-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.math-minus",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Operation",
+          "layers": [
+            "Minus"
+          ]
+        },
+        "ruleText": "Для отрицательной операции используется математический минус. Дефис и текстовые тире вместо него запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+              { "predicate": "equals", "actual": { "fact": "name" }, "expected": { "literal": "Minus" } },
+              { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } },
+              { "predicate": "equals", "actual": { "fact": "ownership.owner.component.identity" }, "expected": { "literal": "web-corp.amount-styles" } },
+              { "predicate": "equals", "actual": { "fact": "ownership.owner.component.family" }, "expected": { "literal": "operation" } }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": { "fact": "text.characters" },
+            "expected": { "literal": "−" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В AmountStyles используется неверный знак минуса",
+            "observed": "Вместо математического минуса U+2212 используется «{{actual}}».",
+            "expectation": "Отрицательная операция должна использовать математический минус «−» (U+2212).",
+            "action": "Вернуть текст Minus к значению «−».",
+            "targetFact": "text.characters"
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.addon-uses-supported-components",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.slot.Addon",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Addon"
+          ]
+        },
+        "ruleText": "В Addon разрешено размещать IconView или StatusBadge. Параметры Addon определяются штатными настройками выбранного вложенного компонента."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.addon-does-not-exceed-text-line-height",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.size",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Addon",
+            "IconView",
+            "StatusBadge"
+          ]
+        },
+        "ruleText": "Размер IconView или StatusBadge в Addon не должен превышать line-height текстовой части Amount.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.parts-share-color",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "fill|fills",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minus",
+            "Major",
+            "Minor",
+            "Currency"
+          ]
+        },
+        "sharedValueConstraint": {
+          "strategy": "all-visible-targets-equal",
+          "groupByPathBranches": [
+            "Operation",
+            "Amount"
+          ]
+        },
+        "ruleText": "Operation, Major, Minor и Currency внутри одного Amount должны использовать один цветовой токен. Ручная перекраска только одной текстовой части запрещена. Addon сохраняет собственные контекстные цвета и в это правило не входит.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "INSTANCE" } },
+              { "predicate": "equals", "actual": { "fact": "component.identity" }, "expected": { "literal": "web-corp.amount-styles" } },
+              { "predicate": "one-of", "actual": { "fact": "component.family" }, "expected": { "literal": ["amount-headline", "amount-paragraph"] } },
+              { "predicate": "equals", "actual": { "fact": "ownership.contour.isRoot" }, "expected": { "literal": true } }
+            ]
+          },
+          "assert": {
+            "predicate": "all",
+            "args": [
+              {
+                "predicate": "count-between",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+                      { "predicate": "one-of", "actual": { "fact": "name" }, "expected": { "literal": ["Minus", "Major", "Minor", "Currency"] } },
+                      { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } }
+                    ]
+                  }
+                },
+                "lower": { "literal": 1 },
+                "upper": { "literal": 4 }
+              },
+              {
+                "predicate": "all-equal",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+                      { "predicate": "one-of", "actual": { "fact": "name" }, "expected": { "literal": ["Minus", "Major", "Minor", "Currency"] } },
+                      { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } }
+                    ],
+                    "project": { "fact": "appearance.fill.value" }
+                  }
+                }
+              },
+              {
+                "predicate": "every",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+                      { "predicate": "one-of", "actual": { "fact": "name" }, "expected": { "literal": ["Minus", "Major", "Minor", "Currency"] } },
+                      { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } }
+                    ],
+                    "project": { "fact": "bindings.fills.bound" }
+                  }
+                },
+                "expected": { "literal": [true] }
+              },
+              {
+                "predicate": "all-equal",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+                      { "predicate": "one-of", "actual": { "fact": "name" }, "expected": { "literal": ["Minus", "Major", "Minor", "Currency"] } },
+                      { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } }
+                    ],
+                    "project": { "fact": "bindings.fills.token" }
+                  }
+                }
+              }
+            ]
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Части AmountStyles используют разные цвета",
+            "observed": "У видимых частей Minus, Major, Minor и Currency различаются цвет или token binding.",
+            "expectation": "Все видимые текстовые части одной суммы должны использовать один общий цветовой токен.",
+            "action": "Привязать Minus, Major, Minor и Currency к одному допустимому цветовому токену."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.addon-keeps-own-contextual-colors",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "fill|fills",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Addon",
+            "IconView",
+            "StatusBadge"
+          ]
+        },
+        "ruleText": "IconView и StatusBadge в Addon сохраняют собственные контекстные цвета. Они не обязаны совпадать с цветом Operation, Major, Minor и Currency."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.positive-color-context",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.positive-color-context",
+        "appliesTo": "fill|fills",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "actualToken": "text/positive"
+        },
+        "ruleText": "Цвет text/positive разрешён только для пополнений в таблицах и табличных списках. В остальных сценариях используй цветовой токен, разрешённый точным контекстным правилом; не назначай text/positive только из-за положительного значения.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.contextual-color-token-is-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "fill|fills",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Все части Amount разрешено вручную перекрасить в один общий цветовой токен, выбранный по контексту. Не объявляй токен нарушением без точного применимого правила; отдельно проверяй ограничения text/positive и отрицательных операций."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.opacity-is-forbidden",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.no-opacity",
+        "ruleKind": "design-rule",
+        "appliesTo": "opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Minor",
+            "Currency"
+          ]
+        },
+        "ruleText": "Прямое изменение opacity слоя у Minor и Currency запрещено во всех вариантах AmountHeadline и AmountParagraph.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.amount-styles"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.amount-styles"
+                    }
+                  }
+                ]
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Minor",
+                    "Currency"
+                  ]
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство AmountStyles: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline AmountStyles.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.opacity-property-is-forbidden",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.no-opacity",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Minor",
+            "Currency"
+          ]
+        },
+        "remediation": {
+          "kind": "set-variant-properties",
+          "target": "$failingTarget",
+          "properties": {
+            "Opacity": "False"
+          }
+        },
+        "ruleText": "Включать component property Opacity у Minor и Currency запрещено во всех вариантах AmountHeadline и AmountParagraph. Штатное значение — Opacity=False.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "INSTANCE" } },
+              { "predicate": "equals", "actual": { "fact": "component.identity" }, "expected": { "literal": "web-core.amount" } },
+              { "predicate": "one-of", "actual": { "fact": "component.family" }, "expected": { "literal": ["minor", "currency"] } },
+              { "predicate": "equals", "actual": { "fact": "ownership.contour.host.component.identity" }, "expected": { "literal": "web-corp.amount-styles" } }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": { "fact": "component.properties.Opacity" },
+            "expected": { "literal": "False" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Включена запрещённая прозрачность части AmountStyles",
+            "observed": "У компонента «{{targetName}}» свойство Opacity имеет значение {{actual}}.",
+            "expectation": "У Minor и Currency внутри AmountStyles свойство Opacity должно иметь значение False.",
+            "action": "Установить свойство Opacity=False.",
+            "targetFact": "component.properties.Opacity"
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.style-is-context-controlled",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Style",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "🔒 [D] AmountHeadline",
+            "🔒 [M] AmountHeadline",
+            "🔒 AmountParagraph"
+          ]
+        },
+        "ruleText": "Дизайнер свободно выбирает любой штатный Style соответствующего preset по контексту и платформе. Accent в AmountParagraph разрешён и вне таблиц."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.style-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Style",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "AmountParagraph",
+            "🔒 AmountParagraph",
+            "AmountHeadline",
+            "🔒 [D] AmountHeadline",
+            "🔒 [M] AmountHeadline"
+          ]
+        },
+        "ruleText": "Изменения AmountParagraph или AmountHeadline Style являются component property changes и должны показываться отдельно от производных text layer customizations."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.geometry-follows-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Major",
+            "Minor",
+            "Currency",
+            "Addon"
+          ]
+        },
+        "ruleText": "Direction, item spacing, alignment и размеры внутренних частей AmountHeadline и AmountParagraph должны полностью соответствовать effective baseline текущего Style. Ручные изменения геометрии запрещены.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.amount-styles"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.amount-styles"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между элементами",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            },
+            {
+              "suffix": "sizing-horizontal",
+              "label": "Горизонтальный sizing",
+              "actualFact": "layout.sizingHorizontal",
+              "baselineFact": "baseline.effective.layout.sizingHorizontal"
+            },
+            {
+              "suffix": "sizing-vertical",
+              "label": "Вертикальный sizing",
+              "actualFact": "layout.sizingVertical",
+              "baselineFact": "baseline.effective.layout.sizingVertical"
+            },
+          {
+            "suffix": "height",
+            "label": "Высота",
+            "actualFact": "height",
+            "baselineFact": "baseline.effective.height"
+          },
+          {
+            "suffix": "wrap",
+            "label": "Перенос строки",
+            "actualFact": "layout.wrap",
+            "baselineFact": "baseline.effective.layout.wrap"
+          }
+        ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство AmountStyles: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline AmountStyles.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.currency-type-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Type|text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Currency"
+        },
+        "ruleText": "Для Currency разрешено выбирать любой штатный Type. Type=Custom используется только для кода валюты или символа, отсутствующего среди штатных Type."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.negative-uses-primary",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.negative-primary",
+        "appliesTo": "fill|fills",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "operation": "negative"
+        },
+        "ruleText": "Для списаний используется text/primary. Красный и другие статусные цвета отрицательной суммы запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.table-align-right",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.table-align-right",
+        "appliesTo": "layout.alignment",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "table"
+        },
+        "ruleText": "Amount в таблице выравнивается по правому краю.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.table-weight-follows-role",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.table-weight",
+        "appliesTo": "variant.Style",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "table"
+        },
+        "ruleText": "В таблице основная сумма использует Medium, а второстепенная сумма — Regular."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.table-currency-not-duplicated",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.table-currency-not-duplicated",
+        "appliesTo": "component.visibility.Currency",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "table",
+          "currencyInColumnHeader": true
+        },
+        "ruleText": "Если единая валюта указана в заголовке колонки таблицы, Currency в значениях этой колонки не дублируется.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.table-bulk-actions-neutral",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.table-bulk-actions",
+        "appliesTo": "component.visibility.Operation|fill|fills",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "TableBulkActions"
+        },
+        "ruleText": "В TableBulkActions знак операции не используется, а сумма отображается нейтральным цветом без text/positive.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.steps-use-regular",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.steps-regular",
+        "appliesTo": "variant.Style",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "steps"
+        },
+        "ruleText": "В steps рекомендуется использовать Regular style. Другой штатный Style требует осознанного контекстного решения, но сам по себе не является нарушением."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.side-panel-matches-source",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.side-panel-match-source",
+        "appliesTo": "component.format",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "container": "side-panel"
+        },
+        "ruleText": "В сайд-панели формат Amount повторяет формат соответствующего значения на исходной странице.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.platform-preset-matches-channel",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "🔒 [D] AmountHeadline используется только на desktop, 🔒 [M] AmountHeadline — только на mobile-web. 🔒 AmountParagraph допускается на desktop и mobile-web.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "platform-match",
+          "identity": "web-corp.amount-styles",
+          "publicRootOnly": true,
+          "publicFamilies": [
+            "amount-headline",
+            "amount-paragraph"
+          ],
+          "standaloneOnly": true,
+          "supportedPlatforms": [
+            "desktop",
+            "mobile-web"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "AmountStyles используется не на своей платформе",
+            "observed": "Для страницы выбран канал {{actual}}, а preset AmountStyles относится к {{expected}}.",
+            "expectation": "Платформа preset AmountStyles должна совпадать с выбранным каналом страницы.",
+            "action": "Заменить preset на платформенный аналог AmountStyles или выбрать корректный канал страницы."
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.amount-stays-on-one-line",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.wrapping|layout.wrap",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Amount всегда отображается в одну строку. Перенос частей суммы на следующую строку запрещён. Контейнер должен обеспечить достаточную ширину; при её недостатке Amount клипуется контейнером.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.has-no-own-system-states",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "У AmountStyles нет собственных loading, skeleton, disabled или error states. Правила skeleton будут определены отдельным pattern; до его появления не придумывай поведение Amount при skeleton родителя."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.clickability-is-context-controlled",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "interaction.click",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Amount может быть кликабельным, если это требуется контекстом сценария. Сам факт кликабельности не является нарушением; hover-состояния будут определены позднее."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.manual-interactive-decoration-is-forbidden",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "styles.textDecoration|layer.background|effects",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "clickable": true,
+          "manualInteractiveDecoration": true
+        },
+        "ruleText": "Для обозначения кликабельности запрещено вручную добавлять Amount подчёркивание, фон или другие визуальные эффекты. Hover-состояния будут определены отдельным правилом позднее.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.amount-input-uses-core-amount",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.usage",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountInput"
+        },
+        "ruleText": "Внутри AmountInput используется Amount из Web Core. Не применяй к нему контракт Figma-only presets семейства Web Corp AmountStyles и не трактуй его как вложенный AmountParagraph или AmountHeadline."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.optional-parts-can-coexist",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minor",
+            "Currency",
+            "Addon"
+          ]
+        },
+        "ruleText": "Operation, Minor, Currency и Addon являются совместимыми опциональными частями и могут быть включены одновременно."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.container-provides-single-line-width",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Контейнер должен обеспечивать ширину для однострочного Amount. Если ширины недостаточно, контейнер клипует Amount; перенос, ellipsis, fade и ручное сокращение значения не применяются."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.addon-action-matches-amount",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "interaction.action",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Addon",
+            "IconView",
+            "StatusBadge"
+          ]
+        },
+        "conditions": {
+          "amountClickable": true,
+          "addonInteractive": true
+        },
+        "ruleText": "Кликабельный Amount может содержать интерактивный IconView или StatusBadge в Addon, но действие Amount и Addon должно совпадать.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.minor-has-one-or-two-digits",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.content.Minor",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Minor"
+          ]
+        },
+        "ruleText": "Minor содержит один или два знака после запятой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+              { "predicate": "equals", "actual": { "fact": "name" }, "expected": { "literal": "Minor" } },
+              { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } },
+              { "predicate": "equals", "actual": { "fact": "ownership.owner.component.identity" }, "expected": { "literal": "web-core.amount" } }
+            ]
+          },
+          "assert": {
+            "predicate": "matches",
+            "actual": { "fact": "text.characters" },
+            "expected": { "literal": "^,[0-9]{1,2}$" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Некорректная дробная часть AmountStyles",
+            "observed": "Minor содержит «{{actual}}».",
+            "expectation": "Minor должен содержать запятую и один или два знака после неё.",
+            "action": "Исправить Minor, например на «,0» или «,00».",
+            "targetFact": "text.characters"
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.zero-format",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "value": 0
+        },
+        "ruleText": "Нулевое значение отображается как Major=0 или как Major=0 и Minor=00.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.unknown-value-uses-separate-placeholder",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.usage",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "value": "unknown"
+        },
+        "ruleText": "Для неизвестного значения Amount не используется. Вместо него отдельным текстовым элементом выводится длинное тире —.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.ru-format",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "conditions": {
+          "locale": "ru-RU"
+        },
+        "ruleText": "Для ru-RU используется запятая как десятичный разделитель, математический пробел между разрядами и математический минус перед отрицательным числом. Скобочная запись отрицательной суммы запрещена.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.round-to-two-minor-digits",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.round-to-two-minor-digits",
+        "appliesTo": "text.content.Minor",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Minor"
+          ]
+        },
+        "conditions": {
+          "sourceFractionDigitsGreaterThan": 2
+        },
+        "ruleText": "Если исходное значение содержит больше двух знаков после запятой, его округляют до двух знаков перед отображением в Amount.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.fixed-part-order",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.fixed-part-order",
+        "appliesTo": "component.composition.order",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Порядок частей Amount фиксирован: Operation, Major, Minor, Currency, Addon. Переставлять части вручную запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.monetary-values-only",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.monetary-values-only",
+        "appliesTo": "component.usage",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles"
+        },
+        "ruleText": "Amount используется для денежных сумм и балансов. Баллы поддерживаются компонентом, но регулируются отдельным паттерном. Проценты и произвольные числовые величины с единицами не относятся к этому контракту.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.major-max-13-digits",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.major-max-13-digits",
+        "appliesTo": "text.content.Major",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Major"
+          ]
+        },
+        "conditions": {
+          "maxCharactersExcludingGroupSeparators": 13
+        },
+        "ruleText": "Major содержит не более 13 символов без учёта математических пробелов между разрядами.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+              { "predicate": "equals", "actual": { "fact": "name" }, "expected": { "literal": "Major" } },
+              { "predicate": "equals", "actual": { "fact": "visible" }, "expected": { "literal": true } },
+              { "predicate": "equals", "actual": { "fact": "ownership.owner.component.identity" }, "expected": { "literal": "web-core.amount" } }
+            ]
+          },
+          "assert": {
+            "predicate": "matches",
+            "actual": { "fact": "text.characters" },
+            "expected": { "literal": "^(?!(?:\\D*\\d){14})[\\s\\S]*$" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В Major больше 13 цифр",
+            "observed": "Целая часть содержит больше 13 цифр: «{{actual}}».",
+            "expectation": "Major должен содержать не более 13 цифр без учёта разделителей разрядов.",
+            "action": "Сократить отображаемое значение или пересмотреть сценарий представления суммы.",
+            "targetFact": "text.characters"
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.operation-negative-is-part-property",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.operation-negative",
+        "appliesTo": "variant.Negative",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation"
+          ]
+        },
+        "ruleText": "Operation Negative=True показывает математический минус, Negative=False показывает плюс. Полное отсутствие знака задаётся скрытием Operation штатным property, а не ручным удалением или заменой текста."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.parts-share-text-style",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.same-text-style-for-parts",
+        "ruleKind": "design-rule",
+        "appliesTo": "styles.text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minus",
+            "Major",
+            "Minor",
+            "Currency"
+          ]
+        },
+        "ruleText": "Operation, Major, Minor и Currency внутри одного AmountStyles instance должны использовать один и тот же text style. Minus является leaf layer внутри Operation и наследует тот же style contract.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.manual-operation-sign-fill-is-layer-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "fill|fills",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minus"
+          ]
+        },
+        "ruleText": "Ручные изменения fill на Operation / Minus являются layer customizations знака операции суммы. Они разрешены как часть перекраски всего Amount в один контекстный токен. Сохраняй точный Minus leaf layer для reset, но описывай semantic owner как AmountParagraph / Operation."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.manual-amount-text-fill-is-layer-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "fill|fills",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Major",
+            "Minor",
+            "Currency"
+          ]
+        },
+        "ruleText": "Ручные изменения fill на Major, Minor или Currency являются layer customizations текста суммы. Они разрешены, если все части Amount перекрашены в один контекстный токен и точное правило не запрещает этот токен. Сохраняй точный leaf layer для reset, но группируй объяснение под AmountParagraph / Amount."
+      },
+      {
+        "ruleId": "component:web-corp.amount-styles.manual-text-style-is-layer-property",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.amount.same-text-style-for-parts",
+        "appliesTo": "styles.text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "AmountStyles",
+          "layers": [
+            "Operation",
+            "Minus",
+            "Major",
+            "Minor",
+            "Currency"
+          ]
+        },
+        "ruleText": "Ручное изменение text style на Operation, Minus, Major, Minor или Currency запрещено. Стиль всей суммы выбирается только штатным component property Style; Apollo должен сохранять точный leaf target для независимого reset и не схлопывать нарушение в Style variant change.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              { "predicate": "equals", "actual": { "fact": "type" }, "expected": { "literal": "TEXT" } },
+              { "predicate": "one-of", "actual": { "fact": "name" }, "expected": { "literal": ["Minus", "Major", "Minor", "Currency"] } },
+              { "predicate": "one-of", "actual": { "fact": "ownership.owner.component.identity" }, "expected": { "literal": ["web-corp.amount-styles", "web-core.amount"] } }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Вручную изменена типографика AmountStyles",
+            "observed": "Текстовый стиль слоя «{{targetName}}» изменён с {{expected}} на {{actual}}.",
+            "expectation": "Типографика всех частей суммы должна определяться component property Style и effective baseline.",
+            "action": "Сбросить текстовый стиль слоя «{{targetName}}» к effective baseline."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.amount-styles"
+      ],
+      "predicateRules": [
+        "component:web-corp.amount-styles.operation-is-internal",
+        "component:web-corp.amount-styles.major-is-required",
+        "component:web-corp.amount-styles.math-minus-is-required",
+        "component:web-corp.amount-styles.parts-share-color",
+        "component:web-corp.amount-styles.opacity-is-forbidden",
+        "component:web-corp.amount-styles.opacity-property-is-forbidden",
+        "component:web-corp.amount-styles.geometry-follows-effective-baseline",
+        "component:web-corp.amount-styles.platform-preset-matches-channel",
+        "component:web-corp.amount-styles.minor-has-one-or-two-digits",
+        "component:web-corp.amount-styles.major-max-13-digits",
+        "component:web-corp.amount-styles.manual-text-style-is-layer-property"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.locked-components-are-figma-only-presets",
+          "missingFacts": [
+            "component.identity"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.parts-default-visibility",
+          "missingFacts": [
+            "component.visibility"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.math-space-is-required",
+          "missingFacts": [
+            "text.content"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.addon-uses-supported-components",
+          "missingFacts": [
+            "component.slot.Addon"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.addon-does-not-exceed-text-line-height",
+          "missingFacts": [
+            "layout.size"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.addon-keeps-own-contextual-colors",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.positive-color-context",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.contextual-color-token-is-allowed",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.style-is-context-controlled",
+          "missingFacts": [
+            "variant.Style"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.style-is-component-property",
+          "missingFacts": [
+            "variant.Style"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.currency-type-is-component-property",
+          "missingFacts": [
+            "variant.Type",
+            "text.content"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.negative-uses-primary",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.table-align-right",
+          "missingFacts": [
+            "layout.alignment"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.table-weight-follows-role",
+          "missingFacts": [
+            "variant.Style"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.table-currency-not-duplicated",
+          "missingFacts": [
+            "component.visibility.Currency"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.table-bulk-actions-neutral",
+          "missingFacts": [
+            "component.visibility.Operation",
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.steps-use-regular",
+          "missingFacts": [
+            "variant.Style"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.side-panel-matches-source",
+          "missingFacts": [
+            "component.format"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.amount-stays-on-one-line",
+          "missingFacts": [
+            "text.wrapping",
+            "layout.wrap"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.has-no-own-system-states",
+          "missingFacts": [
+            "component.state"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.clickability-is-context-controlled",
+          "missingFacts": [
+            "interaction.click"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.manual-interactive-decoration-is-forbidden",
+          "missingFacts": [
+            "styles.textDecoration",
+            "layer.background",
+            "effects"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.amount-input-uses-core-amount",
+          "missingFacts": [
+            "component.usage"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.optional-parts-can-coexist",
+          "missingFacts": [
+            "component.composition"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.container-provides-single-line-width",
+          "missingFacts": [
+            "component.composition"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.addon-action-matches-amount",
+          "missingFacts": [
+            "interaction.action"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.zero-format",
+          "missingFacts": [
+            "text.content"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.unknown-value-uses-separate-placeholder",
+          "missingFacts": [
+            "component.usage"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.ru-format",
+          "missingFacts": [
+            "text.content"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.round-to-two-minor-digits",
+          "missingFacts": [
+            "text.content.Minor"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.fixed-part-order",
+          "missingFacts": [
+            "component.composition.order"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.monetary-values-only",
+          "missingFacts": [
+            "component.usage"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.operation-negative-is-part-property",
+          "missingFacts": [
+            "variant.Negative"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.parts-share-text-style",
+          "missingFacts": [
+            "styles.text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.manual-operation-sign-fill-is-layer-property",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.manual-amount-text-fill-is-layer-property",
+          "missingFacts": [
+            "fill",
+            "fills"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.operation-is-internal",
+          "missingFacts": [
+            "appearance.effects",
+            "interaction.prototype"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.opacity-is-forbidden",
+          "missingFacts": [
+            "appearance.effects",
+            "interaction.prototype"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.amount-styles.geometry-follows-effective-baseline",
+          "missingFacts": [
+            "appearance.effects",
+            "interaction.prototype"
+          ]
+        }
+      ]
+    }
+  }
+}

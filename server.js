@@ -11,6 +11,9 @@ const cors = require('cors');
 const {
   evaluatePredicateReleaseRequest,
 } = require('./src/predicate-engine/release-service');
+const {
+  createGenerationPlan,
+} = require('./src/generation/planner');
 
 const HOST = process.env.HOST || '127.0.0.1';
 const PORT = process.env.PORT || 3001;
@@ -8905,6 +8908,28 @@ app.post('/v1/validate/predicates', (req, res) => {
   }
 });
 
+app.post('/v1/generation/plan', (req, res) => {
+  try {
+    const plan = createGenerationPlan(req.body ?? {}, {
+      designSystemRoot: CODEX_DESIGN_SYSTEM,
+    });
+    console.log('[Apollo][generation] plan prepared', {
+      recipe: plan.recipe,
+      platform: plan.platform,
+      componentCount: plan.knowledge.componentCount,
+      warningCount: plan.warnings.length,
+    });
+    res.json({ success: true, plan });
+  } catch (error) {
+    res.status(error.status || 500).json({
+      success: false,
+      error: error.message || 'Generation planning error',
+      code: error.code || 'GENERATION_PLANNING_FAILED',
+      details: error.details || null,
+    });
+  }
+});
+
 app.post('/v1/validate/codex', async (req, res) => {
   const payload = req.body ?? {};
   const validationError = validateCodexRequest(payload);
@@ -9088,6 +9113,7 @@ module.exports = {
   compactApolloCustomizationReport,
   collectApolloReportComponentKeys,
   evaluatePredicateReleaseRequest,
+  createGenerationPlan,
   buildCodexPrompt,
   buildCodexInputMetrics,
   assertCodexInputWithinBudget,

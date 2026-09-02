@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-23"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "Onboarding Hint",
+        "key": "cdb832111bbc0efc2c6d215db6b4eed1e1d02e51",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Tail Direction",
+          "variant.Tail Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Tail",
+        "key": "55308b6713348e69272d9005cfb00ae22515db5e",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Direction"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "Onboarding Hint",
+        "role": "public-root",
+        "platform": "desktop",
+        "requiredParts": [
+          "Title",
+          "[D] Button",
+          "Cross",
+          "Tail"
+        ]
+      }
+    ],
+    "internalOnly": [
+      "Tail"
+    ],
+    "allowedOverrides": {
+      "text": [
+        "Title",
+        "Button label"
+      ],
+      "componentProperties": [
+        "Tail Direction",
+        "Tail Position"
+      ],
+      "layerProperties": [
+        "layout.width up to 420 px"
+      ],
+      "behavior": [
+        "Button closes Onboarding Hint",
+        "Button launches the related function",
+        "automatic trigger",
+        "event trigger",
+        "repeat launch defined by business logic",
+        "Button and Close interaction",
+        "external target remains interactive"
+      ]
+    },
+    "forbiddenOverrides": [
+      "standalone Tail",
+      "Onboarding Hint [D] on mobile-web",
+      "hidden Title",
+      "hidden Button",
+      "more than one Button",
+      "hidden Close",
+      "hidden Tail",
+      "Title longer than 70 characters",
+      "button Size other than 32",
+      "button View other than Text",
+      "button Shape other than Rectangular",
+      "button SingleIcon=true",
+      "button DisabledState=true",
+      "button addon",
+      "link, list or rich text in Title",
+      "replaced Close icon",
+      "changed Close configuration",
+      "Close Icon Type other than icon-20",
+      "manual Close Icon fill",
+      "Close glyph Size other than 20",
+      "Close glyph Color other than False",
+      "Close glyph Style other than Thinline",
+      "loading, disabled or error state",
+      "more than one simultaneous Onboarding Hint",
+      "launch without a visible target inside the viewport",
+      "blocking the rest of the interface",
+      "Title truncation or ellipsis",
+      "clickable whole hint surface",
+      "clickable Title",
+      "clickable Tail",
+      "sequential flow made from several Onboarding Hint instances",
+      "backdrop, dimming or spotlight",
+      "error, restriction, consequence or critical information as Title content",
+      "action result shown in Onboarding Hint",
+      "Tail not pointing to the target object or area",
+      "Onboarding Hint covering its target object",
+      "non-interactive target object",
+      "dismiss by Escape or outside click",
+      "non-Hug height",
+      "manual padding or spacing",
+      "manual radius, fill or stroke",
+      "manual typography",
+      "manual opacity or effects",
+      "Onboarding Hint clipped by the viewport",
+      "layout.width greater than 420 px"
+    ]
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select-universal-modal",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔒 [D] FilterCompanySelect_UniversalModal",
+        "key": "9a23ab30e0b4c5e60362fd0eb4905e9fe1fc1b21",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Open"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicBoundary": {
+      "publicRoots": [
+        "🔒 [D] FilterCompanySelect_UniversalModal"
+      ],
+      "host": "UniversalModal",
+      "outsideHostAllowed": false,
+      "desktopOnly": true,
+      "figmaOnly": true,
+      "internalStandaloneAllowed": false
+    },
+    "usage": {
+      "purpose": "Выбор одной компании в режиме холдинга внутри UniversalModal, когда действие или продукт требуют перейти от группы компаний к контексту конкретной компании.",
+      "selectionCardinality": 1,
+      "holdingPatternId": "ptrn:flow.holding-company-selection"
+    },
+    "hostMultiplicity": {
+      "UniversalModal": {
+        "maximumInstances": 1,
+        "exactSlot": "[D] UniversalModalHeader / 🔩 [D] LeftAddon"
+      }
+    },
+    "hostAssembly": {
+      "header": {
+        "component": "[D] UniversalModalHeader",
+        "properties": {
+          "Content": "True",
+          "Custom": "True"
+        },
+        "FilledBg": "host-owned"
+      },
+      "leftAddon": {
+        "component": "🔩 [D] LeftAddon",
+        "properties": {
+          "Custom": "True",
+          "Back": "False"
+        },
+        "swapComponent": "🔒 [D] FilterCompanySelect_UniversalModal"
+      },
+      "middleSlot": {
+        "component": "🔩 [D] MiddleSlot",
+        "properties": {
+          "Custom": "False",
+          "Empty": "True",
+          "Title": "False",
+          "BigTitle": "False"
+        }
+      },
+      "rightAddon": {
+        "component": "🔩 [D] RightAddon",
+        "properties": {
+          "Custom": "False",
+          "Cross": "True"
+        }
+      }
+    },
+    "stateOwnership": {
+      "Open": {
+        "default": "False",
+        "runtimeMeaning": "true только пока список открыт",
+        "openStateInDesignAllowed": true
+      }
+    },
+    "interaction": {
+      "selectionModel": "immediate",
+      "selectAction": "Выбор строки сразу применяет компанию, закрывает список и обновляет CompactTag.",
+      "trigger": "entire CompanyLogo + CompactTag surface",
+      "companyLogoSeparateAction": false,
+      "selectionCloses": "dropdown-only",
+      "crossCloses": "UniversalModal"
+    },
+    "selectionState": {
+      "initialSelectionRequired": true,
+      "initialSelectionOwner": "product-business-logic",
+      "selectedRowHasCheckmark": true,
+      "emptySelectionAllowed": false
+    },
+    "contentOwnership": {
+      "companyLogo": "runtime-selected-company",
+      "companyName": "runtime-selected-company",
+      "companyLogoRequired": true,
+      "companyNameRequired": true,
+      "compactTagVisibleContent": "selected company name",
+      "compactTagLabelVisible": false,
+      "compactTagSeparatorVisible": false,
+      "optionListCellVisibleFields": [
+        "companyName"
+      ],
+      "selectedCompanyOverflow": {
+        "lineCount": 1,
+        "overflow": "ellipsis",
+        "tooltip": false
+      },
+      "optionListCellOverflow": "delegated-to-OptionListCell"
+    },
+    "search": {
+      "fields": [
+        "companyName",
+        "inn",
+        "address"
+      ],
+      "placeholder": "Название, ИНН или адрес",
+      "placeholderEditable": false
+    },
+    "searchVisibility": {
+      "inheritsFrom": "web-corp.filter-company-select",
+      "showWhenCompanyCountGreaterThan": 10,
+      "companyCountAtOrBelowThreshold": "entire [D] OptionListHeader hidden"
+    },
+    "compositionPolicy": {
+      "mustPreserveLibraryInstance": true,
+      "detachAllowed": false,
+      "internalInstanceSwapAllowed": false
+    },
+    "nestedBaseline": {
+      "CompanyLogo": {
+        "runtimeContentEditable": true,
+        "serviceAddonsEditable": false
+      },
+      "CompactTag": {
+        "SelectedState": "true",
+        "Arrow.Open": "follows root Open"
+      }
+    },
+    "sizing": {
+      "rootWidthManuallyEditable": true,
+      "dropdownWidthManuallyEditable": true,
+      "manualHeightOrInternalSpacingOverride": false
+    },
+    "visualPolicy": {
+      "allowedManualOverrides": [
+        "root.width",
+        "dropdown.width"
+      ],
+      "forbiddenManualOverrides": [
+        "fill",
+        "stroke",
+        "typography",
+        "radius",
+        "effects",
+        "opacity",
+        "height",
+        "padding",
+        "gap"
+      ]
+    },
+    "stateDelegation": {
+      "customStates": false,
+      "delegatedStates": [
+        "loading",
+        "error",
+        "disabled",
+        "empty",
+        "no-results",
+        "hover",
+        "focus",
+        "keyboard"
+      ],
+      "owners": [
+        "CompactTag",
+        "Input",
+        "DropdownList",
+        "OptionList"
+      ]
+    },
+    "codeConnect": {
+      "rootStatus": "not-applicable-figma-only-preset",
+      "codeEquivalent": false,
+      "nestedMappingsDoNotVerifyRoot": true
+    },
+    "relatedPackages": [
+      {
+        "componentKey": "web-corp.filter-company-select",
+        "relationship": "Наследует общее правило показа поиска, но остаётся отдельным public package для UniversalModal."
+      }
+    ]
+  }
+}

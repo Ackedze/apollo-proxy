@@ -1,0 +1,400 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.corporate-app-header-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-16"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "corporate-app-header-mobile.internal-page",
+        "title": "Внутренняя mobile-web страница продукта",
+        "inputState": {
+          "platform": "mobile-web",
+          "publicRoot": "[M] AppHeader :: Top",
+          "NavigationBar.Presets": "Page"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.home",
+        "title": "Главный mobile-web экран",
+        "inputState": {
+          "platform": "mobile-web",
+          "publicRoot": "[M] AppHeader :: Top",
+          "NavigationBar.Presets": "Home"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.main-navigation-tab",
+        "title": "Основной экран История с нижней навигацией",
+        "inputState": {
+          "platform": "mobile-web",
+          "topVisible": true,
+          "bottomVisible": true,
+          "screen": "History",
+          "TabBar.Active Tab": "History"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.supporting-part-standalone",
+        "title": "NavigationBar размещён отдельно от AppHeader",
+        "inputState": {
+          "platform": "mobile-web",
+          "component": "[M] NavigationBar",
+          "host": "page-content"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.public-roots"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.adaptive-status-bar",
+        "title": "NativeStatusBar сохранён в адаптивной версии",
+        "inputState": {
+          "platform": "mobile-web",
+          "renderingContext": "adaptive-mobile-state",
+          "topVisible": true,
+          "nativeStatusBarVisible": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.background-gray",
+        "title": "Gray header соответствует серому фону страницы",
+        "inputState": {
+          "pageBackground": "base-bg-alt (gray)",
+          "AppHeaderTop.BackgroundColor": "base-bg-alt (gray)"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.page-filter-block",
+        "title": "Внутренняя страница с мобильными фильтрами",
+        "inputState": {
+          "NavigationBar.Presets": "Page",
+          "BottomAddon.visible": true,
+          "BottomAddon.Content": "FilterBlock",
+          "BottomAddon.contentType": "mobile-filters"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.bottom-url-default",
+        "title": "Нижняя часть в default-состоянии",
+        "inputState": {
+          "bottomVisible": true,
+          "NativeSafariBottom.URL": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.full-screen-modal",
+        "title": "Полноэкранная модальная сущность без NavigationBar",
+        "inputState": {
+          "hostContext": "full-screen Modal",
+          "topVisible": true,
+          "nativeStatusBarVisible": true,
+          "navigationBarVisible": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.page-without-navigation-bar",
+        "title": "Обычная страница без NavigationBar",
+        "inputState": {
+          "hostContext": "page",
+          "topVisible": true,
+          "navigationBarVisible": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.navigation-bar-visibility"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.scrolled",
+        "title": "Разделитель показан после прокрутки",
+        "inputState": {
+          "scrollPosition": "scrolled",
+          "Overlap": "True",
+          "dividerVisible": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.two-actions",
+        "title": "Два иконочных действия справа",
+        "inputState": {
+          "RightAddon.Content": "Icons",
+          "iconButtonCount": 2
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.long-title",
+        "title": "Длинный Title сокращён",
+        "inputState": {
+          "CenteredMainSlot.Content": "Title",
+          "overflow": "ellipsis"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.home-profile-transition",
+        "title": "Profile показан после перехода из TabBar-раздела",
+        "inputState": {
+          "NavigationBar.Presets": "Home",
+          "BackgroundColor": "base-bg-alt (gray)",
+          "tabBarPresent": true,
+          "transition": "TabBar section -> NavigationBar",
+          "Profile": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.bottom-with-tab-bar",
+        "title": "Нижняя часть с TabBar и Safari footer",
+        "inputState": {
+          "bottomVisible": true,
+          "TabBar": "True",
+          "NativeSafariBottom": "True",
+          "URL": "True",
+          "Tabs": "False",
+          "DarkMode": "False"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.bottom-without-tab-bar",
+        "title": "Нижняя часть только с Safari footer",
+        "inputState": {
+          "bottomVisible": true,
+          "TabBar": "False",
+          "NativeSafariBottom": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.bottom-without-native-safari",
+        "title": "Нижняя часть без Safari footer",
+        "inputState": {
+          "bottomVisible": true,
+          "TabBar": "True",
+          "NativeSafariBottom": "False"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.bottom-required-native-safari"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.safari-dark-tabs",
+        "title": "Разрешённые non-default Safari settings",
+        "inputState": {
+          "NativeSafariBottom": "True",
+          "URL": "True",
+          "Tabs": "True",
+          "DarkMode": "True"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Tabs=True и DarkMode=True запрещены."
+        ]
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.context-indicator",
+        "title": "Контекстный индикатор на пункте TabBar",
+        "inputState": {
+          "tab": "Chat",
+          "indicatorVisible": true,
+          "productContext": "unread messages"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Индикаторы TabBar всегда запрещены."
+        ]
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.fixed-layout",
+        "title": "Шапка и нижняя навигация закреплены по краям viewport",
+        "inputState": {
+          "top.width": "fill viewport",
+          "top.height": "hug content",
+          "top.position": "fixed top",
+          "bottom.width": "fill viewport",
+          "bottom.height": "hug content",
+          "bottom.position": "fixed bottom"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.manual-padding",
+        "title": "Вручную изменён padding NavigationBar",
+        "inputState": {
+          "property": "layout.padding",
+          "changeSource": "manual"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.layout-and-position"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.tab-selection",
+        "title": "Переход в раздел Платежи",
+        "inputState": {
+          "action": "select TabBar Payments",
+          "destination": "Payments",
+          "Active Tab": "Payments"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.delegated-loading",
+        "title": "Loading отображается вложенным действием",
+        "inputState": {
+          "hostLoadingState": false,
+          "nestedActionLoadingState": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.raw-fill",
+        "title": "Вручную изменён fill верхней части",
+        "inputState": {
+          "property": "fill",
+          "changeSource": "manual",
+          "tokenBinding": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.visual-baseline"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.status-bar-hidden",
+        "title": "NativeStatusBar скрыт",
+        "inputState": {
+          "NativeStatusBar": "False",
+          "hostContext": "page"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.native-status-bar-recommended"
+        },
+        "mustNotSay": [
+          "NativeStatusBar=False является error."
+        ]
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.three-icons",
+        "title": "В RightAddon размещены три IconButton",
+        "inputState": {
+          "RightAddon.Content": "Icons",
+          "iconButtonCount": 3
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.right-addon-icon-count"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.detached",
+        "title": "AppHeader Top отсоединён от библиотеки",
+        "inputState": {
+          "component": "[M] AppHeader :: Top",
+          "instanceStatus": "detached"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.corporate-app-header-mobile.preserve-library-composition"
+        }
+      },
+      {
+        "exampleId": "corporate-app-header-mobile.allowed-icon-swap",
+        "title": "Иконка заменена внутри сохранённого IconButton",
+        "inputState": {
+          "RightAddon.Content": "Icons",
+          "hostComponent": "[D] IconButton",
+          "glyphSwap": true,
+          "detached": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      }
+    ]
+  }
+}

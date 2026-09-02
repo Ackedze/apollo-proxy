@@ -1,0 +1,853 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.tabs-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.tabs-view.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TabsView",
+          "layers": [
+            "[D] TabsView",
+            "[M] TabsView",
+            "TabsView"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TabsView",
+          "layers": [
+            "[D] TabsView",
+            "[M] TabsView",
+            "TabsView"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.tabs-view.skeleton-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Skeleton",
+        "checkType": "deterministic",
+        "ruleText": "Изменения Skeleton являются component property changes и должны показываться как самостоятельные customizations."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.wrapper-owned-primary-tabs-overrides",
+        "severity": "info",
+        "source": "composition-contract",
+        "appliesTo": "TabsPrimary.*",
+        "checkType": "deterministic",
+        "ruleText": "TabsView владеет selected layout и text-style overrides внутри TabsPrimary. Когда actual совпадает с TabsView effective baseline, эти nested differences нельзя показывать как customizations."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.manual-primary-tabs-layer-override",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "TabsPrimary.*",
+        "checkType": "deterministic",
+        "ruleText": "Если nested TabsPrimary layer отличается от TabsView effective baseline, показывай это как TabsView layer customization, используя effective baseline как reference."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.manual-secondary-tabs-layer-override",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "TabsSecondary.*",
+        "checkType": "deterministic",
+        "ruleText": "Если nested TabsSecondary/Tag layer отличается от TabsView effective baseline, показывай это как TabsView layer customization, используя effective baseline как reference."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.primary-is-required",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredComposition": {
+          "TabsPrimary": true
+        },
+        "ruleText": "TabsPrimary обязателен в TabsView. TabsSecondary опционален, но не может заменять первый уровень.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.minimum-two-tabs-per-visible-level",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredComposition": {
+          "minimumVisiblePrimaryTabs": 2,
+          "minimumVisibleSecondaryTabsWhenShown": 2,
+          "maximumVisibleTabs": "not-regulated"
+        },
+        "ruleText": "В TabsPrimary должно быть минимум два видимых таба. Если показан TabsSecondary, в нём также должно быть минимум два видимых таба. Максимальное количество пока не регламентировано.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.one-active-tab-per-visible-level",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.ActiveState|variant.SelectedState",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "activePrimaryCount": 1,
+          "activeSecondaryCountWhenVisible": 1
+        },
+        "ruleText": "Одновременно может быть активен только один Primary и, если второй уровень показан, только один Secondary.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.label-is-editable-single-line",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "characters",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "allowedState": {
+          "labelEditable": true,
+          "labelLines": 1,
+          "maximumCharacters": 10,
+          "overflowBehavior": "increase-tab-width"
+        },
+        "ruleText": "Label таба можно менять, но текст должен оставаться в одну строку и содержать не более 10 символов. При необходимости увеличивай ширину таба."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.primary-addon-is-configurable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|instance.swap",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon"
+        },
+        "allowedAddonTypes": [
+          "icon",
+          "counter",
+          "status"
+        ],
+        "ruleText": "В TabPrimary можно включать Addon и заменять его через штатный instance swap. Допустимы только иконки, счётчики и статусы."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.primary-addon-types",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "instance.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedAddonTypes": [
+          "icon",
+          "counter",
+          "status"
+        ],
+        "ruleText": "В Addon у TabPrimary допустимы только иконки, счётчики и статусы. Другие типы вложенных компонентов запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.individual-disabled-state-is-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.DisabledState",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Отдельные Primary и Secondary табы можно переводить в DisabledState."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.loading-scope",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Skeleton|component.loading",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "TabsView.Skeleton=true переводит в загрузку весь TabsView. Любой таб может иметь собственное состояние перезагрузки."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.tab-collection-is-configurable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "allowedState": {
+          "addTabs": true,
+          "hideTabs": true,
+          "reorderTabs": true,
+          "minimumVisibleTabsPerLevel": 2
+        },
+        "ruleText": "Дизайнер может добавлять, скрывать и менять порядок Primary и Secondary. На каждом показанном уровне должно оставаться минимум два видимых таба."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-context-follows-primary",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "У каждого Primary может быть собственный набор Secondary. Для отдельных Primary второй уровень может отсутствовать."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-selects-first-enabled",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.ActiveState|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При выборе Primary активируется первый доступный Secondary. Ранее выбранный Secondary для этого Primary не восстанавливается."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.individual-loading-behavior",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.loading|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Состояние отдельной перезагрузки доступно для любого таба. Активный таб остаётся выбранным, а пользователь может переключаться на другие табы."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.root-skeleton-presentation",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Skeleton",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "Skeleton": "True",
+          "presentation": "single common skeleton"
+        },
+        "ruleText": "При TabsView.Skeleton=true показывается один общий skeleton вместо сохранения количества, ширины и иерархии табов."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.active-tab-repeat-click-noop",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Повторное нажатие на уже активный таб ничего не делает и не запускает обновление контента."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.maximum-two-levels",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "maximumLevels": 2,
+        "allowedLevels": [
+          "Primary",
+          "Secondary"
+        ],
+        "ruleText": "В TabsView допустимы только два уровня: Primary и Secondary. Третий уровень табов запрещён.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.content-follows-active-secondary",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition|content",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Если у выбранного Primary показан Secondary, контент должен соответствовать активному Secondary. Прямого контента самого Primary в этом состоянии быть не должно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.unavailable-tabs-are-disabled",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|variant.DisabledState|variant.ActiveState",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Недоступные из-за прав, сегмента или данных табы не скрываются, а переводятся в Disabled. Если активный таб становится недоступным, активируется первый доступный таб этого уровня.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.navigation-mode-is-contextual",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "allowedModes": [
+          "switch-content-in-current-page",
+          "navigate-to-page-or-url"
+        ],
+        "ruleText": "Таб может переключать контент внутри текущей страницы или выполнять переход на другую страницу/URL. Режим определяется продуктовым контекстом."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-fixed-properties",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|variant.View|variant.Shape",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "Size": "40",
+          "View": "Filled",
+          "Shape": "Rounded",
+          "SingleIcon": "False"
+        },
+        "ruleText": "Для TabsSecondary обязательны Size=40, View=Filled, Shape=Rounded и SingleIcon=False. Эти параметры нельзя менять.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-indicator-is-configurable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Indicator",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "allowedValues": [
+          "Hidden",
+          "Collapsed",
+          "Digit"
+        ],
+        "indicatorSemantics": {
+          "Hidden": "hidden",
+          "Collapsed": "dot",
+          "Digit": "numeric counter, maximum 99+"
+        },
+        "ruleText": "В TabsSecondary можно менять Indicator. Collapsed показывает точку, Digit — числовой счётчик до 99+, Hidden скрывает индикатор."
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-single-icon-forbidden",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.SingleIcon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "SingleIcon": "False"
+        },
+        "ruleText": "В TabsSecondary запрещено использовать SingleIcon=True. Label должен оставаться видимым.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-core.tag"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.family"
+                },
+                "expected": {
+                  "literal": "tag-filled"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-core-navigation.tabs"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.key"
+                },
+                "expected": {
+                  "literal": "d44e07075d37245006c02b03ca28fa9a8681fa1e"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.properties.SingleIcon"
+          },
+          "allowedValues": [
+            "False"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В TabsSecondary включён SingleIcon",
+            "observed": "У TabsSecondary свойство SingleIcon имеет значение {{actual}}.",
+            "expectation": "В TabsSecondary свойство SingleIcon должно оставаться выключенным, чтобы Label был видим.",
+            "action": "Выключить SingleIcon у TabsSecondary."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.secondary-single-icon-is-uniform",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.SingleIcon|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Все соседние TabsSecondary одного уровня должны использовать одинаковое значение SingleIcon. Отдельное правило компонента требует SingleIcon=False.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "uniform-collection-properties",
+          "identity": "web-core-navigation.tabs",
+          "where": [
+            {
+              "predicate": "equals",
+              "actual": {
+                "fact": "component.key"
+              },
+              "expected": {
+                "literal": "d44e07075d37245006c02b03ca28fa9a8681fa1e"
+              }
+            }
+          ],
+          "memberIdentity": "web-core.tag",
+          "memberWhere": [
+            {
+              "predicate": "equals",
+              "actual": {
+                "fact": "component.family"
+              },
+              "expected": {
+                "literal": "tag-filled"
+              }
+            },
+            {
+              "predicate": "equals",
+              "actual": {
+                "fact": "ownership.owner.component.identity"
+              },
+              "expected": {
+                "literal": "web-core-navigation.tabs"
+              }
+            },
+            {
+              "predicate": "equals",
+              "actual": {
+                "fact": "ownership.owner.component.key"
+              },
+              "expected": {
+                "literal": "d44e07075d37245006c02b03ca28fa9a8681fa1e"
+              }
+            }
+          ],
+          "traverse": "descendants",
+          "propertyFacts": [
+            "component.properties.SingleIcon"
+          ],
+          "minimumCount": 2,
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "SingleIcon у соседних TabsSecondary различается",
+            "observed": "У соседних TabsSecondary одного уровня используются разные значения SingleIcon.",
+            "expectation": "Все TabsSecondary одного уровня должны использовать одинаковое значение SingleIcon; нормативное значение — False.",
+            "action": "Выключить SingleIcon у отличающегося TabsSecondary."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.active-tab-cannot-be-disabled",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.ActiveState|variant.DisabledState",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Активный Primary или Secondary не может одновременно находиться в состоянии Disabled.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.labels-are-unique-within-level",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Названия соседних табов одного уровня не должны повторяться.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 3
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "query-unique",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.key"
+                },
+                "expected": {
+                  "literal": [
+                    "0b6cbeb2069d15adf5be7b9a4ba17acc6a397017",
+                    "d44e07075d37245006c02b03ca28fa9a8681fa1e"
+                  ]
+                }
+              }
+            ]
+          },
+          "query": {
+            "from": "subject",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": "Label"
+                }
+              }
+            ],
+            "project": {
+              "fact": "text.characters"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Названия табов повторяются",
+            "observed": "На одном уровне повторяются названия табов: {{duplicates}}.",
+            "expectation": "Названия соседних табов одного уровня должны быть уникальными.",
+            "action": "Переименовать повторяющиеся табы так, чтобы их названия различались."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.label-maximum-ten-characters",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "maximumCharacters": 10,
+        "ruleText": "Максимальная длина Label — 10 символов. При необходимости увеличивай ширину таба, не переноси текст на вторую строку.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.minimum-one-enabled-active-tab",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.ActiveState|variant.DisabledState|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "minimumEnabledActiveTabsPerVisibleLevel": 1,
+          "disabledTabsCountTowardMinimumVisible": true
+        },
+        "ruleText": "Disabled-табы учитываются в минимуме видимых, но на каждом показанном уровне должен оставаться хотя бы один доступный активный таб.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.primary-addon-active-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|variant.ActiveState|variant.DisabledState",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Addon можно показывать только у активного и доступного TabPrimary. У неактивного или Disabled Primary Addon должен быть скрыт.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.indicator-digit-maximum",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Indicator|characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "maximumValue": "99+",
+        "ruleText": "Indicator=Digit показывает числовой счётчик рядом с Label. Максимальное отображаемое значение — 99+.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.fixed-external-spacing",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.itemSpacing",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredSpacing": {
+          "primaryToSecondary": 24,
+          "lastVisibleTabLevelToContent": 24
+        },
+        "ruleText": "Между Primary и Secondary должно быть 24 px. Между последним видимым уровнем табов и контентом также должно быть 24 px.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.desktop-mobile-web-parity",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "adaptive.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "requiredParity": [
+          "labels",
+          "order",
+          "tabCount"
+        ],
+        "ruleText": "Desktop и mobile-web версии TabsView должны иметь одинаковые названия, порядок и количество табов.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.manual-visual-overrides-forbidden",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|divider|styles.text|typography|fill|stroke|stroke.*|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В TabsView запрещено вручную менять spacing, padding, divider, типографику, заливки, обводки, скругления и opacity. Используй effective baseline компонента.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.tabs-view"
+                }
+              },
+              {
+                "predicate": "exists",
+                "actual": {
+                  "fact": "appearance.stroke.value"
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена обводка TabsView",
+            "observed": "Обводка изменена с {{expected}} на {{actual}}.",
+            "expectation": "Обводки TabsView должны совпадать с effective baseline выбранного варианта.",
+            "action": "Сбросить обводку к effective baseline TabsView.",
+            "targetFact": "appearance.stroke.value"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.tabs-view.platform-overflow-behavior",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "На desktop Slider появляется автоматически только при переполнении и не включается вручную. На mobile-web Slider запрещён: переполнение обрабатывается горизонтальным свайпом.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ]
+  }
+}

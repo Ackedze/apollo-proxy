@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core-navigation.navigation-bar",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "NavigationBar",
+      "library": "Web :: Core Navigation"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "NavigationBar",
+        "path": "Align=Center, BottomAddon=True / Top / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "NavigationBar",
+        "path": "Align=Center, BottomAddon=True / Top / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "NavigationBar",
+        "path": "Align=Center, BottomAddon=True / Top / Main / CentredMainSlot",
+        "componentName": "CentredMainSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

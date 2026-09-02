@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.corporate-app-header-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-16"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[M] AppHeader :: Top",
+        "key": "92afbeecae84ff7ba5815a20b34cc7c80394f0c5",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.BackgroundColor"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] NavigationBar",
+        "key": "1b6ce5a6474cc691355f8945a765da3d45d46bd0",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TabBar",
+        "key": "b7bb4d236678826d34c8fe26b57a731bd7b5e1fe",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Active Tab"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "BottomAddon",
+        "key": "37e54f03ed357cd456f5ff244e9dcb7e8aecd388",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Content"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "CenteredMainSlot",
+        "key": "9169adf00b0e1d2e7cba3c7e8a6170690a56f0e8",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Content"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "LeftAddon",
+        "key": "0a8e127814f572a79ddd9beec8ece3e63c7a87d6",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Content"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "RightAddon",
+        "key": "436c2c6c87f54a763382c77863d9140da37dd799",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Content"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] AppHeader :: Bottom",
+        "key": "e1a610b5944475fcab566a33ebeae102b21014da",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "HomeAddon",
+        "key": "20a60b63f8a1d4592817225ff73af7647d37cd8d",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "LeftMainSlot",
+        "key": "264b53fd21de58b12c1dd5368c4f8b02d80b9562",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicBoundary": {
+      "publicRoots": [
+        "[M] AppHeader :: Top",
+        "[M] AppHeader :: Bottom"
+      ],
+      "internalOnly": [
+        "[M] NavigationBar",
+        "[M] TabBar",
+        "BottomAddon",
+        "CenteredMainSlot",
+        "LeftAddon",
+        "RightAddon",
+        "HomeAddon",
+        "LeftMainSlot"
+      ],
+      "internalStandaloneAllowed": false,
+      "platforms": [
+        "mobile-web"
+      ],
+      "viewport": "320–767 px",
+      "adaptiveRole": "mobile state of adaptive pages"
+    },
+    "usage": {
+      "purpose": "Навигационная обвязка Alfa Business для mobile-web и мобильного состояния адаптивных страниц.",
+      "top": "required navigation header",
+      "bottom": "optional navigation footer",
+      "nativeStatusBar": "visible in both standalone mobile-web and adaptive mobile state"
+    },
+    "variantSemantics": {
+      "[M] NavigationBar.Presets": {
+        "Page": "Внутренняя страница продукта.",
+        "Home": "Главный экран."
+      },
+      "[M] TabBar.Active Tab": {
+        "Home": "Главный экран",
+        "History": "История",
+        "Payments": "Платежи",
+        "Marketplace": "Маркетплейс",
+        "Chat": "Чат"
+      },
+      "[M] AppHeader :: Top.BackgroundColor": {
+        "base-bg (white)": "Используется над белым фоном страницы.",
+        "base-bg-alt (gray)": "Используется над серым альтернативным фоном страницы."
+      },
+      "BottomAddon.Content": {
+        "Custom": "Произвольный разрешённый компонент.",
+        "SegmentedContol": "Только SegmentedControl.",
+        "FilterBlock": "Только мобильные фильтры.",
+        "Segmented + Filter": "SegmentedControl и мобильные фильтры одновременно."
+      }
+    },
+    "presetComposition": {
+      "Page": [
+        "LeftAddon",
+        "CenteredMainSlot",
+        "RightAddon",
+        "BottomAddon (optional)"
+      ],
+      "Home": [
+        "LeftMainSlot",
+        "HomeAddon"
+      ]
+    },
+    "defaults": {
+      "[M] AppHeader :: Bottom.NativeSafariBottom.URL": "True",
+      "[M] AppHeader :: Bottom.NativeSafariBottom.Tabs": "False",
+      "[M] AppHeader :: Bottom.NativeSafariBottom.DarkMode": "False",
+      "[M] AppHeader :: Top.NativeStatusBar": "True (recommended)",
+      "[M] AppHeader :: Top.Overlap": "False before scroll"
+    },
+    "bottomVisibility": {
+      "allowedCombinations": [
+        {
+          "TabBar": "True",
+          "NativeSafariBottom": "True"
+        },
+        {
+          "TabBar": "False",
+          "NativeSafariBottom": "True"
+        }
+      ],
+      "forbiddenCombinations": [
+        {
+          "TabBar": "True",
+          "NativeSafariBottom": "False"
+        },
+        {
+          "TabBar": "False",
+          "NativeSafariBottom": "False"
+        }
+      ],
+      "NativeSafariBottomContexts": [
+        "standalone-mobile-web",
+        "adaptive-mobile-state"
+      ]
+    },
+    "nativeSafariBottomOverrides": {
+      "URL.True": "default",
+      "Tabs.False": "default",
+      "Tabs.True": "allowed",
+      "DarkMode.False": "default",
+      "DarkMode.True": "allowed",
+      "rawMismatch": "Raw default currently exposes Tabs=True; owner-confirmed manual default is Tabs=False."
+    },
+    "layout": {
+      "top": {
+        "width": "fill viewport",
+        "height": "hug content",
+        "position": "fixed top"
+      },
+      "bottom": {
+        "width": "fill viewport",
+        "height": "hug content",
+        "position": "fixed bottom"
+      },
+      "manualOverridesAllowed": false,
+      "forbiddenManualOverrides": [
+        "width",
+        "height",
+        "padding",
+        "gap"
+      ]
+    },
+    "interaction": {
+      "LeftAddon.Back": "navigate to previous screen",
+      "RightAddon.FloatingCross": "close current page or modal entity",
+      "RightAddon.Action": "product-owned action",
+      "RightAddon.Icons": "product-owned actions",
+      "TabBar.select": "navigate to selected main section and update Active Tab"
+    },
+    "stateOwnership": {
+      "ownStates": [],
+      "delegatedStates": [
+        "loading",
+        "disabled",
+        "error",
+        "skeleton"
+      ],
+      "delegatedTo": "nested components"
+    },
+    "visualPolicy": {
+      "manualOverridesAllowed": false,
+      "forbidden": [
+        "fill",
+        "stroke",
+        "radius",
+        "typography",
+        "opacity",
+        "effects"
+      ],
+      "allowedChangeSurface": "component properties and token baseline"
+    },
+    "compositionPolicy": {
+      "detachAllowed": false,
+      "defaultInternalInstanceSwapAllowed": false,
+      "allowedInstanceSwaps": [
+        {
+          "context": "BottomAddon.Content=Custom",
+          "target": "custom allowed component"
+        },
+        {
+          "context": "RightAddon.Content=Icons",
+          "target": "icon glyph",
+          "preserveHost": "[D] IconButton"
+        }
+      ]
+    },
+    "codeStatus": {
+      "implementation": "exists-unverified",
+      "package": null,
+      "export": null,
+      "codeConnect": "not-configured"
+    },
+    "lifecycle": {
+      "status": "active",
+      "replacement": null,
+      "deprecationPlan": null
+    },
+    "topVisibility": {
+      "topRequired": true,
+      "NativeStatusBar": {
+        "recommended": "True",
+        "visibleContexts": [
+          "standalone-mobile-web",
+          "adaptive-mobile-state"
+        ]
+      },
+      "NavigationBar": {
+        "page": "True",
+        "fullScreenModal": "False allowed",
+        "fullScreenPopupSheet": "False allowed"
+      }
+    },
+    "scrollState": {
+      "Overlap": {
+        "beforeScroll": "False",
+        "onScroll": "True",
+        "effect": "shows divider",
+        "ownership": "runtime-derived"
+      }
+    },
+    "pageSlots": {
+      "CenteredMainSlot.Content": {
+        "allowed": [
+          "Title + Subtitle",
+          "Title",
+          "None"
+        ],
+        "overflow": "ellipsis"
+      },
+      "LeftAddon.Content": {
+        "Back": "Страница поддерживает навигацию назад.",
+        "None": "Левый слот пуст."
+      },
+      "RightAddon.Content": {
+        "Icons": "Одна или две [D] IconButton.",
+        "FloatingCross": "Закреплённый крест закрытия страницы.",
+        "Action": "Одно текстовое действие.",
+        "None": "Правый слот пуст."
+      }
+    },
+    "homeRules": {
+      "backgroundColor": "base-bg-alt (gray)",
+      "tabBarRequired": true,
+      "Profile.True": "Только после перехода из раздела TabBar в NavigationBar."
+    },
+    "tabBarVisibility": {
+      "host": "[M] AppHeader :: Bottom",
+      "visibleOnMainNavigationScreens": [
+        "Home",
+        "History",
+        "Payments",
+        "Marketplace",
+        "Chat"
+      ],
+      "activeTabMatchesCurrentScreen": true
+    },
+    "tabBarContent": {
+      "fixedOrder": [
+        {
+          "id": "Home",
+          "label": "Главный"
+        },
+        {
+          "id": "History",
+          "label": "История"
+        },
+        {
+          "id": "Payments",
+          "label": "Платежи"
+        },
+        {
+          "id": "Marketplace",
+          "label": "Сервисы"
+        },
+        {
+          "id": "Chat",
+          "label": "Связь"
+        }
+      ],
+      "reorderingAllowed": false,
+      "renamingAllowed": false,
+      "indicators": "allowed-context-dependent"
+    }
+  }
+}

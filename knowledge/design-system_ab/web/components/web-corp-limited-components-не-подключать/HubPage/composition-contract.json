@@ -1,0 +1,794 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.hub-page",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "component": {
+      "name": "HubPage",
+      "library": "Web _ Corp Limited Components (не подключать)"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] HubTitle",
+        "path": "Skeleton=true / [D] TitleView",
+        "componentName": "[D] TitleView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "True",
+          "View": "Large"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] HubTitle",
+        "path": "Skeleton=true / [D] TitleView / MainContent / Heading",
+        "componentName": "Heading",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "TextStyle": "30_36"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] HubTitle",
+        "path": "Skeleton=true / [D] TitleView / MainContent / Subtitle / Skeleton_Text",
+        "componentName": "Skeleton_Text",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Length": "164",
+          "TextStyle": "16_24"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo",
+        "componentName": "Logo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Home": "true",
+          "Hover": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / HomeItem / Logo / Logo / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / 🔩 MenuHeader",
+        "componentName": "🔩 MenuHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / 🔩 MenuFooter",
+        "componentName": "🔩 MenuFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup",
+        "componentName": "MenuGroup",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "true"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "true",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem",
+        "componentName": "SubMenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem / 🔩 SubItemContent / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem",
+        "componentName": "SubMenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem / 🔩 SubItemContent / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem",
+        "componentName": "SubMenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem / 🔩 SubItemContent / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem",
+        "componentName": "SubMenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem / 🔩 SubItemContent / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem",
+        "componentName": "SubMenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / SubItemGroup / SubMenuItem / 🔩 SubItemContent / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "20",
+          "View": "Gray"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup",
+        "componentName": "MenuGroup",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem",
+        "componentName": "MenuItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hover": "false",
+          "Selected": "false",
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / Content / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] SideMenu",
+        "path": "[D] SideMenu / [D] HubMenu / BodyContent / MenuGroup / MenuItem / 🔩 ItemContent / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

@@ -1,0 +1,6013 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core Misc",
+    "file": "Web _ Core Misc",
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 14,
+    "contractCount": 14,
+    "activeCount": 8,
+    "deprecatedCount": 6,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "indicator.universal",
+      "name": "❌  Indicator",
+      "normalizedName": "indicator",
+      "componentKey": "daaf4f44ce5ca82b085a2e389e1589c3ea520572",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "9610c165ec543262fb8a733d215cbcb47a3fd1e7",
+        "variants": {
+          "properties": {
+            "Position": [
+              "End",
+              "MIddle",
+              "Start"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Position": "Start"
+            },
+            {
+              "Position": "MIddle"
+            },
+            {
+              "Position": "End"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "9610c165ec543262fb8a733d215cbcb47a3fd1e7",
+              "id": "33:6531",
+              "name": "Position=Start",
+              "properties": {
+                "Position": "Start"
+              }
+            },
+            {
+              "key": "a08c578c5e3f41597b7127f493b79678a64ce72c",
+              "id": "33:6536",
+              "name": "Position=MIddle",
+              "properties": {
+                "Position": "MIddle"
+              }
+            },
+            {
+              "key": "abb5b8291a89aaecf61cb46618e3ff286117a3c9",
+              "id": "33:6542",
+              "name": "Position=End",
+              "properties": {
+                "Position": "End"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Position=Start",
+            "type": "COMPONENT",
+            "path": "Position=Start",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Position=Start",
+            "path": "Position=Start",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "Position=Start / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "IndicatorContent",
+            "path": "Position=Start / IndicatorContent",
+            "visible": true,
+            "variantProperties": {
+              "Active": "False",
+              "CriticalError": "False",
+              "Custom": "True",
+              "Error": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Waiting": "False",
+              "Warning": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Active": "False",
+                "CriticalError": "False",
+                "Custom": "True",
+                "Error": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Waiting": "False",
+                "Warning": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "Placeholder_24x24",
+            "path": "Position=Start / IndicatorContent / Placeholder_24x24",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Wrapper",
+            "path": "Position=Start / IndicatorContent / Placeholder_24x24 / Wrapper",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "Position=Start / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "8"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "8"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Position=Start / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 9,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Line",
+            "path": "Position=Start / Line",
+            "visible": true,
+            "variantProperties": {
+              "Filled": "False"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "Filled": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "Position=Start / Line / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "9610c165ec543262fb8a733d215cbcb47a3fd1e7",
+            "when": {
+              "Position": "Start"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a08c578c5e3f41597b7127f493b79678a64ce72c",
+            "when": {
+              "Position": "MIddle"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "abb5b8291a89aaecf61cb46618e3ff286117a3c9",
+            "when": {
+              "Position": "End"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Position=Start",
+                "nodePath": "Position=Start",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "deprecated component has no migration replacement"
+        ]
+      }
+    },
+    {
+      "id": "line.universal",
+      "name": "❌  Line",
+      "normalizedName": "line",
+      "componentKey": "38d4aeee69e19bddb963ca327155c03291137518",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4c3ffbe377203a11636eab13a4cfc7fe556cdd89",
+        "variants": {
+          "properties": {
+            "Filled": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Filled": "False"
+            },
+            {
+              "Filled": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "4c3ffbe377203a11636eab13a4cfc7fe556cdd89",
+              "id": "33:6547",
+              "name": "Filled=False",
+              "properties": {
+                "Filled": "False"
+              }
+            },
+            {
+              "key": "0c2ad41b5a6bea0638ab3e6c2e1d31cf727a2860",
+              "id": "33:6549",
+              "name": "Filled=True",
+              "properties": {
+                "Filled": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Filled=False",
+            "type": "COMPONENT",
+            "path": "Filled=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Filled=False",
+            "path": "Filled=False",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "Filled=False / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "0c2ad41b5a6bea0638ab3e6c2e1d31cf727a2860": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+                    "colorHex": "#0CC44D"
+                  }
+                ],
+                "fillToken": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "4c3ffbe377203a11636eab13a4cfc7fe556cdd89",
+            "when": {
+              "Filled": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "0c2ad41b5a6bea0638ab3e6c2e1d31cf727a2860",
+            "when": {
+              "Filled": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False",
+                "nodePath": "Filled=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token",
+          "deprecated component has no migration replacement"
+        ]
+      }
+    },
+    {
+      "id": "steps-vertical.universal",
+      "name": "❌ Steps_Vertical",
+      "normalizedName": "steps-vertical",
+      "componentKey": "8c6bd130660ad06137861eee848bac6f31b75600",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "2978c55b426dbdad02a7e8bc200af8706bffdb60",
+        "variants": {
+          "properties": {
+            "Horizontal": [
+              "Left",
+              "None"
+            ],
+            "MiddlePadding": [
+              "Airy",
+              "Compact"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "MiddlePadding": "Airy",
+              "Horizontal": "None"
+            },
+            {
+              "MiddlePadding": "Airy",
+              "Horizontal": "Left"
+            },
+            {
+              "MiddlePadding": "Compact",
+              "Horizontal": "None"
+            },
+            {
+              "MiddlePadding": "Compact",
+              "Horizontal": "Left"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "2978c55b426dbdad02a7e8bc200af8706bffdb60",
+              "id": "33:6478",
+              "name": "MiddlePadding=Airy, Horizontal=None",
+              "properties": {
+                "MiddlePadding": "Airy",
+                "Horizontal": "None"
+              }
+            },
+            {
+              "key": "a0386c7adeb6b07b45c9c7a2ae1560885e177eee",
+              "id": "33:6482",
+              "name": "MiddlePadding=Airy, Horizontal=Left",
+              "properties": {
+                "MiddlePadding": "Airy",
+                "Horizontal": "Left"
+              }
+            },
+            {
+              "key": "749d8996281ee721c9dd0eac5de661325f0fc334",
+              "id": "33:6487",
+              "name": "MiddlePadding=Compact, Horizontal=None",
+              "properties": {
+                "MiddlePadding": "Compact",
+                "Horizontal": "None"
+              }
+            },
+            {
+              "key": "29ddb4ebfbf4e514e0673230b64d253e3b022ce4",
+              "id": "33:6491",
+              "name": "MiddlePadding=Compact, Horizontal=Left",
+              "properties": {
+                "MiddlePadding": "Compact",
+                "Horizontal": "Left"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "MiddlePadding=Airy, Horizontal=None",
+            "type": "COMPONENT",
+            "path": "MiddlePadding=Airy, Horizontal=None",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "MiddlePadding=Airy, Horizontal=None",
+            "path": "MiddlePadding=Airy, Horizontal=None",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Indicator",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator",
+            "visible": true,
+            "variantProperties": {
+              "Position": "Start"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "Position": "Start"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "IndicatorContent",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / IndicatorContent",
+            "visible": true,
+            "variantProperties": {
+              "Active": "False",
+              "CriticalError": "False",
+              "Custom": "True",
+              "Error": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Waiting": "False",
+              "Warning": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Active": "False",
+                "CriticalError": "False",
+                "Custom": "True",
+                "Error": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Waiting": "False",
+                "Warning": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "Placeholder_24x24",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / IndicatorContent / Placeholder_24x24",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Wrapper",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / IndicatorContent / Placeholder_24x24 / Wrapper",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "8"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "8"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 10,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Line",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / Line",
+            "visible": true,
+            "variantProperties": {
+              "Filled": "False"
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "componentInstance": {
+              "variantProperties": {
+                "Filled": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "MiddlePadding=Airy, Horizontal=None / Indicator / Line / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          },
+          {
+            "nodeId": 12,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↔ SpacingHorizontal",
+            "path": "MiddlePadding=Airy, Horizontal=None / ↔ SpacingHorizontal",
+            "visible": true,
+            "variantProperties": {
+              "Size": "16"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "16"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MiddlePadding=Airy, Horizontal=None / ↔ SpacingHorizontal / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "SwapMe",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe",
+            "visible": true
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 17,
+            "parentId": 14,
+            "type": "FRAME",
+            "name": "blank",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / blank",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 18,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "a0386c7adeb6b07b45c9c7a2ae1560885e177eee": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "12"
+                  }
+                }
+              }
+            }
+          ],
+          "749d8996281ee721c9dd0eac5de661325f0fc334": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "12"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "8"
+                  }
+                }
+              }
+            }
+          ],
+          "29ddb4ebfbf4e514e0673230b64d253e3b022ce4": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "12"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "8"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "2978c55b426dbdad02a7e8bc200af8706bffdb60",
+            "when": {
+              "MiddlePadding": "Airy",
+              "Horizontal": "None"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a0386c7adeb6b07b45c9c7a2ae1560885e177eee",
+            "when": {
+              "MiddlePadding": "Airy",
+              "Horizontal": "Left"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "MiddlePadding=Airy, Horizontal=None",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "↕ SpacingVertical",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "749d8996281ee721c9dd0eac5de661325f0fc334",
+            "when": {
+              "MiddlePadding": "Compact",
+              "Horizontal": "None"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "MiddlePadding=Airy, Horizontal=None",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "↕ SpacingVertical",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "↔ SpacingHorizontal",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None / ↔ SpacingHorizontal",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "29ddb4ebfbf4e514e0673230b64d253e3b022ce4",
+            "when": {
+              "MiddlePadding": "Compact",
+              "Horizontal": "Left"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "MiddlePadding=Airy, Horizontal=None",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "↕ SpacingVertical",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "↔ SpacingHorizontal",
+                "nodePath": "MiddlePadding=Airy, Horizontal=None / ↔ SpacingHorizontal",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "deprecated component has no migration replacement"
+        ]
+      }
+    },
+    {
+      "id": "indicator-content.universal",
+      "name": "🔩 IndicatorContent",
+      "normalizedName": "indicator-content",
+      "componentKey": "8fb179b20f6ec07456a9ca1941b934b5c07e0864",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "2e1988c0f04b92aba65f9c732166d1f284883725",
+        "variants": {
+          "properties": {
+            "Active": [
+              "False",
+              "True"
+            ],
+            "CriticalError": [
+              "False",
+              "True"
+            ],
+            "Custom": [
+              "False",
+              "True"
+            ],
+            "Error": [
+              "False",
+              "True"
+            ],
+            "Ordered": [
+              "False",
+              "True"
+            ],
+            "Positive": [
+              "False",
+              "True"
+            ],
+            "Waiting": [
+              "False",
+              "True"
+            ],
+            "Warning": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Active": "False",
+              "Ordered": "True",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "True",
+              "Ordered": "True",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "True",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "True",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "True",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "True",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "True",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "True",
+              "Custom": "False"
+            },
+            {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "2e1988c0f04b92aba65f9c732166d1f284883725",
+              "id": "33:6503",
+              "name": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "True",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "a9c1e110cdfafa6b55858621b74f64a34659ef5e",
+              "id": "33:6507",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "04134e88815301cec2c85574ab3aafe33de90a84",
+              "id": "33:6511",
+              "name": "Active=True, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "True",
+                "Ordered": "True",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "e5568e8ac20545b2fb0d1dd9e5717d6354eb61ce",
+              "id": "33:6515",
+              "name": "Active=True, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "True",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "615a0b51df59f8926c8e690253943af223922efa",
+              "id": "33:6519",
+              "name": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "True",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "a47b1e1aaa86137b236d314ff489741d095af517",
+              "id": "33:6521",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "True",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "d27c7f0ba5d9808781ef182ff6cddad50fc0698d",
+              "id": "4946:2545",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "True",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "ef7b88851c6fa5fc303158e6c039fb48a7402f58",
+              "id": "42:28051",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "True",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "e9b42201034c4dde373f0e91cedf268451f29409",
+              "id": "42:28058",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "True",
+                "Custom": "False"
+              }
+            },
+            {
+              "key": "4cb7c4e53b44b0c1e4ac3135055439416af1886d",
+              "id": "33:6523",
+              "name": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=True",
+              "properties": {
+                "Active": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Warning": "False",
+                "Error": "False",
+                "CriticalError": "False",
+                "Waiting": "False",
+                "Custom": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+            "type": "COMPONENT",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 4
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "body",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "ELLIPSE",
+            "name": "Ellipse",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "TEXT",
+            "name": "N",
+            "path": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.4699999988079071,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:b657c53719573a5b414a97d0b5d3d69739579de2,8326:23"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "a9c1e110cdfafa6b55858621b74f64a34659ef5e": [
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "04134e88815301cec2c85574ab3aafe33de90a84": [
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.8799999952316284,
+                    "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                    "colorHex": "#030306"
+                  }
+                ],
+                "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.9399999976158142,
+                    "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                    "colorHex": "#FFFFFF"
+                  }
+                ],
+                "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+              }
+            }
+          ],
+          "e5568e8ac20545b2fb0d1dd9e5717d6354eb61ce": [
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "615a0b51df59f8926c8e690253943af223922efa": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "a47b1e1aaa86137b236d314ff489741d095af517": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "d27c7f0ba5d9808781ef182ff6cddad50fc0698d": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "ef7b88851c6fa5fc303158e6c039fb48a7402f58": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "e9b42201034c4dde373f0e91cedf268451f29409": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ],
+          "4cb7c4e53b44b0c1e4ac3135055439416af1886d": [
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "2e1988c0f04b92aba65f9c732166d1f284883725",
+            "when": {
+              "Active": "False",
+              "Ordered": "True",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a9c1e110cdfafa6b55858621b74f64a34659ef5e",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Checkbox",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Checkbox",
+                "affects": [
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Dot",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Dot",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "04134e88815301cec2c85574ab3aafe33de90a84",
+            "when": {
+              "Active": "True",
+              "Ordered": "True",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e5568e8ac20545b2fb0d1dd9e5717d6354eb61ce",
+            "when": {
+              "Active": "True",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Checkbox",
+                "nodePath": "Active=True, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Checkbox",
+                "affects": [
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Dot",
+                "nodePath": "Active=True, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Dot",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "615a0b51df59f8926c8e690253943af223922efa",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "True",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "StatusBadge",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Content",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "checkmark-compact",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Active=False, Ordered=False, Positive=True, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a47b1e1aaa86137b236d314ff489741d095af517",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "True",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "StatusBadge",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Content",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "exclamation-compact",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=True, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d27c7f0ba5d9808781ef182ff6cddad50fc0698d",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "True",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "StatusBadge",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Content",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge / 🔩 Content",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "cross-compact",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / cross-compact",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=True, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / cross-compact / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "ef7b88851c6fa5fc303158e6c039fb48a7402f58",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "True",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "StatusBadge",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Content",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "exclamation-compact",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=True, Error=False, CriticalError=False, Waiting=False, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e9b42201034c4dde373f0e91cedf268451f29409",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "True",
+              "Custom": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "StatusBadge",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "🔩 Content",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge / 🔩 Content",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge / 🔩 Content / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "clock-hands-compact",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / clock-hands-compact",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=True, Custom=False / StatusBadge / 🔩 Content / Fixer / PaintMe / clock-hands-compact / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4cb7c4e53b44b0c1e4ac3135055439416af1886d",
+            "when": {
+              "Active": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Warning": "False",
+              "Error": "False",
+              "CriticalError": "False",
+              "Waiting": "False",
+              "Custom": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Placeholder_24x24",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=True / Placeholder_24x24",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Wrapper",
+                "nodePath": "Active=False, Ordered=False, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=True / Placeholder_24x24 / Wrapper",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "body",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Ellipse",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / Ellipse",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "N",
+                "nodePath": "Active=False, Ordered=True, Positive=False, Warning=False, Error=False, CriticalError=False, Waiting=False, Custom=False / body / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "line.universal.75b5ab8d",
+      "name": "🔩 Line",
+      "normalizedName": "line",
+      "componentKey": "edbddfe9be38e1eb6e9a2b83f8c8bb7e06cef1b3",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "62cc1aedbccf8a928e3aa0e8fb76375661fee2f8",
+        "variants": {
+          "properties": {
+            "Color": [
+              "Attention",
+              "Custom",
+              "Negative",
+              "Neutral",
+              "Positive"
+            ],
+            "Filled": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Filled": "False",
+              "Color": "Positive"
+            },
+            {
+              "Filled": "True",
+              "Color": "Positive"
+            },
+            {
+              "Filled": "True",
+              "Color": "Attention"
+            },
+            {
+              "Filled": "True",
+              "Color": "Negative"
+            },
+            {
+              "Filled": "True",
+              "Color": "Neutral"
+            },
+            {
+              "Filled": "True",
+              "Color": "Custom"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "62cc1aedbccf8a928e3aa0e8fb76375661fee2f8",
+              "id": "33:6526",
+              "name": "Filled=False, Color=Positive",
+              "properties": {
+                "Filled": "False",
+                "Color": "Positive"
+              }
+            },
+            {
+              "key": "a7dda835654506a710bd7690edcc1606b2340714",
+              "id": "33:6528",
+              "name": "Filled=True, Color=Positive",
+              "properties": {
+                "Filled": "True",
+                "Color": "Positive"
+              }
+            },
+            {
+              "key": "9084180addff81d5f6197acb16a51d074c7dd052",
+              "id": "4497:1767",
+              "name": "Filled=True, Color=Attention",
+              "properties": {
+                "Filled": "True",
+                "Color": "Attention"
+              }
+            },
+            {
+              "key": "c49d546dcd766f062633be2f78cde4c0e65199a9",
+              "id": "4497:1770",
+              "name": "Filled=True, Color=Negative",
+              "properties": {
+                "Filled": "True",
+                "Color": "Negative"
+              }
+            },
+            {
+              "key": "af9912a6b0f43f495e2e9374f9cff002c68213d5",
+              "id": "4497:1773",
+              "name": "Filled=True, Color=Neutral",
+              "properties": {
+                "Filled": "True",
+                "Color": "Neutral"
+              }
+            },
+            {
+              "key": "41c5a08403d1627b610b428361982bf5d22dd2e8",
+              "id": "4497:1776",
+              "name": "Filled=True, Color=Custom",
+              "properties": {
+                "Filled": "True",
+                "Color": "Custom"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Filled=False, Color=Positive",
+            "type": "COMPONENT",
+            "path": "Filled=False, Color=Positive",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Filled=False, Color=Positive",
+            "path": "Filled=False, Color=Positive",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "Filled=False, Color=Positive / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "a7dda835654506a710bd7690edcc1606b2340714": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+                    "colorHex": "#0CC44D"
+                  }
+                ],
+                "fillToken": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107"
+              }
+            }
+          ],
+          "9084180addff81d5f6197acb16a51d074c7dd052": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c1c4bc13ded482f172aa2eee8a5e3d28d6179ff3/3541:106",
+                    "colorHex": "#FA9313"
+                  }
+                ],
+                "fillToken": "VariableID:c1c4bc13ded482f172aa2eee8a5e3d28d6179ff3/3541:106"
+              }
+            }
+          ],
+          "c49d546dcd766f062633be2f78cde4c0e65199a9": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204",
+                    "colorHex": "#FF4837"
+                  }
+                ],
+                "fillToken": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204"
+              }
+            }
+          ],
+          "af9912a6b0f43f495e2e9374f9cff002c68213d5": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+                    "colorHex": "#898991"
+                  }
+                ],
+                "fillToken": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171"
+              }
+            }
+          ],
+          "41c5a08403d1627b610b428361982bf5d22dd2e8": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FF47F8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "62cc1aedbccf8a928e3aa0e8fb76375661fee2f8",
+            "when": {
+              "Filled": "False",
+              "Color": "Positive"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a7dda835654506a710bd7690edcc1606b2340714",
+            "when": {
+              "Filled": "True",
+              "Color": "Positive"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "9084180addff81d5f6197acb16a51d074c7dd052",
+            "when": {
+              "Filled": "True",
+              "Color": "Attention"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c49d546dcd766f062633be2f78cde4c0e65199a9",
+            "when": {
+              "Filled": "True",
+              "Color": "Negative"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "af9912a6b0f43f495e2e9374f9cff002c68213d5",
+            "when": {
+              "Filled": "True",
+              "Color": "Neutral"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "41c5a08403d1627b610b428361982bf5d22dd2e8",
+            "when": {
+              "Filled": "True",
+              "Color": "Custom"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "generated id collision for line.universal; appended key suffix 75b5ab8d"
+        ]
+      }
+    },
+    {
+      "id": "line.universal.5a3f9174",
+      "name": "🔩 Line",
+      "normalizedName": "line",
+      "componentKey": "530df1d0a2b24d583d47e5f4d7aa7b11ac4f0d4b",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "32c8547676e1e7b373fbef266f2580abb3863067",
+        "variants": {
+          "properties": {
+            "Color": [
+              "Attention",
+              "Custom",
+              "Negative",
+              "Neutral",
+              "Positive"
+            ],
+            "Filled": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Filled": "False",
+              "Color": "Positive"
+            },
+            {
+              "Filled": "True",
+              "Color": "Positive"
+            },
+            {
+              "Filled": "True",
+              "Color": "Attention"
+            },
+            {
+              "Filled": "True",
+              "Color": "Negative"
+            },
+            {
+              "Filled": "True",
+              "Color": "Neutral"
+            },
+            {
+              "Filled": "True",
+              "Color": "Custom"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "32c8547676e1e7b373fbef266f2580abb3863067",
+              "id": "4474:1512",
+              "name": "Filled=False, Color=Positive",
+              "properties": {
+                "Filled": "False",
+                "Color": "Positive"
+              }
+            },
+            {
+              "key": "8fb08c0206af460c1334598b93073c4ee0760768",
+              "id": "4474:1514",
+              "name": "Filled=True, Color=Positive",
+              "properties": {
+                "Filled": "True",
+                "Color": "Positive"
+              }
+            },
+            {
+              "key": "2e47e4b869d69480f85ca8a01c5c9363116450ee",
+              "id": "4474:1522",
+              "name": "Filled=True, Color=Attention",
+              "properties": {
+                "Filled": "True",
+                "Color": "Attention"
+              }
+            },
+            {
+              "key": "2c314e43becec3879110d233954a88537dcbe896",
+              "id": "4474:1529",
+              "name": "Filled=True, Color=Negative",
+              "properties": {
+                "Filled": "True",
+                "Color": "Negative"
+              }
+            },
+            {
+              "key": "d716b58c128c83f89cdd48b0f790da5315a36e91",
+              "id": "4474:1533",
+              "name": "Filled=True, Color=Neutral",
+              "properties": {
+                "Filled": "True",
+                "Color": "Neutral"
+              }
+            },
+            {
+              "key": "f609e31635c74b2ed406ef5ba667ce33e750ca72",
+              "id": "4474:1625",
+              "name": "Filled=True, Color=Custom",
+              "properties": {
+                "Filled": "True",
+                "Color": "Custom"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Filled=False, Color=Positive",
+            "type": "COMPONENT",
+            "path": "Filled=False, Color=Positive",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Filled=False, Color=Positive",
+            "path": "Filled=False, Color=Positive",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "Filled=False, Color=Positive / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "8fb08c0206af460c1334598b93073c4ee0760768": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+                    "colorHex": "#0CC44D"
+                  }
+                ],
+                "fillToken": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107"
+              }
+            }
+          ],
+          "2e47e4b869d69480f85ca8a01c5c9363116450ee": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c1c4bc13ded482f172aa2eee8a5e3d28d6179ff3/3541:106",
+                    "colorHex": "#FA9313"
+                  }
+                ],
+                "fillToken": "VariableID:c1c4bc13ded482f172aa2eee8a5e3d28d6179ff3/3541:106"
+              }
+            }
+          ],
+          "2c314e43becec3879110d233954a88537dcbe896": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204",
+                    "colorHex": "#FF4837"
+                  }
+                ],
+                "fillToken": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204"
+              }
+            }
+          ],
+          "d716b58c128c83f89cdd48b0f790da5315a36e91": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+                    "colorHex": "#898991"
+                  }
+                ],
+                "fillToken": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171"
+              }
+            }
+          ],
+          "f609e31635c74b2ed406ef5ba667ce33e750ca72": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FF47F8"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "32c8547676e1e7b373fbef266f2580abb3863067",
+            "when": {
+              "Filled": "False",
+              "Color": "Positive"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "8fb08c0206af460c1334598b93073c4ee0760768",
+            "when": {
+              "Filled": "True",
+              "Color": "Positive"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2e47e4b869d69480f85ca8a01c5c9363116450ee",
+            "when": {
+              "Filled": "True",
+              "Color": "Attention"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2c314e43becec3879110d233954a88537dcbe896",
+            "when": {
+              "Filled": "True",
+              "Color": "Negative"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d716b58c128c83f89cdd48b0f790da5315a36e91",
+            "when": {
+              "Filled": "True",
+              "Color": "Neutral"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "f609e31635c74b2ed406ef5ba667ce33e750ca72",
+            "when": {
+              "Filled": "True",
+              "Color": "Custom"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Filled=False, Color=Positive",
+                "nodePath": "Filled=False, Color=Positive",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Divider",
+                "nodePath": "Filled=False, Color=Positive / Divider",
+                "affects": [
+                  "fills"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "generated id collision for line.universal; appended key suffix 5a3f9174"
+        ]
+      }
+    },
+    {
+      "id": "min-space.universal",
+      "name": "🔩 MinSpace",
+      "normalizedName": "min-space",
+      "componentKey": "7a6f19ac159597fd21d667c1a5eaf31a3e091bdf",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "e8007abbc8d22711237b09e3586aab6698cdc4c9",
+        "variants": {
+          "properties": {
+            "MinSpace": [
+              "16",
+              "24",
+              "32"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "MinSpace": "16"
+            },
+            {
+              "MinSpace": "24"
+            },
+            {
+              "MinSpace": "32"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "e8007abbc8d22711237b09e3586aab6698cdc4c9",
+              "id": "4569:2506",
+              "name": "MinSpace=16",
+              "properties": {
+                "MinSpace": "16"
+              }
+            },
+            {
+              "key": "8f70a264e223768e6a92e583f5078ee19bf9b221",
+              "id": "4569:2505",
+              "name": "MinSpace=24",
+              "properties": {
+                "MinSpace": "24"
+              }
+            },
+            {
+              "key": "27590b647ad4a12ff82accc2cca95c1252db65ac",
+              "id": "4569:2504",
+              "name": "MinSpace=32",
+              "properties": {
+                "MinSpace": "32"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "MinSpace=16",
+            "type": "COMPONENT",
+            "path": "MinSpace=16",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "MinSpace=16",
+            "path": "MinSpace=16",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "MinSpace=16 / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "e8007abbc8d22711237b09e3586aab6698cdc4c9",
+            "when": {
+              "MinSpace": "16"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "8f70a264e223768e6a92e583f5078ee19bf9b221",
+            "when": {
+              "MinSpace": "24"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "MinSpace=16",
+                "nodePath": "MinSpace=16",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "27590b647ad4a12ff82accc2cca95c1252db65ac",
+            "when": {
+              "MinSpace": "32"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "MinSpace=16",
+                "nodePath": "MinSpace=16",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "steps-horizontal.universal",
+      "name": "Steps_Horizontal",
+      "normalizedName": "steps-horizontal",
+      "componentKey": "6248360b0b187608b9b9d0206633bea83bb0d9ad",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "a3f8602ed190d2192626784906dd2d3e94382272",
+        "variants": {
+          "properties": {
+            "LastStep": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "LastStep": "False"
+            },
+            {
+              "LastStep": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "a3f8602ed190d2192626784906dd2d3e94382272",
+              "id": "4497:17914",
+              "name": "LastStep=False",
+              "properties": {
+                "LastStep": "False"
+              }
+            },
+            {
+              "key": "dbdabbd5be329e959b4b024809d4d5f29ac5919e",
+              "id": "4518:3528",
+              "name": "LastStep=True",
+              "properties": {
+                "LastStep": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "LastStep=False",
+            "type": "COMPONENT",
+            "path": "LastStep=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "LastStep=False / HorizontalLabel / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 8
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "LastStep=False",
+            "path": "LastStep=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "IndicatorContent",
+            "path": "LastStep=False / IndicatorContent",
+            "visible": true,
+            "variantProperties": {
+              "Active": "False",
+              "CriticalError": "False",
+              "Custom": "True",
+              "Error": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Waiting": "False",
+              "Warning": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Active": "False",
+                "CriticalError": "False",
+                "Custom": "True",
+                "Error": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Waiting": "False",
+                "Warning": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Placeholder_24x24",
+            "path": "LastStep=False / IndicatorContent / Placeholder_24x24",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Wrapper",
+            "path": "LastStep=False / IndicatorContent / Placeholder_24x24 / Wrapper",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↔ SpacingHorizontal",
+            "path": "LastStep=False / ↔ SpacingHorizontal",
+            "visible": true,
+            "variantProperties": {
+              "Size": "4"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "4"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "LastStep=False / ↔ SpacingHorizontal / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "HorizontalLabel",
+            "path": "LastStep=False / HorizontalLabel",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+            ],
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 12
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "LastStep=False / HorizontalLabel / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Step",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,8326:8175"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Line",
+            "path": "LastStep=False / Line",
+            "visible": true,
+            "variantProperties": {
+              "Color": "Positive",
+              "Filled": "False"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "Positive",
+                "Filled": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "LastStep=False / Line / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          },
+          {
+            "nodeId": 11,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↔ SpacingHorizontal",
+            "path": "LastStep=False / ↔ SpacingHorizontal",
+            "visible": true,
+            "variantProperties": {
+              "Size": "8"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "8"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "LastStep=False / ↔ SpacingHorizontal / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "dbdabbd5be329e959b4b024809d4d5f29ac5919e": [
+            {
+              "op": "update",
+              "id": 11,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Size": "4"
+                  }
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 9
+            },
+            {
+              "op": "remove",
+              "id": 10
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "a3f8602ed190d2192626784906dd2d3e94382272",
+            "when": {
+              "LastStep": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "dbdabbd5be329e959b4b024809d4d5f29ac5919e",
+            "when": {
+              "LastStep": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "LastStep=False",
+                "nodePath": "LastStep=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 11,
+                "nodeName": "↔ SpacingHorizontal",
+                "nodePath": "LastStep=False / ↔ SpacingHorizontal",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 9,
+                "nodeName": "Line",
+                "nodePath": "LastStep=False / Line",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 10,
+                "nodeName": "Divider",
+                "nodePath": "LastStep=False / Line / Divider",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "steps-vertical.universal.a45d7458",
+      "name": "Steps_Vertical",
+      "normalizedName": "steps-vertical",
+      "componentKey": "9c47f8014b3b2814bab264b0544270c00b2afaa5",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "40f736b756c33be093841bcb07bf1cc97650ae9d",
+        "variants": {
+          "properties": {
+            "LastStep": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "LastStep": "False"
+            },
+            {
+              "LastStep": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "40f736b756c33be093841bcb07bf1cc97650ae9d",
+              "id": "4474:1310",
+              "name": "LastStep=False",
+              "properties": {
+                "LastStep": "False"
+              }
+            },
+            {
+              "key": "39f8620fc762b4625dfdffeec51abe7f3f7fb12f",
+              "id": "4474:1447",
+              "name": "LastStep=True",
+              "properties": {
+                "LastStep": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "LastStep=False",
+            "type": "COMPONENT",
+            "path": "LastStep=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "LastStep=False / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 8
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "LastStep=False",
+            "path": "LastStep=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Indicator",
+            "path": "LastStep=False / Indicator",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 8
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "IndicatorContent",
+            "path": "LastStep=False / Indicator / IndicatorContent",
+            "visible": true,
+            "variantProperties": {
+              "Active": "False",
+              "CriticalError": "False",
+              "Custom": "True",
+              "Error": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Waiting": "False",
+              "Warning": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Active": "False",
+                "CriticalError": "False",
+                "Custom": "True",
+                "Error": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Waiting": "False",
+                "Warning": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "Placeholder_24x24",
+            "path": "LastStep=False / Indicator / IndicatorContent / Placeholder_24x24",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Wrapper",
+            "path": "LastStep=False / Indicator / IndicatorContent / Placeholder_24x24 / Wrapper",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Line",
+            "path": "LastStep=False / Indicator / Line",
+            "visible": true,
+            "variantProperties": {
+              "Color": "Positive",
+              "Filled": "False"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "Positive",
+                "Filled": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "LastStep=False / Indicator / Line / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          },
+          {
+            "nodeId": 8,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "LastStep=False / Content",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "🔩 SwapMe",
+            "path": "LastStep=False / Content / 🔩 SwapMe",
+            "visible": true
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "FRAME",
+            "name": "blank",
+            "path": "LastStep=False / Content / 🔩 SwapMe / blank",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "LastStep=False / Content / 🔩 SwapMe / blank / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 12,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "MinSpace",
+            "path": "LastStep=False / Content / MinSpace",
+            "visible": true,
+            "variantProperties": {
+              "MinSpace": "24"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "MinSpace": "24"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "LastStep=False / Content / MinSpace / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "39f8620fc762b4625dfdffeec51abe7f3f7fb12f": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "layout": {
+                  "padding": {
+                    "top": 8,
+                    "right": 8,
+                    "bottom": 0,
+                    "left": 0
+                  }
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 6
+            },
+            {
+              "op": "remove",
+              "id": 7
+            },
+            {
+              "op": "remove",
+              "id": 12
+            },
+            {
+              "op": "remove",
+              "id": 13
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "40f736b756c33be093841bcb07bf1cc97650ae9d",
+            "when": {
+              "LastStep": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "39f8620fc762b4625dfdffeec51abe7f3f7fb12f",
+            "when": {
+              "LastStep": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "LastStep=False",
+                "nodePath": "LastStep=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Indicator",
+                "nodePath": "LastStep=False / Indicator",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 6,
+                "nodeName": "Line",
+                "nodePath": "LastStep=False / Indicator / Line",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 7,
+                "nodeName": "Divider",
+                "nodePath": "LastStep=False / Indicator / Line / Divider",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 12,
+                "nodeName": "MinSpace",
+                "nodePath": "LastStep=False / Content / MinSpace",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 13,
+                "nodeName": "Fixer",
+                "nodePath": "LastStep=False / Content / MinSpace / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "generated id collision for steps-vertical.universal; appended key suffix a45d7458"
+        ]
+      }
+    },
+    {
+      "id": "horizontal-label.universal",
+      "name": "❌   HorizontalLabel",
+      "normalizedName": "horizontal-label",
+      "componentKey": "b166a83b5ecc99cb7bb0ebfcf54c0c6114e92188",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "b166a83b5ecc99cb7bb0ebfcf54c0c6114e92188",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "b166a83b5ecc99cb7bb0ebfcf54c0c6114e92188",
+              "id": "33:6555",
+              "name": "❌   HorizontalLabel",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "❌   HorizontalLabel",
+            "type": "COMPONENT",
+            "path": "❌   HorizontalLabel",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_label",
+            "type": "TEXT",
+            "path": "❌   HorizontalLabel / _label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "❌   HorizontalLabel",
+            "path": "❌   HorizontalLabel",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 12
+            },
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "_label",
+            "path": "❌   HorizontalLabel / _label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Step name",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,8326:8175"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "b166a83b5ecc99cb7bb0ebfcf54c0c6114e92188",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "deprecated component has no migration replacement",
+          "variant name cannot be fully parsed: ❌   HorizontalLabel"
+        ]
+      }
+    },
+    {
+      "id": "steps-horizontal.universal.b8b685c7",
+      "name": "❌  Steps_Horizontal",
+      "normalizedName": "steps-horizontal",
+      "componentKey": "d049346a6cb88799852fc75b55a2a97c81dc0847",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "d049346a6cb88799852fc75b55a2a97c81dc0847",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "d049346a6cb88799852fc75b55a2a97c81dc0847",
+              "id": "33:6496",
+              "name": "❌  Steps_Horizontal",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "❌  Steps_Horizontal",
+            "type": "COMPONENT",
+            "path": "❌  Steps_Horizontal",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "_label",
+            "type": "TEXT",
+            "path": "❌  Steps_Horizontal / HorizontalLabel / _label",
+            "required": false,
+            "visible": true,
+            "nodeId": 8
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "❌  Steps_Horizontal",
+            "path": "❌  Steps_Horizontal",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "IndicatorContent",
+            "path": "❌  Steps_Horizontal / IndicatorContent",
+            "visible": true,
+            "variantProperties": {
+              "Active": "False",
+              "CriticalError": "False",
+              "Custom": "True",
+              "Error": "False",
+              "Ordered": "False",
+              "Positive": "False",
+              "Waiting": "False",
+              "Warning": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Active": "False",
+                "CriticalError": "False",
+                "Custom": "True",
+                "Error": "False",
+                "Ordered": "False",
+                "Positive": "False",
+                "Waiting": "False",
+                "Warning": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Placeholder_24x24",
+            "path": "❌  Steps_Horizontal / IndicatorContent / Placeholder_24x24",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Wrapper",
+            "path": "❌  Steps_Horizontal / IndicatorContent / Placeholder_24x24 / Wrapper",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↔ SpacingHorizontal",
+            "path": "❌  Steps_Horizontal / ↔ SpacingHorizontal",
+            "visible": true,
+            "variantProperties": {
+              "Size": "4"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "4"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "❌  Steps_Horizontal / ↔ SpacingHorizontal / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "HorizontalLabel",
+            "path": "❌  Steps_Horizontal / HorizontalLabel",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 12
+            },
+            "radius": 8
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "TEXT",
+            "name": "_label",
+            "path": "❌  Steps_Horizontal / HorizontalLabel / _label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Step name",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,8326:8175"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Line",
+            "path": "❌  Steps_Horizontal / Line",
+            "visible": true,
+            "variantProperties": {
+              "Color": "Positive",
+              "Filled": "False"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Color": "Positive",
+                "Filled": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "RECTANGLE",
+            "name": "Divider",
+            "path": "❌  Steps_Horizontal / Line / Divider",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "d049346a6cb88799852fc75b55a2a97c81dc0847",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "deprecated component has no migration replacement",
+          "generated id collision for steps-horizontal.universal; appended key suffix b8b685c7",
+          "variant name cannot be fully parsed: ❌  Steps_Horizontal"
+        ]
+      }
+    },
+    {
+      "id": "swap-me.universal",
+      "name": "❌  SwapMe",
+      "normalizedName": "swap-me",
+      "componentKey": "c28c16c5663f7ec1cc9b4436936ed4fbc9d00b8c",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "c28c16c5663f7ec1cc9b4436936ed4fbc9d00b8c",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "c28c16c5663f7ec1cc9b4436936ed4fbc9d00b8c",
+              "id": "33:6551",
+              "name": "❌  SwapMe",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "❌  SwapMe",
+            "type": "COMPONENT",
+            "path": "❌  SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "❌  SwapMe",
+            "path": "❌  SwapMe",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "❌  SwapMe / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "❌  SwapMe / ↕ SpacingVertical / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "blank",
+            "path": "❌  SwapMe / blank",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "↕ SpacingVertical",
+            "path": "❌  SwapMe / ↕ SpacingVertical",
+            "visible": true,
+            "variantProperties": {
+              "Size": "12"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "12"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "❌  SwapMe / ↕ SpacingVertical / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "c28c16c5663f7ec1cc9b4436936ed4fbc9d00b8c",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "deprecated component has no migration replacement",
+          "variant name cannot be fully parsed: ❌  SwapMe"
+        ]
+      }
+    },
+    {
+      "id": "horizontal-label.universal.3f6ff3ca",
+      "name": "🔩 HorizontalLabel",
+      "normalizedName": "horizontal-label",
+      "componentKey": "4c7138d94f7a5793ef83723a2cc6817690d435d8",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4c7138d94f7a5793ef83723a2cc6817690d435d8",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "4c7138d94f7a5793ef83723a2cc6817690d435d8",
+              "id": "4497:17919",
+              "name": "🔩 HorizontalLabel",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 HorizontalLabel",
+            "type": "COMPONENT",
+            "path": "🔩 HorizontalLabel",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "🔩 HorizontalLabel / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 HorizontalLabel",
+            "path": "🔩 HorizontalLabel",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+            ],
+            "layout": {
+              "padding": {
+                "top": 8,
+                "right": 8,
+                "bottom": 8,
+                "left": 8
+              },
+              "itemSpacing": 12
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "🔩 HorizontalLabel / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Step",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,8326:8175"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "4c7138d94f7a5793ef83723a2cc6817690d435d8",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "generated id collision for horizontal-label.universal; appended key suffix 3f6ff3ca",
+          "variant name cannot be fully parsed: 🔩 HorizontalLabel"
+        ]
+      }
+    },
+    {
+      "id": "swap-me.universal.25f963b2",
+      "name": "🔩 SwapMe",
+      "normalizedName": "swap-me",
+      "componentKey": "f02a875b2245040f28d2c894c13e3135ef3255f9",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "f02a875b2245040f28d2c894c13e3135ef3255f9",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "f02a875b2245040f28d2c894c13e3135ef3255f9",
+              "id": "4474:1641",
+              "name": "🔩 SwapMe",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 SwapMe",
+            "type": "COMPONENT",
+            "path": "🔩 SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 SwapMe",
+            "path": "🔩 SwapMe",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "blank",
+            "path": "🔩 SwapMe / blank",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "layout": {
+              "itemSpacing": 10
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "🔩 SwapMe / blank / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "f02a875b2245040f28d2c894c13e3135ef3255f9",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "generated id collision for swap-me.universal; appended key suffix 25f963b2",
+          "variant name cannot be fully parsed: 🔩 SwapMe"
+        ]
+      }
+    }
+  ]
+}

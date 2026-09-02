@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.tabs-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- TabsView.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "TabsView"
+      ]
+    },
+    "summary": {
+      "componentFamily": "TabsView",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] TabsView",
+        "key": "44f1398a704dba217a9da9694913ec61b5bb15bf",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Skeleton": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[M] TabsView",
+        "key": "7e5a6fc084855cf77309a75abe8da46f09893aa0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Skeleton": [
+            "false",
+            "true"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "componentSemantics": [
+      {
+        "componentKey": "44f1398a704dba217a9da9694913ec61b5bb15bf",
+        "name": "[D] TabsView",
+        "purpose": "Desktop-композиция вкладок для переключения разделов или представлений с обязательным Primary и опциональным Secondary уровнем.",
+        "useWhen": [
+          "На desktop нужно переключать связанный контент между двумя и более равноправными разделами."
+        ],
+        "doNotUseWhen": [
+          "Нужна основная навигация приложения или больше двух уровней вложенности."
+        ],
+        "relationship": "Публичный desktop-wrapper над TabsPrimary и TabsSecondary; управляет overflow и effective baseline вложенных табов.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      },
+      {
+        "componentKey": "7e5a6fc084855cf77309a75abe8da46f09893aa0",
+        "name": "[M] TabsView",
+        "purpose": "Mobile-web композиция вкладок для переключения разделов или представлений с обязательным Primary и опциональным Secondary уровнем.",
+        "useWhen": [
+          "В mobile-web нужно переключать связанный контент между двумя и более равноправными разделами."
+        ],
+        "doNotUseWhen": [
+          "Нужна основная навигация приложения или больше двух уровней вложенности."
+        ],
+        "relationship": "Публичный mobile-web wrapper над TabsPrimary и TabsSecondary; переполнение обрабатывается горизонтальным свайпом.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      }
+    ],
+    "summary": {
+      "componentFamily": "TabsView",
+      "library": "Web _ Corp Components",
+      "purpose": "TabsView — wrapper/composite component вокруг primary и secondary tabs. Apollo должен использовать TabsView effective baseline для nested TabsPrimary/TabsSecondary differences и подавлять wrapper-owned overrides, когда actual совпадает с effective baseline.",
+      "includedComponents": [
+        "[D] TabsView",
+        "[M] TabsView"
+      ]
+    },
+    "publicComponentProperties": {
+      "variant.Skeleton": [
+        "false",
+        "true"
+      ]
+    },
+    "compositionModel": {
+      "ownsNestedOverrides": true,
+      "effectiveBaselineRequired": true,
+      "wrappedComponents": [
+        "TabsPrimary",
+        "[D] TabsSecondary",
+        "[M] TabsSecondary",
+        "TabPrimary",
+        "Tag"
+      ],
+      "suppressWhenEqualToEffectiveBaseline": [
+        "TabsPrimary.layout.itemSpacing",
+        "TabsPrimary/Items.layout.itemSpacing",
+        "TabsPrimary/Items/TabPrimary.layout.itemSpacing",
+        "TabsPrimary/Items/TabPrimary/Content/Label.styles.text",
+        "TabsSecondary.layout.itemSpacing"
+      ]
+    },
+    "componentPolicy": {
+      "primaryRequired": true,
+      "secondaryRequired": false,
+      "minimumVisibleTabs": {
+        "primary": 2,
+        "secondaryWhenVisible": 2
+      },
+      "maximumVisibleTabs": "Пока не регламентировано.",
+      "activeState": "Одновременно активен только один Primary и, если второй уровень показан, только один Secondary. Disabled-табы учитываются в минимуме видимых, но на каждом уровне должен оставаться хотя бы один доступный активный таб.",
+      "labels": "Текст можно менять. Label остаётся в одну строку, содержит до 10 символов и не дублирует соседние табы одного уровня. При необходимости увеличивается ширина таба.",
+      "primaryAddon": "Можно включать и заменять через instance swap. Допустимы иконки, счётчики и статусы, но только у активного и доступного Primary.",
+      "disabledState": "Отдельные табы можно отключать.",
+      "loading": "TabsView.Skeleton=true показывает один общий skeleton. Любой таб может перезагружаться отдельно; активный остаётся выбранным, а переключение на другие табы доступно.",
+      "tabCollection": "Дизайнер может добавлять, скрывать и менять порядок Primary и Secondary, сохраняя минимум два видимых таба на каждом показанном уровне.",
+      "secondaryContext": "У каждого Primary может быть собственный набор Secondary. Для отдельных Primary второй уровень может отсутствовать. При выборе Primary активируется первый доступный Secondary; предыдущий выбор не восстанавливается.",
+      "secondaryProperties": "Size=40, View=Filled, Shape=Rounded и SingleIcon=False обязательны. Indicator=Collapsed показывает точку, Indicator=Digit — числовой счётчик до 99+, Hidden скрывает индикатор.",
+      "visualBaseline": "Ручные изменения отступов, паддингов, divider, типографики, заливок, обводок, скруглений и opacity запрещены.",
+      "overflow": "На desktop Slider появляется автоматически только при переполнении; вручную включать его нельзя. На mobile-web Slider запрещён, используется горизонтальный свайп.",
+      "spacing": "Между Primary и Secondary — 24 px. Между последним видимым уровнем табов и контентом — 24 px. Менять эти отступы вручную нельзя.",
+      "adaptiveParity": "Desktop и mobile-web версии должны иметь одинаковые названия, порядок и количество табов.",
+      "interaction": "Повторное нажатие на уже активный таб ничего не делает. Таб может переключать контент текущей страницы или вести на другую страницу/URL.",
+      "contentBinding": "Допустимы только два уровня: Primary и Secondary. Если Secondary показан, контент принадлежит активному Secondary; прямого контента Primary в этом состоянии нет.",
+      "availability": "Недоступные из-за прав, сегмента или данных табы не скрываются, а переводятся в Disabled. Если активный таб становится недоступным, активируется первый доступный таб уровня."
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.Skeleton"
+      ],
+      "wrapperOwnedLayerProperties": [
+        "TabsPrimary.layout.itemSpacing",
+        "TabsPrimary/Items.layout.itemSpacing",
+        "TabsPrimary/Items/TabPrimary.layout.itemSpacing",
+        "TabsPrimary/Items/TabPrimary/Content/Label.styles.text",
+        "TabsSecondary.layout.itemSpacing"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "strokeWeight",
+        "styles.text",
+        "layout.padding",
+        "layout.itemSpacing",
+        "opacity",
+        "radius"
+      ],
+      "contentProperties": [
+        "TabPrimary/Content/Label.characters",
+        "Tag/Text/Label.characters"
+      ],
+      "ordering": [
+        "component-property",
+        "wrapper-owned-layer-property",
+        "layer-property",
+        "content-property"
+      ],
+      "baselinePolicy": "Для nested TabsPrimary/TabsSecondary changes сравнивай actual с TabsView effective baseline, а не со standalone nested component baseline."
+    },
+    "exampleInterpretations": [
+      {
+        "case": "Items spacing standalone 24, TabsView effective 32, actual 32",
+        "agentShouldSay": "Нет customization: это wrapper-owned TabsView override.",
+        "agentShouldNotSay": "Apollo нашёл spacing customization 24 -> 32."
+      },
+      {
+        "case": "Items spacing standalone 24, TabsView effective 32, actual 40",
+        "agentShouldSay": "Apollo нашёл TabsView layer customization: spacing 32 -> 40.",
+        "agentShouldNotSay": "Spacing изменился 24 -> 40."
+      }
+    ],
+    "ruleReferences": [
+      "component:web-corp.tabs-view.skeleton-is-component-property",
+      "component:web-corp.tabs-view.wrapper-owned-primary-tabs-overrides",
+      "component:web-corp.tabs-view.manual-primary-tabs-layer-override",
+      "component:web-corp.tabs-view.manual-secondary-tabs-layer-override",
+      "component:web-corp.tabs-view.primary-is-required",
+      "component:web-corp.tabs-view.minimum-two-tabs-per-visible-level",
+      "component:web-corp.tabs-view.one-active-tab-per-visible-level",
+      "component:web-corp.tabs-view.label-is-editable-single-line",
+      "component:web-corp.tabs-view.primary-addon-is-configurable",
+      "component:web-corp.tabs-view.primary-addon-types",
+      "component:web-corp.tabs-view.individual-disabled-state-is-allowed",
+      "component:web-corp.tabs-view.loading-scope",
+      "component:web-corp.tabs-view.tab-collection-is-configurable",
+      "component:web-corp.tabs-view.secondary-context-follows-primary",
+      "component:web-corp.tabs-view.secondary-fixed-properties",
+      "component:web-corp.tabs-view.secondary-indicator-is-configurable",
+      "component:web-corp.tabs-view.secondary-single-icon-forbidden",
+      "component:web-corp.tabs-view.active-tab-cannot-be-disabled",
+      "component:web-corp.tabs-view.labels-are-unique-within-level",
+      "component:web-corp.tabs-view.label-maximum-ten-characters",
+      "component:web-corp.tabs-view.minimum-one-enabled-active-tab",
+      "component:web-corp.tabs-view.primary-addon-active-only",
+      "component:web-corp.tabs-view.indicator-digit-maximum",
+      "component:web-corp.tabs-view.fixed-external-spacing",
+      "component:web-corp.tabs-view.desktop-mobile-web-parity",
+      "component:web-corp.tabs-view.secondary-selects-first-enabled",
+      "component:web-corp.tabs-view.individual-loading-behavior",
+      "component:web-corp.tabs-view.root-skeleton-presentation",
+      "component:web-corp.tabs-view.active-tab-repeat-click-noop",
+      "component:web-corp.tabs-view.maximum-two-levels",
+      "component:web-corp.tabs-view.content-follows-active-secondary",
+      "component:web-corp.tabs-view.unavailable-tabs-are-disabled",
+      "component:web-corp.tabs-view.navigation-mode-is-contextual",
+      "component:web-corp.tabs-view.manual-visual-overrides-forbidden",
+      "component:web-corp.tabs-view.platform-overflow-behavior"
+    ]
+  }
+}

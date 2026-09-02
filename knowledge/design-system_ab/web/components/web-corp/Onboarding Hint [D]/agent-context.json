@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- Onboarding Hint [D].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Onboarding Hint [D]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Onboarding Hint [D]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "Onboarding Hint",
+        "key": "cdb832111bbc0efc2c6d215db6b4eed1e1d02e51",
+        "description": "Max width: 420px;  \nRecommended width: 360px",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Tail Direction": [
+            "←",
+            "↑",
+            "→",
+            "↓"
+          ],
+          "Tail Position": [
+            "Center",
+            "End",
+            "Start"
+          ]
+        }
+      },
+      {
+        "name": "Tail",
+        "key": "55308b6713348e69272d9005cfb00ae22515db5e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Direction": [
+            "←",
+            "↑",
+            "→",
+            "↓"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": "Onboarding Hint — desktop-компонент для знакомства пользователя с новой или изменившейся функцией. Для обычного краткого пояснения элемента интерфейса используй Hint.",
+    "componentSemantics": [
+      {
+        "componentKey": "cdb832111bbc0efc2c6d215db6b4eed1e1d02e51",
+        "name": "Onboarding Hint",
+        "role": "public-root",
+        "platform": "desktop",
+        "purpose": "Познакомить пользователя с новой или изменившейся функцией.",
+        "mobileWebReplacement": "BottomSheet",
+        "status": "approved",
+        "provenance": "design-system-author"
+      },
+      {
+        "componentKey": "55308b6713348e69272d9005cfb00ae22515db5e",
+        "name": "Tail",
+        "role": "internal-only",
+        "purpose": "Указывает на связанный с Onboarding Hint объект или область.",
+        "standaloneUsageAllowed": false,
+        "status": "approved",
+        "provenance": "design-system-author"
+      }
+    ],
+    "criticalBaselines": [
+      "Onboarding Hint [D] используется только на desktop от 768 px; на mobile-web используется BottomSheet.",
+      "Title, одна кнопка, Close и Tail обязательны, скрывать их нельзя.",
+      "Title содержит не более 70 символов.",
+      "Встроенная кнопка использует Size=32, View=Text, Shape=Rectangular, SingleIcon=False, DisabledState=False, без addons.",
+      "Кнопка может завершить hint как результат действия или запустить связанную функцию.",
+      "Hint может запускаться автоматически или по триггерному событию; повторный показ определяется бизнес-логикой.",
+      "Tail должен указывать на связанный объект или область.",
+      "Hint не перекрывает связанный объект; объект остаётся видимым и интерактивным.",
+      "Самостоятельно прервать hint можно только через Close без подтверждения. Esc и клик снаружи не закрывают hint.",
+      "Высота всегда Hug; ширину разрешено менять; остальные визуальные параметры соответствуют effective baseline.",
+      "Hint полностью помещается во viewport и может использоваться поверх Modal или Drawer.",
+      "Title содержит только обычный текст, без ссылок, списков и rich text.",
+      "Close соответствует effective baseline и не может быть заменён.",
+      "Вложенная иконка Close использует Type=icon-20; её fill соответствует effective baseline; glyph использует Size=20, Color=False и Style=Thinline.",
+      "Допустимо только обычное состояние, без loading, disabled и error.",
+      "Одновременно отображается только один hint; его нельзя запускать без видимого объекта внутри viewport.",
+      "Hint не блокирует взаимодействие с остальным интерфейсом.",
+      "Title переносится на новые строки без truncation.",
+      "Label кнопки можно менять по контексту; действуют общие правила Button.",
+      "Внутри hint интерактивны только Button и Close; связанный внешний объект остаётся интерактивным.",
+      "Tail Direction и Tail Position выбираются по расположению цели.",
+      "Onboarding Hint является одиночной подсказкой и не собирается в последовательный flow.",
+      "В компоненте всегда ровно одна кнопка.",
+      "В конце Title можно поставить точку; правило обычного Hint о запрете точки здесь не применяется.",
+      "Hint показывается без backdrop, затемнения и spotlight.",
+      "Контент относится только к знакомству с функцией, а не к ошибкам, ограничениям или последствиям.",
+      "Результат выполненного действия показывается через Toast, Notification или CorporateStatusScreen.",
+      "Рекомендуемая ширина Onboarding Hint — 360 px, максимальная — 420 px."
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline выбранных Tail Direction и Tail Position. Изменения обязательной анатомии и конфигурации вложенной кнопки трактуй по exact component rules."
+    },
+    "agentInstructions": [
+      "Не называй любое использование Onboarding Hint нарушением: сначала проверь платформу, обязательную анатомию и exact component rules.",
+      "Не придумывай ограничения на действие кнопки: допустимы закрытие hint и запуск связанной функции.",
+      "Не переноси правила многошагового Onboarding Tooltip на Onboarding Hint без отдельного правила.",
+      "Не запрещай ручное изменение ширины: это разрешённая настройка.",
+      "Не предлагай закрытие по Esc или клику снаружи.",
+      "Не требуй blocking overlay: Onboarding Hint не блокирует остальной интерфейс.",
+      "Не придумывай loading, disabled или error states.",
+      "Не запрещай перенос Title и не требуй truncation.",
+      "Не считай изменение label кнопки нарушением само по себе.",
+      "Не предлагай сделать кликабельной всю поверхность hint.",
+      "Не превращай несколько Onboarding Hint в многошаговый onboarding.",
+      "Не применяй к Onboarding Hint правило no-final-dot-in-hint.",
+      "Не предлагай backdrop или spotlight.",
+      "Не используй Onboarding Hint как замену Toast, Notification или CorporateStatusScreen.",
+      "Не запрещай ширину от 360 до 420 px: 360 px является рекомендацией, а нарушением считается только значение больше 420 px."
+    ]
+  }
+}

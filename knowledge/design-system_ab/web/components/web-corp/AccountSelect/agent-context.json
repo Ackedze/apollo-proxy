@@ -1,0 +1,369 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.account-select",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- AccountSelect.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "AccountSelect"
+      ]
+    },
+    "summary": {
+      "componentFamily": "AccountSelect",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] GroupedOptionCell ",
+        "key": "46f876d4ea1335308e07b0ffbe9ddb67f56c0ea9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "SelectType": [
+            "Multi",
+            "Single"
+          ]
+        }
+      },
+      {
+        "name": "[M] AccountOptionListContent ",
+        "key": "640611059a9889ec25a402e98484667d9bc9b63c",
+        "description": "Вставлять в BottomSheet / Modal один экземпляр компонента",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Grouped": [
+            "False",
+            "True"
+          ],
+          "SelectType": [
+            "Multi",
+            "Single"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D] AccountOptionListContent ",
+        "key": "86748eec7d81787f8306d2e57afac9f4328128cf",
+        "description": "Вставлять в OptionList один экземпляр компонента",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Grouped": [
+            "False",
+            "True"
+          ],
+          "SelectType": [
+            "Multi",
+            "Single"
+          ]
+        }
+      },
+      {
+        "name": "AccountInfo / Number",
+        "key": "eaaf7ff02f2bfe16a0538388b37fccb9c86fd716",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "name",
+            "name + sum"
+          ]
+        }
+      },
+      {
+        "name": "AccountInfo / Sum",
+        "key": "184e9d0835167262a8fc4efe9af2f856cd1bb342",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "name",
+            "name + maskedNumber",
+            "name + number",
+            "number"
+          ]
+        }
+      },
+      {
+        "name": "AccountItem",
+        "key": "4bebb25753e915fdda188e734cfb9370b825cc63",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Number",
+            "Sum",
+            "SwapMe",
+            "❌ Number"
+          ]
+        }
+      },
+      {
+        "name": "[D] AccountOptionCell / Multi",
+        "key": "479eb84a7e0d48af6283e9ec65d19fb4943c82e8",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] AccountOptionCell / Single",
+        "key": "045d2c8bf09624d1c12f3c89628540e19021641b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] GroupedAccountOptionCell / Multi",
+        "key": "02543fc632baac5ab136c866f6a6c677d0d9e1f8",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] GroupedAccountOptionCell / Single",
+        "key": "229a5670622f326df2e824e68bd802be26d9b5a4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] AccountOptionCell / Multi",
+        "key": "b9e053b76a25fa44934144aa9df1f6f301ee8ba6",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] AccountOptionCell / Single",
+        "key": "45bbdeb21be646e82e2068ce6d08e86fa5e48412",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] GroupedAccountOptionCell / Multi",
+        "key": "87d6894e1fd14f835a539a3771e279e9e1662236",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] GroupedAccountOptionCell / Single",
+        "key": "2d5a354804adc645ddc2c56b8d6f1db2e4299da7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "AccountSelect",
+      "library": "Web _ Corp Components",
+      "purpose": "AccountSelect — семейство компонентов для одиночного или множественного выбора счетов. Публичными точками использования являются только [D] AccountOptionListContent и [M] AccountOptionListContent; остальные компоненты семейства являются служебными."
+    },
+    "componentPolicy": {
+      "publicRoots": [
+        "[D] AccountOptionListContent ",
+        "[M] AccountOptionListContent "
+      ],
+      "selection": "Single выбирает один счёт; Multi позволяет выбрать несколько счетов без ограничения количества.",
+      "grouping": "Grouped=True группирует счета по контекстному критерию. По умолчанию — по принадлежности к компании. Все группы раскрыты, пользователь может сворачивать их по отдельности. Заголовок по умолчанию содержит название компании; порядок групп менять нельзя.",
+      "selectionControls": "В Single checkmark всегда расположен справа, в Multi Checkbox всегда расположен слева. Скрывать, заменять и переносить эти контролы нельзя.",
+      "disabledAccount": "Недоступный счёт не кликабелен. При наведении показывается Tooltip View=Hint с короткой причиной. Amount, PaymentMaskedNumber и AccountInfo используют text/tertiary; в Multi Checkbox принимает DisabledState.",
+      "media": "CardImage используется для выбора карточного счёта, IconView — для иконки типа счёта. В одном списке используется только один единый режим: CardImage, IconView или без медиа-аддона.",
+      "selectionCommit": "В Single список закрывается сразу после выбора. В Multi выбор подтверждается кнопкой «Применить».",
+      "selectedState": "В Single выбранный счёт использует Checkmark.SelectedState=true, в Multi — checked-состояние Checkbox. Недоступный счёт не может быть выбран.",
+      "itemOrder": "Дизайнер не меняет порядок счетов вручную. Принцип сортировки определяется контекстом: алфавитный порядок, возрастание или убывание значений.",
+      "listViewport": "На desktop высота списка равна 5.5 двухстрочных OptionListItem; блок кнопок Multi не входит в эту высоту, переполнение прокручивается вертикально. На Mobile Web ограничения высоты нет.",
+      "states": "Loading-state пока не определён. Для пустого списка и отсутствия результатов используется OptionListEmptyState без кнопок: [D] на desktop и [M] на Mobile Web. Текст empty-state фиксирован и не редактируется.",
+      "search": "Для списка из 10 и более счетов рекомендуется поиск в Single и Multi через OptionListHeader Preset=Search: [D] на desktop и [M] на Mobile Web. Контекст поиска определяет команда; placeholder обязан отражать доступные критерии поиска.",
+      "multiFooter": "Для Multi на desktop используется [D] OptionListFooter, на Mobile Web — [M] BottomSheetFooter. Primary «Применить» всегда отображается и активна; нулевой явный выбор означает применение ко всем доступным счетам. Secondary «Сбросить» появляется после сделанного выбора, очищает выбор до нуля и скрывается. Других кнопок нет.",
+      "listConsistency": "Все строки одного списка используют одинаковые AccountItem.Type и AccountInfo preset.",
+      "selectAll": "В Multi с 10 и более элементами Select All обязателен. Используется OptionListHeader Preset=Select All: [D] на desktop и [M] на Mobile Web. Текст фиксирован. При нулевом выборе Checkbox: IndeterminateState=false, SelectedState=false; клик выбирает все доступные счета. При частичном выборе: IndeterminateState=true, SelectedState=false; клик выбирает все доступные. Когда выбраны все доступные: IndeterminateState=false, SelectedState=true; клик сбрасывает весь выбор. Disabled-счета пропускаются.",
+      "headerStack": "Если одновременно нужны Search и Select All, Header располагаются вертикально: сначала Search, затем Select All.",
+      "platformContainers": "[D] AccountSelect открывается в OptionList, [M] AccountSelect — в BottomSheet.",
+      "visualBaseline": "Высота, padding, gap, radius, fill, hover, selected и другие геометрические или визуальные параметры строк нельзя менять вручную; они следуют effective baseline.",
+      "statusBadge": "Применение пока не регламентировано и определяется контекстом.",
+      "textOverflow": "Ограничения длинного текста определяются общими правилами OptionListCell.",
+      "accountItemTypes": {
+        "SwapMe": "Placeholder, который нужно заменить.",
+        "Sum": "Баланс занимает главную позицию; название и короткий номер находятся в подстрочнике.",
+        "Number": "Полный номер счёта занимает главную позицию; название находится в подстрочнике.",
+        "❌ Number": "Legacy-вариант, использовать запрещено."
+      },
+      "accountInfoBinding": {
+        "Sum": "AccountInfo / Sum",
+        "Number": "AccountInfo / Number"
+      },
+      "presets": {
+        "AccountInfo / Sum": {
+          "name": "только название счёта",
+          "number": "только полный номер счёта",
+          "name + maskedNumber": "название и короткий номер счёта",
+          "name + number": "название и полный номер счёта"
+        },
+        "AccountInfo / Number": {
+          "name": "только название счёта",
+          "name + sum": "название счёта и баланс"
+        },
+        "manualValueHidingAllowed": false
+      }
+    },
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline публичного AccountOptionListContent и выбранных SelectType, Grouped и AccountItem.Type."
+    },
+    "ruleReferences": [
+      "component:web-corp.account-select.component-properties-are-first-class",
+      "component:web-corp.account-select.layer-properties-use-effective-baseline",
+      "component:web-corp.account-select.public-roots-only",
+      "component:web-corp.account-select.selection-type-semantics",
+      "component:web-corp.account-select.multi-selection-has-no-limit",
+      "component:web-corp.account-select.grouping-criterion-is-contextual",
+      "component:web-corp.account-select.swap-me-must-be-replaced",
+      "component:web-corp.account-select.legacy-number-forbidden",
+      "component:web-corp.account-select.account-info-follows-item-type",
+      "component:web-corp.account-select.grouped-list-defaults-expanded",
+      "component:web-corp.account-select.group-header-follows-criterion",
+      "component:web-corp.account-select.group-order-is-fixed",
+      "component:web-corp.account-select.selection-controls-are-fixed",
+      "component:web-corp.account-select.card-image-only-for-card-account",
+      "component:web-corp.account-select.account-info-preset-defines-visible-values",
+      "component:web-corp.account-select.disabled-account-is-non-interactive",
+      "component:web-corp.account-select.disabled-account-shows-reason-tooltip",
+      "component:web-corp.account-select.disabled-account-visual-state",
+      "component:web-corp.account-select.media-mode-is-exclusive-and-uniform",
+      "component:web-corp.account-select.selection-commit-behavior",
+      "component:web-corp.account-select.status-badge-is-contextual",
+      "component:web-corp.account-select.text-overflow-follows-option-list-cell",
+      "component:web-corp.account-select.selected-state-follows-select-type",
+      "component:web-corp.account-select.disabled-account-cannot-be-selected",
+      "component:web-corp.account-select.item-order-is-data-driven",
+      "component:web-corp.account-select.list-height-is-fixed",
+      "component:web-corp.account-select.empty-state-uses-option-list-empty-state",
+      "component:web-corp.account-select.loading-state-is-undefined",
+      "component:web-corp.account-select.row-visuals-follow-effective-baseline",
+      "component:web-corp.account-select.multi-footer-composition",
+      "component:web-corp.account-select.list-content-is-uniform",
+      "component:web-corp.account-select.select-all-covers-entire-list",
+      "component:web-corp.account-select.platform-container-is-fixed",
+      "component:web-corp.account-select.search-is-recommended-for-large-list",
+      "component:web-corp.account-select.empty-state-text-is-fixed",
+      "component:web-corp.account-select.apply-is-always-enabled",
+      "component:web-corp.account-select.reset-clears-and-hides",
+      "component:web-corp.account-select.select-all-state-machine",
+      "component:web-corp.account-select.search-placeholder-describes-scope",
+      "component:web-corp.account-select.select-all-required-for-large-multi",
+      "component:web-corp.account-select.header-stack-order"
+    ]
+  }
+}

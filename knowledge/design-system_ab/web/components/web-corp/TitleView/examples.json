@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.title-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-11"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "title-view.button-view-change",
+        "title": "Изменение варианта вложенной кнопки сравнивается с effective baseline TitleView",
+        "inputChange": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "[D] Button",
+          "property": "variant.View",
+          "titleViewEffectiveValue": "Secondary",
+          "actualValue": "Accent"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "showAs": "view: secondary → accent"
+        }
+      },
+      {
+        "exampleId": "title-view.status-preset-type-change",
+        "title": "Изменение StatusPreset является кастомизацией параметра, а не нарушением использования пресета",
+        "inputChange": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "StatusPreset",
+          "property": "variant.Type",
+          "titleViewEffectiveValue": "Approved",
+          "actualValue": "Processing"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "showAs": "type: approved → processing"
+        }
+      },
+      {
+        "exampleId": "title-view.single-xlarge",
+        "title": "На странице допускается только один TitleView с View=xLarge",
+        "inputComposition": {
+          "screenComponents": [
+            "[D] TitleView View=xLarge",
+            "[D] TitleView View=xLarge"
+          ]
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.single-xlarge-on-screen",
+          "recommendation": "Оставить xLarge только у главного заголовка страницы; для второго заголовка выбрать Large, Medium или Small."
+        }
+      },
+      {
+        "exampleId": "title-view.status-color-consistency",
+        "title": "Status и TitleStatus используют одинаковый семантический цвет",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "statusType": "Approved",
+          "titleStatusType": "Error / Risk"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.status-and-title-status-color-match",
+          "recommendation": "Выбрать для TitleStatus тот же семантический цвет, что и для Status."
+        }
+      },
+      {
+        "exampleId": "title-view.primary-action-in-right-addon",
+        "title": "Primary-действие не размещается в RightAddon при любом View",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "view": "xLarge",
+          "rightAddonRole": "primary-action",
+          "buttonGroup": "empty"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.primary-actions-use-button-group",
+          "recommendation": "Перенести primary-действие в Button group."
+        }
+      },
+      {
+        "exampleId": "title-view-required-external-spacing",
+        "title": "Внешние отступы TitleView обязательны для распознанных соседних блоков",
+        "inputComposition": {
+          "from": "[D] TitleView",
+          "to": "[D] TabsView",
+          "actualSpacing": 24,
+          "requiredSpacing": 32
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.external-spacing",
+          "recommendation": "Установить обязательный отступ 32 px между TitleView и TabsView."
+        }
+      },
+      {
+        "exampleId": "title-view-partial-loading",
+        "title": "Частичная загрузка вложенного элемента не требует Skeleton=True у всего TitleView",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "hostSkeleton": false,
+          "loadingTarget": "Status"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.skeleton-is-component-property",
+          "summary": "Частичная загрузка вложенного элемента допустима при Skeleton=False у родительского TitleView.",
+          "mustNotSay": [
+            "Не требовать Skeleton=True у всего TitleView только из-за загрузки отдельного элемента."
+          ]
+        }
+      },
+      {
+        "exampleId": "title-view-non-xlarge-slot-availability",
+        "title": "У компактных View доступны только Subtitle, TitleAddon и RightAddon",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "view": "Medium",
+          "visibleSlot": "Status"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.slot-availability-by-view",
+          "recommendation": "Убрать Status из View=Medium или использовать View=xLarge, если странице нужен основной статус."
+        }
+      },
+      {
+        "exampleId": "title-view-holding-required",
+        "title": "Holding обязателен для mono-страницы пользователя группы компаний",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "view": "xLarge",
+          "userCompanyContext": "group-of-companies",
+          "pageCompanyMode": "mono",
+          "holdingVisible": false
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.holding-required-for-group-company-mono-mode",
+          "recommendation": "Включить Holding и использовать FilterCompanySelect_Single."
+        }
+      },
+      {
+        "exampleId": "title-view-manual-button-text-style",
+        "title": "Ручное изменение текстового стиля вложенной Button запрещено",
+        "inputChange": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "[D] Button",
+          "targetLayer": "Label",
+          "property": "styles.text",
+          "referenceValue": "Action/16–20 Component Primary",
+          "actualValue": "Action/18–24 Primary Large"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+          "recommendation": "Сбросить текстовый стиль Label к effective baseline вложенной Button."
+        }
+      },
+      {
+        "exampleId": "title-view-subtitle-over-120-characters",
+        "title": "Длинный Subtitle получает рекомендацию по сокращению",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "subtitleCharacterCount": 146
+        },
+        "expectedAgent": {
+          "severity": "warning",
+          "ruleId": "component:web-corp.title-view.subtitle-max-120-characters",
+          "recommendation": "Сократить Subtitle до 120 символов с пробелами или меньше."
+        }
+      },
+      {
+        "exampleId": "title-view-title-addon-status-badge-hover",
+        "title": "StatusBadge в TitleAddon может реагировать только на hover",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleAddonType": "StatusBadge",
+          "interaction": "hover"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.title-addon-interaction-follows-type",
+          "summary": "Hover-поведение StatusBadge допустимо и не требует обязательного действия по клику."
+        }
+      },
+      {
+        "exampleId": "title-view-right-addon-follows-type",
+        "title": "Содержимое RightAddon определяется выбранным Type",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "rightAddonType": "Link",
+          "content": "О продукте"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.right-addon-content-follows-type",
+          "summary": "Один Link, заданный через Type=Link, является корректным содержимым RightAddon."
+        }
+      },
+      {
+        "exampleId": "title-view-manual-button-layout",
+        "title": "Ручное изменение layout вложенной Button запрещено",
+        "inputChange": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "[D] Button",
+          "property": "layout.padding.left",
+          "referenceValue": 24,
+          "actualValue": 32
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+          "recommendation": "Сбросить padding вложенной Button к effective baseline."
+        }
+      },
+      {
+        "exampleId": "title-view-compact-primary-action",
+        "title": "Primary-действие компактного TitleView размещается вне компонента",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "view": "Medium",
+          "rightAddonRole": "primary-action"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.compact-primary-actions-outside-title-view",
+          "recommendation": "Убрать primary-действие из RightAddon и разместить его вне TitleView рядом с объектом действия."
+        }
+      },
+      {
+        "exampleId": "title-view-empty-title",
+        "title": "Title не может быть пустым или скрытым",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "title": "",
+          "titleVisible": false
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.title-required-non-empty",
+          "recommendation": "Вернуть видимый непустой Title."
+        }
+      },
+      {
+        "exampleId": "title-view-custom-status-label",
+        "title": "Label Status разрешено менять при корректном Type",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "statusType": "Processing",
+          "statusLabel": "Проверяем"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.status-label-is-content-override",
+          "summary": "Изменение label является разрешённым content override и не меняет статусный цвет Type=Processing."
+        }
+      },
+      {
+        "exampleId": "title-view-title-status-content",
+        "title": "Title и Subtitle внутри TitleStatus разрешено менять",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleStatusTitle": "Документы проверяются",
+          "titleStatusSubtitleCharacterCount": 84
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.title-status-content-overrides-allowed",
+          "summary": "Content overrides допустимы; длина Subtitle находится в рекомендованном пределе 120 символов."
+        }
+      },
+      {
+        "exampleId": "title-view-holding-component-api",
+        "title": "Параметры FilterCompanySelect_Single определяются его собственным контрактом",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "holdingComponent": "FilterCompanySelect_Single",
+          "changedProperty": "Selected"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.holding-delegates-to-filter-company-select-contract",
+          "summary": "Не делать вывод о нарушении без component rule из комплекта FilterCompanySelect_Single."
+        }
+      },
+      {
+        "exampleId": "title-view-status-size-32",
+        "title": "Верхний Status не может использовать Size=32",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "statusSize": "32"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.status-size-24",
+          "recommendation": "Установить Size=24."
+        }
+      },
+      {
+        "exampleId": "title-view-status-style-on-white",
+        "title": "На белом фоне Status использует Style=Muted",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "surface": "white",
+          "statusStyle": "Contrast"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.status-style-matches-surface",
+          "recommendation": "Заменить Style=Contrast на Style=Muted."
+        }
+      },
+      {
+        "exampleId": "title-view-title-status-requires-status",
+        "title": "TitleStatus требует включённый Status",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "view": "xLarge",
+          "statusVisible": false,
+          "titleStatusVisible": true
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.title-status-requires-status",
+          "recommendation": "Включить Status у TitleView или отключить TitleStatus."
+        }
+      },
+      {
+        "exampleId": "title-view-button-size-48",
+        "title": "Desktop Button group использует Button Size=56",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "[D] Button",
+          "buttonSize": "48"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.button-group-button-size-by-platform",
+          "recommendation": "Установить Size=56."
+        }
+      },
+      {
+        "exampleId": "title-view-mobile-button-size-48",
+        "title": "Mobile-web Button group использует Button Size=48",
+        "inputComposition": {
+          "hostComponent": "[M] TitleView",
+          "nestedComponent": "[M] Button",
+          "buttonSize": "48"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.button-group-button-size-by-platform",
+          "summary": "Size=48 является корректным baseline для Button внутри [M] TitleView."
+        }
+      },
+      {
+        "exampleId": "title-view-button-addon-delegation",
+        "title": "Addon вложенной Button оценивается по паттерну кнопок",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "nestedComponent": "[D] Button",
+          "leftAddon": true,
+          "buttonSize": "56"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.button-properties-delegate-to-button-pattern",
+          "summary": "Не запрещать LeftAddon на уровне TitleView; проверить его по паттерну «Кнопки и группы кнопок»."
+        }
+      },
+      {
+        "exampleId": "title-view-editable-pattern-scope",
+        "title": "Editable-сценарий остаётся частью комплекта TitleView",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleEditMode": "full-title"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.editable-scenarios-belong-to-title-view-pattern",
+          "summary": "Применить связанные правила p_title-view-editable.md из текущего комплекта."
+        }
+      },
+      {
+        "exampleId": "title-view-editable-full-title-pencil",
+        "title": "Полное редактирование запускается кнопкой с карандашом",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleEditMode": "full-title",
+          "triggerIcon": "pencil",
+          "subtitle": "Шаблон рублёвого платежа"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.editable-full-title-pencil-action",
+          "summary": "Полное редактирование настроено корректно: есть кнопка с карандашом и непустой Subtitle."
+        }
+      },
+      {
+        "exampleId": "title-view-editable-date-generic-icon",
+        "title": "Редактирование даты требует кнопку с календарём",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleEditMode": "partial-title",
+          "editableContentType": "date",
+          "triggerIcon": "pencil"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.editable-date-uses-calendar-icon",
+          "recommendation": "Заменить кнопку с карандашом на кнопку с иконкой календаря."
+        }
+      },
+      {
+        "exampleId": "title-view-editable-multiline",
+        "title": "Редактируемый Title всегда однострочный с ellipsis",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "titleEditMode": "full-title",
+          "titleLineCount": 2,
+          "overflow": "wrap"
+        },
+        "expectedAgent": {
+          "severity": "warning",
+          "ruleId": "component:web-corp.title-view.editable-title-single-line-ellipsis",
+          "recommendation": "Ограничить Title одной строкой и включить ellipsis."
+        }
+      },
+      {
+        "exampleId": "title-view-editable-contextual-completion",
+        "title": "Сохранение и отмена зависят от контекста и платформы",
+        "inputComposition": {
+          "hostComponent": "[M] TitleView",
+          "titleEditMode": "other-contextual",
+          "completion": "platform-specific"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.editable-completion-context-platform",
+          "summary": "Не требовать Enter, Escape или фиксированный набор кнопок без отдельного правила сценария."
+        }
+      },
+      {
+        "exampleId": "title-view-root-fixed-sizing",
+        "title": "Для корня рекомендуется Fill по ширине и Hug по высоте",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "layoutSizingHorizontal": "FIXED",
+          "layoutSizingVertical": "FIXED"
+        },
+        "expectedAgent": {
+          "severity": "warning",
+          "ruleId": "component:web-corp.title-view.root-fill-hug-sizing",
+          "recommendation": "Использовать Fill container по ширине и Hug contents по высоте, если контекст не требует иного."
+        }
+      },
+      {
+        "exampleId": "title-view-slot-order-changed",
+        "title": "Порядок структурных слотов нельзя менять",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "visibleSlotOrder": [
+            "Heading",
+            "Status",
+            "Subtitle",
+            "Button group"
+          ]
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.slot-order-required",
+          "recommendation": "Восстановить порядок Status -> Heading -> Holding -> Subtitle -> TitleStatus -> Button group."
+        }
+      },
+      {
+        "exampleId": "title-view-slot-instance-swap",
+        "title": "Instance swap внутри предусмотренного слота допустим",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "slot": "RightAddon",
+          "instanceSwap": "[D] IconButton",
+          "slotOrderPreserved": true
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.title-view.slot-instance-swap-allowed",
+          "summary": "Не считать swap нарушением; проверить IconButton по его собственному контракту."
+        }
+      },
+      {
+        "exampleId": "title-view-addon-manual-style",
+        "title": "Ручные overrides запрещены во всём внутреннем дереве",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "target": "Heading / TitleAddon / Icon",
+          "changedProperty": "fill",
+          "baseline": "text/primary",
+          "actual": "text/positive"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+          "recommendation": "Сбросить fill вложенного слоя до effective baseline."
+        }
+      },
+      {
+        "exampleId": "title-view-root-clickable-shadow",
+        "title": "Корень нельзя оформлять и делать кликабельным",
+        "inputComposition": {
+          "hostComponent": "[D] TitleView",
+          "rootEffect": "shadow",
+          "rootPrototypeAction": "navigate"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.title-view.root-style-and-clickability-prohibited",
+          "recommendation": "Удалить эффект и действие с корня; интерактивность перенести во вложенный предназначенный элемент."
+        }
+      }
+    ]
+  }
+}

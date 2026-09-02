@@ -1,0 +1,723 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.sortable-list",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "SortableList",
+      "library": "Web _ Core Misc"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "SortableListItem",
+        "path": "View=Primary, CornerRadius=0 / DragableControl / Icon / PaintMe / drag",
+        "componentName": "drag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "SortableListItem",
+        "path": "View=Primary, CornerRadius=0 / DragableControl / ControlPadding",
+        "componentName": "ControlPadding",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 1 / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content",
+        "componentName": "👻 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "2"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line",
+        "componentName": "👻 Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "1"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "titleLeft"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "3xl | 40px"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line",
+        "componentName": "👻 Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "1"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "subtitleLeft"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content",
+        "componentName": "👻 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "2"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line",
+        "componentName": "👻 Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "1"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "titleLeft"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "3xl | 40px"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line",
+        "componentName": "👻 Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "capacity": "1"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "subtitleLeft"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": ".❌ Example",
+        "path": ".❌ Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "titleLeft"
+        }
+      },
+      {
+        "hostComponentName": ".Example",
+        "path": ".Example / ContentLayout / Slot 2 / 👻 Content / 👻 Line / 👻 LineLeftPart",
+        "componentName": "👻 LineLeftPart",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "type": "titleLeft"
+        }
+      }
+    ]
+  }
+}

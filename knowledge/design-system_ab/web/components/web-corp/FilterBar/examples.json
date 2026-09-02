@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.filter-bar",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "owner-interview+figma",
+      "updatedAt": "2026-07-23"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "filter-bar-search-first-positive",
+        "type": "positive",
+        "ruleId": "component:web-corp.filter-bar.search-optional-but-pinned",
+        "inputChange": {
+          "searchEnabled": true,
+          "order": [
+            "Search",
+            "Company",
+            "Date"
+          ]
+        },
+        "expectedAudit": {
+          "currentRuntime": "no-finding-future-runtime-rule",
+          "futureRuntime": "pass"
+        },
+        "expectedAgent": {
+          "result": "Корректно: подключённый Search стоит первым."
+        },
+        "mustNotSay": [
+          "Search обязателен на каждом экране."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-custom-control-negative",
+        "type": "negative",
+        "ruleId": "component:web-corp.filter-bar.supported-presets-only",
+        "inputChange": {
+          "slot": "FiltersConfig",
+          "addedComponent": "CustomSelect"
+        },
+        "expectedAudit": {
+          "currentRuntime": "manual-review",
+          "futureRuntime": "exact-composition-violation"
+        },
+        "expectedAgent": {
+          "severity": "error",
+          "recommendation": "Замени CustomSelect на поддерживаемый пресет или запроси новый тип у дизайн-системы."
+        },
+        "mustNotSay": [
+          "Любой внешний компонент допустим в FiltersConfig.",
+          "Можно обернуть CustomSelect в FilterTag без согласования."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-active-hidden-negative",
+        "type": "negative",
+        "ruleId": "component:web-corp.filter-bar.active-filter-cannot-hide",
+        "inputChange": {
+          "filter": "Company",
+          "hasValue": true,
+          "visible": false
+        },
+        "expectedAudit": {
+          "currentRuntime": "agentic-only",
+          "futureRuntime": "state-violation"
+        },
+        "expectedAgent": {
+          "severity": "error",
+          "recommendation": "Верни активный Company в видимый ряд."
+        },
+        "mustNotSay": [
+          "Активный фильтр можно скрыть, если его значение показывается в таблице."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-reset-context-dependent",
+        "type": "context-dependent",
+        "ruleId": "component:web-corp.filter-bar.reset-values-only",
+        "inputChange": {
+          "action": "Сбросить",
+          "before": {
+            "filterValues": [
+              "Company=Альфа"
+            ],
+            "searchQuery": "платёж",
+            "visibleFilters": [
+              "Company",
+              "Date"
+            ]
+          },
+          "after": {
+            "filterValues": [],
+            "searchQuery": "",
+            "visibleFilters": [
+              "Company",
+              "Date"
+            ]
+          }
+        },
+        "expectedAudit": {
+          "currentRuntime": "agentic-only",
+          "futureRuntime": "pass"
+        },
+        "expectedAgent": {
+          "result": "Корректно: значения и поиск очищены, конфигурация сохранена."
+        },
+        "mustNotSay": [
+          "Сбросить должно возвращать исходный порядок фильтров.",
+          "Кнопку нужно отключить при пустых значениях."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-mobile-multiselect-close-negative",
+        "type": "negative",
+        "ruleId": "component:web-corp.filter-bar.mobile-apply-mode",
+        "inputChange": {
+          "selectionType": "multiple",
+          "confirmed": false,
+          "closed": true,
+          "valuesChanged": true
+        },
+        "expectedAudit": {
+          "currentRuntime": "agentic-only",
+          "futureRuntime": "interaction-violation"
+        },
+        "expectedAgent": {
+          "severity": "error",
+          "recommendation": "Отмени неподтверждённые изменения при закрытии."
+        },
+        "mustNotSay": [
+          "Любой мобильный выбор применяется сразу."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-mobile-all-filters-custom-layout",
+        "type": "context-dependent",
+        "ruleId": "component:web-corp.filter-bar.mobile-all-filters-synchronizes-values",
+        "inputChange": {
+          "allFiltersLayout": "product-defined-tags",
+          "valuesSynchronized": true,
+          "compositionEditable": false
+        },
+        "expectedAudit": {
+          "currentRuntime": "no-finding",
+          "futureRuntime": "pass"
+        },
+        "expectedAgent": {
+          "result": "Допустимо: продукт выбирает представление, если значения синхронизированы и состав FilterBar не редактируется."
+        },
+        "mustNotSay": [
+          "Все фильтры обязаны повторять визуальную композицию быстрого ряда.",
+          "Мобильная модалка должна управлять порядком FilterBar."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-responsive-boundary",
+        "type": "boundary",
+        "ruleId": "component:web-corp.filter-bar.responsive-breakpoint",
+        "inputChange": {
+          "width": 768,
+          "renderedComponent": "[D] FilterBar",
+          "valuesPreserved": true
+        },
+        "expectedAudit": {
+          "currentRuntime": "manual-review",
+          "futureRuntime": "pass"
+        },
+        "expectedAgent": {
+          "result": "Корректно: на 768 px используется Desktop, значения сохранены."
+        },
+        "mustNotSay": [
+          "На 768 px используется Mobile."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-skeleton-product-owned",
+        "type": "context-dependent",
+        "ruleId": "component:web-corp.filter-bar.product-owns-loading",
+        "inputChange": {
+          "figmaVariant": "Skeleton=True",
+          "loadingStateOwner": "product",
+          "productChoosesRenderedState": true
+        },
+        "expectedAudit": {
+          "currentRuntime": "no-finding",
+          "futureRuntime": "info-only"
+        },
+        "figmaFixture": {
+          "fileKey": "Ix36hQwrhom9xIghTTDbtD",
+          "pageNodeId": "1987:7",
+          "frameNodeId": "1988:4103",
+          "instanceNodeId": "1988:4106",
+          "fixtureValidation": "passed",
+          "apolloExecution": "pending"
+        },
+        "expectedAgent": {
+          "result": "Допустимо: Skeleton variant наблюдается в Figma, но решение о состоянии загрузки остаётся у продукта."
+        },
+        "mustNotSay": [
+          "FilterBar самостоятельно загружает данные.",
+          "Наличие Skeleton=True обязывает использовать локальную загрузку всего FilterBar."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-more-appends-filter",
+        "type": "positive",
+        "ruleId": "component:web-corp.filter-bar.more-adds-filter-to-end",
+        "inputChange": {
+          "action": "Ещё",
+          "addedFilter": "Account",
+          "resultingFilterOrder": [
+            "Company",
+            "Date",
+            "Account"
+          ]
+        },
+        "expectedAudit": {
+          "currentRuntime": "agentic-only",
+          "futureRuntime": "pass"
+        },
+        "expectedAgent": {
+          "result": "Корректно: Account добавлен в конец ряда фильтров."
+        },
+        "mustNotSay": [
+          "Новый фильтр должен встать первым.",
+          "Добавление фильтра сбрасывает значения остальных фильтров."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-history-without-clear-negative",
+        "type": "negative",
+        "ruleId": "component:web-corp.filter-bar.search-history-clear",
+        "inputChange": {
+          "recentSearchesVisible": true,
+          "clearHistoryActionAvailable": false
+        },
+        "expectedAudit": {
+          "currentRuntime": "agentic-only",
+          "futureRuntime": "interaction-violation"
+        },
+        "expectedAgent": {
+          "severity": "error",
+          "recommendation": "Добавь действие очистки истории недавних запросов."
+        },
+        "mustNotSay": [
+          "Историю может очистить только поддержка.",
+          "Очистка истории не нужна, если запросов меньше трёх."
+        ]
+      },
+      {
+        "exampleId": "filter-bar-four-recent-searches-allowed",
+        "type": "context-dependent",
+        "ruleId": "component:web-corp.filter-bar.search-history-count-recommendation",
+        "inputChange": {
+          "recentSearchCount": 4,
+          "clearHistoryActionAvailable": true
+        },
+        "expectedAudit": {
+          "currentRuntime": "no-finding",
+          "futureRuntime": "info-only"
+        },
+        "expectedAgent": {
+          "result": "Допустимо: три запроса — рекомендация, а не жёсткий лимит."
+        },
+        "mustNotSay": [
+          "Четыре недавних запроса запрещены."
+        ]
+      }
+    ]
+  }
+}

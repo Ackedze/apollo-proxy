@@ -1,0 +1,1438 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web.bento-grid",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "BentoGrid",
+      "library": "Web _ Сorp Promo Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Small"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "None (Figma only)",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "None (Figma only)",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Small"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard",
+        "componentName": "[M] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard",
+        "componentName": "[M] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard",
+        "componentName": "[M] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard",
+        "componentName": "[M] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard",
+        "componentName": "[M] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "Bottom",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "True",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer",
+        "componentName": "ImageContainer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image Centred": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] BentoGrid",
+        "path": "Capacity=5, Axis=Horizontal / [M] PromoCard / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "None (Figma only)",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] BentoGrid ",
+        "path": "View=Page, Compact=False, Capacity=5, Variations=1 / CardsGroup / [D] PromoCard",
+        "componentName": "[D] PromoCard",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Image": "None (Figma only)",
+          "ImageCrop": "True",
+          "Size": "Medium"
+        }
+      }
+    ]
+  }
+}

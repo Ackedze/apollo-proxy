@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Corp Components",
+    "file": "Web _ Corp Components",
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 1,
+    "contractCount": 1,
+    "activeCount": 1,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "divider.universal",
+      "name": "Divider",
+      "normalizedName": "divider",
+      "componentKey": "b831bd9a4f890b5928fd0fedc3cc3750c7459403",
+      "source": {
+        "library": "Web _ Corp Components",
+        "file": "Web _ Corp Components",
+        "generatedAt": "2026-07-27T12:58:40.628Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "9affc4727c7fdc4f30e1468c2338346a154e137b",
+        "variants": {
+          "properties": {
+            "Presets": [
+              "default",
+              "light"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Presets": "default"
+            },
+            {
+              "Presets": "light"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "9affc4727c7fdc4f30e1468c2338346a154e137b",
+              "id": "142493:144081",
+              "name": "Presets=default",
+              "properties": {
+                "Presets": "default"
+              }
+            },
+            {
+              "key": "b20b5388197b23fad51f5de860460537edd92ea5",
+              "id": "142493:164122",
+              "name": "Presets=light",
+              "properties": {
+                "Presets": "light"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Presets=default",
+            "type": "COMPONENT",
+            "path": "Presets=default",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Presets=default",
+            "path": "Presets=default",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "paddingTokens": {
+                "top": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "right": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "bottom": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "left": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+              }
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Borderline",
+            "path": "Presets=default / Borderline",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          }
+        ],
+        "variantStructures": {
+          "b20b5388197b23fad51f5de860460537edd92ea5": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.07999999821186066,
+                    "tokenKey": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+                    "colorHex": "#1E2B44"
+                  }
+                ],
+                "fillToken": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "9affc4727c7fdc4f30e1468c2338346a154e137b",
+            "when": {
+              "Presets": "default"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "b20b5388197b23fad51f5de860460537edd92ea5",
+            "when": {
+              "Presets": "light"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=default",
+                "nodePath": "Presets=default",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Borderline",
+                "nodePath": "Presets=default / Borderline",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

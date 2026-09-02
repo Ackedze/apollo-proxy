@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.title-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- TitleView.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "TitleView"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "hostIntegrationNote": "Apollo should apply TitleView composition-contract before falling back to wrapped component standalone baselines."
+  }
+}

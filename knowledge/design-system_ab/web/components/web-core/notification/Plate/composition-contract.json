@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.plate",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Plate",
+      "library": "Web :: Core Notification"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] AddonLeft",
+        "componentName": "[M] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Status"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] AddonLeft / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] AddonLeft / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] AddonLeft / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] Content",
+        "componentName": "[M] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "AddonRight": "False",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] Content / Fixer / [M] Main",
+        "componentName": "[M] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "BigTitle"
+        }
+      },
+      {
+        "hostComponentName": "[M] PlatePresets",
+        "path": "View=Positive, BorderRadius=12, Border=True / [M] Control",
+        "componentName": "[M] Control",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] AddonLeft",
+        "componentName": "[D] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Status"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] AddonLeft / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] AddonLeft / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] AddonLeft / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Content",
+        "componentName": "[D] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedWidth": "False",
+          "AddonRight": "False",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Content / Fixer / [D] Main",
+        "componentName": "[D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "BigTitle"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Control",
+        "componentName": "[D] Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Closer"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Control / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Control / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] PlatePresets",
+        "path": "View=Positive, BorderRadius=16, Border=True / [D] Control / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Content",
+        "path": "AddonRight=False, AddonBottom=False / Fixer / [M] Main",
+        "componentName": "[M] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Content",
+        "path": "FixedWidth=False, AddonRight=False, AddonBottom=False / Fixer / [D] Main",
+        "componentName": "[D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄[D][Corporate] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] AddonLeft",
+        "componentName": "[D] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄[D][Corporate] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content",
+        "componentName": "[D] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedWidth": "False",
+          "AddonRight": "True",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄[D][Corporate] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content / Fixer / [D] Main",
+        "componentName": "[D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄[D][Corporate] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content / [D] AddonRight",
+        "componentName": "[D] AddonRight",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔄[D][Corporate] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Control",
+        "componentName": "[D] Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Plate",
+        "path": "Border=True, BorderRadius=0 / [M] AddonLeft",
+        "componentName": "[M] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Plate",
+        "path": "Border=True, BorderRadius=0 / [M] Content",
+        "componentName": "[M] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "AddonRight": "True",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] Plate",
+        "path": "Border=True, BorderRadius=0 / [M] Content / Fixer / [M] Main",
+        "componentName": "[M] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Plate",
+        "path": "Border=True, BorderRadius=0 / [M] Content / [M] AddonRight",
+        "componentName": "[M] AddonRight",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Plate",
+        "path": "Border=True, BorderRadius=0 / [M] Control",
+        "componentName": "[M] Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] AddonLeft",
+        "componentName": "[D] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content",
+        "componentName": "[D] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedWidth": "False",
+          "AddonRight": "True",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content / Fixer / [D] Main",
+        "componentName": "[D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Content / [D] AddonRight",
+        "componentName": "[D] AddonRight",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Plate",
+        "path": "Border=True, BorderRadius=16 / [D] Control",
+        "componentName": "[D] Control",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.amount",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/core/Web _ Core -- Amount.json",
+      "library": "Web _ Core",
+      "file": "Web _ Core",
+      "generatedAt": "2026-08-04T19:39:48.305Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Amount"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Amount",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 Currency",
+        "key": "33bfa9e278712759a5ea601d87135003599c98f2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Opacity": [
+            "False",
+            "True"
+          ],
+          "Type": [
+            "$",
+            "CNY",
+            "Custom",
+            "EUR",
+            "RUB",
+            "USD",
+            "¥",
+            "€",
+            "₽"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Minor",
+        "key": "e92f061b2cdfa20bd17d98554e113f4ce8c991b2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Opacity": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Addon",
+        "key": "b95166da66ad15ecad14244d670ab1b66db66f80",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 Major",
+        "key": "a833c02e4fcb75fea1a89bf786912e108b8f93ba",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "Amount",
+        "key": "fe3399f71c9e0971646821d935b64657e462c28e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Amount",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

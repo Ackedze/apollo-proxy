@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.payment-masked-number",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-09-01"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "liveFigmaFixture": {
+      "fileKey": "I3MsagXR8Tz2eZcGtIgUk8",
+      "sectionNodeId": "12609:59546",
+      "updatedAt": "2026-09-01",
+      "status": "prepared-not-run",
+      "cases": [
+        {
+          "nodeId": "12609:59550",
+          "expect": "pass",
+          "ruleIds": []
+        },
+        {
+          "nodeId": "12705:52022",
+          "expect": "pass",
+          "ruleIds": []
+        },
+        {
+          "nodeId": "12609:59555",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.parts-share-color-token"
+          ]
+        },
+        {
+          "nodeId": "12609:59560",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.parts-share-color-token"
+          ]
+        },
+        {
+          "nodeId": "12710:62045",
+          "expect": "pass",
+          "ruleIds": []
+        },
+        {
+          "nodeId": "12710:62050",
+          "expect": "pass",
+          "ruleIds": []
+        },
+        {
+          "nodeId": "12710:62055",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.unmasked-major-format"
+          ]
+        },
+        {
+          "nodeId": "12710:62060",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.minor-last-four-digits"
+          ]
+        },
+        {
+          "nodeId": "12711:62065",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.mask-format"
+          ]
+        },
+        {
+          "nodeId": "12711:62070",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.typography-follows-effective-pair",
+            "component:web-corp.payment-masked-number.text-style-binding-required"
+          ]
+        },
+        {
+          "nodeId": "12711:62075",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.typography-follows-effective-pair",
+            "component:web-corp.payment-masked-number.text-style-binding-required"
+          ]
+        },
+        {
+          "nodeId": "12711:62080",
+          "expect": "fail",
+          "ruleIds": [
+            "component:web-corp.payment-masked-number.public-root-only"
+          ]
+        }
+      ]
+    },
+    "examples": [
+      {
+        "exampleId": "payment-masked-number-account-valid",
+        "title": "Корректный номер счёта",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "major": "40802 810 0 0000 000",
+          "minor": "1234",
+          "sameBoundColorToken": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить штатную группировку и общий цветовой токен.",
+        "mustNotSay": "Не требовать обычные пробелы и не требовать default-цвет."
+      },
+      {
+        "exampleId": "payment-masked-number-ordinary-spaces",
+        "title": "Обычные пробелы вместо математических",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "major": "40802 810 0 0000 000",
+          "minor": "1234"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.payment-masked-number.unmasked-major-format",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать заменить разделители на математический пробел U+205F.",
+        "mustNotSay": "Не считать обычные пробелы допустимыми визуальными эквивалентами."
+      },
+      {
+        "exampleId": "payment-masked-number-color-mismatch",
+        "title": "Major и Minor окрашены по-разному",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "majorToken": "text/primary",
+          "minorToken": "text/secondary"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.payment-masked-number.parts-share-color-token",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать выбрать один общий цветовой токен для Major и Minor.",
+        "mustNotSay": "Не требовать конкретный default token, если обе части синхронно используют другой допустимый токен."
+      },
+      {
+        "exampleId": "payment-masked-number-typography-pair-valid",
+        "title": "Сохранена штатная типографическая пара",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "majorTextStyleMatchesEffectiveBaseline": true,
+          "minorTextStyleMatchesEffectiveBaseline": true,
+          "publishedTextStylesBound": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить сохранение effective-baseline typography pair.",
+        "mustNotSay": "Не требовать, чтобы Major и Minor использовали один и тот же text style; у каждой части свой baseline."
+      },
+      {
+        "exampleId": "payment-masked-number-raw-typography",
+        "title": "У Minor вручную изменена типографика",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "target": "Minor",
+          "publishedTextStyleBound": false,
+          "manualFontSize": true
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.payment-masked-number.text-style-binding-required",
+          "severity": "error"
+        },
+        "expectedAgent": "Порекомендовать вернуть Minor к опубликованному text style из effective baseline.",
+        "mustNotSay": "Не считать raw typography допустимой только потому, что визуальный размер близок к baseline."
+      },
+      {
+        "exampleId": "payment-masked-number-addon-placeholder",
+        "title": "В показанном Addon остался SwapMe",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "addonVisible": true,
+          "addonComponent": "SwapMe"
+        },
+        "expectedAudit": {
+          "ruleId": "component:web-corp.payment-masked-number.addon-uses-final-component",
+          "severity": "error",
+          "runtime": "context-only"
+        },
+        "expectedAgent": "Попросить заменить SwapMe подходящим сценарию компонентом.",
+        "mustNotSay": "Не ограничивать выбор Addon только StatusBadge или Icon без отдельного контекстного правила."
+      },
+      {
+        "exampleId": "payment-masked-number-narrow-overflow",
+        "title": "Узкий контейнер сохраняет последние цифры",
+        "inputContext": {
+          "root": "PaymentMaskedNumber",
+          "container": "narrow",
+          "maxLines": 1,
+          "overflow": "ellipsis-before-minor",
+          "visibleMinor": "1234"
+        },
+        "expectedAudit": {
+          "violation": false,
+          "runtime": "context-only"
+        },
+        "expectedAgent": "Подтвердить одну строку, штатный ellipsis и видимые последние четыре цифры.",
+        "mustNotSay": "Не рекомендовать перенос строки или ручное сокращение номера."
+      }
+    ]
+  }
+}

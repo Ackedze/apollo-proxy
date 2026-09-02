@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.tooltip",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Tooltip",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "Tooltip",
+        "path": "TailDirection=←, Colors=Default, View=Tooltip / Tail",
+        "componentName": "Tail",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Middle"
+        }
+      },
+      {
+        "hostComponentName": "Tooltip",
+        "path": "TailDirection=←, Colors=Default, View=Tooltip / Body / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

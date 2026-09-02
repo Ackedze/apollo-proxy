@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.select-with-tags",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.select-with-tags.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "SelectWithTags",
+          "layers": [
+            "[D] SelectWithTags",
+            "[D] SelectWithTags_Inverted",
+            "[D][Corporate] SelectWithTags",
+            "[D][Corporate] SelectWithTags_Inverted",
+            "[M] SelectWithTags",
+            "[M] SelectWithTags_Inverted",
+            "[M][AO] SelectWithTags",
+            "[M][AO] SelectWithTags_Inverted",
+            "🔄 [D][Corporate] SelectWithTags",
+            "🔄 [D][Corporate] SelectWithTags_Inverted",
+            "🔄 [M][AO] SelectWithTags",
+            "🔄 [M][AO] SelectWithTags_Inverted",
+            "🔩 Tag",
+            "🔩 Tag_Inverted",
+            "🔩 TagControl",
+            "🔩 TagControl_Inverted",
+            "🔩 Value",
+            "SelectWithTags",
+            "Tag",
+            "Tag_Inverted",
+            "TagControl",
+            "TagControl_Inverted",
+            "Value"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.select-with-tags.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "SelectWithTags",
+          "layers": [
+            "[D] SelectWithTags",
+            "[D] SelectWithTags_Inverted",
+            "[D][Corporate] SelectWithTags",
+            "[D][Corporate] SelectWithTags_Inverted",
+            "[M] SelectWithTags",
+            "[M] SelectWithTags_Inverted",
+            "[M][AO] SelectWithTags",
+            "[M][AO] SelectWithTags_Inverted",
+            "🔄 [D][Corporate] SelectWithTags",
+            "🔄 [D][Corporate] SelectWithTags_Inverted",
+            "🔄 [M][AO] SelectWithTags",
+            "🔄 [M][AO] SelectWithTags_Inverted",
+            "🔩 Tag",
+            "🔩 Tag_Inverted",
+            "🔩 TagControl",
+            "🔩 TagControl_Inverted",
+            "🔩 Value",
+            "SelectWithTags",
+            "Tag",
+            "Tag_Inverted",
+            "TagControl",
+            "TagControl_Inverted",
+            "Value"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.select-with-tags.variant-state-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "ruleText": "Изменения Size, FilledState, ActiveState, DisabledState, ErrorState и part states являются component/part property changes и должны показываться как самостоятельные customizations."
+      },
+      {
+        "ruleId": "component:web-core.select-with-tags.manual-field-visual-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "Field.fills|Field.strokes|Field.radius|Field.layout",
+        "checkType": "deterministic",
+        "ruleText": "Ручные visual/layout изменения на Field являются layer customizations и должны показываться отдельно от изменений component property."
+      },
+      {
+        "ruleId": "component:web-core.select-with-tags.manual-tag-visual-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "Tag.fills|Tag.strokes|Tag.styles.text|Value.styles.text",
+        "checkType": "deterministic",
+        "ruleText": "Ручные visual/text style changes на Tag, TagControl или Value internals являются layer customizations, если они не принадлежат parent composition contract."
+      },
+      {
+        "ruleId": "component:web-core.select-with-tags.input-text-pattern-rules",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleIds": [
+          "rule:controls.input-fields.noun-label",
+          "rule:controls.input-fields.no-label-colon",
+          "rule:controls.input-fields.no-placeholder-duplication",
+          "rule:controls.input-fields.short-useful-hint"
+        ],
+        "appliesTo": "Label.characters|Placeholder.characters|HintMessage.characters",
+        "checkType": "llm+deterministic",
+        "ruleText": "Тексты label, placeholder и hint должны соответствовать текстовым правилам input-field."
+      }
+    ]
+  }
+}

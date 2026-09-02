@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.bank-card",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "BankCard",
+      "library": "Web _ Core Misc"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔩 CardNumber",
+        "path": "State=Default / Icon / PaintMe / camera",
+        "componentName": "camera",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "BankCard",
+        "path": "BankCard / Logo / PaymentSystemLogo",
+        "componentName": "PaymentSystemLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "BankCard",
+        "path": "BankCard / CardNumber",
+        "componentName": "CardNumber",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "State": "Default"
+        }
+      },
+      {
+        "hostComponentName": "BankCard",
+        "path": "BankCard / CardNumber / Icon / PaintMe / camera",
+        "componentName": "camera",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "BankCard",
+        "path": "BankCard / Logo / BankLogo",
+        "componentName": "BankLogo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

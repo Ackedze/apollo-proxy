@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.holding-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "holding-plate.desktop-after-titleview",
+        "title": "Корректная информационная плашка режима холдинга",
+        "inputState": {
+          "platform": "desktop",
+          "screenOrder": [
+            "TitleView",
+            "HoldingPlate",
+            "page content"
+          ],
+          "parentGrid": "12 col",
+          "width": "12 col",
+          "text": "Вы работаете от лица ООО «Альфа»",
+          "interactive": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "holding-plate.single-company-additional-identification",
+        "title": "Плашка уточняет компанию в single-company контексте холдинга",
+        "inputState": {
+          "holdingMode": true,
+          "companyScope": "single",
+          "additionalCompanyIdentificationRequired": true,
+          "component": "🔒 HoldingPlate"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "holding-plate.invalid-multi-company-context",
+        "title": "Плашка добавлена в общий multi-company контекст",
+        "inputState": {
+          "holdingMode": true,
+          "companyScope": "multi",
+          "component": "🔒 HoldingPlate"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.single-company-holding-context"
+        }
+      },
+      {
+        "exampleId": "holding-plate.invalid-titleview-holding-coexistence",
+        "title": "HoldingPlate продублирован вместе с TitleView.Holding",
+        "inputState": {
+          "screenComponents": [
+            "TitleView.Holding",
+            "HoldingPlate"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.titleview-holding-mutually-exclusive"
+        }
+      },
+      {
+        "exampleId": "holding-plate.long-company-name",
+        "title": "Длинное название компании сокращается через ellipsis",
+        "inputState": {
+          "lineCount": 1,
+          "overflow": "ellipsis",
+          "tooltip": false,
+          "text": "Вы работаете от лица [Длинное название компании]"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "holding-plate.invalid-overflow-tooltip",
+        "title": "К сокращённому названию компании добавлен tooltip",
+        "inputState": {
+          "lineCount": 1,
+          "overflow": "ellipsis",
+          "tooltip": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.fixed-content-and-anatomy"
+        }
+      },
+      {
+        "exampleId": "holding-plate.mobile-web",
+        "title": "Desktop-пресет использован на mobile-web",
+        "inputState": {
+          "platform": "mobile-web",
+          "component": "🔒 HoldingPlate"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.desktop-only"
+        }
+      },
+      {
+        "exampleId": "holding-plate.wrong-grid-width",
+        "title": "Вариант ширины не соответствует родительской сетке",
+        "inputState": {
+          "platform": "desktop",
+          "parentGrid": "8 col",
+          "width": "12 col"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.width-follows-parent-grid"
+        }
+      },
+      {
+        "exampleId": "holding-plate.visible-service-slots",
+        "title": "В плашке включены неподдерживаемые служебные слоты",
+        "inputState": {
+          "Caption": true,
+          "StatusBadge": true,
+          "Controls": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.fixed-content-and-anatomy"
+        }
+      },
+      {
+        "exampleId": "holding-plate-selector-misinterpretation",
+        "title": "Плашка ошибочно трактуется как селектор компании",
+        "inputState": {
+          "component": "🔒 HoldingPlate",
+          "clickAction": "open-company-selector"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.holding-plate.fixed-content-and-anatomy"
+        },
+        "mustNotSay": [
+          "HoldingPlate используется для выбора или переключения компании."
+        ]
+      }
+    ]
+  }
+}

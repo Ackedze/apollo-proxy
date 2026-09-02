@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- PaymentControl [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "PaymentControl [M]"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "componentIdentity": {
+      "current": {
+        "name": "[M] PaymentControl",
+        "key": "bd58cd9ec1fa8169e6c334c1ee9e4a974eefa86d"
+      },
+      "deprecated": {
+        "name": "❌ PaymentControl",
+        "key": "a4bbfdbd9c6c5f39225532008bea45c75b02c84e",
+        "usage": "forbidden",
+        "mustNotMergeWithCurrent": true
+      }
+    },
+    "documentationEvidence": {
+      "figmaNode": "14405:5995",
+      "liveExamplesAreNormative": true,
+      "staleSections": [
+        {
+          "name": "Anatomy",
+          "contains": "❌ PaymentControl",
+          "normative": false,
+          "reason": "confirmed documentation error"
+        },
+        {
+          "name": "Properties",
+          "contains": "❌ PaymentControl",
+          "normative": false,
+          "reason": "confirmed documentation error"
+        }
+      ]
+    },
+    "auditPolicy": {
+      "allowedAsInfo": [
+        "Core Amount currency customization",
+        "Core Amount minor-part visibility",
+        "Core Amount addon",
+        "optional info icon",
+        "info icon visible in ErrorFilled when fuller explanation is required"
+      ],
+      "errorCategories": [
+        "wrong platform",
+        "deprecated component use",
+        "missing required internal part",
+        "invalid state transition",
+        "wrong fixed-bottom or keyboard layout",
+        "wrong continue action visibility",
+        "Button or IconView customization",
+        "multiline hint or error",
+        "wrong info icon interaction",
+        "unsupported state",
+        "visual or geometry baseline override"
+      ]
+    },
+    "runtimeVerification": {
+      "staticallyCheckable": [
+        "component key",
+        "variant State",
+        "required internal instances",
+        "visibility",
+        "line count",
+        "visual and layout overrides"
+      ],
+      "requiresRuntimeEvidence": [
+        "state transitions",
+        "system keyboard relation",
+        "fixed-on-scroll behavior",
+        "info icon hit area",
+        "[M] BottomSheet opening"
+      ],
+      "implementationStatus": "exists-unverified",
+      "codeConnect": "not-configured",
+      "packageImportApi": "[VERIFY]"
+    }
+  }
+}

@@ -1,0 +1,1309 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core Misc",
+    "file": "Web _ Core Misc",
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 4,
+    "contractCount": 4,
+    "activeCount": 4,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "bank-logo.universal",
+      "name": "🔩 BankLogo",
+      "normalizedName": "bank-logo",
+      "componentKey": "03351556a6eaf19020c5822f3a888ffc789066f0",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "cabffd10a731d1b357ee4d0d6ace532253f11241",
+        "variants": {
+          "properties": {
+            "Type": [
+              "Alfa",
+              "SwapMe"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "SwapMe"
+            },
+            {
+              "Type": "Alfa"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "cabffd10a731d1b357ee4d0d6ace532253f11241",
+              "id": "5:4944",
+              "name": "Type=SwapMe",
+              "properties": {
+                "Type": "SwapMe"
+              }
+            },
+            {
+              "key": "3a23cd2669b0aa00f5e296dbada9b28edbcc3e14",
+              "id": "5:4946",
+              "name": "Type=Alfa",
+              "properties": {
+                "Type": "Alfa"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=SwapMe",
+            "type": "COMPONENT",
+            "path": "Type=SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=SwapMe",
+            "path": "Type=SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Type=SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "3a23cd2669b0aa00f5e296dbada9b28edbcc3e14": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Alfa",
+                "layout": {
+                  "itemSpacing": 10
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "cabffd10a731d1b357ee4d0d6ace532253f11241",
+            "when": {
+              "Type": "SwapMe"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "3a23cd2669b0aa00f5e296dbada9b28edbcc3e14",
+            "when": {
+              "Type": "Alfa"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=SwapMe",
+                "nodePath": "Type=SwapMe",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "alfa-bank-sign_m",
+                "nodePath": "Type=Alfa / alfa-bank-sign_m",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "logo",
+                "nodePath": "Type=Alfa / alfa-bank-sign_m / logo",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "Fixer",
+                "nodePath": "Type=SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "card-number.universal",
+      "name": "🔩 CardNumber",
+      "normalizedName": "card-number",
+      "componentKey": "3ae43117b6c691b67bb89e646f518753a38d009a",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "977bb32909e4d9f140a8e2daf19df51063ec621f",
+        "variants": {
+          "properties": {
+            "State": [
+              "Default",
+              "Filled"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "State": "Default"
+            },
+            {
+              "State": "Filled"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "977bb32909e4d9f140a8e2daf19df51063ec621f",
+              "id": "5:4934",
+              "name": "State=Default",
+              "properties": {
+                "State": "Default"
+              }
+            },
+            {
+              "key": "ce219ee6219708b6ff17ff12d3ff0f1080257123",
+              "id": "5:4938",
+              "name": "State=Filled",
+              "properties": {
+                "State": "Filled"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "State=Default",
+            "type": "COMPONENT",
+            "path": "State=Default",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "State=Default / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "State=Default",
+            "path": "State=Default",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "RECTANGLE",
+            "name": "Line",
+            "path": "State=Default / Line",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "State=Default / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58",
+            "text": {
+              "characters": "Номер карты или счёта",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 20,
+              "lineHeight": 28,
+              "letterSpacing": -0.6800000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f4aba13def19b9eb0ed8016de9a0b2a5cdeb930a,8326:7799"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "State=Default / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "State=Default / Icon / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "camera",
+            "path": "State=Default / Icon / PaintMe / camera",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "State=Default / Icon / PaintMe / camera / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "ce219ee6219708b6ff17ff12d3ff0f1080257123": [
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.8799999952316284,
+                    "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                    "colorHex": "#030306"
+                  }
+                ],
+                "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+                "text": {
+                  "characters": "Номер карты или счета",
+                  "fontName": "Alfa Interface Sans Regular",
+                  "fontSize": 12,
+                  "lineHeight": 16,
+                  "letterSpacing": 0.05999999865889549,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:002fd09fb152f69d6c345b171102ed33001b2684,8326:7803"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "977bb32909e4d9f140a8e2daf19df51063ec621f",
+            "when": {
+              "State": "Default"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "ce219ee6219708b6ff17ff12d3ff0f1080257123",
+            "when": {
+              "State": "Filled"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "State=Default",
+                "nodePath": "State=Default",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Content",
+                "nodePath": "State=Filled / Content",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "State=Default / Label",
+                "affects": [
+                  "fills",
+                  "tokens",
+                  "typography"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "payment-system-logo.universal",
+      "name": "🔩 PaymentSystemLogo",
+      "normalizedName": "payment-system-logo",
+      "componentKey": "2e9b42ba86eb846ec071ec9db2c44f49973f6295",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "aece13e16d1ad450b356a64f2a2092c9cf700cb4",
+        "variants": {
+          "properties": {
+            "Type": [
+              "Mir",
+              "SwapMe"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "SwapMe"
+            },
+            {
+              "Type": "Mir"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "aece13e16d1ad450b356a64f2a2092c9cf700cb4",
+              "id": "5:4949",
+              "name": "Type=SwapMe",
+              "properties": {
+                "Type": "SwapMe"
+              }
+            },
+            {
+              "key": "062884aa1d0c8b3cc0179c95942d55931866634f",
+              "id": "5:4951",
+              "name": "Type=Mir",
+              "properties": {
+                "Type": "Mir"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=SwapMe",
+            "type": "COMPONENT",
+            "path": "Type=SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=SwapMe",
+            "path": "Type=SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Type=SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "062884aa1d0c8b3cc0179c95942d55931866634f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Mir",
+                "layout": {
+                  "itemSpacing": 10
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "aece13e16d1ad450b356a64f2a2092c9cf700cb4",
+            "when": {
+              "Type": "SwapMe"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "062884aa1d0c8b3cc0179c95942d55931866634f",
+            "when": {
+              "Type": "Mir"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=SwapMe",
+                "nodePath": "Type=SwapMe",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "mir_m_color",
+                "nodePath": "Type=Mir / mir_m_color",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "logo",
+                "nodePath": "Type=Mir / mir_m_color / logo",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "logo",
+                "nodePath": "Type=Mir / mir_m_color / logo",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "Fixer",
+                "nodePath": "Type=SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "bank-card.universal",
+      "name": "BankCard",
+      "normalizedName": "bank-card",
+      "componentKey": "4eebc9f77ff32f459e7fe5c771045f89a527a87f",
+      "source": {
+        "library": "Web _ Core Misc",
+        "file": "Web _ Core Misc",
+        "generatedAt": "2026-06-17T08:57:18.024Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4eebc9f77ff32f459e7fe5c771045f89a527a87f",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "4eebc9f77ff32f459e7fe5c771045f89a527a87f",
+              "id": "5:4926",
+              "name": "BankCard",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "BankCard",
+            "type": "COMPONENT",
+            "path": "BankCard",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "BankCard / CardNumber / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 7
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": [
+            "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "BankCard",
+            "path": "BankCard",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+            ],
+            "radius": 12,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Logo",
+            "path": "BankCard / Logo",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "PaymentSystemLogo",
+            "path": "BankCard / Logo / PaymentSystemLogo",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "variantProperties": {
+              "Type": "SwapMe"
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "BankCard / Logo / PaymentSystemLogo / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "CardNumber",
+            "path": "BankCard / CardNumber",
+            "visible": true,
+            "variantProperties": {
+              "State": "Default"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "State": "Default"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "RECTANGLE",
+            "name": "Line",
+            "path": "BankCard / CardNumber / Line",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 5,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "BankCard / CardNumber / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:85e729d7c13b8053ee323ee04c1bc70ab02d06e9/9221:58",
+            "text": {
+              "characters": "Номер карты или счёта",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 20,
+              "lineHeight": 28,
+              "letterSpacing": -0.6800000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f4aba13def19b9eb0ed8016de9a0b2a5cdeb930a,8326:7799"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "BankCard / CardNumber / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "BankCard / CardNumber / Icon / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:e86a96753bbf5affba4ec9ebf5bc294c4b824a97/3541:128"
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "INSTANCE",
+            "name": "camera",
+            "path": "BankCard / CardNumber / Icon / PaintMe / camera",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "BankCard / CardNumber / Icon / PaintMe / camera / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 12,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Logo",
+            "path": "BankCard / Logo",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "BankLogo",
+            "path": "BankCard / Logo / BankLogo",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "variantProperties": {
+              "Type": "SwapMe"
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "BankCard / Logo / BankLogo / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "4eebc9f77ff32f459e7fe5c771045f89a527a87f",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: BankCard"
+        ]
+      }
+    }
+  ]
+}

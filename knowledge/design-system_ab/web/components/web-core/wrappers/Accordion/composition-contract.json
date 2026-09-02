@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.accordion",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Accordion",
+      "library": "Web :: Core Wrappers"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "Accordion",
+        "path": "Content=True, ControlSide=Right / HeadLine / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Content=True, ControlSide=Right / HeadLine / Control / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "Accordion",
+        "path": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "❌ Accordion",
+        "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "❌ Accordion",
+        "path": "ControlPosition=Right, Open=False / HeadLine / Gap",
+        "componentName": "Gap",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "❌ Accordion",
+        "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe",
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ Accordion",
+        "path": "ControlPosition=Right, Open=False / body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "SwapMe"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

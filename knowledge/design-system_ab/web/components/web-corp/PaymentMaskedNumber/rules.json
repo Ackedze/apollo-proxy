@@ -1,0 +1,1104 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.payment-masked-number",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-09-01"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.payment-masked-number.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor",
+            "PaymentMaskedNumber",
+            "RightAddon",
+            "SwapMe"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor",
+            "PaymentMaskedNumber",
+            "RightAddon",
+            "SwapMe"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.payment-masked-number.public-root-only",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.public-root-only",
+        "ruleKind": "design-rule",
+        "appliesTo": "component.identity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Самостоятельно разрешено использовать только PaymentMaskedNumber. Major, Minor, RightAddon и SwapMe являются внутренними частями семейства.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "public-root",
+          "identity": "web-corp.payment-masked-number",
+          "standaloneOnly": true,
+          "allowedFamilies": [
+            "payment-masked-number"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебная часть PaymentMaskedNumber используется отдельно",
+            "observed": "{{actual}} размещён как самостоятельный компонент.",
+            "expectation": "Самостоятельно допускается использовать только PaymentMaskedNumber.",
+            "action": "Заменить служебную часть на публичный PaymentMaskedNumber root."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.unmasked-major-format",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.number-format",
+        "ruleKind": "design-rule",
+        "appliesTo": "text.characters|variant.Mask Number",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При Mask Number=False Major содержит начало номера счёта или карты со штатной группировкой через математический пробел U+205F.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Major",
+                    "✎ Major"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.properties.Mask Number"
+                },
+                "expected": {
+                  "literal": "False"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "matches",
+            "actual": {
+              "fact": "text.characters"
+            },
+            "expected": {
+              "literal": "^(?:[0-9]{5} [0-9]{3} [0-9] [0-9]{4} [0-9]{3}|[0-9]{4} [0-9]{4} [0-9]{4})$"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Некорректный формат PaymentMaskedNumber",
+            "observed": "Major содержит «{{actual}}».",
+            "expectation": "Используй штатную группировку номера счёта или карты и математический пробел U+205F.",
+            "action": "Заменить обычные или похожие пробелы на U+205F и восстановить штатную группировку.",
+            "targetFact": "text.characters"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.mask-format",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.mask-format",
+        "ruleKind": "design-rule",
+        "appliesTo": "text.characters|variant.Mask Number",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "При Mask Number=True Major содержит два интерпункта U+00B7 и тонкий пробел U+2009.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Major",
+                    "✎ Major"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.properties.Mask Number"
+                },
+                "expected": {
+                  "literal": "True"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "matches",
+            "actual": {
+              "fact": "text.characters"
+            },
+            "expected": {
+              "literal": "^·· $"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Некорректная маска PaymentMaskedNumber",
+            "observed": "Major в masked-состоянии содержит «{{actual}}».",
+            "expectation": "Masked Major должен содержать два интерпункта U+00B7 и тонкий пробел U+2009.",
+            "action": "Восстановить значение Major `·· ` через штатное Mask Number=True.",
+            "targetFact": "text.characters"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.minor-last-four-digits",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.number-format",
+        "ruleKind": "design-rule",
+        "appliesTo": "text.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Minor содержит ровно последние четыре цифры номера счёта или карты.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Minor",
+                    "✎ Minor"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "matches",
+            "actual": {
+              "fact": "text.characters"
+            },
+            "expected": {
+              "literal": "^[0-9]{4}$"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Некорректные последние цифры PaymentMaskedNumber",
+            "observed": "Minor содержит «{{actual}}».",
+            "expectation": "Minor должен содержать ровно последние четыре цифры.",
+            "action": "Заполнить Minor четырьмя последними цифрами номера.",
+            "targetFact": "text.characters"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.parts-share-color-token",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.parts-share-color-token",
+        "ruleKind": "design-rule",
+        "appliesTo": "fill|bindings.fills.token",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": false,
+          "resetSurface": "layer"
+        },
+        "ruleText": "Major и Minor можно синхронно перекрасить в любой подходящий цветовой токен. Обе части должны использовать один и тот же token binding; raw-цвет и разные токены запрещены.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.family"
+                },
+                "expected": {
+                  "literal": "payment-masked-number"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "all",
+            "args": [
+              {
+                "predicate": "count-between",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "type"
+                        },
+                        "expected": {
+                          "literal": "TEXT"
+                        }
+                      },
+                      {
+                        "predicate": "one-of",
+                        "actual": {
+                          "fact": "name"
+                        },
+                        "expected": {
+                          "literal": [
+                            "Major",
+                            "Minor",
+                            "✎ Major",
+                            "✎ Minor"
+                          ]
+                        }
+                      },
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "visible"
+                        },
+                        "expected": {
+                          "literal": true
+                        }
+                      }
+                    ]
+                  }
+                },
+                "lower": {
+                  "literal": 2
+                },
+                "upper": {
+                  "literal": 2
+                }
+              },
+              {
+                "predicate": "every",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "type"
+                        },
+                        "expected": {
+                          "literal": "TEXT"
+                        }
+                      },
+                      {
+                        "predicate": "one-of",
+                        "actual": {
+                          "fact": "name"
+                        },
+                        "expected": {
+                          "literal": [
+                            "Major",
+                            "Minor",
+                            "✎ Major",
+                            "✎ Minor"
+                          ]
+                        }
+                      },
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "visible"
+                        },
+                        "expected": {
+                          "literal": true
+                        }
+                      }
+                    ],
+                    "project": {
+                      "fact": "bindings.fills.bound"
+                    }
+                  }
+                },
+                "expected": {
+                  "literal": [
+                    true
+                  ]
+                }
+              },
+              {
+                "predicate": "all-equal",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "type"
+                        },
+                        "expected": {
+                          "literal": "TEXT"
+                        }
+                      },
+                      {
+                        "predicate": "one-of",
+                        "actual": {
+                          "fact": "name"
+                        },
+                        "expected": {
+                          "literal": [
+                            "Major",
+                            "Minor",
+                            "✎ Major",
+                            "✎ Minor"
+                          ]
+                        }
+                      },
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "visible"
+                        },
+                        "expected": {
+                          "literal": true
+                        }
+                      }
+                    ],
+                    "project": {
+                      "fact": "bindings.fills.token"
+                    }
+                  }
+                }
+              },
+              {
+                "predicate": "all-equal",
+                "actual": {
+                  "query": {
+                    "from": "subject",
+                    "traverse": "descendants",
+                    "where": [
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "type"
+                        },
+                        "expected": {
+                          "literal": "TEXT"
+                        }
+                      },
+                      {
+                        "predicate": "one-of",
+                        "actual": {
+                          "fact": "name"
+                        },
+                        "expected": {
+                          "literal": [
+                            "Major",
+                            "Minor",
+                            "✎ Major",
+                            "✎ Minor"
+                          ]
+                        }
+                      },
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "visible"
+                        },
+                        "expected": {
+                          "literal": true
+                        }
+                      }
+                    ],
+                    "project": {
+                      "fact": "appearance.fill.value"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Major и Minor используют разные цвета",
+            "observed": "У Major и Minor различаются цвет или token binding.",
+            "expectation": "Обе текстовые части PaymentMaskedNumber должны использовать один общий цветовой токен.",
+            "action": "Привязать Major и Minor к одному подходящему цветовому токену."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.addon-uses-final-component",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.addon-uses-final-component",
+        "ruleKind": "design-rule",
+        "appliesTo": "component.slot.Addon|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Addon",
+            "RightAddon",
+            "SwapMe"
+          ]
+        },
+        "conditions": {
+          "defaultAddonVisible": false,
+          "placeholderComponent": "SwapMe"
+        },
+        "ruleText": "Addon по умолчанию скрыт. Если Addon показан, служебный SwapMe должен быть заменён подходящим сценарию компонентом; список допустимых swap-компонентов этим контрактом не ограничивается.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "slot-contract",
+          "ownerIdentity": "web-corp.payment-masked-number",
+          "slot": {
+            "family": "right-addon"
+          },
+          "checks": [
+            {
+              "id": "final-component",
+              "op": "forbid-descendant-families",
+              "forbiddenFamilies": [
+                "swap-me"
+              ],
+              "minNestedComponents": 1,
+              "presentation": {
+                "schemaVersion": "apollo.predicate-presentation.v1",
+                "title": "В Addon оставлен служебный SwapMe",
+                "observed": "В видимом Addon не выбран финальный компонент для сценария.",
+                "expectation": "Видимый Addon должен содержать финальный компонент, а не служебный SwapMe.",
+                "action": "Заменить SwapMe на компонент, подходящий сценарию. Допустимый список определяется контекстом использования."
+              }
+            }
+          ],
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.addon-geometry",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.addon-geometry",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.itemSpacing|layout.height",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Addon",
+            "RightAddon"
+          ]
+        },
+        "requiredLayout": {
+          "gapPx": 4,
+          "addonMaxHeight": "number.lineHeight"
+        },
+        "ruleText": "Между номером и Addon сохраняется отступ 4 px, а высота Addon не превышает line-height текстовой части номера.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "slot-contract",
+          "ownerIdentity": "web-corp.payment-masked-number",
+          "slot": {
+            "family": "right-addon"
+          },
+          "checks": [
+            {
+              "id": "gap",
+              "op": "previous-sibling-gap",
+              "axis": "horizontal",
+              "expectedPx": 4,
+              "presentation": {
+                "schemaVersion": "apollo.predicate-presentation.v1",
+                "title": "Нарушен отступ перед Addon",
+                "observed": "Расстояние между номером и Addon отличается от 4 px.",
+                "expectation": "Между номером и Addon должен быть отступ 4 px.",
+                "action": "Установить отступ 4 px в горизонтальном контейнере PaymentMaskedNumber."
+              }
+            },
+            {
+              "id": "height",
+              "op": "height-lte-previous-sibling-line-height",
+              "presentation": {
+                "schemaVersion": "apollo.predicate-presentation.v1",
+                "title": "Addon выше строки номера",
+                "observed": "Высота Addon превышает line-height соседней текстовой части номера.",
+                "expectation": "Высота Addon не должна превышать line-height номера.",
+                "action": "Выбрать или настроить Addon так, чтобы его высота не превышала line-height номера."
+              }
+            }
+          ],
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.typography-follows-effective-pair",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.typography-pair",
+        "ruleKind": "design-rule",
+        "appliesTo": "styles.text|typography",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor"
+          ]
+        },
+        "ruleText": "Major и Minor сохраняют свои text styles из effective baseline как согласованную пару; независимое ручное изменение типографики одной из частей запрещено.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Major",
+                    "Minor",
+                    "✎ Major",
+                    "✎ Minor"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Нарушена типографическая пара PaymentMaskedNumber",
+            "observed": "Текстовый стиль слоя «{{targetName}}» изменён с {{expected}} на {{actual}}.",
+            "expectation": "Major и Minor должны сохранять text styles своей effective-baseline пары.",
+            "action": "Сбросить текстовый стиль слоя «{{targetName}}» к effective baseline PaymentMaskedNumber."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.text-style-binding-required",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.typography-pair",
+        "ruleKind": "design-rule",
+        "appliesTo": "styles.text|typography",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor"
+          ]
+        },
+        "ruleText": "Major и Minor используют опубликованные Figma Text Styles дизайн-системы; raw fontSize, lineHeight, fontWeight и другие ручные параметры без text style запрещены.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "binding-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Major",
+                    "Minor",
+                    "✎ Major",
+                    "✎ Minor"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "visible"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.payment-masked-number"
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "valueFact": "appearance.styles.textStyle",
+              "bindingFact": "bindings.styles.text",
+              "requireValue": false
+            }
+          ],
+          "expectedBinding": {
+            "bound": true,
+            "kind": "text-style"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "PaymentMaskedNumber использует raw typography",
+            "observed": "Слой «{{targetName}}» не связан с опубликованным Figma Text Style.",
+            "expectation": "Major и Minor должны использовать опубликованные Text Styles дизайн-системы.",
+            "action": "Назначить text style из effective baseline PaymentMaskedNumber."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.narrow-overflow-preserves-last-four",
+        "severity": "error",
+        "source": "hub-rule",
+        "patternRuleId": "rule:components.payment-masked-number.narrow-overflow",
+        "ruleKind": "design-rule",
+        "appliesTo": "text.overflow|layout.width",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber",
+          "layers": [
+            "Major",
+            "Minor"
+          ]
+        },
+        "requiredLayout": {
+          "maxLines": 1,
+          "overflow": "ellipsis-before-minor",
+          "preserveLastDigits": 4
+        },
+        "ruleText": "В узком контейнере начало номера сокращается штатным ellipsis, компонент остаётся в одну строку, а последние четыре цифры Minor сохраняются видимыми.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.interaction-and-states-are-contextual",
+        "severity": "info",
+        "source": "hub-section",
+        "ruleKind": "design-rule",
+        "appliesTo": "interaction.*|component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PaymentMaskedNumber"
+        },
+        "ruleText": "У PaymentMaskedNumber нет собственных loading, disabled и error состояний. Кликабельность root и Addon зависит от продуктового контекста и не является обязательной или запрещённой сама по себе.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.payment-masked-number.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.payment-masked-number"
+      ],
+      "predicateRules": [
+        "component:web-corp.payment-masked-number.public-root-only",
+        "component:web-corp.payment-masked-number.unmasked-major-format",
+        "component:web-corp.payment-masked-number.mask-format",
+        "component:web-corp.payment-masked-number.minor-last-four-digits",
+        "component:web-corp.payment-masked-number.parts-share-color-token",
+        "component:web-corp.payment-masked-number.typography-follows-effective-pair",
+        "component:web-corp.payment-masked-number.text-style-binding-required",
+        "component:web-corp.payment-masked-number.addon-uses-final-component",
+        "component:web-corp.payment-masked-number.addon-geometry"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-corp.payment-masked-number.lifecycle-context-is-informational",
+          "effect": "classification"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.payment-masked-number.narrow-overflow-preserves-last-four",
+          "missingFacts": [
+            "text.overflow",
+            "layout.availableWidth",
+            "text.visibleSuffix"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.payment-masked-number.interaction-and-states-are-contextual",
+          "missingFacts": [
+            "interaction.*",
+            "component.state"
+          ]
+        }
+      ]
+    }
+  }
+}

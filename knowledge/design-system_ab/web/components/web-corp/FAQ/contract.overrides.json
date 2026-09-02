@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.faq",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D][Promo] FAQItem",
+        "key": "409ba7df8caf7d42fdb6f1d15fa862983e907b37",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Open"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M][Promo] FAQItem",
+        "key": "f48ff7692ce5e977fa8a62265a44bcd2b7c2b064",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Open"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "FAQItem",
+        "key": "69eb0514d83058ace47bedfbe8870453b3d61f15",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Open"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D][Promo] FAQ",
+        "key": "d0b9c2656488739d36bd4125b4c6ce1dc95acba3",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M][Promo] FAQ",
+        "key": "81fb24e5525ca18cd8e9b5d16cd59b1a435125f0",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "FAQ",
+        "key": "4ea9c627c5990f79b4acff821221db8cc1191308",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "[D][Promo] FAQ",
+        "role": "public-root",
+        "platform": "desktop",
+        "matchingItem": "[D][Promo] FAQItem"
+      },
+      {
+        "name": "[M][Promo] FAQ",
+        "role": "public-root",
+        "platform": "mobile-web",
+        "matchingItem": "[M][Promo] FAQItem"
+      },
+      {
+        "name": "FAQ",
+        "role": "public-root",
+        "platform": "universal",
+        "matchingItem": "FAQItem"
+      }
+    ],
+    "internalOnly": [
+      "[D][Promo] FAQItem",
+      "[M][Promo] FAQItem",
+      "FAQItem",
+      "🔩 AccordionHeader",
+      "🔩 AccordionControl",
+      "🔩 AccordionBody"
+    ],
+    "allowedOverrides": {
+      "text": [
+        "question",
+        "answer",
+        "answer links"
+      ],
+      "componentProperties": [
+        "FAQItem.Open"
+      ],
+      "composition": [
+        "FAQItem visibility",
+        "FAQItem order",
+        "duplicate matching FAQItem up to 8 per category"
+      ],
+      "layout": [
+        "outer container width according to page grid"
+      ]
+    },
+    "forbiddenOverrides": [
+      "standalone FAQItem",
+      "cross-family instance swap",
+      "manual typography",
+      "manual fill or stroke",
+      "manual padding or gap",
+      "manual radius",
+      "manual divider",
+      "manual control icon",
+      "manual opacity or effects",
+      "surface replacement"
+    ]
+  }
+}

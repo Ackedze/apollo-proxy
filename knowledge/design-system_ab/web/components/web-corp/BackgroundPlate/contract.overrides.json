@@ -1,0 +1,1145 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.background-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-10"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] BackgroundPlate",
+        "key": "2c7332d281570f4d5af6d334f8df378d24a1f235",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] BackgroundPlateSlot",
+        "key": "5b6c5ac720154aff36be2f8a883bd058faa663cf",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Style Level 1",
+        "key": "adb65a62cde9ebedc5d0d41d2d77cd63e71e0745",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Style Level 2",
+        "key": "c8735f4834a8b43fd2ab821ffc0a6e72a57c4b5b",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D][Promo] BackgroundPlate",
+        "key": "c49f08db71ab44ea64f0880730220de1d93ac263",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D][Promo] Style Level 1",
+        "key": "2b46e94cdecdab7d4cb977055c0405b2f6204127",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D][Promo] Style Level 2",
+        "key": "a5a4240097211b28195291a593c567e9d7c62bd3",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BackgroundPlate",
+        "key": "4cfe3915785e5c37255190ae16314f6f2a1d05b3",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BackgroundPlateSlot",
+        "key": "1745af83255e324781c2fbadfe0ad8cc7f13e0d8",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Style Level 1",
+        "key": "efc528bd86582d96a824edeb2c257dc8b22a8f14",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Style Level 2",
+        "key": "74f025a02889239c3f6eed60d74ba85f292bdcb0",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M][Promo] BackgroundPlate",
+        "key": "a58fa7ae11989280fc24069f204ba617fdb1f93c",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M][Promo] Style Level 1",
+        "key": "19b4b6ed5718d82888a6551b56e0c776f4993ccc",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M][Promo] Style Level 2",
+        "key": "b33f77cc56c5feffb4f24a5912d74e3af927140e",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.BackgroundColor",
+          "variant.Skeleton",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "component": {
+      "name": "BackgroundPlate",
+      "library": "Web _ Corp Components"
+    },
+    "generationPolicy": {
+      "defaultForNewContent": {
+        "desktop": {
+          "componentName": "[D] BackgroundPlateSlot",
+          "componentKey": "5b6c5ac720154aff36be2f8a883bd058faa663cf"
+        },
+        "mobile-web": {
+          "componentName": "[M] BackgroundPlateSlot",
+          "componentKey": "1745af83255e324781c2fbadfe0ad8cc7f13e0d8"
+        }
+      },
+      "newLayoutPolicy": "Для любого нового контейнера с контентом используй BackgroundPlateSlot соответствующей платформы. Не создавай новый контентный блок на основе BackgroundPlate.",
+      "existingLayoutPolicy": "При аудите существующего макета продолжай проверять BackgroundPlate по его текущему effective baseline и правилам. Не считай само наличие BackgroundPlate нарушением, пока lifecycle status в raw-каталоге остаётся active.",
+      "legacyComponents": [
+        {
+          "componentName": "[D] BackgroundPlate",
+          "catalogStatus": "active",
+          "generationStatus": "legacy",
+          "plannedDeprecation": true,
+          "allowForNewLayouts": false,
+          "migrationTarget": "[D] BackgroundPlateSlot"
+        },
+        {
+          "componentName": "[M] BackgroundPlate",
+          "catalogStatus": "active",
+          "generationStatus": "legacy",
+          "plannedDeprecation": true,
+          "allowForNewLayouts": false,
+          "migrationTarget": "[M] BackgroundPlateSlot"
+        }
+      ],
+      "promoPolicy": {
+        "allowForNewPromoLayouts": true,
+        "allowOutsidePromoLayouts": false,
+        "components": [
+          {
+            "componentName": "[D][Promo] BackgroundPlate",
+            "componentKey": "c49f08db71ab44ea64f0880730220de1d93ac263",
+            "platform": "desktop"
+          },
+          {
+            "componentName": "[M][Promo] BackgroundPlate",
+            "componentKey": "a58fa7ae11989280fc24069f204ba617fdb1f93c",
+            "platform": "mobile-web"
+          }
+        ],
+        "visualDifference": "Promo BackgroundPlate отличается от обычной поверхности увеличенным радиусом скругления.",
+        "selectionRule": "Используй Promo BackgroundPlate только при явном promo/marketing контексте. Для обычного продуктового B2B-макета используй BackgroundPlateSlot.",
+        "radiusCollection": {
+          "name": "[Promo] BackgroundPlate Radius",
+          "id": "VariableCollectionId:136950:62729",
+          "key": "8ec8c08c6477f1f656a92b4d42684c8b60befcd5",
+          "defaultMode": {
+            "modeId": "136950:0",
+            "name": "Level-1 (outer)"
+          },
+          "modes": [
+            {
+              "modeId": "136950:0",
+              "name": "Level-1 (outer)",
+              "values": {
+                "[D] CornerRadius": 24,
+                "[M] CornerRadius": 24
+              }
+            },
+            {
+              "modeId": "136950:1",
+              "name": "Level-2 (inner)",
+              "values": {
+                "[D] CornerRadius": 16,
+                "[M] CornerRadius": 16
+              }
+            }
+          ]
+        }
+      },
+      "variableDrivenBehavior": {
+        "components": [
+          "[D] BackgroundPlateSlot",
+          "[M] BackgroundPlateSlot"
+        ],
+        "purpose": "BackgroundPlateSlot является variable-driven компонентом. Уровень, радиус и цвет поверхности должны получаться через modes системных variable collections, а Type и Skeleton — через component variants. Не воспроизводи эти состояния ручным изменением внутренних слоёв.",
+        "sourceTokenCatalog": "JSONS/tokens/Web _ Corp Components.json",
+        "collections": [
+          {
+            "name": "BackgroundPlate Radius",
+            "id": "VariableCollectionId:136328:43556",
+            "key": "70aae338764e9bd208c8d243895b523de521a178",
+            "controls": "Скругление поверхности в зависимости от уровня",
+            "defaultMode": {
+              "modeId": "136328:0",
+              "name": "Level-1 (outer)"
+            },
+            "modes": [
+              {
+                "modeId": "136328:0",
+                "name": "Level-1 (outer)",
+                "values": {
+                  "[D] CornerRadius": 16,
+                  "[M] CornerRadius": 24
+                }
+              },
+              {
+                "modeId": "136328:1",
+                "name": "Level-2 (inner)",
+                "values": {
+                  "[D] CornerRadius": 12,
+                  "[M] CornerRadius": 16
+                }
+              }
+            ]
+          },
+          {
+            "name": "BackgroundPlate Level",
+            "id": "VariableCollectionId:136846:8873",
+            "key": "ded155c084dd88445e29d4134aad0e9cfb1700d7",
+            "controls": "Цвет заливки компонента в зависимости от уровня",
+            "variable": {
+              "name": "BackgroundColor",
+              "id": "VariableID:136853:7710",
+              "key": "db84ea8cdc3ae910e107478f4b4b3fad114302a0"
+            },
+            "defaultMode": {
+              "modeId": "136846:5",
+              "name": "Level-0 (base)",
+              "contextRole": "root-surface",
+              "allowedForGeneration": true,
+              "allowedForBackgroundPlateComponent": false,
+              "requiredForRootSurface": true,
+              "note": "Назначай этот mode главной поверхности страницы или модальной сущности. Он задаёт базовый уровень контекста, от которого вложенный BackgroundPlate автоматически становится Level-1."
+            },
+            "modes": [
+              {
+                "modeId": "136846:5",
+                "name": "Level-0 (base)",
+                "status": "required-root-context",
+                "contextRole": "root-surface",
+                "allowedForGeneration": true,
+                "allowedForDesign": true,
+                "allowedForBackgroundPlateComponent": false,
+                "reason": "Level-0 назначается главной поверхности, на которой располагается BackgroundPlate. Без этого контекста компонент не получит Level-1 автоматически.",
+                "resolvesTo": {
+                  "tokenName": "Level-0 (base)",
+                  "variableId": "VariableID:136853:7729"
+                }
+              },
+              {
+                "modeId": "136846:3",
+                "name": "Level-1 (outer)",
+                "resolvesTo": {
+                  "tokenName": "Level-1 (outer)",
+                  "variableId": "VariableID:136853:7728"
+                }
+              },
+              {
+                "modeId": "136846:4",
+                "name": "Level-2 (outer)",
+                "semanticLevel": "Level-2 (inner)",
+                "sourceNameNote": "В token-каталоге mode называется Level-2 (outer); в component API и паттерне этот уровень называется Level-2 (inner).",
+                "resolvesTo": {
+                  "tokenName": "Level-2 (inner)",
+                  "variableId": "VariableID:136853:7727"
+                }
+              }
+            ]
+          },
+          {
+            "name": "BackgroundPlate Color",
+            "id": "VariableCollectionId:136853:7720",
+            "key": "22d83aeb0d0d643a5359f63464a2ab81838fbe9f",
+            "controls": "Фон и тип поверхности, на которой расположен компонент",
+            "defaultMode": {
+              "modeId": "136853:0",
+              "name": "base-bg-alt (grey)"
+            },
+            "modes": [
+              {
+                "modeId": "136853:0",
+                "name": "base-bg-alt (grey)",
+                "surfaceContext": "page",
+                "surfaceTone": "grey"
+              },
+              {
+                "modeId": "136853:1",
+                "name": "base-bg (white)",
+                "surfaceContext": "page",
+                "surfaceTone": "white"
+              },
+              {
+                "modeId": "136941:0",
+                "name": "modal-bg-alt (grey)",
+                "surfaceContext": "modal",
+                "surfaceTone": "grey"
+              },
+              {
+                "modeId": "136941:1",
+                "name": "modal-bg (white)",
+                "surfaceContext": "modal",
+                "surfaceTone": "white"
+              }
+            ],
+            "levelTokens": [
+              {
+                "name": "Level-0 (base)",
+                "id": "VariableID:136853:7729"
+              },
+              {
+                "name": "Level-1 (outer)",
+                "id": "VariableID:136853:7728"
+              },
+              {
+                "name": "Level-2 (inner)",
+                "id": "VariableID:136853:7727"
+              }
+            ]
+          }
+        ],
+        "propertyMapping": {
+          "surfaceLevel": [
+            "BackgroundPlate Radius",
+            "BackgroundPlate Level"
+          ],
+          "surfaceContext": "BackgroundPlate Color",
+          "componentType": "variant.Type",
+          "loadingState": "variant.Skeleton"
+        },
+        "levelPolicy": {
+          "property": "surfaceLevel",
+          "rootSurfaceContext": {
+            "requiredMode": "Level-0 (base)",
+            "applyTo": "Главная поверхность страницы или модальной сущности, содержащая BackgroundPlate.",
+            "applyDirectlyToBackgroundPlate": false,
+            "purpose": "Задать исходный variable context, от которого первый вложенный BackgroundPlate автоматически получает Level-1 (outer)."
+          },
+          "componentValues": [
+            "Level-1 (outer)",
+            "Level-2 (inner)"
+          ],
+          "selectionRules": [
+            "Сначала назначь Level-0 (base) главной поверхности страницы или модальной сущности.",
+            "Не назначай Level-0 непосредственно экземпляру BackgroundPlate.",
+            "Первый BackgroundPlate внутри поверхности с Level-0 должен автоматически получить Level-1 (outer).",
+            "Для вложенной поверхности используй Level-2 (inner) только внутри Level-1 (outer)."
+          ],
+          "requiredComposition": {
+            "Level-2 (inner)": {
+              "requiredParent": "Level-1 (outer)",
+              "directParentRequired": true,
+              "allowStandalone": false,
+              "allowContractExceptions": false
+            }
+          }
+        },
+        "typePolicy": {
+          "property": "variant.Type",
+          "defaultValue": "Primary",
+          "values": [
+            {
+              "value": "Primary",
+              "role": "default",
+              "useWhen": "Основное состояние компонента. Используй контрастный цвет поверхности по отношению к базовому фону."
+            },
+            {
+              "value": "Secondary",
+              "role": "low-contrast",
+              "useWhen": "Нужна менее контрастная подложка относительно базового фона.",
+              "restrictions": [
+                "Не использовать для Level-2 (inner)."
+              ]
+            },
+            {
+              "value": "Colored",
+              "role": "custom-color",
+              "useWhen": "Дизайнеру нужен кастомный цвет подложки.",
+              "restrictions": [
+                "Цвет должен быть задан через цветовой токен дизайн-системы.",
+                "Не использовать raw fill без token binding."
+              ]
+            },
+            {
+              "value": "Border",
+              "role": "outlined-surface",
+              "useWhen": "Нужна подложка без цветной заливки, но с обводкой.",
+              "restrictions": [
+                "Цвет обводки должен быть задан через цветовой токен дизайн-системы.",
+                "Не использовать компонент как кликабельную поверхность."
+              ]
+            }
+          ],
+          "selectionOrder": [
+            "Если специальных требований нет, используй Primary.",
+            "Используй Secondary только для менее контрастной поверхности и только вне Level-2.",
+            "Используй Colored только при явной потребности в кастомном токенизированном цвете.",
+            "Используй Border только для бесцветной поверхности с токенизированной обводкой."
+          ]
+        },
+        "skeletonPolicy": {
+          "property": "variant.Skeleton",
+          "defaultValue": "False",
+          "values": [
+            {
+              "value": "False",
+              "useWhen": "Компонент и расположенный внутри него контент доступны и не находятся в состоянии загрузки."
+            },
+            {
+              "value": "True",
+              "useWhen": "Загружается сам компонент или контент, расположенный внутри него."
+            }
+          ],
+          "preferredLoadingImplementation": "Для обычного состояния загрузки включай штатный component property Skeleton=True вместо ручной сборки placeholder-слоёв.",
+          "complexLoadingException": {
+            "allowed": true,
+            "condition": "Сложная skeleton-композиция явно описана отдельным правилом или сценарием в паттерне.",
+            "fallback": "Если подтверждающего паттерна нет, используй штатный Skeleton=True и не придумывай сложную структуру загрузки."
+          }
+        },
+        "interactionPolicy": {
+          "wholeSurfaceMayBeClickable": true,
+          "clickableTypes": [
+            "Primary",
+            "Secondary",
+            "Colored"
+          ],
+          "nonClickableTypes": [
+            "Border"
+          ],
+          "implementation": "Кликабельность применяется ко всей поверхности компонента через предусмотренное состояние в коде. Не имитируй интерактивность ручными hover/click слоями в макете.",
+          "rule": "Primary, Secondary и Colored могут быть полностью кликабельными. Border остаётся декоративной поверхностью и не может быть кликабельным."
+        },
+        "borderPolicy": {
+          "appliesWhen": {
+            "variant.Type": "Border"
+          },
+          "fill": {
+            "allowed": false,
+            "requiredState": "none-or-not-visible",
+            "rule": "Type=Border не должен иметь видимую заливку, включая tokenized fill."
+          },
+          "strokeColor": {
+            "customizable": true,
+            "requiresColorToken": true,
+            "rawStrokeAllowed": false
+          },
+          "strokeWeight": {
+            "customizable": true,
+            "recommendedDefault": 1,
+            "useStandaloneBaselineAsRequirement": false
+          },
+          "strokeAlign": {
+            "customizable": false,
+            "requiredValue": "INSIDE",
+            "useEffectiveBaseline": true
+          },
+          "generationRule": "Для Type=Border убери видимую заливку и начинай с обводки 1 px внутри компонента. Цвет обводки выбирай через цветовой токен. Толщину можно менять под контекст, но положение обводки всегда оставляй INSIDE."
+        },
+        "coloredPolicy": {
+          "appliesWhen": {
+            "variant.Type": "Colored"
+          },
+          "fill": {
+            "required": true,
+            "requiresColorToken": true,
+            "rawFillAllowed": false
+          },
+          "stroke": {
+            "allowed": false,
+            "requiredState": "none-or-not-visible",
+            "rule": "Type=Colored формируется только заливкой и не должен иметь видимую обводку."
+          },
+          "generationRule": "Для Type=Colored используй видимую заливку через цветовой токен и не добавляй обводку."
+        },
+        "standardTypePaintPolicy": {
+          "appliesWhen": {
+            "variant.Type": [
+              "Primary",
+              "Secondary"
+            ]
+          },
+          "fill": {
+            "customizable": false,
+            "useEffectiveBaseline": true
+          },
+          "stroke": {
+            "customizable": false,
+            "useEffectiveBaseline": true
+          },
+          "effectiveBaselineContext": [
+            "surfaceLevel",
+            "variant.Type",
+            "variant.BackgroundColor",
+            "BackgroundPlate Color mode"
+          ],
+          "generationRule": "Для Primary и Secondary не изменяй fill или stroke вручную. Получай paint из компонента и effective baseline выбранных Type, уровня и BackgroundColor."
+        },
+        "opacityPolicy": {
+          "customizable": false,
+          "requiredState": "effective-baseline",
+          "appliesToAllTypes": true,
+          "generationRule": "Не изменяй opacity BackgroundPlate или его внутренних surface-слоёв вручную. Используй effective baseline компонента."
+        },
+        "shadowPolicy": {
+          "customizable": false,
+          "appliesToAllTypes": true,
+          "disallowedEffectTypes": [
+            "DROP_SHADOW",
+            "INNER_SHADOW"
+          ],
+          "generationRule": "Не добавляй Drop shadow или Inner shadow к BackgroundPlate и его внутренним surface-слоям."
+        },
+        "blurPolicy": {
+          "customizable": true,
+          "appliesToAllTypes": true,
+          "allowedEffectTypes": [
+            "LAYER_BLUR",
+            "BACKGROUND_BLUR"
+          ],
+          "controlledBy": "context",
+          "generationRule": "Layer blur и Background blur можно использовать, когда это требуется контекстом композиции. Не трактуй blur как запрещённую тень."
+        },
+        "blendModePolicy": {
+          "customizable": false,
+          "requiredState": "effective-baseline",
+          "appliesToAllTypes": true,
+          "generationRule": "Не изменяй blendMode BackgroundPlate или его внутренних surface-слоёв вручную. Сохраняй effective baseline конкретного слоя и варианта."
+        },
+        "paddingPolicy": {
+          "properties": [
+            "layout.padding.top",
+            "layout.padding.right",
+            "layout.padding.bottom",
+            "layout.padding.left"
+          ],
+          "recommendedDefaults": {
+            "Level-1 (outer)": {
+              "value": 32,
+              "token": "Spacing/32"
+            },
+            "Level-2 (inner)": {
+              "value": 24,
+              "token": "Spacing/24"
+            }
+          },
+          "overridePolicy": {
+            "allowed": true,
+            "reasons": [
+              "Контекст конкретной композиции требует другого отступа.",
+              "Другой отступ явно задан применимым паттерном."
+            ],
+            "requirements": [
+              "Каждое изменённое значение должно быть привязано к токену коллекции Spacing.",
+              "Не использовать raw px без token binding."
+            ]
+          },
+          "generationRule": "Для нового Level-1 начинай с Spacing/32 по всем сторонам, для нового Level-2 — с Spacing/24. Затем адаптируй padding под контекст или применимый паттерн, сохраняя Spacing token binding."
+        },
+        "slotContentPolicy": {
+          "allowedContent": "any",
+          "directContentInLevel1Allowed": true,
+          "nestedLevel2Required": false,
+          "autoLayoutPolicy": {
+            "controlledBy": "context-and-slot-content",
+            "contextControlledProperties": [
+              "layout.axis",
+              "layout.itemSpacing",
+              "layout.primaryAxisAlignItems",
+              "layout.counterAxisAlignItems"
+            ],
+            "requiredSizing": {
+              "horizontal": {
+                "value": "FILL",
+                "figmaProperty": "layoutSizingHorizontal"
+              },
+              "vertical": {
+                "value": "HUG",
+                "figmaProperty": "layoutSizingVertical"
+              }
+            },
+            "sizeConstraints": {
+              "minWidth": null,
+              "maxWidth": null,
+              "minHeight": null,
+              "maxHeight": null,
+              "rule": "Не добавляй min/max ограничения: сейчас они не входят в контракт BackgroundPlateSlot."
+            },
+            "overflowPolicy": {
+              "property": "clipsContent",
+              "required": false,
+              "allowedValues": [
+                true,
+                false
+              ],
+              "generationRule": "Не включай и не выключай Clip content автоматически без причины. Выбирай значение по поведению вложенного контента и контексту композиции."
+            },
+            "generationRule": "Настраивай направление, gap и alignment Slot по структуре вложенного контента и контексту экрана. Ширину Slot устанавливай в Fill, высоту — в Hug. Не восстанавливай standalone axis, gap или alignment после осознанной настройки."
+          },
+          "allowedNestedBackgroundPlateLevels": [
+            "Level-2 (inner)"
+          ],
+          "nestedLevel2Placement": {
+            "requiredHostLevel": "Level-1 (outer)",
+            "directParentRequired": true
+          },
+          "disallowedNestedBackgroundPlateLevels": [
+            "Level-0 (base)",
+            "Level-1 (outer)"
+          ],
+          "generationRule": "Размещай обычный контент непосредственно в Slot Level-1. Добавляй BackgroundPlate Level-2 только когда нужна дополнительная вложенная поверхность. Не вкладывай BackgroundPlate Level-0 или Level-1 внутрь Slot."
+        },
+        "modePolicy": "Для генерации сначала назначь Level-0 (base) главной поверхности страницы или модальной сущности. Не назначай Level-0 непосредственно BackgroundPlate: вложенный в этот контекст компонент должен автоматически стать Level-1 (outer). Для вложенной поверхности используй Level-2 (inner) внутри Level-1 и синхронно устанавливай соответствующие modes BackgroundPlate Radius и BackgroundPlate Level. Затем выбери mode BackgroundPlate Color по фактическому контексту page/modal и тону grey/white. Type и Skeleton настраивай через component variants. Не воспроизводи эти состояния ручными fill, radius или вложенными Style Level."
+      },
+      "internalOnlyComponents": [
+        "[D] Style Level 1",
+        "[D] Style Level 2",
+        "[M] Style Level 1",
+        "[M] Style Level 2",
+        "[D][Promo] Style Level 1",
+        "[D][Promo] Style Level 2",
+        "[M][Promo] Style Level 1",
+        "[M][Promo] Style Level 2"
+      ]
+    },
+    "tableWidePolicy": {
+      "appliesWhen": "[D] BackgroundPlateSlot hosts Table Wide [D]",
+      "topBarPlacement": "[D] TopBar is a sibling of the plate in the common Level-0 parent, never content of the plate Slot.",
+      "slotPadding": {
+        "top": "Spacing/0",
+        "right": "Spacing/16",
+        "bottom": "Spacing/16",
+        "left": "Spacing/16"
+      },
+      "forbiddenDuplicateInsets": [
+        "Table Wide root",
+        "HeadRow",
+        "BodyRow",
+        "HeadCell",
+        "BodyCell"
+      ]
+    },
+    "publicApi": {
+      "components": [
+        {
+          "name": "[D] BackgroundPlate",
+          "key": "2c7332d281570f4d5af6d334f8df378d24a1f235",
+          "role": "legacy-surface",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "legacy",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "Position": [
+              "Level 1 (outer)",
+              "Level 2 (inner)"
+            ]
+          }
+        },
+        {
+          "name": "[D] BackgroundPlateSlot",
+          "key": "5b6c5ac720154aff36be2f8a883bd058faa663cf",
+          "role": "content-container",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "preferred",
+          "allowForNewLayouts": true,
+          "variantProperties": {
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[D] Style Level 1",
+          "key": "adb65a62cde9ebedc5d0d41d2d77cd63e71e0745",
+          "role": "internal-style",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[D] Style Level 2",
+          "key": "c8735f4834a8b43fd2ab821ffc0a6e72a57c4b5b",
+          "role": "internal-style",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[D][Promo] BackgroundPlate",
+          "key": "c49f08db71ab44ea64f0880730220de1d93ac263",
+          "role": "promo-surface",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "promo-only",
+          "allowForNewLayouts": true,
+          "variantProperties": {
+            "Position": [
+              "Level 1 (outer)",
+              "Level 2 (inner)"
+            ]
+          }
+        },
+        {
+          "name": "[D][Promo] Style Level 1",
+          "key": "2b46e94cdecdab7d4cb977055c0405b2f6204127",
+          "role": "internal-style",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[D][Promo] Style Level 2",
+          "key": "a5a4240097211b28195291a593c567e9d7c62bd3",
+          "role": "internal-style",
+          "platform": "desktop",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M] BackgroundPlate",
+          "key": "4cfe3915785e5c37255190ae16314f6f2a1d05b3",
+          "role": "legacy-surface",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "legacy",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "Position": [
+              "Level 1 (outer)",
+              "Level 2 (inner)"
+            ]
+          }
+        },
+        {
+          "name": "[M] BackgroundPlateSlot",
+          "key": "1745af83255e324781c2fbadfe0ad8cc7f13e0d8",
+          "role": "content-container",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "preferred",
+          "allowForNewLayouts": true,
+          "variantProperties": {
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M] Style Level 1",
+          "key": "efc528bd86582d96a824edeb2c257dc8b22a8f14",
+          "role": "internal-style",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M] Style Level 2",
+          "key": "74f025a02889239c3f6eed60d74ba85f292bdcb0",
+          "role": "internal-style",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M][Promo] BackgroundPlate",
+          "key": "a58fa7ae11989280fc24069f204ba617fdb1f93c",
+          "role": "promo-surface",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "promo-only",
+          "allowForNewLayouts": true,
+          "variantProperties": {
+            "Position": [
+              "Level 1 (outer)",
+              "Level 2 (inner)"
+            ]
+          }
+        },
+        {
+          "name": "[M][Promo] Style Level 1",
+          "key": "19b4b6ed5718d82888a6551b56e0c776f4993ccc",
+          "role": "internal-style",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary",
+              "Secondary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M][Promo] Style Level 2",
+          "key": "b33f77cc56c5feffb4f24a5912d74e3af927140e",
+          "role": "internal-style",
+          "platform": "mobile-web",
+          "status": "active",
+          "generationStatus": "internal-only",
+          "allowForNewLayouts": false,
+          "variantProperties": {
+            "BackgroundColor": [
+              "base-bg (white)",
+              "base-bg-alt (gray)",
+              "modal-bg (white)",
+              "modal-bg-alt (gray)"
+            ],
+            "Type": [
+              "Border",
+              "Colored",
+              "Primary"
+            ],
+            "Skeleton": [
+              "False",
+              "True"
+            ]
+          }
+        }
+      ],
+      "codeExports": [
+        {
+          "name": "BackgroundPlate",
+          "kind": "react-component-export",
+          "mapsTo": "[D] BackgroundPlate / [M] BackgroundPlate",
+          "usage": "Основной code/private export, который соответствует Figma-компонентам семейства BackgroundPlate."
+        },
+        {
+          "name": "BackgroundPlateView",
+          "kind": "react-view-export",
+          "mapsTo": "BackgroundPlate",
+          "usage": "Кодовая обёртка/представление BackgroundPlate. В Apollo и агентском анализе не является отдельным Figma-компонентом и должна использовать тот же componentKey web-corp.background-plate."
+        }
+      ],
+      "aliases": [
+        "BackgroundPlate",
+        "BackgroundPlateView"
+      ]
+    },
+    "nestedComponentAliases": [
+      {
+        "hostComponentName": "[D] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [D] Style Level 1",
+        "displayName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BackgroundPlateSlot",
+        "path": "Type=Primary, Skeleton=False / Slot",
+        "displayName": "Slot",
+        "role": "slot",
+        "variantProperties": null
+      },
+      {
+        "hostComponentName": "[D][Promo] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [D][Promo] Style Level 1",
+        "displayName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [M] Style Level 1",
+        "displayName": "[M] Style Level 1",
+        "role": "internal-instance",
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlateSlot",
+        "path": "Type=Primary, Skeleton=False / Slot",
+        "displayName": "Slot",
+        "role": "slot",
+        "variantProperties": null
+      },
+      {
+        "hostComponentName": "[M][Promo] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [M][Promo] Style Level 1",
+        "displayName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      }
+    ],
+    "resetModel": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "layout.*",
+        "styles.*",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "text.*"
+      ],
+      "dependencyPolicy": "Component-property reset и layer-property reset разделены. Layer reset должен использовать effective baseline после nested variant/materialization resolution. Для BackgroundPlateView применяй тот же reset model, что и для BackgroundPlate."
+    }
+  }
+}

@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] CompactTag",
+        "key": "646b38ca55ddc9c7b3837c11ed671c50d0a6d66a",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] CompactTag",
+        "key": "58932b6bcad0cf51e386ad838fc48dbe43b9bae1",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] FilterCompanySelect_Multi",
+        "key": "9bbdaba3506afbeb7f9401f4b9dae231bb49dda2",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Open",
+          "variant.Selected",
+          "variant.ShowFirstCompany"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] FilterCompanySelect_Single",
+        "key": "7a0f566e36767d14d873e7ed22295ac0ac86fa69",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Open",
+          "variant.Selected",
+          "variant.ShowFirstCompany",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DropdownList_MultiSelect",
+        "key": "734e3b6170affeb396706cb235da3964ed9cd32e",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DropdownList_MultiSelect",
+        "key": "84c9c7b26fdd0023699d33b970ad976936ed41a6",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DropdownList_SingleSelect",
+        "key": "158129932c9c042585d0d06b6d10dda40b6f4468",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DropdownList_SingleSelect",
+        "key": "b82241aa3c18b6f1e08365297f7dbcdc6b93de34",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D] DropdownList_MultiSelect",
+        "key": "2afa4108bac1740f41a7ed5faf4189f9f15dec30",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D] DropdownList_SingleSelect",
+        "key": "337d839cbe2d4888882bcfac9edf36275d4033bb",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicBoundary": {
+      "publicRoots": [
+        "[D] FilterCompanySelect_Multi",
+        "[D] FilterCompanySelect_Single"
+      ],
+      "internalOrDeprecatedRoots": [
+        "[D] CompactTag",
+        "[D] DropdownList_MultiSelect",
+        "[D] DropdownList_SingleSelect",
+        "🔄 [D] DropdownList_MultiSelect",
+        "🔄 [D] DropdownList_SingleSelect"
+      ],
+      "internalStandaloneAllowed": false,
+      "desktopOnly": true
+    },
+    "relatedPackages": [
+      {
+        "name": "[D] FilterCompanySelect_UniversalModal",
+        "package": "web/components/web-corp/[D] FilterCompanySelect_UniversalModal",
+        "relationship": "Элемент режима холдинга для использования внутри UniversalModal; не входит в public roots текущего пакета."
+      }
+    ],
+    "usage": {
+      "purpose": "Выбор одной или нескольких компаний в режиме холдинга.",
+      "holdingPatternStatus": "ready"
+    },
+    "rootSemantics": {
+      "[D] FilterCompanySelect_Multi": "Выбор одной или нескольких компаний.",
+      "[D] FilterCompanySelect_Single": "Выбор одной компании."
+    },
+    "singleViewSemantics": {
+      "Select": "Используется в форме.",
+      "FilterTag": "Используется в фильтрах.",
+      "Compact": "Используется в TitleView или для переключения отдельного объекта, например виджета."
+    },
+    "legacyProperties": {
+      "ShowFirstCompany": {
+        "status": "legacy",
+        "allowedForNewDesigns": false,
+        "requiredValue": "False"
+      }
+    },
+    "stateOwnership": {
+      "Open": {
+        "owner": "runtime",
+        "meaning": "True только пока список открыт.",
+        "designerEditable": false,
+        "generatorEditable": false
+      },
+      "Selected": {
+        "owner": "runtime",
+        "meaning": "True только при наличии выбранной компании или компаний.",
+        "designerEditable": false,
+        "generatorEditable": false
+      }
+    },
+    "interaction": {
+      "Multi": {
+        "selectionModel": "staged",
+        "applyAction": "Кнопка «Применить» фиксирует временный выбор.",
+        "closeWithoutApply": "Отменяет временные изменения.",
+        "resetAction": "«Сбросить» сразу применяет пустое значение."
+      },
+      "Single": {
+        "selectionModel": "immediate",
+        "selectAction": "Выбор строки сразу применяет компанию и закрывает список."
+      }
+    },
+    "search": {
+      "fields": [
+        "companyName",
+        "inn",
+        "address"
+      ],
+      "placeholders": {
+        "Multi": "Название, ИНН или адрес",
+        "Single": "Поиск"
+      },
+      "placeholderEditable": false
+    },
+    "selectionContent": {
+      "owner": [
+        "Select",
+        "[D] FilterTag",
+        "[D] CompactTag"
+      ],
+      "policy": "FilterCompanySelect не задаёт собственную формулу selected value; runtime company data не является фиксированным компонентным текстом."
+    },
+    "selectAll": {
+      "scope": "current-result-set",
+      "withoutSearch": "Все компании полного списка.",
+      "withSearch": "Только компании, оставшиеся в результатах применённого поиска.",
+      "stateOwner": "CheckboxLabel_24",
+      "states": {
+        "noneSelected": "empty",
+        "partSelected": "indeterminate",
+        "allCurrentResultsSelected": "selected"
+      }
+    },
+    "fixedLabels": [
+      "Компания",
+      "Выбрать все",
+      "Применить",
+      "Сбросить"
+    ],
+    "searchVisibility": {
+      "showWhenCompanyCountGreaterThan": 10,
+      "companyCountAtOrBelowThreshold": "hidden"
+    },
+    "clearSelection": {
+      "Single": {
+        "allowedViews": [
+          "FilterTag"
+        ],
+        "result": "Сразу возвращает состояние без выбранной компании."
+      }
+    },
+    "stateDelegation": {
+      "trigger": {
+        "Select": "Наследует состояния соответствующего Select.",
+        "FilterTag": "Наследует состояния соответствующего FilterTag.",
+        "Compact": "Отдельные дополнительные состояния владельцем не подтверждены."
+      },
+      "list": [
+        "[D] OptionListCell",
+        "[D] OptionList",
+        "[D] OptionListHeader",
+        "[D] OptionListFooter"
+      ],
+      "policy": "FilterCompanySelect не переопределяет состояния вложенных компонентов списка."
+    },
+    "emptyAndNoResults": {
+      "noSearchResults": "OptionList-owned",
+      "noAvailableCompanies": "product-or-OptionList-owned",
+      "customFilterCompanySelectVariant": false
+    },
+    "interactionDelegation": {
+      "hover": "nested-component-owned",
+      "focus": "nested-component-owned",
+      "keyboardNavigation": "nested-component-owned",
+      "disabled": "nested-component-owned",
+      "owners": [
+        "Select",
+        "FilterTag",
+        "CheckboxLabel_24",
+        "OptionList"
+      ]
+    },
+    "sizing": {
+      "internalGeometry": "Наследуется от вложенных Select, FilterTag, CompactTag и OptionList-компонентов.",
+      "rootWidthManuallyEditable": true,
+      "dropdownWidthManuallyEditable": true,
+      "manualHeightOrInternalSpacingOverride": false
+    },
+    "compositionPolicy": {
+      "detachAllowed": false,
+      "internalInstanceSwapAllowed": false,
+      "replaceDropdownOrOptionListAllowed": false,
+      "mustPreserveLibraryInstance": true
+    },
+    "contentOwnership": {
+      "runtimeData": [
+        "companyName",
+        "inn",
+        "address"
+      ],
+      "realExamplesInDesignAllowed": true,
+      "examplesBecomeFixedComponentContent": false
+    },
+    "visualPolicy": {
+      "effectiveBaselineOwners": [
+        "Select",
+        "FilterTag",
+        "CompactTag",
+        "OptionList",
+        "OptionListCell",
+        "OptionListHeader",
+        "OptionListFooter"
+      ],
+      "allowedManualOverrides": [
+        "root.width",
+        "dropdown.width"
+      ],
+      "forbiddenManualOverrides": [
+        "fill",
+        "stroke",
+        "typography",
+        "radius",
+        "shadow",
+        "padding",
+        "gap",
+        "height"
+      ]
+    },
+    "emptySelection": {
+      "Multi": "allowed",
+      "Single.FilterTag": "allowed",
+      "Single.Select": "form-field-requiredness",
+      "Single.Compact": "forbidden-selection-required"
+    },
+    "selectionCardinality": {
+      "Multi": {
+        "minimum": 0,
+        "maximum": "all-available-companies"
+      },
+      "Single": {
+        "maximum": 1,
+        "minimum": "depends-on-View-and-form-requiredness"
+      }
+    },
+    "codeConnect": {
+      "rootStatus": "not-configured",
+      "nestedMappingsDoNotVerifyRoot": true,
+      "doNotInfer": [
+        "package",
+        "import",
+        "symbol",
+        "props",
+        "callbacks"
+      ]
+    },
+    "patternReferences": [
+      {
+        "name": "holding-company-selection",
+        "patternId": "ptrn:flow.holding-company-selection",
+        "file": "patterns/p_holding-company-selection.md",
+        "status": "verified",
+        "integration": "Сценарные table/form/TitleView/FilterBlock правила принадлежат flow-pattern и не дублируются в rules.json FilterCompanySelect."
+      }
+    ]
+  }
+}

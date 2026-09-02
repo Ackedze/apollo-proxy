@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web.promo-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] BottomContent",
+        "key": "aad90e6678a0b45a92508830bedf65d2a71a1b20",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ButtonGroup",
+        "key": "0e2df7fab70eda269c69a56a56dacda317c7a0a7",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Axis",
+          "variant.PrimaryButton",
+          "variant.SecondaryButton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ContentWrapper",
+        "key": "6a31fd40538d0f319da89c2858786ff157ae05ab",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Centred",
+          "variant.Title"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ImageContainerLarge",
+        "key": "066c4eb0c9143cd7db366aeda5c013bbd62651bb",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ImageContainerMedium",
+        "key": "11a38eec6adf4a582b6e9e629138c94673adc47e",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ImageContainerSmall",
+        "key": "9614e92101c3db8a434a4c8d25b2316feffcfcae",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] PromoCard",
+        "key": "efdc65ad205ceb06c6940d074b9f131f15ebc5e8",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Image",
+          "variant.ImageCrop",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] BottomContent",
+        "key": "3f06774ee9b429513f35ca161325de5b059126f4",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ButtonGroup",
+        "key": "1f30e0c7404a462ffd4bf05ad58865d1f5d80ef7",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Axis",
+          "variant.PrimaryButton",
+          "variant.SecondaryButton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ContentWrapper",
+        "key": "c35a1154fe5ba275cf3cf1153c8183873a60d08f",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Centred",
+          "variant.Title"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ImageContainerLarge",
+        "key": "6bd209233f2df1485bc9dc49c63ad1a29b0e8d54",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ImageContainerMedium",
+        "key": "dab4dc492e7c0c69fe31de7a0194e79044eaea11",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ImageContainerSmall",
+        "key": "b072357ed494550e58a20e6d878a457fa05b74f2",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Image Centred"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] PromoCard",
+        "key": "1b7189d801ba823fb46086c963929003fe30242d",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Image",
+          "variant.ImageCrop",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "[D] PromoCard",
+        "role": "public-root",
+        "platform": "desktop"
+      },
+      {
+        "name": "[M] PromoCard",
+        "role": "public-root",
+        "platform": "mobile-web"
+      }
+    ],
+    "internalOnly": [
+      "[D] BottomContent",
+      "[D] ButtonGroup",
+      "[D] ContentWrapper",
+      "[D] ImageContainerLarge",
+      "[D] ImageContainerMedium",
+      "[D] ImageContainerSmall",
+      "[M] BottomContent",
+      "[M] ButtonGroup",
+      "[M] ContentWrapper",
+      "[M] ImageContainerLarge",
+      "[M] ImageContainerMedium",
+      "[M] ImageContainerSmall"
+    ],
+    "allowedOverrides": {
+      "text": [
+        "Title up to 60 characters and 2 lines",
+        "Subtitle up to 120 characters and 3 lines"
+      ],
+      "componentProperties": [
+        "PromoCard.Size according to composition",
+        "PromoCard.Image",
+        "PromoCard.ImageCrop",
+        "PromoCard.Offset when Image=Top",
+        "ImageView.Segment according to task context",
+        "ContentWrapper.Centred",
+        "ContentWrapper.Title",
+        "BottomContent instance swap",
+        "ButtonGroup.Axis",
+        "ButtonGroup.PrimaryButton",
+        "ButtonGroup.SecondaryButton"
+      ],
+      "composition": [
+        "hide Subtitle",
+        "use Image=None only in a bento grid",
+        "replace ImageView content with an image from Corp :: Image Library",
+        "combine Offset with ImageCrop when Image=Top",
+        "show BottomContent with a context-specific nested element",
+        "swap BottomContent to one local or design-system component",
+        "make the entire PromoCard clickable",
+        "use one Primary or one Secondary button",
+        "change button text, addons, SingleIcon and DisabledState according to the Button contract",
+        "use ButtonGroup.Axis=Vertical when ContentWrapper.Centred=True",
+        "use up to two buttons"
+      ],
+      "layout": [
+        "outer width and height according to context",
+        "choose Small, Medium or Large according to composition"
+      ]
+    },
+    "forbiddenOverrides": [
+      "standalone BottomContent",
+      "standalone ButtonGroup",
+      "standalone ContentWrapper",
+      "standalone ImageContainerLarge",
+      "standalone ImageContainerMedium",
+      "standalone ImageContainerSmall",
+      "hide Title",
+      "Image=None outside a bento grid",
+      "Offset when Image is not Top",
+      "ImageCrop=True or Offset=True when Image=None",
+      "manual Image Centred override on internal ImageContainer",
+      "Presets=SwapMe in a finished design",
+      "more than one nested instance in BottomContent",
+      "detach nested BottomContent component",
+      "ImageView.Crop override",
+      "ImageView.Size override",
+      "more than two buttons",
+      "button combination other than Primary / Secondary or Secondary / Transparent",
+      "desktop button size other than 48",
+      "mobile-web button size other than 56",
+      "different action for a clickable PromoCard and its action button",
+      "clickable PromoCard with two buttons",
+      "buttons and another interactive BottomContent element in the same card, except an inline text link",
+      "manual typography",
+      "manual fill outside nested Colored [Promo] BackgroundPlate",
+      "manual stroke outside nested Border [Promo] BackgroundPlate",
+      "manual padding or gap",
+      "manual radius",
+      "manual opacity or effects",
+      "instance swap outside BottomContent"
+    ]
+  }
+}

@@ -1,0 +1,389 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.toast",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Toast",
+      "library": "Web :: Core Notification"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted",
+        "componentName": "[D] IconButton_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M][AO] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted",
+        "componentName": "[D] Button_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Text",
+          "Size": "48",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted",
+        "componentName": "[D] IconButton_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D][AO] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted",
+        "componentName": "[D] IconButton_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] Toast",
+        "path": "Inverted=False, Button=None / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "PositiveCheckmark",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted",
+        "componentName": "[D] Button_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Text",
+          "Size": "48",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted",
+        "componentName": "[D] IconButton_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Toast",
+        "path": "Inverted=False, Block=True / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.side-panel",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "SidePanel",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] NavigationContent",
+        "path": "Custom=False, Cross=True, Title=False, Back=False / Cross / Cross / Fixer / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] SidePanelHeader",
+        "path": "Content=True / NavigationContent",
+        "componentName": "NavigationContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Cross": "False",
+          "Custom": "True",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] SidePanelHeader",
+        "path": "Content=True / NavigationContent / Navigation",
+        "componentName": "Navigation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SecondLevel": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] SidePanelHeader",
+        "path": "Content=True / NavigationContent / Navigation / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] SidePanelHeader",
+        "path": "Content=True / NavigationContent / Navigation / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] SidePanelHeader",
+        "path": "Content=True / NavigationContent / Navigation / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] NavigationContent",
+        "path": "Custom=False, Cross=True, Back=False, Title=False / Cross / Cross / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

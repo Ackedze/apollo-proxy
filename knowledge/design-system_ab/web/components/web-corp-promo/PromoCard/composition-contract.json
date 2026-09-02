@@ -1,0 +1,829 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web.promo-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "PromoCard",
+      "library": "Web _ Сorp Promo Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ImageContainerLarge",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[D] ImageContainerMedium",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[D] ImageContainerSmall",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "False",
+          "Title": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup",
+        "componentName": "[D] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ContentWrapper / Content / [D] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / BackgroundPlate / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D] PromoCard",
+        "path": "Size=Small, Image=Bottom, ImageCrop=False / BackgroundPlate / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonGroup",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ContentWrapper",
+        "path": "Title=Primary, Centred=False / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ImageContainerLarge",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[M] ImageContainerMedium",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[M] ImageContainerSmall",
+        "path": "Image Centred=True / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Bottom",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ImageContainer / Container / ImageView",
+        "componentName": "ImageView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Crop": "Center",
+          "Segment": "MMB",
+          "Size": "348"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Centred": "False",
+          "Title": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / Bottom",
+        "componentName": "Bottom",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup",
+        "componentName": "[M] ButtonGroup",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "True",
+          "SecondaryButton": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary",
+        "componentName": "Primary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / ContentWrapper / Content / [M] ButtonGroup / ButtonGroup / Primary / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / BackgroundPlate / Offset",
+        "componentName": "Offset",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / BackgroundPlate / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M] PromoCard",
+        "path": "Size=Small, Image=Top, ImageCrop=False / BackgroundPlate / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "[D] PromoCard",
+        "[M] PromoCard"
+      ],
+      "internalComponents": [
+        "[D] BottomContent",
+        "[D] ButtonGroup",
+        "[D] ContentWrapper",
+        "[D] ImageContainerLarge",
+        "[D] ImageContainerMedium",
+        "[D] ImageContainerSmall",
+        "[M] BottomContent",
+        "[M] ButtonGroup",
+        "[M] ContentWrapper",
+        "[M] ImageContainerLarge",
+        "[M] ImageContainerMedium",
+        "[M] ImageContainerSmall"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-promo-card-effective-baseline"
+    },
+    "compositionPolicy": {
+      "purpose": "Визуальное представление отдельного промопредложения, преимущества или акции с выразительным сочетанием текста и изображения.",
+      "platforms": {
+        "[D] PromoCard": "desktop at viewport width 768 px or greater",
+        "[M] PromoCard": "mobile-web below 768 px"
+      },
+      "sizes": {
+        "allowed": [
+          "Small",
+          "Medium",
+          "Large"
+        ],
+        "selectionPolicy": "according to composition"
+      },
+      "requiredContent": [
+        "Title"
+      ],
+      "optionalContent": [
+        "Subtitle",
+        "Image",
+        "BottomContent"
+      ],
+      "contentLimits": {
+        "Title": {
+          "maximumCharacters": 60,
+          "maximumLines": 2
+        },
+        "Subtitle": {
+          "maximumCharacters": 120,
+          "maximumLines": 3
+        }
+      },
+      "image": {
+        "required": false,
+        "noneAllowed": true,
+        "noneUseCase": "only in a bento grid",
+        "allowedPositions": [
+          "Top",
+          "Bottom"
+        ],
+        "imageCropMayChange": true,
+        "offset": {
+          "purpose": "image extends beyond the [Promo] BackgroundPlate bounds",
+          "allowedWhenImage": "Top",
+          "mayCombineWithImageCrop": true
+        },
+        "noneState": {
+          "ImageCrop": false,
+          "Offset": false
+        },
+        "replacementTarget": "ImageView",
+        "sourceLibrary": "Corp :: Image Library",
+        "sourceLibraryRequired": true,
+        "ImageView": {
+          "allowedOverrides": [
+            "Segment"
+          ],
+          "cropControl": "PromoCard.ImageCrop",
+          "fixedByEffectiveBaseline": [
+            "Crop",
+            "Size",
+            "all other properties"
+          ]
+        },
+        "internalImageContainer": {
+          "Image Centred": "not a public PromoCard property; keep at effective baseline"
+        }
+      },
+      "contentWrapper": {
+        "allowedTitleValues": [
+          "Primary",
+          "Secondary"
+        ],
+        "centredMayChange": true,
+        "centredSelectionPolicy": "according to task context"
+      },
+      "interaction": {
+        "entireCardMayBeClickable": true,
+        "maximumButtons": 2,
+        "singleButtonAllowedViews": [
+          "Primary",
+          "Secondary"
+        ],
+        "allowedButtonCombinations": [
+          [
+            "Primary",
+            "Secondary"
+          ],
+          [
+            "Secondary",
+            "Transparent"
+          ]
+        ],
+        "buttonSizes": {
+          "desktop": 48,
+          "mobile-web": 56
+        },
+        "buttonAllowedOverrides": [
+          "text",
+          "addons",
+          "SingleIcon",
+          "DisabledState"
+        ],
+        "buttonConfigurationPolicy": "follow the Button component contract",
+        "verticalAxisRecommendedWhen": "ContentWrapper.Centred=True",
+        "clickableCardAndButtonMayCoexist": true,
+        "coexistingCardAndButtonAction": "the button duplicates the card action",
+        "differentActionException": "inline text link inside a text block may open an explanation or tooltip",
+        "clickableCardWithTwoButtonsAllowed": false,
+        "twoButtonActions": "each button may perform its own action"
+      },
+      "bottomContent": {
+        "role": "open slot for context-specific content",
+        "visibleWithoutButtons": true,
+        "instanceSwapAllowed": true,
+        "swapControl": "Presets=SwapMe",
+        "placeholderAllowedInFinishedDesign": false,
+        "allowedSources": [
+          "local component",
+          "design-system component"
+        ],
+        "maximumNestedInstances": 1,
+        "detachAllowed": false,
+        "nestedComponentConfigurationPolicy": "follow the nested component contract",
+        "buttonRulesApplyWhen": "BottomContent contains ButtonGroup",
+        "multipleInteractiveElements": {
+          "recommended": false,
+          "exception": "inline text link inside a text block"
+        }
+      },
+      "surface": {
+        "component": "[Promo] BackgroundPlate",
+        "configurationPolicy": "follow the [Promo] BackgroundPlate component contract",
+        "typeMayChange": true,
+        "allowedStyleOverrides": {
+          "Colored": [
+            "tokenized fill color"
+          ],
+          "Border": [
+            "tokenized stroke color"
+          ]
+        },
+        "colorTokenRequired": true,
+        "secondaryType": {
+          "allowed": true,
+          "recommended": false,
+          "severity": "warning"
+        },
+        "topImageFade": {
+          "enabledWhen": "Image=Top",
+          "coloredSurfaceRule": "gradient must use the same color token as the [Promo] BackgroundPlate fill"
+        }
+      },
+      "loading": {
+        "supported": true,
+        "control": "Skeleton on nested [Promo] BackgroundPlate",
+        "scope": "entire PromoCard",
+        "partialSkeletonAllowed": false,
+        "contentVisibility": "hidden",
+        "interaction": "blocked",
+        "allowedSurfaceTypes": "all [Promo] BackgroundPlate Type values"
+      },
+      "bento": {
+        "imageNoneAllowed": true,
+        "configurationPolicy": "defined by a separate bento pattern"
+      },
+      "sizing": {
+        "outerWidth": "contextual",
+        "outerHeight": "contextual",
+        "defaultVerticalResizing": "Hug",
+        "stopperVerticalResizing": "Fill"
+      },
+      "visualBaseline": {
+        "manualChangesAllowed": false,
+        "properties": [
+          "padding",
+          "gap",
+          "radius",
+          "typography",
+          "opacity",
+          "effects"
+        ],
+        "baseline": "effective baseline"
+      },
+      "instanceSwapAllowed": "only inside BottomContent"
+    }
+  }
+}

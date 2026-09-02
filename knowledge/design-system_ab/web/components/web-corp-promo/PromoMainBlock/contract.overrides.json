@@ -1,0 +1,311 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web.promo-main-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] ButtonGroup",
+        "key": "8fadf4a96079d5feebc745248ac5629ad9bd7fc5",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.PrimaryButton",
+          "variant.SecondaryButton",
+          "variant.🔒 Compact"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] DarkOverlay",
+        "key": "5d140f3ba67689477a22948fb14eb4bbea2f2011",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] LightOverlay",
+        "key": "cb62c37fdacd8b27e99da1b36f493e5e7a6a3fed",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] PromoMainBlock",
+        "key": "e691885120337235bc0443186870e7b120567f40",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Appearance",
+          "variant.Background",
+          "variant.Compact",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] SwapMe",
+        "key": "f8d936e26f91aa08fc75406ab2b1ee84c5461ba3",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ButtonGroup",
+        "key": "7343d79cc49e8db43b1cb2cb36d66ccaa00d84b7",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Axis",
+          "variant.PrimaryButton",
+          "variant.SecondaryButton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] DarkOverlay",
+        "key": "d14b83b1af6cb3f5556acd7d2b276fd7f5b94da2",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] LightOverlay",
+        "key": "7dd27ae408af00f0a8014b70a6a39f82fe43cb6b",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] PromoMainBlock",
+        "key": "3b7ac57095a531c933b5960841f09f94b6324988",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Appearance",
+          "variant.Background"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] SwapMe",
+        "key": "89871911a409a30b314045c74a95994c8b716dd7",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicApi": {
+      "roots": [
+        "[D] PromoMainBlock",
+        "[M] PromoMainBlock"
+      ],
+      "internalFamilies": [
+        "[D] ButtonGroup",
+        "[M] ButtonGroup",
+        "[D] SwapMe",
+        "[M] SwapMe",
+        "[D] LightOverlay",
+        "[M] LightOverlay",
+        "[D] DarkOverlay",
+        "[M] DarkOverlay"
+      ]
+    },
+    "usage": {
+      "purpose": "Главный промо-блок с ключевым сообщением, изображением и CTA.",
+      "pagePlacement": "first",
+      "maxPerPage": 1
+    },
+    "variantSemantics": {
+      "View": {
+        "Page": "page context",
+        "Modal": "inside modal container",
+        "mobileExposed": false
+      },
+      "Compact": {
+        "desktopOnly": true,
+        "requiredWhen": [
+          "viewport<=1024",
+          "content-does-not-fit-standard-format"
+        ]
+      },
+      "Appearance": {
+        "isTheme": false,
+        "Light": "light colored surface for MMB segment",
+        "Dark": "dark surface for KIB segment"
+      },
+      "Background": {
+        "False": "required for desktop View=Page; error on mobile-web",
+        "True": "required on mobile-web; error for desktop View=Page"
+      },
+      "BlurEffect": {
+        "effect": "clips image at lower edge and adds fade",
+        "requiredWhen": "View=Page",
+        "optionalWhen": "View=Modal"
+      }
+    },
+    "contentModel": {
+      "required": [
+        "Title",
+        "Subtitle",
+        "ImageContainer"
+      ],
+      "status": {
+        "optional": true,
+        "count": {
+          "minWhenVisible": 1,
+          "recommended": 1,
+          "warningWhen": [
+            2,
+            3
+          ],
+          "max": 3
+        },
+        "componentContract": "StatusBadge",
+        "platformPresetCasing": {
+          "desktopUppercase": true,
+          "mobileUppercase": false,
+          "manualAlignmentRequired": false
+        }
+      },
+      "holding": {
+        "optional": true,
+        "allowedWhen": "user works on behalf of a group of companies",
+        "componentContract": "FilterCompanySelect/AccountSelect",
+        "preserveAcrossPlatforms": true
+      },
+      "bottomSlot": {
+        "optional": true,
+        "allowedContent": [
+          "plain text",
+          "arbitrary component"
+        ]
+      }
+    },
+    "actionPolicy": {
+      "optional": true,
+      "desktopAllowed": [
+        "Primary only",
+        "Secondary only",
+        "Primary + Secondary",
+        "hidden"
+      ],
+      "mobilePreset": "🔒 [M] ButtonStack",
+      "mobilePresetStatus": "figma-only; detailed pattern pending",
+      "rawMobileButtonGroupIsTarget": false
+    },
+    "textLimits": {
+      "Title": {
+        "characters": 40,
+        "lines": 2
+      },
+      "Subtitle": {
+        "characters": 120,
+        "lines": 3
+      }
+    },
+    "imagePolicy": {
+      "required": true,
+      "source": "Corp Image Library",
+      "Crop": "Center",
+      "Size": "534",
+      "Segment": "match page segment and Appearance"
+    },
+    "overlayPolicy": {
+      "selectionSource": "Appearance",
+      "manualSelectionAllowed": false,
+      "internalFamilies": [
+        "LightOverlay",
+        "DarkOverlay"
+      ],
+      "manualPresetChangeAllowed": false
+    },
+    "layoutOwnership": {
+      "order": [
+        "Status",
+        "Title/Holding",
+        "Subtitle",
+        "Bottom slot",
+        "actions"
+      ],
+      "componentOwned": [
+        "ImageContainer size",
+        "ImageContainer position",
+        "image crop",
+        "fade",
+        "block height",
+        "gap",
+        "padding",
+        "internal order"
+      ]
+    },
+    "loadingPolicy": {
+      "supported": false
+    },
+    "interactionPolicy": {
+      "containerClickable": false,
+      "interactiveRegions": [
+        "CTA",
+        "Holding",
+        "interactive Bottom slot content"
+      ]
+    },
+    "lifecycle": {
+      "status": "active",
+      "canonical": true,
+      "replacement": null,
+      "legacyVariants": []
+    },
+    "responsivePolicy": {
+      "preserveAcrossPlatforms": [
+        "content",
+        "image",
+        "Status",
+        "Holding",
+        "Bottom slot",
+        "actions",
+        "Appearance"
+      ],
+      "desktopOnly": [
+        "View",
+        "Compact"
+      ],
+      "platformBackground": {
+        "desktopPage": "False",
+        "mobileWeb": "True"
+      }
+    }
+  }
+}

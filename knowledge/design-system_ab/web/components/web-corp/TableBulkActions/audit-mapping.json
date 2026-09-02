@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.table-bulk-actions",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- TableBulkActions.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "TableBulkActions"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "componentUsage": [
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.new-tables-use-pagination-bulk-actions",
+        "category": "componentUsage",
+        "priority": "high",
+        "requires": [
+          "host composition context",
+          "evidence that the table assembly is new",
+          "Table Basic or Table Wide ancestor"
+        ],
+        "doNotInferFrom": [
+          "component name alone",
+          "lifecycle status scheduled"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.mobile-is-adaptive-only",
+        "category": "wrongPlatform",
+        "priority": "high",
+        "requires": [
+          "resolved product platform"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.service-components-are-internal",
+        "category": "componentUsage",
+        "priority": "high",
+        "requires": [
+          "service component root without TableBulkActions owner"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.top-row-follows-composition-fit",
+        "category": "componentConfiguration",
+        "priority": "medium",
+        "requires": [
+          "measured or explicit evidence that amounts and buttons do not fit one line"
+        ],
+        "fallback": "Не создавать нарушение, если Apollo не располагает данными о вместимости композиции."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-is-required",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "Counter=false",
+          "evidence that the component represents mass selection rather than standalone sticky buttons"
+        ],
+        "fallback": "Не считать Counter=false нарушением без контекста использования."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.spacer-follows-selection-alignment",
+        "category": "componentConfiguration",
+        "priority": "medium",
+        "requires": [
+          "resolved composition role",
+          "checkbox alignment context"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.multiple-amounts-fit-one-line",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "variant.Amount=multiple",
+          "measured or explicit evidence that amounts do not fit one line or require a slider"
+        ],
+        "fallback": "Не создавать нарушение без данных о вместимости строки."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.max-four-visible-buttons",
+        "category": "componentComposition",
+        "priority": "high",
+        "requires": [
+          "resolved count of visible action buttons"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.max-one-primary-button",
+        "category": "componentComposition",
+        "priority": "high",
+        "requires": [
+          "resolved variant.View for visible buttons"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.overflow-uses-last-picker-button",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "variant.Overflow=true",
+          "resolved last visible button type"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-label-is-fixed",
+        "category": "componentContent",
+        "priority": "high",
+        "requires": [
+          "resolved Counter Label text",
+          "Label visibility and viewport context"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-overflow-uses-slider",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "more than one amount",
+          "measured row overflow",
+          "absence of AmountRowSlider"
+        ],
+        "fallback": "Не создавать нарушение без данных о переполнении строки."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-count-recommendation",
+        "category": "componentComposition",
+        "priority": "medium",
+        "requires": [
+          "resolved amount item count greater than 10"
+        ],
+        "violation": false
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.button-visuals-use-effective-baseline",
+        "category": "customizations",
+        "priority": "high",
+        "requires": [
+          "effective baseline for nested Button",
+          "changed variant.Size, variant.Shape or variant.View"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.overflow-hides-actions-right-to-left",
+        "category": "componentComposition",
+        "priority": "high",
+        "requires": [
+          "action priority order before overflow",
+          "resolved actions moved into PickerButton"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-checkbox-state-is-fixed",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "resolved checkbox state inside Counter"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.button-api-customizations-are-allowed",
+        "category": "informational",
+        "priority": "low",
+        "violation": false
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.picker-surface-follows-platform",
+        "category": "componentComposition",
+        "priority": "high",
+        "requires": [
+          "resolved platform",
+          "resolved overlay component opened by PickerButton"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-slider-controls-follow-platform",
+        "category": "componentComposition",
+        "priority": "high",
+        "requires": [
+          "resolved platform",
+          "AmountRowSlider composition"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.sticky-geometry-is-fixed",
+        "category": "customizations",
+        "priority": "high",
+        "requires": [
+          "effective baseline for TableBulkActions root",
+          "changed sticky position, fill, effects, height or padding"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.tablet-variant-is-automatic",
+        "category": "wrongPlatform",
+        "priority": "high",
+        "requires": [
+          "resolved viewport width",
+          "variant.Tablet value"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.adaptive-top-row-is-required",
+        "category": "componentConfiguration",
+        "priority": "high",
+        "requires": [
+          "resolved adaptive viewport 320–767 px",
+          "resolved TopRow value"
+        ]
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.counter-value-matches-selection",
+        "category": "componentContent",
+        "priority": "high",
+        "requires": [
+          "resolved selected object count",
+          "Counter N value"
+        ],
+        "fallback": "Не создавать нарушение без данных о количестве выбранных объектов."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-item-content-is-configurable",
+        "category": "informational",
+        "priority": "low",
+        "violation": false
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amount-item-count-matches-objects",
+        "category": "componentContent",
+        "priority": "high",
+        "requires": [
+          "resolved object count for AmountItem",
+          "AmountItem N value"
+        ],
+        "fallback": "Не создавать нарушение без данных о принадлежности объектов к сумме."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.has-no-global-loading-or-disabled-state",
+        "category": "informational",
+        "priority": "low",
+        "violation": false
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.visible-only-with-selection",
+        "category": "componentState",
+        "priority": "high",
+        "requires": [
+          "resolved selected object count",
+          "component visibility"
+        ],
+        "fallback": "Не создавать нарушение без данных о текущем выборе."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.selection-covers-entire-data-set",
+        "category": "componentBehavior",
+        "priority": "high",
+        "requires": [
+          "total selected count across the data set",
+          "Counter N value"
+        ],
+        "fallback": "Не подменять общее число выбранных количеством на текущей странице."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.amounts-follow-selection",
+        "category": "componentBehavior",
+        "priority": "high",
+        "requires": [
+          "selected object set",
+          "resolved AmountItem values"
+        ],
+        "fallback": "Не создавать нарушение без данных для расчёта сумм."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.buttons-act-on-selection",
+        "category": "componentBehavior",
+        "priority": "high",
+        "requires": [
+          "resolved action semantics",
+          "selected object context"
+        ],
+        "fallback": "Не делать вывод о назначении кнопки только по её тексту без сценарного контекста."
+      },
+      {
+        "ruleId": "component:web-corp.table-bulk-actions.post-action-selection-is-contextual",
+        "category": "informational",
+        "priority": "low",
+        "violation": false
+      }
+    ],
+    "lifecycle": {
+      "status": "scheduled",
+      "category": "informational",
+      "violationByItself": false
+    }
+  }
+}

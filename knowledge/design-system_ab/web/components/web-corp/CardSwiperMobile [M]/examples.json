@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.card-swiper-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "owner-confirmed",
+      "updatedAt": "2026-08-03"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "card-swiper-mobile.single-card",
+        "title": "Одна карта по центру",
+        "inputState": {
+          "platform": "mobile-web",
+          "viewportWidth": 360,
+          "Screen Size": "360+",
+          "cards": [
+            {
+              "State": "Active",
+              "Cover": "Alfa Business"
+            }
+          ],
+          "selectedIndex": 0,
+          "Show Start#17127:0": false,
+          "Show End#17127:3": false,
+          "visibleRoles": [
+            "current"
+          ],
+          "currentSize": "264x164"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.multiple-cards-at-start",
+        "title": "Первая карта выбрана в нециклической карусели",
+        "inputState": {
+          "platform": "mobile-web",
+          "viewportWidth": 375,
+          "Screen Size": "360+",
+          "cardCount": 4,
+          "selectedIndex": 0,
+          "Show Start#17127:0": false,
+          "Show End#17127:3": true,
+          "visibleRoles": [
+            "current",
+            "next"
+          ],
+          "currentSize": "264x164",
+          "nextSize": "212x132",
+          "cyclic": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.invalid-neighbor-visibility",
+        "title": "Previous показан на первой карте",
+        "inputState": {
+          "cardCount": 3,
+          "selectedIndex": 0,
+          "Show Start#17127:0": true,
+          "Show End#17127:3": true
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.neighbor-visibility-properties"
+        },
+        "expectedAgent": {
+          "recommendation": "Установите Show Start#17127:0=false для selectedIndex 0."
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.different-card-states",
+        "title": "Карты с разными состояниями и рубашками",
+        "inputState": {
+          "cards": [
+            {
+              "Cover": "Alfa Business",
+              "State": "Active"
+            },
+            {
+              "Cover": "Alfa Business Premium",
+              "State": "Locked"
+            },
+            {
+              "Cover": "None",
+              "State": "Inactive",
+              "allowedCustomCover": true
+            }
+          ],
+          "selectedIndex": 1
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Все карты карусели должны использовать одинаковые Cover и State.",
+          "Locked нельзя сделать текущей картой."
+        ]
+      },
+      {
+        "exampleId": "card-swiper-mobile.nested-card-action",
+        "title": "Вложенное действие центральной карты",
+        "inputState": {
+          "selectedIndex": 0,
+          "currentCardTapTarget": "details icon",
+          "result": "show card details",
+          "carouselSelectionChanged": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Любой тап по центральной карте запрещён."
+        ]
+      },
+      {
+        "exampleId": "card-swiper-mobile.zero-cards",
+        "title": "Карусель создана без карт",
+        "inputState": {
+          "cardCount": 0,
+          "rootExists": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.requires-at-least-one-card"
+        },
+        "expectedAgent": {
+          "recommendation": "Не создавайте CardSwiperMobile до появления хотя бы одной карты."
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.desktop-usage",
+        "title": "Mobile-компонент использован на desktop",
+        "inputState": {
+          "platform": "desktop",
+          "viewportWidth": 1280
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.mobile-web-only"
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.wrong-screen-size",
+        "title": "Screen Size не соответствует viewport",
+        "inputState": {
+          "viewportWidth": 360,
+          "Screen Size": "320-360"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.screen-size-follows-viewport"
+        },
+        "expectedAgent": {
+          "recommendation": "Установите Screen Size=360+ для viewport 360 px."
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.invalid-manual-geometry",
+        "title": "Размеры центральной и боковой карт изменены вручную",
+        "inputState": {
+          "currentSize": "212x132",
+          "neighborSize": "264x164",
+          "manualResize": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.selection-geometry"
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.invalid-loop",
+        "title": "Включена циклическая прокрутка",
+        "inputState": {
+          "cardCount": 3,
+          "selectedIndex": 2,
+          "nextIndex": 0,
+          "cyclic": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.non-cyclic-navigation"
+        }
+      },
+      {
+        "exampleId": "card-swiper-mobile.missing-explicit-selection",
+        "title": "Начальная карта не задана явно",
+        "inputState": {
+          "cardCount": 3,
+          "selectedIndexProvided": false,
+          "effectiveSelectedIndex": 0
+        },
+        "expectedAudit": {
+          "category": "recommendations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.card-swiper-mobile.explicit-initial-selection"
+        },
+        "mustNotSay": [
+          "Компонент не может работать без явно заданного selectedIndex."
+        ]
+      },
+      {
+        "exampleId": "card-swiper-mobile.invalid-internal-control",
+        "title": "Pagination indicator добавлен внутрь компонента",
+        "inputState": {
+          "internalAddedNode": "PaginationIndicator",
+          "detached": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-swiper-mobile.no-internal-auxiliary-controls"
+        },
+        "expectedAgent": {
+          "recommendation": "Верните библиотечный instance и разместите индикатор отдельной композицией снаружи."
+        }
+      }
+    ]
+  }
+}

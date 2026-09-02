@@ -1,0 +1,290 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.helpbook",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T19:56:09.306Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-presets/Web _ Corp Presets -- Helpbook.json",
+      "library": "Web :: Corp Presets",
+      "file": "Web :: Corp Presets",
+      "generatedAt": "2026-04-28T19:56:09.306Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "Helpbook"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Helpbook",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[M] UniversalModal :: Helpbook",
+        "key": "74cf77653263c589b436060c34b29764a77f5841",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Empty",
+            "FAQ",
+            "Glossary",
+            "HowTo",
+            "Instructions",
+            "Textbook"
+          ]
+        }
+      },
+      {
+        "name": "[D] UniversalModal :: Helpbook",
+        "key": "4bbf166c700aa04941f56efdbdd85780273d188a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Empty",
+            "FAQ",
+            "Glossary",
+            "HowTo",
+            "Instructions",
+            "Textbook"
+          ]
+        }
+      },
+      {
+        "name": "[M] ContactsAccordion",
+        "key": "29ad2ac4e766deb991000f6f5aaee9f3ffb64d5e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Open": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[D] ContactsAccordion",
+        "key": "c71c8cc6d21aa273391abef1f28b7de0f7c23903",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Open": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "Accordion",
+        "key": "dc9506dfaf6c12f4a13a6e8ea128eacc070dfe7b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Open": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": " InfoIcon",
+        "key": "c823f4ae186439accee97f680094dc07b14730c8",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "New indicator": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [M] Helpbook :: Card",
+        "key": "07bbc4ae5c23786c241ee5b06608e39fe479b40a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "FAQ",
+            "FileUpload",
+            "Info",
+            "Skeleton",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] Helpbook :: Card",
+        "key": "7c017ad483a21846d45e50dcabcb6b2b328fd37d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "FAQ",
+            "FileUpload",
+            "Info",
+            "Skeleton",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "🔒[M] Helpbook :: Сontact",
+        "key": "fc5b4ab59b79359cfd12af37342af8286038afa0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "chat",
+            "full",
+            "mail",
+            "phone",
+            "telegram",
+            "whatsapp"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] Helpbook :: Сontact",
+        "key": "8c6c8e98bd2f8501939fe51292e13af87d5b0830",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "chat",
+            "full",
+            "mail",
+            "phone",
+            "telegram",
+            "whatsapp"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] Helpbook :: LinkAddon",
+        "key": "c37daba0409647e5c183eb7281e0d3296ad498ec",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Глоссарий",
+            "Как пользоваться?",
+            "Справочник"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [M] Helpbook :: Navigation",
+        "key": "edd044329b2a9c4b52bce5c16253feb05598aec4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔒 [D] Helpbook:: Navigation",
+        "key": "ed1151f57a9da6fb59e0643233487dabc7949860",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Helpbook",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

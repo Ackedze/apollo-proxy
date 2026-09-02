@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.buttons-group",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] ButtonsGroup",
+        "key": "f05915599f71e822fd8b46a2b2509a2e395005cf",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Overflow",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ButtonsGroup",
+        "key": "3efdfaf64eddbcf48b183ce917b7a64c0c3d6062",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Overflow",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "component": {
+      "name": "ButtonGroup [D]",
+      "library": "Web _ Corp Components"
+    },
+    "publicApi": {
+      "components": [
+        {
+          "name": "[D] ButtonsGroup",
+          "key": "f05915599f71e822fd8b46a2b2509a2e395005cf",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ],
+            "Overflow": [
+              "false",
+              "true"
+            ]
+          }
+        },
+        {
+          "name": "[M] ButtonsGroup",
+          "key": "3efdfaf64eddbcf48b183ce917b7a64c0c3d6062",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ],
+            "Overflow": [
+              "false",
+              "true"
+            ]
+          }
+        }
+      ]
+    },
+    "usagePolicy": {
+      "codeAvailability": "[D] ButtonsGroup и [M] ButtonsGroup существуют в коде.",
+      "groupingRecommendation": "Для связанных кнопок предпочтительно использовать ButtonsGroup вместо ручной композиции отдельных Button.",
+      "visibleButtonLimits": {
+        "[D] ButtonsGroup": 4,
+        "[M] ButtonsGroup": 2
+      },
+      "minimumVisibleButtonCount": 2,
+      "slotPolicy": {
+        "useBuiltInSlotsOnly": true,
+        "canToggleVisibility": true,
+        "canHideMiddleSlot": true,
+        "canAddOrDuplicate": false,
+        "instanceSwapAllowed": false
+      },
+      "primaryPolicy": {
+        "required": false,
+        "maximumCount": 1,
+        "requiredPositionWhenPresent": "first"
+      },
+      "uniformSize": {
+        "required": true,
+        "allowedValues": [
+          "32",
+          "40",
+          "48",
+          "56"
+        ]
+      },
+      "layoutPolicy": {
+        "direction": "horizontal",
+        "horizontalSizing": "HUG",
+        "verticalSizing": "HUG",
+        "itemSpacing": "effective-baseline"
+      },
+      "orderPolicy": "Кнопки располагаются слева направо в порядке убывания приоритета действия.",
+      "overflowOrderPolicy": "В платформенный список первым переносится действие кнопки непосредственно перед SingleIcon; затем перенос продолжается справа налево.",
+      "overflowContentPolicy": {
+        "desktopContainer": "[D] OptionList",
+        "mobileWebContainer": "BottomSheet",
+        "preserveLabel": true,
+        "preserveAction": true,
+        "preserveIcon": true,
+        "maximumItemCount": null,
+        "duplicateVisibleActionAllowed": false,
+        "disabledStatePreserved": true,
+        "disabledTooltipRequired": true,
+        "preserveIconPresence": true,
+        "closeAfterAvailableAction": true,
+        "optionListCellHasLoadingState": false,
+        "mobileBottomSheetFooter": false,
+        "hiddenActionLoadingBehavior": "unresolved"
+      },
+      "groupStatePolicy": "Общего Disabled или Loading state в Figma нет. Skeleton существует в коде и будет добавлен в Figma позже. Loading разрешён у отдельной видимой Button; у OptionListCell Loading state отсутствует.",
+      "visualPolicy": "Visual и layout properties сохраняются по effective baseline ButtonsGroup и правилам Button.",
+      "nestedButtonPolicy": "Настройки View, DisabledState, addons и Label следуют контракту соответствующего Button."
+    },
+    "variantSemantics": {
+      "Overflow": {
+        "false": "Последняя кнопка сохраняет текстовый вариант.",
+        "true": "Последняя кнопка получает SingleIcon=true и открывает платформенный список перенесённых действий. Overflow разрешено включать добровольно уже в группе из двух кнопок."
+      },
+      "SingleIcon": {
+        "minimumGroupSize": 2,
+        "position": "last",
+        "interaction": "open-platform-overflow-list",
+        "iconEditable": false,
+        "optionalFromButtonCount": 2
+      }
+    },
+    "nestedComponentAliases": [
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [D] Button",
+        "displayName": "[D] Button",
+        "role": "internal-instance",
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [D] Button / LeftAddon / LeftAddon",
+        "displayName": "LeftAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [D] Button / RightAddon / RightAddon",
+        "displayName": "RightAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [M] Button",
+        "displayName": "[M] Button",
+        "role": "internal-instance",
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [M] Button / LeftAddon / LeftAddon",
+        "displayName": "LeftAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [M] Button / RightAddon / RightAddon",
+        "displayName": "RightAddon",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "Size=56, Overflow=false / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "displayName": "diamonds",
+        "role": "internal-instance",
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ],
+    "resetModel": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "layout.*",
+        "styles.*",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "text.*"
+      ],
+      "dependencyPolicy": "Component-property reset и layer-property reset разделены. Layer reset должен использовать effective baseline после nested variant/materialization resolution."
+    }
+  }
+}

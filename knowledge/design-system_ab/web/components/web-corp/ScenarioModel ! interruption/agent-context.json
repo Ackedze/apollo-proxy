@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.scenario-model-interruption",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- ScenarioModel ! interruption.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "ScenarioModel ! interruption"
+      ]
+    },
+    "summary": {
+      "componentFamily": "ScenarioModel ! interruption",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 ModalDesktopBody ! interruption",
+        "key": "71388cda57af6b561b8a36b329d95ef4c32e215f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Default",
+            "SaveAs"
+          ]
+        }
+      },
+      {
+        "name": "🔒 ModalDesktopFooter ! interruption",
+        "key": "47bf7233e78b2265942edc18cc21748005a1e4ab",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Default",
+            "SaveAs"
+          ]
+        }
+      },
+      {
+        "name": "🔒 ModalDesktopHeader ! interruption",
+        "key": "77b9620925b121815e18528c0980c5eebd87d0d9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Default",
+            "SaveAs"
+          ]
+        }
+      },
+      {
+        "name": "❌ ScenarioModel ! interruption",
+        "key": "dc196cbf57106333a445224f891563cf21d9aa7f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔒 ScenarioModel ! interruption",
+        "key": "f7644c318f200ae2d63acba8f6def7a1aa3a749b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:flow.interruption-scenario",
+        "file": "shared/design-system_ab/patterns/p_interruption-scenario.md",
+        "sourceType": "editorial-guideline",
+        "updatedAt": "2026-04-27"
+      }
+    ],
+    "summary": {
+      "componentFamily": "ScenarioModel ! interruption",
+      "library": "Web _ Corp Components",
+      "purpose": "Figma-only desktop-пресет для предупреждения о прерывании незавершённого сценария при реальном риске потери данных."
+    },
+    "implementation": {
+      "figmaOnly": true,
+      "codeImplementation": "none",
+      "codeConnect": "not-applicable"
+    },
+    "textRecipe": {
+      "recipeId": "recipe:web-corp.scenario-model-interruption.texts",
+      "Default": {
+        "title": "Выйти без сохранения?",
+        "consequenceTemplates": [
+          "Придётся [создавать] [сущность] заново",
+          "Придётся [вносить изменения] заново"
+        ],
+        "actions": [
+          "Выйти",
+          "Остаться"
+        ]
+      },
+      "SaveAs": {
+        "title": "Сохранить [сущность]?",
+        "consequence": "Вы сможете вернуться к [ней] позже",
+        "actions": [
+          "Сохранить и выйти",
+          "Выйти без сохранения"
+        ]
+      }
+    },
+    "usageGuidance": [
+      "Для генерации используй только 🔒 ScenarioModel ! interruption.",
+      "ModalDesktopHeader, ModalDesktopBody и ModalDesktopFooter являются служебными секциями и отдельно не используются.",
+      "Не используй deprecated root ❌ ScenarioModel ! interruption; замени его активным public root.",
+      "На mobile-web вместо этого desktop-пресета используй PopUpSheet по ptrn:flow.interruption-scenario.",
+      "Type=Default описывает выход без сохранения; Type=SaveAs — сохранение перед выходом.",
+      "Header, Body и Footer должны использовать одинаковый Type.",
+      "Исходное состояние — Default; для SaveAs синхронно переключай Type у всех трёх вложенных секций.",
+      "Public root уже является готовой модальной поверхностью и не требует дополнительного Modal-wrapper.",
+      "Все три секции обязательны и не могут быть скрыты.",
+      "Редактируй только placeholder-фрагменты в []; подписи кнопок и текст вне placeholder фиксированы.",
+      "Placeholder допускают другие действия и сущности, если конструкция адаптирована к контексту модального окна и грамматически согласована.",
+      "В Type=SaveAs чекбокс «Запомнить выбор» по умолчанию скрыт, а при отображении — не выбран.",
+      "Текст чекбокса «Запомнить выбор» фиксирован; пользователь может менять выбор, а сохранённое решение должно быть обратимым.",
+      "У пресета нет отдельных loading и error состояний.",
+      "Крестик обязателен и возвращает пользователя в текущий сценарий, как действие «Остаться».",
+      "Footer всегда содержит две кнопки в фиксированном порядке: Primary, затем Secondary, по text recipe выбранного Type.",
+      "Клик вне модального окна и Escape, если поддерживаются продуктом, работают как «Остаться».",
+      "Не меняй внешнюю ширину или sizing; высота определяется контентом.",
+      "Специальных ограничений символов или строк нет; текст должен оставаться кратким по паттерну.",
+      "Компонент полностью наследует правила ptrn:flow.interruption-scenario."
+    ],
+    "criticalBaselines": [
+      {
+        "ruleId": "component:web-corp.scenario-model-interruption.public-root-only",
+        "baseline": "Единственный public root — 🔒 ScenarioModel ! interruption."
+      },
+      {
+        "ruleId": "component:web-corp.scenario-model-interruption.type-must-match",
+        "baseline": "Type у Header, Body и Footer совпадает."
+      },
+      {
+        "ruleId": "component:web-corp.scenario-model-interruption.desktop-only",
+        "baseline": "ScenarioModel ! interruption применяется только на desktop."
+      }
+    ],
+    "agentInstructions": [
+      "Не объявляй служебные modal-секции публичными компонентами, даже если raw помечает их role=main.",
+      "Не рекомендуй deprecated root ❌ ScenarioModel ! interruption для новых макетов.",
+      "Не утверждай, что desktop-пресет адаптируется на mobile-web; для mobile-web нужен PopUpSheet.",
+      "Не выводи обязательность чекбокса «Запомнить выбор»: в Type=SaveAs он опционален.",
+      "Не предлагай переписывать фиксированную часть шаблонов или подписи кнопок.",
+      "Не ограничивай placeholder только сущностями из примеров: допускай контекстную подстановку при сохранении конструкции.",
+      "Не выдумывай loading или error состояния для пресета.",
+      "Не меняй порядок, View или количество кнопок Footer.",
+      "Не предлагай ручное изменение ширины или внешнего sizing.",
+      "Не ищи code implementation или Code Connect: это Figma-only пресет без аналога в коде.",
+      "Не оборачивай public root в дополнительный Modal-контейнер.",
+      "Не предлагай instance swap, скрытие секций или ручную визуальную кастомизацию.",
+      "Критичность повышай только по exact component rule или применимому rule из ptrn:flow.interruption-scenario."
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

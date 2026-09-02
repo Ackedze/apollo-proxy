@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-23"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "onboarding-hint.desktop-feature-introduction",
+        "title": "Знакомство с новой функцией на desktop",
+        "inputState": {
+          "platform": "desktop",
+          "root": "Onboarding Hint",
+          "titleCharacters": 52,
+          "titleVisible": true,
+          "buttonVisible": true,
+          "closeVisible": true,
+          "tailVisible": true,
+          "buttonAction": "launch-related-function"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.close-action",
+        "title": "Кнопка закрывает подсказку",
+        "inputState": {
+          "buttonAction": "close-hint"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-mobile-web",
+        "title": "Desktop-компонент используется на mobile-web",
+        "inputState": {
+          "platform": "mobile-web",
+          "root": "Onboarding Hint"
+        },
+        "expectedAudit": {
+          "category": "wrongChannel",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.desktop-only"
+        },
+        "expectedAgent": "Предложить использовать BottomSheet."
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-hidden-required-part",
+        "title": "Скрыта обязательная часть",
+        "inputState": {
+          "titleVisible": true,
+          "buttonVisible": true,
+          "closeVisible": false,
+          "tailVisible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.required-anatomy"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-title-length",
+        "title": "Title длиннее 70 символов",
+        "inputState": {
+          "titleCharacters": 71
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.title-maximum-70-characters"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-button-configuration",
+        "title": "Изменена конфигурация кнопки",
+        "inputState": {
+          "button": {
+            "Size": "40",
+            "View": "Primary",
+            "Shape": "Rectangular",
+            "SingleIcon": "False",
+            "DisabledState": "False"
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.button-configuration-is-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.trigger-event",
+        "title": "Hint запускается по событию",
+        "inputState": {
+          "trigger": "event",
+          "repeatLaunch": "business-logic"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-tail-target",
+        "title": "Tail не указывает на связанный объект",
+        "inputState": {
+          "tailPointsToTarget": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.tail-points-to-target"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-covers-target",
+        "title": "Hint перекрывает связанный объект",
+        "inputState": {
+          "targetVisible": false,
+          "targetInteractive": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.target-remains-visible-and-interactive"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-outside-dismiss",
+        "title": "Hint закрывается кликом снаружи",
+        "inputState": {
+          "dismissMethod": "outside-click"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.dismiss-method"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.contextual-width",
+        "title": "Допустимая ширина отличается от рекомендуемой",
+        "inputState": {
+          "width": 400,
+          "heightSizing": "HUG",
+          "otherVisualsMatchEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.onboarding-hint.recommended-width"
+        },
+        "mustNotSay": [
+          "Ширина 400 px запрещена."
+        ]
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-maximum-width",
+        "title": "Ширина превышает максимальную",
+        "inputState": {
+          "width": 421
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.maximum-width"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-manual-radius",
+        "title": "Вручную изменено скругление",
+        "inputState": {
+          "property": "radius",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.modal-target",
+        "title": "Hint используется внутри Modal",
+        "inputState": {
+          "surface": "Modal",
+          "targetInsideSurface": true,
+          "viewportClipped": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-viewport-clipping",
+        "title": "Hint обрезается viewport",
+        "inputState": {
+          "viewportClipped": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.must-fit-viewport"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-rich-text",
+        "title": "В Title добавлена ссылка",
+        "inputState": {
+          "titleHasLink": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.plain-text-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-close-swap",
+        "title": "Иконка Close заменена",
+        "inputState": {
+          "closeIconReplaced": true,
+          "closeIconType": "Icon 16"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.close-icon-type-is-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-close-fill",
+        "title": "Изменена заливка иконки Close",
+        "inputState": {
+          "closeIconFillChanged": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.close-icon-fill-is-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-close-glyph-size",
+        "title": "Изменён размер glyph Close",
+        "inputState": {
+          "closeGlyphSize": "s"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.close-glyph-configuration-is-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-loading-state",
+        "title": "Добавлено loading-состояние",
+        "inputState": {
+          "state": "loading"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.default-state-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-two-visible-instances",
+        "title": "Одновременно показаны два hints",
+        "inputState": {
+          "visibleOnboardingHints": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.single-visible-instance"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-target-unavailable",
+        "title": "Hint запускается без доступной цели",
+        "inputState": {
+          "targetVisible": false,
+          "targetInsideViewport": false,
+          "hintStarted": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.target-must-be-available"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.non-blocking-interface",
+        "title": "Остальной интерфейс остаётся интерактивным",
+        "inputState": {
+          "outsideInterfaceInteractionBlocked": false,
+          "targetInteractive": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.title-wrap",
+        "title": "Длинный Title переносится",
+        "inputState": {
+          "titleCharacters": 64,
+          "titleOverflow": "wrap",
+          "titleTruncated": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.editable-button-label",
+        "title": "Label кнопки изменён по контексту",
+        "inputState": {
+          "buttonLabelChanged": true,
+          "buttonFollowsButtonRules": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-clickable-surface",
+        "title": "Вся поверхность hint сделана кликабельной",
+        "inputState": {
+          "wholeSurfaceClickable": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.own-interactive-parts-are-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.contextual-tail-properties",
+        "title": "Tail настроен по расположению цели",
+        "inputState": {
+          "tailDirectionChanged": true,
+          "tailPositionChanged": true,
+          "tailPointsToTarget": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-sequential-flow",
+        "title": "Из нескольких hints собран последовательный flow",
+        "inputState": {
+          "sequentialHints": 3
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.no-sequential-flow"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-second-button",
+        "title": "Добавлена вторая кнопка",
+        "inputState": {
+          "visibleButtons": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.exactly-one-button"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.title-with-final-dot",
+        "title": "Title заканчивается точкой",
+        "inputState": {
+          "titleFinalDot": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Уберите точку по правилу обычного Hint."
+        ]
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-spotlight",
+        "title": "Добавлен spotlight",
+        "inputState": {
+          "spotlight": true,
+          "backdrop": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.no-backdrop-or-spotlight"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-error-message",
+        "title": "Hint сообщает об ошибке",
+        "inputState": {
+          "contentPurpose": "error"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.onboarding-content-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-hint.invalid-action-result",
+        "title": "Hint сообщает об успешном результате",
+        "inputState": {
+          "contentPurpose": "action-result"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-hint.not-for-action-result"
+        },
+        "expectedAgent": "Предложить Toast, Notification или CorporateStatusScreen."
+      }
+    ]
+  }
+}

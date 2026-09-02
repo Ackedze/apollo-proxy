@@ -1,0 +1,1528 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core ProgressBars",
+    "file": "Web :: Core ProgressBars",
+    "generatedAt": "2026-04-28T18:15:14.094Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 4,
+    "contractCount": 4,
+    "activeCount": 4,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "bar-item-inverted.universal",
+      "name": "BarItem_Inverted",
+      "normalizedName": "bar-item-inverted",
+      "componentKey": "e62c16fa15e13edc0df4eb4150cce2aa2c392f1d",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:14.094Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "c3bfa2f19e6dbc01b8d39d7e0e450cf8b0b968d1",
+        "variants": {
+          "properties": {
+            "View": [
+              "Blank",
+              "Color"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Color"
+            },
+            {
+              "View": "Blank"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "c3bfa2f19e6dbc01b8d39d7e0e450cf8b0b968d1",
+              "id": "10:328",
+              "name": "View=Color",
+              "properties": {
+                "View": "Color"
+              }
+            },
+            {
+              "key": "90de9af26a0b95412d8b4d9dc3ac2103d377b979",
+              "id": "10:330",
+              "name": "View=Blank",
+              "properties": {
+                "View": "Blank"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Color",
+            "type": "COMPONENT",
+            "path": "View=Color",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Color",
+            "path": "View=Color",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "radius": 2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          }
+        ],
+        "variantStructures": {
+          "90de9af26a0b95412d8b4d9dc3ac2103d377b979": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Blank",
+                "radius": 8,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.12999999523162842,
+                    "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                    "colorHex": "#DEDEEE"
+                  }
+                ],
+                "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "c3bfa2f19e6dbc01b8d39d7e0e450cf8b0b968d1",
+            "when": {
+              "View": "Color"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "90de9af26a0b95412d8b4d9dc3ac2103d377b979",
+            "when": {
+              "View": "Blank"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Color",
+                "nodePath": "View=Color",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "colors=inverted",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "stepped-progress-bar-inverted.universal",
+      "name": "SteppedProgressBar_Inverted",
+      "normalizedName": "stepped-progress-bar-inverted",
+      "componentKey": "05ecbd3362fe92f7884d4a3b5c278a14dfb54e39",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:14.094Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "8b1f2bd312e88b044ed81e3c8b2d7fe6eee034aa",
+        "variants": {
+          "properties": {
+            "Description": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Description": "False"
+            },
+            {
+              "Description": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "8b1f2bd312e88b044ed81e3c8b2d7fe6eee034aa",
+              "id": "10:442",
+              "name": "Description=False",
+              "properties": {
+                "Description": "False"
+              }
+            },
+            {
+              "key": "bf1c489aeedb8e7af3ae446896a1b2281276e660",
+              "id": "10:455",
+              "name": "Description=True",
+              "properties": {
+                "Description": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Description=False",
+            "type": "COMPONENT",
+            "path": "Description=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Steps",
+            "type": "SLOT",
+            "path": "Description=False / Steps",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Description=False",
+            "path": "Description=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Steps",
+            "path": "Description=False / Steps",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "variantProperties": {
+              "View": "Color"
+            },
+            "radius": 2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Color"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem_Inverted",
+            "path": "Description=False / Steps / BarItem_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.12999999523162842,
+                "tokenKey": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+                "colorHex": "#DEDEEE"
+              }
+            ],
+            "fillToken": "VariableID:571bd9b6345e0fd4100bc6f257570d120f77b61b/3541:156",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "bf1c489aeedb8e7af3ae446896a1b2281276e660": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Description=True",
+                "layout": {
+                  "itemSpacing": 8
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "radius": 2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                    "colorHex": "#EF3124"
+                  }
+                ],
+                "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Color"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "8b1f2bd312e88b044ed81e3c8b2d7fe6eee034aa",
+            "when": {
+              "Description": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "bf1c489aeedb8e7af3ae446896a1b2281276e660",
+            "when": {
+              "Description": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Description=False",
+                "nodePath": "Description=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "BarItem_Inverted",
+                "nodePath": "Description=False / Steps / BarItem_Inverted",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "description",
+                "nodePath": "Description=True / description",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "stepped-progress-bar.universal",
+      "name": "SteppedProgressBar",
+      "normalizedName": "stepped-progress-bar",
+      "componentKey": "283cb3cce51473dd36c41aad7e5282e81cb30274",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:14.094Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "3ee1170af9df778a631f0a5099419221ac333677",
+        "variants": {
+          "properties": {
+            "Description": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Description": "False"
+            },
+            {
+              "Description": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "3ee1170af9df778a631f0a5099419221ac333677",
+              "id": "10:410",
+              "name": "Description=False",
+              "properties": {
+                "Description": "False"
+              }
+            },
+            {
+              "key": "42967915f2e52ab2fbcf893e096be3b6363988dc",
+              "id": "10:423",
+              "name": "Description=True",
+              "properties": {
+                "Description": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Description=False",
+            "type": "COMPONENT",
+            "path": "Description=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Steps",
+            "type": "SLOT",
+            "path": "Description=False / Steps",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Description=False",
+            "path": "Description=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Steps",
+            "path": "Description=False / Steps",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "variantProperties": {
+              "View": "Color"
+            },
+            "radius": 2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Color"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "BarItem",
+            "path": "Description=False / Steps / BarItem",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+            ],
+            "variantProperties": {
+              "View": "Blank"
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.10000000149011612,
+                "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                "colorHex": "#0F1937"
+              }
+            ],
+            "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Blank"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "42967915f2e52ab2fbcf893e096be3b6363988dc": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Description=True",
+                "layout": {
+                  "itemSpacing": 8
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 12,
+              "value": {
+                "radius": 2,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                    "colorHex": "#EF3124"
+                  }
+                ],
+                "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "componentInstance": {
+                  "variantProperties": {
+                    "View": "Color"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "3ee1170af9df778a631f0a5099419221ac333677",
+            "when": {
+              "Description": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "42967915f2e52ab2fbcf893e096be3b6363988dc",
+            "when": {
+              "Description": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Description=False",
+                "nodePath": "Description=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 12,
+                "nodeName": "BarItem",
+                "nodePath": "Description=False / Steps / BarItem",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "description",
+                "nodePath": "Description=True / description",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "bar-item.universal",
+      "name": "BarItem",
+      "normalizedName": "bar-item",
+      "componentKey": "9b7aa92196cc89393664c00b482e6c7dd4545635",
+      "source": {
+        "library": "Web :: Core ProgressBars",
+        "file": "Web :: Core ProgressBars",
+        "generatedAt": "2026-04-28T18:15:14.094Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "22a16ed4add9cc52021806a7e108bd87de1c7fd6",
+        "variants": {
+          "properties": {
+            "View": [
+              "Blank",
+              "Color"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Color"
+            },
+            {
+              "View": "Blank"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "22a16ed4add9cc52021806a7e108bd87de1c7fd6",
+              "id": "10:324",
+              "name": "View=Color",
+              "properties": {
+                "View": "Color"
+              }
+            },
+            {
+              "key": "f0e25f5815ab0d3929ddb56daf9cc706a70d4e11",
+              "id": "10:326",
+              "name": "View=Blank",
+              "properties": {
+                "View": "Blank"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Color",
+            "type": "COMPONENT",
+            "path": "View=Color",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Color",
+            "path": "View=Color",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+            ],
+            "radius": 2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203",
+                "colorHex": "#EF3124"
+              }
+            ],
+            "fillToken": "VariableID:15bff314b7c8001f28f69bab9b6234c4e0050b43/3541:203"
+          }
+        ],
+        "variantStructures": {
+          "f0e25f5815ab0d3929ddb56daf9cc706a70d4e11": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Blank",
+                "radius": 8,
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.10000000149011612,
+                    "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                    "colorHex": "#0F1937"
+                  }
+                ],
+                "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "22a16ed4add9cc52021806a7e108bd87de1c7fd6",
+            "when": {
+              "View": "Color"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "f0e25f5815ab0d3929ddb56daf9cc706a70d4e11",
+            "when": {
+              "View": "Blank"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Color",
+                "nodePath": "View=Color",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "colors=default",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

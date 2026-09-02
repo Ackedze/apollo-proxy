@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.status-badge",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/core/Web _ Core -- StatusBadge.json",
+      "library": "Web _ Core",
+      "file": "Web _ Core",
+      "generatedAt": "2026-08-04T19:39:48.305Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "StatusBadge"
+      ]
+    },
+    "summary": {
+      "componentFamily": "StatusBadge",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "StatusBadge",
+        "key": "f0d694f44da5c0c7185fea0a02823049be4e8ef0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "16",
+            "20",
+            "24",
+            "32",
+            "40"
+          ],
+          "View": [
+            "AttentionAlert",
+            "NegativeAlert",
+            "NegativeBlock",
+            "NegativeCross",
+            "NeutralCross",
+            "NeutralInformation",
+            "NeutralOperation",
+            "PositiveCheckmark"
+          ]
+        }
+      },
+      {
+        "name": "StatusBadge_Inverted",
+        "key": "212113b6fb0127088442f31848793fef85148a7c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "16",
+            "20",
+            "24",
+            "32",
+            "40"
+          ],
+          "View": [
+            "AttentionAlert",
+            "NegativeAlert",
+            "NegativeBlock",
+            "NegativeCross",
+            "NeutralCross",
+            "NeutralInformation",
+            "NeutralOperation",
+            "PositiveCheckmark"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "StatusBadge",
+      "library": "Web _ Core",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

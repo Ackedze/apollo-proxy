@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.title-view-mobile",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "TitleViewMobile [M]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] TitleViewMobile ",
+        "path": "[M] TitleViewMobile  / Logo",
+        "componentName": "Logo",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleViewMobile ",
+        "path": "[M] TitleViewMobile  / Logo / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleViewMobile ",
+        "path": "[M] TitleViewMobile  / Logo / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleViewMobile ",
+        "path": "[M] TitleViewMobile  / Logo / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Logo"
+        }
+      },
+      {
+        "hostComponentName": "[M] TitleViewMobile ",
+        "path": "[M] TitleViewMobile  / Logo / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

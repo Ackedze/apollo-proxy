@@ -1,0 +1,3215 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core-navigation.tabs",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Tabs",
+      "library": "Web :: Core Navigation"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] 🔄 TabsSecondary",
+        "path": "Size=56 / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Slider / Left / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] 🔄 TabsSecondary",
+        "path": "Size=56 / Slider / Right / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 ExampleAddon",
+        "path": "🔩 ExampleAddon / Badge / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 ExampleAddon",
+        "path": "🔩 ExampleAddon / Icon / IconWrapper / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 TabPrimary",
+        "path": "ActiveState=True, DisabledState=False / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=True, Right=True / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=True, Right=True / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Left / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Right / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Left / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 Slider",
+        "path": "Left=False, Right=True / Right / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TabsSecondary",
+        "path": "Size=56, View=Filled / items / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "56",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Slider / Left / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] TabsSecondary",
+        "path": "Size=56 / Slider / Right / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "TabPrimary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "ActiveState": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Items / TabPrimary / Content / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Slider",
+        "componentName": "Slider",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Left": "False",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Slider / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "TabsPrimary",
+        "path": "TabsPrimary / Slider / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "defaultNestedDiffPolicy": "compare-against-standalone-core-tabs-baseline",
+      "wrapperOverridePolicy": "Core Navigation Tabs defines standalone baselines. If a host component such as TabsView intentionally changes spacing or typography of nested TabPrimary, that host component must declare the effective baseline in its own composition-contract."
+    },
+    "wraps": [
+      {
+        "path": "TabsPrimary / Items / TabPrimary",
+        "componentName": "🔩 TabPrimary",
+        "componentKey": "8d45c768b56f9781ec44a60b93a5467a3310236c",
+        "role": "repeated-internal-instance"
+      },
+      {
+        "path": "TabsPrimary / Slider",
+        "componentName": "🔩 Slider",
+        "role": "internal-instance"
+      },
+      {
+        "path": "[D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "repeated-internal-instance"
+      },
+      {
+        "path": "[M] TabsSecondary / items / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "repeated-internal-instance"
+      }
+    ],
+    "standaloneBaselines": [
+      {
+        "targetPathPattern": "TabsPrimary / Items",
+        "property": "layout.itemSpacing",
+        "expectedValue": 24,
+        "scope": "layout"
+      },
+      {
+        "targetPathPattern": "TabsPrimary / Items / TabPrimary",
+        "property": "layout.itemSpacing",
+        "expectedValue": 12,
+        "scope": "layout"
+      },
+      {
+        "targetPathPattern": "TabsPrimary / Items / TabPrimary / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "Paragraph/18–24 Primary Large",
+        "styleKey": "S:b2633a0162f9359a941b9b6ffd702da6acbd02f3,9221:95",
+        "scope": "text-style"
+      },
+      {
+        "targetPathPattern": "🔩 TabPrimary / Content / Label",
+        "property": "styles.text",
+        "expectedValue": "Paragraph/18–24 Primary Large",
+        "styleKey": "S:b2633a0162f9359a941b9b6ffd702da6acbd02f3,9221:95",
+        "scope": "text-style"
+      }
+    ]
+  }
+}

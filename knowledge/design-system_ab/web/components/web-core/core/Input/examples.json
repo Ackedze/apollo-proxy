@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-core.input",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "input.error-state-change",
+        "title": "Changed validation state",
+        "inputChange": {
+          "node": "[D] Input",
+          "property": "variant.ErrorState",
+          "referenceValue": "False",
+          "actualValue": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "showAs": "errorState: false → true"
+        }
+      },
+      {
+        "exampleId": "input.outer-label-change",
+        "title": "Changed label placement state",
+        "inputChange": {
+          "node": "[D] Input",
+          "property": "variant.OuterLabel",
+          "referenceValue": "False",
+          "actualValue": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "showAs": "outerLabel: false → true",
+          "ruleCandidates": [
+            "component:web-core.input.desktop-label-placement"
+          ]
+        }
+      },
+      {
+        "exampleId": "input.state-and-manual-field-fill-change",
+        "title": "Changed state and manually recolored field",
+        "inputChanges": [
+          {
+            "node": "[D] Input",
+            "property": "variant.ErrorState",
+            "referenceValue": "False",
+            "actualValue": "True"
+          },
+          {
+            "node": "Field",
+            "property": "fill",
+            "referenceValue": "<ErrorState=True Field baseline>",
+            "actualValue": "custom token"
+          }
+        ],
+        "expectedAudit": {
+          "category": "customizations",
+          "groups": [
+            {
+              "scope": "component-property",
+              "showAs": "errorState: false → true"
+            },
+            {
+              "scope": "layer-property",
+              "showAs": "заливка: <ErrorState=True Field baseline> → custom token"
+            }
+          ]
+        }
+      },
+      {
+        "exampleId": "input.placeholder-text-style-change",
+        "title": "Changed placeholder text style manually",
+        "inputChange": {
+          "node": "Field / Content / Placeholder / Content / Placeholder",
+          "property": "styles.text",
+          "referenceValue": "<baseline text style>",
+          "actualValue": "custom text style"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "layer-property",
+          "showAs": "Стиль текст: <baseline> → custom text style"
+        }
+      },
+      {
+        "exampleId": "input-label-colon",
+        "title": "Label content violates input field pattern",
+        "inputChange": {
+          "node": "Label / Label",
+          "property": "characters",
+          "referenceValue": "Юридический адрес",
+          "actualValue": "Юридический адрес:"
+        },
+        "expectedAudit": {
+          "category": "content-review",
+          "scope": "content-property",
+          "ruleCandidates": [
+            "component:web-core.input.label-text-pattern-rules"
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-core.switch",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "Switch_20",
+        "key": "e8701961b31778af4b80e0d621a1c7959ae0b6c5",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Switch_20_Inverted",
+        "key": "279166f88adb7d8fc33feaa06d990ab57ce2048c",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Switch_24",
+        "key": "7ea79a8992bd08cef8a25815b143549983ef8a5a",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Switch_24_Inverted",
+        "key": "3b466e00d6b12f79155c5ef3a2e3ad0ffe78f837",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.SelectedState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_20",
+        "key": "847cd42e961511a0ea7a2b181e98dd9b569b528f",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.CompactLabel",
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_20_Inverted",
+        "key": "204c011a6f0cf64dc8874c2e690e80613d435679",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.CompactLabel",
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_20_Reverse",
+        "key": "02fde42ce74ac201b8dae533f22838f534c6cb1b",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.CompactLabel",
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_20_Reverse_Inverted",
+        "key": "003538eada5e7deafd4d5cc47ab1cde4c20fee90",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.CompactLabel",
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_24",
+        "key": "81f5658b3f20ac89638e96c0c92ae17576a2bc31",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_24_Inverted",
+        "key": "b2b3fcef1fc50d2a0fc657a98dce158a3d0a9560",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_24_Reverse",
+        "key": "6b4b08949fc4efb2e535e71baa135e22e03c89f4",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwitchLabel_24_Reverse_Inverted",
+        "key": "139f3fa35956fefa0b4da01b167661f93dd5f1e4",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Hint"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "appliesTo": {
+      "generatedContract": "contract.generated.json",
+      "rawCatalog": "Web _ Core -- Switch.json"
+    },
+    "publicApi": {
+      "variantProperties": {
+        "SelectedState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "DisabledState": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "Reverse": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "Hint": {
+          "kind": "component-property",
+          "values": [
+            "False",
+            "True"
+          ]
+        }
+      }
+    },
+    "anatomySemantics": {
+      "root": {
+        "path": "<variant root>",
+        "scope": "component-root",
+        "designerEditable": false,
+        "notes": "Root layout/visibility управляется component variant properties."
+      },
+      "keyNodes": {
+        "area": {
+          "path": "area",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Oval": {
+          "path": "Oval",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Switch": {
+          "path": "Switch",
+          "scope": "visual-or-slot-layer",
+          "designerEditable": "variant-property-or-token-controlled"
+        },
+        "Content / Label": {
+          "path": "Content / Label",
+          "scope": "content-layer",
+          "designerEditable": "content-only"
+        }
+      }
+    },
+    "resetModel": {
+      "componentProperties": [
+        "variant.SelectedState",
+        "variant.DisabledState",
+        "variant.Reverse",
+        "variant.Hint"
+      ],
+      "slotProperties": [
+        "Switch.variant.SelectedState",
+        "Switch.variant.DisabledState"
+      ],
+      "layerProperties": [
+        "fills",
+        "strokes",
+        "strokeWeight",
+        "cornerRadius",
+        "opacity",
+        "layout.padding",
+        "layout.itemSpacing",
+        "styles.text",
+        "typography"
+      ],
+      "contentProperties": [
+        "Label.characters"
+      ],
+      "dependencyPolicy": "При reset состояния компонента layer differences, вызванные только этим состоянием, могут исчезнуть автоматически. Ручные layer overrides должны оставаться независимо сбрасываемыми, пока reset родительского состояния не уберёт их target state."
+    }
+  }
+}

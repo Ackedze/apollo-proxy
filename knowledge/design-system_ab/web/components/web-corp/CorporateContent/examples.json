@@ -1,0 +1,462 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.corporate-content",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "corporate-content-transition-prohibited",
+        "title": "Переходный CorporateContent нельзя использовать",
+        "inputComposition": {
+          "page": "CorporatePage",
+          "contentComponent": "🔄 [T] CorporateContent"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.transition-version-prohibited",
+          "recommendation": "Заменить на [D] CorporateContent или [M] CorporateContent согласно платформе."
+        }
+      },
+      {
+        "exampleId": "corporate-content-required",
+        "title": "CorporateContent обязателен внутри CorporatePage",
+        "inputComposition": {
+          "page": "CorporatePage",
+          "corporateContentPresent": false
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.required-on-product-page",
+          "recommendation": "Добавить платформенную версию CorporateContent как контентную область страницы. Родительский инстанс CorporatePage в Figma не требуется."
+        }
+      },
+      {
+        "exampleId": "corporate-content-body-composition",
+        "title": "Body принимает произвольную композицию",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "slot": "[D] Body",
+          "children": [
+            "[D] TitleView",
+            "[D] TabsView",
+            "custom-product-content"
+          ]
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.body-allows-arbitrary-composition",
+          "summary": "Не считать количество и тип дочерних элементов нарушением; проверить каждый элемент по собственным правилам."
+        }
+      },
+      {
+        "exampleId": "corporate-content-manual-background",
+        "title": "Фон нельзя менять вручную",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "changedProperty": "fill",
+          "source": "manual-paint"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.background-mode-only",
+          "recommendation": "Сбросить ручной fill и выбрать нужный mode коллекции BackgroundPlate Color."
+        }
+      },
+      {
+        "exampleId": "corporate-content-grid-style-change",
+        "title": "Grid style является системным",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "changedProperty": "styles.grid"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.grid-style-protected",
+          "recommendation": "Вернуть системный grid style."
+        }
+      },
+      {
+        "exampleId": "corporate-content-mobile-margins",
+        "title": "Mobile-web требует TopMargin и BottomMargin 24",
+        "inputComposition": {
+          "hostComponent": "[M] CorporateContent",
+          "TopMargin": "16",
+          "BottomMargin": "24"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.spacing-uses-grid-cols-mode",
+          "recommendation": "Установить TopMargin=24 и BottomMargin=24 и управлять остальными отступами через [M] Grid & Cols."
+        }
+      },
+      {
+        "exampleId": "corporate-content-modal-background",
+        "title": "Модальный mode фона запрещён для CorporateContent",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "backgroundPlateColorMode": "modal-bg (white)"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.page-background-modes-only",
+          "recommendation": "Выбрать base-bg (white) или base-bg-alt (grey)."
+        }
+      },
+      {
+        "exampleId": "corporate-content-root-sizing",
+        "title": "Корень использует Fill и Hug",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "layoutSizingHorizontal": "FIXED",
+          "layoutSizingVertical": "FILL"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.root-fill-hug-sizing",
+          "recommendation": "Установить Fill container по ширине и Hug contents по высоте."
+        }
+      },
+      {
+        "exampleId": "corporate-content-root-shadow",
+        "title": "Ручные визуальные overrides корня запрещены",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "changedProperty": "effects.shadow"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.root-visual-overrides-prohibited",
+          "recommendation": "Удалить ручной эффект и вернуть effective baseline корня."
+        }
+      },
+      {
+        "exampleId": "corporate-content-body-custom-spacing",
+        "title": "Body не требует Gutter",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "slot": "[D] Body",
+          "direction": "VERTICAL",
+          "itemSpacing": "24"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.body-layout-delegated",
+          "summary": "Не считать itemSpacing нарушением на уровне CorporateContent; значение определяется вложенной композицией."
+        }
+      },
+      {
+        "exampleId": "corporate-content-768-desktop",
+        "title": "На ширине 768 используется desktop-компонент",
+        "inputComposition": {
+          "screenWidth": 768,
+          "contentComponent": "[M] CorporateContent"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.platform-breakpoint-selection",
+          "recommendation": "Использовать [D] CorporateContent и mode 768 коллекции [D] Grid & Cols."
+        }
+      },
+      {
+        "exampleId": "corporate-content-default-background",
+        "title": "Default-фон CorporateContent серый",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "backgroundPlateColorMode": "base-bg-alt (grey)",
+          "additionalPatternContext": false
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.default-page-background",
+          "summary": "Default mode корректен; не придумывать дополнительные условия выбора фона."
+        }
+      },
+      {
+        "exampleId": "corporate-content-root-clickable",
+        "title": "Корень CorporateContent не кликабелен",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "rootPrototypeAction": "navigate"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.root-clickability-prohibited",
+          "recommendation": "Удалить действие с корня и перенести интерактивность во вложенный элемент."
+        }
+      },
+      {
+        "exampleId": "corporate-content-body-detached",
+        "title": "CorporateContent и Body нельзя detach-ить",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "detachedLayer": "[D] Body"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.detach-prohibited",
+          "recommendation": "Вернуть компонентную структуру и заменить содержимое через слот Body."
+        }
+      },
+      {
+        "exampleId": "corporate-content-gutter-without-section",
+        "title": "Gutter допустим без Section",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "nestedComposition": "custom-horizontal-auto-layout",
+          "itemSpacingVariable": "Gutter",
+          "sectionComponentPresent": false
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.gutter-horizontal-composition",
+          "summary": "Использование Gutter корректно; Section не обязателен."
+        }
+      },
+      {
+        "exampleId": "corporate-content-nested",
+        "title": "CorporateContent нельзя вкладывать в CorporateContent",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "nestedComponent": "[M] CorporateContent"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.nesting-prohibited",
+          "recommendation": "Удалить вложенный CorporateContent и оставить одну корневую контентную область страницы."
+        }
+      },
+      {
+        "exampleId": "corporate-content-swapme-left",
+        "title": "SwapMe не остаётся в финальном контенте",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "realContentPresent": true,
+          "swapMeVisible": true
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.swapme-must-be-replaced",
+          "recommendation": "Удалить или заменить SwapMe."
+        }
+      },
+      {
+        "exampleId": "corporate-content-header-gap",
+        "title": "Header примыкает к CorporateContent",
+        "inputComposition": {
+          "parentDirection": "VERTICAL",
+          "children": [
+            "[D] Header",
+            "[D] CorporateContent"
+          ],
+          "itemSpacing": 16
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.header-adjacency",
+          "recommendation": "Установить gap 0 между Header и CorporateContent."
+        }
+      },
+      {
+        "exampleId": "corporate-content-root-horizontal",
+        "title": "Корень CorporateContent всегда вертикальный",
+        "inputComposition": {
+          "hostComponent": "[D] CorporateContent",
+          "rootDirection": "HORIZONTAL",
+          "rootItemSpacing": 16
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.root-layout-protected",
+          "recommendation": "Вернуть вертикальный auto layout и itemSpacing=0."
+        }
+      },
+      {
+        "exampleId": "corporate-content-clips-enabled",
+        "title": "Clips content должен быть выключен",
+        "inputComposition": {
+          "hostComponent": "[M] CorporateContent",
+          "clipsContent": true
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.clips-content-disabled",
+          "recommendation": "Выключить clipsContent."
+        }
+      },
+      {
+        "exampleId": "section-horizontal-columns",
+        "title": "Section группирует блоки и управляет колонками",
+        "inputComposition": {
+          "component": "[D] Section",
+          "contentRole": "horizontal-column-layout"
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.section-horizontal-column-group",
+          "summary": "Section применён по назначению; его использование не обязательно для каждой горизонтальной композиции."
+        }
+      },
+      {
+        "exampleId": "section-position-tablet",
+        "title": "Position управляет порядком Isle на 1024 и 768",
+        "inputComposition": {
+          "component": "[D] Section",
+          "gridMode": "1024",
+          "Position": "true",
+          "actualOrder": [
+            "Content",
+            "Isle"
+          ]
+        },
+        "expectedAgent": {
+          "severity": "info",
+          "ruleId": "component:web-corp.corporate-content.section-position-tablet-order",
+          "summary": "Isle корректно расположен ниже Content."
+        }
+      },
+      {
+        "exampleId": "section-tablet-isle-false-at-768",
+        "title": "TabletIsle автоматически включён на 768",
+        "inputComposition": {
+          "component": "[D] Section",
+          "gridMode": "768",
+          "👽 TabletIsle": "false"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-tablet-isle-auto",
+          "recommendation": "Вернуть автоматическое значение true для mode 768."
+        }
+      },
+      {
+        "exampleId": "section-root-layout-changed",
+        "title": "Layout корня Section защищён",
+        "inputComposition": {
+          "component": "[D] Section",
+          "layoutSizingHorizontal": "FIXED",
+          "layoutSizingVertical": "FILL",
+          "alignmentChanged": true
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-root-layout-protected",
+          "recommendation": "Вернуть Fill/Hug и effective baseline direction/alignment текущего mode."
+        }
+      },
+      {
+        "exampleId": "section-instance-swap-prohibited",
+        "title": "Контент слота разрешён, instance swap запрещён",
+        "inputComposition": {
+          "component": "[D] Section",
+          "slot": "Isle",
+          "operation": "instance-swap"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-slot-content-policy",
+          "recommendation": "Добавить нужную композицию через slot content replacement без instance swap."
+        }
+      },
+      {
+        "exampleId": "section-position-desktop",
+        "title": "Position действует на всех разрешениях",
+        "inputComposition": {
+          "component": "[D] Section",
+          "gridMode": "1600+",
+          "Position": "false",
+          "actualOrder": [
+            "Content",
+            "Isle"
+          ]
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-position-tablet-order",
+          "recommendation": "При Position=false расположить Isle выше Content."
+        }
+      },
+      {
+        "exampleId": "section-manual-gap",
+        "title": "Между Content и Isle используется Gutter",
+        "inputComposition": {
+          "component": "[D] Section",
+          "itemSpacing": 32,
+          "itemSpacingVariable": null
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-gutter-required",
+          "recommendation": "Привязать itemSpacing к переменной Gutter."
+        }
+      },
+      {
+        "exampleId": "section-manual-slot-width",
+        "title": "Ширина слотов определяется колонками",
+        "inputComposition": {
+          "component": "[D] Section",
+          "slot": "Isle",
+          "width": 360,
+          "widthVariable": null
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-column-widths-variable-only",
+          "recommendation": "Задать ширину Isle через переменную соответствующих колонок Grid & Cols."
+        }
+      },
+      {
+        "exampleId": "section-isle-swapme-left",
+        "title": "SwapMe удаляется в каждом слоте",
+        "inputComposition": {
+          "component": "[D] Section",
+          "contentSwapMeVisible": false,
+          "isleSwapMeVisible": true
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-placeholders-replaced",
+          "recommendation": "Удалить или заменить SwapMe в Isle."
+        }
+      },
+      {
+        "exampleId": "section-isle-fill-changed",
+        "title": "Section и слоты нельзя стилизовать вручную",
+        "inputComposition": {
+          "component": "[D] Section",
+          "target": "Isle",
+          "changedProperty": "fill"
+        },
+        "expectedAgent": {
+          "severity": "high",
+          "ruleId": "component:web-corp.corporate-content.section-detach-and-style-overrides-prohibited",
+          "recommendation": "Сбросить ручную заливку Isle до effective baseline."
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.payment-masked-number",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-31"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-31T19:46:53.652Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- PaymentMaskedNumber.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-08-31T19:46:53.652Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "PaymentMaskedNumber"
+      ]
+    },
+    "summary": {
+      "componentFamily": "PaymentMaskedNumber",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "Major",
+        "key": "b4b0b34c80492fba153134447c5f0aa1eaccd892",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Mask Number": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "RightAddon",
+        "key": "eb8009882df50e638b8b6ce42814355546576de7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "IconCustom",
+            "IconPrimary",
+            "IconSecondary",
+            "IconTertiary",
+            "StatusBadge",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "Minor",
+        "key": "d4e927d5ad51b45cc2807929a283e1b6857474a4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "PaymentMaskedNumber",
+        "key": "bd25bbd83bfc28176b42284659f21c8a7cd8e97b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "SwapMe",
+        "key": "c9f03ba2dce7b95a5012b0a6c252bf2a8ee4d7ef",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "PaymentMaskedNumber",
+      "library": "Web _ Corp Components",
+      "purpose": "PaymentMaskedNumber отображает номер банковского счёта или карты на desktop и mobile-web. Создавай только публичный PaymentMaskedNumber; Major, Minor, RightAddon и SwapMe являются внутренними частями."
+    },
+    "publicBoundary": {
+      "publicRoots": [
+        "PaymentMaskedNumber"
+      ],
+      "internalOnly": [
+        "Major",
+        "Minor",
+        "RightAddon",
+        "SwapMe"
+      ]
+    },
+    "contentPolicy": {
+      "accountMajorPattern": "5-3-1-4-3",
+      "cardMajorPattern": "4-4-4",
+      "minorDigits": 4,
+      "groupSeparator": "U+205F",
+      "maskMajor": "·· ",
+      "maskCharacters": [
+        "U+00B7",
+        "U+00B7",
+        "U+2009"
+      ]
+    },
+    "addonPolicy": {
+      "defaultVisible": false,
+      "placeholder": "SwapMe",
+      "placeholderAllowedInFinalDesign": false,
+      "allowedSwapComponents": "context-defined",
+      "gapPx": 4,
+      "maxHeight": "number.lineHeight"
+    },
+    "typographyPolicy": {
+      "preserveEffectiveBaselinePair": true,
+      "publishedTextStyleRequired": true,
+      "rawTypographyAllowed": false
+    },
+    "overflowPolicy": {
+      "maxLines": 1,
+      "mode": "ellipsis-before-minor",
+      "preserveLastDigits": 4
+    },
+    "statesAndInteraction": {
+      "ownStates": [],
+      "clickability": "context-defined"
+    },
+    "criticalBaselines": [
+      "Используй математический пробел U+205F; обычный пробел является error.",
+      "При маскировании сохраняй Minor из четырёх последних цифр и Major `·· `.",
+      "Major и Minor могут использовать любой общий цветовой токен, но их token binding обязан совпадать.",
+      "Major и Minor сохраняют effective-baseline text styles как пару; raw typography является error.",
+      "Если Addon показан, замени SwapMe; сохрани gap 4 px и высоту не больше line-height номера.",
+      "В узком контейнере сохраняй одну строку, штатный ellipsis и последние четыре цифры Minor."
+    ],
+    "agentInstructions": [
+      "Не требуй default-цвет: синхронная смена Major и Minor на другой токен разрешена.",
+      "Не разрешай raw-цвет или разные токены у Major и Minor.",
+      "Не предлагай вставлять Major, Minor, RightAddon или SwapMe отдельно.",
+      "Не ограничивай набор swap-компонентов Addon без отдельного правила сценария; запрещено только оставлять служебный SwapMe.",
+      "Не утверждай, что PaymentMaskedNumber или Addon обязательно кликабельны либо обязательно статичны: это определяется контекстом.",
+      "Не придумывай собственные loading, disabled или error состояния PaymentMaskedNumber.",
+      "Не называй context-only правила Addon geometry и overflow автоматически проверенными текущим Apollo."
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Для layout и typography используй effective baseline. Цвет Major и Minor разрешено менять относительно baseline, но только синхронно на один bound token. Типографика обеих частей должна сохранять effective-baseline pair."
+    },
+    "ruleReferences": [
+      "component:web-corp.payment-masked-number.public-root-only",
+      "component:web-corp.payment-masked-number.unmasked-major-format",
+      "component:web-corp.payment-masked-number.mask-format",
+      "component:web-corp.payment-masked-number.minor-last-four-digits",
+      "component:web-corp.payment-masked-number.parts-share-color-token",
+      "component:web-corp.payment-masked-number.addon-uses-final-component",
+      "component:web-corp.payment-masked-number.addon-geometry",
+      "component:web-corp.payment-masked-number.typography-follows-effective-pair",
+      "component:web-corp.payment-masked-number.text-style-binding-required",
+      "component:web-corp.payment-masked-number.narrow-overflow-preserves-last-four",
+      "component:web-corp.payment-masked-number.interaction-and-states-are-contextual"
+    ]
+  }
+}

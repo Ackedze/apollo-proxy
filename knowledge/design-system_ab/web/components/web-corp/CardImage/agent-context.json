@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.card-image",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CardImage.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CardImage"
+      ]
+    },
+    "summary": {
+      "componentFamily": "CardImage",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 CardItem",
+        "key": "801c15ba3f3cdd87b5fa7bc089cc48379aa37972",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "212x132",
+            "24x16",
+            "264x164",
+            "44x28",
+            "68x42"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Cover",
+        "key": "2254a4b0565c2acbe8c7fbca11a55b4c92fc5232",
+        "description": "Технический компонент для отображения рубашки карты",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Product Type": [
+            "AB",
+            "AB Credit",
+            "AB Premium",
+            "Archive"
+          ],
+          "Size": [
+            "212x132",
+            "24x16",
+            "264x164",
+            "44x28",
+            "68x42"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Shadow",
+        "key": "e0f79b3378bd428cea895ce4124199edf5509f93",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "212x132",
+            "264x164",
+            "44x28",
+            "68x42"
+          ]
+        }
+      },
+      {
+        "name": "🔩 SilverLine",
+        "key": "3fd06cdd38d50a431893a8d2ce9d25f75149a3ac",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "complex",
+            "simple"
+          ]
+        }
+      },
+      {
+        "name": "🔩 State",
+        "key": "6e00263c654cf43f85ae1d65455b515f2a843f18",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "212x132",
+            "264x164",
+            "44x28",
+            "68x42"
+          ],
+          "State": [
+            "Inactive",
+            "Locked"
+          ]
+        }
+      },
+      {
+        "name": "🔩 UserData",
+        "key": "6bb6d7b6fdf195d182ad0b1001500d17dd40960d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Size": [
+            "212x132",
+            "264x164",
+            "44x28",
+            "68x42"
+          ],
+          "Style": [
+            "Default",
+            "Inverse"
+          ]
+        }
+      },
+      {
+        "name": "CardImage",
+        "key": "e0b688215640e6280ff9effdbf880ccf248cc65a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Cover": [
+            "Alfa Business",
+            "Alfa Business Credit",
+            "Alfa Business Premium",
+            "None"
+          ],
+          "Size": [
+            "212x132",
+            "24x16",
+            "264x164",
+            "44x28",
+            "68x42"
+          ],
+          "Stack": [
+            "false",
+            "true"
+          ],
+          "State": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "CardImage",
+      "library": "Web _ Corp Components",
+      "purpose": "Активный универсальный компонент для визуального представления банковской карты самостоятельно или внутри продуктового host-компонента."
+    },
+    "usageGuidance": [
+      "Используй только публичный root CardImage; все компоненты с префиксом 🔩 являются внутренними.",
+      "Используй CardImage для банковской карты или карточного счёта, но не для обычного счёта, общего способа оплаты или декоративного изображения.",
+      "Выбирай один из фиксированных Size: 264x164, 212x132, 68x42, 44x28 или 24x16. Не масштабируй экземпляр вручную.",
+      "Размер 24x16 поддерживает только State=Active; raw-варианты Inactive/Locked не являются частью публичного контракта.",
+      "Stack=True применяй только для 68x42, 44x28 и 24x16, двух и более карт и State=Active.",
+      "В стопке верхняя карта представляет первую карту списка, остальные скрытые карты — одна служебная подложка. M показывает +N карты, S и XS — ellipsis.",
+      "Имя владельца доступно только в 264x164, обязательно uppercase, одна строка с ellipsis.",
+      "Последние четыре цифры доступны в XL, L и M и всегда остаются маскированными в формате ·· 1234.",
+      "Штатный SilverLine: complex в XL/L, simple в M/S и hidden в XS.",
+      "Для карты другого банка или альтернативного дизайна Альфы используй Cover=None и добавь новый Image fill первым в fills существующего Details/CardCover / Image Container.",
+      "При рубашке другого банка скрывай SilverLine. При альтернативном дизайне Альфы скрывай его, если полоса встроена в рубашку или конфликтует с ней.",
+      "Для одиночной карты Show Shadow можно менять в XL/L/M/S; для Stack M/S тень обязательна; у XS тени нет.",
+      "CardImage не интерактивен и не владеет Loading, Error или Empty. Эти состояния и действия задаёт host.",
+      "В runtime изображение выбирается по cardId согласно Figma-документации; точный package/import и Code Connect mapping не подтверждены."
+    ],
+    "criticalBaselines": [
+      {
+        "ruleId": "component:web-corp.card-image.public-root-only",
+        "baseline": "Только CardImage является публичным root; 🔩-части не вставляются отдельно."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.fixed-size-only",
+        "baseline": "Компонент использует пять фиксированных размеров без ручного resize."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.xs-active-only",
+        "baseline": "Size=24x16 использует только State=Active."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.stack-combination",
+        "baseline": "Stack=True разрешён только для M/S/XS, двух и более карт и Active."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.user-data-by-size",
+        "baseline": "Имя и маскированный номер отображаются только в предусмотренных Size."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.custom-cover-uses-none",
+        "baseline": "Собственная рубашка начинается с Cover=None и меняется только Image fill существующего Image Container."
+      },
+      {
+        "ruleId": "component:web-corp.card-image.visuals-follow-effective-baseline",
+        "baseline": "Вся структура и визуальные параметры сохраняют effective baseline, кроме точных разрешённых overrides."
+      }
+    ],
+    "ruleHighlights": [
+      "component:web-corp.card-image.public-root-only",
+      "component:web-corp.card-image.bank-card-purpose",
+      "component:web-corp.card-image.fixed-size-only",
+      "component:web-corp.card-image.xs-active-only",
+      "component:web-corp.card-image.stack-combination",
+      "component:web-corp.card-image.stack-anatomy-is-fixed",
+      "component:web-corp.card-image.user-data-by-size",
+      "component:web-corp.card-image.cardholder-name-format",
+      "component:web-corp.card-image.number-must-stay-masked",
+      "component:web-corp.card-image.silver-line-follows-size",
+      "component:web-corp.card-image.custom-cover-uses-none",
+      "component:web-corp.card-image.custom-cover-preserves-structure",
+      "component:web-corp.card-image.other-bank-hides-silver-line",
+      "component:web-corp.card-image.shadow-policy",
+      "component:web-corp.card-image.visuals-follow-effective-baseline",
+      "component:web-corp.card-image.host-owns-interaction-and-system-states",
+      "component:web-corp.card-image.unsupported-scenarios",
+      "component:web-corp.card-image.account-select-card-account-only"
+    ],
+    "agentInstructions": [
+      "Не трактуй компоненты 🔩 как доступные пользователю: это внутренние части CardImage.",
+      "Не считай все observed raw combinations допустимыми: 24x16 Inactive/Locked являются неканоническими.",
+      "Не предлагай detach или ручную пересборку CardImage.",
+      "Не запрещай собственную рубашку: она разрешена только при Cover=None как первый Image fill существующего Image Container.",
+      "Не разрешай собственной рубашке изменять геометрию, радиусы, логотип, платёжную систему, state overlay или структуру Cover.",
+      "Не требуй SilverLine для карты другого банка; он должен быть скрыт.",
+      "Не показывай полный номер карты и не убирай штатную маску.",
+      "Не считай Show Shadow=False нарушением у одиночной XL/L/M/S карты.",
+      "Не придумывай Delivery, Add new card, Loading, Error или Empty как состояния CardImage.",
+      "Не требуй отдельные desktop/mobile roots: CardImage универсален.",
+      "Не объявляй runtime API verified: Figma-документация подтверждает cardId, но package/import и Code Connect не подтверждены.",
+      "Повышай severity только по exact component rule или применимому pattern rule; пример сам по себе не является evidence."
+    ],
+    "pipelineLimitations": [
+      "Текущий generated contract и compact manifest не включают live component properties Show Shadow, Show UserData, Show SilverLine, текст имени и instance swap иконки состояния.",
+      "Проверка содержимого custom Image fill, его происхождения и смыслового соответствия карте требует Figma/composition evidence.",
+      "Точный runtime package/import CardImage не подтверждён из-за отсутствия Code Connect."
+    ],
+    "unresolvedQuestions": [],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.Cover",
+        "variant.Size",
+        "variant.Stack",
+        "variant.State",
+        "boolean.Show Shadow"
+      ],
+      "contentProperties": [
+        "content.cardholderName",
+        "content.lastFourDigits",
+        "content.stackCount"
+      ],
+      "allowedLayerOverrides": [
+        "Details/CardCover / Image Container first Image fill when Cover=None",
+        "SilverLine visibility for an approved custom cover"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "effects.*"
+      ],
+      "baselinePolicy": "Сначала разреши Size, Cover, State, Stack и Show Shadow, затем примени разрешённые content и custom-cover overrides. Остальные layer changes сравнивай с effective CardImage baseline."
+    }
+  }
+}

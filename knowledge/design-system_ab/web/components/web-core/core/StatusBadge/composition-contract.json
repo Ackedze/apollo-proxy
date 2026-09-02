@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.status-badge",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "StatusBadge",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "StatusBadge",
+        "path": "View=PositiveCheckmark, Size=40 / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "StatusBadge",
+        "path": "View=PositiveCheckmark, Size=40 / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "StatusBadge_Inverted",
+        "path": "View=PositiveCheckmark, Size=40 / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "StatusBadge_Inverted",
+        "path": "View=PositiveCheckmark, Size=40 / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+        "componentName": "checkmark-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

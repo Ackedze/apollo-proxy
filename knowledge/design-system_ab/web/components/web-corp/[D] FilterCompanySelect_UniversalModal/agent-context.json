@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select-universal-modal",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- [D] FilterCompanySelect_UniversalModal.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "[D] FilterCompanySelect_UniversalModal"
+      ]
+    },
+    "summary": {
+      "componentFamily": "[D] FilterCompanySelect_UniversalModal",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [D] FilterCompanySelect_UniversalModal",
+        "key": "9a23ab30e0b4c5e60362fd0eb4905e9fe1fc1b21",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Open": [
+            "False",
+            "true"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:flow.holding-company-selection",
+        "patternKey": "flow.holding-company-selection",
+        "file": "patterns/p_holding-company-selection.md",
+        "sourceType": "design-guideline"
+      }
+    ],
+    "summary": {
+      "componentFamily": "[D] FilterCompanySelect_UniversalModal",
+      "library": "Web _ Corp Components",
+      "purpose": "Desktop-only figma preset для немедленного выбора одной компании в режиме холдинга исключительно внутри UniversalModal."
+    },
+    "usageGuidance": [
+      "Используй preset только внутри UniversalModal.",
+      "Выбор строки сразу применяет компанию, закрывает список и обновляет CompactTag.",
+      "Open=False — стартовое состояние; Open=true допустим для демонстрации открытого списка.",
+      "Показывай поиск только при количестве доступных компаний больше 10.",
+      "При 10 компаниях или меньше скрывай весь [D] OptionListHeader.",
+      "Поиск работает по названию, ИНН и адресу; сохраняй placeholder «Название, ИНН или адрес».",
+      "В строке результата показывай только название компании.",
+      "В одном UniversalModal допускается только один экземпляр preset.",
+      "Собирай preset через [D] UniversalModalHeader с Content=True, Custom=True; FilledBg остаётся host-owned. LeftAddon: Custom=True, Back=False, swap на preset. MiddleSlot: Custom=False, Empty=True, Title=False, BigTitle=False. RightAddon: Custom=False, Cross=True.",
+      "Весь trigger CompanyLogo + CompactTag открывает список; отдельного действия у логотипа нет.",
+      "Сохраняй CompactTag.SelectedState=true; направление стрелки автоматически следует корневому Open.",
+      "Выбор компании закрывает только dropdown; Cross закрывает весь UniversalModal.",
+      "Длинное название компании показывай в одну строку с ellipsis без tooltip; поведение строк списка делегировано OptionListCell.",
+      "Разрешено менять ширину trigger и dropdown; остальная внутренняя геометрия следует effective baseline.",
+      "Собственные loading, error, disabled, empty/no-results, hover, focus и keyboard-состояния не добавляются: они принадлежат вложенным компонентам.",
+      "Одна компания всегда выбрана по умолчанию бизнес-логикой; её логотип и название отображаются в trigger, а строка отмечена checkmark.",
+      "В CompactTag показывай только название компании: подпись «Компания» и разделитель скрыты.",
+      "Сохраняй целый библиотечный instance без detach и instance swap внутренних частей.",
+      "У CompanyLogo меняется runtime-содержимое выбранной компании; служебные Addon, Indicator и Border сохраняют baseline.",
+      "Preset figma-only и не имеет собственного code export или Code Connect; nested mappings не подтверждают root.",
+      "Не включай preset в public roots обычного FilterCompanySelect."
+    ],
+    "ruleHighlights": [
+      "component:web-corp.filter-company-select-universal-modal.universal-modal-only",
+      "component:web-corp.filter-company-select-universal-modal.desktop-only",
+      "component:web-corp.filter-company-select-universal-modal.single-selection-immediate",
+      "component:web-corp.filter-company-select-universal-modal.search-visible-over-ten",
+      "component:web-corp.filter-company-select-universal-modal.search-contract",
+      "component:web-corp.filter-company-select-universal-modal.option-cell-company-name-only",
+      "component:web-corp.filter-company-select-universal-modal.preserve-library-composition",
+      "component:web-corp.filter-company-select-universal-modal.selection-required",
+      "component:web-corp.filter-company-select-universal-modal.compact-tag-content",
+      "component:web-corp.filter-company-select-universal-modal.one-per-modal",
+      "component:web-corp.filter-company-select-universal-modal.header-composition",
+      "component:web-corp.filter-company-select-universal-modal.trigger-and-open-state",
+      "component:web-corp.filter-company-select-universal-modal.company-name-overflow",
+      "component:web-corp.filter-company-select-universal-modal.sizing-policy",
+      "component:web-corp.filter-company-select-universal-modal.visual-baseline",
+      "component:web-corp.filter-company-select-universal-modal.states-delegated",
+      "component:web-corp.filter-company-select-universal-modal.code-connect-unavailable",
+      "component:web-corp.filter-company-select-universal-modal.open-state-demo-allowed"
+    ],
+    "agentInstructions": [
+      "Не предлагай использовать preset самостоятельно на странице или вне UniversalModal.",
+      "Не превращай single-select в multi-select и не добавляй отдельное действие применения.",
+      "Не считай Open=true нарушением, если открытое состояние показано для демонстрации.",
+      "Не показывай поиск при 10 компаниях или меньше и не скрывай его при количестве больше 10.",
+      "Не предлагай пустое начальное состояние: текущая компания определяется бизнес-логикой.",
+      "Не включай подпись «Компания» или разделитель внутри CompactTag.",
+      "Не добавляй ИНН или адрес в видимый контент строки списка.",
+      "Не считай ручную ширину trigger или dropdown нарушением сама по себе.",
+      "Не придумывай отдельные состояния preset поверх контрактов вложенных компонентов.",
+      "Не предлагай detach или swap внутренних частей preset.",
+      "Не ставь preset в BodyContent или MiddleSlot: он заменяет содержимое LeftAddon кастомного UniversalModalHeader.",
+      "Не добавляй логотипу отдельное действие и не редактируй стрелку вручную независимо от Open.",
+      "Не закрывай UniversalModal после выбора компании и не подменяй действие Cross закрытием только dropdown.",
+      "Не добавляй tooltip к сокращённому названию компании.",
+      "Не разрешай визуальные overrides под видом настройки runtime-логотипа или названия.",
+      "Не заявляй наличие code implementation или Code Connect по факту mappings вложенных компонентов.",
+      "Не придумывай mobile-web версию компонента."
+    ],
+    "unresolvedQuestions": [],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.Open"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего Open и nested owner context."
+    }
+  }
+}

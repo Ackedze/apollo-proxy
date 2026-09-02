@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.steps",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-06-17"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-06-17T08:57:18.024Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/misc/Web _ Core Misc -- Steps.json",
+      "library": "Web _ Core Misc",
+      "file": "Web _ Core Misc",
+      "generatedAt": "2026-06-17T08:57:18.024Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "Steps"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Steps",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "❌  Indicator",
+        "key": "daaf4f44ce5ca82b085a2e389e1589c3ea520572",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Position": [
+            "End",
+            "MIddle",
+            "Start"
+          ]
+        }
+      },
+      {
+        "name": "❌  Line",
+        "key": "38d4aeee69e19bddb963ca327155c03291137518",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Filled": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "❌ Steps_Vertical",
+        "key": "8c6bd130660ad06137861eee848bac6f31b75600",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Horizontal": [
+            "Left",
+            "None"
+          ],
+          "MiddlePadding": [
+            "Airy",
+            "Compact"
+          ]
+        }
+      },
+      {
+        "name": "🔩 IndicatorContent",
+        "key": "8fb179b20f6ec07456a9ca1941b934b5c07e0864",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Active": [
+            "False",
+            "True"
+          ],
+          "CriticalError": [
+            "False",
+            "True"
+          ],
+          "Custom": [
+            "False",
+            "True"
+          ],
+          "Error": [
+            "False",
+            "True"
+          ],
+          "Ordered": [
+            "False",
+            "True"
+          ],
+          "Positive": [
+            "False",
+            "True"
+          ],
+          "Waiting": [
+            "False",
+            "True"
+          ],
+          "Warning": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Line",
+        "key": "edbddfe9be38e1eb6e9a2b83f8c8bb7e06cef1b3",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Color": [
+            "Attention",
+            "Custom",
+            "Negative",
+            "Neutral",
+            "Positive"
+          ],
+          "Filled": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Line",
+        "key": "530df1d0a2b24d583d47e5f4d7aa7b11ac4f0d4b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Color": [
+            "Attention",
+            "Custom",
+            "Negative",
+            "Neutral",
+            "Positive"
+          ],
+          "Filled": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 MinSpace",
+        "key": "7a6f19ac159597fd21d667c1a5eaf31a3e091bdf",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "MinSpace": [
+            "16",
+            "24",
+            "32"
+          ]
+        }
+      },
+      {
+        "name": "Steps_Horizontal",
+        "key": "6248360b0b187608b9b9d0206633bea83bb0d9ad",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "LastStep": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "Steps_Vertical",
+        "key": "9c47f8014b3b2814bab264b0544270c00b2afaa5",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "LastStep": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "❌   HorizontalLabel",
+        "key": "b166a83b5ecc99cb7bb0ebfcf54c0c6114e92188",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌  Steps_Horizontal",
+        "key": "d049346a6cb88799852fc75b55a2a97c81dc0847",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "❌  SwapMe",
+        "key": "c28c16c5663f7ec1cc9b4436936ed4fbc9d00b8c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 HorizontalLabel",
+        "key": "4c7138d94f7a5793ef83723a2cc6817690d435d8",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 SwapMe",
+        "key": "f02a875b2245040f28d2c894c13e3135ef3255f9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Steps",
+      "library": "Web _ Core Misc",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

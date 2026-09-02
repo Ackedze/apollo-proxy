@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.payment-masked-number",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-09-01"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "Major",
+        "key": "b4b0b34c80492fba153134447c5f0aa1eaccd892",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Mask Number"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "RightAddon",
+        "key": "eb8009882df50e638b8b6ce42814355546576de7",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Minor",
+        "key": "d4e927d5ad51b45cc2807929a283e1b6857474a4",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "PaymentMaskedNumber",
+        "key": "bd25bbd83bfc28176b42284659f21c8a7cd8e97b",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "SwapMe",
+        "key": "c9f03ba2dce7b95a5012b0a6c252bf2a8ee4d7ef",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicBoundary": {
+      "publicRoots": [
+        "PaymentMaskedNumber"
+      ],
+      "internalRoots": [
+        "Major",
+        "Minor",
+        "RightAddon",
+        "SwapMe"
+      ],
+      "internalStandaloneAllowed": false
+    },
+    "usage": {
+      "purpose": "Отображение номера банковского счёта или номера карты.",
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "platformSpecificRoots": false
+    },
+    "numberFormat": {
+      "account": {
+        "majorPattern": "5-3-1-4-3",
+        "minorDigits": 4
+      },
+      "card": {
+        "majorPattern": "4-4-4",
+        "minorDigits": 4
+      },
+      "groupSeparator": {
+        "character": " ",
+        "unicode": "U+205F",
+        "ordinarySpaceAllowed": false
+      }
+    },
+    "masking": {
+      "property": "Major.Mask Number",
+      "enabledValue": "True",
+      "majorValue": "·· ",
+      "majorCharacters": [
+        "U+00B7",
+        "U+00B7",
+        "U+2009"
+      ],
+      "preserveLastDigits": 4,
+      "sameForAccountAndCard": true
+    },
+    "visualPolicy": {
+      "majorAndMinorColor": "Any design-system color token is allowed when both parts use the same token binding.",
+      "rawColorAllowed": false,
+      "differentPartColorsAllowed": false,
+      "effectiveBaselineColorRequired": false
+    },
+    "addon": {
+      "defaultVisible": false,
+      "swapAllowed": true,
+      "allowedSwapComponents": "context-defined",
+      "placeholderComponent": "SwapMe",
+      "placeholderAllowedInFinalDesign": false,
+      "gapPx": 4,
+      "maxHeight": "number.lineHeight"
+    },
+    "typography": {
+      "policy": "preserve-effective-baseline-pair",
+      "layers": [
+        "Major",
+        "Minor"
+      ],
+      "publishedTextStyleRequired": true,
+      "rawTypographyAllowed": false,
+      "independentPartChangeAllowed": false
+    },
+    "overflow": {
+      "maxLines": 1,
+      "mode": "ellipsis-before-minor",
+      "preserveLastDigits": 4,
+      "manualShorteningAllowed": false
+    },
+    "statesAndInteraction": {
+      "ownStates": [],
+      "unsupportedStates": [
+        "loading",
+        "disabled",
+        "error"
+      ],
+      "clickability": "context-defined",
+      "rootMayBeInteractive": true,
+      "addonMayBeInteractive": true
+    },
+    "ruleSource": {
+      "repository": "core-ds/ds-ai-hub",
+      "path": "products/ab/patterns/payment-masked-number.md",
+      "status": "owner-approved-full-semantic-draft"
+    }
+  }
+}

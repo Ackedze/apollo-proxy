@@ -1,0 +1,722 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web.benefits",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web.benefits.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Benefits",
+          "layers": [
+            "[D] Benefits",
+            "[M] Benefits",
+            "🔒 [D] Benefits",
+            "🔒 [M] Benefits",
+            "Benefits"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web.benefits.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Benefits",
+          "layers": [
+            "[D] Benefits",
+            "[M] Benefits",
+            "🔒 [D] Benefits",
+            "🔒 [M] Benefits",
+            "Benefits"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web.benefits.figma-only-landing-preset",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web.benefits",
+          "layers": [
+            "🔒 [D] Benefits",
+            "🔒 [M] Benefits"
+          ]
+        },
+        "classification": {
+          "figmaOnly": true,
+          "lifecycle": "active",
+          "canonicalForSupportedCapacity": true,
+          "plannedReplacement": false,
+          "codeExportExpected": false,
+          "reportAsCustomization": false
+        },
+        "ruleText": "Benefits — активный канонический Figma-only пресет для группы из трёх или четырёх BenefitCard на лендинге. Не требуй для него runtime-компонент или Code Connect mapping. Для поддерживаемого количества создавай экземпляр 🔒 [D] Benefits или 🔒 [M] Benefits по component key."
+      },
+      {
+        "ruleId": "component:web.benefits.capacity-matches-card-count",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Capacity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowedCardCounts": [
+            3,
+            4
+          ],
+          "requiredMapping": {
+            "3": 3,
+            "4": 4
+          }
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Выберите Capacity, равный числу карточек. Для группы меньше трёх или больше четырёх соберите BenefitCard вручную без Benefits.",
+        "ruleText": "Benefits содержит строго три или четыре BenefitCard: Capacity=3 соответствует трём карточкам, Capacity=4 — четырём. Удалять карточки из пресета, добавлять пятую или использовать Benefits для другого количества нельзя. Ручная группа отдельных BenefitCard разрешена только при количестве меньше трёх или больше четырёх.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "context-map",
+          "identity": "web.benefits",
+          "contextFact": "composition.capacity",
+          "targetFact": "composition.visibleBenefitCardCount",
+          "mappingEntries": [
+            {
+              "context": 3,
+              "target": 3
+            },
+            {
+              "context": 4,
+              "target": 4
+            }
+          ],
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Capacity не соответствует числу BenefitCard",
+            "observed": "Выбрано Capacity={{context}}, видимых BenefitCard: {{actual}}.",
+            "expectation": "Capacity=3 должен содержать три BenefitCard, Capacity=4 — четыре.",
+            "action": "Выбрать Capacity, равный числу карточек, или восстановить состав пресета."
+          }
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.desktop-compact-required-at-1024",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Compact|layout.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "🔒 [D] Benefits",
+          "requiredMapping": {
+            "viewport<=1024": "True",
+            "viewport>1024": "False"
+          }
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Установите Compact=True при viewport 1024 px и меньше, Compact=False — при viewport больше 1024 px.",
+        "ruleText": "Desktop Benefits использует Compact=True при viewport 1024 px и меньше и Compact=False при viewport больше 1024 px. Compact=False размещает карточки в одну строку с интервалом 24 px; Compact=True использует интервал 16 px, а Capacity=4 перестраивается в сетку 2 × 2. Capacity=3 при Compact=True остаётся в одной строке.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.view-selects-surface-baseline",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.View|nested.BackgroundPlate",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "component": "🔒 [D] Benefits",
+          "requiredBaseline": {
+            "Page": "base-bg-alt",
+            "Modal": "modal-bg"
+          },
+          "allowedSurfaceAlternatives": [
+            "Border",
+            "Colored"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Выберите View по контексту Page/Modal и восстановите соответствующий baseline поверхности либо используйте явно разрешённый вариант Border или Colored.",
+        "ruleText": "View=Page задаёт baseline base-bg-alt, View=Modal — modal-bg для вложенного promo BackgroundPlate. Вместо baseline разрешено использовать поверхности Border и Colored; само их применение не является нарушением."
+      },
+      {
+        "ruleId": "component:web.benefits.nested-card-settings-are-editable",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.variant.Background|nested.BenefitCard.variant.CardAxis|nested.BenefitCard.variant.Compact|nested.BenefitCard.variant.GraphicPosition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "requireUniformityRuleCheck": "component:web.benefits.nested-card-settings-are-uniform"
+        },
+        "ruleText": "Вложенные BenefitCard разрешено настраивать через Background, CardAxis, Compact и GraphicPosition. Отличие от исходного preset baseline само по себе не является нарушением, если выбранные значения одинаковы у всех карточек группы."
+      },
+      {
+        "ruleId": "component:web.benefits.nested-card-settings-are-uniform",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.variant.*|nested.BackgroundPlate.fill|nested.BackgroundPlate.stroke",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Benefits",
+          "layers": [
+            "[D] BenefitCard",
+            "[M] BenefitCard",
+            "BenefitCard"
+          ]
+        },
+        "conditions": {
+          "uniformProperties": [
+            "Background",
+            "CardAxis",
+            "Compact",
+            "GraphicPosition"
+          ],
+          "allowedPerCardDifferences": {
+            "surfaceTypes": [
+              "Border",
+              "Colored"
+            ],
+            "properties": [
+              "fill",
+              "stroke"
+            ]
+          }
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Выровняйте Background, CardAxis, Compact и GraphicPosition у всех BenefitCard группы. Не выравнивайте разные разрешённые fill/stroke у Border или Colored автоматически.",
+        "ruleText": "Все BenefitCard внутри одного Benefits должны иметь одинаковые значения Background, CardAxis, Compact и GraphicPosition. Единственное подтверждённое исключение — разные цвета заливки и обводки отдельных карточек при поверхностях Colored и Border.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 4
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "uniform-collection-properties",
+          "identity": "web.benefits",
+          "memberIdentity": "web.benefit-card",
+          "traverse": "direct-children",
+          "propertyFacts": [
+            "component.properties.Background",
+            "component.properties.CardAxis",
+            "component.properties.Compact",
+            "component.properties.GraphicPosition"
+          ],
+          "minimumCount": 1,
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Настройки BenefitCard внутри Benefits различаются",
+            "observed": "У вложенных BenefitCard различаются Background, CardAxis, Compact или GraphicPosition.",
+            "expectation": "Все BenefitCard одного Benefits должны иметь одинаковые Background, CardAxis, Compact и GraphicPosition.",
+            "action": "Выровнять четыре настройки у всех BenefitCard группы, сохранив разрешённые различия fill и stroke."
+          }
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.nested-card-title-style-is-uniform",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Title",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Benefits",
+          "layers": [
+            "Content"
+          ]
+        },
+        "sharedValueConstraint": "propertyEqualsFirst",
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "component-property"
+        },
+        "remediation": "Установите одинаковое значение Title у контента всех BenefitCard группы.",
+        "ruleText": "Стиль Title должен быть одинаковым у всех BenefitCard внутри одного Benefits. Смешивать Primary и Secondary в одной группе запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.mobile-surface-inherits-host",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BackgroundPlate|screen.composition",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "component": "🔒 [M] Benefits",
+          "variantPropertiesNotExposed": [
+            "View",
+            "Compact"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": false,
+          "doNotTreatAsViolationByDefault": true
+        },
+        "ruleText": "Mobile Benefits используется и на странице, и в модальном контексте. У пресета нет View: surface context определяется внешним контейнером и настройками вложенных BenefitCard. Не требуй добавить mobile-свойство View."
+      },
+      {
+        "ruleId": "component:web.benefits.responsive-content-parity",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.composition|content",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "desktopRoot": "🔒 [D] Benefits",
+          "mobileRoot": "🔒 [M] Benefits"
+        },
+        "requiredParity": [
+          "Capacity",
+          "card order",
+          "card content"
+        ],
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Синхронизируйте количество, порядок и содержимое BenefitCard между desktop и mobile-web версиями.",
+        "ruleText": "При переходе между desktop и mobile-web версиями Benefits должны сохраняться Capacity, порядок карточек и их содержимое. Mobile-композиция не должна подменять или переставлять преимущества."
+      },
+      {
+        "ruleId": "component:web.benefits.content-inherits-benefit-card",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.benefit-card",
+        "appliesTo": "nested.BenefitCard.content|nested.BenefitCard.interaction|nested.BenefitCard.loading",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "perCardContentMayDiffer": true,
+          "inheritBenefitCardRules": true,
+          "doNotRequireUniformContent": true
+        },
+        "ruleText": "Title, Subtitle, Graphic и BottomContent могут различаться у карточек одного Benefits. Для каждого экземпляра полностью применяются подтверждённые правила BenefitCard, включая контент, графику, loading и действия; Benefits не переопределяет эти правила."
+      },
+      {
+        "ruleId": "component:web.benefits.surface-type-is-uniform",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BackgroundPlate.variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "uniformAcrossPreset": true,
+          "allowedPerCardColorDifferencesOnlyFor": [
+            "Border",
+            "Colored"
+          ]
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Выберите один тип поверхности для всех BenefitCard группы. Различайте только разрешённые цвета внутри общего типа Border или Colored.",
+        "ruleText": "Все BenefitCard внутри Benefits должны использовать один тип поверхности. Смешивать Primary, Border и Colored в одной группе нельзя. Разные цвета разрешены только между карточками общего типа Border либо общего типа Colored.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.fill-width-hug-height",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.sizing.horizontal|layout.sizing.vertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Benefits",
+          "layer": "root"
+        },
+        "requiredValues": {
+          "layout.sizing.horizontal": "FILL",
+          "layout.sizing.vertical": "HUG"
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer"
+        },
+        "remediation": "Установите Benefits ширину Fill и высоту Hug.",
+        "ruleText": "Корень Benefits должен использовать Fill по ширине и Hug по высоте. Fixed или Hug по ширине и Fixed или Fill по высоте нарушают sizing-контракт пресета.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "sizing",
+          "identity": "web.benefits",
+          "expectations": {
+            "layout.sizingHorizontal": "FILL",
+            "layout.sizingVertical": "HUG"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Sizing компонента Benefits изменён",
+            "observed": "Размер корня Benefits не соответствует контракту Fill по ширине и Hug по высоте.",
+            "expectation": "Корень Benefits должен использовать Fill container по ширине и Hug contents по высоте.",
+            "action": "Установить для Benefits ширину Fill и высоту Hug."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.cards-have-equal-height",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.layout.height",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "scope": "all cards in one Benefits preset"
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer"
+        },
+        "remediation": "Выровняйте высоту всех BenefitCard внутри одного пресета.",
+        "ruleText": "Все BenefitCard внутри одного Benefits должны иметь одинаковую высоту. Для Capacity=4, Compact=True это требование действует сразу на все четыре карточки, а не отдельно по строкам.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.layout-is-preset-owned",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.itemSpacing|layout.padding.*|layout.axis|layout.wrap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Сбросьте gap, padding, axis и wrap к effective baseline выбранного Capacity/Compact варианта Benefits.",
+        "ruleText": "Gap, padding, направление и схема переноса принадлежат пресету Benefits и не изменяются вручную. Сравнивай их с effective baseline выбранной комбинации Capacity и Compact.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.manual-reorder-preserves-responsive-parity",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.composition|responsive.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "classification": {
+          "manualReorderAllowed": true,
+          "requireResponsiveParity": true,
+          "doNotTreatAsViolationByDefault": true
+        },
+        "ruleText": "Карточки внутри Benefits разрешено переставлять вручную. Новый порядок должен быть одинаковым в парных desktop и mobile-web версиях."
+      },
+      {
+        "ruleId": "component:web.benefits.loading-state-is-uniform",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.loading|nested.BackgroundPlate.Skeleton",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "scope": "all cards in one Benefits preset",
+          "uniform": true,
+          "inheritPerCardRulesFrom": "ptrn:components.benefit-card"
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Включите или выключите loading/Skeleton одновременно у всех BenefitCard группы, сохранив правила BenefitCard для каждой карточки.",
+        "ruleText": "Loading/Skeleton является общим состоянием Benefits: все вложенные BenefitCard должны одновременно находиться либо в loading, либо в обычном состоянии. Смешанное состояние внутри одной группы запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.surface-colors-use-background-plate-tokens",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.background-plate",
+        "appliesTo": "nested.BackgroundPlate.fill|nested.BackgroundPlate.stroke",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "surfaceTypes": [
+            "Border",
+            "Colored"
+          ],
+          "tokenBindingRequired": true,
+          "additionalSegmentPaletteRestriction": false
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer"
+        },
+        "remediation": "Замените raw fill/stroke на разрешённый токен или переменную BackgroundPlate.",
+        "ruleText": "Различающиеся fill и stroke карточек Border или Colored должны оставаться привязанными к разрешённым токенам/переменным BackgroundPlate. Raw-цвета запрещены; дополнительных ограничений по сегментной палитре у Benefits нет.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.nested-benefit-card-instance-swap-forbidden",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.component|instanceSwap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "requiredNestedComponents": {
+            "🔒 [D] Benefits": "[D] BenefitCard",
+            "🔒 [M] Benefits": "[M] BenefitCard"
+          }
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "parameters"
+        },
+        "remediation": "Верните штатную платформенную BenefitCard в слот пресета и настройте её через разрешённые свойства.",
+        "ruleText": "Вложенные BenefitCard нельзя заменять через instance swap на другой компонент или на BenefitCard другой платформы. Настраивай только штатные [D]/[M] BenefitCard внутри соответствующего Benefits.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.benefits.clickability-is-uniform",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.BenefitCard.interaction|component.action",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "containerAction": false,
+          "uniformClickabilityAcrossCards": true,
+          "perCardActionMayDiffer": true
+        },
+        "classification": {
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Сделайте кликабельными все BenefitCard группы либо уберите действие у всех. Целевые действия карточек могут различаться.",
+        "ruleText": "Сам контейнер Benefits не имеет общего действия. Вложенные BenefitCard могут вести к разным целям, но кликабельность должна быть единообразной: либо действие есть у всех карточек группы, либо ни у одной."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web.benefits"
+      ],
+      "predicateRules": [
+        "component:web.benefits.capacity-matches-card-count",
+        "component:web.benefits.nested-card-settings-are-uniform",
+        "component:web.benefits.fill-width-hug-height"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web.benefits.view-selects-surface-baseline",
+          "reason": "Требуется семантическая оценка выбранного View и поверхности."
+        },
+        {
+          "sourceRuleId": "component:web.benefits.responsive-content-parity",
+          "reason": "Требуется сопоставление desktop и mobile-web представлений."
+        },
+        {
+          "sourceRuleId": "component:web.benefits.manual-reorder-preserves-responsive-parity",
+          "reason": "Требуется сопоставление порядка карточек между платформами."
+        },
+        {
+          "sourceRuleId": "component:web.benefits.clickability-is-uniform",
+          "reason": "Figma snapshot не подтверждает смысл и наличие действия без контекста взаимодействия."
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web.benefits.figma-only-landing-preset",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web.benefits.nested-card-settings-are-editable",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web.benefits.mobile-surface-inherits-host",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web.benefits.content-inherits-benefit-card",
+          "effect": "delegate-to-nested-package"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web.benefits.desktop-compact-required-at-1024",
+          "missingFacts": [
+            "viewport.width",
+            "responsive.platform"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.nested-card-title-style-is-uniform",
+          "missingFacts": [
+            "nested.BenefitCard.title.style"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.surface-type-is-uniform",
+          "missingFacts": [
+            "nested.BenefitCard.surface.type"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.cards-have-equal-height",
+          "missingFacts": [
+            "nested.BenefitCard.renderedHeight"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.layout-is-preset-owned",
+          "missingFacts": [
+            "baseline.effective.layout",
+            "nested.BenefitCard.order"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.loading-state-is-uniform",
+          "missingFacts": [
+            "nested.BenefitCard.loadingState"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.surface-colors-use-background-plate-tokens",
+          "missingFacts": [
+            "nested.BackgroundPlate.bindings.fill",
+            "nested.BackgroundPlate.bindings.stroke"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web.benefits.nested-benefit-card-instance-swap-forbidden",
+          "missingFacts": [
+            "nested.BenefitCard.componentIdentity",
+            "nested.BenefitCard.platform"
+          ]
+        }
+      ]
+    }
+  }
+}

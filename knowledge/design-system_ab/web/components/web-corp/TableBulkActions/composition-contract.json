@@ -1,0 +1,1178 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.table-bulk-actions",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "TableBulkActions",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] AmountItem",
+        "path": "Counter=false / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountItem",
+        "path": "Counter=false / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRow",
+        "path": "Amount=single / [D] AmountItem",
+        "componentName": "[D] AmountItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Counter": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRow",
+        "path": "Amount=single / [D] AmountItem / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRow",
+        "path": "Amount=single / [D] AmountItem / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRowSlider",
+        "path": "Amount=single / [D] AmountItem",
+        "componentName": "[D] AmountItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Counter": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRowSlider",
+        "path": "Amount=single / [D] AmountItem / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountRowSlider",
+        "path": "Amount=single / [D] AmountItem / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Left",
+        "componentName": "Left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "TransparentBg": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Left / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Left / Icon / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Right",
+        "componentName": "Right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "TransparentBg": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Right / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Slider",
+        "path": "Slider=start / Buttons / Right / Icon / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] AmountItem",
+        "path": "Counter=false / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] AmountItem",
+        "path": "Counter=false / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[M] AmountRow",
+        "path": "Amount=single / [M] AmountItem",
+        "componentName": "[M] AmountItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Counter": "false"
+        }
+      },
+      {
+        "hostComponentName": "[M] AmountRow",
+        "path": "Amount=single / [M] AmountItem / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] AmountRow",
+        "path": "Amount=single / [M] AmountItem / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] Counter / Content / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup",
+        "componentName": "[D] ButtonsGroup",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Overflow": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / TopRow / [M] Counter / Content / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / LeftAddon / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / LeftAddon / 🔩 Addon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Counter",
+        "path": "[D] Counter / Content / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / LeftAddon / 🔩 Addon",
+        "componentName": "🔩 Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / LeftAddon / 🔩 Addon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] Counter",
+        "path": "[M] Counter / Content / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "[D] ButtonsGroup",
+        "path": "Overflow=false / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [D] TableBulkActions",
+        "path": "Tablet=false, TopRow=false, Amount=false / Content / [D] ButtonsGroup / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] TableBulkActions",
+        "path": "Amount=false / Content / [M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ButtonsGroup",
+        "path": "[M] ButtonsGroup / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      }
+    ],
+    "component": {
+      "name": "TableBulkActions",
+      "library": "Web _ Corp Components",
+      "codeName": "CorporateTableBulkActions",
+      "lifecycleStatus": "scheduled"
+    },
+    "publicRoots": [
+      {
+        "name": "🔄 [D] TableBulkActions",
+        "componentKey": "e5dafdda4ce8bf06e41108061ba487dd3065c4de",
+        "platform": "desktop"
+      },
+      {
+        "name": "🔄 [M] TableBulkActions",
+        "componentKey": "145420e9fd1f756cc6f0ada663b72ef3f81e22e3",
+        "platform": "adaptive-mobile",
+        "viewportRange": "320–767 px"
+      }
+    ],
+    "internalComponents": [
+      "[D] AmountItem",
+      "[D] AmountRow",
+      "[D] AmountRowSlider",
+      "[D] ButtonsGroup",
+      "[D] Slider",
+      "[M] AmountItem",
+      "[M] AmountRow",
+      "[D] Counter",
+      "[M] ButtonsGroup",
+      "[M] Counter"
+    ],
+    "internalComponentsAreStandalone": false,
+    "compositionPolicy": {
+      "newBasicAndWideTables": {
+        "allowSeparateTableBulkActions": false,
+        "requiredReplacement": "Pagination с preset BulkActions"
+      },
+      "otherDataViews": {
+        "allowed": true,
+        "contexts": [
+          "карточки",
+          "списки",
+          "самостоятельные sticky-действия"
+        ]
+      },
+      "counter": {
+        "required": true,
+        "mayBeHiddenWhen": "Компонент используется как самостоятельная sticky-панель кнопок.",
+        "propertyWhenHidden": "Counter=false",
+        "label": {
+          "fixedText": "Выбрано N",
+          "mayBeHiddenAtViewport": "768–1023 px",
+          "condition": "Нужно освободить место для сумм или кнопок."
+        },
+        "checkbox": {
+          "defaultState": "selected",
+          "indeterminateAllowed": false,
+          "clickAction": "Снять выбор со всех объектов."
+        },
+        "value": {
+          "meaning": "Количество всех выбранных объектов во всём наборе данных, включая объекты вне текущей страницы.",
+          "automatic": true,
+          "manualOverrideAllowed": false
+        }
+      },
+      "spacer": {
+        "trueWhen": "Counter выравнивается с checkbox элементов таблицы, списка или карточек.",
+        "falseWhen": "Компонент используется как самостоятельная sticky-панель кнопок."
+      },
+      "amount": {
+        "single": "Одна сумма.",
+        "multiple": "Несколько сумм, которые полностью помещаются в одну линию без слайдера.",
+        "slider": "Если несколько сумм не помещаются в одну линию, используй AmountRowSlider.",
+        "itemComposition": "Название показателя и Amount.",
+        "mixedCurrenciesAllowed": true,
+        "recommendedMaxItems": 10,
+        "hardMaxItems": null
+      },
+      "amountItem": {
+        "customizableContent": [
+          "название показателя",
+          "сумма",
+          "валюта",
+          "штатные параметры Amount"
+        ],
+        "N": "Количество объектов, относящихся к этой AmountItem.",
+        "fixedVisuals": "Typography, spacing, dividers и остальные визуальные стили сохраняются по effective baseline."
+      },
+      "buttons": {
+        "maxVisible": 4,
+        "maxPrimary": 1,
+        "allSecondaryAllowed": true,
+        "overflow": "При превышении лимита последняя кнопка становится PickerButton и открывает скрытые действия.",
+        "hiddenActionsOrder": "Справа налево: сначала скрывается самое правое действие перед PickerButton.",
+        "hiddenActionsLimit": null,
+        "sizeShapeAndView": "Сохраняются по effective baseline.",
+        "customizableThroughNestedButton": [
+          "Label",
+          "addons",
+          "DisabledState",
+          "loading"
+        ],
+        "overflowSurface": {
+          "desktopAndTablet": "OptionList",
+          "adaptiveMobile": "BottomSheet"
+        }
+      }
+    },
+    "responsivePolicy": {
+      "desktop": "Используй 🔄 [D] TableBulkActions от 768 px.",
+      "adaptiveMobile": "Используй 🔄 [M] TableBulkActions в адаптиве на ширине 320–767 px.",
+      "mobileWeb": "Не используй TableBulkActions в Mobile Web.",
+      "tabletVariant": {
+        "automatic": true,
+        "manualOverrideAllowed": false,
+        "trueAt": "768–1023 px",
+        "falseAt": "1024 px и шире"
+      },
+      "adaptiveTopRow": {
+        "requiredValue": true,
+        "viewport": "320–767 px",
+        "manualOverrideAllowed": false
+      }
+    },
+    "topRowPolicy": {
+      "property": "variant.TopRow",
+      "falseWhen": "Суммы и кнопки помещаются на общей линии.",
+      "trueWhen": "Суммы и кнопки не помещаются на общей линии; кнопки должны перейти на отдельную линию.",
+      "controlledBy": "composition-fit",
+      "compatibleWithOverflow": true,
+      "decisionOrder": [
+        "Сначала включи TopRow, если суммы и кнопки не помещаются на общей линии.",
+        "Затем включи Overflow, если количество видимых действий превышает лимит."
+      ]
+    },
+    "amountSliderPolicy": {
+      "desktopAndTablet": "Боковые кнопки прокрутки и fade переполнения.",
+      "adaptiveMobile": "Touch-scroll без fade и без дополнительных кнопок."
+    },
+    "stickyPolicy": {
+      "position": "bottom",
+      "pageContentScrollsUnder": true,
+      "horizontalOffsets": "По сетке страницы.",
+      "fixedVisuals": [
+        "fill",
+        "shadow",
+        "height",
+        "padding"
+      ]
+    },
+    "globalStatePolicy": {
+      "loadingStateExists": false,
+      "disabledStateExists": false,
+      "nestedButtonsMayUseLoading": true,
+      "nestedButtonsMayUseDisabled": true
+    },
+    "selectionPolicy": {
+      "showComponentWhen": "Выбран хотя бы один объект.",
+      "hideComponentWhen": "Не выбрано ни одного объекта.",
+      "counterScope": "Все выбранные объекты во всём наборе данных.",
+      "amountScope": "Суммы рассчитываются только по выбранным объектам и обновляются при изменении выбора.",
+      "buttonActionScope": "Только выбранные объекты.",
+      "postActionSelection": "Определяется конкретным сценарием."
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[M] PaymentControl",
+        "key": "bd58cd9ec1fa8169e6c334c1ee9e4a974eefa86d",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.State"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Amount",
+        "key": "d04a931ce171beecabb1be7b18cd34506bc2981d",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Hint",
+        "key": "d27233755497bc8580b3a12812a83700c33a4e37",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "[M] PaymentControl",
+        "key": "bd58cd9ec1fa8169e6c334c1ee9e4a974eefa86d",
+        "role": "public-root",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.State"
+        ],
+        "states": [
+          "Empty",
+          "Active",
+          "ActiveFilled",
+          "Filled",
+          "DisabledEmpty",
+          "DisabledFilled",
+          "ErrorFilled"
+        ]
+      },
+      {
+        "name": "[M] Amount",
+        "key": "d04a931ce171beecabb1be7b18cd34506bc2981d",
+        "role": "required-internal",
+        "platform": "mobile-web",
+        "standaloneUse": "forbidden"
+      },
+      {
+        "name": "[M] Hint",
+        "key": "d27233755497bc8580b3a12812a83700c33a4e37",
+        "role": "required-internal",
+        "platform": "mobile-web",
+        "standaloneUse": "forbidden"
+      }
+    ],
+    "purpose": "Мобильный контрол ввода суммы для платёжных и переводных сценариев. Закрепляется у нижнего края viewport и при фокусе располагается непосредственно над системной цифровой клавиатурой.",
+    "platforms": [
+      "mobile-web"
+    ],
+    "layout": {
+      "position": "fixed-bottom",
+      "scrollsWithContent": false,
+      "width": "fill-viewport",
+      "focusedKeyboardRelation": "directly-above-system-numeric-keyboard"
+    },
+    "requiredParts": [
+      "[M] Amount",
+      "[M] Hint"
+    ],
+    "stateMachine": {
+      "transitions": [
+        {
+          "event": "focus-empty",
+          "to": "Active"
+        },
+        {
+          "event": "focus-filled",
+          "to": "ActiveFilled"
+        },
+        {
+          "event": "blur-filled",
+          "to": "Filled"
+        },
+        {
+          "event": "disable-empty",
+          "to": "DisabledEmpty"
+        },
+        {
+          "event": "disable-filled",
+          "to": "DisabledFilled"
+        },
+        {
+          "event": "invalid-filled",
+          "to": "ErrorFilled"
+        },
+        {
+          "event": "correct-invalid-value-while-focused",
+          "to": "ActiveFilled"
+        }
+      ],
+      "errorFilled": {
+        "keepsFocus": true,
+        "keepsKeyboardOpen": true
+      }
+    },
+    "amount": {
+      "inherits": "Core Amount",
+      "allowedCustomizations": [
+        "currency",
+        "minor-part-visibility",
+        "addon"
+      ],
+      "constraintsSource": "Core Amount and product business logic"
+    },
+    "hint": {
+      "required": true,
+      "editableFor": [
+        "limits",
+        "commission",
+        "other-product-explanations",
+        "error-message"
+      ],
+      "maxLines": 1,
+      "overflow": "ellipsis",
+      "textClickable": false
+    },
+    "infoIcon": {
+      "optional": true,
+      "hiddenByDefaultInErrorFilled": true,
+      "mayBeVisibleInErrorFilled": true,
+      "errorFilledVisibilityCondition": "error requires fuller explanation",
+      "interactiveInDisabled": true,
+      "interaction": "mobile Tooltip behavior",
+      "opens": "[M] BottomSheet",
+      "separateHitArea": true
+    },
+    "continueAction": {
+      "visibleInStates": [
+        "ActiveFilled",
+        "Filled"
+      ],
+      "hiddenInStates": [
+        "Empty",
+        "Active",
+        "DisabledEmpty",
+        "DisabledFilled",
+        "ErrorFilled"
+      ],
+      "action": "proceed-to-next-step",
+      "buttonAndIconViewPropertiesImmutable": true
+    },
+    "unsupportedStates": [
+      "Loading",
+      "Skeleton",
+      "Success"
+    ],
+    "deprecated": {
+      "component": "❌ PaymentControl",
+      "key": "a4bbfdbd9c6c5f39225532008bea45c75b02c84e",
+      "usage": "forbidden",
+      "mustNotMergeWithCurrentPackage": true
+    },
+    "documentationEvidence": {
+      "staleFigmaSections": [
+        "Anatomy",
+        "Properties"
+      ],
+      "staleComponentName": "❌ PaymentControl",
+      "interpretation": "documentation error; non-normative",
+      "liveExamplesUse": "[M] PaymentControl"
+    },
+    "implementation": {
+      "implementationStatus": "exists-unverified",
+      "package": null,
+      "exports": [],
+      "codeConnect": "not-configured",
+      "packageImportApi": "[VERIFY]"
+    }
+  }
+}

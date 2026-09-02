@@ -1,0 +1,309 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.status-property",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "status-property.status-approved",
+        "title": "Успешный статус объекта",
+        "inputState": {
+          "component": "StatusPreset",
+          "Type": "Approved",
+          "text": "Одобрено"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.property-custom-tokenized",
+        "title": "PropertyPreset с пользовательской токенизированной палитрой",
+        "inputState": {
+          "component": "PropertyPreset",
+          "Color": "Custom",
+          "textFill": "color token",
+          "backgroundFill": "color token",
+          "contrast": "sufficient"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-style-on-grey",
+        "title": "Muted используется на серой поверхности",
+        "inputState": {
+          "Style": "Muted",
+          "surface": "grey"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.style-follows-surface"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-manual-fill",
+        "title": "Вручную изменена заливка штатного StatusPreset",
+        "inputState": {
+          "component": "StatusPreset",
+          "property": "fill",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.fill-follows-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-nested-status-size",
+        "title": "Размер вложенного Status не совпадает с StatusPreset",
+        "inputState": {
+          "component": "StatusPreset",
+          "Size": "20",
+          "nestedStatus.Size": "40"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.nested-status-size-matches-preset"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-root-opacity",
+        "title": "Вручную изменена прозрачность корня StatusPreset",
+        "inputState": {
+          "component": "StatusPreset",
+          "property": "opacity",
+          "actual": 0.5,
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.preset-root-visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-custom-raw-color",
+        "title": "Color=Custom использует raw colors",
+        "inputState": {
+          "component": "PropertyPreset",
+          "Color": "Custom",
+          "textFill": "raw color",
+          "backgroundFill": "raw color"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.custom-color-uses-contrasting-tokens"
+        }
+      },
+      {
+        "exampleId": "status-property.context-size",
+        "title": "Размер выбран по окружающей композиции",
+        "inputState": {
+          "Size": "32",
+          "selectionReason": "surrounding component size"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-desktop-case",
+        "title": "В desktop вручную отключён Uppercase",
+        "inputState": {
+          "platform": "desktop",
+          "Uppercase": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.case-is-fixed-by-platform"
+        }
+      },
+      {
+        "exampleId": "status-property.property-overflow",
+        "title": "Длинный текст PropertyPreset обрезан многоточием",
+        "inputState": {
+          "component": "PropertyPreset",
+          "characters": 21,
+          "lineWrap": false,
+          "overflow": "ellipsis",
+          "fullTextInTooltip": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.tooltip",
+        "title": "PropertyPreset показывает пояснение по hover",
+        "inputState": {
+          "component": "PropertyPreset",
+          "hover": true,
+          "tooltip": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-click",
+        "title": "StatusPreset выполняет действие по клику",
+        "inputState": {
+          "component": "StatusPreset",
+          "clickable": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.click-is-forbidden"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-mobile-desktop-preset",
+        "title": "Desktop preset используется ниже 768 px",
+        "inputState": {
+          "component": "[D] PropertyPreset",
+          "viewportWidth": 767
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.platform-version-must-match"
+        }
+      },
+      {
+        "exampleId": "status-property.left-addon",
+        "title": "В preset включён штатный LeftAddon",
+        "inputState": {
+          "component": "StatusPreset",
+          "LeftAddon": true,
+          "addonContract": "Status"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-status-length",
+        "title": "StatusPreset содержит больше двух слов",
+        "inputState": {
+          "component": "StatusPreset",
+          "words": 3,
+          "characters": 21
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.status-text-limit"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-addon-only",
+        "title": "Label скрыт, оставлен только LeftAddon",
+        "inputState": {
+          "LeftAddon": true,
+          "Label.visible": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.label-is-required"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-stretch",
+        "title": "PropertyPreset растянут по ширине",
+        "inputState": {
+          "component": "PropertyPreset",
+          "layoutSizingHorizontal": "FILL"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.hug-sizing-is-fixed"
+        }
+      },
+      {
+        "exampleId": "status-property.two-properties",
+        "title": "Рядом размещены два PropertyPreset",
+        "inputState": {
+          "visiblePropertyPresetCount": 2
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-three-properties",
+        "title": "Рядом размещены три PropertyPreset",
+        "inputState": {
+          "visiblePropertyPresetCount": 3
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.maximum-two-properties"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-two-statuses",
+        "title": "У одного объекта показаны два StatusPreset",
+        "inputState": {
+          "object": "payment",
+          "visibleStatusPresetCount": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.maximum-one-status-per-object"
+        }
+      },
+      {
+        "exampleId": "status-property.invalid-mixed-group",
+        "title": "StatusPreset и PropertyPreset показаны вместе",
+        "inputState": {
+          "components": [
+            "StatusPreset",
+            "PropertyPreset"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.status-property.status-and-property-are-mutually-exclusive"
+        }
+      }
+    ]
+  }
+}

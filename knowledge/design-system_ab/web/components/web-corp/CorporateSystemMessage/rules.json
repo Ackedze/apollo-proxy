@@ -1,0 +1,1145 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.corporate-system-message",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1,
+    "executablePackageRevision": 2,
+    "executablePackageUpdatedAt": "2026-08-29"
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-system-message.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateSystemMessage",
+          "layers": [
+            ".🔄 [D] StatusScreen",
+            ".🔄 [D] StatusScreenModal",
+            ".🔄 [D] StatusScreenPage",
+            ".🔄 [M] StatusScreen",
+            ".🔄 [M] StatusScreenModal",
+            ".🔄 [M] StatusScreenPage",
+            "[D] Buttons group",
+            "[D] ButtonsGroupLarge",
+            "[D] ButtonsGroupSmall",
+            "[D] CorporateSystemMessage",
+            "[D] EmptyView",
+            "[D] ErrorView",
+            "[D] Graphic",
+            "[D] IconView",
+            "[D] ProcessView",
+            "[D] StatusScreen",
+            "[D] StatusScreenModal",
+            "[D] StatusScreenPage",
+            "[D] SystemMessageLarge",
+            "[D] SystemMessageSmall",
+            "[D] Сountdown",
+            "[M] ButtonsGroupLarge",
+            "[M] ButtonsGroupSmall",
+            "[M] CorporateSystemMessage",
+            "[M] EmptyView",
+            "[M] ErrorView",
+            "[M] Graphic",
+            "[M] IconView",
+            "[M] ProcessView",
+            "[M] StatusScreen",
+            "[M] StatusScreenModal",
+            "[M] StatusScreenPage",
+            "[M] SystemMessageLarge",
+            "[M] SystemMessageSmall",
+            "[M] Сountdown",
+            "🔄 [D] Buttons group",
+            "🔄 [D] Graphic",
+            "🔄 [D] IconView",
+            "🔄 [D] Сountdown",
+            "🔄 [M] Graphic",
+            "🔄 [M] IconView",
+            "🔄 [M] Сountdown",
+            "CorporateSystemMessage"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateSystemMessage",
+          "layers": [
+            ".🔄 [D] StatusScreen",
+            ".🔄 [D] StatusScreenModal",
+            ".🔄 [D] StatusScreenPage",
+            ".🔄 [M] StatusScreen",
+            ".🔄 [M] StatusScreenModal",
+            ".🔄 [M] StatusScreenPage",
+            "[D] Buttons group",
+            "[D] ButtonsGroupLarge",
+            "[D] ButtonsGroupSmall",
+            "[D] CorporateSystemMessage",
+            "[D] EmptyView",
+            "[D] ErrorView",
+            "[D] Graphic",
+            "[D] IconView",
+            "[D] ProcessView",
+            "[D] StatusScreen",
+            "[D] StatusScreenModal",
+            "[D] StatusScreenPage",
+            "[D] SystemMessageLarge",
+            "[D] SystemMessageSmall",
+            "[D] Сountdown",
+            "[M] ButtonsGroupLarge",
+            "[M] ButtonsGroupSmall",
+            "[M] CorporateSystemMessage",
+            "[M] EmptyView",
+            "[M] ErrorView",
+            "[M] Graphic",
+            "[M] IconView",
+            "[M] ProcessView",
+            "[M] StatusScreen",
+            "[M] StatusScreenModal",
+            "[M] StatusScreenPage",
+            "[M] SystemMessageLarge",
+            "[M] SystemMessageSmall",
+            "[M] Сountdown",
+            "🔄 [D] Buttons group",
+            "🔄 [D] Graphic",
+            "🔄 [D] IconView",
+            "🔄 [D] Сountdown",
+            "🔄 [M] Graphic",
+            "🔄 [M] IconView",
+            "🔄 [M] Сountdown",
+            "CorporateSystemMessage"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-system-message.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.public-roots-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.key|component.name",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "when": {
+          "usageContext": "standalone"
+        },
+        "target": {
+          "internalComponentKeys": [
+            "4feb6b888da6be0f442df7519094e336b45cf285",
+            "ca52e4e654a9a2b8a9250f7e2903f158256b630a",
+            "940e0a614754b1f6238478dfbfe73f7c55652028",
+            "b93e3006c818fc80198cd8f1d1333e40ad1a4407",
+            "e11846f951b3f0f04e91e9ca545ea7287ae49d41",
+            "2d5fd9a8fd9cf6f63eaa20cb1db7cf1a41095595",
+            "28f84c97ba2f4a6162fb2c8aa27420e0d5f12b93",
+            "c9f9869f6cc21135983254b79058ca1fde1da586",
+            "30f07e545734c3aabc6cdd96fd6c5f07fe198510",
+            "42c8301555a6d53e871729aa58cf8364ded65c00",
+            "a0c6c664b3952e0d32ec11d1f0730500cec1e0b7",
+            "e41c9df8f34dccb7b7174a0b7abe8e08123a6d3f",
+            "b3e43dea166eb8fd87282ea9bd1972c6d47c3aca",
+            "7c2714a260e43473d79676b3b0ff7d79541fe87d"
+          ]
+        },
+        "ruleText": "Самостоятельно используй только [D] CorporateSystemMessage или [M] CorporateSystemMessage. Остальные active-компоненты этого семейства являются внутренними supporting-компонентами.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.corporate-system-message"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.family"
+          },
+          "allowedValues": [
+            "corporate-system-message"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебный компонент CorporateSystemMessage используется отдельно",
+            "observed": "Компонент {{actual}} размещён как самостоятельный корень.",
+            "expectation": "Самостоятельно допускаются только публичные корни CorporateSystemMessage.",
+            "action": "Заменить служебный компонент на публичный библиотечный корень."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.transition-components-prohibited",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.status|component.name",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "statuses": [
+            "scheduled"
+          ],
+          "nameMarkers": [
+            "🔄",
+            ".🔄"
+          ]
+        },
+        "ruleText": "Переходные компоненты семейства CorporateSystemMessage с маркерами 🔄 или .🔄 запрещены в новых макетах.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.view-semantic-selection",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "variant.View",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "semantics": {
+          "Base": "base-message",
+          "Error": "error",
+          "Empty": "empty-state",
+          "Progress": "processing",
+          "No adaptive": "platform-unavailable"
+        },
+        "ruleText": "Выбирай View по смыслу состояния. No adaptive означает, что функция недоступна на текущей платформе, но доступна на другой."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.background-plate-by-placement",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "variant.BG plate|screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "Используй BG plate=True для самостоятельного сообщения в собственной подложке. Для сообщения внутри существующего контента или поверхности, например таблицы, используй BG plate=False."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.size-by-content-scope",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "Используй Size=Small, когда сообщение относится только к части страницы: виджету, островку или локальному блоку. Size=Large используй для страницы или крупной самостоятельной области."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.large-required-content",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|layers.visible",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "when": {
+          "variant.Size": "Large"
+        },
+        "requiredLayers": [
+          "Graphic",
+          "Title",
+          "Subtitle"
+        ],
+        "ruleText": "Для Size=Large обязательны Graphic, Title и Description.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.small-title-required",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|layers.visible",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "when": {
+          "variant.Size": "Small"
+        },
+        "requiredLayers": [
+          "Title"
+        ],
+        "ruleText": "Для Size=Small обязателен Title; Graphic и Description не являются обязательными.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.type-by-view",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|nested.variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedTypes": {
+          "Error": [
+            "Internal Server Error",
+            "Not Found",
+            "Forbidden",
+            "Not Internet Connection"
+          ],
+          "Empty": [
+            "Nothing Found",
+            "Nothing Found Yet"
+          ],
+          "Progress": [
+            "Icon",
+            "Spinner",
+            "Timer"
+          ]
+        },
+        "ruleText": "После выбора View можно выбрать только Type, относящийся к этому View.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.error-type-by-cause",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.status-screen.technical-error-type",
+        "appliesTo": "variant.View|nested.variant.Type|text",
+        "checkType": "llm",
+        "matchKind": "exact_rule",
+        "ruleText": "Выбирай Error Type по причине: Internal Server Error — техническая или серверная ошибка; Not Found — страницы нет; Forbidden — недостаточно прав; Not Internet Connection — нет интернета."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.empty-type-by-state",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.status-screen.empty-state-type",
+        "appliesTo": "variant.View|nested.variant.Type|text",
+        "checkType": "llm",
+        "matchKind": "exact_rule",
+        "ruleText": "Используй Nothing Found для пустого результата поиска, фильтров или периода. Nothing Found Yet — когда объектов ещё не было или они удалены."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.progress-type-by-timing",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.status-screen.spinner-or-timer",
+        "appliesTo": "variant.View|nested.variant.Type",
+        "checkType": "llm",
+        "matchKind": "exact_rule",
+        "ruleText": "В Progress используй Icon для статичного ожидания без активной операции; Spinner — когда операция выполняется прямо сейчас, но её продолжительность неизвестна; Timer — только когда время известно."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.graphic-override-base-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|Graphic.instanceSwap|Graphic.variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedWhen": {
+          "variant.View": "Base"
+        },
+        "ruleText": "Менять Graphic можно только в View=Base. В Error, Empty, Progress и No adaptive графика определяется состоянием.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.title-override-by-view",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|Title.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedViews": [
+          "Base",
+          "Progress"
+        ],
+        "ruleText": "Title можно менять только в Base и Progress. В специализированных Error, Empty и No adaptive используй штатный заголовок состояния.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.description-override-by-state",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|nested.variant.Type|Description.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedStates": [
+          "Base",
+          "Empty:Nothing Found Yet",
+          "Progress"
+        ],
+        "ruleText": "Description можно менять только в Base, Empty с Type=Nothing Found Yet и Progress.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.buttons-count-and-views",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "Buttons.children|Button.variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "constraints": {
+          "maxCount": 2,
+          "allowedViews": [
+            "Primary",
+            "Secondary"
+          ],
+          "maxPrimary": 1,
+          "maxSecondary": 1
+        },
+        "ruleText": "В Large и Small допускается не более двух кнопок: одна Primary и одна Secondary.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.buttons-axis-large-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|ButtonsGroup.variant.Axis",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "axisChangeAllowedWhen": {
+          "variant.Size": "Large"
+        },
+        "ruleText": "Axis группы кнопок можно менять только для Size=Large. Для Size=Small сохраняй штатный Axis.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.buttons-optional-combinations",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "Buttons.visible|Buttons.children",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedCombinations": [
+          "none",
+          "Primary",
+          "Secondary",
+          "Primary+Secondary"
+        ],
+        "ruleText": "Кнопки необязательны. Допустимы четыре комбинации: без кнопок, только Primary, только Secondary или Primary вместе с Secondary."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.large-vertical-axis-by-fit",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "variant.Size|ButtonsGroup.variant.Axis|container.width",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "Для Size=Large используй Vertical Axis только когда две кнопки не помещаются в одну горизонталь по ширине контейнера."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.subtitle-is-description",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "Subtitle.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Слой Subtitle является Description системного сообщения и подчиняется правилам редактирования Description."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.caption-optional-all-views",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.View|Caption.characters|Caption.visible",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Caption можно использовать в любом View как опциональное дополнительное описание сообщения."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.effective-baseline-protected",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|layoutSizing*|styles.text|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "scope": "root-and-all-internal-layers",
+        "baselinePolicy": "effective-baseline-by-View-Size-BG-plate",
+        "ruleText": "Геометрию и визуальные стили корня и внутренних слоёв нельзя менять вручную. Используй effective baseline выбранных View, Size и BG plate.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.corporate-system-message"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-corp.corporate-system-message"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "padding-top",
+              "label": "Верхний padding",
+              "actualFact": "layout.padding.top",
+              "baselineFact": "baseline.effective.layout.padding.top"
+            },
+            {
+              "suffix": "padding-right",
+              "label": "Правый padding",
+              "actualFact": "layout.padding.right",
+              "baselineFact": "baseline.effective.layout.padding.right"
+            },
+            {
+              "suffix": "padding-bottom",
+              "label": "Нижний padding",
+              "actualFact": "layout.padding.bottom",
+              "baselineFact": "baseline.effective.layout.padding.bottom"
+            },
+            {
+              "suffix": "padding-left",
+              "label": "Левый padding",
+              "actualFact": "layout.padding.left",
+              "baselineFact": "baseline.effective.layout.padding.left"
+            },
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между элементами",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            },
+            {
+              "suffix": "sizing-horizontal",
+              "label": "Горизонтальный sizing",
+              "actualFact": "layout.sizingHorizontal",
+              "baselineFact": "baseline.effective.layout.sizingHorizontal"
+            },
+            {
+              "suffix": "sizing-vertical",
+              "label": "Вертикальный sizing",
+              "actualFact": "layout.sizingVertical",
+              "baselineFact": "baseline.effective.layout.sizingVertical"
+            },
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "where": [
+                {
+                  "predicate": "equals",
+                  "actual": {
+                    "fact": "type"
+                  },
+                  "expected": {
+                    "literal": "TEXT"
+                  }
+                }
+              ]
+            },
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value"
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value"
+            },
+            {
+              "suffix": "radius",
+              "label": "Скругление",
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            },
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство CorporateSystemMessage: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline CorporateSystemMessage.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.placement-by-context",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.status-screen.placement-by-context",
+        "appliesTo": "variant.Size|screen.composition|container.width",
+        "checkType": "llm",
+        "matchKind": "exact_rule",
+        "ruleText": "Large после формы в 8 колонок занимает 8 колонок; на странице с таблицей — 12 колонок или 100% ширины. Ширина Small определяется родительским контейнером."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.root-fill-hug",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layoutSizingHorizontal|layoutSizingVertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "expected": {
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG"
+        },
+        "ruleText": "Корень CorporateSystemMessage использует Fill по ширине и Hug по высоте; отдельных min/max height нет.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.center-alignment-protected",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.alignment.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "expected": "CENTER",
+        "ruleText": "Содержимое CorporateSystemMessage всегда центрируется. Alignment нельзя менять вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.structure-protected",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.detach|nested.detach|instanceSwap|children.structure",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "constraints": {
+          "detachAllowed": false,
+          "internalDetachAllowed": false,
+          "internalInstanceSwapAllowed": false,
+          "arbitraryChildrenAllowed": false
+        },
+        "ruleText": "Нельзя detach-ить корень или внутренние компоненты, менять внутренние View через instance swap и добавлять произвольные слои. Используй штатные параметры и разрешённые overrides.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.platform-breakpoint",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.key|screen.width|platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "selection": {
+          "768-and-above": "[D] CorporateSystemMessage",
+          "below-768": "[M] CorporateSystemMessage"
+        },
+        "ruleText": "На ширине 768 и выше используй [D] CorporateSystemMessage. Ниже 768, в mobile-web и адаптиве используй [M] CorporateSystemMessage.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 3
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "platform-match",
+          "identity": "web-corp.corporate-system-message",
+          "publicRootOnly": true,
+          "publicFamilies": [
+            "corporate-system-message"
+          ],
+          "standaloneOnly": true,
+          "supportedPlatforms": [
+            "desktop",
+            "mobile-web"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "CorporateSystemMessage используется не на своей платформе",
+            "observed": "Для страницы выбран канал {{actual}}, а компонент относится к {{expected}}.",
+            "expectation": "Платформа CorporateSystemMessage должна совпадать с выбранным каналом страницы.",
+            "action": "Заменить компонент на платформенный аналог или выбрать корректный канал страницы."
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.root-interaction-prohibited",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "root.interaction|root.hover|root.prototype.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "constraints": {
+          "rootClickable": false,
+          "rootHoverReactionAllowed": false
+        },
+        "ruleText": "Вся поверхность CorporateSystemMessage не может быть кликабельной или реагировать на hover. Интерактивность разрешена только кнопкам.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.built-in-background-plate-protected",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.BG plate|BackgroundPlate.variant.*|BackgroundPlate.fill|BackgroundPlate.stroke|BackgroundPlate.radius",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "У встроенного BackgroundPlate нельзя вручную менять Type, Level, цвет, stroke или radius. Эти параметры определяются компонентом поверхности.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.external-background-plate-slot-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.BG plate|parent.component",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "allowedComposition": {
+          "variant.BG plate": "False",
+          "parent": "BackgroundPlateSlot"
+        },
+        "ruleText": "CorporateSystemMessage с BG plate=False можно оборачивать во внешний BackgroundPlateSlot, если этого требует композиция."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.modal-usage-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "parent.component|variant.Size",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "allowedParents": [
+          "Modal",
+          "UniversalModal",
+          "PopUpSheet"
+        ],
+        "allowedSizes": [
+          "Large",
+          "Small"
+        ],
+        "ruleText": "CorporateSystemMessage можно использовать в Modal, UniversalModal и PopUpSheet. В модальном контексте допустимы оба размера: Large и Small."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-system-message.no-adaptive-fixed-content",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|Graphic.*|Title.characters|Subtitle.characters|Caption.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "when": {
+          "variant.View": "No adaptive"
+        },
+        "prohibitedOverrides": [
+          "Graphic",
+          "Title",
+          "Subtitle"
+        ],
+        "allowedOverrides": [
+          "Caption"
+        ],
+        "ruleText": "В No adaptive нельзя менять Graphic, Title и Description (Subtitle). Caption можно добавить для уточнения альтернативного способа выполнить действие.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.corporate-system-message"
+      ],
+      "predicateRules": [
+        "component:web-corp.corporate-system-message.public-roots-only",
+        "component:web-corp.corporate-system-message.platform-breakpoint",
+        "component:web-corp.corporate-system-message.effective-baseline-protected"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.lifecycle-context-is-informational",
+          "missingFacts": [
+            "component.status"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.transition-components-prohibited",
+          "missingFacts": [
+            "component.status",
+            "component.name"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.view-semantic-selection",
+          "missingFacts": [
+            "variant.View"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.background-plate-by-placement",
+          "missingFacts": [
+            "variant.BG plate",
+            "screen.composition"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.size-by-content-scope",
+          "missingFacts": [
+            "variant.Size",
+            "screen.composition"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.large-required-content",
+          "missingFacts": [
+            "variant.Size",
+            "layers.visible"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.small-title-required",
+          "missingFacts": [
+            "variant.Size",
+            "layers.visible"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.type-by-view",
+          "missingFacts": [
+            "variant.View",
+            "nested.variant.Type"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.error-type-by-cause",
+          "missingFacts": [
+            "variant.View",
+            "nested.variant.Type",
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.empty-type-by-state",
+          "missingFacts": [
+            "variant.View",
+            "nested.variant.Type",
+            "text"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.progress-type-by-timing",
+          "missingFacts": [
+            "variant.View",
+            "nested.variant.Type"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.graphic-override-base-only",
+          "missingFacts": [
+            "variant.View",
+            "Graphic.instanceSwap",
+            "Graphic.variant.*"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.title-override-by-view",
+          "missingFacts": [
+            "variant.View",
+            "Title.characters"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.description-override-by-state",
+          "missingFacts": [
+            "variant.View",
+            "nested.variant.Type",
+            "Description.characters"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.buttons-count-and-views",
+          "missingFacts": [
+            "Buttons.children",
+            "Button.variant.View"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.buttons-axis-large-only",
+          "missingFacts": [
+            "variant.Size",
+            "ButtonsGroup.variant.Axis"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.buttons-optional-combinations",
+          "missingFacts": [
+            "Buttons.visible",
+            "Buttons.children"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.large-vertical-axis-by-fit",
+          "missingFacts": [
+            "variant.Size",
+            "ButtonsGroup.variant.Axis",
+            "container.width"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.subtitle-is-description",
+          "missingFacts": [
+            "Subtitle.characters"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.caption-optional-all-views",
+          "missingFacts": [
+            "variant.View",
+            "Caption.characters",
+            "Caption.visible"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.placement-by-context",
+          "missingFacts": [
+            "variant.Size",
+            "screen.composition",
+            "container.width"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.root-fill-hug",
+          "missingFacts": [
+            "layoutSizingHorizontal",
+            "layoutSizingVertical"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.center-alignment-protected",
+          "missingFacts": [
+            "layout.alignment.*"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.structure-protected",
+          "missingFacts": [
+            "component.detach",
+            "nested.detach",
+            "instanceSwap",
+            "children.structure"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.root-interaction-prohibited",
+          "missingFacts": [
+            "root.interaction",
+            "root.hover",
+            "root.prototype.*"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.built-in-background-plate-protected",
+          "missingFacts": [
+            "variant.BG plate",
+            "BackgroundPlate.variant.*",
+            "BackgroundPlate.fill",
+            "BackgroundPlate.stroke",
+            "BackgroundPlate.radius"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.external-background-plate-slot-allowed",
+          "missingFacts": [
+            "variant.BG plate",
+            "parent.component"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.modal-usage-allowed",
+          "missingFacts": [
+            "parent.component",
+            "variant.Size"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.no-adaptive-fixed-content",
+          "missingFacts": [
+            "variant.View",
+            "Graphic.*",
+            "Title.characters",
+            "Subtitle.characters",
+            "Caption.characters"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.corporate-system-message.effective-baseline-protected",
+          "missingFacts": [
+            "appearance.effects",
+            "interaction.prototype"
+          ]
+        }
+      ]
+    }
+  }
+}

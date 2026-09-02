@@ -1,0 +1,1806 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.background-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-10"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.background-plate.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "BackgroundPlate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[D] BackgroundPlateSlot",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] BackgroundPlate",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] BackgroundPlate",
+            "[M] BackgroundPlateSlot",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] BackgroundPlate",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2",
+            "BackgroundPlate"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "BackgroundPlate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[D] BackgroundPlateSlot",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] BackgroundPlate",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] BackgroundPlate",
+            "[M] BackgroundPlateSlot",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] BackgroundPlate",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2",
+            "BackgroundPlate"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.background-plate.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[D] BackgroundPlateSlot",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] BackgroundPlate",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] BackgroundPlate",
+            "[M] BackgroundPlateSlot",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] BackgroundPlate",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2"
+          ]
+        },
+        "ruleText": "Изменения variant/property в компонентах семейства BackgroundPlate являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.background-plate-view-is-alias",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.identity|codeExport.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "codeExports": [
+            "BackgroundPlateView"
+          ],
+          "mapsTo": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D][Promo] BackgroundPlate",
+            "[M][Promo] BackgroundPlate"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": false,
+          "doNotTreatAsViolationByDefault": true,
+          "useComponentKey": "web-corp.background-plate"
+        },
+        "ruleText": "BackgroundPlateView — code/private alias семейства BackgroundPlate. Не создавай отдельную рекомендацию “неизвестный компонент”; применяй правила BackgroundPlate, включая effective baseline, reset model, radius и composition rules."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "layout.*|styles.text|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] BackgroundPlate",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] BackgroundPlate",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] BackgroundPlate",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри компонентов семейства BackgroundPlate нужно сравнивать с effective baseline текущего component variant и nested owner context. BackgroundPlateSlot проверяется отдельными правилами композиционного layout и Spacing tokens. Это правило не разрешает изменение radius: скругления BackgroundPlate и Style Level фиксируются компонентным baseline и не должны изменяться вручную."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.radius-is-fixed-by-component-baseline",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "component-contract",
+        "appliesTo": "radius|layout.radius|cornerRadius|cornerRadius.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D][Promo] BackgroundPlate",
+            "[M][Promo] BackgroundPlate",
+            "BackgroundPlate / absolute back",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2",
+            "Position=Level 1 (outer)",
+            "Position=Level 2 (inner)"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Сбросьте radius к effective baseline выбранного варианта BackgroundPlate. Не задавайте скругления BackgroundPlate и Style Level вручную.",
+        "ruleText": "Скругления BackgroundPlate, BackgroundPlateSlot и вложенных Style Level задаются компонентом и его effective baseline. Дизайнер не должен вручную изменять radius/cornerRadius у root-layer BackgroundPlate, BackgroundPlateSlot или Style Level. Любое отличие radius от effective baseline является нарушением, а не допустимой композиционной настройкой.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "identity": "web-corp.background-plate",
+          "pairs": [
+            {
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено скругление BackgroundPlate",
+            "observed": "Скругление изменено с {{expected}} на {{actual}}.",
+            "expectation": "Скругление BackgroundPlate должно совпадать с effective baseline выбранного варианта.",
+            "action": "Сбросить скругление BackgroundPlate к effective baseline.",
+            "targetFact": "appearance.radius"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.padding-is-designer-controlled",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "layout.padding.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlateSlot",
+            "[M] BackgroundPlateSlot"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "doNotRecommendResetToStandalonePadding": true
+        },
+        "recommendedDefaults": {
+          "Level-1 (outer)": "Spacing/32",
+          "Level-2 (inner)": "Spacing/24"
+        },
+        "ruleText": "Рекомендуемый стартовый padding BackgroundPlateSlot: 32 px для Level-1 (outer) и 24 px для Level-2 (inner). Дизайнер может свободно изменить padding под контекст композиции или применимый паттерн. Само отличие от рекомендуемого значения и отсутствие token binding не являются нарушением и не требуют сброса."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.slot-auto-layout-is-context-controlled",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.slot-auto-layout-by-context",
+        "appliesTo": "layout.axis|layout.itemSpacing|layout.primaryAxisAlignItems|layout.counterAxisAlignItems",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlateSlot / Slot",
+            "[M] BackgroundPlateSlot / Slot"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "doNotRecommendResetToStandaloneLayout": true
+        },
+        "ruleText": "Axis, gap/itemSpacing и alignment внутри Slot полностью определяются контекстом композиции и вложенным контентом. Отличие этих свойств от standalone baseline не является нарушением и не требует рекомендации сбросить auto-layout."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.slot-clipping-is-context-controlled",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.slot-clipping-by-context",
+        "appliesTo": "clipsContent|layout.clipsContent|overflow",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlateSlot / Slot",
+            "[M] BackgroundPlateSlot / Slot"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "doNotRecommendResetToStandaloneClipping": true
+        },
+        "ruleText": "Clip content у BackgroundPlateSlot не является обязательным. Значения clipsContent=true и clipsContent=false допустимы и выбираются по контексту и поведению вложенного контента. Само отличие от standalone baseline не является нарушением."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.level-2-requires-level-1",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.level-2-over-level-1",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D][Promo] BackgroundPlate",
+            "[M][Promo] BackgroundPlate"
+          ],
+          "variant": {
+            "Position": "Level 2 (inner)"
+          }
+        },
+        "requiredComposition": {
+          "requiredUnderlay": {
+            "component": "BackgroundPlate",
+            "variant": {
+              "Position": "Level 1 (outer)"
+            },
+            "positioning": "ABSOLUTE"
+          },
+          "sharedAutoLayoutHostRequired": true,
+          "contentPositioning": "AUTO",
+          "underlayBeforeContent": true,
+          "underlayContainsLevel2": true,
+          "directParentRequired": false,
+          "allowStandalone": false,
+          "allowContractExceptions": false
+        },
+        "remediation": "Добавьте в общий Auto Layout абсолютную подложку BackgroundPlate Level 1 и расположите после неё Auto-ветку контента с Level 2 либо измените самостоятельную поверхность на Level 1.",
+        "ruleText": "BackgroundPlate с Position=Level 2 (inner) должен находиться в Auto-ветке контента поверх абсолютной подложки BackgroundPlate Level 1 внутри общего Auto Layout. Подложка располагается перед веткой контента и покрывает область Level 2. Самостоятельный Level 2 запрещён без исключений.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "co-located-underlay",
+          "subject": {
+            "identity": "web-corp.background-plate",
+            "properties": {
+              "Position": "Level 2 (inner)"
+            },
+            "publicRootOnly": true
+          },
+          "underlay": {
+            "identity": "web-corp.background-plate",
+            "properties": {
+              "Position": "Level 1 (outer)"
+            },
+            "positioning": "ABSOLUTE"
+          },
+          "host": {
+            "layoutModes": [
+              "HORIZONTAL",
+              "VERTICAL"
+            ]
+          },
+          "content": {
+            "positioning": "AUTO",
+            "afterUnderlay": true
+          },
+          "geometry": {
+            "underlayContainsSubject": true
+          },
+          "relationKey": "level1Underlay",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "BackgroundPlate Level 2 находится без корректной подложки Level 1",
+            "observed": "Для Level 2 не найдена композиция с абсолютной подложкой Level 1.",
+            "expectation": "Level 1 должен быть абсолютной подложкой общего Auto Layout, а Auto-ветка контента с Level 2 — располагаться поверх неё.",
+            "action": "Добавить корректную подложку Level 1 либо изменить самостоятельную поверхность на Level 1.",
+            "targetFact": "component.properties.Position"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.slot-content-levels",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.slot-content-levels",
+        "appliesTo": "component.composition|slot.children",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlateSlot",
+            "[M] BackgroundPlateSlot"
+          ],
+          "slot": "Slot"
+        },
+        "allowedComposition": {
+          "directContent": "any",
+          "nestedLevel2Required": false,
+          "allowedNestedBackgroundPlateLevels": [
+            "Level-2 (inner)"
+          ],
+          "level2RequiredHostLevel": "Level-1 (outer)",
+          "directParentRequired": true
+        },
+        "disallowedNestedBackgroundPlateLevels": [
+          "Level-0 (base)",
+          "Level-1 (outer)"
+        ],
+        "remediation": "Оставьте обычный контент непосредственно в Slot либо замените вложенный BackgroundPlate Level-0/Level-1 на Level-2, если действительно нужна дополнительная поверхность.",
+        "ruleText": "В Slot BackgroundPlateSlot можно размещать любой обычный контент напрямую; обязательная обёртка Level-2 не требуется. Из BackgroundPlate-уровней внутри Slot допустим только Level-2 (inner). Вложенные Level-0 (base) и Level-1 (outer) запрещены.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.background-plate"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.family"
+                },
+                "expected": {
+                  "literal": "background-plate-slot"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.properties.Position"
+          },
+          "allowedValues": [
+            "Level 2 (inner)"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В BackgroundPlateSlot вложен недопустимый уровень",
+            "observed": "Внутри Slot используется BackgroundPlate с Position={{actual}}.",
+            "expectation": "Из уровней BackgroundPlate внутри Slot допустим только Level 2 (inner).",
+            "action": "Заменить вложенный Level 0/Level 1 на Level 2 либо убрать лишнюю подложку."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.root-surface-requires-level-0",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.root-surface-level-0",
+        "appliesTo": "screen.composition|variables.BackgroundPlate Level",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlateSlot",
+            "[M] BackgroundPlateSlot"
+          ],
+          "requiredAncestorVariableMode": {
+            "collection": "BackgroundPlate Level",
+            "value": "Level-0 (base)",
+            "target": "root-surface"
+          }
+        },
+        "classification": {
+          "reportAsCustomization": false,
+          "treatAsViolation": true,
+          "designSeverity": "error"
+        },
+        "remediation": "Назначьте mode Level-0 (base) коллекции BackgroundPlate Level главной поверхности страницы или модальной сущности. Не назначайте Level-0 непосредственно экземпляру BackgroundPlate.",
+        "ruleText": "Level-0 (base) должен быть назначен главной поверхности, на которой располагается BackgroundPlateSlot. Он задаёт исходный variable context, благодаря которому первый вложенный BackgroundPlate автоматически получает Level-1 (outer). Отсутствие Level-0 на главной поверхности нарушает вычисление уровней. Самому экземпляру BackgroundPlate Level-0 не назначается.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.background-color-by-surface-context",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.background-color-by-page",
+        "appliesTo": "screen.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D] Style Level 1",
+            "[M] Style Level 1",
+            "[D] Style Level 2",
+            "[M] Style Level 2"
+          ]
+        },
+        "requiredMapping": {
+          "pageSurface": {
+            "gray": "base-bg-alt (gray)",
+            "white": "base-bg (white)"
+          },
+          "modalSurface": {
+            "gray": "modal-bg-alt (gray)",
+            "white": "modal-bg (white)"
+          }
+        },
+        "remediation": "Выберите BackgroundColor, соответствующий контексту и тону родительской поверхности: base-bg* для страницы или modal-bg* для модальной сущности.",
+        "ruleText": "BackgroundColor выбирается по контексту поверхности. Для страниц используй base-bg-alt (gray) на серой поверхности и base-bg (white) на белой поверхности. Для модальных сущностей используй modal-bg-alt (gray) на серой поверхности и modal-bg (white) на белой поверхности. Часть имени до скобок соответствует цветовому токену поверхности; значение в скобках уточняет визуальный фон gray/white.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.single-background-color-per-page",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.single-background-color-per-page",
+        "appliesTo": "screen.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D][Promo] BackgroundPlate",
+            "[M][Promo] BackgroundPlate"
+          ],
+          "scope": "same-page-background-context"
+        },
+        "requiredComposition": {
+          "sameBackgroundColorAcrossScope": true
+        },
+        "remediation": "Приведите BackgroundColor всех BackgroundPlate в одном surface context к единому значению, соответствующему родительскому фону.",
+        "ruleText": "Значение BackgroundColor определяется один раз для всех BackgroundPlate на странице. Если фон основной страницы один и тот же, все подложки должны использовать один BackgroundColor.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.no-secondary-for-level-2",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.no-secondary-for-level-2",
+        "appliesTo": "variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D] Style Level 2",
+            "[M] Style Level 2",
+            "[D][Promo] BackgroundPlate",
+            "[M][Promo] BackgroundPlate",
+            "[D][Promo] Style Level 2",
+            "[M][Promo] Style Level 2"
+          ],
+          "variant": {
+            "Position": "Level 2 (inner)"
+          }
+        },
+        "disallowedVariant": {
+          "Type": "Secondary"
+        },
+        "remediation": "Замените Type=Secondary у Level-2 на Primary, Colored или Border в зависимости от требуемого визуального сценария.",
+        "ruleText": "Для BackgroundPlate Level 2 не существует стиля Secondary. Используй Type=Primary, Type=Colored или Type=Border.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 3
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.background-plate"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.family"
+                },
+                "expected": {
+                  "literal": "style-level-2"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.root.component.properties.Position"
+                },
+                "expected": {
+                  "literal": "Level 2 (inner)"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.properties.Type"
+          },
+          "allowedValues": [
+            "Primary",
+            "Colored",
+            "Border"
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Для BackgroundPlate Level 2 выбран Secondary",
+            "observed": "У Level 2 выбран Type={{actual}}.",
+            "expectation": "Для Level 2 допустимы только Primary, Colored и Border.",
+            "action": "Выбрать Primary, Colored или Border."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.colored-and-border-use-color-tokens",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "component-contract",
+        "appliesTo": "fill|stroke|variant.BackgroundColor",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "components": [
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[D][Promo] Style Level 1",
+            "[D][Promo] Style Level 2",
+            "[M] Style Level 1",
+            "[M] Style Level 2",
+            "[M][Promo] Style Level 1",
+            "[M][Promo] Style Level 2"
+          ],
+          "variant": {
+            "Type": [
+              "Colored",
+              "Border"
+            ]
+          }
+        },
+        "requiredTokenBinding": {
+          "byType": {
+            "Colored": {
+              "properties": [
+                "fill"
+              ],
+              "tokenType": "color"
+            },
+            "Border": {
+              "properties": [
+                "stroke"
+              ],
+              "tokenType": "color"
+            }
+          }
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatRequiredTokenizedPaintAsViolation": true,
+          "treatRawRequiredPaintAsViolation": true,
+          "requiredPaintByType": {
+            "Colored": "fill",
+            "Border": "stroke"
+          },
+          "borderFillRuleId": "component:web-corp.background-plate.border-has-no-visible-fill"
+        },
+        "remediation": "Для Colored привяжите fill к цветовому токену. Для Border удалите fill и привяжите stroke к цветовому токену.",
+        "ruleText": "Для Type=Colored цвет заливки должен быть задан через цветовой токен дизайн-системы. Для Type=Border через цветовой токен задаётся цвет обводки, а видимая заливка запрещена отдельным правилом. Конкретный цвет может отличаться по смыслу поверхности, но raw fill или raw stroke без требуемого token binding являются нарушением.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 3
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "binding-set",
+          "identity": "web-corp.background-plate",
+          "where": [
+            {
+              "predicate": "one-of",
+              "actual": {
+                "fact": "component.family"
+              },
+              "expected": {
+                "literal": [
+                  "background-plate-slot",
+                  "style-level-1",
+                  "style-level-2"
+                ]
+              }
+            }
+          ],
+          "paths": [
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "valueFact": "appearance.fill.value",
+              "bindingFact": "bindings.fills",
+              "where": [
+                {
+                  "predicate": "equals",
+                  "actual": {
+                    "fact": "component.properties.Type"
+                  },
+                  "expected": {
+                    "literal": "Colored"
+                  }
+                }
+              ]
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "valueFact": "appearance.stroke.value",
+              "bindingFact": "bindings.strokes",
+              "where": [
+                {
+                  "predicate": "equals",
+                  "actual": {
+                    "fact": "component.properties.Type"
+                  },
+                  "expected": {
+                    "literal": "Border"
+                  }
+                }
+              ]
+            }
+          ],
+          "expectedBinding": {
+            "bound": true
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "{{property}} задана без цветового токена",
+            "observed": "{{property}} имеет значение {{actual}} без привязки к цветовому токену.",
+            "expectation": "Заливка Type=Colored и обводка Type=Border должны быть привязаны к цветовому токену дизайн-системы.",
+            "action": "Привязать текущий цвет к подходящему цветовому токену."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.border-has-no-visible-fill",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.border-no-fill",
+        "appliesTo": "fill|styles.fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "web-corp.background-plate",
+          "variant": {
+            "Type": "Border"
+          }
+        },
+        "requiredPaintState": {
+          "fill": "none-or-not-visible"
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "tokenizedFillIsAlsoViolation": true
+        },
+        "remediation": "Удалите заливку у Type=Border и оставьте только токенизированную обводку.",
+        "ruleText": "Type=Border всегда используется без видимой заливки. Любая заливка, включая привязанную к цветовому токену, нарушает контракт. Визуальная поверхность Border формируется только обводкой.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.background-plate"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.family"
+                },
+                "expected": {
+                  "literal": [
+                    "background-plate-slot",
+                    "style-level-1",
+                    "style-level-2"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.Type"
+                },
+                "expected": {
+                  "literal": "Border"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "not",
+            "args": [
+              {
+                "predicate": "exists",
+                "actual": {
+                  "fact": "appearance.fill.value"
+                }
+              }
+            ]
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "У BackgroundPlate Type=Border добавлена заливка",
+            "observed": "У Border задана видимая заливка {{actual}}.",
+            "expectation": "Type=Border должен использоваться без видимой заливки.",
+            "action": "Удалить заливку и оставить токенизированную обводку.",
+            "targetFact": "appearance.fill.value"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.colored-uses-fill-without-stroke",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.colored-fill-only",
+        "appliesTo": "fill|styles.fill|stroke|styles.stroke",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "web-corp.background-plate",
+          "variant": {
+            "Type": "Colored"
+          }
+        },
+        "requiredPaintState": {
+          "fill": "visible-and-tokenized",
+          "stroke": "none-or-not-visible"
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "tokenizedStrokeIsAlsoViolation": true
+        },
+        "remediation": "Удалите обводку и оставьте для Type=Colored только заливку, привязанную к цветовому токену.",
+        "ruleText": "Type=Colored формируется только видимой токенизированной заливкой. Любая видимая обводка, включая привязанную к цветовому токену, нарушает контракт.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.background-plate"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.family"
+                },
+                "expected": {
+                  "literal": [
+                    "background-plate-slot",
+                    "style-level-1",
+                    "style-level-2"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.Type"
+                },
+                "expected": {
+                  "literal": "Colored"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "all",
+            "args": [
+              {
+                "predicate": "exists",
+                "actual": {
+                  "fact": "appearance.fill.value"
+                }
+              },
+              {
+                "predicate": "not",
+                "args": [
+                  {
+                    "predicate": "exists",
+                    "actual": {
+                      "fact": "appearance.stroke.value"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Внешний вид BackgroundPlate Type=Colored нарушен",
+            "observed": "У Colored отсутствует заливка или добавлена обводка.",
+            "expectation": "Type=Colored должен иметь видимую токенизированную заливку без обводки.",
+            "action": "Оставить токенизированную заливку и удалить обводку.",
+            "targetFact": "appearance.stroke.value"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.primary-secondary-paint-is-fixed",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.primary-secondary-paint-fixed",
+        "appliesTo": "fill|styles.fill|stroke|styles.stroke",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "web-corp.background-plate",
+          "variant": {
+            "Type": [
+              "Primary",
+              "Secondary"
+            ]
+          }
+        },
+        "requiredPaintState": {
+          "fill": "effective-baseline",
+          "stroke": "effective-baseline"
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true,
+          "suppressVariantDerivedPaintDiffs": true,
+          "tokenizedManualPaintIsAlsoViolation": true
+        },
+        "remediation": "Сбросьте ручные изменения fill и stroke к effective baseline текущего Type, уровня и BackgroundColor.",
+        "ruleText": "Внешний вид Type=Primary и Type=Secondary полностью определяется компонентом, уровнем поверхности и BackgroundColor. Ручные изменения fill или stroke запрещены, даже если новое значение привязано к токену. Производные paint-изменения при переключении Type или BackgroundColor не считаются отдельной кастомизацией.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "identity": "web-corp.background-plate",
+          "where": [
+            {
+              "predicate": "one-of",
+              "actual": {
+                "fact": "component.family"
+              },
+              "expected": {
+                "literal": [
+                  "background-plate-slot",
+                  "style-level-1",
+                  "style-level-2"
+                ]
+              }
+            },
+            {
+              "predicate": "one-of",
+              "actual": {
+                "fact": "component.properties.Type"
+              },
+              "expected": {
+                "literal": [
+                  "Primary",
+                  "Secondary"
+                ]
+              }
+            }
+          ],
+          "paths": [
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value"
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена {{property}} BackgroundPlate",
+            "observed": "{{property}} изменена с {{expected}} на {{actual}}.",
+            "expectation": "{{property}} Type=Primary/Secondary должна совпадать с effective baseline.",
+            "action": "Сбросить {{property}} к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.opacity-is-fixed",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.opacity-fixed",
+        "appliesTo": "opacity|opacityToken",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate"
+        },
+        "requiredValue": "effective-baseline",
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true,
+          "tokenizedManualOpacityIsAlsoViolation": true
+        },
+        "remediation": "Сбросьте opacity к effective baseline текущего варианта BackgroundPlate.",
+        "ruleText": "Opacity BackgroundPlate и его внутренних surface-слоёв не изменяется вручную. Любое отличие от effective baseline является нарушением, включая значение, привязанное к другому opacity token.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "identity": "web-corp.background-plate",
+          "pairs": [
+            {
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена прозрачность BackgroundPlate",
+            "observed": "Opacity изменена с {{expected}} на {{actual}}.",
+            "expectation": "Opacity должна совпадать с effective baseline выбранного варианта.",
+            "action": "Сбросить opacity к effective baseline.",
+            "targetFact": "appearance.opacity"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.manual-shadows-are-prohibited",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.no-manual-shadows",
+        "appliesTo": "effects|effects.shadow|effectStyle",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate"
+        },
+        "disallowedEffectTypes": [
+          "DROP_SHADOW",
+          "INNER_SHADOW"
+        ],
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "effectStyleIsAlsoViolation": true
+        },
+        "remediation": "Удалите вручную добавленные Drop shadow и Inner shadow.",
+        "ruleText": "К BackgroundPlate и его внутренним surface-слоям нельзя вручную добавлять Drop shadow или Inner shadow. Запрет действует и для raw effects, и для подключённого effect style.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.blur-is-context-controlled",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.blur-by-context",
+        "appliesTo": "effects.LAYER_BLUR|effects.BACKGROUND_BLUR|effectStyle",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate"
+        },
+        "allowedEffectTypes": [
+          "LAYER_BLUR",
+          "BACKGROUND_BLUR"
+        ],
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "doNotRecommendResetToStandaloneEffects": true,
+          "doNotClassifyAsShadow": true
+        },
+        "ruleText": "Layer blur и Background blur разрешены для BackgroundPlate как контекстные кастомизации. Само наличие blur не является нарушением и не должно обрабатываться правилом запрета Drop shadow или Inner shadow."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.blend-mode-is-fixed",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.blend-mode-fixed",
+        "appliesTo": "blendMode|blend.mode",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.background-plate"
+        },
+        "requiredValue": "effective-baseline",
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Сбросьте blend mode к effective baseline текущего слоя и варианта BackgroundPlate.",
+        "ruleText": "Blend mode BackgroundPlate и его внутренних surface-слоёв не изменяется вручную. Значение должно совпадать с effective baseline конкретного слоя и варианта компонента.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.border-stroke-weight-is-context-controlled",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.border-stroke-weight-by-context",
+        "appliesTo": "stroke.weight|strokeWeight",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "web-corp.background-plate",
+          "variant": {
+            "Type": "Border"
+          }
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "doNotRecommendResetToStandaloneStrokeWeight": true
+        },
+        "recommendedDefault": 1,
+        "ruleText": "Для Type=Border базовая толщина обводки равна 1 px, но дизайнер может изменить strokeWeight под контекст. Само отличие толщины от standalone baseline не является нарушением и не требует сброса."
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.border-stroke-is-designer-controlled",
+        "severity": "info",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "component-contract",
+        "appliesTo": "stroke|styles.stroke|stroke.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "web-corp.background-plate",
+          "variant": {
+            "Type": "Border"
+          }
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "doNotTreatAsViolationByDefault": true,
+          "allStrokeParametersAreDesignerControlled": true
+        },
+        "ruleText": "Для Type=Border дизайнер может изменять цвет, толщину, положение и другие параметры обводки. Отличие stroke от baseline не является нарушением.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.border-is-not-clickable",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.border-not-clickable",
+        "appliesTo": "component.behavior",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate",
+            "[D] BackgroundPlateSlot",
+            "[M] BackgroundPlateSlot"
+          ],
+          "variant": {
+            "Type": "Border"
+          }
+        },
+        "disallowedBehavior": {
+          "clickable": true
+        },
+        "allowedClickableTypes": [
+          "Primary",
+          "Secondary",
+          "Colored"
+        ],
+        "remediation": "Уберите интерактивность со всей поверхности Type=Border либо замените Type на Primary, Secondary или Colored, если требуется кликабельная карточка.",
+        "ruleText": "Вся поверхность BackgroundPlate может быть кликабельной для Type=Primary, Type=Secondary и Type=Colored. Type=Border используется как декоративный элемент и не может быть кликабельным.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.skeleton-is-component-property",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.skeleton-variant",
+        "appliesTo": "variant.Skeleton|component.loadingComposition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "target": {
+          "component": "web-corp.background-plate",
+          "layers": [
+            "[D] BackgroundPlate",
+            "[D] BackgroundPlateSlot",
+            "[D] Style Level 1",
+            "[D] Style Level 2",
+            "[M] BackgroundPlate",
+            "[M] BackgroundPlateSlot",
+            "[M] Style Level 1",
+            "[M] Style Level 2"
+          ]
+        },
+        "classification": {
+          "reportSkeletonPropertyChangeAsCustomization": true,
+          "doNotTreatSkeletonPropertyChangeAsViolation": true,
+          "treatManualSimpleSkeletonAsViolation": true,
+          "allowPatternDefinedComplexLoading": true,
+          "requirePatternEvidenceForComplexLoading": true
+        },
+        "remediation": "Для обычной загрузки включите Skeleton=True. Сохраняйте сложную skeleton-композицию только тогда, когда она явно предусмотрена паттерном для конкретного сценария.",
+        "ruleText": "Skeleton=True — штатное состояние загрузки BackgroundPlate или расположенного внутри контента. Для обычной загрузки используй component property вместо ручных placeholder-слоёв. Более сложная skeleton-композиция допустима только при наличии явного правила или сценария в паттерне; без такого подтверждения не придумывай исключение. Само переключение Skeleton=False → True является разрешённым изменением состояния, а не нарушением.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.public-roots-only",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.public-roots-only",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedComponents": [
+          "[D] BackgroundPlate",
+          "[M] BackgroundPlate",
+          "[D] BackgroundPlateSlot",
+          "[M] BackgroundPlateSlot",
+          "[D][Promo] BackgroundPlate",
+          "[M][Promo] BackgroundPlate"
+        ],
+        "ruleText": "Самостоятельно размещай только публичные корни BackgroundPlate и BackgroundPlateSlot соответствующей платформы. Style Level 1 и Style Level 2 являются служебными частями и не используются отдельно.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "public-root",
+          "identity": "web-corp.background-plate",
+          "standaloneOnly": true,
+          "familyFact": "component.family",
+          "allowedFamilies": [
+            "background-plate",
+            "background-plate-slot"
+          ],
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Служебный Style Level используется отдельно",
+            "observed": "{{actual}} размещён как самостоятельный компонент.",
+            "expectation": "Самостоятельно допускаются только публичные корни BackgroundPlate и BackgroundPlateSlot.",
+            "action": "Заменить Style Level на публичный BackgroundPlate или BackgroundPlateSlot."
+          }
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.platform-version-must-match",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.platform-version-must-match",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй [D] BackgroundPlate и [D] BackgroundPlateSlot на desktop, а [M] BackgroundPlate и [M] BackgroundPlateSlot — на mobile-web.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "platform-match",
+          "identity": "web-corp.background-plate",
+          "publicRootOnly": true,
+          "publicFamilies": [
+            "background-plate",
+            "background-plate-slot"
+          ],
+          "where": [
+            {
+              "predicate": "one-of",
+              "actual": {
+                "fact": "component.family"
+              },
+              "expected": {
+                "literal": [
+                  "background-plate",
+                  "background-plate-slot"
+                ]
+              }
+            }
+          ],
+          "supportedPlatforms": [
+            "desktop",
+            "mobile-web"
+          ],
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Используется BackgroundPlate другого канала",
+            "observed": "Для страницы выбран канал {{actual}}, а BackgroundPlate относится к {{expected}}.",
+            "expectation": "Версия BackgroundPlate должна совпадать с выбранным каналом страницы.",
+            "action": "Заменить компонент на опубликованный BackgroundPlate соответствующего канала."
+          }
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.promo-slot-radius-collection",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.promo-slot-radius-collection",
+        "appliesTo": "radius|cornerRadius|bindings.radius",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "pageContext": "promo",
+          "components": [
+            "[D] BackgroundPlateSlot",
+            "[M] BackgroundPlateSlot"
+          ]
+        },
+        "requiredRadiusCollection": "[Promo] BackgroundPlate Radius",
+        "ruleText": "На promo-странице BackgroundPlateSlot должен использовать collection [Promo] BackgroundPlate Radius. Обычная BackgroundPlate Radius и ручной corner radius для этого сценария запрещены.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.adaptive-level-2-becomes-level-1-without-outer",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.adaptive-level-adjustment",
+        "appliesTo": "screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "platform": "adaptive",
+          "components": [
+            "[D] BackgroundPlate",
+            "[M] BackgroundPlate"
+          ],
+          "desktopComposition": "Level 1 contains Level 2",
+          "adaptiveComposition": "outer Level 1 removed"
+        },
+        "requiredComposition": {
+          "formerLevel2Position": "Level 1 (outer)"
+        },
+        "remediation": "Если в адаптивной композиции удалён внешний Level-1, измените бывший Level-2 на Level-1 и повторно проверьте вложенность и padding.",
+        "ruleText": "В адаптиве BackgroundPlate Level 2 нужно вручную изменить на Level 1, если во вложенной адаптивной композиции больше не предполагается внешний Level 1.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.background-plate.adaptive-remove-inner-32-padding",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.background-plate.adaptive-remove-inner-32",
+        "appliesTo": "component.layout",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "platform": "adaptive",
+          "component": "BackgroundPlate",
+          "layout": {
+            "innerPadding": 32
+          }
+        },
+        "ruleText": "В адаптиве внутренние отступы 32 px во вложенных BackgroundPlate-конструкциях нужно убирать вручную, если они перешли из desktop-композиции и сжимают контент."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.background-plate"
+      ],
+      "predicateRules": [
+        "component:web-corp.background-plate.radius-is-fixed-by-component-baseline",
+        "component:web-corp.background-plate.level-2-requires-level-1",
+        "component:web-corp.background-plate.slot-content-levels",
+        "component:web-corp.background-plate.no-secondary-for-level-2",
+        "component:web-corp.background-plate.colored-and-border-use-color-tokens",
+        "component:web-corp.background-plate.border-has-no-visible-fill",
+        "component:web-corp.background-plate.colored-uses-fill-without-stroke",
+        "component:web-corp.background-plate.primary-secondary-paint-is-fixed",
+        "component:web-corp.background-plate.opacity-is-fixed",
+        "component:web-corp.background-plate.public-roots-only",
+        "component:web-corp.background-plate.platform-version-must-match"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web-corp.background-plate.layer-properties-use-effective-baseline",
+          "targetRuleIds": [
+            "component:web-corp.background-plate.radius-is-fixed-by-component-baseline",
+            "component:web-corp.background-plate.primary-secondary-paint-is-fixed",
+            "component:web-corp.background-plate.opacity-is-fixed"
+          ]
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-corp.background-plate.component-properties-are-first-class",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.background-plate-view-is-alias",
+          "effect": "identity-alias"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.padding-is-designer-controlled",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.slot-auto-layout-is-context-controlled",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.slot-clipping-is-context-controlled",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.blur-is-context-controlled",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.border-stroke-weight-is-context-controlled",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.border-stroke-is-designer-controlled",
+          "effect": "allow-when-tokenized"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.background-plate.root-surface-requires-level-0",
+          "missingFacts": [
+            "surface.variableModes.BackgroundPlate Level",
+            "page.relations.root-surface"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.background-color-by-surface-context",
+          "missingFacts": [
+            "surface.semantic-kind",
+            "surface.visual-tone"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.single-background-color-per-page",
+          "missingFacts": [
+            "surface.context-id",
+            "page.relations.surface-members"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.manual-shadows-are-prohibited",
+          "missingFacts": [
+            "appearance.effects",
+            "bindings.effectStyle"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.blend-mode-is-fixed",
+          "missingFacts": [
+            "appearance.blendMode",
+            "baseline.effective.appearance.blendMode"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.border-is-not-clickable",
+          "missingFacts": [
+            "interaction.reactions"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.skeleton-is-component-property",
+          "missingFacts": [
+            "loading.scope",
+            "loading.placeholder-origin"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.promo-slot-radius-collection",
+          "missingFacts": [
+            "page.semantic-kind",
+            "bindings.radius.collection"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.adaptive-level-2-becomes-level-1-without-outer",
+          "missingFacts": [
+            "responsive.source-composition",
+            "responsive.target-composition"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.adaptive-remove-inner-32-padding",
+          "missingFacts": [
+            "responsive.source-composition",
+            "responsive.target-composition"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.background-plate.root-surface-requires-level-0",
+          "missingFacts": [
+            "surface.variableModes.BackgroundPlate Level"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.manual-shadows-are-prohibited",
+          "missingFacts": [
+            "appearance.effects",
+            "bindings.effectStyle"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.blend-mode-is-fixed",
+          "missingFacts": [
+            "appearance.blendMode",
+            "baseline.effective.appearance.blendMode"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.border-is-not-clickable",
+          "missingFacts": [
+            "interaction.reactions"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.promo-slot-radius-collection",
+          "missingFacts": [
+            "page.semantic-kind",
+            "bindings.radius.collection"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.background-plate.adaptive-level-2-becomes-level-1-without-outer",
+          "missingFacts": [
+            "responsive.source-composition",
+            "responsive.target-composition"
+          ]
+        }
+      ]
+    }
+  }
+}

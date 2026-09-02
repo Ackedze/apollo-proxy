@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "PaymentControl [M]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Amount / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Amount / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] PaymentControl",
+        "path": "State=Empty / Content / [M] Hint / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] Amount",
+        "path": "[M] Amount / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] Amount",
+        "path": "[M] Amount / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Hint",
+        "path": "[M] Hint / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "publicRoot": "[M] PaymentControl",
+    "requiredChildren": [
+      {
+        "componentName": "[M] Amount",
+        "role": "required-internal",
+        "visibleInAllStates": true,
+        "standaloneUse": "forbidden",
+        "inherits": "Core Amount",
+        "allowedCustomizations": [
+          "currency",
+          "minor-part-visibility",
+          "addon"
+        ]
+      },
+      {
+        "componentName": "[M] Hint",
+        "role": "required-internal",
+        "visibleInAllStates": true,
+        "standaloneUse": "forbidden",
+        "text": {
+          "maxLines": 1,
+          "overflow": "ellipsis",
+          "clickable": false
+        },
+        "infoIcon": {
+          "optional": true,
+          "separateHitArea": true,
+          "interactiveInDisabled": true,
+          "hiddenByDefaultInErrorFilled": true,
+          "mayBeVisibleInErrorFilled": true,
+          "errorFilledVisibilityCondition": "error requires fuller explanation",
+          "interactionModel": "mobile Tooltip",
+          "opens": "[M] BottomSheet"
+        }
+      }
+    ],
+    "continueAction": {
+      "visibleInStates": [
+        "ActiveFilled",
+        "Filled"
+      ],
+      "hiddenInStates": [
+        "Empty",
+        "Active",
+        "DisabledEmpty",
+        "DisabledFilled",
+        "ErrorFilled"
+      ],
+      "buttonAndIconViewPropertiesImmutable": true
+    },
+    "layout": {
+      "position": "fixed-bottom",
+      "width": "fill-viewport",
+      "scrollsWithContent": false,
+      "whenFocused": "directly-above-system-numeric-keyboard"
+    },
+    "deprecatedExclusion": {
+      "componentName": "❌ PaymentControl",
+      "componentKey": "a4bbfdbd9c6c5f39225532008bea45c75b02c84e",
+      "mustNotAppear": true,
+      "mustNotMerge": true
+    }
+  }
+}

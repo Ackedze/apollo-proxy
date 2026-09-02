@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.steps",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Steps",
+      "library": "Web _ Core Misc"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "❌  Indicator",
+        "path": "Position=Start / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "❌  Indicator",
+        "path": "Position=Start / IndicatorContent",
+        "componentName": "IndicatorContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "CriticalError": "False",
+          "Custom": "True",
+          "Error": "False",
+          "Ordered": "False",
+          "Positive": "False",
+          "Waiting": "False",
+          "Warning": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌  Indicator",
+        "path": "Position=Start / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌  Indicator",
+        "path": "Position=Start / Line",
+        "componentName": "Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Filled": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator / IndicatorContent",
+        "componentName": "IndicatorContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "CriticalError": "False",
+          "Custom": "True",
+          "Error": "False",
+          "Ordered": "False",
+          "Positive": "False",
+          "Waiting": "False",
+          "Warning": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator / Line",
+        "componentName": "Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Filled": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / SwapMe / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Horizontal",
+        "path": "LastStep=False / IndicatorContent",
+        "componentName": "IndicatorContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "CriticalError": "False",
+          "Custom": "True",
+          "Error": "False",
+          "Ordered": "False",
+          "Positive": "False",
+          "Waiting": "False",
+          "Warning": "False"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Horizontal",
+        "path": "LastStep=False / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Horizontal",
+        "path": "LastStep=False / Line",
+        "componentName": "Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "Positive",
+          "Filled": "False"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Horizontal",
+        "path": "LastStep=False / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Vertical",
+        "path": "LastStep=False / Indicator / IndicatorContent",
+        "componentName": "IndicatorContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "CriticalError": "False",
+          "Custom": "True",
+          "Error": "False",
+          "Ordered": "False",
+          "Positive": "False",
+          "Waiting": "False",
+          "Warning": "False"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Vertical",
+        "path": "LastStep=False / Indicator / Line",
+        "componentName": "Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "Positive",
+          "Filled": "False"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Vertical",
+        "path": "LastStep=False / Content / MinSpace",
+        "componentName": "MinSpace",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "MinSpace": "24"
+        }
+      },
+      {
+        "hostComponentName": "❌  Steps_Horizontal",
+        "path": "❌  Steps_Horizontal / IndicatorContent",
+        "componentName": "IndicatorContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Active": "False",
+          "CriticalError": "False",
+          "Custom": "True",
+          "Error": "False",
+          "Ordered": "False",
+          "Positive": "False",
+          "Waiting": "False",
+          "Warning": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌  Steps_Horizontal",
+        "path": "❌  Steps_Horizontal / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "❌  Steps_Horizontal",
+        "path": "❌  Steps_Horizontal / Line",
+        "componentName": "Line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "Positive",
+          "Filled": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌  SwapMe",
+        "path": "❌  SwapMe / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "❌  SwapMe",
+        "path": "❌  SwapMe / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "❌  Indicator",
+        "path": "Position=Start / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "❌ Steps_Vertical",
+        "path": "MiddlePadding=Airy, Horizontal=None / Indicator / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "Steps_Horizontal",
+        "path": "LastStep=False / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      }
+    ]
+  }
+}

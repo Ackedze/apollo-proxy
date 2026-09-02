@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-23"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Onboarding Hint [D]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Tail / Tail",
+        "componentName": "Tail",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Direction": "←"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Content / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Text"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Content / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Content / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Content / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Content / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Cross / 🔩 Icon",
+        "componentName": "🔩 Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "icon-20"
+        }
+      },
+      {
+        "hostComponentName": "Onboarding Hint",
+        "path": "Tail Direction=←, Tail Position=Center / Content / Cross / 🔩 Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Thinline"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "Onboarding Hint"
+      ],
+      "internalComponents": [
+        "Tail"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-onboarding-hint-effective-baseline"
+    },
+    "compositionPolicy": {
+      "purpose": "Познакомить пользователя с новой или изменившейся функцией.",
+      "platform": {
+        "desktop": "Используй Onboarding Hint на desktop от 768 px.",
+        "mobileWeb": "Используй BottomSheet вместо Onboarding Hint [D]."
+      },
+      "requiredContent": {
+        "title": true,
+        "button": true,
+        "close": true,
+        "tail": true,
+        "visibilityChangeAllowed": false
+      },
+      "text": {
+        "titleMaximumCharacters": 70,
+        "format": "plain text only",
+        "finalDotAllowed": true,
+        "linksAllowed": false,
+        "listsAllowed": false,
+        "richTextAllowed": false,
+        "overflow": {
+          "Title": "wrap without truncation"
+        },
+        "editable": [
+          "Title",
+          "Button label"
+        ]
+      },
+      "button": {
+        "required": true,
+        "minimum": 1,
+        "maximum": 1,
+        "size": 32,
+        "view": "Text",
+        "shape": "Rectangular",
+        "singleIcon": false,
+        "disabledState": false,
+        "addons": false,
+        "allowedActions": [
+          "close-hint",
+          "launch-related-function"
+        ]
+      },
+      "trigger": {
+        "allowed": [
+          "automatic",
+          "trigger-event"
+        ],
+        "repeatLaunch": "business-logic"
+      },
+      "tail": {
+        "directionAndPositionSelectedByDesigner": true,
+        "mustPointTo": "target object or target area"
+      },
+      "interaction": {
+        "targetMayBeCovered": false,
+        "targetMustRemainVisible": true,
+        "targetMustRemainInteractive": true,
+        "standaloneDismissMethod": "Close",
+        "closeRequiresConfirmation": false,
+        "escapeDismissAllowed": false,
+        "outsideClickDismissAllowed": false
+      },
+      "interactiveParts": {
+        "insideHint": [
+          "Button",
+          "Close"
+        ],
+        "wholeSurfaceClickable": false,
+        "titleClickable": false,
+        "tailClickable": false,
+        "externalTargetRemainsInteractive": true
+      },
+      "close": {
+        "required": true,
+        "replacementAllowed": false,
+        "effectiveBaseline": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary",
+          "Icon.Type": "icon-20",
+          "Icon.Fill": "effective-baseline",
+          "Icon.Glyph.Size": "20",
+          "Icon.Glyph.Color": "False",
+          "Icon.Glyph.Style": "Thinline"
+        },
+        "nestedPaths": {
+          "icon": [
+            "Content / Cross / 🔩 Icon",
+            "Content / Cross / Icon"
+          ],
+          "iconPaint": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe",
+            "Content / Cross / Icon / Fixer / PaintMe"
+          ],
+          "glyph": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe / cross",
+            "Content / Cross / Icon / Fixer / PaintMe / cross"
+          ]
+        }
+      },
+      "states": {
+        "supported": [
+          "default"
+        ],
+        "unsupported": [
+          "loading",
+          "disabled",
+          "error"
+        ]
+      },
+      "composition": {
+        "maximumSimultaneousHints": 1,
+        "sequentialFlowAllowed": false,
+        "blockingOverlayRequired": false,
+        "backdropAllowed": false,
+        "dimmingAllowed": false,
+        "spotlightAllowed": false,
+        "outsideInterfaceInteractionBlocked": false
+      },
+      "contentScope": {
+        "allowed": [
+          "introduction to a new function",
+          "introduction to a changed function"
+        ],
+        "forbidden": [
+          "error",
+          "restriction",
+          "action consequence",
+          "critical information",
+          "action result"
+        ],
+        "actionResultComponents": [
+          "Toast",
+          "Notification",
+          "CorporateStatusScreen"
+        ]
+      },
+      "visualBaseline": {
+        "width": {
+          "recommended": 360,
+          "maximum": 420,
+          "unit": "px",
+          "contextualChangeAllowed": true
+        },
+        "height": "Hug",
+        "fixed": [
+          "padding",
+          "spacing",
+          "radius",
+          "fill",
+          "stroke",
+          "typography",
+          "opacity",
+          "effects"
+        ]
+      },
+      "placement": {
+        "mustFitViewport": true,
+        "viewportClippingAllowed": false,
+        "allowedTemporarySurfaces": [
+          "Modal",
+          "Drawer"
+        ],
+        "targetPreconditions": {
+          "visible": true,
+          "insideViewport": true,
+          "hintMustNotStartWhenUnavailable": true
+        }
+      },
+      "effectiveBaseline": "Сравнивай вложенные части с effective baseline выбранных Tail Direction и Tail Position."
+    }
+  }
+}

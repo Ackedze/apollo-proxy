@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.product-cover",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "ProductCover",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔩 Details 164x264",
+        "path": "Inverted=True / Number / Fixer / icon / PaintMe / eye",
+        "componentName": "eye",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Single",
+        "path": "Size=164x264 / Img / СardImage",
+        "componentName": "СardImage",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Blank"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Single",
+        "path": "Size=164x264 / Img / Details",
+        "componentName": "Details",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Single",
+        "path": "Size=164x264 / Img / Details / Number / Fixer / icon / PaintMe / eye",
+        "componentName": "eye",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Single",
+        "path": "Size=164x264 / Img / Overlay",
+        "componentName": "Overlay",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Single",
+        "path": "Size=164x264 / Img / Icon / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / TopCard / ProductCover.Single",
+        "componentName": "ProductCover.Single",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "128x205"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / TopCard / ProductCover.Single / Img / СardImage",
+        "componentName": "СardImage",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "AlfaCard"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / TopCard / ProductCover.Single / Img / Details",
+        "componentName": "Details",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / TopCard / ProductCover.Single / Img / Overlay",
+        "componentName": "Overlay",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Inverted": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / TopCard / ProductCover.Single / Img / Icon / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / BottomCard / ProductCover.Single",
+        "componentName": "ProductCover.Single",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "96x152"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / BottomCard / ProductCover.Single / Img / 🔩 СardImage",
+        "componentName": "🔩 СardImage",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "AlfaCard"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / BottomCard / ProductCover.Single / Img / Details",
+        "componentName": "Details",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Inverted": "True",
+          "MaskedNumber": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / BottomCard / ProductCover.Single / Img / Overlay",
+        "componentName": "Overlay",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Inverted": "True"
+        }
+      },
+      {
+        "hostComponentName": "ProductCover.Stack",
+        "path": "Preset=164x264 Left, CardAmount=Two / BottomCard / ProductCover.Single / Img / Icon / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

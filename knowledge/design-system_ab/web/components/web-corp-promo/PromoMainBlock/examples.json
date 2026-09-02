@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web.promo-main-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "promo-main-block.page-standard",
+        "title": "Главный блок в начале страницы",
+        "inputState": {
+          "root": "[D] PromoMainBlock",
+          "position": 1,
+          "countOnPage": 1,
+          "View": "Page",
+          "Background": "False"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.second-on-page",
+        "title": "Главный блок расположен не первым",
+        "inputState": {
+          "position": 2,
+          "countOnPage": 1
+        },
+        "expectedAudit": {
+          "category": "component-composition",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.first-and-single-on-page"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.page-with-own-background",
+        "title": "Страница с Background=True",
+        "inputState": {
+          "View": "Page",
+          "Background": "True"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.page-background-must-be-false"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.page-no-blur",
+        "title": "На странице отключён BlurEffect",
+        "inputState": {
+          "View": "Page",
+          "Background": "False",
+          "BlurEffect": false
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.page-blur-required"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.without-actions",
+        "title": "Главный блок без CTA",
+        "inputState": {
+          "ButtonGroup": false,
+          "mobileButtonStack": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.mobile-actions",
+        "title": "Действия в mobile preset",
+        "inputState": {
+          "root": "[M] PromoMainBlock",
+          "actions": "Primary + Secondary",
+          "preset": "🔒 [M] ButtonStack"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.mobile-background-false",
+        "title": "Mobile-web с Background=False",
+        "inputState": {
+          "root": "[M] PromoMainBlock",
+          "platform": "mobile-web",
+          "Background": "False"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.mobile-background-must-be-true"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.multiple-statuses",
+        "title": "Два статуса",
+        "inputState": {
+          "statusCount": 2
+        },
+        "expectedAudit": {
+          "category": "component-composition",
+          "severity": "warning",
+          "ruleId": "component:web.promo-main-block.multiple-statuses-warning"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.too-many-statuses",
+        "title": "Четыре статуса",
+        "inputState": {
+          "statusCount": 4
+        },
+        "expectedAudit": {
+          "category": "component-composition",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.status-count-and-contract"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.wrong-image-size",
+        "title": "ImageView с неверным размером",
+        "inputState": {
+          "imageSource": "Corp Image Library",
+          "Crop": "Center",
+          "Size": "348",
+          "Segment": "MMB"
+        },
+        "expectedAudit": {
+          "category": "component-property",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.image-source-and-settings"
+        }
+      },
+      {
+        "exampleId": "promo-main-block.clickable-container",
+        "title": "CTA назначен всему контейнеру",
+        "inputState": {
+          "containerClickable": true
+        },
+        "expectedAudit": {
+          "category": "interaction",
+          "severity": "error",
+          "ruleId": "component:web.promo-main-block.container-is-not-clickable"
+        }
+      }
+    ]
+  }
+}

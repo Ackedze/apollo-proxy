@@ -1,0 +1,4128 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core",
+    "file": "Web _ Core",
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 3,
+    "contractCount": 3,
+    "activeCount": 2,
+    "deprecatedCount": 0,
+    "scheduledCount": 1
+  },
+  "contracts": [
+    {
+      "id": "checkbox-group.desktop",
+      "name": "[D] CheckboxGroup",
+      "normalizedName": "checkbox-group",
+      "componentKey": "86e46b8583120d7eaa432af20e5a645469b3cda7",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "7f8830bb4bc3dda552d440052e83bb6dcae1c589",
+        "variants": {
+          "properties": {
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "Type": [
+              "Horizontal",
+              "Vertical"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "7f8830bb4bc3dda552d440052e83bb6dcae1c589",
+              "id": "173:43117",
+              "name": "Type=Horizontal, ErrorState=False",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "1bcb8b2a23aea9c1d4efa4d2338a7452ff798907",
+              "id": "173:43134",
+              "name": "Type=Horizontal, ErrorState=True",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "e32ad335a55e8136b512fc0e2d2c98fbd355cb30",
+              "id": "173:46515",
+              "name": "Type=Vertical, ErrorState=False",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "469557e07aec2484829d271b6d4e1606984f11ba",
+              "id": "173:46917",
+              "name": "Type=Vertical, ErrorState=True",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=Horizontal, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Type=Horizontal, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "GroupTitle",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          },
+          {
+            "name": "Items",
+            "type": "SLOT",
+            "path": "Type=Horizontal, ErrorState=False / Items",
+            "required": false,
+            "visible": true,
+            "nodeId": 4
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 7
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 9
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 13
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 15
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 16
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 19
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 21
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 22
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 25
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 27
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 28
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 31
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 33
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 34
+          },
+          {
+            "name": "HintMessage",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "required": false,
+            "visible": true,
+            "nodeId": 36
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=Horizontal, ErrorState=False",
+            "path": "Type=Horizontal, ErrorState=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "TEXT",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Group title",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Items",
+            "path": "Type=Horizontal, ErrorState=False / Items",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 24
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 9,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 11,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 17,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 20,
+            "parentId": 19,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 21,
+            "parentId": 17,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 22,
+            "parentId": 21,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 27,
+            "parentId": 23,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 29,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 34,
+            "parentId": 33,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 35,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage",
+            "visible": true
+          },
+          {
+            "nodeId": 36,
+            "parentId": 35,
+            "type": "TEXT",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Hint message",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,119051:433923"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "1bcb8b2a23aea9c1d4efa4d2338a7452ff798907": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Horizontal, ErrorState=True",
+                "layout": {
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 8
+                  },
+                  "itemSpacing": 12
+                },
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204",
+                    "colorHex": "#FF4837"
+                  }
+                ],
+                "strokeToken": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204"
+              }
+            },
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ],
+          "e32ad335a55e8136b512fc0e2d2c98fbd355cb30": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            }
+          ],
+          "469557e07aec2484829d271b6d4e1606984f11ba": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Vertical, ErrorState=True",
+                "layout": {
+                  "padding": {
+                    "top": 0,
+                    "right": 0,
+                    "bottom": 0,
+                    "left": 8
+                  },
+                  "itemSpacing": 12
+                },
+                "strokes": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204",
+                    "colorHex": "#FF4837"
+                  }
+                ],
+                "strokeToken": "VariableID:c00af0030dca573ab6bfdc1a6c47bc162e36090d/3541:204"
+              }
+            },
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "7f8830bb4bc3dda552d440052e83bb6dcae1c589",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "1bcb8b2a23aea9c1d4efa4d2338a7452ff798907",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "layout",
+                  "strokes",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e32ad335a55e8136b512fc0e2d2c98fbd355cb30",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "469557e07aec2484829d271b6d4e1606984f11ba",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "layout",
+                  "strokes",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "checkbox-group.mobile-web",
+      "name": "[M] CheckboxGroup",
+      "normalizedName": "checkbox-group",
+      "componentKey": "58727d6302c65c8d95ce352f3d0d6eeb1de143a2",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "d52dd47e6cc7981e59e1895c77c7093ab8b93862",
+        "variants": {
+          "properties": {
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "Type": [
+              "Horizontal",
+              "Vertical"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "d52dd47e6cc7981e59e1895c77c7093ab8b93862",
+              "id": "173:43258",
+              "name": "Type=Horizontal, ErrorState=False",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "9ff8d84eef90dd05984dadbf16212cb28c09da69",
+              "id": "173:43275",
+              "name": "Type=Horizontal, ErrorState=True",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "6191a4486001baebe73493774c969e0fbd6e5c04",
+              "id": "173:43293",
+              "name": "Type=Vertical, ErrorState=False",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "dae6a78c37d127db5c34eccd5d9cba66c4f9c865",
+              "id": "173:43310",
+              "name": "Type=Vertical, ErrorState=True",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=Horizontal, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Type=Horizontal, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "GroupTitle",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          },
+          {
+            "name": "Items",
+            "type": "SLOT",
+            "path": "Type=Horizontal, ErrorState=False / Items",
+            "required": false,
+            "visible": true,
+            "nodeId": 4
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 7
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 9
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 13
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 15
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 16
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 19
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 21
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 22
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 25
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 27
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 28
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 31
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 33
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 34
+          },
+          {
+            "name": "HintMessage",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "required": false,
+            "visible": true,
+            "nodeId": 36
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=Horizontal, ErrorState=False",
+            "path": "Type=Horizontal, ErrorState=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "TEXT",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Group title",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,119051:433923"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Items",
+            "path": "Type=Horizontal, ErrorState=False / Items",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 24
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 9,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 11,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 17,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 20,
+            "parentId": 19,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 21,
+            "parentId": 17,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 22,
+            "parentId": 21,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 27,
+            "parentId": 23,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 29,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 34,
+            "parentId": 33,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 35,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage",
+            "visible": true
+          },
+          {
+            "nodeId": 36,
+            "parentId": 35,
+            "type": "TEXT",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Hint message",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,119051:433923"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "9ff8d84eef90dd05984dadbf16212cb28c09da69": [
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ],
+          "6191a4486001baebe73493774c969e0fbd6e5c04": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            }
+          ],
+          "dae6a78c37d127db5c34eccd5d9cba66c4f9c865": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "d52dd47e6cc7981e59e1895c77c7093ab8b93862",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "9ff8d84eef90dd05984dadbf16212cb28c09da69",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "6191a4486001baebe73493774c969e0fbd6e5c04",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "dae6a78c37d127db5c34eccd5d9cba66c4f9c865",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "checkbox-group.mobile-web.32e10eb6",
+      "name": "🔄 [M][AO] CheckboxGroup",
+      "normalizedName": "checkbox-group",
+      "componentKey": "edc02b102c5a94443057ead88d797695446041ed",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "scheduled",
+      "role": "main",
+      "platform": "mobile-web",
+      "figma": {
+        "defaultVariantKey": "5025c89e6a16b24238c0dfcf83622f70465c288d",
+        "variants": {
+          "properties": {
+            "ErrorState": [
+              "False",
+              "True"
+            ],
+            "Type": [
+              "Horizontal",
+              "Vertical"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "5025c89e6a16b24238c0dfcf83622f70465c288d",
+              "id": "175:47232",
+              "name": "Type=Horizontal, ErrorState=False",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "a03dc6c6f6a45986a9bcd84dd60ddae8ce90a38b",
+              "id": "175:47244",
+              "name": "Type=Horizontal, ErrorState=True",
+              "properties": {
+                "Type": "Horizontal",
+                "ErrorState": "True"
+              }
+            },
+            {
+              "key": "23c9664c7b3deec908bdab03ec15d8517c49334d",
+              "id": "175:47257",
+              "name": "Type=Vertical, ErrorState=False",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "False"
+              }
+            },
+            {
+              "key": "fb161b91fe5c6d6712a88e5d5d3eda688b49c8ab",
+              "id": "175:47274",
+              "name": "Type=Vertical, ErrorState=True",
+              "properties": {
+                "Type": "Vertical",
+                "ErrorState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=Horizontal, ErrorState=False",
+            "type": "COMPONENT",
+            "path": "Type=Horizontal, ErrorState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "GroupTitle",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 7
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 9
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 13
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 15
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 16
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 19
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 21
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 22
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 25
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 27
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 28
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 31
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 33
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 34
+          },
+          {
+            "name": "HintMessage",
+            "type": "TEXT",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "required": false,
+            "visible": true,
+            "nodeId": 36
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=Horizontal, ErrorState=False",
+            "path": "Type=Horizontal, ErrorState=False",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "TEXT",
+            "name": "GroupTitle",
+            "path": "Type=Horizontal, ErrorState=False / GroupTitle / GroupTitle",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Group title",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,119051:433923"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Items",
+            "path": "Type=Horizontal, ErrorState=False / Items",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 24
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 9,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 11,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 17,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 20,
+            "parentId": 19,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 21,
+            "parentId": 17,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 22,
+            "parentId": 21,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 27,
+            "parentId": 23,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 29,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "CheckboxLabel_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledLabel": "False",
+              "ErrorMessage": "False",
+              "Hint": "False"
+            },
+            "layout": {
+              "itemSpacing": 12
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledLabel": "False",
+                "ErrorMessage": "False",
+                "Hint": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "INSTANCE",
+            "name": "Checkbox_24",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False",
+              "IndeterminateState": "False",
+              "SelectedState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 2,
+                "bottom": 2,
+                "left": 2
+              }
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False",
+                "IndeterminateState": "False",
+                "SelectedState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content",
+            "visible": true
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "RECTANGLE",
+            "name": "Bg",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Checkbox_24 / Content / Bg",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "strokeToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 34,
+            "parentId": 33,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Type=Horizontal, ErrorState=False / Items / CheckboxLabel_24 / Content / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 24,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f0f0d59f9f92db92901605dd929cfa3b93540058,119051:434005"
+              }
+            }
+          },
+          {
+            "nodeId": 35,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage",
+            "visible": true
+          },
+          {
+            "nodeId": 36,
+            "parentId": 35,
+            "type": "TEXT",
+            "name": "HintMessage",
+            "path": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Hint message",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 18,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:d3ec8b47e09e08ae335e4f831491482c2eeeecb3,119051:433923"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "a03dc6c6f6a45986a9bcd84dd60ddae8ce90a38b": [
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ],
+          "23c9664c7b3deec908bdab03ec15d8517c49334d": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            }
+          ],
+          "fb161b91fe5c6d6712a88e5d5d3eda688b49c8ab": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "layout": {
+                  "itemSpacing": 12
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 35
+            },
+            {
+              "op": "remove",
+              "id": 36
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "5025c89e6a16b24238c0dfcf83622f70465c288d",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "a03dc6c6f6a45986a9bcd84dd60ddae8ce90a38b",
+            "when": {
+              "Type": "Horizontal",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Horizontal, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "23c9664c7b3deec908bdab03ec15d8517c49334d",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "fb161b91fe5c6d6712a88e5d5d3eda688b49c8ab",
+            "when": {
+              "Type": "Vertical",
+              "ErrorState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=Horizontal, ErrorState=False",
+                "nodePath": "Type=Horizontal, ErrorState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "Items",
+                "nodePath": "Type=Horizontal, ErrorState=False / Items",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "ErrorMessage",
+                "nodePath": "Type=Vertical, ErrorState=True / ErrorMessage / ErrorMessage",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 35,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 36,
+                "nodeName": "HintMessage",
+                "nodePath": "Type=Horizontal, ErrorState=False / HintMessage / HintMessage",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-scheduled",
+          "severity": "info",
+          "check": "scheduled component usage should be confirmed",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "🔄 Замени на актуальный",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has visible text placeholders",
+          "component uses raw color without token",
+          "generated id collision for checkbox-group.mobile-web; appended key suffix 32e10eb6"
+        ]
+      }
+    }
+  ]
+}

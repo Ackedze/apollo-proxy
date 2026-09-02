@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.faq",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- FAQ.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "FAQ"
+      ]
+    },
+    "summary": {
+      "componentFamily": "FAQ",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D][Promo] FAQItem",
+        "key": "409ba7df8caf7d42fdb6f1d15fa862983e907b37",
+        "description": "💅🏻 For Promo page only",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Open": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M][Promo] FAQItem",
+        "key": "f48ff7692ce5e977fa8a62265a44bcd2b7c2b064",
+        "description": "💅🏻 For Promo page only",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Open": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "FAQItem",
+        "key": "69eb0514d83058ace47bedfbe8870453b3d61f15",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Open": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D][Promo] FAQ",
+        "key": "d0b9c2656488739d36bd4125b4c6ce1dc95acba3",
+        "description": "💅🏻 For Promo page only",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M][Promo] FAQ",
+        "key": "81fb24e5525ca18cd8e9b5d16cd59b1a435125f0",
+        "description": "💅🏻 For Promo page only",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "FAQ",
+        "key": "4ea9c627c5990f79b4acff821221db8cc1191308",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:components.faq",
+        "patternKey": "components.faq",
+        "file": "shared/design-system_ab/patterns/p_faq.md",
+        "sourceType": "component-guideline",
+        "updatedAt": "2026-07-20"
+      },
+      {
+        "patternId": "ptrn:components.link",
+        "patternKey": "components.link",
+        "file": "shared/design-system_ab/patterns/p_link.md",
+        "sourceType": "component-guideline"
+      }
+    ],
+    "summary": {
+      "componentFamily": "FAQ",
+      "library": "Web _ Corp Components",
+      "purpose": "FAQ показывает от двух до восьми вопросов в аккордеоне. Promo-версии предназначены только для promo-страниц, универсальная версия — для продуктовых desktop и mobile-web страниц."
+    },
+    "usageGuidance": [
+      "Используй [D][Promo] FAQ на desktop promo-страницах, [M][Promo] FAQ на mobile-web promo-страницах и FAQ на продуктовых desktop или mobile-web страницах.",
+      "FAQItem является служебной частью FAQ и не используется отдельно.",
+      "Не смешивай семейства FAQ и FAQItem и не заменяй вложенные части через instance swap.",
+      "Показывай не менее двух вопросов. Рекомендуемый максимум — восемь вопросов в одной категории.",
+      "Если вопросов больше восьми, раздели их по категориям и покажи категории в отдельных табах; в каждой категории оставляй не больше восьми вопросов.",
+      "По умолчанию все вопросы закрыты. Одновременно может быть открыт только один FAQItem; открытие нового закрывает предыдущий.",
+      "Повторный клик по открытому вопросу закрывает его. Полностью закрытое состояние допустимо.",
+      "Вся строка вопроса кликабельна; иконка раскрытия фиксирована.",
+      "Вопрос и ответ обязательны. Вопрос ограничен 120 символами, ответ — 800 символами.",
+      "Перенос вопроса на несколько строк разрешён.",
+      "Ссылки допустимы только внутри ответа и должны соответствовать контракту Link.",
+      "Можно менять текст, видимость и порядок вопросов и использовать Open для демонстрации одного раскрытого пункта.",
+      "Promo-поверхности и разделители универсального FAQ нельзя отключать или заменять.",
+      "FAQ использует Fill по ширине и Hug по высоте; внешнюю ширину можно ограничивать сеткой страницы.",
+      "Отступы, интервалы, скругления, заливки, обводки, разделители, типографика, opacity, эффекты и иконка раскрытия должны соответствовать effective baseline."
+    ],
+    "contentGuidance": {
+      "question": "Обязательный текст без ссылки, не более 120 символов; перенос строк разрешён.",
+      "answer": "Обязательный текстовый контент не более 800 символов; разрешены абзацы, списки и ссылки.",
+      "links": "Только в ответе и по правилам компонента Link."
+    },
+    "ruleHighlights": [
+      "component:web-corp.faq.public-roots-only",
+      "component:web-corp.faq.family-must-match-host",
+      "component:web-corp.faq.platform-version-must-match",
+      "component:web-corp.faq.minimum-two-items",
+      "component:web-corp.faq.maximum-eight-per-category",
+      "component:web-corp.faq.single-open-item",
+      "component:web-corp.faq.default-state-is-closed",
+      "component:web-corp.faq.question-and-answer-required",
+      "component:web-corp.faq.question-length-limit",
+      "component:web-corp.faq.answer-length-limit",
+      "component:web-corp.faq.links-only-in-answer",
+      "component:web-corp.faq.visuals-follow-effective-baseline",
+      "component:web-corp.faq.surface-is-fixed-by-family",
+      "component:web-corp.faq.fill-hug-sizing",
+      "component:web-corp.faq.entire-question-row-is-clickable",
+      "component:web-corp.faq.instance-swap-forbidden"
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

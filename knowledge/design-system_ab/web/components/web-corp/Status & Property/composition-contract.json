@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.status-property",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Status & Property",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] PropertyPreset",
+        "path": "Color=Green, Style=Contrast, Size=20 / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rectangular",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] PropertyPreset",
+        "path": "Color=Green, Style=Contrast, Size=20 / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] StatusPreset",
+        "path": "Type=Approved, Style=Contrast, Size=20 / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] StatusPreset",
+        "path": "Type=Approved, Style=Contrast, Size=20 / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] PropertyPreset",
+        "path": "Color=Green, Style=Contrast, Size=20 / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rectangular",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] PropertyPreset",
+        "path": "Color=Green, Style=Contrast, Size=20 / Status / Label",
+        "componentName": "Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] StatusPreset",
+        "path": "Type=Approved, Style=Contrast, Size=20 / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "LeftAddon": "False",
+          "RightAddon": "False",
+          "Shape": "Rounded",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] StatusPreset",
+        "path": "Type=Approved, Style=Contrast, Size=20 / Status / Label",
+        "componentName": "Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "False"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "🔒 [D] PropertyPreset",
+        "🔒 [D] StatusPreset",
+        "🔒 [M] PropertyPreset",
+        "🔒 [M] StatusPreset"
+      ],
+      "standaloneUsageAllowed": true,
+      "internalComponents": [
+        "Status",
+        "Label",
+        "🔩 Label"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-preset-effective-baseline"
+    },
+    "semanticModel": {
+      "StatusPreset": {
+        "purpose": "Показывает состояние объекта или процесса.",
+        "shape": "Rounded",
+        "typeSemantics": {
+          "Approved": "Успешный результат.",
+          "Attention": "Частичный успех или состояние, требующее повышенного внимания.",
+          "Error / Risk": "Ошибка, негативный результат или критичный риск.",
+          "Action": "Ожидается действие пользователя.",
+          "Processing": "Процесс выполняется банком или системой.",
+          "Neutral": "Нейтральное состояние без требуемого действия."
+        }
+      },
+      "PropertyPreset": {
+        "purpose": "Показывает характеристику или свойство объекта.",
+        "shape": "Rectangular",
+        "Color=Custom": "Разрешает изменить токенизированные цвет текста и заливку при сохранении взаимного контраста."
+      }
+    },
+    "surfaceStylePolicy": {
+      "greySurface": "Contrast",
+      "whiteSurface": "Muted"
+    },
+    "contentPolicy": {
+      "StatusPreset": {
+        "maximumCharacters": 20,
+        "maximumWords": 2,
+        "lineWrapAllowed": false,
+        "overflow": "ellipsis",
+        "fullTextTooltipAllowed": true,
+        "labelRequired": true
+      },
+      "PropertyPreset": {
+        "maximumCharacters": 20,
+        "lineWrapAllowed": false,
+        "overflow": "ellipsis",
+        "fullTextTooltipAllowed": true,
+        "labelRequired": true
+      },
+      "platformCase": {
+        "desktop": "Uppercase=True",
+        "mobile-web": "Uppercase=False",
+        "manualChangeAllowed": false
+      }
+    },
+    "sizePolicy": {
+      "allowed": [
+        20,
+        24,
+        32,
+        40
+      ],
+      "selection": "Выбирается по контексту и размеру окружающих элементов.",
+      "layoutSizingHorizontal": "HUG",
+      "layoutSizingVertical": "HUG",
+      "manualStretchAllowed": false
+    },
+    "groupingPolicy": {
+      "StatusPreset": {
+        "maximumPerObject": 1
+      },
+      "PropertyPreset": {
+        "multipleAllowed": true,
+        "maximumVisible": 2
+      },
+      "mixedStatusAndPropertyAllowed": false,
+      "propertySpacing": "Не регламентирован текущим контрактом; не выводи фиксированное значение."
+    },
+    "behaviorPolicy": {
+      "hoverAllowed": true,
+      "tooltipAllowed": true,
+      "tooltipPurpose": "Поясняет значение статуса или свойства.",
+      "tooltipView": "Определяется контекстом без дополнительных ограничений.",
+      "clickAllowed": false
+    },
+    "platformPolicy": {
+      "desktop": "Используй [D] при ширине 768 px и больше.",
+      "mobile-web": "Используй [M] при ширине меньше 768 px."
+    },
+    "nestedStatusPolicy": {
+      "directCoreStatusUsageAllowed": false,
+      "requiredPublicComponent": "StatusPreset или PropertyPreset",
+      "LeftAddon": {
+        "changeAllowed": true,
+        "contractSource": "Status component documentation"
+      }
+    },
+    "visualBaseline": {
+      "manualChangesAllowed": false,
+      "properties": [
+        "shape",
+        "radius",
+        "layout",
+        "typography",
+        "fill",
+        "stroke",
+        "opacity",
+        "effects"
+      ],
+      "baseline": "effective baseline",
+      "exception": "Для PropertyPreset с Color=Custom разрешены только токенизированные изменения fill текста и поверхности."
+    }
+  }
+}

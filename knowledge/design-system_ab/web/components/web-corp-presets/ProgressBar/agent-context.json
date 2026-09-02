@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.progress-bar",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T19:55:33.760Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-presets/Web _ Corp Presets -- ProgressBar.json",
+      "library": "Web :: Corp Presets",
+      "file": "Web :: Corp Presets",
+      "generatedAt": "2026-04-28T19:55:33.760Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "ProgressBar"
+      ]
+    },
+    "summary": {
+      "componentFamily": "ProgressBar",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [M] ProgressBar :: Goal",
+        "key": "7cb3dd1d82fe1fc6b5ef0fc72835cce69d3fee7b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "State": [
+            "Disabled",
+            "End",
+            "First",
+            "Second",
+            "Start"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] ProgressBar :: Goal",
+        "key": "49c74d9a2246b069e4d703fb5273079a6cc00666",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "State": [
+            "Disabled",
+            "End",
+            "First",
+            "Second",
+            "Start"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] ProgressBar :: Limit",
+        "key": "650fc54c5ddd550361e2fce230aed2397ddb954c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "State": [
+            "Attention",
+            "Disabled",
+            "Full",
+            "In progress",
+            "None",
+            "Risk"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [M] ProgressBar :: Limit",
+        "key": "33f7453fda2675ec2a15f8e537cd4fd8fe659501",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "State": [
+            "Attention",
+            "Disabled",
+            "Full",
+            "In progress",
+            "None",
+            "Risk"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "ProgressBar",
+      "library": "Web :: Corp Presets",
+      "purpose": "ProgressBar показывает прогресс по денежной цели или состояние лимита. В семействе есть две смысловые версии: Goal для движения к цели и Limit для лимитов, порогов и риска."
+    },
+    "patternReferences": [
+      {
+        "patternId": "ptrn:components.progress-bar",
+        "path": "patterns/p_progress-bar.md",
+        "scope": "usage, component choice, state semantics, anatomy, platform variants"
+      }
+    ],
+    "usageGuidance": [
+      "Используй ProgressBar :: Goal, когда шкала показывает движение к целевому значению: накоплено, осталось, цель достигнута.",
+      "Используй ProgressBar :: Limit, когда шкала показывает лимит, доступный объём, порог, риск превышения или отсутствие лимита.",
+      "Для desktop применяй [D] ProgressBar, для mobile-web применяй [M] ProgressBar.",
+      "Не собирай progress bar вручную из текста, линии и AmountParagraph; используй готовый preset-компонент.",
+      "Смысловое состояние задаётся через variant.State, а не ручной перекраской fill или text styles."
+    ],
+    "contentGuidance": [
+      "Label должен называть показатель.",
+      "Caption должен содержать основную сумму и дополнительное значение, связанные с той же шкалой.",
+      "Hint должен кратко пояснять условие, срок, остаток или контекст расчёта.",
+      "Не прячь ключевое значение только в Hint: основная сумма и смысл показателя должны быть видны в Label и Caption."
+    ],
+    "variantGuidance": [
+      {
+        "component": "ProgressBar :: Goal",
+        "states": [
+          "Start",
+          "First",
+          "Second",
+          "End",
+          "Disabled"
+        ],
+        "meaning": "Состояния движения к цели."
+      },
+      {
+        "component": "ProgressBar :: Limit",
+        "states": [
+          "None",
+          "In progress",
+          "Attention",
+          "Risk",
+          "Full",
+          "Disabled"
+        ],
+        "meaning": "Состояния лимита, предупреждения, риска, полного использования или отсутствия лимита."
+      }
+    ],
+    "ruleHighlights": [
+      {
+        "ruleId": "component:web.progress-bar.public-presets-only",
+        "message": "ProgressBar используется только как готовый preset Goal или Limit; ручная сборка не допускается."
+      },
+      {
+        "ruleId": "component:web.progress-bar.platform-version-match",
+        "message": "Версия [D] предназначена для desktop, версия [M] — для mobile-web."
+      },
+      {
+        "ruleId": "component:web.progress-bar.visual-style-from-state",
+        "message": "Визуальная семантика должна задаваться variant.State, а не ручной перекраской внутренних слоёв."
+      }
+    ]
+  }
+}

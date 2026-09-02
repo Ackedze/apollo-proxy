@@ -1,0 +1,5173 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core",
+    "file": "Web _ Core",
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 6,
+    "contractCount": 6,
+    "activeCount": 5,
+    "deprecatedCount": 0,
+    "scheduledCount": 1
+  },
+  "contracts": [
+    {
+      "id": "status.universal",
+      "name": "🔄 Status",
+      "normalizedName": "status",
+      "componentKey": "565e758b7ca8d374154369da6cf9364214c0e07c",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "scheduled",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "212412d4fd1e3223f371029f95ecf7d346e9dd14",
+        "variants": {
+          "properties": {
+            "Color": [
+              "Blue",
+              "Gray",
+              "Green",
+              "Orange",
+              "Purple",
+              "Red",
+              "Teal"
+            ],
+            "View": [
+              "Contrast",
+              "Muted",
+              "Muted-alt"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Contrast",
+              "Color": "Green"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Green"
+            },
+            {
+              "View": "Muted",
+              "Color": "Green"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Blue"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Blue"
+            },
+            {
+              "View": "Muted",
+              "Color": "Blue"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Orange"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Orange"
+            },
+            {
+              "View": "Muted",
+              "Color": "Orange"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Gray"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Gray"
+            },
+            {
+              "View": "Muted",
+              "Color": "Gray"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Red"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Red"
+            },
+            {
+              "View": "Muted",
+              "Color": "Red"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Teal"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Teal"
+            },
+            {
+              "View": "Muted",
+              "Color": "Teal"
+            },
+            {
+              "View": "Contrast",
+              "Color": "Purple"
+            },
+            {
+              "View": "Muted-alt",
+              "Color": "Purple"
+            },
+            {
+              "View": "Muted",
+              "Color": "Purple"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "212412d4fd1e3223f371029f95ecf7d346e9dd14",
+              "id": "444:12639",
+              "name": "View=Contrast, Color=Green",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Green"
+              }
+            },
+            {
+              "key": "b92a768d11fdc1aa9ea1139ab8105e871d7d6075",
+              "id": "448:16284",
+              "name": "View=Muted-alt, Color=Green",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Green"
+              }
+            },
+            {
+              "key": "a77a9f07e0481b59cf499607d9e8cd91d06ca5a7",
+              "id": "23417:219",
+              "name": "View=Muted, Color=Green",
+              "properties": {
+                "View": "Muted",
+                "Color": "Green"
+              }
+            },
+            {
+              "key": "aee489827b6ace6a586764a5f8bbe1f4ab2fa79d",
+              "id": "448:16232",
+              "name": "View=Contrast, Color=Blue",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Blue"
+              }
+            },
+            {
+              "key": "85af4e665bd560e0547cdf95fe950146ea65225c",
+              "id": "448:16286",
+              "name": "View=Muted-alt, Color=Blue",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Blue"
+              }
+            },
+            {
+              "key": "af621d58f81a7c00a1cc7f33da69ec6c38f39765",
+              "id": "23417:221",
+              "name": "View=Muted, Color=Blue",
+              "properties": {
+                "View": "Muted",
+                "Color": "Blue"
+              }
+            },
+            {
+              "key": "e5dd038d1815abbf9988e66384aed5ed740bba5b",
+              "id": "448:16220",
+              "name": "View=Contrast, Color=Orange",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Orange"
+              }
+            },
+            {
+              "key": "d3fa584ffb86edbb037fcd1293fd5514de77b5c2",
+              "id": "448:16288",
+              "name": "View=Muted-alt, Color=Orange",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Orange"
+              }
+            },
+            {
+              "key": "a7750b69e265d0350e51b84a4ca3d4229214e9bc",
+              "id": "23417:223",
+              "name": "View=Muted, Color=Orange",
+              "properties": {
+                "View": "Muted",
+                "Color": "Orange"
+              }
+            },
+            {
+              "key": "b5e7ec80a83f4ae44e527841f0aa2304be7d83fa",
+              "id": "448:16234",
+              "name": "View=Contrast, Color=Gray",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Gray"
+              }
+            },
+            {
+              "key": "b4d9e03ceb27a9b6f9be352afb1cac424677531d",
+              "id": "448:16290",
+              "name": "View=Muted-alt, Color=Gray",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Gray"
+              }
+            },
+            {
+              "key": "9ef5468c9fd0d11ad27a6c1a533e154fb6072747",
+              "id": "23417:225",
+              "name": "View=Muted, Color=Gray",
+              "properties": {
+                "View": "Muted",
+                "Color": "Gray"
+              }
+            },
+            {
+              "key": "77e1af8ef40e7d3c242fb2e7042c01153e18cfd9",
+              "id": "448:16224",
+              "name": "View=Contrast, Color=Red",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Red"
+              }
+            },
+            {
+              "key": "263b0db5f55f2d1a068190137bdc5a0741578296",
+              "id": "448:16292",
+              "name": "View=Muted-alt, Color=Red",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Red"
+              }
+            },
+            {
+              "key": "f105c787ad4447c0130815c4e678aae6c0892059",
+              "id": "23417:227",
+              "name": "View=Muted, Color=Red",
+              "properties": {
+                "View": "Muted",
+                "Color": "Red"
+              }
+            },
+            {
+              "key": "404ae890a41afb9f568ec5e2920fe6dc48726631",
+              "id": "448:16236",
+              "name": "View=Contrast, Color=Teal",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Teal"
+              }
+            },
+            {
+              "key": "b5a2bb3a78b1faa6dbd9ff07f8436af5da1b0255",
+              "id": "448:16294",
+              "name": "View=Muted-alt, Color=Teal",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Teal"
+              }
+            },
+            {
+              "key": "2b52bda07093f00577d99446b6628d6d595a8316",
+              "id": "23417:229",
+              "name": "View=Muted, Color=Teal",
+              "properties": {
+                "View": "Muted",
+                "Color": "Teal"
+              }
+            },
+            {
+              "key": "375fdfca982f58a9e0a78c921cf0b4e22acffb56",
+              "id": "448:16240",
+              "name": "View=Contrast, Color=Purple",
+              "properties": {
+                "View": "Contrast",
+                "Color": "Purple"
+              }
+            },
+            {
+              "key": "40ec55451af120193da8286d604a9ca3552a6c08",
+              "id": "448:16296",
+              "name": "View=Muted-alt, Color=Purple",
+              "properties": {
+                "View": "Muted-alt",
+                "Color": "Purple"
+              }
+            },
+            {
+              "key": "5195b46d45e4b0bf5187c5ec9b047e5bdc2723e6",
+              "id": "23417:231",
+              "name": "View=Muted, Color=Purple",
+              "properties": {
+                "View": "Muted",
+                "Color": "Purple"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Contrast, Color=Green",
+            "type": "COMPONENT",
+            "path": "View=Contrast, Color=Green",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "View=Contrast, Color=Green / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+            "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Contrast, Color=Green",
+            "path": "View=Contrast, Color=Green",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146"
+            ],
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 8,
+                "bottom": 2,
+                "left": 8
+              },
+              "itemSpacing": 6
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146",
+                "colorHex": "#0CC44D"
+              }
+            ],
+            "fillToken": "VariableID:bb8ea0bd3df0adc26d161951b941888f14a0e6eb/1816:146"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "View=Contrast, Color=Green / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:9d628b4143392a46dacd623e81b3de011d3cc6a1/1930:68",
+            "text": {
+              "characters": "LABEL",
+              "fontName": "SF Pro Text Bold",
+              "fontSize": 11,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0,
+              "case": "UPPER"
+            }
+          }
+        ],
+        "variantStructures": {
+          "b92a768d11fdc1aa9ea1139ab8105e871d7d6075": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Green",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:9e7b8bc6c6f728c8b7f40b45b801a98fc7116bd3/1816:65",
+                    "colorHex": "#D1F1D7"
+                  }
+                ],
+                "fillToken": "VariableID:9e7b8bc6c6f728c8b7f40b45b801a98fc7116bd3/1816:65"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:816d73cd4950f3b36c90398019ff9b9e00c3a42d/1816:56",
+                    "colorHex": "#0D9336"
+                  }
+                ],
+                "fillToken": "VariableID:816d73cd4950f3b36c90398019ff9b9e00c3a42d/1816:56"
+              }
+            }
+          ],
+          "a77a9f07e0481b59cf499607d9e8cd91d06ca5a7": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Green",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:1bdb74a695d6fd76ad1c18b835db95956a22aef8/1816:131",
+                    "colorHex": "#DFF8E5"
+                  }
+                ],
+                "fillToken": "VariableID:1bdb74a695d6fd76ad1c18b835db95956a22aef8/1816:131"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:816d73cd4950f3b36c90398019ff9b9e00c3a42d/1816:56",
+                    "colorHex": "#0D9336"
+                  }
+                ],
+                "fillToken": "VariableID:816d73cd4950f3b36c90398019ff9b9e00c3a42d/1816:56"
+              }
+            }
+          ],
+          "aee489827b6ace6a586764a5f8bbe1f4ab2fa79d": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Blue",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:b2eeb3c4c02e5eab348bbc6434a62146cf735838/1816:134",
+                    "colorHex": "#3193FC"
+                  }
+                ],
+                "fillToken": "VariableID:b2eeb3c4c02e5eab348bbc6434a62146cf735838/1816:134"
+              }
+            }
+          ],
+          "85af4e665bd560e0547cdf95fe950146ea65225c": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Blue",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:32090416c070bf4effd00f7d5bd614400615ae72/1816:68",
+                    "colorHex": "#D8EAFF"
+                  }
+                ],
+                "fillToken": "VariableID:32090416c070bf4effd00f7d5bd614400615ae72/1816:68"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:76cf24991f72feffd008945472dadc4069167be0/1816:55",
+                    "colorHex": "#2A77EF"
+                  }
+                ],
+                "fillToken": "VariableID:76cf24991f72feffd008945472dadc4069167be0/1816:55"
+              }
+            }
+          ],
+          "af621d58f81a7c00a1cc7f33da69ec6c38f39765": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Blue",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:d5cebe65184f497b00375c71a09976926a7ed688/1816:99",
+                    "colorHex": "#E4F0FF"
+                  }
+                ],
+                "fillToken": "VariableID:d5cebe65184f497b00375c71a09976926a7ed688/1816:99"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:76cf24991f72feffd008945472dadc4069167be0/1816:55",
+                    "colorHex": "#2A77EF"
+                  }
+                ],
+                "fillToken": "VariableID:76cf24991f72feffd008945472dadc4069167be0/1816:55"
+              }
+            }
+          ],
+          "e5dd038d1815abbf9988e66384aed5ed740bba5b": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Orange",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:1ed16e7c7c35df1accad554a4d459513eae89a06/1816:151",
+                    "colorHex": "#FA9313"
+                  }
+                ],
+                "fillToken": "VariableID:1ed16e7c7c35df1accad554a4d459513eae89a06/1816:151"
+              }
+            }
+          ],
+          "d3fa584ffb86edbb037fcd1293fd5514de77b5c2": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Orange",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:0fe17017989facc740269e8645b4df55cd6c0c65/1816:122",
+                    "colorHex": "#FDE6C8"
+                  }
+                ],
+                "fillToken": "VariableID:0fe17017989facc740269e8645b4df55cd6c0c65/1816:122"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:68157b3c5775b9ab5ff75b17a1fe3c385be0150e/1816:58",
+                    "colorHex": "#EA8313"
+                  }
+                ],
+                "fillToken": "VariableID:68157b3c5775b9ab5ff75b17a1fe3c385be0150e/1816:58"
+              }
+            }
+          ],
+          "a7750b69e265d0350e51b84a4ca3d4229214e9bc": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Orange",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:0ef0441d39118d418935896864b39d922539ae93/1816:36",
+                    "colorHex": "#FFEFD9"
+                  }
+                ],
+                "fillToken": "VariableID:0ef0441d39118d418935896864b39d922539ae93/1816:36"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:68157b3c5775b9ab5ff75b17a1fe3c385be0150e/1816:58",
+                    "colorHex": "#EA8313"
+                  }
+                ],
+                "fillToken": "VariableID:68157b3c5775b9ab5ff75b17a1fe3c385be0150e/1816:58"
+              }
+            }
+          ],
+          "b5e7ec80a83f4ae44e527841f0aa2304be7d83fa": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Gray",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171",
+                    "colorHex": "#898991"
+                  }
+                ],
+                "fillToken": "VariableID:6d79dab22065d6235e925db28794e4ede838d304/3541:171"
+              }
+            }
+          ],
+          "b4d9e03ceb27a9b6f9be352afb1cac424677531d": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Gray",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.10000000149011612,
+                    "tokenKey": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122",
+                    "colorHex": "#0F1937"
+                  }
+                ],
+                "fillToken": "VariableID:d344a6475fd206b89cf76bef3272e63e04bdf26d/3541:122"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.550000011920929,
+                    "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                    "colorHex": "#040413"
+                  }
+                ],
+                "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+              }
+            }
+          ],
+          "9ef5468c9fd0d11ad27a6c1a533e154fb6072747": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Gray",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.07999999821186066,
+                    "tokenKey": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147",
+                    "colorHex": "#1E2B44"
+                  }
+                ],
+                "fillToken": "VariableID:446796436fc66df888a34eb47bed90e0341e558c/3541:147"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.550000011920929,
+                    "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                    "colorHex": "#040413"
+                  }
+                ],
+                "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+              }
+            }
+          ],
+          "77e1af8ef40e7d3c242fb2e7042c01153e18cfd9": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Red",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:597a81128823004864d92c979f176546367bcf66/1816:137",
+                    "colorHex": "#FE5E48"
+                  }
+                ],
+                "fillToken": "VariableID:597a81128823004864d92c979f176546367bcf66/1816:137"
+              }
+            }
+          ],
+          "263b0db5f55f2d1a068190137bdc5a0741578296": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Red",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:c159c2210fbc7d54f1c496ae74267cf8522a2aae/1816:94",
+                    "colorHex": "#FFDFDF"
+                  }
+                ],
+                "fillToken": "VariableID:c159c2210fbc7d54f1c496ae74267cf8522a2aae/1816:94"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:faf89c757f3913777f72b5ece80a4e451b7e2829/1816:59",
+                    "colorHex": "#EC2D20"
+                  }
+                ],
+                "fillToken": "VariableID:faf89c757f3913777f72b5ece80a4e451b7e2829/1816:59"
+              }
+            }
+          ],
+          "f105c787ad4447c0130815c4e678aae6c0892059": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Red",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:aba5f04775be4eb20594dbf16db04ed53e17dbc2/1816:110",
+                    "colorHex": "#FFEBEB"
+                  }
+                ],
+                "fillToken": "VariableID:aba5f04775be4eb20594dbf16db04ed53e17dbc2/1816:110"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:faf89c757f3913777f72b5ece80a4e451b7e2829/1816:59",
+                    "colorHex": "#EC2D20"
+                  }
+                ],
+                "fillToken": "VariableID:faf89c757f3913777f72b5ece80a4e451b7e2829/1816:59"
+              }
+            }
+          ],
+          "404ae890a41afb9f568ec5e2920fe6dc48726631": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Teal",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:e4db2651e23ee2582352e24d4288135865f6f83d/1816:149",
+                    "colorHex": "#09B9BE"
+                  }
+                ],
+                "fillToken": "VariableID:e4db2651e23ee2582352e24d4288135865f6f83d/1816:149"
+              }
+            }
+          ],
+          "b5a2bb3a78b1faa6dbd9ff07f8436af5da1b0255": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Teal",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:499dbe43e8e022def099b3efb4a0e0dd279227e0/1816:97",
+                    "colorHex": "#C8F1F3"
+                  }
+                ],
+                "fillToken": "VariableID:499dbe43e8e022def099b3efb4a0e0dd279227e0/1816:97"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:b2108475b693e86d1c92f25901af8f7e789f2c16/1816:44",
+                    "colorHex": "#058A8F"
+                  }
+                ],
+                "fillToken": "VariableID:b2108475b693e86d1c92f25901af8f7e789f2c16/1816:44"
+              }
+            }
+          ],
+          "2b52bda07093f00577d99446b6628d6d595a8316": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Teal",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:d62bf0aa8503b6423ba6f7f45a7c58e8649c7aea/1816:126",
+                    "colorHex": "#DAF7F8"
+                  }
+                ],
+                "fillToken": "VariableID:d62bf0aa8503b6423ba6f7f45a7c58e8649c7aea/1816:126"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:b2108475b693e86d1c92f25901af8f7e789f2c16/1816:44",
+                    "colorHex": "#058A8F"
+                  }
+                ],
+                "fillToken": "VariableID:b2108475b693e86d1c92f25901af8f7e789f2c16/1816:44"
+              }
+            }
+          ],
+          "375fdfca982f58a9e0a78c921cf0b4e22acffb56": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Contrast, Color=Purple",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:dacf2490f2a452b7a94b2c5ccdb983a124b47152/1816:157",
+                    "colorHex": "#897EFF"
+                  }
+                ],
+                "fillToken": "VariableID:dacf2490f2a452b7a94b2c5ccdb983a124b47152/1816:157"
+              }
+            }
+          ],
+          "40ec55451af120193da8286d604a9ca3552a6c08": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted-alt, Color=Purple",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:546c89f3ab23c26a4beea3ccdd61cc7f22fff31d/1816:89",
+                    "colorHex": "#E3E6FE"
+                  }
+                ],
+                "fillToken": "VariableID:546c89f3ab23c26a4beea3ccdd61cc7f22fff31d/1816:89"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+                    "colorHex": "#7A63F1"
+                  }
+                ],
+                "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71"
+              }
+            }
+          ],
+          "5195b46d45e4b0bf5187c5ec9b047e5bdc2723e6": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Muted, Color=Purple",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:68c64746218c3878766144c451d07709d842ab2f/1816:119",
+                    "colorHex": "#EEEDFF"
+                  }
+                ],
+                "fillToken": "VariableID:68c64746218c3878766144c451d07709d842ab2f/1816:119"
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71",
+                    "colorHex": "#7A63F1"
+                  }
+                ],
+                "fillToken": "VariableID:0274c1566804833e847449b4c8b2ec411fef2744/1816:71"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "212412d4fd1e3223f371029f95ecf7d346e9dd14",
+            "when": {
+              "View": "Contrast",
+              "Color": "Green"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "b92a768d11fdc1aa9ea1139ab8105e871d7d6075",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Green"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a77a9f07e0481b59cf499607d9e8cd91d06ca5a7",
+            "when": {
+              "View": "Muted",
+              "Color": "Green"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "aee489827b6ace6a586764a5f8bbe1f4ab2fa79d",
+            "when": {
+              "View": "Contrast",
+              "Color": "Blue"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "85af4e665bd560e0547cdf95fe950146ea65225c",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Blue"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "af621d58f81a7c00a1cc7f33da69ec6c38f39765",
+            "when": {
+              "View": "Muted",
+              "Color": "Blue"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e5dd038d1815abbf9988e66384aed5ed740bba5b",
+            "when": {
+              "View": "Contrast",
+              "Color": "Orange"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d3fa584ffb86edbb037fcd1293fd5514de77b5c2",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Orange"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a7750b69e265d0350e51b84a4ca3d4229214e9bc",
+            "when": {
+              "View": "Muted",
+              "Color": "Orange"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b5e7ec80a83f4ae44e527841f0aa2304be7d83fa",
+            "when": {
+              "View": "Contrast",
+              "Color": "Gray"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b4d9e03ceb27a9b6f9be352afb1cac424677531d",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Gray"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "9ef5468c9fd0d11ad27a6c1a533e154fb6072747",
+            "when": {
+              "View": "Muted",
+              "Color": "Gray"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "77e1af8ef40e7d3c242fb2e7042c01153e18cfd9",
+            "when": {
+              "View": "Contrast",
+              "Color": "Red"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "263b0db5f55f2d1a068190137bdc5a0741578296",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Red"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "f105c787ad4447c0130815c4e678aae6c0892059",
+            "when": {
+              "View": "Muted",
+              "Color": "Red"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "404ae890a41afb9f568ec5e2920fe6dc48726631",
+            "when": {
+              "View": "Contrast",
+              "Color": "Teal"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b5a2bb3a78b1faa6dbd9ff07f8436af5da1b0255",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Teal"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "2b52bda07093f00577d99446b6628d6d595a8316",
+            "when": {
+              "View": "Muted",
+              "Color": "Teal"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "375fdfca982f58a9e0a78c921cf0b4e22acffb56",
+            "when": {
+              "View": "Contrast",
+              "Color": "Purple"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "40ec55451af120193da8286d604a9ca3552a6c08",
+            "when": {
+              "View": "Muted-alt",
+              "Color": "Purple"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "5195b46d45e4b0bf5187c5ec9b047e5bdc2723e6",
+            "when": {
+              "View": "Muted",
+              "Color": "Purple"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Contrast, Color=Green",
+                "nodePath": "View=Contrast, Color=Green",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "View=Contrast, Color=Green / Label",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-scheduled",
+          "severity": "info",
+          "check": "scheduled component usage should be confirmed",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "🔄 Замени на актуальный",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping"
+        ]
+      }
+    },
+    {
+      "id": "addon-16.universal",
+      "name": "🔩 Addon_16",
+      "normalizedName": "addon-16",
+      "componentKey": "03b4cfeb463b9bc0f6622665704550ed5f322be3",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "18a30fb08cede08b6946976a7da221768364b1df",
+        "variants": {
+          "properties": {
+            "Type": [
+              "Icon 16",
+              "Icon 20",
+              "Spinner 16",
+              "SwapMe"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Type": "SwapMe"
+            },
+            {
+              "Type": "Icon 16"
+            },
+            {
+              "Type": "Icon 20"
+            },
+            {
+              "Type": "Spinner 16"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "18a30fb08cede08b6946976a7da221768364b1df",
+              "id": "57318:18337",
+              "name": "Type=SwapMe",
+              "properties": {
+                "Type": "SwapMe"
+              }
+            },
+            {
+              "key": "b8f09752d8d6a10565f954b8ca32142b7569e161",
+              "id": "57318:18341",
+              "name": "Type=Icon 16",
+              "properties": {
+                "Type": "Icon 16"
+              }
+            },
+            {
+              "key": "605e6aeb62ace63903db98f1bf195b117eb5b4a5",
+              "id": "145963:18579",
+              "name": "Type=Icon 20",
+              "properties": {
+                "Type": "Icon 20"
+              }
+            },
+            {
+              "key": "c50321de501fee9c54185923f702900a9d15152c",
+              "id": "57318:18345",
+              "name": "Type=Spinner 16",
+              "properties": {
+                "Type": "Spinner 16"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Type=SwapMe",
+            "type": "COMPONENT",
+            "path": "Type=SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Type=SwapMe",
+            "path": "Type=SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 6,
+                "bottom": 6,
+                "left": 6
+              }
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Type=SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "605e6aeb62ace63903db98f1bf195b117eb5b4a5": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Icon 20",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            }
+          ],
+          "c50321de501fee9c54185923f702900a9d15152c": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Type=Spinner 16",
+                "layout": {
+                  "itemSpacing": 10
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "18a30fb08cede08b6946976a7da221768364b1df",
+            "when": {
+              "Type": "SwapMe"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "b8f09752d8d6a10565f954b8ca32142b7569e161",
+            "when": {
+              "Type": "Icon 16"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=SwapMe",
+                "nodePath": "Type=SwapMe",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Type=Icon 16 / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "diamonds",
+                "nodePath": "Type=Icon 16 / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Type=Icon 16 / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "605e6aeb62ace63903db98f1bf195b117eb5b4a5",
+            "when": {
+              "Type": "Icon 20"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=SwapMe",
+                "nodePath": "Type=SwapMe",
+                "affects": [
+                  "fills",
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Fixer",
+                "nodePath": "Type=SwapMe / Fixer",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Type=Icon 20 / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "diamonds",
+                "nodePath": "Type=Icon 20 / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Type=Icon 20 / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c50321de501fee9c54185923f702900a9d15152c",
+            "when": {
+              "Type": "Spinner 16"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Type=SwapMe",
+                "nodePath": "Type=SwapMe",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Spinner",
+                "nodePath": "Type=Spinner 16 / Spinner",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Type=Spinner 16 / Spinner / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Mask",
+                "nodePath": "Type=Spinner 16 / Spinner / Fixer / Mask",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Mask",
+                "nodePath": "Type=Spinner 16 / Spinner / Fixer / Mask / Mask",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Ellipse 1",
+                "nodePath": "Type=Spinner 16 / Spinner / Fixer / Mask / Ellipse 1",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Head",
+                "nodePath": "Type=Spinner 16 / Spinner / Fixer / Head",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "Fixer",
+                "nodePath": "Type=SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Size 16",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "label.universal",
+      "name": "🔩 Label",
+      "normalizedName": "label",
+      "componentKey": "95ab46fa0fa83cdf26577e8231cc50f8ee96abbe",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "1d9b646fcd76e8976deb431422f2e93608618e70",
+        "variants": {
+          "properties": {
+            "Uppercase": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Uppercase": "False"
+            },
+            {
+              "Uppercase": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "1d9b646fcd76e8976deb431422f2e93608618e70",
+              "id": "34498:5729",
+              "name": "Uppercase=False",
+              "properties": {
+                "Uppercase": "False"
+              }
+            },
+            {
+              "key": "c5720bd66618dd78c6bb30ebbe438fb3c75e354f",
+              "id": "34498:5731",
+              "name": "Uppercase=True",
+              "properties": {
+                "Uppercase": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Uppercase=False",
+            "type": "COMPONENT",
+            "path": "Uppercase=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Uppercase=False / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Uppercase=False",
+            "path": "Uppercase=False",
+            "visible": true
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Uppercase=False / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+                "colorHex": "#2A77EF"
+              }
+            ],
+            "fillToken": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": 0.07000000029802322,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "c5720bd66618dd78c6bb30ebbe438fb3c75e354f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Uppercase=True",
+                "layout": {
+                  "padding": {
+                    "top": 2,
+                    "right": 0,
+                    "bottom": 2,
+                    "left": 0
+                  },
+                  "itemSpacing": 10
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Bold",
+                  "fontSize": 12,
+                  "lineHeight": 16,
+                  "letterSpacing": 1.25,
+                  "paragraphSpacing": 0,
+                  "case": "UPPER"
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:ad18a9a57c5f4e305430df89e88d879cf06eb4c5,119051:433945"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "1d9b646fcd76e8976deb431422f2e93608618e70",
+            "when": {
+              "Uppercase": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "c5720bd66618dd78c6bb30ebbe438fb3c75e354f",
+            "when": {
+              "Uppercase": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Uppercase=False",
+                "nodePath": "Uppercase=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Uppercase=False / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders"
+        ]
+      }
+    },
+    {
+      "id": "label.universal.936b5c3c",
+      "name": "🔩 Label",
+      "normalizedName": "label",
+      "componentKey": "a0c6e37a61cd5c5f5db767a5dfef09a9b6d2ece7",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "5979648b15fed7f52e8d9ae9ab6f4c27fe8fcc6e",
+        "variants": {
+          "properties": {
+            "Uppercase": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Uppercase": "True"
+            },
+            {
+              "Uppercase": "False"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "5979648b15fed7f52e8d9ae9ab6f4c27fe8fcc6e",
+              "id": "34498:5740",
+              "name": "Uppercase=True",
+              "properties": {
+                "Uppercase": "True"
+              }
+            },
+            {
+              "key": "753627af4deb886611e0402345d6e059a62c810b",
+              "id": "34498:5742",
+              "name": "Uppercase=False",
+              "properties": {
+                "Uppercase": "False"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Uppercase=True",
+            "type": "COMPONENT",
+            "path": "Uppercase=True",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Uppercase=True / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Uppercase=True",
+            "path": "Uppercase=True",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Uppercase=True / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+                "colorHex": "#2A77EF"
+              }
+            ],
+            "fillToken": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 11,
+              "lineHeight": 16,
+              "letterSpacing": 0,
+              "paragraphSpacing": 0,
+              "case": "UPPER"
+            }
+          }
+        ],
+        "variantStructures": {
+          "753627af4deb886611e0402345d6e059a62c810b": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 12,
+                  "lineHeight": 16,
+                  "letterSpacing": 0.1899999976158142,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:0f9096a276c520f4567ccf3c1a0f9bbf7744817a,119051:433965"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "5979648b15fed7f52e8d9ae9ab6f4c27fe8fcc6e",
+            "when": {
+              "Uppercase": "True"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "753627af4deb886611e0402345d6e059a62c810b",
+            "when": {
+              "Uppercase": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Uppercase=True",
+                "nodePath": "Uppercase=True",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Uppercase=True / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders",
+          "generated id collision for label.universal; appended key suffix 936b5c3c"
+        ]
+      }
+    },
+    {
+      "id": "status.universal.240ebbd8",
+      "name": "Status",
+      "normalizedName": "status",
+      "componentKey": "349af184bee87341370ef007d5e8189c51bd31ff",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "aec55d157498fb68e5ea5c960d128e9210c13767",
+        "variants": {
+          "properties": {
+            "LeftAddon": [
+              "False",
+              "True"
+            ],
+            "RightAddon": [
+              "False",
+              "True"
+            ],
+            "Shape": [
+              "Rectangular",
+              "Rounded"
+            ],
+            "Size": [
+              "20",
+              "24",
+              "32",
+              "40"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "aec55d157498fb68e5ea5c960d128e9210c13767",
+              "id": "34498:5763",
+              "name": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "951ec971a5292f38b2e0993c6cbd6e6330f0b982",
+              "id": "57318:18426",
+              "name": "Size=20, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rectangular",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "4a0b0b643d6816c141a95c3488d92e20085c99f6",
+              "id": "140021:1677",
+              "name": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "9fd4b9ae33ec55eec6e6974a7a6ce02a24320351",
+              "id": "34498:5777",
+              "name": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "0167a6dca6a9ea6de98c71737991da2e6c61aa09",
+              "id": "57318:18428",
+              "name": "Size=20, Shape=Rounded, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rounded",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "d58f9ab3975fb52cec733080d7d1300488591a9d",
+              "id": "140021:1680",
+              "name": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "20",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "a410d666446afa4beb01cd6c35e9e6642e9b28be",
+              "id": "34498:5762",
+              "name": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "c612685ee05a8c97dfb40d89e23bb4230b7eb34f",
+              "id": "57318:18430",
+              "name": "Size=24, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rectangular",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "c741f966d2c1a45a61c719858c64cb0c8fd4d841",
+              "id": "140021:1683",
+              "name": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "a54fc8de49f424f46ddb87e1f14103cda8a5456e",
+              "id": "34498:5779",
+              "name": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "9ad397b83da4e045d9a5de0ceba77bbe274032f0",
+              "id": "57318:18432",
+              "name": "Size=24, Shape=Rounded, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rounded",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "5708d65af3eeac77bd0820160e254b6e11cf7b8a",
+              "id": "140021:1686",
+              "name": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "24",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "656effbb898d44db17781f5167d9a557d5c64294",
+              "id": "34498:5761",
+              "name": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "c16347a795641a5b121c2f1085283cf0f6800ece",
+              "id": "57318:18434",
+              "name": "Size=32, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rectangular",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "4da55bba7e586cbf3f0c2f91f5740c87ab8f6812",
+              "id": "140021:1689",
+              "name": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "ed2de7b1913e5d63fe25c047aaa5891ab69ecf58",
+              "id": "34498:5781",
+              "name": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "7b17ed1289b4ff94bb4a4fee3d6f7d57d5a3a89f",
+              "id": "57318:18436",
+              "name": "Size=32, Shape=Rounded, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rounded",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "f226b980c42f83cc8fe6d92a026357e0f80479fc",
+              "id": "140021:1692",
+              "name": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "32",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "57bb8d0c7cb19878243a4bdce33fc4fe42d702ba",
+              "id": "34498:5760",
+              "name": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "ba85300e2fe12e759cfb03e201a2045c61bffadc",
+              "id": "57318:18438",
+              "name": "Size=40, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rectangular",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "5998563409984ad3ff4ecb8c846910abbfa57fb9",
+              "id": "140021:1695",
+              "name": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rectangular",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            },
+            {
+              "key": "e225ee56f4486414029710c5c6f4b396cadec1ef",
+              "id": "34498:5783",
+              "name": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=False",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "58d46c5967494695f3c967d2d1d625ffacf57a0b",
+              "id": "57318:18440",
+              "name": "Size=40, Shape=Rounded, LeftAddon=True, RightAddon=False",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rounded",
+                "LeftAddon": "True",
+                "RightAddon": "False"
+              }
+            },
+            {
+              "key": "98dae247372584a24f7734e7e3955debd8782d15",
+              "id": "140021:1698",
+              "name": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=True",
+              "properties": {
+                "Size": "40",
+                "Shape": "Rounded",
+                "LeftAddon": "False",
+                "RightAddon": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+            "type": "COMPONENT",
+            "path": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+            "path": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+            ],
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 8,
+                "bottom": 2,
+                "left": 8
+              }
+            },
+            "radius": 6,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Label",
+            "path": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+            "visible": true,
+            "variantProperties": {
+              "Uppercase": "False"
+            },
+            "layout": {
+              "itemSpacing": 10
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Uppercase": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+                "colorHex": "#2A77EF"
+              }
+            ],
+            "fillToken": "VariableID:373a7154059297e96c397d0055152b95685c34d5/3541:192",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 12,
+              "lineHeight": 16,
+              "letterSpacing": 0.1899999976158142,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:0f9096a276c520f4567ccf3c1a0f9bbf7744817a,119051:433965"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "951ec971a5292f38b2e0993c6cbd6e6330f0b982": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=20, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 2,
+                    "right": 8,
+                    "bottom": 2,
+                    "left": 6
+                  },
+                  "itemSpacing": 3
+                }
+              }
+            }
+          ],
+          "4a0b0b643d6816c141a95c3488d92e20085c99f6": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 2,
+                    "right": 6,
+                    "bottom": 2,
+                    "left": 8
+                  },
+                  "itemSpacing": 3
+                }
+              }
+            }
+          ],
+          "9fd4b9ae33ec55eec6e6974a7a6ce02a24320351": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=False",
+                "radius": 99
+              }
+            }
+          ],
+          "0167a6dca6a9ea6de98c71737991da2e6c61aa09": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=20, Shape=Rounded, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 2,
+                    "right": 8,
+                    "bottom": 2,
+                    "left": 6
+                  },
+                  "itemSpacing": 3
+                },
+                "radius": 99
+              }
+            }
+          ],
+          "d58f9ab3975fb52cec733080d7d1300488591a9d": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 2,
+                    "right": 6,
+                    "bottom": 2,
+                    "left": 8
+                  },
+                  "itemSpacing": 3
+                },
+                "radius": 99
+              }
+            }
+          ],
+          "a410d666446afa4beb01cd6c35e9e6642e9b28be": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 12,
+                    "bottom": 4,
+                    "left": 12
+                  }
+                }
+              }
+            }
+          ],
+          "c612685ee05a8c97dfb40d89e23bb4230b7eb34f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 12,
+                    "bottom": 4,
+                    "left": 8
+                  },
+                  "itemSpacing": 4
+                }
+              }
+            }
+          ],
+          "c741f966d2c1a45a61c719858c64cb0c8fd4d841": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 8,
+                    "bottom": 4,
+                    "left": 12
+                  },
+                  "itemSpacing": 4
+                }
+              }
+            }
+          ],
+          "a54fc8de49f424f46ddb87e1f14103cda8a5456e": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 12,
+                    "bottom": 4,
+                    "left": 12
+                  }
+                },
+                "radius": 99
+              }
+            }
+          ],
+          "9ad397b83da4e045d9a5de0ceba77bbe274032f0": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rounded, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 12,
+                    "bottom": 4,
+                    "left": 8
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 99
+              }
+            }
+          ],
+          "5708d65af3eeac77bd0820160e254b6e11cf7b8a": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 4,
+                    "right": 8,
+                    "bottom": 4,
+                    "left": 12
+                  },
+                  "itemSpacing": 4
+                },
+                "radius": 99
+              }
+            }
+          ],
+          "656effbb898d44db17781f5167d9a557d5c64294": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 16,
+                    "bottom": 6,
+                    "left": 16
+                  }
+                },
+                "radius": 10
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "c16347a795641a5b121c2f1085283cf0f6800ece": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 16,
+                    "bottom": 6,
+                    "left": 12
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 10
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "4da55bba7e586cbf3f0c2f91f5740c87ab8f6812": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 12,
+                    "bottom": 6,
+                    "left": 16
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 10
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "ed2de7b1913e5d63fe25c047aaa5891ab69ecf58": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 16,
+                    "bottom": 6,
+                    "left": 16
+                  }
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "7b17ed1289b4ff94bb4a4fee3d6f7d57d5a3a89f": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rounded, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 16,
+                    "bottom": 6,
+                    "left": 12
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "f226b980c42f83cc8fe6d92a026357e0f80479fc": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 6,
+                    "right": 12,
+                    "bottom": 6,
+                    "left": 16
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "57bb8d0c7cb19878243a4bdce33fc4fe42d702ba": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 20,
+                    "bottom": 10,
+                    "left": 20
+                  }
+                },
+                "radius": 12
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "ba85300e2fe12e759cfb03e201a2045c61bffadc": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rectangular, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 20,
+                    "bottom": 10,
+                    "left": 16
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 12
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "5998563409984ad3ff4ecb8c846910abbfa57fb9": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 16,
+                    "bottom": 10,
+                    "left": 20
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 12
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "e225ee56f4486414029710c5c6f4b396cadec1ef": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 20,
+                    "bottom": 10,
+                    "left": 20
+                  }
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "58d46c5967494695f3c967d2d1d625ffacf57a0b": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rounded, LeftAddon=True, RightAddon=False",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 20,
+                    "bottom": 10,
+                    "left": 16
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ],
+          "98dae247372584a24f7734e7e3955debd8782d15": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=True",
+                "layout": {
+                  "padding": {
+                    "top": 10,
+                    "right": 16,
+                    "bottom": 10,
+                    "left": 20
+                  },
+                  "itemSpacing": 6
+                },
+                "radius": 99
+              }
+            },
+            {
+              "op": "update",
+              "id": 3,
+              "value": {
+                "text": {
+                  "characters": "Label",
+                  "fontName": "Alfa Interface Sans Medium",
+                  "fontSize": 14,
+                  "lineHeight": 20,
+                  "letterSpacing": 0.07000000029802322,
+                  "paragraphSpacing": 0
+                },
+                "styles": {
+                  "text": {
+                    "styleKey": "S:f3cc4701ff633e5c5f3cbbc1d47e35a6a6f60dad,119051:433915"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "aec55d157498fb68e5ea5c960d128e9210c13767",
+            "when": {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "951ec971a5292f38b2e0993c6cbd6e6330f0b982",
+            "when": {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4a0b0b643d6816c141a95c3488d92e20085c99f6",
+            "when": {
+              "Size": "20",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "9fd4b9ae33ec55eec6e6974a7a6ce02a24320351",
+            "when": {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "0167a6dca6a9ea6de98c71737991da2e6c61aa09",
+            "when": {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=20, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=20, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "d58f9ab3975fb52cec733080d7d1300488591a9d",
+            "when": {
+              "Size": "20",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=20, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a410d666446afa4beb01cd6c35e9e6642e9b28be",
+            "when": {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c612685ee05a8c97dfb40d89e23bb4230b7eb34f",
+            "when": {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=24, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=24, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c741f966d2c1a45a61c719858c64cb0c8fd4d841",
+            "when": {
+              "Size": "24",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=24, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a54fc8de49f424f46ddb87e1f14103cda8a5456e",
+            "when": {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "9ad397b83da4e045d9a5de0ceba77bbe274032f0",
+            "when": {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=24, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=24, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "5708d65af3eeac77bd0820160e254b6e11cf7b8a",
+            "when": {
+              "Size": "24",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=24, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "656effbb898d44db17781f5167d9a557d5c64294",
+            "when": {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "c16347a795641a5b121c2f1085283cf0f6800ece",
+            "when": {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=32, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=32, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4da55bba7e586cbf3f0c2f91f5740c87ab8f6812",
+            "when": {
+              "Size": "32",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=32, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "ed2de7b1913e5d63fe25c047aaa5891ab69ecf58",
+            "when": {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "7b17ed1289b4ff94bb4a4fee3d6f7d57d5a3a89f",
+            "when": {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=32, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=32, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "f226b980c42f83cc8fe6d92a026357e0f80479fc",
+            "when": {
+              "Size": "32",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=32, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "57bb8d0c7cb19878243a4bdce33fc4fe42d702ba",
+            "when": {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "ba85300e2fe12e759cfb03e201a2045c61bffadc",
+            "when": {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=40, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=40, Shape=Rectangular, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "5998563409984ad3ff4ecb8c846910abbfa57fb9",
+            "when": {
+              "Size": "40",
+              "Shape": "Rectangular",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=40, Shape=Rectangular, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e225ee56f4486414029710c5c6f4b396cadec1ef",
+            "when": {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "58d46c5967494695f3c967d2d1d625ffacf57a0b",
+            "when": {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "True",
+              "RightAddon": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=40, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=40, Shape=Rounded, LeftAddon=True, RightAddon=False / Addon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "98dae247372584a24f7734e7e3955debd8782d15",
+            "when": {
+              "Size": "40",
+              "Shape": "Rounded",
+              "LeftAddon": "False",
+              "RightAddon": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False",
+                "affects": [
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 3,
+                "nodeName": "Label",
+                "nodePath": "Size=20, Shape=Rectangular, LeftAddon=False, RightAddon=False / Label / Label",
+                "affects": [
+                  "typography"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Addon",
+                "nodePath": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "strokes",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Size=40, Shape=Rounded, LeftAddon=False, RightAddon=True / Addon / Fixer",
+                "affects": [
+                  "structure",
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has visible text placeholders",
+          "generated id collision for status.universal; appended key suffix 240ebbd8"
+        ]
+      }
+    },
+    {
+      "id": "addon-12.universal",
+      "name": "🔩 Addon_12",
+      "normalizedName": "addon-12",
+      "componentKey": "64d8a818af92c6196789d87ec4c8dff74927d744",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "64d8a818af92c6196789d87ec4c8dff74927d744",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "64d8a818af92c6196789d87ec4c8dff74927d744",
+              "id": "57318:18478",
+              "name": "🔩 Addon_12",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 Addon_12",
+            "type": "COMPONENT",
+            "path": "🔩 Addon_12",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 Addon_12",
+            "path": "🔩 Addon_12",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 4,
+                "bottom": 4,
+                "left": 4
+              }
+            },
+            "radius": 4,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "🔩 Addon_12 / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "64d8a818af92c6196789d87ec4c8dff74927d744",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "variant name cannot be fully parsed: 🔩 Addon_12"
+        ]
+      }
+    }
+  ]
+}

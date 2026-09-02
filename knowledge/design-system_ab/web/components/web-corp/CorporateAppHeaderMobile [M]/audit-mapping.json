@@ -1,0 +1,407 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.corporate-app-header-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CorporateAppHeaderMobile [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CorporateAppHeaderMobile [M]"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "componentIdentity": {
+      "publicRoots": [
+        "[M] AppHeader :: Top",
+        "[M] AppHeader :: Bottom"
+      ],
+      "platform": "mobile-web",
+      "viewport": "320–767 px"
+    },
+    "displayNames": {
+      "variant.BackgroundColor": "Цвет фона",
+      "variant.Presets": "Сценарий навигации",
+      "variant.Active Tab": "Активный раздел",
+      "property.NativeStatusBar": "Нативный status bar",
+      "property.NavigationBar": "Навигационная панель",
+      "property.Overlap": "Разделитель при прокрутке",
+      "property.Profile": "Действие профиля"
+    },
+    "semanticInterpretation": {
+      "NavigationBar.Presets.Page": "Внутренняя страница продукта",
+      "NavigationBar.Presets.Home": "Главный экран",
+      "TabBar.Active Tab": "Текущий основной навигационный экран",
+      "AppHeaderTop.BackgroundColor": "Соответствует фону страницы",
+      "AppHeaderBottom.NativeSafariBottom.URL": "Default=True",
+      "BottomAddon.Content.Custom": "Произвольный разрешённый компонент",
+      "BottomAddon.Content.SegmentedContol": "Только SegmentedControl",
+      "BottomAddon.Content.FilterBlock": "Только мобильные фильтры",
+      "BottomAddon.Content.Segmented + Filter": "SegmentedControl и мобильные фильтры",
+      "Top.NativeStatusBar.True": "Рекомендуемый baseline для mobile-web и adaptive",
+      "Top.NavigationBar.False": "Допустимо только для полноэкранных Modal и PopupSheet",
+      "Top.Overlap": "False до прокрутки; True при скролле",
+      "CenteredMainSlot.Content": "Title + Subtitle, Title или None; overflow=ellipsis",
+      "Home.Profile.True": "После перехода из TabBar-раздела в NavigationBar"
+    },
+    "bottomStatePolicy": {
+      "allowedCombinations": [
+        "TabBar=True + NativeSafariBottom=True",
+        "TabBar=False + NativeSafariBottom=True"
+      ],
+      "NativeSafariBottomDefaults": {
+        "URL": "True",
+        "Tabs": "False",
+        "DarkMode": "False"
+      },
+      "allowedNonDefault": [
+        "Tabs=True",
+        "DarkMode=True"
+      ],
+      "rawMismatch": "Generated raw currently reports Tabs=True; manual owner-confirmed default is Tabs=False."
+    },
+    "tabBarContentPolicy": {
+      "itemsAndOrder": "fixed",
+      "indicators": "allowed-context-dependent"
+    },
+    "layoutPolicy": {
+      "top": "fill viewport width, hug content height, fixed top",
+      "bottom": "fill viewport width, hug content height, fixed bottom",
+      "manualGeometryOverrides": "forbidden"
+    },
+    "visualPolicy": {
+      "manualOverrides": "forbidden",
+      "properties": [
+        "fill",
+        "stroke",
+        "radius",
+        "styles.text",
+        "opacity",
+        "effects.*"
+      ],
+      "baselinePolicy": "Use effective component-property and token baseline."
+    },
+    "stateOwnership": {
+      "loading": "nested component",
+      "disabled": "nested component",
+      "error": "nested component",
+      "skeleton": "nested component"
+    },
+    "interactionChecks": [
+      "Back navigates to previous screen",
+      "FloatingCross closes current page or modal entity",
+      "Action and IconButton behavior is product-owned",
+      "TabBar selection navigates to the section and updates Active Tab"
+    ],
+    "severityPolicy": {
+      "errorRuleIds": [
+        "component:web-corp.corporate-app-header-mobile.mobile-navigation-wrapper",
+        "component:web-corp.corporate-app-header-mobile.public-roots",
+        "component:web-corp.corporate-app-header-mobile.tab-bar-navigation-screens",
+        "component:web-corp.corporate-app-header-mobile.top-required-and-status-bar",
+        "component:web-corp.corporate-app-header-mobile.background-matches-page",
+        "component:web-corp.corporate-app-header-mobile.navigation-bar-visibility",
+        "component:web-corp.corporate-app-header-mobile.home-exact-composition",
+        "component:web-corp.corporate-app-header-mobile.bottom-required-native-safari",
+        "component:web-corp.corporate-app-header-mobile.tab-bar-fixed-content",
+        "component:web-corp.corporate-app-header-mobile.layout-and-position",
+        "component:web-corp.corporate-app-header-mobile.visual-baseline",
+        "component:web-corp.corporate-app-header-mobile.right-addon-icon-count",
+        "component:web-corp.corporate-app-header-mobile.preserve-library-composition"
+      ],
+      "warningRuleIds": [
+        "component:web-corp.corporate-app-header-mobile.native-status-bar-recommended"
+      ]
+    },
+    "compositionPolicy": {
+      "detach": "error",
+      "defaultInternalSwap": "error",
+      "allowedSwaps": [
+        "BottomAddon.Content=Custom",
+        "RightAddon.Content=Icons glyph while preserving [D] IconButton"
+      ]
+    },
+    "codeStatus": {
+      "implementation": "exists-unverified",
+      "codeConnect": "not-configured"
+    },
+    "compositionChecks": [
+      "[M] AppHeader :: Top is required",
+      "NativeStatusBar remains visible in standalone mobile-web and adaptive mobile state",
+      "NavigationBar, TabBar and service slots are internal to AppHeader public roots",
+      "TabBar is hosted by [M] AppHeader :: Bottom",
+      "Active Tab matches the current main navigation screen"
+    ],
+    "slotChecks": {
+      "LeftAddon.Back": "page has backward navigation",
+      "LeftAddon.None": "empty slot",
+      "RightAddon.Icons": "one or two [D] IconButton",
+      "RightAddon.FloatingCross": "close page",
+      "RightAddon.Action": "one text action",
+      "RightAddon.None": "empty slot"
+    },
+    "runtimeLimitations": [
+      "Контекст текущего экрана и необходимость нижней навигации не определяются статическим layer diff без composition or screen evidence.",
+      "Runtime-owned переключение Overlap требует scroll evidence и не выводится только из статического layer diff.",
+      "Разрешённость конкретного индикатора TabBar зависит от продуктового контекста и требует context evidence.",
+      "Действия Action и IconButton требуют product interaction evidence; статический diff подтверждает только допустимое число и тип slot.",
+      "Code package/export не верифицированы; не выводи их из имени Figma-компонента."
+    ]
+  }
+}

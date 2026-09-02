@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.filter-company-select",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-09-02"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "filter-company-select.pass-public-single-compact",
+        "title": "PASS · Compact с выбранной компанией",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Single",
+          "platform": "desktop",
+          "View": "Compact",
+          "Selected": "True",
+          "ShowFirstCompany": "False"
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "evidence": "predicate-release-service:C21 compact pass"
+      },
+      {
+        "exampleId": "filter-company-select.fail-internal-root",
+        "title": "FAIL · Вставлен внутренний CompactTag",
+        "inputState": {
+          "root": "[D] CompactTag",
+          "standalone": true,
+          "platform": "desktop"
+        },
+        "expectedAudit": {
+          "category": "components",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select.public-roots-only"
+        },
+        "evidence": "predicate-release-service:C21 internal root"
+      },
+      {
+        "exampleId": "filter-company-select.fail-mobile-web",
+        "title": "FAIL · Desktop root использован на mobile-web",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Single",
+          "platform": "mobile-web"
+        },
+        "expectedAudit": {
+          "category": "components",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select.desktop-only"
+        },
+        "evidence": "predicate-release-service:C21 platform"
+      },
+      {
+        "exampleId": "filter-company-select.fail-legacy-show-first-company",
+        "title": "FAIL · Включён legacy ShowFirstCompany",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Multi",
+          "platform": "desktop",
+          "ShowFirstCompany": "True"
+        },
+        "expectedAudit": {
+          "category": "components",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select.show-first-company-forbidden"
+        },
+        "evidence": "predicate-release-service:C21 legacy"
+      },
+      {
+        "exampleId": "filter-company-select.fail-compact-without-selection",
+        "title": "FAIL · Compact без выбранной компании",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Single",
+          "platform": "desktop",
+          "View": "Compact",
+          "Selected": "False",
+          "ShowFirstCompany": "False"
+        },
+        "expectedAudit": {
+          "category": "components",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select.single-compact-selected-required"
+        },
+        "evidence": "predicate-release-service:C21 compact fail"
+      },
+      {
+        "exampleId": "filter-company-select.fail-root-radius",
+        "title": "FAIL · Изменён radius public root",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Single",
+          "platform": "desktop",
+          "property": "radius",
+          "actual": 20,
+          "baseline": 12
+        },
+        "expectedAudit": {
+          "category": "components",
+          "severity": "error",
+          "ruleId": "component:web-corp.filter-company-select.root-visuals-follow-effective-baseline.radius"
+        },
+        "evidence": "predicate-release-service:C21 baseline"
+      },
+      {
+        "exampleId": "filter-company-select.not-evaluable-search-company-count",
+        "title": "NOT-EVALUABLE · Нет полного companyCount до поиска",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Multi",
+          "searchVisible": true
+        },
+        "expectedAudit": {
+          "category": "none",
+          "classification": "not-evaluable"
+        },
+        "evidence": "interaction/runtime fixture required"
+      },
+      {
+        "exampleId": "filter-company-select.interaction-multi-transaction",
+        "title": "INTERACTION · Multi apply / close / reset",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Multi",
+          "checks": [
+            "apply-commits",
+            "close-cancels",
+            "reset-commits-empty"
+          ]
+        },
+        "expectedAudit": {
+          "route": "interaction"
+        },
+        "evidence": "product interaction test required"
+      },
+      {
+        "exampleId": "filter-company-select.llm-holding-placement",
+        "title": "LLM · View и размещение в holding-сценарии",
+        "inputState": {
+          "root": "[D] FilterCompanySelect_Single",
+          "View": "Select",
+          "pageType": "form",
+          "holdingMode": "unknown"
+        },
+        "expectedAudit": {
+          "route": "llm-agent",
+          "classification": "not-evaluable-without-context"
+        },
+        "evidence": "holding-company-selection owner pattern"
+      }
+    ]
+  }
+}

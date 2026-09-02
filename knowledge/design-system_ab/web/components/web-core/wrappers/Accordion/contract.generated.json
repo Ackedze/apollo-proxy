@@ -1,0 +1,2876 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core Wrappers",
+    "file": "Web :: Core Wrappers",
+    "generatedAt": "2026-04-28T18:16:48.278Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 6,
+    "contractCount": 6,
+    "activeCount": 5,
+    "deprecatedCount": 1,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "accordion.universal",
+      "name": "Accordion",
+      "normalizedName": "accordion",
+      "componentKey": "c4e240dc55e24c724d99829eabaa9af1e5a178f5",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "6bc3a63d7ed89c43d6b78a477186b13faa66fd3e",
+        "variants": {
+          "properties": {
+            "Content": [
+              "False",
+              "True"
+            ],
+            "ControlSide": [
+              "Left",
+              "Right"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Content": "True",
+              "ControlSide": "Right"
+            },
+            {
+              "Content": "False",
+              "ControlSide": "Right"
+            },
+            {
+              "Content": "True",
+              "ControlSide": "Left"
+            },
+            {
+              "Content": "False",
+              "ControlSide": "Left"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "6bc3a63d7ed89c43d6b78a477186b13faa66fd3e",
+              "id": "15691:10380",
+              "name": "Content=True, ControlSide=Right",
+              "properties": {
+                "Content": "True",
+                "ControlSide": "Right"
+              }
+            },
+            {
+              "key": "582a00330d1f466c935ae9b4e709b63f9a87dfdb",
+              "id": "15691:10560",
+              "name": "Content=False, ControlSide=Right",
+              "properties": {
+                "Content": "False",
+                "ControlSide": "Right"
+              }
+            },
+            {
+              "key": "7a7206083b9359e1efa86833a8016644ba5b6892",
+              "id": "15691:10601",
+              "name": "Content=True, ControlSide=Left",
+              "properties": {
+                "Content": "True",
+                "ControlSide": "Left"
+              }
+            },
+            {
+              "key": "927d7563560d6b767a25edcfd57d375c8bc9d249",
+              "id": "15691:10610",
+              "name": "Content=False, ControlSide=Left",
+              "properties": {
+                "Content": "False",
+                "ControlSide": "Left"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Content=True, ControlSide=Right",
+            "type": "COMPONENT",
+            "path": "Content=True, ControlSide=Right",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Header",
+            "type": "SLOT",
+            "path": "Content=True, ControlSide=Right / HeadLine / Header",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          },
+          {
+            "name": "Control",
+            "type": "SLOT",
+            "path": "Content=True, ControlSide=Right / HeadLine / Control",
+            "required": false,
+            "visible": true,
+            "nodeId": 7
+          },
+          {
+            "name": "Content",
+            "type": "FRAME",
+            "path": "Content=True, ControlSide=Right / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 11
+          },
+          {
+            "name": "Body",
+            "type": "SLOT",
+            "path": "Content=True, ControlSide=Right / Content / Body",
+            "required": true,
+            "visible": true,
+            "nodeId": 12
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+          ],
+          "spacing": [
+            "VariableID:4a3bd04e770632550b1e8f6c00c38881bb5b461c/1:34",
+            "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+          ],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Content=True, ControlSide=Right",
+            "path": "Content=True, ControlSide=Right",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacingToken": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+              "paddingTokens": {
+                "top": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "right": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "bottom": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "left": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+              }
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "HeadLine",
+            "path": "Content=True, ControlSide=Right / HeadLine",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:4a3bd04e770632550b1e8f6c00c38881bb5b461c/1:34",
+              "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 8,
+              "itemSpacingToken": "VariableID:4a3bd04e770632550b1e8f6c00c38881bb5b461c/1:34",
+              "paddingTokens": {
+                "top": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "right": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "bottom": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "left": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "SLOT",
+            "name": "Header",
+            "path": "Content=True, ControlSide=Right / HeadLine / Header",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionHeader",
+            "path": "Content=True, ControlSide=Right / HeadLine / Header / 🔩 AccordionHeader",
+            "visible": true,
+            "variantProperties": {
+              "Preset": "SwapMe"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Preset": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Content=True, ControlSide=Right / HeadLine / Header / 🔩 AccordionHeader / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Content=True, ControlSide=Right / HeadLine / Header / 🔩 AccordionHeader / 🔩  SwapMe / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 2,
+            "type": "SLOT",
+            "name": "Control",
+            "path": "Content=True, ControlSide=Right / HeadLine / Control",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionControl",
+            "path": "Content=True, ControlSide=Right / HeadLine / Control / 🔩 AccordionControl",
+            "visible": true,
+            "variantProperties": {
+              "Presets": "SwapMe",
+              "Open": "False"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Presets": "SwapMe",
+                "Open": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Content=True, ControlSide=Right / HeadLine / Control / 🔩 AccordionControl / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Content=True, ControlSide=Right / HeadLine / Control / 🔩 AccordionControl / 🔩  SwapMe / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 11,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Content",
+            "path": "Content=True, ControlSide=Right / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "SLOT",
+            "name": "Body",
+            "path": "Content=True, ControlSide=Right / Content / Body",
+            "visible": true
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionBody",
+            "path": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody",
+            "visible": true,
+            "variantProperties": {
+              "Preset": "SwapMe"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Preset": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "582a00330d1f466c935ae9b4e709b63f9a87dfdb": [
+            {
+              "op": "remove",
+              "id": 11
+            },
+            {
+              "op": "remove",
+              "id": 12
+            },
+            {
+              "op": "remove",
+              "id": 13
+            },
+            {
+              "op": "remove",
+              "id": 14
+            },
+            {
+              "op": "remove",
+              "id": 15
+            }
+          ],
+          "927d7563560d6b767a25edcfd57d375c8bc9d249": [
+            {
+              "op": "remove",
+              "id": 11
+            },
+            {
+              "op": "remove",
+              "id": 12
+            },
+            {
+              "op": "remove",
+              "id": 13
+            },
+            {
+              "op": "remove",
+              "id": 14
+            },
+            {
+              "op": "remove",
+              "id": 15
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "6bc3a63d7ed89c43d6b78a477186b13faa66fd3e",
+            "when": {
+              "Content": "True",
+              "ControlSide": "Right"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "582a00330d1f466c935ae9b4e709b63f9a87dfdb",
+            "when": {
+              "Content": "False",
+              "ControlSide": "Right"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Content=True, ControlSide=Right",
+                "nodePath": "Content=True, ControlSide=Right",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 11,
+                "nodeName": "Content",
+                "nodePath": "Content=True, ControlSide=Right / Content",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 12,
+                "nodeName": "Body",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 13,
+                "nodeName": "🔩 AccordionBody",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 14,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 15,
+                "nodeName": "Fixer",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "7a7206083b9359e1efa86833a8016644ba5b6892",
+            "when": {
+              "Content": "True",
+              "ControlSide": "Left"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Content=True, ControlSide=Right",
+                "nodePath": "Content=True, ControlSide=Right",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "927d7563560d6b767a25edcfd57d375c8bc9d249",
+            "when": {
+              "Content": "False",
+              "ControlSide": "Left"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Content=True, ControlSide=Right",
+                "nodePath": "Content=True, ControlSide=Right",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 11,
+                "nodeName": "Content",
+                "nodePath": "Content=True, ControlSide=Right / Content",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 12,
+                "nodeName": "Body",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 13,
+                "nodeName": "🔩 AccordionBody",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 14,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 15,
+                "nodeName": "Fixer",
+                "nodePath": "Content=True, ControlSide=Right / Content / Body / 🔩 AccordionBody / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "accordion.universal.a4630073",
+      "name": "❌ Accordion",
+      "normalizedName": "accordion",
+      "componentKey": "6dff8dfbbc3a4578289823489e06bb801affca13",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "deprecated",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "8116252d6510382e8da032f39762a2ffa8b3e0cc",
+        "variants": {
+          "properties": {
+            "ControlPosition": [
+              "Left",
+              "Right"
+            ],
+            "Open": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "ControlPosition": "Right",
+              "Open": "False"
+            },
+            {
+              "ControlPosition": "Left",
+              "Open": "False"
+            },
+            {
+              "ControlPosition": "Right",
+              "Open": "True"
+            },
+            {
+              "ControlPosition": "Left",
+              "Open": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "8116252d6510382e8da032f39762a2ffa8b3e0cc",
+              "id": "2480:1039",
+              "name": "ControlPosition=Right, Open=False",
+              "properties": {
+                "ControlPosition": "Right",
+                "Open": "False"
+              }
+            },
+            {
+              "key": "6ae3f091d83cf94a9f64398de8ea5afaae7cc9dd",
+              "id": "2480:1046",
+              "name": "ControlPosition=Left, Open=False",
+              "properties": {
+                "ControlPosition": "Left",
+                "Open": "False"
+              }
+            },
+            {
+              "key": "4958412eee40c52d2b2188fca3c98864564ad05c",
+              "id": "2480:1053",
+              "name": "ControlPosition=Right, Open=True",
+              "properties": {
+                "ControlPosition": "Right",
+                "Open": "True"
+              }
+            },
+            {
+              "key": "b374bafaa72bf1d2d9b2ea1386de0469a3628152",
+              "id": "2480:1061",
+              "name": "ControlPosition=Left, Open=True",
+              "properties": {
+                "ControlPosition": "Left",
+                "Open": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "ControlPosition=Right, Open=False",
+            "type": "COMPONENT",
+            "path": "ControlPosition=Right, Open=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+          ],
+          "spacing": [
+            "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+          ],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "ControlPosition=Right, Open=False",
+            "path": "ControlPosition=Right, Open=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacingToken": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+              "paddingTokens": {
+                "top": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "right": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "bottom": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "left": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+              }
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "HeadLine",
+            "path": "ControlPosition=Right, Open=False / HeadLine",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacingToken": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+              "paddingTokens": {
+                "top": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "right": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "bottom": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7",
+                "left": "VariableID:72e2988d91d32bc45f988052a35513d3755e8c56/1:7"
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionHeader",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionHeader",
+            "visible": true,
+            "variantProperties": {
+              "Preset": "SwapMe"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Preset": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionHeader / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionHeader / 🔩  SwapMe / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "Gap",
+            "path": "ControlPosition=Right, Open=False / HeadLine / Gap",
+            "visible": true,
+            "variantProperties": {
+              "Size": "4"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "4"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "ControlPosition=Right, Open=False / HeadLine / Gap / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 8,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionControl",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl",
+            "visible": true,
+            "variantProperties": {
+              "Presets": "SwapMe",
+              "Open": "False"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Presets": "SwapMe",
+                "Open": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl / 🔩  SwapMe / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 11,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "body",
+            "path": "ControlPosition=Right, Open=False / body",
+            "visible": false
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "INSTANCE",
+            "name": "🔩 AccordionBody",
+            "path": "ControlPosition=Right, Open=False / body / 🔩 AccordionBody",
+            "visible": true,
+            "variantProperties": {
+              "Preset": "SwapMe"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "Preset": "SwapMe"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "ControlPosition=Right, Open=False / body / 🔩 AccordionBody / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "ControlPosition=Right, Open=False / body / 🔩 AccordionBody / 🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "4958412eee40c52d2b2188fca3c98864564ad05c": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Presets": "SwapMe",
+                    "Open": "True"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 11,
+              "value": {
+                "visible": true
+              }
+            }
+          ],
+          "b374bafaa72bf1d2d9b2ea1386de0469a3628152": [
+            {
+              "op": "update",
+              "id": 8,
+              "value": {
+                "componentInstance": {
+                  "variantProperties": {
+                    "Presets": "SwapMe",
+                    "Open": "True"
+                  }
+                }
+              }
+            },
+            {
+              "op": "update",
+              "id": 11,
+              "value": {
+                "visible": true
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "8116252d6510382e8da032f39762a2ffa8b3e0cc",
+            "when": {
+              "ControlPosition": "Right",
+              "Open": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "6ae3f091d83cf94a9f64398de8ea5afaae7cc9dd",
+            "when": {
+              "ControlPosition": "Left",
+              "Open": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ControlPosition=Right, Open=False",
+                "nodePath": "ControlPosition=Right, Open=False",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "4958412eee40c52d2b2188fca3c98864564ad05c",
+            "when": {
+              "ControlPosition": "Right",
+              "Open": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ControlPosition=Right, Open=False",
+                "nodePath": "ControlPosition=Right, Open=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "🔩 AccordionControl",
+                "nodePath": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Gap",
+                "nodePath": "ControlPosition=Right, Open=True / Gap",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "ControlPosition=Right, Open=True / Gap / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 11,
+                "nodeName": "body",
+                "nodePath": "ControlPosition=Right, Open=False / body",
+                "affects": [
+                  "visibility"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "b374bafaa72bf1d2d9b2ea1386de0469a3628152",
+            "when": {
+              "ControlPosition": "Left",
+              "Open": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "ControlPosition=Right, Open=False",
+                "nodePath": "ControlPosition=Right, Open=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 8,
+                "nodeName": "🔩 AccordionControl",
+                "nodePath": "ControlPosition=Right, Open=False / HeadLine / 🔩 AccordionControl",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Gap",
+                "nodePath": "ControlPosition=Left, Open=True / Gap",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "ControlPosition=Left, Open=True / Gap / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 11,
+                "nodeName": "body",
+                "nodePath": "ControlPosition=Right, Open=False / body",
+                "affects": [
+                  "visibility"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-deprecated",
+          "severity": "major",
+          "check": "deprecated component should not be used in new designs",
+          "executable": true
+        },
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "Смотри описание в спеке. Решили разкомпонентить аккордион по образу женерик враппера.",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token",
+          "deprecated component has no migration replacement",
+          "generated id collision for accordion.universal; appended key suffix a4630073"
+        ]
+      }
+    },
+    {
+      "id": "accordion-body.universal",
+      "name": "🔩 AccordionBody",
+      "normalizedName": "accordion-body",
+      "componentKey": "14563c1d7e17cbfe247fc21587587e990b843f79",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "3e39ee250812431143777b8149bc390a394d7407",
+        "variants": {
+          "properties": {
+            "Preset": [
+              "SwapMe",
+              "Text"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Preset": "SwapMe"
+            },
+            {
+              "Preset": "Text"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "3e39ee250812431143777b8149bc390a394d7407",
+              "id": "2480:1034",
+              "name": "Preset=SwapMe",
+              "properties": {
+                "Preset": "SwapMe"
+              }
+            },
+            {
+              "key": "95be9672d94587ee349600de01eea74e42d27b93",
+              "id": "2480:1036",
+              "name": "Preset=Text",
+              "properties": {
+                "Preset": "Text"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Preset=SwapMe",
+            "type": "COMPONENT",
+            "path": "Preset=SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Preset=SwapMe",
+            "path": "Preset=SwapMe",
+            "visible": true,
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Preset=SwapMe / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Preset=SwapMe / 🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "95be9672d94587ee349600de01eea74e42d27b93": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Preset=Text",
+                "layout": {
+                  "itemSpacing": 10
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "3e39ee250812431143777b8149bc390a394d7407",
+            "when": {
+              "Preset": "SwapMe"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "95be9672d94587ee349600de01eea74e42d27b93",
+            "when": {
+              "Preset": "Text"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Preset=SwapMe",
+                "nodePath": "Preset=SwapMe",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Заголовок",
+                "nodePath": "Preset=Text / Заголовок",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Preset=SwapMe / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Preset=SwapMe / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "accordion-header.universal",
+      "name": "🔩 AccordionHeader",
+      "normalizedName": "accordion-header",
+      "componentKey": "c040aff983fff50553093f5574cec66b5a32f3ae",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "5b9dd7839a5ef5e31c3ebd06aaab190cf6d1d88c",
+        "variants": {
+          "properties": {
+            "Preset": [
+              "SwapMe",
+              "Text"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Preset": "SwapMe"
+            },
+            {
+              "Preset": "Text"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "5b9dd7839a5ef5e31c3ebd06aaab190cf6d1d88c",
+              "id": "2480:1029",
+              "name": "Preset=SwapMe",
+              "properties": {
+                "Preset": "SwapMe"
+              }
+            },
+            {
+              "key": "c03a9dfd405dd28bfdfc40d57f3912e5637bd457",
+              "id": "2480:1031",
+              "name": "Preset=Text",
+              "properties": {
+                "Preset": "Text"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Preset=SwapMe",
+            "type": "COMPONENT",
+            "path": "Preset=SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Preset=SwapMe",
+            "path": "Preset=SwapMe",
+            "visible": true,
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Preset=SwapMe / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Preset=SwapMe / 🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "c03a9dfd405dd28bfdfc40d57f3912e5637bd457": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Preset=Text",
+                "layout": {
+                  "itemSpacing": 10
+                },
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "5b9dd7839a5ef5e31c3ebd06aaab190cf6d1d88c",
+            "when": {
+              "Preset": "SwapMe"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "c03a9dfd405dd28bfdfc40d57f3912e5637bd457",
+            "when": {
+              "Preset": "Text"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Preset=SwapMe",
+                "nodePath": "Preset=SwapMe",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Заголовок",
+                "nodePath": "Preset=Text / Заголовок",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Preset=SwapMe / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Preset=SwapMe / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    },
+    {
+      "id": "swap-me.universal",
+      "name": "🔩  SwapMe",
+      "normalizedName": "swap-me",
+      "componentKey": "aac232a178dc1933b296306a778ed597d9b6da41",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "aac232a178dc1933b296306a778ed597d9b6da41",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "aac232a178dc1933b296306a778ed597d9b6da41",
+              "id": "2480:1026",
+              "name": "🔩  SwapMe",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩  SwapMe",
+            "type": "COMPONENT",
+            "path": "🔩  SwapMe",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩  SwapMe",
+            "path": "🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "aac232a178dc1933b296306a778ed597d9b6da41",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "variant name cannot be fully parsed: 🔩  SwapMe"
+        ]
+      }
+    },
+    {
+      "id": "accordion-control.universal",
+      "name": "🔩 AccordionControl",
+      "normalizedName": "accordion-control",
+      "componentKey": "2c5cb09a4530f2c241c1a3f3c65e808bedc9e869",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:16:48.278Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "114035ff0d76719d7abda0832ec0d0387beebb09",
+        "variants": {
+          "properties": {
+            "Open": [
+              "False",
+              "True"
+            ],
+            "Presets": [
+              "Down Chevron",
+              "Right Chevron",
+              "SwapMe"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Presets": "SwapMe",
+              "Open": "False"
+            },
+            {
+              "Presets": "Down Chevron",
+              "Open": "False"
+            },
+            {
+              "Presets": "Right Chevron",
+              "Open": "False"
+            },
+            {
+              "Presets": "SwapMe",
+              "Open": "True"
+            },
+            {
+              "Presets": "Down Chevron",
+              "Open": "True"
+            },
+            {
+              "Presets": "Right Chevron",
+              "Open": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "114035ff0d76719d7abda0832ec0d0387beebb09",
+              "id": "2480:998",
+              "name": "Presets=SwapMe, Open=False",
+              "properties": {
+                "Presets": "SwapMe",
+                "Open": "False"
+              }
+            },
+            {
+              "key": "8e4a2d78d9d8d702df2c675dca4e7a8a8cb11666",
+              "id": "2480:1000",
+              "name": "Presets=Down Chevron, Open=False",
+              "properties": {
+                "Presets": "Down Chevron",
+                "Open": "False"
+              }
+            },
+            {
+              "key": "e36af37d072cb4c0ebb08e22852ce454178776a2",
+              "id": "2480:1006",
+              "name": "Presets=Right Chevron, Open=False",
+              "properties": {
+                "Presets": "Right Chevron",
+                "Open": "False"
+              }
+            },
+            {
+              "key": "7b5d8dba1a0f0804f5f958e66687a381b907fc2b",
+              "id": "2480:1012",
+              "name": "Presets=SwapMe, Open=True",
+              "properties": {
+                "Presets": "SwapMe",
+                "Open": "True"
+              }
+            },
+            {
+              "key": "dc564b753e4627d1032a124daa074a24f6c3b778",
+              "id": "2480:1014",
+              "name": "Presets=Down Chevron, Open=True",
+              "properties": {
+                "Presets": "Down Chevron",
+                "Open": "True"
+              }
+            },
+            {
+              "key": "e457f55a22e3d88f47803e411e97296a0823c3fb",
+              "id": "2480:1020",
+              "name": "Presets=Right Chevron, Open=True",
+              "properties": {
+                "Presets": "Right Chevron",
+                "Open": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Presets=SwapMe, Open=False",
+            "type": "COMPONENT",
+            "path": "Presets=SwapMe, Open=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144"
+          ],
+          "strokes": [
+            "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          ],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Presets=SwapMe, Open=False",
+            "path": "Presets=SwapMe, Open=False",
+            "visible": true,
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "🔩  SwapMe",
+            "path": "Presets=SwapMe, Open=False / 🔩  SwapMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+              "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+            ],
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+                "colorHex": "#D8EAFF"
+              }
+            ],
+            "fillToken": "VariableID:587496c4b18675f26a868d9dd6c8c5589f177de5/3541:144",
+            "strokes": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190",
+                "colorHex": "#2288FA"
+              }
+            ],
+            "strokeToken": "VariableID:b10db1879590531b56541f549df1687fe4a23efb/3541:190"
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Presets=SwapMe, Open=False / 🔩  SwapMe / Fixer",
+            "visible": true
+          }
+        ],
+        "variantStructures": {
+          "8e4a2d78d9d8d702df2c675dca4e7a8a8cb11666": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Presets=Down Chevron, Open=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ],
+          "e36af37d072cb4c0ebb08e22852ce454178776a2": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Presets=Right Chevron, Open=False",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ],
+          "dc564b753e4627d1032a124daa074a24f6c3b778": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Presets=Down Chevron, Open=True",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ],
+          "e457f55a22e3d88f47803e411e97296a0823c3fb": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Presets=Right Chevron, Open=True",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": false,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FFFFFF"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 2
+            },
+            {
+              "op": "remove",
+              "id": 3
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "114035ff0d76719d7abda0832ec0d0387beebb09",
+            "when": {
+              "Presets": "SwapMe",
+              "Open": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "8e4a2d78d9d8d702df2c675dca4e7a8a8cb11666",
+            "when": {
+              "Presets": "Down Chevron",
+              "Open": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=SwapMe, Open=False",
+                "nodePath": "Presets=SwapMe, Open=False",
+                "affects": [
+                  "fills",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "container",
+                "nodePath": "Presets=Down Chevron, Open=False / container",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "↕ TopPadding",
+                "nodePath": "Presets=Down Chevron, Open=False / container / ↕ TopPadding",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Down Chevron, Open=False / container / ↕ TopPadding / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Down Chevron, Open=False / container / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Presets=Down Chevron, Open=False / container / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "chevron-down",
+                "nodePath": "Presets=Down Chevron, Open=False / container / Fixer / PaintMe / chevron-down",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Presets=Down Chevron, Open=False / container / Fixer / PaintMe / chevron-down / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e36af37d072cb4c0ebb08e22852ce454178776a2",
+            "when": {
+              "Presets": "Right Chevron",
+              "Open": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=SwapMe, Open=False",
+                "nodePath": "Presets=SwapMe, Open=False",
+                "affects": [
+                  "fills",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "container",
+                "nodePath": "Presets=Right Chevron, Open=False / container",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "↕ TopPadding",
+                "nodePath": "Presets=Right Chevron, Open=False / container / ↕ TopPadding",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Right Chevron, Open=False / container / ↕ TopPadding / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Right Chevron, Open=False / container / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Presets=Right Chevron, Open=False / container / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "chevron-right",
+                "nodePath": "Presets=Right Chevron, Open=False / container / Fixer / PaintMe / chevron-right",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Presets=Right Chevron, Open=False / container / Fixer / PaintMe / chevron-right / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "7b5d8dba1a0f0804f5f958e66687a381b907fc2b",
+            "when": {
+              "Presets": "SwapMe",
+              "Open": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=SwapMe, Open=False",
+                "nodePath": "Presets=SwapMe, Open=False",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "dc564b753e4627d1032a124daa074a24f6c3b778",
+            "when": {
+              "Presets": "Down Chevron",
+              "Open": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=SwapMe, Open=False",
+                "nodePath": "Presets=SwapMe, Open=False",
+                "affects": [
+                  "fills",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "container",
+                "nodePath": "Presets=Down Chevron, Open=True / container",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "↕ TopPadding",
+                "nodePath": "Presets=Down Chevron, Open=True / container / ↕ TopPadding",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Down Chevron, Open=True / container / ↕ TopPadding / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Down Chevron, Open=True / container / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Presets=Down Chevron, Open=True / container / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "chevron-down",
+                "nodePath": "Presets=Down Chevron, Open=True / container / Fixer / PaintMe / chevron-down",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Presets=Down Chevron, Open=True / container / Fixer / PaintMe / chevron-down / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "e457f55a22e3d88f47803e411e97296a0823c3fb",
+            "when": {
+              "Presets": "Right Chevron",
+              "Open": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Presets=SwapMe, Open=False",
+                "nodePath": "Presets=SwapMe, Open=False",
+                "affects": [
+                  "fills",
+                  "radius"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "container",
+                "nodePath": "Presets=Right Chevron, Open=True / container",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "↕ TopPadding",
+                "nodePath": "Presets=Right Chevron, Open=True / container / ↕ TopPadding",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Right Chevron, Open=True / container / ↕ TopPadding / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Presets=Right Chevron, Open=True / container / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Presets=Right Chevron, Open=True / container / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "chevron-down",
+                "nodePath": "Presets=Right Chevron, Open=True / container / Fixer / PaintMe / chevron-down",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Presets=Right Chevron, Open=True / container / Fixer / PaintMe / chevron-down / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "🔩  SwapMe",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "Fixer",
+                "nodePath": "Presets=SwapMe, Open=False / 🔩  SwapMe / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes"
+        ]
+      }
+    }
+  ]
+}

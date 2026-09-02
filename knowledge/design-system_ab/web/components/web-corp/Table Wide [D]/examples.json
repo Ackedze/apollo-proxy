@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.table-wide-d",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "manual",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "web-corp.table-wide-d.component-property-change",
+        "title": "Изменение параметра компонента фиксируется отдельно",
+        "inputChange": {
+          "property": "variant.*",
+          "node": "table family component instance"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "groupTitle": "Параметры компонента"
+        }
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.layer-style-change",
+        "title": "Ручное изменение визуального стиля сравнивается с effective baseline",
+        "inputChange": {
+          "property": "styles.text|fill|layout.*",
+          "node": "table row/cell nested layer"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "layer-property",
+          "groupTitle": "Параметры слоя"
+        }
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.match-column-widths",
+        "title": "Ширина HeadCell и BodyCell одного столбца совпадает",
+        "scenario": "Дизайнер изменил ширину обычного столбца.",
+        "expected": "Разрешено, если HeadCell и все BodyCell этого столбца имеют одинаковую ширину."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.fixed-edge-cell-width",
+        "title": "Ширину control/action-ячеек менять нельзя",
+        "scenario": "Изменена ширина HeadControlCell или BodyActionCell.",
+        "expected": "Нарушение component rule; вернуть effective baseline."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.single-grouping-level",
+        "title": "Разрешён один уровень группировки",
+        "scenario": "В Wide добавлен второй вложенный BodyGroupRow.",
+        "expected": "Нарушение; оставить не более одного уровня."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.empty-state",
+        "title": "CorporateSystemMessage заменяет только BodyRow",
+        "scenario": "Таблица находится в empty или error состоянии.",
+        "expected": "Сохранить CorporateTopbar, HeadRow и Pagination; BodyRow заменить на CorporateSystemMessage."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.single-page",
+        "title": "Pagination сохраняется для одной страницы",
+        "scenario": "В таблице одна страница данных.",
+        "expected": "Переключить Pagination в Presets=None, не удалять компонент."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.bulk-actions",
+        "title": "Выбор строк включает BulkActions",
+        "scenario": "Пользователь выбрал строки текущей страницы.",
+        "expected": "Pagination переключается в Presets=BulkActions; допускается до четырёх контекстных кнопок."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.supported-preset",
+        "title": "Предусмотренный preset разрешён",
+        "scenario": "Дизайнер выбирает preset, доступный в properties ячейки.",
+        "expected": "Разрешённая настройка компонента, не arbitrary instance swap."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.visual-state",
+        "title": "Визуальные состояния не меняются вручную",
+        "scenario": "Изменён fill в hover, selected или disabled состоянии.",
+        "expected": "Нарушение; состояние полностью определяется effective baseline."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.amount-color",
+        "title": "Все части суммы используют один цветовой токен",
+        "scenario": "В Text с Presets=Amount вручную изменён цвет Major, Minor, Currency или Operation.",
+        "expected": "Нарушение; вернуть части суммы к общему цветовому токену AmountStyles."
+      },
+      {
+        "exampleId": "web-corp.table-wide-d.amount-alignment",
+        "title": "Сумма выровнена по верхнему правому краю",
+        "scenario": "Text с Presets=Amount внутри BodyCell :: Wide выровнен влево или по нижнему краю.",
+        "expected": "Нарушение; для вертикального auto-layout установить primaryAxisAlignItems=MIN и counterAxisAlignItems=MAX."
+      }
+    ]
+  }
+}

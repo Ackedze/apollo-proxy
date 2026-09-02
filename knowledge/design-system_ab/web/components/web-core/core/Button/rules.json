@@ -1,0 +1,818 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.button",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.button.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Button",
+          "layers": [
+            "[D] Button",
+            "[D] Button_Inverted",
+            "[D][Corporate] Button",
+            "[D][Corporate] Button_Inverted",
+            "[M] Button",
+            "[M] Button_Inverted",
+            "[M][Corporate] Button",
+            "[M][Corporate] Button_Inverted",
+            "🔄 [D][Corporate] Button",
+            "🔄 [D][Corporate] Button_Inverted",
+            "🔄 [M][Corporate] Button",
+            "🔄 [M][Corporate] Button_Inverted",
+            "🔩 Addon",
+            "Addon",
+            "Button"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.button.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Button",
+          "layers": [
+            "[D] Button",
+            "[D] Button_Inverted",
+            "[D][Corporate] Button",
+            "[D][Corporate] Button_Inverted",
+            "[M] Button",
+            "[M] Button_Inverted",
+            "[M][Corporate] Button",
+            "[M][Corporate] Button_Inverted",
+            "🔄 [D][Corporate] Button",
+            "🔄 [D][Corporate] Button_Inverted",
+            "🔄 [M][Corporate] Button",
+            "🔄 [M][Corporate] Button_Inverted",
+            "🔩 Addon",
+            "Addon",
+            "Button"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.button.variant-state-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "[D] Button",
+            "[D] Button_Inverted",
+            "[M] Button",
+            "[M] Button_Inverted"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "scope": "component-property",
+          "doNotExpandDerivedVisualChanges": true
+        },
+        "ruleText": "Изменения View, Size, Shape, SingleIcon и DisabledState являются component property changes и должны показываться как самостоятельные customizations."
+      },
+      {
+        "ruleId": "component:web-core.button.manual-fill-is-layer-property",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "root",
+            "LeftAddon",
+            "RightAddon",
+            "PaintMe",
+            "icon"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": true
+        },
+        "ruleText": "Ручные изменения fill на Button root, Addon, PaintMe или icon layers запрещены. Fill должен совпадать с effective baseline текущего состояния Button. Цвет Label и Hint проверяется отдельным атомарным правилом.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.button"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.button"
+                    }
+                  }
+                ]
+              },
+              {
+                "predicate": "not",
+                "args": [
+                  {
+                    "predicate": "all",
+                    "args": [
+                      {
+                        "predicate": "equals",
+                        "actual": {
+                          "fact": "type"
+                        },
+                        "expected": {
+                          "literal": "TEXT"
+                        }
+                      },
+                      {
+                        "predicate": "one-of",
+                        "actual": {
+                          "fact": "name"
+                        },
+                        "expected": {
+                          "literal": [
+                            "Label",
+                            "Hint"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена заливка Button",
+            "observed": "Заливка изменена с {{expected}} на {{actual}}.",
+            "expectation": "Заливка должна совпадать с effective baseline текущего состояния Button.",
+            "action": "Сбросить заливку к effective baseline Button."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.label-text-style-locked",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "appliesTo": "styles.text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "Label",
+            "Hint"
+          ]
+        },
+        "ruleText": "Не меняй вручную text styles на Button Label или Hint. Text style определяется состоянием Button component и должен совпадать с effective component baseline.",
+        "remediation": "Сбрось layer text style к effective Button baseline.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Label",
+                    "Hint"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-core.button"
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена фиксированная типографика Button",
+            "observed": "Текстовый стиль изменён с {{expected}} на {{actual}}.",
+            "expectation": "Типографика Label и Hint должна совпадать с effective baseline текущего состояния Button.",
+            "action": "Сбросить текстовый стиль к effective baseline Button."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.desktop-safe-variants",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.desktop-safe-variants",
+        "appliesTo": "variant.View|variant.Size|variant.Shape",
+        "checkType": "deterministic",
+        "conditions": {
+          "platform": "desktop",
+          "forbidden": {
+            "variant.View": [
+              "Accent",
+              "Outlined"
+            ],
+            "variant.Size": [
+              "64",
+              "72"
+            ],
+            "variant.Shape": [
+              "Rounded"
+            ]
+          }
+        },
+        "ruleText": "В desktop нельзя использовать Button variants и параметры, запрещённые button pattern.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.desktop-hint-restricted",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.desktop-safe-variants",
+        "appliesTo": "Text / Hint",
+        "checkType": "deterministic",
+        "conditions": {
+          "platform": "desktop"
+        },
+        "ruleText": "Hint внутри desktop Button запрещён. Если слой Hint видим, конфигурация нарушает button pattern.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": "Hint"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-core.button"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": {
+              "fact": "visible"
+            },
+            "expected": {
+              "literal": false
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В desktop Button показан Hint",
+            "observed": "Внутри desktop Button виден слой Hint.",
+            "expectation": "В desktop Hint внутри Button не используется.",
+            "action": "Скрыть Hint или выбрать вариант Button без Hint."
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.manual-layout-and-appearance-overrides-prohibited",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "root",
+            "Text",
+            "LeftAddon",
+            "RightAddon",
+            "PaintMe"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": true
+        },
+        "ruleText": "Layout, stroke, radius и opacity корня и внутренних слоёв Button должны совпадать с effective baseline текущего состояния.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.button"
+                    }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": {
+                      "fact": "ownership.owner.component.identity"
+                    },
+                    "expected": {
+                      "literal": "web-core.button"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "padding-top",
+              "label": "Верхний padding",
+              "actualFact": "layout.padding.top",
+              "baselineFact": "baseline.effective.layout.padding.top"
+            },
+            {
+              "suffix": "padding-right",
+              "label": "Правый padding",
+              "actualFact": "layout.padding.right",
+              "baselineFact": "baseline.effective.layout.padding.right"
+            },
+            {
+              "suffix": "padding-bottom",
+              "label": "Нижний padding",
+              "actualFact": "layout.padding.bottom",
+              "baselineFact": "baseline.effective.layout.padding.bottom"
+            },
+            {
+              "suffix": "padding-left",
+              "label": "Левый padding",
+              "actualFact": "layout.padding.left",
+              "baselineFact": "baseline.effective.layout.padding.left"
+            },
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между элементами",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            },
+            {
+              "suffix": "sizing-horizontal",
+              "label": "Горизонтальный sizing",
+              "actualFact": "layout.sizingHorizontal",
+              "baselineFact": "baseline.effective.layout.sizingHorizontal"
+            },
+            {
+              "suffix": "sizing-vertical",
+              "label": "Вертикальный sizing",
+              "actualFact": "layout.sizingVertical",
+              "baselineFact": "baseline.effective.layout.sizingVertical"
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value"
+            },
+            {
+              "suffix": "radius",
+              "label": "Скругление",
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            },
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство Button: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» должно совпадать с effective baseline текущего состояния Button.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline Button."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.label-and-hint-color-locked",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "Label",
+            "Hint"
+          ]
+        },
+        "ruleText": "Цвет Label и Hint определяется состоянием Button и должен совпадать с effective baseline.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Label",
+                    "Hint"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-core.button"
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменён фиксированный цвет текста Button",
+            "observed": "Цвет изменён с {{expected}} на {{actual}}.",
+            "expectation": "Цвет Label и Hint должен совпадать с effective baseline текущего состояния Button.",
+            "action": "Сбросить цвет текста к effective baseline Button."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.button.label-content-is-editable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "Label",
+            "Hint"
+          ]
+        },
+        "classification": {
+          "contentOverrideAllowed": true,
+          "doNotTreatTextChangeAsStyleViolation": true
+        },
+        "ruleText": "Текст Label и доступного Hint разрешено менять как content override. Изменение текста само по себе не является style violation."
+      },
+      {
+        "ruleId": "component:web-core.button.addon-type-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "LeftAddon.variant.Type|RightAddon.variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-core.button",
+          "layers": [
+            "LeftAddon/LeftAddon",
+            "RightAddon/RightAddon"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "scope": "slot-property",
+          "doNotExpandDerivedVisualChanges": true
+        },
+        "ruleText": "Изменение Type вложенного LeftAddon или RightAddon является настройкой component property слота, а не свободной кастомизацией внутренних слоёв."
+      },
+      {
+        "ruleId": "component:web-core.button.text-follows-editorial-pattern",
+        "severity": "info",
+        "source": "pattern-link",
+        "appliesTo": "text.characters",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "patternRuleIds": [
+          "rule:controls.buttons-and-button-groups.action-verb",
+          "rule:controls.buttons-and-button-groups.no-abstract-labels"
+        ],
+        "ruleText": "Формулировка Label проверяется правилами текста кнопок: она должна называть действие и не использовать абстрактные или канцелярские слова."
+      },
+      {
+        "ruleId": "component:web-core.button.mobile-hint-only-size-56",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.desktop-safe-variants",
+        "appliesTo": "Text/Hint|variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "platform": "mobile-web",
+          "visibleLayer": "Hint",
+          "requiredSize": "56"
+        },
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "ruleText": "В mobile-web Hint внутри Button допустим только при Size=56."
+      },
+      {
+        "ruleId": "component:web-core.button.loading-preserves-width",
+        "severity": "error",
+        "source": "pattern-link",
+        "appliesTo": "interaction.loading|width",
+        "checkType": "manual",
+        "matchKind": "context_rule",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "ruleText": "Для loading state используй штатный spinner и не меняй ширину Button относительно состояния до запуска действия."
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-core.button"
+      ],
+      "predicateRules": [
+        "component:web-core.button.manual-fill-is-layer-property",
+        "component:web-core.button.label-text-style-locked",
+        "component:web-core.button.desktop-hint-restricted",
+        "component:web-core.button.manual-layout-and-appearance-overrides-prohibited",
+        "component:web-core.button.label-and-hint-color-locked"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web-core.button.desktop-safe-variants",
+          "targetRuleIds": [
+            "rule:controls.buttons-and-button-groups.desktop-safe-variants"
+          ],
+          "sourcePath": "patterns/p_buttons-and-buttons-group.md"
+        },
+        {
+          "sourceRuleId": "component:web-core.button.text-follows-editorial-pattern",
+          "targetRuleIds": [
+            "rule:controls.buttons-and-button-groups.action-verb",
+            "rule:controls.buttons-and-button-groups.no-abstract-labels"
+          ],
+          "sourcePath": "patterns/p_buttons-and-buttons-group.md"
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-core.button.variant-state-is-component-property",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-core.button.label-content-is-editable",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-core.button.addon-type-is-component-property",
+          "effect": "classification"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-core.button.mobile-hint-only-size-56",
+          "missingFacts": [
+            "component.visible-descendant.Hint",
+            "ownership.owner.component.properties.Size"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-core.button.loading-preserves-width",
+          "missingFacts": [
+            "interaction.loadingState",
+            "geometry.preLoadingWidth"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-core.button.manual-layout-and-appearance-overrides-prohibited",
+          "missingFacts": [
+            "appearance.effects",
+            "appearance.blendMode"
+          ]
+        }
+      ]
+    }
+  }
+}

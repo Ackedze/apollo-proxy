@@ -1,0 +1,2386 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.faq",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-20"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "FAQ",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQItem",
+        "path": "Open=False / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQItem",
+        "path": "Open=False / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQItem",
+        "path": "Open=False / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01",
+        "componentName": "FAQItem 01",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 01 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02",
+        "componentName": "FAQItem 02",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 02 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03",
+        "componentName": "FAQItem 03",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 03 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04",
+        "componentName": "FAQItem 04",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 04 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05",
+        "componentName": "FAQItem 05",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 05 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06",
+        "componentName": "FAQItem 06",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 06 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07",
+        "componentName": "FAQItem 07",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 07 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08",
+        "componentName": "FAQItem 08",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / [D][Promo] BackgroundPlate",
+        "componentName": "[D][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] FAQ",
+        "path": "[D][Promo] FAQ / FAQItem 08 / [D][Promo] BackgroundPlate / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01",
+        "componentName": "FAQItem 01",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 01 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02",
+        "componentName": "FAQItem 02",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 02 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03",
+        "componentName": "FAQItem 03",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 03 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04",
+        "componentName": "FAQItem 04",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 04 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05",
+        "componentName": "FAQItem 05",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 05 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06",
+        "componentName": "FAQItem 06",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 06 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07",
+        "componentName": "FAQItem 07",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 07 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08",
+        "componentName": "FAQItem 08",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / [M][Promo] BackgroundPlate",
+        "componentName": "[M][Promo] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] FAQ",
+        "path": "[M][Promo] FAQ / FAQItem 08 / [M][Promo] BackgroundPlate / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg (white)",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01",
+        "componentName": "FAQItem 01",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 01 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02",
+        "componentName": "FAQItem 02",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 02 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03",
+        "componentName": "FAQItem 03",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 03 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04",
+        "componentName": "FAQItem 04",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 04 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05",
+        "componentName": "FAQItem 05",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 05 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06",
+        "componentName": "FAQItem 06",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 06 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07",
+        "componentName": "FAQItem 07",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 07 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08",
+        "componentName": "FAQItem 08",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Open": "False"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionHeader",
+        "componentName": "🔩 AccordionHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl",
+        "componentName": "🔩 AccordionControl",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Open": "False",
+          "Presets": "Down Chevron"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / ↕ TopPadding",
+        "componentName": "↕ TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Accordion / Header / 🔩 AccordionControl / container / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Accordion / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      },
+      {
+        "hostComponentName": "FAQ",
+        "path": "FAQ / FAQItem 08 / Body / 🔩 AccordionBody",
+        "componentName": "🔩 AccordionBody",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Text"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "[D][Promo] FAQ",
+        "[M][Promo] FAQ",
+        "FAQ"
+      ],
+      "internalComponents": [
+        "[D][Promo] FAQItem",
+        "[M][Promo] FAQItem",
+        "FAQItem"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-faq-effective-baseline"
+    },
+    "compositionPolicy": {
+      "familyMatrix": {
+        "[D][Promo] FAQ": "[D][Promo] FAQItem",
+        "[M][Promo] FAQ": "[M][Promo] FAQItem",
+        "FAQ": "FAQItem"
+      },
+      "crossFamilyCompositionAllowed": false,
+      "platforms": {
+        "[D][Promo] FAQ": "desktop promo pages only",
+        "[M][Promo] FAQ": "mobile-web promo pages only",
+        "FAQ": "desktop and mobile-web product pages"
+      },
+      "items": {
+        "minimum": 2,
+        "recommendedMaximum": 8,
+        "overMaximum": "warning: divide questions into categories and render each category in a separate tab",
+        "maximumPerCategory": 8,
+        "visibilityChangeAllowed": true,
+        "manualReorderAllowed": true,
+        "duplicateAllowedWithinMaximum": true
+      },
+      "accordion": {
+        "defaultOpenItems": 0,
+        "maximumOpenItems": 1,
+        "openingItemClosesPrevious": true,
+        "clickingOpenItemClosesIt": true,
+        "allClosedAllowed": true,
+        "clickTarget": "entire-question-row",
+        "controlIcon": "fixed"
+      },
+      "content": {
+        "questionRequired": true,
+        "answerRequired": true,
+        "questionMaxCharacters": 120,
+        "answerMaxCharacters": 800,
+        "limitViolationSeverity": "error",
+        "questionLineWrapAllowed": true,
+        "questionLinksAllowed": false,
+        "answerContent": "textual content including paragraphs, lists and links",
+        "answerLinksAllowed": true,
+        "answerLinksContract": "Link"
+      },
+      "sizing": {
+        "horizontal": "Fill",
+        "vertical": "Hug",
+        "outerWidthMayFollowPageGrid": true
+      },
+      "surfaces": {
+        "[D][Promo] FAQ": "built-in [D][Promo] BackgroundPlate",
+        "[M][Promo] FAQ": "built-in [M][Promo] BackgroundPlate",
+        "FAQ": "no background plate; built-in dividers"
+      },
+      "visualBaseline": {
+        "manualChangesAllowed": false,
+        "properties": [
+          "padding",
+          "gap",
+          "radius",
+          "fill",
+          "stroke",
+          "divider",
+          "typography",
+          "control icon",
+          "opacity",
+          "effects"
+        ],
+        "baseline": "effective baseline"
+      },
+      "instanceSwapAllowed": false
+    }
+  }
+}

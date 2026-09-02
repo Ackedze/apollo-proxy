@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.calendar",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T18:13:02.825Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/pickers/Web _ Core Pickers -- Calendar.json",
+      "library": "Web :: Core Pickers",
+      "file": "Web :: Core Pickers",
+      "generatedAt": "2026-04-28T18:13:02.825Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "Calendar"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Calendar",
+      "library": "Web :: Core Pickers",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 [M][Corporate]  PickerHeader",
+        "key": "8d8e70bbf731b48fddeccfb3eb4ace842b060f9a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩  [M][Corporate] SelectItem",
+        "key": "07e0cd722f8cb616cd0cfb875544bb42d3dcb714",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩  [D][Corporate] SelectItem",
+        "key": "bb3db88f660f7029f8a34c74556156c1320b647f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [Corporate] PickerHeader",
+        "key": "25a0ccb1e650d9f679762eecf0bdaec4ec09e073",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Selects",
+            "Slider"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [Corporate] MonthMobile",
+        "key": "23f224b6d7d5d92327551e5ed80120aa249a4a60",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "clickableMonth": [
+            "False",
+            "True"
+          ],
+          "Shape": [
+            "Default",
+            "Rectangular",
+            "Rounded"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [D][Corporate] Calendar",
+        "key": "856e86cf60fd0c61e27ed1baa6eb4ccdb0e3dadb",
+        "description": "🔄 Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Configutation": [
+            "Day",
+            "Month",
+            "Year"
+          ]
+        }
+      },
+      {
+        "name": "🔄 [M][Corporate]  Calendar",
+        "key": "40740b32649b960071a481f993d545b26d0cb90a",
+        "description": "🔄 Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Configutation": [
+            "Day",
+            "Month",
+            "Year"
+          ],
+          "Type": [
+            "Select",
+            "Slider"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [AO] PickerHeader",
+        "key": "f7567849499c69b7985a45a6a918972a85102d26",
+        "description": "🔄 Замени на актуальный",
+        "descriptionProvenance": "figma",
+        "status": "scheduled",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Selects",
+            "Slider"
+          ]
+        }
+      },
+      {
+        "name": "[M] Calendar",
+        "key": "10e908e9cee3e8bf759c95c45f3086159406d2f6",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Configutation": [
+            "Day",
+            "Month",
+            "Year"
+          ],
+          "Type": [
+            "Select",
+            "Slider"
+          ]
+        }
+      },
+      {
+        "name": "[D] Calendar",
+        "key": "c5173d432aa2085be535b093cd051cc831b2dbf7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Configutation": [
+            "Day",
+            "Month",
+            "Year"
+          ]
+        }
+      },
+      {
+        "name": "🔩 MonthMobile",
+        "key": "f3b7d22131aef94440d9d29ddfbdf56586412de9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "clickableMonth": [
+            "False",
+            "True"
+          ],
+          "Shape": [
+            "Default",
+            "Rectangular",
+            "Rounded"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Months",
+        "key": "54b87b57ae9bf3a3f974d89b1e07c25c40ec8dc4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Compact": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [M] PickerHeader",
+        "key": "1b7d6bba091df4a2ff38f50390852117a4dca385",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩[M] SelectItem",
+        "key": "750b391d29f67b262a375c2fb2b8d189e62e37fc",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩[D] SelectItem",
+        "key": "491fd598483d29d18d0f50f75d48e17cc0bdeea3",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 PickerHeader",
+        "key": "d58adc1dff21eebba0ddc25f8f210249ad3addb0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Selects",
+            "Slider"
+          ]
+        }
+      },
+      {
+        "name": "🔩 DayPlume",
+        "key": "9e6f3150c823f9ed9c2cf8560bfc50d10242afc2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Direction": [
+            "Middle",
+            "←",
+            "→"
+          ],
+          "Gradient": [
+            "False",
+            "True"
+          ],
+          "Hovered": [
+            "False",
+            "True"
+          ],
+          "None": [
+            "False",
+            "True"
+          ],
+          "Selected": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Day",
+        "key": "e1c267e10f1fb82b8232f3d31ac21eee77da7993",
+        "description": "Rounded",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Addon": [
+            "False",
+            "True"
+          ],
+          "Default": [
+            "False",
+            "True"
+          ],
+          "DisabledState": [
+            "False",
+            "True"
+          ],
+          "Holiday": [
+            "False",
+            "True"
+          ],
+          "HoveredState": [
+            "False",
+            "True"
+          ],
+          "None": [
+            "False",
+            "True"
+          ],
+          "SelectedState": [
+            "False",
+            "True"
+          ],
+          "Today": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Addon",
+        "key": "214a3e26ab3157c59d1ea45673ddf6b99f88f2e9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Type": [
+            "Event",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔩 EventMarker",
+        "key": "fbd832a041045ad5d9c8befbda9ed6d7b2bf4832",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Inverted": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Day",
+        "key": "bf1754c691ede07cd8e955edf53e67d94646ded2",
+        "description": "Rectangular",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Addon": [
+            "False",
+            "True"
+          ],
+          "Default": [
+            "False",
+            "True"
+          ],
+          "DisabledState": [
+            "False",
+            "True"
+          ],
+          "Holiday": [
+            "False",
+            "True"
+          ],
+          "HoveredState": [
+            "False",
+            "True"
+          ],
+          "None": [
+            "False",
+            "True"
+          ],
+          "SelectedState": [
+            "False",
+            "True"
+          ],
+          "Today": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 PickerItems",
+        "key": "6929aa75ac22ca78cd1a91c83fa239e1be97bfd2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Current": [
+            "False",
+            "True"
+          ],
+          "Default": [
+            "False",
+            "True"
+          ],
+          "DisabledState": [
+            "False",
+            "True"
+          ],
+          "HoverState": [
+            "False",
+            "True"
+          ],
+          "None": [
+            "False",
+            "True"
+          ],
+          "SelectedState": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 Years",
+        "key": "2baeffceeecabef12135b45a7cb7635c9b391dcf",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 Days",
+        "key": "7bc465bdc730a3b62bcd26d5d354f2a4662d6439",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Shape": [
+            "Rectangular",
+            "Rounded"
+          ]
+        }
+      },
+      {
+        "name": "🔩 [D] DayName",
+        "key": "766d710b9f2060c94924724a9b997c5b490787f4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 [M] DayName",
+        "key": "ebf3b156f9dda40297d6fa09ae87ec4f2cf2cf95",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Calendar",
+      "library": "Web :: Core Pickers",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

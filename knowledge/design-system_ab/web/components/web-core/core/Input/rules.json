@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.input",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.input.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Input",
+          "layers": [
+            "[D] Input",
+            "[D] Input_Inverted",
+            "[D][Corporate] Input",
+            "[D][Corporate] Input_Inverted",
+            "[M] Input",
+            "[M] Input_Inverted",
+            "[M][AO] Input",
+            "[M][AO] Input_Inverted",
+            "🔄 [D][Corporate] Input",
+            "🔄 [D][Corporate] Input_Inverted",
+            "🔄 [M][AO] Input",
+            "🔄 [M][AO] Input_Inverted",
+            "Input"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.input.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Input",
+          "layers": [
+            "[D] Input",
+            "[D] Input_Inverted",
+            "[D][Corporate] Input",
+            "[D][Corporate] Input_Inverted",
+            "[M] Input",
+            "[M] Input_Inverted",
+            "[M][AO] Input",
+            "[M][AO] Input_Inverted",
+            "🔄 [D][Corporate] Input",
+            "🔄 [D][Corporate] Input_Inverted",
+            "🔄 [M][AO] Input",
+            "🔄 [M][AO] Input_Inverted",
+            "Input"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.input.variant-state-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "ruleText": "Изменения Size, FilledState, ActiveState, DisabledState, ErrorState и OuterLabel являются component property changes и должны показываться как самостоятельные customizations."
+      },
+      {
+        "ruleId": "component:web-core.input.manual-field-visual-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "Field.fills|Field.strokes|Field.radius|Field.layout",
+        "checkType": "deterministic",
+        "ruleText": "Ручные visual/layout изменения на Field являются layer customizations и должны показываться отдельно от изменений component property."
+      },
+      {
+        "ruleId": "component:web-core.input.manual-text-style-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "Label.styles.text|Placeholder.styles.text|HintMessage.styles.text",
+        "checkType": "deterministic",
+        "ruleText": "Ручные изменения text style на Label, Placeholder или HintMessage являются layer customizations и должны сбрасываться независимо."
+      },
+      {
+        "ruleId": "component:web-core.input.desktop-label-placement",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "ptrn:controls.input-fields#desktop-floating-label",
+        "appliesTo": "variant.OuterLabel",
+        "checkType": "manual",
+        "conditions": {
+          "platform": "desktop"
+        },
+        "ruleText": "Input field pattern задаёт: desktop использует internal floating label, а mobileweb/mobile — external label. Изменения OuterLabel требуют platform-aware проверки по pattern."
+      },
+      {
+        "ruleId": "component:web-core.input.label-text-pattern-rules",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleIds": [
+          "rule:controls.input-fields.noun-label",
+          "rule:controls.input-fields.no-label-colon"
+        ],
+        "appliesTo": "Label.characters",
+        "checkType": "llm+deterministic",
+        "ruleText": "Input label text должен называть сущность, а не инструктировать пользователя, и не должен заканчиваться двоеточием."
+      },
+      {
+        "ruleId": "component:web-core.input.placeholder-pattern-rules",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleIds": [
+          "rule:controls.input-fields.no-placeholder-duplication",
+          "rule:controls.input-fields.use-mask-for-known-format"
+        ],
+        "appliesTo": "Placeholder.characters",
+        "checkType": "llm+manual",
+        "ruleText": "Placeholder должен добавлять format/mask/context и не должен дублировать label. Если format известен, используй mask, а не абстрактный hint или пример с реальным значением."
+      },
+      {
+        "ruleId": "component:web-core.input.hint-error-pattern-rules",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleIds": [
+          "rule:controls.input-fields.short-useful-hint",
+          "rule:controls.input-fields.empty-validation-formulas",
+          "rule:controls.input-fields.human-error-message"
+        ],
+        "appliesTo": "HintMessage.characters|variant.ErrorState",
+        "checkType": "llm+manual",
+        "ruleText": "Hint должен быть коротким и полезным. Error text должен человеческим языком объяснять, что произошло и что делать дальше."
+      }
+    ]
+  }
+}

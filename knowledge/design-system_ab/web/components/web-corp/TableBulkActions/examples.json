@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.table-bulk-actions",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "table-bulk-actions-scheduled-allowed-context",
+        "title": "Scheduled-компонент в допустимом списочном сценарии",
+        "context": {
+          "component": "🔄 [D] TableBulkActions",
+          "container": "карточное представление данных"
+        },
+        "expectedAudit": {
+          "violation": false,
+          "lifecycleStatus": "scheduled"
+        },
+        "expectedAgent": {
+          "message": "Компонент пока разрешён, но запланирован к выводу из эксплуатации.",
+          "mustNotSay": [
+            "Компонент запрещён во всех сценариях.",
+            "Замените на CorporateTableBulkActions."
+          ]
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-new-wide-table",
+        "title": "Отдельный TableBulkActions в новой Wide-таблице запрещён",
+        "context": {
+          "component": "🔄 [D] TableBulkActions",
+          "container": "Table Wide",
+          "layoutStatus": "new"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.new-tables-use-pagination-bulk-actions"
+        },
+        "expectedAgent": {
+          "recommendation": "Убрать отдельный TableBulkActions и использовать Pagination с preset BulkActions."
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-adaptive-mobile",
+        "title": "Мобильная версия в адаптиве разрешена",
+        "context": {
+          "component": "🔄 [M] TableBulkActions",
+          "platform": "adaptive",
+          "viewportWidth": 375
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-mobile-web",
+        "title": "TableBulkActions в Mobile Web запрещён",
+        "context": {
+          "component": "🔄 [M] TableBulkActions",
+          "platform": "mobile-web",
+          "viewportWidth": 375
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.mobile-is-adaptive-only"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-top-row-overflow",
+        "title": "Кнопки не помещаются рядом с суммами",
+        "context": {
+          "component": "🔄 [D] TableBulkActions",
+          "amountsAndButtonsFitOneRow": false,
+          "variant.TopRow": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "medium",
+          "ruleId": "component:web-corp.table-bulk-actions.top-row-follows-composition-fit",
+          "requiresCompositionEvidence": true
+        },
+        "expectedAgent": {
+          "recommendation": "Включить TopRow, чтобы кнопки перешли на отдельную линию."
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-internal-part-standalone",
+        "title": "Служебный AmountRow используется отдельно",
+        "context": {
+          "component": "[D] AmountRow",
+          "hostComponent": null
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.service-components-are-internal"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-sticky-buttons-only",
+        "title": "Самостоятельные sticky-кнопки без Counter и Spacer",
+        "context": {
+          "component": "🔄 [D] TableBulkActions",
+          "usage": "standalone-sticky-buttons",
+          "component.Counter": false,
+          "component.Spacer": false
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-two-primary",
+        "title": "Две кнопки Primary запрещены",
+        "context": {
+          "visibleButtons": [
+            "Primary",
+            "Primary",
+            "Secondary"
+          ]
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.max-one-primary-button"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-five-visible-buttons",
+        "title": "Пять видимых кнопок требуют Overflow",
+        "context": {
+          "visibleButtonCount": 5,
+          "variant.Overflow": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.max-four-visible-buttons"
+        },
+        "expectedAgent": {
+          "recommendation": "Включить Overflow и перенести дополнительные действия в последний PickerButton."
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-top-row-and-overflow",
+        "title": "TopRow и Overflow используются одновременно",
+        "context": {
+          "amountsAndButtonsFitOneRow": false,
+          "actionCountExceedsVisibleLimit": true,
+          "variant.TopRow": true,
+          "variant.Overflow": true,
+          "lastVisibleButton": "PickerButton"
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-hide-counter-label-tablet",
+        "title": "Label Counter скрыт на планшетной ширине",
+        "context": {
+          "viewportWidth": 900,
+          "component.Counter": true,
+          "counterLabelVisible": false,
+          "reason": "free-space-for-actions"
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-amount-slider",
+        "title": "Несколько сумм не помещаются в линию",
+        "context": {
+          "amountCount": 6,
+          "amountsFitOneRow": false,
+          "amountRowType": "multiple"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.amount-overflow-uses-slider"
+        },
+        "expectedAgent": {
+          "recommendation": "Переключить композицию сумм на AmountRowSlider."
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-eleven-amounts",
+        "title": "Более десяти сумм требует рекомендации",
+        "context": {
+          "amountCount": 11,
+          "mixedCurrencies": true,
+          "amountRowType": "slider"
+        },
+        "expectedAudit": {
+          "violation": false,
+          "severity": "medium",
+          "ruleId": "component:web-corp.table-bulk-actions.amount-count-recommendation"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-counter-indeterminate",
+        "title": "IndeterminateState у Counter запрещён",
+        "context": {
+          "component.Counter": true,
+          "counterCheckboxState": "IndeterminateState"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.counter-checkbox-state-is-fixed"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-button-label-change",
+        "title": "Штатное изменение Label кнопки разрешено",
+        "context": {
+          "nestedComponent": "[D] Button",
+          "property": "Label",
+          "referenceValue": "Действие",
+          "actualValue": "Отправить"
+        },
+        "expectedAudit": {
+          "violation": false,
+          "ruleId": "component:web-corp.table-bulk-actions.button-api-customizations-are-allowed"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-adaptive-picker",
+        "title": "PickerButton в адаптиве открывает BottomSheet",
+        "context": {
+          "platform": "adaptive",
+          "viewportWidth": 375,
+          "overflowSurface": "BottomSheet"
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-mobile-slider-buttons",
+        "title": "Кнопки AmountRowSlider в адаптиве запрещены",
+        "context": {
+          "platform": "adaptive",
+          "viewportWidth": 375,
+          "amountRowType": "slider",
+          "navigationButtonsVisible": true
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.amount-slider-controls-follow-platform"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-tablet-mismatch",
+        "title": "Tablet=false на ширине 900 px запрещён",
+        "context": {
+          "viewportWidth": 900,
+          "variant.Tablet": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.tablet-variant-is-automatic"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-adaptive-top-row-off",
+        "title": "TopRow отключён в адаптиве",
+        "context": {
+          "viewportWidth": 375,
+          "component.TopRow": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.adaptive-top-row-is-required"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-counter-count-mismatch",
+        "title": "Counter не совпадает с количеством выбранных объектов",
+        "context": {
+          "selectedObjectCount": 5,
+          "counterN": 3
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.counter-value-matches-selection"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-amount-content-change",
+        "title": "Содержимое AmountItem изменено штатно",
+        "context": {
+          "amountItemLabel": "Общая сумма",
+          "amount": "125 000 ₽",
+          "objectCount": 4,
+          "amountItemN": 4,
+          "visualsMatchEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-visible-with-zero-selection",
+        "title": "Панель видима без выбранных объектов",
+        "context": {
+          "selectedObjectCount": 0,
+          "componentVisible": true
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.visible-only-with-selection"
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-selection-across-pages",
+        "title": "Counter учитывает выбор на всех страницах",
+        "context": {
+          "selectedOnCurrentPage": 3,
+          "selectedAcrossDataSet": 8,
+          "counterN": 8
+        },
+        "expectedAudit": {
+          "violation": false
+        }
+      },
+      {
+        "exampleId": "table-bulk-actions-general-action",
+        "title": "Общее действие не относится к выбранным объектам",
+        "context": {
+          "selectedObjectCount": 4,
+          "buttonAction": "Создать новый объект",
+          "actionUsesSelection": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "severity": "high",
+          "ruleId": "component:web-corp.table-bulk-actions.buttons-act-on-selection",
+          "requiresScenarioEvidence": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,485 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.background-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-10"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "BackgroundPlate",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [D] Style Level 1",
+        "componentName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D][Promo] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [D][Promo] Style Level 1",
+        "componentName": "[D][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [M] Style Level 1",
+        "componentName": "[M] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M][Promo] BackgroundPlate",
+        "path": "Position=Level 1 (outer) / [M][Promo] Style Level 1",
+        "componentName": "[M][Promo] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "contracts": [
+      {
+        "id": "background-plate.composition",
+        "match": {
+          "hostComponentKeys": [
+            "2c7332d281570f4d5af6d334f8df378d24a1f235",
+            "c49f08db71ab44ea64f0880730220de1d93ac263",
+            "4cfe3915785e5c37255190ae16314f6f2a1d05b3",
+            "a58fa7ae11989280fc24069f204ba617fdb1f93c"
+          ]
+        },
+        "select": {
+          "nestedComponentKeys": [
+            "adb65a62cde9ebedc5d0d41d2d77cd63e71e0745",
+            "2b46e94cdecdab7d4cb977055c0405b2f6204127",
+            "efc528bd86582d96a824edeb2c257dc8b22a8f14",
+            "19b4b6ed5718d82888a6551b56e0c776f4993ccc"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "level-one-type",
+            "op": "propertyDomain",
+            "property": "Type",
+            "values": [
+              "Primary",
+              "Secondary",
+              "Colored",
+              "Border"
+            ],
+            "message": "Style Level 1 допускает Type=Primary, Secondary, Colored или Border"
+          }
+        ],
+        "subtreePropertyPolicies": [
+          {
+            "id": "surface-paint",
+            "variantProperty": "Type",
+            "controlledProperties": [
+              "fill",
+              "stroke"
+            ],
+            "allowedPropertiesByValue": {
+              "Primary": [],
+              "Secondary": [],
+              "Colored": [
+                "fill"
+              ],
+              "Border": [
+                "stroke"
+              ]
+            },
+            "allowedMessage": "Цвет поверхности разрешён выбранным Type BackgroundPlate",
+            "violationMessage": "Выбранный Type BackgroundPlate не разрешает это изменение поверхности"
+          }
+        ]
+      }
+    ],
+    "slotPolicies": [
+      {
+        "hostComponentName": "[D] BackgroundPlateSlot",
+        "slotPath": "Type=Primary, Skeleton=False / Slot",
+        "allowedContent": "any",
+        "directContentAllowed": true,
+        "nestedLevel2Required": false,
+        "autoLayoutPolicy": {
+          "controlledBy": "context-and-slot-content",
+          "contextControlledProperties": [
+            "layout.axis",
+            "layout.itemSpacing",
+            "layout.primaryAxisAlignItems",
+            "layout.counterAxisAlignItems"
+          ],
+          "requiredSizing": {
+            "horizontal": "FILL",
+            "vertical": "HUG"
+          },
+          "sizeConstraints": {
+            "minWidth": null,
+            "maxWidth": null,
+            "minHeight": null,
+            "maxHeight": null
+          },
+          "useStandaloneBaselineAsRequirement": false,
+          "note": "Направление, gap и alignment слота определяются композицией и вложенным контентом."
+        },
+        "overflowPolicy": {
+          "property": "clipsContent",
+          "required": false,
+          "allowedValues": [
+            true,
+            false
+          ],
+          "controlledBy": "context-and-slot-content"
+        },
+        "nestedSurfacePolicy": {
+          "allowedChildLevels": [
+            "Level-2 (inner)"
+          ],
+          "allowedLevel2HostLevel": "Level-1 (outer)",
+          "directParentRequired": true,
+          "disallowedChildLevels": [
+            "Level-0 (base)",
+            "Level-1 (outer)"
+          ],
+          "rule": "Контент может лежать непосредственно в Slot уровня Level-1. Дополнительный Level-2 используется только при необходимости вложенной поверхности."
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlateSlot",
+        "slotPath": "Type=Primary, Skeleton=False / Slot",
+        "allowedContent": "any",
+        "directContentAllowed": true,
+        "nestedLevel2Required": false,
+        "autoLayoutPolicy": {
+          "controlledBy": "context-and-slot-content",
+          "contextControlledProperties": [
+            "layout.axis",
+            "layout.itemSpacing",
+            "layout.primaryAxisAlignItems",
+            "layout.counterAxisAlignItems"
+          ],
+          "requiredSizing": {
+            "horizontal": "FILL",
+            "vertical": "HUG"
+          },
+          "sizeConstraints": {
+            "minWidth": null,
+            "maxWidth": null,
+            "minHeight": null,
+            "maxHeight": null
+          },
+          "useStandaloneBaselineAsRequirement": false,
+          "note": "Направление, gap и alignment слота определяются композицией и вложенным контентом."
+        },
+        "overflowPolicy": {
+          "property": "clipsContent",
+          "required": false,
+          "allowedValues": [
+            true,
+            false
+          ],
+          "controlledBy": "context-and-slot-content"
+        },
+        "nestedSurfacePolicy": {
+          "allowedChildLevels": [
+            "Level-2 (inner)"
+          ],
+          "allowedLevel2HostLevel": "Level-1 (outer)",
+          "directParentRequired": true,
+          "disallowedChildLevels": [
+            "Level-0 (base)",
+            "Level-1 (outer)"
+          ],
+          "rule": "Контент может лежать непосредственно в Slot уровня Level-1. Дополнительный Level-2 используется только при необходимости вложенной поверхности."
+        }
+      }
+    ],
+    "ownershipModel": {
+      "defaultNestedDiffPolicy": "compare-against-component-effective-baseline",
+      "wrapperOwnedOverridePolicy": "Не показывай wrapper-owned nested overrides, когда actual совпадает с effective baseline этого компонента. Если actual отличается, показывай effectiveBaseline -> actual.",
+      "layerPropertyPolicy": "Изменения layer/style/layout должны оставаться отдельно от component properties и сбрасываться независимо."
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] BackgroundPlate",
+        "path": "Position=Level 2 (inner) / [D] Style Level 2",
+        "componentName": "[D] Style Level 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] BackgroundPlateSlot",
+        "path": "Type=Primary, Skeleton=False / Slot",
+        "componentName": "Slot",
+        "role": "slot",
+        "visible": true,
+        "variantProperties": null
+      },
+      {
+        "hostComponentName": "[D][Promo] BackgroundPlate",
+        "path": "Position=Level 2 (inner) / [D][Promo] Style Level 2",
+        "componentName": "[D][Promo] Style Level 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlate",
+        "path": "Position=Level 2 (inner) / [M] Style Level 2",
+        "componentName": "[M] Style Level 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] BackgroundPlateSlot",
+        "path": "Type=Primary, Skeleton=False / Slot",
+        "componentName": "Slot",
+        "role": "slot",
+        "visible": true,
+        "variantProperties": null
+      },
+      {
+        "hostComponentName": "[M][Promo] BackgroundPlate",
+        "path": "Position=Level 2 (inner) / [M][Promo] Style Level 2",
+        "componentName": "[M][Promo] Style Level 2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      }
+    ],
+    "standaloneBaselines": [
+      {
+        "componentName": "[D] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer)",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer) / [D] Style Level 1",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:136853:7710",
+        "token": "VariableID:136853:7710",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False / Slot",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D] Style Level 1",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D] Style Level 2",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "token": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D][Promo] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer)",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[D][Promo] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer) / [D][Promo] Style Level 1",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D][Promo] Style Level 1",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[D][Promo] Style Level 2",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "token": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer)",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer) / [M] Style Level 1",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False",
+        "property": "layout.itemSpacing",
+        "expectedValue": 10,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:136853:7710",
+        "token": "VariableID:136853:7710",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] BackgroundPlateSlot",
+        "targetPathPattern": "Type=Primary, Skeleton=False / Slot",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M] Style Level 1",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M] Style Level 2",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "token": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M][Promo] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer)",
+        "property": "layout.itemSpacing",
+        "expectedValue": 0,
+        "scope": "layout"
+      },
+      {
+        "componentName": "[M][Promo] BackgroundPlate",
+        "targetPathPattern": "Position=Level 1 (outer) / [M][Promo] Style Level 1",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M][Promo] Style Level 1",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "token": "VariableID:8e2800951104c0afbc2ed28e5331d61aa4214a9a/3541:172",
+        "scope": "paint"
+      },
+      {
+        "componentName": "[M][Promo] Style Level 2",
+        "targetPathPattern": "BackgroundColor=base-bg-alt (gray), Type=Primary, Skeleton=False",
+        "property": "fill",
+        "expectedValue": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "token": "VariableID:a21e3cffc40ba5c74514d7204c1999d1d8f5fc0d/3541:132",
+        "scope": "paint"
+      }
+    ]
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core-navigation.navigation-bar",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T18:08:39.295Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/navigation/Web _ Core Navigation -- NavigationBar.json",
+      "library": "Web :: Core Navigation",
+      "file": "Web :: Core Navigation",
+      "generatedAt": "2026-04-28T18:08:39.295Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "NavigationBar"
+      ]
+    },
+    "summary": {
+      "componentFamily": "NavigationBar",
+      "library": "Web :: Core Navigation",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔩 BottomAddon",
+        "key": "25da268ba91dd834d2ef96cebc96f929fb1a366d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 RightAddon",
+        "key": "686478fa305dc632741d2c3e9c162afe80fa59d3",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Content": [
+            "ActionPrimary",
+            "ActionSecondary",
+            "Blank",
+            "FloatedCross",
+            "Icons",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔩 LeftAddon",
+        "key": "5ee6557e0c7e5df050470aec83d941fda3384011",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Content": [
+            "ActionPrimary",
+            "ActionSecondary",
+            "Back",
+            "Blank",
+            "FloatedBack",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "🔩 LeftMainSlot",
+        "key": "074959ce95ccdb5a49f8076ccbf7bd5b6c3f0192",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Content": [
+            "Blank",
+            "SwapMe",
+            "Title",
+            "Title+subtitle"
+          ]
+        }
+      },
+      {
+        "name": "🔩 CentredMainSlot",
+        "key": "1b223000a5e3590fb9ccf176f4418638dfc66932",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Content": [
+            "Blank",
+            "SwapMe",
+            "Title",
+            "Title+subtitle"
+          ]
+        }
+      },
+      {
+        "name": "NavigationBar",
+        "key": "4c0ba07caf5bbbe074ebe7028149f922abc73aae",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Align": [
+            "Center",
+            "Left"
+          ],
+          "BottomAddon": [
+            "False",
+            "True"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "NavigationBar",
+      "library": "Web :: Core Navigation",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

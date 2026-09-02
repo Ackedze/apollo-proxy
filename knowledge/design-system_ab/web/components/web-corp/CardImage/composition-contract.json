@@ -1,0 +1,509 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.card-image",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "CardImage",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / Cover",
+        "componentName": "Cover",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Product Type": "AB",
+          "Size": "264x164"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / Cover / Image Container / SilverLine",
+        "componentName": "SilverLine",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "complex"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / UserData",
+        "componentName": "UserData",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "264x164",
+          "Style": "Default"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / UserData / Second Line / PaymentMaskedNumber / Major",
+        "componentName": "Major",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Mask Number": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / UserData / Second Line / PaymentMaskedNumber / Addon",
+        "componentName": "Addon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Presets": "IconCustom"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / UserData / Second Line / PaymentMaskedNumber / Addon / Fixer / PaintMe / eye",
+        "componentName": "eye",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / State",
+        "componentName": "State",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "264x164",
+          "State": "Locked"
+        }
+      },
+      {
+        "hostComponentName": "🔩 CardItem",
+        "path": "Size=264x164 / State / lock-closed",
+        "componentName": "lock-closed",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "xxl"
+        }
+      },
+      {
+        "hostComponentName": "🔩 State",
+        "path": "Size=44x28, State=Inactive / power-button-circle",
+        "componentName": "power-button-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / CardItem",
+        "componentName": "CardItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24x16"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / CardItem / Cover",
+        "componentName": "Cover",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Product Type": "Archive",
+          "Size": "24x16"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / CardItem / UserData",
+        "componentName": "UserData",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "44x28",
+          "Style": "Default"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / 🔩 CardItem",
+        "componentName": "🔩 CardItem",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24x16"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / 🔩 CardItem / Cover",
+        "componentName": "Cover",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Product Type": "AB",
+          "Size": "24x16"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / 🔩 CardItem / Cover / Image Container / SilverLine",
+        "componentName": "SilverLine",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "simple"
+        }
+      },
+      {
+        "hostComponentName": "CardImage",
+        "path": "Cover=Alfa Business, Size=24x16, State=Active, Stack=true / 🔩 CardItem / UserData",
+        "componentName": "UserData",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "44x28",
+          "Style": "Default"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "ownershipModel": {
+      "publicRoots": [
+        "CardImage"
+      ],
+      "internalRoots": [
+        "🔩 CardItem",
+        "🔩 Cover",
+        "🔩 Shadow",
+        "🔩 SilverLine",
+        "🔩 State",
+        "🔩 UserData"
+      ],
+      "internalRootsStandaloneAllowed": false,
+      "detachAllowed": false,
+      "hostOwns": [
+        "internal component selection",
+        "geometry and radius",
+        "logo and payment-system placement",
+        "state overlay anatomy",
+        "SilverLine type by size",
+        "UserData visibility by size"
+      ]
+    },
+    "contracts": [
+      {
+        "id": "card-image.silver-line-large",
+        "match": {
+          "hostComponentNames": [
+            "CardImage"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Size": [
+              "264x164",
+              "212x132"
+            ]
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "SilverLine",
+            "🔩 SilverLine"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "silver-line-type",
+            "op": "propertyDomain",
+            "property": "Type",
+            "values": [
+              "complex"
+            ],
+            "message": "CardImage 264x164 и 212x132 используют SilverLine Type=complex"
+          }
+        ]
+      },
+      {
+        "id": "card-image.silver-line-medium-small",
+        "match": {
+          "hostComponentNames": [
+            "CardImage"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Size": [
+              "68x42",
+              "44x28"
+            ]
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "SilverLine",
+            "🔩 SilverLine"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "silver-line-type",
+            "op": "propertyDomain",
+            "property": "Type",
+            "values": [
+              "simple"
+            ],
+            "message": "CardImage 68x42 и 44x28 используют SilverLine Type=simple"
+          }
+        ]
+      },
+      {
+        "id": "card-image.silver-line-xs",
+        "match": {
+          "hostComponentNames": [
+            "CardImage"
+          ]
+        },
+        "when": {
+          "variant": {
+            "Size": "24x16"
+          }
+        },
+        "select": {
+          "nestedComponentNames": [
+            "SilverLine",
+            "🔩 SilverLine"
+          ],
+          "visibility": "visible",
+          "order": "document"
+        },
+        "constraints": [
+          {
+            "id": "silver-line-hidden",
+            "op": "countBetween",
+            "min": 0,
+            "max": 0,
+            "message": "CardImage 24x16 не показывает SilverLine"
+          }
+        ]
+      }
+    ],
+    "compositionPolicy": {
+      "root": {
+        "name": "CardImage",
+        "platform": "universal",
+        "interactive": false,
+        "hostOwnsInteraction": true,
+        "allowedSizes": [
+          "264x164",
+          "212x132",
+          "68x42",
+          "44x28",
+          "24x16"
+        ],
+        "manualResizeAllowed": false
+      },
+      "sizeBaselines": {
+        "264x164": {
+          "alias": "XL",
+          "userData": [
+            "cardholderName",
+            "lastFourDigits"
+          ],
+          "silverLine": "complex",
+          "shadowAvailable": true,
+          "stackAllowed": false,
+          "states": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ]
+        },
+        "212x132": {
+          "alias": "L",
+          "userData": [
+            "lastFourDigits"
+          ],
+          "silverLine": "complex",
+          "shadowAvailable": true,
+          "stackAllowed": false,
+          "states": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ]
+        },
+        "68x42": {
+          "alias": "M",
+          "userData": [
+            "lastFourDigits"
+          ],
+          "silverLine": "simple",
+          "shadowAvailable": true,
+          "stackAllowed": true,
+          "states": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ]
+        },
+        "44x28": {
+          "alias": "S",
+          "userData": [],
+          "silverLine": "simple",
+          "shadowAvailable": true,
+          "stackAllowed": true,
+          "states": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ]
+        },
+        "24x16": {
+          "alias": "XS",
+          "userData": [],
+          "silverLine": "hidden",
+          "shadowAvailable": false,
+          "stackAllowed": true,
+          "states": [
+            "Active"
+          ]
+        }
+      },
+      "stack": {
+        "minimumCards": 2,
+        "renderedCardItems": 2,
+        "topItem": "Первая карта списка с выбранной рубашкой.",
+        "backItem": "Одна служебная подложка без изображения независимо от фактического количества карт.",
+        "requiredState": "Active",
+        "countPresentation": {
+          "68x42": "+N карты",
+          "44x28": "ellipsis",
+          "24x16": "ellipsis"
+        },
+        "shadow": {
+          "68x42": true,
+          "44x28": true,
+          "24x16": false
+        }
+      },
+      "userData": {
+        "cardholderName": {
+          "editable": true,
+          "uppercase": true,
+          "maxLines": 1,
+          "overflow": "ellipsis"
+        },
+        "lastFourDigits": {
+          "editable": true,
+          "maskRequired": true,
+          "format": "·· 1234"
+        },
+        "manualAddOrRemoveAllowed": false
+      },
+      "cover": {
+        "presetOwnedValues": [
+          "Alfa Business",
+          "Alfa Business Premium",
+          "Alfa Business Credit"
+        ],
+        "fallback": "None",
+        "customImageOverride": {
+          "allowed": true,
+          "requiredCover": "None",
+          "targetPath": "Details/CardCover / Image Container",
+          "operation": "add Image fill as the first fill",
+          "detachAllowed": false,
+          "newLayersAllowed": false,
+          "structureChangesAllowed": false
+        },
+        "silverLine": {
+          "defaultBySize": {
+            "264x164": "complex",
+            "212x132": "complex",
+            "68x42": "simple",
+            "44x28": "simple",
+            "24x16": "hidden"
+          },
+          "otherBankCustomCover": "hidden",
+          "alternativeAlfaCustomCover": "Скрывай, если полоса уже встроена в изображение или конфликтует с дизайном."
+        }
+      },
+      "state": {
+        "Active": "Без state overlay.",
+        "Inactive": "Вложенный 🔩 State показывает inactive overlay и штатный indicator.",
+        "Locked": "Вложенный 🔩 State показывает locked overlay и lock icon.",
+        "customStateCompositionAllowed": false
+      },
+      "shadow": {
+        "singleCard": "Show Shadow можно менять в размерах XL, L, M и S.",
+        "stackMAndS": "Show Shadow обязан быть включён.",
+        "xs": "Тень отсутствует."
+      },
+      "loadingErrorEmpty": {
+        "ownedByHost": true,
+        "cardImageProvidesOwnStates": false,
+        "coverNoneMeaning": "fallback without preset image, not loading"
+      },
+      "effectiveBaseline": {
+        "resolveOrder": [
+          "CardImage Size",
+          "CardImage Cover",
+          "CardImage State",
+          "CardImage Stack",
+          "Show Shadow",
+          "allowed custom cover Image fill",
+          "conditional SilverLine visibility",
+          "allowed content values"
+        ],
+        "compareLayerChangesAfterResolution": true,
+        "suppressHostOwnedNestedDiffs": true,
+        "preserveAllowedOverrides": [
+          "cardholder name",
+          "last four digits",
+          "custom cover Image fill when Cover=None",
+          "SilverLine visibility for a custom cover"
+        ]
+      }
+    }
+  }
+}

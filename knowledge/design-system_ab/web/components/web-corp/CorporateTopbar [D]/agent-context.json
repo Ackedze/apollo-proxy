@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.corporate-topbar",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "component-contract",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CorporateTopbar [D].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CorporateTopbar [D]"
+      ]
+    },
+    "summary": {
+      "componentFamily": "CorporateTopbar [D]",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] OptionList",
+        "key": "89e540665837191013a4637b6d68c3cf02438637",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Mode": [
+            "Basic",
+            "Core",
+            "Wide"
+          ]
+        }
+      },
+      {
+        "name": "[D] Settings",
+        "key": "e4fe5478cf0449862c3d4c952f8b0037e966eda9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Dropdown": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] StartAddon",
+        "key": "469c8973981e2cae24bab8b2f8a56520b2f97a81",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Custom",
+            "Select All"
+          ]
+        }
+      },
+      {
+        "name": "[D] TopBar",
+        "key": "636e6d4474770d65d5b077757a9c1c62c08a8f8c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Filtered": [
+            "false",
+            "true"
+          ],
+          "Skeleton": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[D] OptionListHeader",
+        "key": "8cc757eb9bf63ceb33dd3be2f6ba048f2da2320d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[D] SortableListItem",
+        "key": "c10e94711f5aec81753a9309cf54ae0932fd5752",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "Control",
+        "key": "e0ce7153952bfd2bc096f6eaa82a048fdc78ea50",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "Divider",
+        "key": "e35a1c0edc453cf729a7f5610550bb240eeb2f37",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "componentSemantics": [
+      {
+        "componentKey": "636e6d4474770d65d5b077757a9c1c62c08a8f8c",
+        "name": "[D] TopBar",
+        "purpose": "Desktop-панель управления представлением данных: показывает количество объектов, массовые и контекстные действия и настройки вида.",
+        "useWhen": [
+          "Над таблицей, списком или карточками нужны счётчик, действия или переключение настроек представления."
+        ],
+        "doNotUseWhen": [
+          "Под панелью нет связанного представления данных."
+        ],
+        "relationship": "Публичный корень CorporateTopbar; остальные компоненты пакета являются его внутренними областями и контролами.",
+        "status": "approved",
+        "provenance": "design-system-author"
+      }
+    ],
+    "summary": "[D] TopBar — desktop-панель управления табличным, списочным или карточным представлением данных. Она показывает обязательный Counter, поддерживает контекстные массовые и дополнительные действия и открывает настройки вида данных.",
+    "criticalBaselines": [
+      "Публичным корнем является только [D] TopBar; остальные компоненты пакета являются внутренними.",
+      "Filtered=false использует подпись «Всего», Filtered=true — «Найдено»; Counter обязателен и считает весь набор данных.",
+      "Skeleton=true блокирует взаимодействие и сохраняет состояние Filtered после загрузки.",
+      "OptionList Mode должен соответствовать Table Basic, Table Wide или Core-представлению.",
+      "Корень использует Fill по ширине и Hug по высоте; геометрия и визуальные стили защищены effective baseline.",
+      "TopBar применяется только на desktop от 768 px и всегда связан с таблицей, списком или карточками.",
+      "Для Table Wide [D] TopBar является sibling [D] BackgroundPlateSlot в общем Level-0 контейнере. Его нельзя размещать внутри Slot плейта."
+    ],
+    "agentInstructions": [
+      "Не объявляй служебные компоненты пакета самостоятельными публичными компонентами.",
+      "Не считай контекстное содержимое Control или Custom StartAddon нарушением само по себе.",
+      "Проверяй максимум одну дополнительную Button с Size=32 и View=Primary или Secondary.",
+      "Проверяй минимум одну видимую колонку и мгновенное применение настроек.",
+      "Не предлагай переход Basic ↔ Core: допустимы только Basic ↔ Wide и Core ↔ Wide.",
+      "Не разрешай переименование фиксированных служебных подписей.",
+      "При проверке Table Wide отклоняй композицию, где [D] TopBar вложен в BackgroundPlateSlot, даже если визуально отступы совпадают."
+    ],
+    "auditInterpretation": {
+      "baselinePolicy": "Сначала разреши Filtered, Skeleton и состояния вложенных компонентов, затем сравнивай layer properties с effective baseline.",
+      "allowedSlotChanges": [
+        "Control content and count",
+        "StartAddon Custom content",
+        "OptionList column labels, row count and row order",
+        "additional Button label and RightAddon"
+      ]
+    }
+  }
+}

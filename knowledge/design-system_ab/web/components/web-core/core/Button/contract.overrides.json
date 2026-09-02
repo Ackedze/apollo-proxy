@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-core.button",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] Button",
+        "key": "f9979d6cc8598aec25f721e0a45b7eef2eeb0088",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Button_Inverted",
+        "key": "5781a924d5b55813fab42082574f06e463eebd80",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Button",
+        "key": "7fb0c8679c682f7f82c031538c1b9efef8d98f1c",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Button_Inverted",
+        "key": "3d1fe2250afc57dc8d43a868fc986b7beb6672ed",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] Button",
+        "key": "0ec969ab700db8f0257403ebb2ad3c893646814a",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] Button_Inverted",
+        "key": "c7de13b97385ddc3702226e3b8351a7b5d00075b",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][Corporate] Button",
+        "key": "be77e05594a74e4e806c355db5140bb8f045d2f0",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][Corporate] Button_Inverted",
+        "key": "0bc7759fb858ad4a0f62c78708820947092cfd52",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.DisabledState",
+          "variant.Shape",
+          "variant.SingleIcon",
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Addon",
+        "key": "f33ce04b0651b062f10be88deab065ba67bf7171",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Addon",
+        "key": "24e2f4ddddc89ef024f8f1ef3f4bc51a0e5eac68",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "appliesTo": {
+      "generatedContract": "contract.generated.json",
+      "rawCatalog": "Web _ Core -- Button.json"
+    },
+    "publicApi": {
+      "variantProperties": {
+        "View": {
+          "kind": "component-property",
+          "description": "Визуальный style/state кнопки.",
+          "values": [
+            "Primary",
+            "Secondary",
+            "Transparent",
+            "Text",
+            "Accent",
+            "Outlined"
+          ]
+        },
+        "Size": {
+          "kind": "component-property",
+          "description": "Состояние высоты/size кнопки.",
+          "values": [
+            "32",
+            "40",
+            "48",
+            "56",
+            "64",
+            "72"
+          ]
+        },
+        "Shape": {
+          "kind": "component-property",
+          "description": "Состояние формы углов.",
+          "values": [
+            "Rectangular",
+            "Rounded"
+          ]
+        },
+        "SingleIcon": {
+          "kind": "component-property",
+          "description": "Переключает кнопку в icon-only/single-icon visual state.",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "DisabledState": {
+          "kind": "component-property",
+          "description": "Состояние компонента disabled/enabled.",
+          "values": [
+            "False",
+            "True"
+          ]
+        }
+      }
+    },
+    "anatomySemantics": {
+      "root": {
+        "path": "<variant root>",
+        "scope": "component-root",
+        "designerEditable": false,
+        "notes": "Root layout, radius и fill управляются component variant properties и design tokens."
+      },
+      "label": {
+        "path": "Text / Label",
+        "scope": "content-layer",
+        "designerEditable": "content-only",
+        "notes": "Text content можно менять. Text style и fill являются layer parameters и обычно должны оставаться под управлением variant."
+      },
+      "hint": {
+        "path": "Text / Hint",
+        "scope": "content-layer",
+        "designerEditable": "content-only",
+        "notes": "Hint присутствует в структуре компонента, но desktop-использование ограничено pattern rules."
+      },
+      "leftAddon": {
+        "path": "LeftAddon / LeftAddon",
+        "scope": "slot-instance",
+        "designerEditable": "variant-property-only",
+        "notes": "Вложенный addon instance. Его variant properties являются slot configuration, а не свободной layer styling."
+      },
+      "rightAddon": {
+        "path": "RightAddon / RightAddon",
+        "scope": "slot-instance",
+        "designerEditable": "variant-property-only",
+        "notes": "Вложенный addon instance. Его variant properties являются slot configuration, а не свободной layer styling."
+      },
+      "paintMe": {
+        "path": "*/PaintMe",
+        "scope": "internal-layer",
+        "designerEditable": false,
+        "notes": "Внутренний paint target. Ручные изменения fill нужно трактовать как layer customization."
+      }
+    },
+    "resetModel": {
+      "componentProperties": [
+        "variant.View",
+        "variant.Size",
+        "variant.Shape",
+        "variant.SingleIcon",
+        "variant.DisabledState"
+      ],
+      "slotProperties": [
+        "LeftAddon.variant.Type",
+        "RightAddon.variant.Type"
+      ],
+      "layerProperties": [
+        "fills",
+        "strokes",
+        "strokeWeight",
+        "cornerRadius",
+        "opacity",
+        "layout.padding",
+        "layout.itemSpacing",
+        "styles.text",
+        "typography"
+      ],
+      "dependencyPolicy": "При reset component property layer differences, вызванные только этой property, могут исчезнуть автоматически. Ручные layer overrides должны оставаться независимо сбрасываемыми, пока reset родительской property не уберёт их target state."
+    }
+  }
+}

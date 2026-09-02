@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.forms",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T19:55:21.296Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-presets/Web _ Corp Presets -- Forms.json",
+      "library": "Web :: Corp Presets",
+      "file": "Web :: Corp Presets",
+      "generatedAt": "2026-04-28T19:55:21.296Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "Forms"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Forms",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [M] Forms :: Header",
+        "key": "d4e1bce9447a235a6b65e5e18eeccc4ab62f396e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔒 [D] Forms :: Header",
+        "key": "4bcf8eb9212d314052af49bae0cebb0d4985943b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Accordion": [
+            "false",
+            "true"
+          ],
+          "Opened": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[M] AddButton",
+        "key": "8bbcda99d29b3ca6d65479862d5502af3f20d69e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Add": [
+            "Card",
+            "Input"
+          ]
+        }
+      },
+      {
+        "name": "[M] Field",
+        "key": "e369c899c79bc714c719c2e05e8728b38ba59a9f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Amountinput",
+            "DateInput",
+            "Input",
+            "Select",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[M] RemoveAddon",
+        "key": "54b7a81622388bd85baa53cc85e29d9cc4e46a76",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Empty": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "AddoAccordion",
+        "key": "42953e91e23e91213fffd8b1e4e3c442c92376f7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "Link",
+            "PickerButton"
+          ]
+        }
+      },
+      {
+        "name": "AddonMedium",
+        "key": "20d7e596381de1e7c09e52c54eb56a3cbeea94e9",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "Copy",
+            "Delete",
+            "Edit",
+            "IconButton",
+            "Link",
+            "PickerButton"
+          ]
+        }
+      },
+      {
+        "name": "AddonSmall",
+        "key": "3fd460efbdedfe3b26f868503931fae722b97401",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Presets": [
+            "Copy",
+            "Delete",
+            "Edit",
+            "IconButton",
+            "Link",
+            "PickerButton"
+          ]
+        }
+      },
+      {
+        "name": "[D] OuterPlate",
+        "key": "7027020e974552733e15a3c5604ab6290c396ead",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Attention",
+            "Info"
+          ]
+        }
+      },
+      {
+        "name": "[D] InlinePlate",
+        "key": "2dabc6ade6c64d8cfb58e71d2067c0bc0bacb4fc",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Attention",
+            "Info"
+          ]
+        }
+      },
+      {
+        "name": "[D] ButtonStack",
+        "key": "2fcaed1e5d955451862ed798ffd7f9ec2c92970f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Overflow": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[D] TopAddon",
+        "key": "1c7abddf821d0861617642dfd37180c1950e1abb",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Plate",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] AddButton",
+        "key": "a7e7ff4c0e2325fede326bda4feaa7610262cf19",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Add": [
+            "Card",
+            "Input"
+          ]
+        }
+      },
+      {
+        "name": "[D] Field",
+        "key": "870f97fe4877a404719f730d71cdf0e9cdbc0d7b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Amountinput",
+            "DateInput",
+            "Input",
+            "Select",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] Remove",
+        "key": "3dce5401b72415524402627a43fe21025780a5f4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Empty": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [M] Forms :: Row",
+        "key": "5c2bccdf35fe3cdcc32ee3fb1e74eb7da490cd27",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "AddNew",
+            "Checkbox",
+            "Input",
+            "SwapMe",
+            "Switch",
+            "TagGroup",
+            "TitleSmall"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] Forms :: Row",
+        "key": "f46974485001d3330d4f883336acc87a282a4b2e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "AddNew",
+            "Checkbox",
+            "Double Input",
+            "Plate",
+            "Single Input",
+            "SwapMe",
+            "Switch",
+            "TagGroup",
+            "TitleSmall"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] Forms :: Сontrols",
+        "key": "5bfc8c01dd61853fbef133739bc16b5a932929fe",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Forms",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

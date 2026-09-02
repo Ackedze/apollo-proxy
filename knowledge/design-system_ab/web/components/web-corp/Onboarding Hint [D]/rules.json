@@ -1,0 +1,508 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-hint",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-23"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.onboarding-hint.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layers": [
+            "Onboarding Hint",
+            "Onboarding Hint [D]",
+            "Tail"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layers": [
+            "Onboarding Hint",
+            "Onboarding Hint [D]",
+            "Tail"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.onboarding-hint.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.public-root-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй Onboarding Hint как публичный корень. Tail является служебной частью и не используется отдельно."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.desktop-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint [D] используется только на desktop от 768 px. На mobile-web onboarding-сценарий показывается в BottomSheet."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.scenario-purpose",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй Onboarding Hint для знакомства пользователя с новой или изменившейся функцией. Не заменяй им обычный Hint с кратким пояснением элемента интерфейса."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.required-anatomy",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Title, одна кнопка, Close и Tail являются обязательными частями Onboarding Hint. Скрывать их нельзя."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.title-maximum-70-characters",
+        "severity": "error",
+        "source": "pattern",
+        "appliesTo": "text.Title",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текст Title в Onboarding Hint должен содержать не более 70 символов."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.button-configuration-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Size|variant.View|variant.Shape|variant.SingleIcon|variant.DisabledState|component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layer": "Content/Content/[D] Button"
+        },
+        "requiredVariant": {
+          "Size": "32",
+          "View": "Text",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        },
+        "ruleText": "Встроенная кнопка обязательна и использует Size=32, View=Text, Shape=Rectangular, SingleIcon=False, DisabledState=False, без LeftAddon и RightAddon. Её конфигурацию нельзя менять вручную.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.button-action",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Кнопка может закрывать Onboarding Hint или запускать связанную с подсказкой функцию. Оба варианта допустимы."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.trigger-model",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.trigger",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint может запускаться автоматически или по триггерному событию. Возможность повторного показа определяется бизнес-логикой продукта."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.tail-points-to-target",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Tail Direction|variant.Tail Position|component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Выбирай Tail Direction и Tail Position так, чтобы Tail указывал на связанный объект или область."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.target-remains-visible-and-interactive",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.position|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint не должен перекрывать связанный объект или область. Целевой объект должен оставаться видимым и интерактивным."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.dismiss-method",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Единственный самостоятельный способ прервать Onboarding Hint — Close. Close закрывает hint без подтверждения. Esc и клик вне компонента не закрывают hint."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.visuals-follow-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.height|layout.padding.*|layout.itemSpacing|radius|fill|stroke|styles.text|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Высота Onboarding Hint всегда использует Hug. Padding, spacing, radius, fill, stroke, typography, opacity и effects должны соответствовать effective baseline. Ширину разрешено менять по контексту.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.recommended-width",
+        "severity": "warning",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.width",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "Onboarding Hint",
+            "Onboarding Hint [D]"
+          ]
+        },
+        "numericConstraint": {
+          "recommended": 360
+        },
+        "ruleText": "Рекомендуемая ширина Onboarding Hint — 360 px. Другую ширину до 420 px можно использовать по контексту.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.maximum-width",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.width",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "Onboarding Hint",
+            "Onboarding Hint [D]"
+          ]
+        },
+        "numericConstraint": {
+          "maximum": 420
+        },
+        "ruleText": "Максимальная ширина Onboarding Hint — 420 px. Значения больше 420 px запрещены.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.must-fit-viewport",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint должен полностью помещаться во viewport без обрезания."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.temporary-surfaces-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint можно использовать поверх Modal или Drawer, если связанный объект расположен внутри этой поверхности."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.plain-text-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.Title",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Title содержит только обычный текст. Ссылки, списки и rich-text элементы не используются."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.close-configuration-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Size|variant.TransparentBg|variant.View|variant.Type|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layer": "Content/Cross"
+        },
+        "requiredVariant": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary",
+          "Icon.Type": "icon-20"
+        },
+        "ruleText": "Close должен соответствовать effective baseline: Cross Size=24, TransparentBg=False, View=Primary и Icon Type=icon-20. Заменять иконку или вложенный компонент нельзя.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.close-icon-type-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Type|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layers": [
+            "Content / Cross / 🔩 Icon",
+            "Content / Cross / Icon"
+          ]
+        },
+        "requiredVariant": {
+          "Type": "icon-20"
+        },
+        "ruleText": "Вложенная иконка Close использует Type=icon-20. Заменять её или менять Type нельзя.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.close-icon-fill-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "fill|fills",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layers": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe",
+            "Content / Cross / Icon / Fixer / PaintMe"
+          ]
+        },
+        "ruleText": "Заливка вложенной иконки Close должна соответствовать effective baseline. Менять её вручную нельзя.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.close-glyph-configuration-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Size|variant.Color|variant.Style|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Hint [D]",
+          "layers": [
+            "Content / Cross / 🔩 Icon / Fixer / PaintMe / cross",
+            "Content / Cross / Icon / Fixer / PaintMe / cross"
+          ]
+        },
+        "requiredVariant": {
+          "Size": "20",
+          "Color": "False",
+          "Style": "Thinline"
+        },
+        "ruleText": "Glyph Close использует Size=20, Color=False и Style=Thinline. Его конфигурацию нельзя менять вручную.",
+        "authority": {
+          "status": "draft",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.default-state-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "У Onboarding Hint есть только обычное состояние. Не создавай loading, disabled или error вручную."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.single-visible-instance",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Одновременно может отображаться только один Onboarding Hint."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.target-must-be-available",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.trigger|component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не запускай Onboarding Hint, если связанный объект скрыт или находится за пределами viewport."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.interface-remains-interactive",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint не блокирует взаимодействие с остальным интерфейсом. Пользователь может продолжать работать с элементами экрана."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.title-wraps-without-truncation",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.Title|layout.textOverflow",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Title переносится на новые строки без truncation и многоточия."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.button-label-is-editable",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.Button",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Label встроенной кнопки можно менять по контексту. К тексту и поведению применяются общие правила компонента Button."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.own-interactive-parts-are-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Внутри Onboarding Hint интерактивны только Button и Close. Не назначай действие всей поверхности, Title или Tail. Связанный внешний объект остаётся интерактивным."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.tail-properties-are-contextual",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Tail Direction|variant.Tail Position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Дизайнер свободно выбирает Tail Direction и Tail Position по расположению связанного объекта, сохраняя обязательное указание Tail на цель."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.no-sequential-flow",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.flow",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint используется как одиночная подсказка. Не собирай из нескольких Onboarding Hint последовательный onboarding-flow."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.exactly-one-button",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.buttons",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В Onboarding Hint всегда должна быть ровно одна кнопка. Скрывать единственную кнопку или добавлять вторую запрещено."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.final-dot-is-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.Title",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В конце Title можно поставить точку. Запрет финальной точки для обычного Hint не применяется к Onboarding Hint."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.no-backdrop-or-spotlight",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Показывай Onboarding Hint без backdrop, затемнения или spotlight."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.onboarding-content-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.Title|component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Hint знакомит пользователя с новой или изменившейся функцией. Не используй его для ошибок, ограничений, последствий действия или другой критически важной информации."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-hint.not-for-action-result",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не используй Onboarding Hint для результата выполненного действия. Для результата используй Toast, Notification или CorporateStatusScreen."
+      }
+    ]
+  }
+}

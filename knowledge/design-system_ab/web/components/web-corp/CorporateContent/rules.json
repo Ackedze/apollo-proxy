@@ -1,0 +1,915 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.corporate-content",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-06"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-content.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateContent",
+          "layers": [
+            "[D] Body",
+            "[D] CorporateContent",
+            "[D] Section",
+            "[M] CorporateContent",
+            "[M} Body",
+            "[T] Body",
+            "[T] CorporateContent",
+            "❌ [D] Body",
+            "❌ [M} Body",
+            "❌ [T] Body",
+            "❌ [T] CorporateContent",
+            "CorporateContent"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateContent",
+          "layers": [
+            "[D] Body",
+            "[D] CorporateContent",
+            "[D] Section",
+            "[M] CorporateContent",
+            "[M} Body",
+            "[T] Body",
+            "[T] CorporateContent",
+            "❌ [D] Body",
+            "❌ [M} Body",
+            "❌ [T] Body",
+            "❌ [T] CorporateContent",
+            "CorporateContent"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-content.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateContent",
+          "layers": [
+            "[D] Body",
+            "[D] BottomMagrin",
+            "[D] CorporateContent",
+            "[D] Section",
+            "[D] TopMargin",
+            "[D](1024+) Content",
+            "[D](1024+) ContentBody",
+            "[D](768) Content",
+            "[D](768) ContentBody",
+            "[M] Content",
+            "[M] CorporateContent",
+            "[M](320-767) ContentBody",
+            "[M} Body",
+            "[T] Body",
+            "[T] CorporateContent",
+            "❌ [D] BottomMagrin",
+            "❌ [D] TopMargin",
+            "❌ [D](1024+) Content",
+            "❌ [D](1024+) ContentBody",
+            "❌ [D](768) Content",
+            "❌ [D](768) ContentBody",
+            "❌ [M] Content",
+            "❌ [M](320-767) ContentBody",
+            "🔄 [D] Body",
+            "🔄 [M} Body",
+            "🔄 [T] Body",
+            "🔄 [T] CorporateContent"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateContent",
+          "layers": [
+            "[D] Body",
+            "[D] BottomMagrin",
+            "[D] CorporateContent",
+            "[D] Section",
+            "[D] TopMargin",
+            "[D](1024+) Content",
+            "[D](1024+) ContentBody",
+            "[D](768) Content",
+            "[D](768) ContentBody",
+            "[M] Content",
+            "[M] CorporateContent",
+            "[M](320-767) ContentBody",
+            "[M} Body",
+            "[T] Body",
+            "[T] CorporateContent",
+            "❌ [D] BottomMagrin",
+            "❌ [D] TopMargin",
+            "❌ [D](1024+) Content",
+            "❌ [D](1024+) ContentBody",
+            "❌ [D](768) Content",
+            "❌ [D](768) ContentBody",
+            "❌ [M] Content",
+            "❌ [M](320-767) ContentBody",
+            "🔄 [D] Body",
+            "🔄 [M} Body",
+            "🔄 [T] Body",
+            "🔄 [T] CorporateContent"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.transition-version-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.transition-corporate-content-prohibited",
+        "appliesTo": "component.key|component.name",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "componentKeys": [
+            "598681c2a2dbe45e5529de354d8681cabc9a42d6"
+          ],
+          "componentNames": [
+            "[T] CorporateContent",
+            "🔄 [T] CorporateContent"
+          ]
+        },
+        "ruleText": "Переходный [T] CorporateContent не допускается в рабочих макетах. Используй активный [D] CorporateContent или [M] CorporateContent согласно платформе.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.required-on-product-page",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-required-on-page",
+        "appliesTo": "screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "requiredComposition": {
+          "maxCorporateContentPerPage": 1,
+          "requiredComponentByPlatform": {
+            "desktop": "[D] CorporateContent",
+            "mobile-web": "[M] CorporateContent"
+          },
+          "figmaParentComponentRequired": false,
+          "frontendParentAssembly": "CorporatePage"
+        },
+        "ruleText": "На продуктовой странице используется один платформенный CorporateContent. В Figma он может использоваться самостоятельно и не требует родительского компонента CorporatePage; во фронтовой сборке CorporateContent размещается внутри CorporatePage."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.body-allows-arbitrary-composition",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition|instanceSwap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "slots": [
+            "[D] Body",
+            "[M] Body"
+          ]
+        },
+        "classification": {
+          "arbitraryContentAllowed": true,
+          "arbitraryCompositionAllowed": true,
+          "multipleChildrenAllowed": true,
+          "doNotTreatSwapAloneAsViolation": true
+        },
+        "ruleText": "В Body можно размещать любой контент или композицию, включая несколько дочерних элементов. Само содержимое слота проверяется по собственным компонентным контрактам и паттернам."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.background-mode-only",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-background-mode",
+        "appliesTo": "fill|variables.BackgroundPlate Color",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "requiredConfiguration": {
+          "variableCollection": "BackgroundPlate Color",
+          "manualFillAllowed": false
+        },
+        "ruleText": "Цвет фона CorporateContent задаётся выбором mode коллекции BackgroundPlate Color для всего фрейма. Ручное изменение fill запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.grid-style-protected",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-grid-style-protected",
+        "appliesTo": "styles.grid",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "ruleText": "Grid style корня CorporateContent является системным и не меняется вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.spacing-uses-grid-cols-mode",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-spacing-mode",
+        "appliesTo": "layout.padding.*|variables.Grid & Cols",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "requiredConfiguration": {
+          "desktopCollection": "[D] Grid & Cols",
+          "mobileWebCollection": "[M] Grid & Cols",
+          "manualPaddingAllowed": false,
+          "mobileWebMargins": {
+            "TopMargin": "24",
+            "BottomMargin": "24"
+          }
+        },
+        "ruleText": "Отступы CorporateContent определяются mode коллекции Grid & Cols, а не ручными padding. Для [M] CorporateContent обязательны TopMargin=24 и BottomMargin=24.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.page-background-modes-only",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-page-background-modes",
+        "appliesTo": "variables.BackgroundPlate Color.mode",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ]
+        },
+        "requiredConfiguration": {
+          "allowedModes": [
+            "base-bg-alt (grey)",
+            "base-bg (white)"
+          ],
+          "prohibitedModes": [
+            "modal-bg-alt (grey)",
+            "modal-bg (white)"
+          ]
+        },
+        "ruleText": "CorporateContent является поверхностью страницы: разрешены только base-bg-alt и base-bg. Modes modal-bg-alt и modal-bg запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.root-fill-hug-sizing",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-fill-hug-sizing",
+        "appliesTo": "layoutSizingHorizontal|layoutSizingVertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "requiredLayout": {
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG"
+        },
+        "ruleText": "Корень CorporateContent использует Fill container по ширине и Hug contents по высоте.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.root-visual-overrides-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-root-overrides-prohibited",
+        "appliesTo": "radius|stroke|effects.*|opacity|clipsContent",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "classification": {
+          "manualOverridesAllowed": false,
+          "reportAsCustomization": true,
+          "treatAsViolation": true
+        },
+        "ruleText": "У корня CorporateContent нельзя вручную менять radius, stroke, effects, opacity и clips content.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.body-layout-delegated",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "layout.direction|layout.itemSpacing",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "slots": [
+            "[D] Body",
+            "[M] Body"
+          ]
+        },
+        "classification": {
+          "determinedByNestedComposition": true,
+          "doNotRequireGutter": true
+        },
+        "ruleText": "Direction и itemSpacing внутри Body полностью определяются вложенной композицией. Не требуй Gutter на уровне Body: Gutter используется как горизонтальный отступ между элементами Section."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.platform-breakpoint-selection",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-platform-breakpoint",
+        "appliesTo": "component.key|screen.width",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "requiredComponentByWidth": {
+          "768-and-above": "[D] CorporateContent",
+          "320-767": "[M] CorporateContent"
+        },
+        "requiredVariableModeAt768": {
+          "component": "[D] CorporateContent",
+          "collection": "[D] Grid & Cols",
+          "mode": "768"
+        },
+        "ruleText": "На ширине 768 используется [D] CorporateContent с mode 768 коллекции [D] Grid & Cols. [M] CorporateContent применяется на mobile-web ниже 768."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.default-page-background",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variables.BackgroundPlate Color.mode",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "requiredConfiguration": {
+          "defaultMode": "base-bg-alt (grey)",
+          "allowedModes": [
+            "base-bg-alt (grey)",
+            "base-bg (white)"
+          ],
+          "selectionPolicy": "separate-pattern"
+        },
+        "ruleText": "По умолчанию CorporateContent использует base-bg-alt (grey). Выбор между base-bg-alt и base-bg будет определён отдельным паттерном; без его контекста не придумывай дополнительные условия."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.root-clickability-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-root-clickability-prohibited",
+        "appliesTo": "prototype.action|interaction",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "ruleText": "Корень CorporateContent не может быть единой кликабельной поверхностью. Интерактивность размещается во вложенном контенте.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.detach-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-detach-prohibited",
+        "appliesTo": "component.instanceState",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layers": [
+            "root",
+            "[D] Body",
+            "[M] Body"
+          ]
+        },
+        "ruleText": "CorporateContent и его слот Body нельзя detach-ить. Контент заменяется через слот без разрушения компонентной структуры.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.gutter-horizontal-composition",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "layout.itemSpacing|variables.Gutter",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "classification": {
+          "direction": "HORIZONTAL",
+          "sectionComponentRequired": false,
+          "customHorizontalCompositionAllowed": true
+        },
+        "ruleText": "Gutter можно использовать как горизонтальный отступ в любой вложенной горизонтальной композиции. Компонент Section для этого не обязателен."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.nesting-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-nesting-prohibited",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "target": {
+          "parentComponents": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "prohibitedDescendants": [
+            "[D] CorporateContent",
+            "[M] CorporateContent",
+            "[T] CorporateContent",
+            "🔄 [T] CorporateContent"
+          ]
+        },
+        "requiredComposition": {
+          "prohibitedDescendants": [
+            "[D] CorporateContent",
+            "[M] CorporateContent",
+            "[T] CorporateContent",
+            "🔄 [T] CorporateContent"
+          ]
+        },
+        "ruleText": "CorporateContent нельзя вкладывать внутрь другого CorporateContent. На продуктовой странице используется одна корневая контентная область."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.swapme-must-be-replaced",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-swapme-replaced",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "placeholder": "SwapMe"
+        },
+        "requiredComposition": {
+          "swapMeVisibleInFinalLayout": false
+        },
+        "ruleText": "После добавления реального содержимого в Body placeholder SwapMe должен быть заменён или удалён и не должен оставаться в финальном макете."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.header-adjacency",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.header-content-autolayout",
+        "appliesTo": "screen.composition|layout.itemSpacing",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "requiredComposition": {
+          "order": [
+            "Header or HeaderMenu",
+            "CorporateContent"
+          ],
+          "sharedParentDirection": "VERTICAL",
+          "itemSpacing": 0
+        },
+        "ruleText": "Header или HeaderMenu располагается непосредственно над CorporateContent в общем вертикальном автолейауте с gap 0."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.root-layout-protected",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-root-layout-protected",
+        "appliesTo": "layout.direction|layout.itemSpacing",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "requiredLayout": {
+          "direction": "VERTICAL",
+          "itemSpacing": 0
+        },
+        "ruleText": "Корень CorporateContent использует вертикальный auto layout и itemSpacing=0. Эти параметры нельзя менять вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.clips-content-disabled",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.corporate-content-clips-disabled",
+        "appliesTo": "clipsContent",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "components": [
+            "[D] CorporateContent",
+            "[M] CorporateContent"
+          ],
+          "layer": "root"
+        },
+        "requiredValue": false,
+        "ruleText": "У корня CorporateContent clipsContent должен быть выключен.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-horizontal-column-group",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "target": {
+          "component": "[D] Section"
+        },
+        "classification": {
+          "purpose": "horizontal-block-grouping-and-column-management",
+          "required": false
+        },
+        "ruleText": "[D] Section — необязательный вложенный компонент CorporateContent для горизонтальной группировки блоков и управления колонками."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-position-tablet-order",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-position-tablet-order",
+        "appliesTo": "variant.Position|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section"
+        },
+        "requiredCompositionByValue": {
+          "Position=true": "Isle below Content",
+          "Position=false": "Isle above Content"
+        },
+        "ruleText": "Position=true всегда размещает Isle ниже Content, а Position=false — выше Content.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-tablet-isle-auto",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-tablet-isle-auto",
+        "appliesTo": "variant.👽 TabletIsle|variables.Grid & Cols.mode",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section"
+        },
+        "requiredVariantByMode": {
+          "768": {
+            "👽 TabletIsle": "true"
+          },
+          "1024": {
+            "👽 TabletIsle": "true"
+          }
+        },
+        "classification": {
+          "designerShouldNotToggleManually": true
+        },
+        "ruleText": "Параметр 👽 TabletIsle автоматически переключается в true в modes 1024 и 768. Дизайнер не должен настраивать его вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-root-layout-protected",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-root-layout-protected",
+        "appliesTo": "layoutSizingHorizontal|layoutSizingVertical|layout.direction|layout.alignment.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section",
+          "layer": "root"
+        },
+        "requiredLayout": {
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG",
+          "directionAndAlignment": "effective baseline of current Grid & Cols mode"
+        },
+        "ruleText": "Корень Section использует Fill container по ширине и Hug contents по высоте. Direction и alignment определяются компонентом и текущим mode и не меняются вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-slot-content-policy",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition|instanceSwap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "target": {
+          "component": "[D] Section",
+          "slots": [
+            "Content",
+            "Isle"
+          ]
+        },
+        "classification": {
+          "arbitraryContentAllowed": true,
+          "slotContentReplacementAllowed": true,
+          "instanceSwapAllowed": false
+        },
+        "ruleText": "В слоты Content и Isle можно помещать любой контент через slot content replacement. Instance swap вложенных компонентов Section запрещён."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-gutter-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-gutter-required",
+        "appliesTo": "layout.itemSpacing|variables.Gutter",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section",
+          "layer": "root"
+        },
+        "requiredConfiguration": {
+          "itemSpacingVariable": "Gutter",
+          "manualItemSpacingAllowed": false
+        },
+        "ruleText": "Отступ между Content и Isle всегда задаётся переменной Gutter. Ручное изменение itemSpacing запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "binding-set",
+          "identity": "web-corp.corporate-content",
+          "where": [
+            {
+              "predicate": "equals",
+              "actual": {
+                "fact": "component.name"
+              },
+              "expected": {
+                "literal": "[D] Section"
+              }
+            }
+          ],
+          "paths": [
+            {
+              "suffix": "gutter",
+              "label": "Gutter между Content и Isle",
+              "valueFact": "layout.itemSpacing",
+              "bindingFact": "bindings.itemSpacing"
+            }
+          ],
+          "expectedBinding": {
+            "bound": true,
+            "token": "Grid/Gutter"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "{{property}} задан без переменной Gutter",
+            "observed": "{{property}} имеет значение {{actual}} px без привязки к переменной Gutter.",
+            "expectation": "Отступ между Content и Isle в [D] Section должен быть привязан к переменной Gutter.",
+            "action": "Привязать текущее значение itemSpacing к переменной Gutter."
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-column-widths-variable-only",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-column-widths-variable-only",
+        "appliesTo": "width|layoutSizingHorizontal|variables.*Cols",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section",
+          "slots": [
+            "Content",
+            "Isle"
+          ]
+        },
+        "requiredConfiguration": {
+          "widthSource": "Grid & Cols column variables",
+          "manualWidthAllowed": false
+        },
+        "ruleText": "Ширина Content и Isle определяется переменными колонок Grid & Cols. Ручное изменение ширины запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-placeholders-replaced",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-placeholders-replaced",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "target": {
+          "component": "[D] Section",
+          "placeholders": [
+            "Content / SwapMe",
+            "Isle / SwapMe"
+          ]
+        },
+        "requiredComposition": {
+          "visiblePlaceholdersInFinalLayout": 0
+        },
+        "ruleText": "После наполнения Section placeholders SwapMe должны быть удалены или заменены отдельно в слотах Content и Isle."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-content.section-detach-and-style-overrides-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.corporate-page.section-detach-and-style-overrides-prohibited",
+        "appliesTo": "component.instanceState|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "[D] Section",
+          "layers": [
+            "root",
+            "Content",
+            "Isle"
+          ]
+        },
+        "classification": {
+          "detachAllowed": false,
+          "manualStyleOverridesAllowed": false,
+          "reportAsCustomization": true,
+          "treatAsViolation": true
+        },
+        "ruleText": "Section, Content и Isle нельзя detach-ить или вручную менять их fill, stroke, radius, opacity и effects.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ]
+  }
+}

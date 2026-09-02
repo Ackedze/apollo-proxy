@@ -1,0 +1,3029 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.result-screen",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "ResultScreen",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenHeader",
+        "componentName": "ResultScreenHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / 🔩 [D] ModalNavigationPresets",
+        "componentName": "🔩 [D] ModalNavigationPresets",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Title": "False",
+          "Сross": "True",
+          "Сustom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / 🔩 [D] ModalNavigationPresets / Cross / Cross / IconWrapper / Wrapper / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "72"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / checkmark",
+        "componentName": "checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / Border / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [D] AmountHeadline",
+        "componentName": "🔒 [D] AmountHeadline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Style": "Headline 30/36"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [D] AmountHeadline / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [D] AmountHeadline / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [D] AmountHeadline / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter",
+        "componentName": "ResultScreenFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent",
+        "componentName": "FooterСontent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "False",
+          "SecondaryButton": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup",
+        "componentName": "ButtonsGroup",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "False",
+          "SecondaryButton": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "48",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] Footer content",
+        "path": "Axis=Horizontal, PrimaryButton=True, SecondaryButton=False / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenHeader",
+        "componentName": "ResultScreenHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Align": "Center",
+          "BottomAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / Top / Main / 🔩 CentredMainSlot",
+        "componentName": "🔩 CentredMainSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Blank"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / Top / LeftAddon / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Blank"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / Top / RightAddon / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "FloatedCross"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenHeader / Top / RightAddon / 🔩 RightAddon / Cross / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / checkmark",
+        "componentName": "checkmark",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Graphic / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [M] AmountHeadline",
+        "componentName": "🔒 [M] AmountHeadline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Style": "Headline 30/36"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [M] AmountHeadline / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [M] AmountHeadline / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / Content / Amount / 🔒 [M] AmountHeadline / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenBody / BodyContent / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter",
+        "componentName": "ResultScreenFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent",
+        "componentName": "FooterСontent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "False",
+          "SecondaryButton": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreen",
+        "path": "View=Success / ResultScreenFooter / FooterСontent / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup",
+        "componentName": "ButtonsGroup",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Axis": "Horizontal",
+          "PrimaryButton": "False",
+          "SecondaryButton": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button",
+        "componentName": "Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "56",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenFooter",
+        "path": "Content=True / ButtonsGroup / Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ActionButtons",
+        "path": "[D] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "72"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / Border / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Amount / 🔒 [D] AmountHeadline",
+        "componentName": "🔒 [D] AmountHeadline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Style": "Headline 30/36"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Amount / 🔒 [D] AmountHeadline / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Amount / 🔒 [D] AmountHeadline / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / Content / Amount / 🔒 [D] AmountHeadline / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] ResultScreenBase",
+        "path": "[D] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ActionButtons",
+        "path": "[M] ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Graphic / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Amount / 🔒 [M] AmountHeadline",
+        "componentName": "🔒 [M] AmountHeadline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Style": "Headline 30/36"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Amount / 🔒 [M] AmountHeadline / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Amount / 🔒 [M] AmountHeadline / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / Content / Amount / 🔒 [M] AmountHeadline / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] ResultScreenBase",
+        "path": "[M] ResultScreenBase / ActionButtons / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic",
+        "componentName": "🔄 [M] Graphic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView",
+        "componentName": "🔄 [M] IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / TextConent / TextWrapper / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / TextConent / TextWrapper / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / chevron-right-shift-right",
+        "componentName": "chevron-right-shift-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 .ResultScreenContent",
+        "path": "🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / ❌ MainButtonStack ❌",
+        "componentName": "❌ MainButtonStack ❌",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Only Lable"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / ❌ MainButtonStack ❌ / MainButtonStack / 🔄 ButtonMobile_Inverted",
+        "componentName": "🔄 ButtonMobile_Inverted",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "disable": "False",
+          "label": "True",
+          "leftAddon": "False",
+          "loading": "False",
+          "rightAddon": "False",
+          "size": "M (56)",
+          "view": "secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / ❌ MainButtonStack ❌ / MainButtonStack / 🔄 ButtonMobile_Inverted / 👻 Base",
+        "componentName": "👻 Base",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "configuration": "T",
+          "size": "M_Mobile",
+          "type": "solid"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / ❌ MainButtonStack ❌ / MainButtonStack / 🔄 ButtonMobile_Inverted / 👻 Base / 👻 Fixer",
+        "componentName": "👻 Fixer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "72 | M"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / ❌ MainButtonStack ❌ / NativeHomeBar",
+        "componentName": "NativeHomeBar",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "DarkMode": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic",
+        "componentName": "🔄 [M] Graphic",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView",
+        "componentName": "🔄 [M] IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "80"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / Header / 🔄 [M] Graphic / 🔄 [M] IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / TextConent / TextWrapper / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / TextConent / TextWrapper / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton",
+        "componentName": "ActionButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Inverted": "False",
+          "Static": "False",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / ContentWrapper / ActionButtonStack / ActionButton / Bg / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / chevron-right-shift-right",
+        "componentName": "chevron-right-shift-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / Example / 🔄 .ResultScreenContent / ContentWrapper / Coach / ContentWrapper / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar",
+        "componentName": "🔄 NavigationBar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BG color": "Secondary",
+          "Type": "PageBar"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / NativeStatusBar",
+        "componentName": "NativeStatusBar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DarkMode": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24 px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_LeftSlot / x_LeftSlot / IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / chevron-left-shift-left",
+        "componentName": "chevron-left-shift-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_MiddleSlot",
+        "componentName": ".🔄 Details / x_MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Subtitle": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_MiddleSlot / 👻 MiddleSlot",
+        "componentName": "👻 MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "content": "title+subtitle (centred)"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_MiddleSlot / 👻 MiddleSlot / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .🔄 Details / x_MiddleSlot / 👻 MiddleSlot / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24 px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / x_RightSlot / IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24 px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .Details / x_RightSlot",
+        "componentName": ".Details / x_RightSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Cross"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .Details / x_RightSlot / 👻 Cross",
+        "componentName": "👻 Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "content": "cross"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .Details / x_RightSlot / 👻 Cross / Cross / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / x_MobileNavigationPresets / x_Navigation / .Details / x_RightSlot / 👻 Cross / Cross / IconWrapper / Wrapper / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M] ResultScreen",
+        "path": "🔄 [M] ResultScreen / 🔄 NavigationBar / .🔄 Details / x_CustomSlot",
+        "componentName": ".🔄 Details / x_CustomSlot",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "✦ Template": "Custom"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

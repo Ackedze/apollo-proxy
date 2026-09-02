@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.corporate-app-header-new",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "component-contract",
+      "updatedAt": "2026-07-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.desktop-page-shell",
+        "title": "Навигационная оболочка большой desktop-страницы",
+        "classification": "valid",
+        "components": [
+          "[D] Header",
+          "[D] SideMenu"
+        ],
+        "explanation": "На большом desktop-разрешении верхнее и боковое меню используются вместе как обязательная часть страницы."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.768-page-shell",
+        "title": "Навигационная оболочка на ширине 768 px",
+        "classification": "valid",
+        "components": [
+          "[D] Header",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Header.👽 Tablet": "true",
+          "HeaderMenu.presentation": "left-drawer"
+        },
+        "explanation": "На ширине 768 px Header остаётся в tablet-состоянии, а HeaderMenu заменяет SideMenu и открывается слева как drawer."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.header-back",
+        "title": "Header с действием Назад",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Back": "true"
+        },
+        "explanation": "Back=true включается вручную, когда сценарию требуется возврат на предыдущий уровень."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.manual-tablet-change",
+        "title": "Ручное изменение системного параметра Tablet",
+        "classification": "invalid",
+        "component": "[D] Header",
+        "configuration": {
+          "👽 Tablet": "manual-change"
+        },
+        "explanation": "Параметр связан с переменными страницы и не должен изменяться дизайнером вручную."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.edit-mode",
+        "title": "Пользовательская настройка меню",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Edit Mode": "True"
+        },
+        "explanation": "Edit Mode показывает состояние настройки видимости и положения пунктов меню."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.standalone-header",
+        "title": "Header вне корпоративной страницы",
+        "classification": "invalid",
+        "component": "[D] Header",
+        "explanation": "Компоненты навигационной оболочки обязательны на странице и не используются как самостоятельные блоки вне неё."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.header-required-controls",
+        "title": "Header с обязательными контролами",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Mail": "visible",
+          "Notifications": "visible",
+          "CompanyAccount": "visible",
+          "PersonSelect": "visible",
+          "Exit": "visible"
+        },
+        "explanation": "Основные контролы Header и их порядок сохраняются; кнопка Назад отображается только при необходимости."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.holding-account",
+        "title": "Работа от группы компаний",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "CompanyAccount.Holding": "true",
+          "logos": 4,
+          "companyLabel": "context-defined",
+          "userName": "context-defined"
+        },
+        "explanation": "Holding-состояние показывает группу компаний через плитку из четырёх логотипов, название группы и имя пользователя."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.changed-person-role",
+        "title": "Ручная замена роли пользователя",
+        "classification": "invalid",
+        "component": "[D] Header",
+        "configuration": {
+          "PersonSelect.role": "manual-change"
+        },
+        "explanation": "Название роли и аватар PersonSelect нельзя изменять вручную."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.synced-navigation",
+        "title": "Синхронизированная навигация desktop и 768",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "items": "same",
+          "order": "same",
+          "visibility": "same",
+          "activeItem": "same"
+        },
+        "explanation": "SideMenu и drawer используют одну модель навигации на разных разрешениях."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.multiple-active-items",
+        "title": "Несколько активных пунктов меню",
+        "classification": "invalid",
+        "components": [
+          "ProductCell",
+          "NestedProductCell"
+        ],
+        "configuration": {
+          "activeItems": 2
+        },
+        "explanation": "Текущему разделу соответствует только один активный пункт."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.expanded-nested-group",
+        "title": "Раскрытая группа вложенных пунктов",
+        "classification": "valid",
+        "component": "ListProductCell",
+        "configuration": {
+          "Open": "true",
+          "NestedProductCell": "visible"
+        },
+        "explanation": "Open=true раскрывает вложенную группу меню."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.segment-without-bonus",
+        "title": "Сегмент пользователя без Bonus",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "AllServices": "visible",
+          "Bonus": "hidden-by-segment"
+        },
+        "explanation": "AllServices остаётся обязательным, а Bonus может отсутствовать для неподходящего пользовательского сегмента."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.personal-products-order",
+        "title": "Персональный порядок продуктов",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Products.visibility": "user-settings",
+          "Products.order": "user-settings"
+        },
+        "explanation": "Секция Products отражает доступность продуктов и персональные настройки пользователя."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.hidden-recommended",
+        "title": "Скрытая секция рекомендаций",
+        "classification": "invalid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Reccomended": "hidden"
+        },
+        "explanation": "Блок промо-предложений нельзя скрывать или вручную переставлять его элементы."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.pinned-footer",
+        "title": "Закреплённая настройка меню",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Footer.position": "browser-bottom",
+          "Footer.layer": "above-menu-items"
+        },
+        "explanation": "Footer с точкой входа в настройки остаётся доступным поверх прокручиваемого списка пунктов меню."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.deep-navigation",
+        "title": "Навигация глубже одного вложенного уровня",
+        "classification": "invalid",
+        "component": "NestedProductCell",
+        "configuration": {
+          "nestingDepth": 2
+        },
+        "explanation": "Компонент поддерживает только один уровень вложенных пунктов."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.long-nested-list",
+        "title": "Группа с несколькими вложенными продуктами",
+        "classification": "valid",
+        "component": "ListProductCell",
+        "configuration": {
+          "nestingDepth": 1,
+          "nestedItemCount": "context-defined"
+        },
+        "explanation": "Количество вложенных продуктов не ограничено, если сохраняется один уровень вложенности."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.resized-drawer",
+        "title": "Ручное изменение ширины drawer",
+        "classification": "invalid",
+        "component": "[D](768) HeaderMenu",
+        "configuration": {
+          "width": "manual-change"
+        },
+        "explanation": "Ширина drawer определяется компонентом и не редактируется вручную."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.scrollable-menu-cells",
+        "title": "Прокрутка длинного меню",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Cells.scroll": true,
+          "LogoCell.pinned": "top",
+          "Footer.pinned": "bottom"
+        },
+        "explanation": "Длинный список прокручивается между закреплёнными верхней и нижней областями."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.manual-menu-style",
+        "title": "Ручная стилизация пункта меню",
+        "classification": "invalid",
+        "component": "ProductCell",
+        "configuration": {
+          "fill": "manual",
+          "padding": "manual",
+          "styles.text": "manual"
+        },
+        "explanation": "Визуальные и layout-параметры должны соответствовать effective baseline."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.hidden-logo-cell",
+        "title": "SideMenu без LogoCell",
+        "classification": "invalid",
+        "component": "[D] SideMenu",
+        "configuration": {
+          "LogoCell": "hidden"
+        },
+        "explanation": "LogoCell является обязательной неизменяемой точкой возврата на главную страницу."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.user-renames-menu-item",
+        "title": "Переименование пункта в Edit Mode",
+        "classification": "invalid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "Edit Mode": "True",
+          "itemLabel": "user-change"
+        },
+        "explanation": "Пользователь может менять только порядок и видимость, но не контент пункта."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.immediate-menu-sync",
+        "title": "Мгновенная синхронизация настроек меню",
+        "classification": "valid",
+        "components": [
+          "[D] SideMenu",
+          "[D](768) HeaderMenu"
+        ],
+        "configuration": {
+          "apply": "immediate",
+          "sync": true,
+          "resetCommand": false
+        },
+        "explanation": "Новый порядок и видимость сразу применяются к обеим версиям меню."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.drawer-close-button",
+        "title": "Закрытие drawer",
+        "classification": "valid",
+        "component": "[D](768) HeaderMenu",
+        "configuration": {
+          "closeAction": "Close button"
+        },
+        "explanation": "Drawer закрывается только явной кнопкой Close."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.unread-mail",
+        "title": "Непрочитанные письма",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Mail.unreadCount": 3,
+          "Mail.action": "open-mail-section"
+        },
+        "explanation": "Mail показывает количество непрочитанных писем и ведёт в раздел «Письма»."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.unread-notifications",
+        "title": "Новые уведомления",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Notifications.indicator": true,
+          "Notifications.action": "open-notifications-drawer"
+        },
+        "explanation": "Индикатор сообщает о новых уведомлениях, а кнопка открывает drawer."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.company-switcher",
+        "title": "Переключение компании",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "CompanyAccount.action": "open-company-switcher-drawer"
+        },
+        "explanation": "Drawer показывает только доступные пользователю компании или группы."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.available-role-selection",
+        "title": "Переключение доступной роли",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "PersonSelect.action": "open-role-dropdown",
+          "roleSource": "available-roles"
+        },
+        "explanation": "Пользователь выбирает одну из доступных ему ролей."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.back-navigation",
+        "title": "Возврат на предыдущий экран",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Back": "true",
+          "Back.action": "history-back"
+        },
+        "explanation": "Кнопка Back возвращает на предыдущий экран, а не на фиксированную главную страницу."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.detached-side-menu",
+        "title": "Detach SideMenu",
+        "classification": "invalid",
+        "component": "[D] SideMenu",
+        "configuration": {
+          "detached": true
+        },
+        "explanation": "Навигационная оболочка должна оставаться связанной с библиотечным компонентом."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.product-content-override",
+        "title": "Настройка продуктового пункта",
+        "classification": "valid",
+        "component": "ProductCell",
+        "configuration": {
+          "label": "Новый продукт",
+          "icon": "product-specific"
+        },
+        "explanation": "Дизайнер может задать название и иконку фактического продукта."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.renamed-all-services",
+        "title": "Переименование AllServices",
+        "classification": "invalid",
+        "component": "ProductCell",
+        "configuration": {
+          "AllServices.label": "Все разделы"
+        },
+        "explanation": "Системный пункт AllServices нельзя переименовывать."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.long-label-fade",
+        "title": "Длинное название продукта",
+        "classification": "valid",
+        "component": "ProductCell",
+        "configuration": {
+          "lines": 1,
+          "overflow": "fade",
+          "recommendedCharacters": 16
+        },
+        "explanation": "Подпись остаётся однострочной и визуально затухает при нехватке места."
+      },
+      {
+        "exampleId": "component:web-corp.corporate-app-header-new.unread-counter-overflow",
+        "title": "Больше 99 непрочитанных событий",
+        "classification": "valid",
+        "component": "[D] Header",
+        "configuration": {
+          "Mail.unreadCount": "99+",
+          "Notifications.unreadCount": "99+"
+        },
+        "explanation": "Оба счётчика используют 99+ вместо полного трёхзначного значения."
+      }
+    ]
+  }
+}

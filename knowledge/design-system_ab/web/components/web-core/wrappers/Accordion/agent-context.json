@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-core.accordion",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T18:16:48.278Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-core/wrappers/Web _ Core Wrappers -- Accordion.json",
+      "library": "Web :: Core Wrappers",
+      "file": "Web :: Core Wrappers",
+      "generatedAt": "2026-04-28T18:16:48.278Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "Accordion"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Accordion",
+      "library": "Web :: Core Wrappers",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "Accordion",
+        "key": "c4e240dc55e24c724d99829eabaa9af1e5a178f5",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "Content": [
+            "False",
+            "True"
+          ],
+          "ControlSide": [
+            "Left",
+            "Right"
+          ]
+        }
+      },
+      {
+        "name": "❌ Accordion",
+        "key": "6dff8dfbbc3a4578289823489e06bb801affca13",
+        "description": "Смотри описание в спеке. Решили разкомпонентить аккордион по образу женерик враппера.",
+        "descriptionProvenance": "figma",
+        "status": "deprecated",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "ControlPosition": [
+            "Left",
+            "Right"
+          ],
+          "Open": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "🔩 AccordionBody",
+        "key": "14563c1d7e17cbfe247fc21587587e990b843f79",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Preset": [
+            "SwapMe",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "🔩 AccordionHeader",
+        "key": "c040aff983fff50553093f5574cec66b5a32f3ae",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Preset": [
+            "SwapMe",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "🔩  SwapMe",
+        "key": "aac232a178dc1933b296306a778ed597d9b6da41",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {}
+      },
+      {
+        "name": "🔩 AccordionControl",
+        "key": "2c5cb09a4530f2c241c1a3f3c65e808bedc9e869",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "universal",
+        "variantProperties": {
+          "Open": [
+            "False",
+            "True"
+          ],
+          "Presets": [
+            "Down Chevron",
+            "Right Chevron",
+            "SwapMe"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Accordion",
+      "library": "Web :: Core Wrappers",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.hub-page",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "ownershipMigrationRevision": 2,
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    }
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T16:06:42.739Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-limited-components-не-подключать/Web _ Corp Limited Components (не подключать) -- HubPage.json",
+      "library": "Web _ Corp Limited Components (не подключать)",
+      "file": "Web _ Corp Limited Components (не подключать)",
+      "generatedAt": "2026-07-27T16:06:42.739Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "HubPage"
+      ]
+    },
+    "summary": {
+      "componentFamily": "HubPage",
+      "library": "Web _ Corp Limited Components (не подключать)",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [D] HubTitle",
+        "key": "1ac2e549193c1385e7c7f13e94527f1c55a82cf5",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Skeleton": [
+            "false",
+            "true"
+          ]
+        }
+      },
+      {
+        "name": "[D] SideMenu",
+        "key": "8befa25fd1b73d1ee13384390c1e15f166c8fe0d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {}
+}

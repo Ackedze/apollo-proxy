@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.corporate-app-header-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-16"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateAppHeaderMobile [M]",
+          "layers": [
+            "[M] AppHeader :: Bottom",
+            "[M] AppHeader :: Top",
+            "[M] NavigationBar",
+            "[M] TabBar",
+            "BottomAddon",
+            "CenteredMainSlot",
+            "CorporateAppHeaderMobile [M]",
+            "HomeAddon",
+            "LeftAddon",
+            "LeftMainSlot",
+            "RightAddon"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CorporateAppHeaderMobile [M]",
+          "layers": [
+            "[M] AppHeader :: Bottom",
+            "[M] AppHeader :: Top",
+            "[M] NavigationBar",
+            "[M] TabBar",
+            "BottomAddon",
+            "CenteredMainSlot",
+            "CorporateAppHeaderMobile [M]",
+            "HomeAddon",
+            "LeftAddon",
+            "LeftMainSlot",
+            "RightAddon"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.mobile-navigation-wrapper",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.purpose|component.platform",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "CorporateAppHeaderMobile образует навигационную обвязку mobile-web и мобильного состояния адаптивных страниц на ширине 320–767 px. Не используй семейство на desktop или вне мобильного состояния адаптива.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.public-roots",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.composition|component.usage",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Используй как public roots только [M] AppHeader :: Top и [M] AppHeader :: Bottom. NavigationBar, TabBar и служебные slots принадлежат этой обвязке и не используются самостоятельно."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.navigation-bar-presets",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets|component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй [M] NavigationBar.Presets=Home на главном экране, а Presets=Page — на внутренних страницах продукта."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.tab-bar-navigation-screens",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.visibility|variant.Active Tab|component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Показывай [M] TabBar в нижней части только на основных навигационных экранах, перечисленных в нём: Home, History, Payments, Marketplace и Chat. Active Tab соответствует текущему экрану.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.top-required-and-status-bar",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.anatomy|component.visibility",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "[M] AppHeader :: Top обязателен во всех сценариях использования семейства."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.background-matches-page",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.BackgroundColor|component.surface",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "BackgroundColor верхней части должен соответствовать фону страницы: base-bg (white) над белым фоном, base-bg-alt (gray) над альтернативным серым фоном.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.preset-composition",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets|component.composition",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Для Presets=Page используй LeftAddon, CenteredMainSlot и RightAddon, а BottomAddon подключай при необходимости. Для Presets=Home используй LeftMainSlot и HomeAddon."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.bottom-addon-content",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Content|component.slot.BottomAddon",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй BottomAddon.Content=Custom для произвольного разрешённого компонента, SegmentedContol — только для переключателя, FilterBlock — только для мобильных фильтров, Segmented + Filter — для одновременного размещения обоих блоков."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.bottom-url-default",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.default|component.NativeSafariBottom.URL",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В [M] AppHeader :: Bottom значение NativeSafariBottom.URL=True является состоянием по умолчанию. Само отклонение от default пока не классифицировано как нарушение."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.native-status-bar-recommended",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "component.NativeStatusBar|component.visibility",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Рекомендуется сохранять NativeStatusBar=True и в отдельной mobile-web версии, и в мобильном состоянии адаптивной страницы. Значение False не объявляй ошибкой без дополнительного exact evidence."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.navigation-bar-visibility",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.NavigationBar|component.hostContext",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "На страницах сохраняй NavigationBar=True. NavigationBar=False допустим для полноэкранных Modal и PopupSheet."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.overlap-scroll-state",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.Overlap|interaction.scroll",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Overlap=False является состоянием до прокрутки. При скролле компонент автоматически переключается в Overlap=True и показывает разделитель."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.page-slot-content",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.slots|component.content|text.overflow",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "В Page CenteredMainSlot допускает Title + Subtitle, Title и None; переполняющийся текст сокращается через ellipsis. LeftAddon=Back используется при навигации назад, None оставляет слот пустым. RightAddon=Icons содержит одну или две [D] IconButton, FloatingCross закрывает страницу, Action содержит одно текстовое действие, None оставляет слот пустым."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.home-exact-composition",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Presets.Home|component.composition|component.surface|component.Profile",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Presets=Home всегда использует base-bg-alt (gray) и применяется только вместе с TabBar. Profile=True допустим только после перехода из раздела TabBar в NavigationBar."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.bottom-required-native-safari",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.bottom|component.TabBar|component.NativeSafariBottom",
+        "checkType": "manual",
+        "matchKind": "composition_rule",
+        "ruleText": "Если используется [M] AppHeader :: Bottom, NativeSafariBottom должен быть True и в отдельной mobile-web, и в адаптивной версии. Допустимы только комбинации TabBar=True + NativeSafariBottom=True и TabBar=False + NativeSafariBottom=True."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.native-safari-defaults",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.NativeSafariBottom|component.default",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Defaults вложенного NativeSafariBottom: URL=True, Tabs=False, DarkMode=False. Tabs=True и DarkMode=True разрешены и сами по себе не являются нарушениями. Manual default Tabs=False имеет приоритет над текущим raw baseline Tabs=True."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.tab-bar-fixed-content",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.TabBar|component.content|component.order",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Сохраняй фиксированный состав и порядок TabBar: Главный/Home, История/History, Платежи/Payments, Сервисы/Marketplace, Связь/Chat. Индикаторы и счётчики разрешены и определяются продуктовым контекстом.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.layout-and-position",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.width|layout.height|layout.padding|layout.gap|layout.position",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Top и Bottom растягиваются по ширине viewport, а высота определяется содержимым. Top закреплён у верхнего края, Bottom — у нижнего края viewport. Ручные изменения width, height, padding и gap запрещены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.navigation-interaction",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.interaction|component.navigation",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Back возвращает на предыдущий экран; FloatingCross закрывает текущую страницу или модальную сущность; Action и IconButton выполняют действия продуктового сценария. Выбор пункта TabBar открывает соответствующий основной раздел и обновляет Active Tab."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.states-delegated",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Семейство не создаёт собственные loading, disabled, error или skeleton-состояния. Отображай состояния соответствующих вложенных компонентов."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.visual-baseline",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "fill|stroke|radius|styles.text|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Ручные fill, stroke, radius, typography, opacity и effects запрещены. Меняй внешний вид только через предусмотренные component properties и token baseline текущего host/nested context.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.right-addon-icon-count",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.RightAddon.Icons|component.multiplicity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В RightAddon=Icons используй одну или две [D] IconButton. Третья IconButton запрещена.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.preserve-library-composition",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.detach|component.instanceSwap|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "ruleText": "Не detach Top, Bottom и внутренние компоненты. Instance swap разрешён только в BottomAddon=Custom и для glyph внутри RightAddon=Icons с сохранением [D] IconButton."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.code-connect-unavailable",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.codeImplementation|component.codeConnect",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Реализация CorporateAppHeaderMobile в коде существует, но Code Connect не настроен. Package и export пока не верифицированы; не придумывай их названия."
+      },
+      {
+        "ruleId": "component:web-corp.corporate-app-header-mobile.lifecycle-active",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "component.lifecycle",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Семейство активно; replacement и план снятия с поддержки отсутствуют."
+      }
+    ]
+  }
+}

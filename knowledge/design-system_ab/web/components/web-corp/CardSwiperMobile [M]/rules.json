@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.card-swiper-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "owner-confirmed",
+      "updatedAt": "2026-08-03"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CardSwiperMobile [M]",
+          "layers": [
+            "CardSwiperMobile",
+            "CardSwiperMobile [M]"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "CardSwiperMobile [M]",
+          "layers": [
+            "CardSwiperMobile",
+            "CardSwiperMobile [M]"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.public-root-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.card-swiper-mobile",
+          "layers": [
+            "CardSwiperMobile",
+            "CardsCollection",
+            "LeftCardWrapper",
+            "RightCardWrapper",
+            "CardImage"
+          ]
+        },
+        "remediation": "Используйте публичный root CardSwiperMobile и верните служебные слои и CardImage внутрь штатной композиции.",
+        "ruleText": "Только CardSwiperMobile является публичным root. CardsCollection, LeftCardWrapper, RightCardWrapper, spacing-слои и вложенные CardImage не используются отдельно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.mobile-web-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.platform",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowedPlatforms": [
+            "mobile-web"
+          ]
+        },
+        "remediation": "Используйте CardSwiperMobile только в mobile-web макете; для desktop выберите отдельное решение.",
+        "ruleText": "CardSwiperMobile предназначен только для mobile-web. Использование компонента на desktop запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.internal-composition-follows-effective-baseline",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.identity|layout.*|fill|stroke|radius|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "layers": [
+            "CardsCollection",
+            "LeftCardWrapper",
+            "RightCardWrapper",
+            "↕ SpacingVertical"
+          ]
+        },
+        "requiredValue": "effective-baseline",
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "designSeverity": "error",
+          "resetSurface": "layer",
+          "useEffectiveBaseline": true
+        },
+        "remediation": "Восстановите штатную геометрию, порядок, оформление и эффекты служебных контейнеров CardSwiperMobile.",
+        "ruleText": "CardsCollection, LeftCardWrapper, RightCardWrapper и оба SpacingVertical принадлежат host-композиции. Их identity, layout, paint, radius, opacity и effects должны совпадать с effective baseline выбранного Screen Size.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.requires-at-least-one-card",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.cardCount|component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "minimumCardCount": 1,
+          "maximumCardCount": null
+        },
+        "remediation": "Передайте минимум одну карту либо не создавайте CardSwiperMobile для пустого набора.",
+        "ruleText": "CardSwiperMobile принимает одну или более карт. При нуле карт компонент не создаётся; собственного Empty state нет.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.preserves-source-order",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.cardOrder|component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "remediation": "Восстановите исходный порядок массива карт и штатное окно previous/current/next.",
+        "ruleText": "Порядок карт сохраняется: слева находится предыдущая карта, в центре текущая, справа следующая. Ручная перестановка внутренних CardImage запрещена."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.selection-geometry",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.selectedIndex|nested.CardImage.variant.Size|nested.CardImage.variant.Stack|layout.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "currentCard": {
+            "position": "center",
+            "Size": "264x164",
+            "Stack": false
+          },
+          "neighborCards": {
+            "Size": "212x132",
+            "Stack": false
+          },
+          "manualResizeAllowed": false
+        },
+        "remediation": "Верните текущей карте размер 264x164 и центрирование, соседним — 212x132, без ручного resize и Stack.",
+        "ruleText": "Текущая карта всегда центрирована и использует CardImage Size=264x164. Видимые соседи используют Size=212x132. Размеры, Stack=false, смещения и геометрия принадлежат host-компоненту и вручную не меняются.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.edge-window-behavior",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.cardCount|content.selectedIndex|component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "При одной карте показывается только центральная карта. При двух — текущая и один доступный сосед. При трёх и более — previous/current/next. На первом и последнем элементе отсутствующий сосед скрыт, а текущая карта остаётся по центру."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.neighbor-visibility-properties",
+        "severity": "error",
+        "source": "owner-confirmed-live-figma",
+        "appliesTo": "boolean.Show Start#17127:0|boolean.Show End#17127:3|content.selectedIndex",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Show Start#17127:0": "selectedIndex > 0",
+          "Show End#17127:3": "selectedIndex < cardCount - 1"
+        },
+        "remediation": "Показывайте previous только когда selectedIndex > 0, а next — только когда selectedIndex меньше последнего индекса.",
+        "ruleText": "Управляйте соседями только root properties: Show Start#17127:0 показывает previous, Show End#17127:3 показывает next. Для одной карты оба false; на первом элементе false/true, внутри списка true/true, на последнем true/false.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.screen-size-follows-viewport",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Screen Size|layout.viewportWidth",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "320-360": {
+            "minViewport": 320,
+            "maxViewport": 359
+          },
+          "360+": {
+            "minViewport": 360
+          }
+        },
+        "remediation": "Выберите Screen Size по фактической ширине viewport: 320-360 до 359 px, 360+ от 360 px.",
+        "ruleText": "Screen Size переключается по viewport, а не по визуальному предпочтению: 320-360 применяется при ширине 320–359 px, 360+ — от 360 px включительно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "breakpoint-map",
+          "identity": "web-corp.card-swiper-mobile",
+          "widthFact": "page.context.viewportWidth",
+          "targetFact": "component.properties.Screen Size",
+          "ranges": [
+            {
+              "lower": 320,
+              "upper": 359,
+              "bounds": "inclusive",
+              "expected": "320-360"
+            },
+            {
+              "lower": 360,
+              "expected": "360+"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Screen Size не соответствует ширине страницы",
+            "observed": "При ширине {{context}} px выбран Screen Size={{actual}}.",
+            "expectation": "При ширине 320–359 px используется Screen Size=320-360; при ширине от 360 px — Screen Size=360+.",
+            "action": "Выбрать Screen Size, соответствующий ширине страницы.",
+            "contextFact": "page.context.viewportWidth",
+            "targetFact": "component.properties.Screen Size"
+          },
+          "scope": {
+            "platform": [
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.fixed-vertical-spacing",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.paddingTop|layout.paddingBottom|nested.SpacingVertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allScreenSizes": {
+            "top": 24,
+            "bottom": 32
+          }
+        },
+        "remediation": "Верните верхний отступ 24 px и нижний 32 px для обоих Screen Size.",
+        "ruleText": "В обоих Screen Size верхний вертикальный отступ равен 24 px, нижний — 32 px. Generated delta с нижним 24 px для 320-360 не является целевым правилом.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.non-cyclic-navigation",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.carousel",
+        "checkType": "llm",
+        "matchKind": "interaction_rule",
+        "remediation": "Отключите loop и остановите навигацию на первой и последней карте.",
+        "ruleText": "Карусель нециклическая и останавливается на первой и последней карте. Переход с последней на первую или с первой на последнюю запрещён."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.one-step-navigation",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.swipe|interaction.sideCardTap|content.selectedIndex",
+        "checkType": "llm",
+        "matchKind": "interaction_rule",
+        "ruleText": "Один свайп или тап по боковой карте изменяет selectedIndex ровно на одну позицию и фиксирует новую выбранную карту по центру."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.explicit-initial-selection",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "content.selectedIndex",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "when": {
+            "minimumCardCount": 2
+          },
+          "recommended": "explicit selectedIndex",
+          "fallback": 0
+        },
+        "remediation": "Явно укажите выбранную карту; если значение отсутствует, используется индекс 0.",
+        "ruleText": "При нескольких картах рекомендуется явно задавать начальную выбранную карту. Если она не задана, CardSwiperMobile выбирает карту с индексом 0."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.card-image-contract-is-inherited",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.CardImage.*|component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "ruleText": "Каждая вложенная карта наследует полный exact contract CardImage для cover, State, данных и разрешённых leaf overrides. CardSwiperMobile переопределяет только размер, Stack=false и позицию; detach и изменение внутренней структуры запрещены."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.cards-may-differ",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "nested.CardImage.variant.Cover|nested.CardImage.variant.State|nested.CardImage.content",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Cover, State, данные и разрешённые overrides могут различаться между картами. Active, Inactive и Locked доступны; состояние не блокирует прокрутку и не определяет выбранную позицию."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.interaction-ownership",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.*|component.composition",
+        "checkType": "llm",
+        "matchKind": "interaction_rule",
+        "ruleText": "Тап по боковой карте выбирает её. Центральная карта не является отдельной CTA карусели, но её собственное вложенное действие разрешено, например тап по иконке показа реквизитов. Gesture карусели не должен перехватывать такое вложенное действие."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.no-internal-auxiliary-controls",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.composition|interaction.controls",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "remediation": "Удалите индикатор, стрелки, подпись или дополнительное управление из внутренней структуры и разместите его отдельной композицией снаружи.",
+        "ruleText": "Pagination indicators, стрелки, подписи и дополнительные управляющие элементы не входят внутрь CardSwiperMobile. При необходимости размещайте их отдельной композицией снаружи."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.accessibility-contract",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.accessibility",
+        "checkType": "llm",
+        "matchKind": "interaction_rule",
+        "ruleText": "Представляйте CardSwiperMobile как карусель/список карт; помечайте центральную карту current/selected, озвучивайте позицию N из M и состояние, сохраняйте порядок фокуса по порядку карт и доступный тап по боковой карте как альтернативу свайпу."
+      },
+      {
+        "ruleId": "component:web-corp.card-swiper-mobile.motion-is-runtime-owned",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.motion",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Переход сохраняет горизонтальное перемещение и изменение размера карт. Duration, easing и reduced-motion определяются контрактом React-компонента и не выводятся из Figma или этого package."
+      }
+    ]
+  }
+}

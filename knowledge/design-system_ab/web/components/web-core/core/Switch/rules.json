@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.switch",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.switch.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Switch",
+          "layers": [
+            "Switch",
+            "Switch_20",
+            "Switch_20_Inverted",
+            "Switch_24",
+            "Switch_24_Inverted",
+            "SwitchLabel_20",
+            "SwitchLabel_20_Inverted",
+            "SwitchLabel_20_Reverse",
+            "SwitchLabel_20_Reverse_Inverted",
+            "SwitchLabel_24",
+            "SwitchLabel_24_Inverted",
+            "SwitchLabel_24_Reverse",
+            "SwitchLabel_24_Reverse_Inverted"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.switch.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Switch",
+          "layers": [
+            "Switch",
+            "Switch_20",
+            "Switch_20_Inverted",
+            "Switch_24",
+            "Switch_24_Inverted",
+            "SwitchLabel_20",
+            "SwitchLabel_20_Inverted",
+            "SwitchLabel_20_Reverse",
+            "SwitchLabel_20_Reverse_Inverted",
+            "SwitchLabel_24",
+            "SwitchLabel_24_Inverted",
+            "SwitchLabel_24_Reverse",
+            "SwitchLabel_24_Reverse_Inverted"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.switch.variant-state-is-component-property",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "ruleText": "Изменения SelectedState, DisabledState, Reverse и Hint являются component property changes и должны показываться как самостоятельные customizations."
+      },
+      {
+        "ruleId": "component:web-core.switch.manual-track-thumb-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "area.fills|Oval.fills|area.layout|Oval.layout",
+        "checkType": "deterministic",
+        "ruleText": "Ручные visual/layout changes на switch track area или thumb oval являются layer customizations и должны показываться отдельно от component state changes."
+      },
+      {
+        "ruleId": "component:web-core.switch.manual-label-style-is-layer-property",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "Content/Label.styles.text|Content/Label.fills",
+        "checkType": "deterministic",
+        "ruleText": "Ручные text style или fill changes на SwitchLabel label являются layer customizations."
+      }
+    ]
+  }
+}

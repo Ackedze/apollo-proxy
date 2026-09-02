@@ -1,0 +1,370 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.table-bulk-actions",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] AmountItem",
+        "key": "b1e7a500b2deca9e27f2a33a1ff0530fd45a6bdf",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Counter"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] AmountRow",
+        "key": "05b943dd1bffdf4d049088c778870bb00a61e340",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Amount"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] AmountRowSlider",
+        "key": "74ec63fc5f15a3370064a7e7a1260c2da923790e",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Amount"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] ButtonsGroup",
+        "key": "01ef51785b240d21eabfbaaa66c5a0b43a39249c",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Overflow"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Slider",
+        "key": "79ddeb88660e74d5f76462977b73fcea362e6251",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Slider"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] AmountItem",
+        "key": "256352cb25b0dcc867d190a2b23fafe175b2db66",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Counter"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] AmountRow",
+        "key": "980392088b1f844d333eb18a0bcaa96d2f96d944",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Amount"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D] TableBulkActions",
+        "key": "e5dafdda4ce8bf06e41108061ba487dd3065c4de",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Amount",
+          "variant.Tablet",
+          "variant.TopRow"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M] TableBulkActions",
+        "key": "145420e9fd1f756cc6f0ada663b72ef3f81e22e3",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Amount"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Counter",
+        "key": "49f5412dd514f10f9f4c826a61d3676d69d4aa59",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] ButtonsGroup",
+        "key": "84049a88ec5a64877b61c3086ca850aeb672be88",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Counter",
+        "key": "6198db13380aebfcc6f7dfddfed3dbfba3ee4ff7",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "component": {
+      "name": "TableBulkActions",
+      "library": "Web _ Corp Components",
+      "codeName": "CorporateTableBulkActions"
+    },
+    "publicApi": {
+      "components": [
+        {
+          "name": "🔄 [D] TableBulkActions",
+          "componentKey": "e5dafdda4ce8bf06e41108061ba487dd3065c4de",
+          "platform": "desktop"
+        },
+        {
+          "name": "🔄 [M] TableBulkActions",
+          "componentKey": "145420e9fd1f756cc6f0ada663b72ef3f81e22e3",
+          "platform": "adaptive-mobile",
+          "viewportRange": {
+            "min": 320,
+            "max": 767,
+            "unit": "px"
+          }
+        }
+      ]
+    },
+    "internalComponents": {
+      "standaloneUsageAllowed": false,
+      "names": [
+        "[D] AmountItem",
+        "[D] AmountRow",
+        "[D] AmountRowSlider",
+        "[D] ButtonsGroup",
+        "[D] Slider",
+        "[M] AmountItem",
+        "[M] AmountRow",
+        "[D] Counter",
+        "[M] ButtonsGroup",
+        "[M] Counter"
+      ]
+    },
+    "lifecyclePolicy": {
+      "status": "scheduled",
+      "useIsCurrentlyAllowed": true,
+      "plannedForDeprecation": true,
+      "interpretation": "Scheduled означает, что компонент можно использовать сейчас, но он запланирован к выводу из эксплуатации. Не трактуй этот статус как немедленный запрет."
+    },
+    "usagePolicy": {
+      "allowedContexts": [
+        "карточные представления данных",
+        "другие списочные представления данных",
+        "самостоятельная sticky-панель действий"
+      ],
+      "forbiddenContexts": [
+        "новая Table Basic",
+        "новая Table Wide"
+      ],
+      "newTableReplacement": "Pagination с preset BulkActions"
+    },
+    "platformPolicy": {
+      "desktop": {
+        "allowed": true,
+        "minViewportWidth": 768
+      },
+      "adaptive-mobile": {
+        "allowed": true,
+        "viewportRange": "320–767 px"
+      },
+      "mobile-web": {
+        "allowed": false,
+        "reason": "Мобильная версия TableBulkActions предназначена только для адаптивного интерфейса."
+      }
+    },
+    "variantSemantics": {
+      "Counter": {
+        "required": true,
+        "allowedValues": [
+          true,
+          false
+        ],
+        "falseAllowedWhen": "TableBulkActions используется как самостоятельная sticky-панель кнопок без массового выбора.",
+        "label": {
+          "text": "Выбрано N",
+          "customizable": false,
+          "mayBeHiddenAtViewport": "768–1023 px",
+          "hideReason": "Освободить место для сумм или кнопок."
+        },
+        "checkbox": {
+          "defaultState": "SelectedState=true",
+          "onClick": "Снять выбор со всех выбранных объектов.",
+          "indeterminateAllowed": false
+        },
+        "value": {
+          "source": "selected-object-count",
+          "scope": "all-selected-objects-in-data-set",
+          "updatesAutomatically": true,
+          "manualOverrideAllowed": false
+        }
+      },
+      "Spacer": {
+        "trueWhen": "Counter нужно выровнять с checkbox элементов таблицы, списка или карточек.",
+        "falseWhen": "TableBulkActions используется как самостоятельная sticky-панель кнопок.",
+        "selection": "composition-context"
+      },
+      "Amount": {
+        "single": "Отображается одна сумма.",
+        "multiple": "Отображается несколько сумм, если все они помещаются в одну линию без слайдера.",
+        "selection": "amount-count-and-fit",
+        "overflowBehavior": "Если несколько сумм не помещаются в линию, используй AmountRowSlider.",
+        "itemContent": [
+          "название показателя",
+          "Amount"
+        ],
+        "mixedCurrenciesAllowed": true,
+        "maxCount": null,
+        "recommendedMaxCount": 10
+      },
+      "Tablet": {
+        "automatic": true,
+        "manualOverrideAllowed": false,
+        "trueAtViewport": "768–1023 px",
+        "falseAtViewport": "1024 px и шире"
+      },
+      "TopRow": {
+        "selection": "composition-fit",
+        "false": "Суммы и кнопки помещаются на общей верхней линии.",
+        "true": "Кнопки переносятся на отдельную линию, когда суммы и кнопки не помещаются вместе."
+      },
+      "Overflow": {
+        "false": "В группе не более четырёх видимых кнопок.",
+        "true": "Последняя видимая кнопка становится PickerButton и открывает скрытые действия.",
+        "compatibleWithTopRow": true
+      }
+    },
+    "buttonsPolicy": {
+      "maxVisibleButtons": 4,
+      "maxPrimaryButtons": 1,
+      "allSecondaryAllowed": true,
+      "overflowButtonPosition": "last",
+      "overflowButtonType": "PickerButton",
+      "layoutDecisionOrder": [
+        "Если кнопки не помещаются рядом с суммами, включи TopRow.",
+        "Если действий больше допустимого количества, включи Overflow и перенеси дополнительные действия в PickerButton."
+      ],
+      "visualBaseline": {
+        "size": "effective-baseline",
+        "shape": "effective-baseline",
+        "view": "effective-baseline"
+      },
+      "customizableThroughButtonApi": [
+        "Label",
+        "addons",
+        "DisabledState",
+        "loading"
+      ],
+      "hiddenActionsOrder": "right-to-left",
+      "maxHiddenActions": null,
+      "overflowSurface": {
+        "desktop": "OptionList",
+        "tablet": "OptionList",
+        "adaptive-mobile": "BottomSheet"
+      }
+    },
+    "amountSliderPolicy": {
+      "desktop": {
+        "interaction": "Боковые кнопки прокрутки.",
+        "overflowFade": true
+      },
+      "tablet": {
+        "interaction": "Боковые кнопки прокрутки.",
+        "overflowFade": true
+      },
+      "adaptive-mobile": {
+        "interaction": "Touch-scroll.",
+        "overflowFade": false,
+        "navigationButtons": false
+      }
+    },
+    "amountItemPolicy": {
+      "customizableThroughNestedComponents": [
+        "название показателя",
+        "сумма",
+        "валюта",
+        "штатные параметры Amount"
+      ],
+      "countValue": {
+        "property": "N",
+        "source": "Количество объектов, относящихся к этой AmountItem.",
+        "manualArbitraryValueAllowed": false
+      },
+      "fixedToEffectiveBaseline": [
+        "typography",
+        "layout.spacing",
+        "dividers",
+        "visual styles"
+      ]
+    },
+    "globalStatePolicy": {
+      "loading": false,
+      "disabled": false,
+      "nestedButtonLoadingAllowed": true,
+      "nestedButtonDisabledAllowed": true
+    },
+    "selectionPolicy": {
+      "visibleWhen": "selectedObjectCount > 0",
+      "hiddenWhen": "selectedObjectCount = 0",
+      "counterScope": "Все выбранные объекты во всём наборе данных, а не только текущая страница.",
+      "amountScope": "Только выбранные объекты; суммы обновляются автоматически при изменении выбора.",
+      "actionScope": "Все действия относятся к выбранным объектам.",
+      "afterAction": "Определяется контекстным сценарием; универсального автоматического сброса выбора нет."
+    },
+    "stickyPolicy": {
+      "position": "bottom",
+      "pageContentScrollsUnder": true,
+      "horizontalOffsets": "page-grid",
+      "fixedToEffectiveBaseline": [
+        "fill",
+        "effects",
+        "height",
+        "layout.padding.*"
+      ]
+    }
+  }
+}

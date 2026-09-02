@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.status-property",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔒 [D] PropertyPreset",
+        "key": "53f4d943dc6e9b85579928e876af6ebdb6383ae9",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Color",
+          "variant.Size",
+          "variant.Style"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔒 [D] StatusPreset",
+        "key": "5062ff1e0c435b64f3d1f4a0ae699dcb646b34f4",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Size",
+          "variant.Style",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔒 [M] PropertyPreset",
+        "key": "a09aeb562901f50028d871eecf78115b584e693f",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Color",
+          "variant.Size",
+          "variant.Style"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔒 [M] StatusPreset",
+        "key": "f9c81f10f0a89714a38d79ab66e48c6438817a1e",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Size",
+          "variant.Style",
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "🔒 [D] StatusPreset",
+        "role": "public-root",
+        "platform": "desktop",
+        "shape": "Rounded"
+      },
+      {
+        "name": "🔒 [M] StatusPreset",
+        "role": "public-root",
+        "platform": "mobile-web",
+        "shape": "Rounded"
+      },
+      {
+        "name": "🔒 [D] PropertyPreset",
+        "role": "public-root",
+        "platform": "desktop",
+        "shape": "Rectangular"
+      },
+      {
+        "name": "🔒 [M] PropertyPreset",
+        "role": "public-root",
+        "platform": "mobile-web",
+        "shape": "Rectangular"
+      }
+    ],
+    "allowedOverrides": {
+      "text": [
+        "Label content"
+      ],
+      "componentProperties": [
+        "StatusPreset.Type",
+        "PropertyPreset.Color",
+        "Style",
+        "Size",
+        "nested Status.LeftAddon"
+      ],
+      "behavior": [
+        "hover",
+        "Tooltip"
+      ],
+      "composition": [
+        "one StatusPreset per object",
+        "up to two visible PropertyPreset components",
+        "either StatusPreset or PropertyPreset, not both"
+      ],
+      "conditionalLayerProperties": [
+        "PropertyPreset Color=Custom: tokenized text fill",
+        "PropertyPreset Color=Custom: tokenized background fill"
+      ]
+    },
+    "forbiddenOverrides": [
+      "manual shape or radius",
+      "manual layout",
+      "manual typography",
+      "manual stroke",
+      "manual opacity or effects",
+      "click or action on click",
+      "direct standalone core Status instead of StatusPreset or PropertyPreset",
+      "desktop preset below 768 px",
+      "mobile-web preset at 768 px and above",
+      "manual Uppercase or text case",
+      "PropertyPreset multiline text",
+      "PropertyPreset overflow without ellipsis",
+      "StatusPreset text longer than two words",
+      "StatusPreset multiline text",
+      "StatusPreset overflow without ellipsis",
+      "hidden or empty Label",
+      "LeftAddon without Label",
+      "manual stretch or fixed width/height",
+      "more than two visible PropertyPreset components",
+      "more than one StatusPreset for the same object",
+      "StatusPreset and PropertyPreset in the same composition",
+      "manual fill when PropertyPreset.Color is not Custom",
+      "manual fill in StatusPreset",
+      "raw color without token binding",
+      "non-contrasting custom text and background colors"
+    ]
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.amount",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.amount.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Amount",
+          "layers": [
+            "🔩 Addon",
+            "🔩 Currency",
+            "🔩 Major",
+            "🔩 Minor",
+            "Addon",
+            "Amount",
+            "Currency",
+            "Major",
+            "Minor"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.amount.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Amount",
+          "layers": [
+            "🔩 Addon",
+            "🔩 Currency",
+            "🔩 Major",
+            "🔩 Minor",
+            "Addon",
+            "Amount",
+            "Currency",
+            "Major",
+            "Minor"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.amount.opacity-is-forbidden",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Amount",
+          "layers": [
+            "Minor",
+            "Currency"
+          ]
+        },
+        "ruleText": "В Альфа-Бизнес прямое изменение opacity слоя у Minor и Currency запрещено. Обе части Amount должны сохранять полную непрозрачность.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "any",
+                "args": [
+                  {
+                    "predicate": "equals",
+                    "actual": { "fact": "component.identity" },
+                    "expected": { "literal": "web-core.amount" }
+                  },
+                  {
+                    "predicate": "equals",
+                    "actual": { "fact": "ownership.owner.component.identity" },
+                    "expected": { "literal": "web-core.amount" }
+                  }
+                ]
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "name" },
+                "expected": { "literal": ["Minor", "Currency", "🔩 Minor", "🔩 Currency"] }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена прозрачность внутри Amount",
+            "observed": "Прозрачность слоя «{{targetName}}» изменена с {{expected}} на {{actual}}.",
+            "expectation": "Minor и Currency должны сохранять opacity из effective baseline Amount.",
+            "action": "Сбросить opacity слоя к effective baseline Amount."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.amount.opacity-property-is-forbidden",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Amount",
+          "layers": [
+            "Minor",
+            "Currency"
+          ]
+        },
+        "remediation": {
+          "kind": "set-variant-properties",
+          "target": "$failingTarget",
+          "properties": {
+            "Opacity": "False"
+          }
+        },
+        "ruleText": "В Альфа-Бизнес включать component property Opacity у Minor и Currency запрещено. Штатное значение — Opacity=False.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "component.identity" },
+                "expected": { "literal": "web-core.amount" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "component.family" },
+                "expected": { "literal": ["minor", "currency"] }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": { "fact": "component.properties.Opacity" },
+            "expected": { "literal": "False" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Включена запрещённая прозрачность Amount",
+            "observed": "У компонента «{{targetName}}» свойство Opacity имеет значение {{actual}}.",
+            "expectation": "У Minor и Currency свойство Opacity должно иметь значение False.",
+            "action": "Установить свойство Opacity=False."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": ["web-core.amount"],
+      "predicateRules": [
+        "component:web-core.amount.opacity-is-forbidden",
+        "component:web-core.amount.opacity-property-is-forbidden"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [],
+      "contextOnlyRules": []
+    }
+  }
+}

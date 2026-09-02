@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.payment-control",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "payment-control.active-filled",
+        "title": "Заполненная сумма в фокусе",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "platform": "mobile-web",
+          "State": "ActiveFilled",
+          "amount": "15 000 ₽",
+          "systemNumericKeyboardOpen": true,
+          "continueActionVisible": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "payment-control.error-filled-with-details",
+        "title": "Ошибка с расширенной расшифровкой",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "State": "ErrorFilled",
+          "focused": true,
+          "systemNumericKeyboardOpen": true,
+          "hint": "Превышен лимит операции",
+          "infoIconVisible": true,
+          "infoIconAction": {
+            "interactionModel": "mobile Tooltip",
+            "opens": "[M] BottomSheet"
+          },
+          "fullerExplanationRequired": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Инфоиконка всегда запрещена в ErrorFilled.",
+          "Инфоиконка открывает desktop Tooltip."
+        ]
+      },
+      {
+        "exampleId": "payment-control.disabled-info",
+        "title": "Пояснение доступно в Disabled",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "State": "DisabledFilled",
+          "infoIconVisible": true,
+          "infoIconInteractive": true,
+          "opens": "[M] BottomSheet"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "payment-control.core-amount-options",
+        "title": "Разрешённые настройки Core Amount",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "State": "Filled",
+          "amountOptions": {
+            "currency": "$",
+            "minorVisible": true,
+            "addon": "product-defined"
+          }
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Валюта, дробная часть и addon всегда зафиксированы."
+        ]
+      },
+      {
+        "exampleId": "payment-control.invalid-deprecated-root",
+        "title": "Использован deprecated-компонент",
+        "inputState": {
+          "root": "❌ PaymentControl",
+          "componentKey": "a4bbfdbd9c6c5f39225532008bea45c75b02c84e"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.payment-control.deprecated-component-forbidden"
+        },
+        "expectedAgent": {
+          "recommendation": "Замените deprecated-компонент на актуальный [M] PaymentControl."
+        }
+      },
+      {
+        "exampleId": "payment-control.invalid-multiline-hint",
+        "title": "Hint перенесён на две строки",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "hintLines": 2,
+          "ellipsis": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.payment-control.hint-single-line"
+        }
+      },
+      {
+        "exampleId": "payment-control.invalid-loading",
+        "title": "Добавлено неподдерживаемое loading-состояние",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "State": "Loading"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.payment-control.unsupported-states-forbidden"
+        }
+      },
+      {
+        "exampleId": "payment-control.invalid-info-action",
+        "title": "Инфоиконка открывает неверный контейнер",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "infoIconVisible": true,
+          "infoIconAction": {
+            "opens": "Popover"
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.payment-control.info-icon-bottomsheet"
+        },
+        "expectedAgent": {
+          "recommendation": "Используйте модель мобильного Tooltip и открывайте [M] BottomSheet."
+        }
+      },
+      {
+        "exampleId": "payment-control.invalid-action-customization",
+        "title": "Изменены параметры action-кнопки",
+        "inputState": {
+          "root": "[M] PaymentControl",
+          "State": "ActiveFilled",
+          "Button": {
+            "parameterChanged": true
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.payment-control.action-appearance-immutable"
+        }
+      }
+    ]
+  }
+}

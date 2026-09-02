@@ -1,0 +1,736 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.file-upload",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-16"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.file-upload.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "FileUpload",
+          "layers": [
+            "[D] Attach",
+            "[D] FileUpload",
+            "[M] Attach",
+            "[M] FileUpload",
+            "FileUpload"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "FileUpload",
+          "layers": [
+            "[D] Attach",
+            "[D] FileUpload",
+            "[M] Attach",
+            "[M] FileUpload",
+            "FileUpload"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.file-upload.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.constraints-visible-before-upload",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.constraints-visible-before-upload",
+        "appliesTo": "component.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "state": "before upload"
+        },
+        "requiredContent": {
+          "allowedFormatsVisible": true,
+          "limitTextVisible": true,
+          "examples": [
+            "Не больше 20 МБ",
+            "До 20 МБ каждый, всего — не больше 5 файлов",
+            "До 20 МБ каждый, всего — не больше 100 МБ"
+          ]
+        },
+        "ruleText": "До выбора файла FileUpload должен показывать допустимые форматы и ограничения по размеру, количеству или общему объёму."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.single-file-disables-file-upload",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.single-file-disables-file-upload",
+        "appliesTo": "component.state",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "maxFiles": 1,
+          "listItems": 1
+        },
+        "requiredState": {
+          "State": "Disable",
+          "dropzoneVisible": true,
+          "dropzoneAcceptsFiles": false
+        },
+        "forbidden": {
+          "dropzoneAcceptsSecondFile": true
+        },
+        "ruleText": "Если сценарий ограничен одним файлом, после успешной загрузки FileUpload переходит в State=Disable, а Dropzone остаётся видимым."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.disable-file-upload-at-max-files",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.disable-file-upload-at-max-files",
+        "appliesTo": "component.state|component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "listItemsEqualMaxFiles": true
+        },
+        "requiredState": {
+          "State": "Disable",
+          "dropzoneVisible": true
+        },
+        "forbidden": {
+          "dropzoneHiddenAtMaxFiles": true,
+          "State": "Default"
+        },
+        "ruleText": "Когда загружено максимальное количество файлов, Dropzone остаётся видимым, а весь FileUpload переходит в State=Disable."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.limit-copy-matches-policy",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.limit-copy-matches-policy",
+        "appliesTo": "component.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "requiredContent": {
+          "countLimitPattern": "До {fileSize} МБ каждый, всего — не больше {count} файлов",
+          "totalSizeLimitPattern": "До {fileSize} МБ каждый, всего — не больше {totalSize} МБ"
+        },
+        "ruleText": "Текст ограничения FileUpload должен совпадать с политикой загрузки: для лимита по количеству пиши не больше N файлов, для лимита по общему объёму — не больше N МБ."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.counter-for-more-than-50-files",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.counter-for-more-than-50-files",
+        "appliesTo": "component.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "expectedBatchFileCountGreaterThan": 50
+        },
+        "recommendedState": {
+          "listItemsCounterVisible": true,
+          "counterTextPattern": "Всего файлов N"
+        },
+        "ruleText": "Если предполагается единовременная загрузка более 50 файлов, рекомендуется показывать счётчик общего количества элементов списка."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.border-for-similar-background",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.border-for-similar-background",
+        "appliesTo": "component.variant|component.composition",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "backgroundContrastLow": true
+        },
+        "recommendedState": {
+          "borderEnabled": true
+        },
+        "ruleText": "Если desktop FileUpload расположен на схожем фоне, для контрастности можно использовать Border в View=Primary или View=Secondary, кроме State=Disable."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.required-file-block-error",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.required-file-block-error",
+        "appliesTo": "component.state",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "required": true,
+          "listItems": 0,
+          "validationTriggered": true
+        },
+        "requiredState": {
+          "state": "Error",
+          "blockErrorText": "Прикрепите файл"
+        },
+        "ruleText": "Если файл обязателен, а пользователь не прикрепил ни одного файла, показывай ошибку всего блока с текстом Прикрепите файл."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-size-error",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.file-size-error",
+        "appliesTo": "component.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "fileError": "size"
+        },
+        "requiredContent": {
+          "errorTextPattern": "Нужен файл не больше {limit} МБ"
+        },
+        "forbiddenText": [
+          "Файл слишком большой",
+          "Ошибка"
+        ],
+        "ruleText": "Если файл превышает допустимый размер, сообщение должно называть лимит: Нужен файл не больше N МБ."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-format-error",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.file-format-error",
+        "appliesTo": "component.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "fileError": "format"
+        },
+        "requiredContent": {
+          "allowedExamples": [
+            "Нужен docx, xls или pdf",
+            "Формат не подходит"
+          ]
+        },
+        "forbiddenText": [
+          "Ошибка файла",
+          "Ошибка"
+        ],
+        "ruleText": "Если формат не поддерживается, сообщение должно назвать допустимые форматы или прямо сказать, что формат не подходит."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.combined-format-and-size-error",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.combined-format-and-size-error",
+        "appliesTo": "component.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "fileError": "format-and-size"
+        },
+        "requiredContent": {
+          "errorTextPattern": "Нужен {formats} не больше {limit} МБ",
+          "alternativePattern": "Прикрепите файл подходящего формата не больше {limit} МБ"
+        },
+        "ruleText": "Если файл одновременно неподходящего формата и превышает лимит размера, сообщение должно описывать оба ограничения."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.retry-on-upload-failure",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.retry-on-upload-failure",
+        "appliesTo": "component.behavior",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "fileError": "upload-failed"
+        },
+        "requiredState": {
+          "errorText": "Не получилось загрузить, попробуйте ещё раз",
+          "retryAvailable": true
+        },
+        "ruleText": "При технической ошибке загрузки покажи Не получилось загрузить, попробуйте ещё раз и оставь возможность загрузить файл снова."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.format-names-without-dot",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.format-names-without-dot",
+        "appliesTo": "component.content",
+        "checkType": "dictionary",
+        "matchKind": "exact_component_rule",
+        "targetText": [
+          "Attach label",
+          "allowed formats text",
+          "format error text"
+        ],
+        "forbiddenPattern": "\\\\.[A-Za-z0-9]+",
+        "requiredExamples": [
+          "docx",
+          "xls",
+          "pdf"
+        ],
+        "ruleText": "В списке допустимых форматов не ставь точку перед расширением. Используй только сокращённое название формата: docx, xls, pdf."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.max-three-formats-before-more",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.max-three-formats-before-more",
+        "appliesTo": "component.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowedFormatsCountGreaterThan": 3
+        },
+        "requiredContent": {
+          "visibleFormatsBeforeMoreMax": 3,
+          "moreTextPattern": ", ещё N",
+          "commaBeforeMore": true
+        },
+        "ruleText": "Если допустимых форматов больше трёх, показывай первые три формата, затем запятую и ещё N."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-actions-use-icons",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternId": "ptrn:components.file-upload",
+        "patternRuleId": "rule:components.file-upload.file-actions-use-icons",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "component": "FileUpload",
+          "area": "file item actions"
+        },
+        "requiredComposition": {
+          "actionControl": "icon",
+          "tooltipForExplanation": true
+        },
+        "forbidden": {
+          "textButtonAction": true,
+          "examples": [
+            "Скачать",
+            "Удалить"
+          ]
+        },
+        "ruleText": "Для действий в строках файлов используй заложенные по умолчанию иконки. Не заменяй их текстовыми кнопками; пояснение действия давай в tooltip."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.public-roots-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedRoots": [
+          "[D] FileUpload",
+          "[M] FileUpload"
+        ],
+        "internalComponents": [
+          "[D] Attach",
+          "[M] Attach"
+        ],
+        "ruleText": "Используй только [D] FileUpload или [M] FileUpload. Компоненты [D]/[M] Attach являются служебными и не используются отдельно."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.view-semantics",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View|component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "semantics": {
+          "Primary": "standalone block",
+          "Secondary": "inside another block"
+        },
+        "ruleText": "View=Primary используется как самостоятельный блок. View=Secondary располагается внутри другого блока или поверхности."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.disable-blocks-new-upload-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.State|component.interaction",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredBehavior": {
+          "State": "Disable",
+          "newUploadAllowed": false,
+          "existingFileInteractionsAllowed": true
+        },
+        "ruleText": "State=Disable запрещает загрузку новых файлов, но не блокирует взаимодействие с уже загруженными файлами."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.slots-use-component-properties",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.visibility|component.composition",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Добавляй или скрывай части FileUpload только через предусмотренные свойства компонента. Ручной detach или изменение видимости внутренних слоёв запрещены."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.platform-interaction-and-surface",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.platform|component.interaction|component.surface",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "requiredBehavior": {
+          "desktop": {
+            "fileSelection": [
+              "system-picker",
+              "drag-and-drop"
+            ],
+            "backgroundSurface": true
+          },
+          "mobile-web": {
+            "fileSelection": [
+              "system-picker"
+            ],
+            "dragAndDropAllowed": false,
+            "backgroundSurface": false
+          }
+        },
+        "ruleText": "На desktop FileUpload поддерживает системный выбор и drag-and-drop и использует подложку. На Mobile Web доступен только системный выбор файла, отдельной подложки нет."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.block-and-item-errors-are-separate",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.State|component.validation|component.fileItem",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "requiredBehavior": {
+          "blockError": "required block with zero files -> root State=Error",
+          "fileErrors": "each FileUploadItem has an independent error type",
+          "rootAndFileErrorsMayCoexist": false
+        },
+        "ruleText": "Общая ошибка FileUpload возникает при валидации обязательного блока без файлов. Ошибки отдельных FileUploadItem независимы и могут различаться между файлами, но общая и файловые ошибки не отображаются одновременно."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.uploading-uses-file-item-preset",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileItem|variant.Preset",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "component": "FileUploadItem",
+          "Preset": "Uploading"
+        },
+        "ruleText": "Процесс загрузки файла отображается через вложенный FileUploadItem с Preset=Uploading."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-actions-follow-state",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileItem|component.action|variant.State",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "actions": {
+          "download": [
+            "Default",
+            "Error",
+            "Disable",
+            "Uploading"
+          ],
+          "delete": [
+            "Default",
+            "Error",
+            "Disable",
+            "Uploading"
+          ],
+          "retry": [
+            "Default",
+            "Error"
+          ]
+        },
+        "ruleText": "Скачать и удалить файл можно во всех состояниях. Повторная загрузка доступна только в Error и Default."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.disable-hides-border",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.State|variant.Border|component.surface",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "State": "Disable",
+          "Border": false
+        },
+        "ruleText": "В State=Disable Border не используется: отсутствие обводки показывает, что загрузить новые файлы нельзя."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.text-overrides-are-limited",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "allowedOverrides": [
+          "Title",
+          "Subtitle",
+          "Counter.N",
+          "File extension",
+          "file name",
+          "values inside square brackets"
+        ],
+        "ruleText": "Разрешено менять только Title, Subtitle, N в Counter, File extension, названия файлов и значения внутри квадратных скобок. Остальные тексты следуют паттерну и настройкам компонента."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-item-details-are-delegated",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.fileItem",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Подробные presets, состояния и внутренние правила FileUploadItem описываются отдельным пакетом документов. Не выводи дополнительные запреты FileUploadItem только из структуры FileUpload."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-order-follows-upload",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileList|component.order",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Файлы отображаются в порядке загрузки. Менять их порядок вручную нельзя."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.more-counts-extensions-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.more|component.formats",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текст «ещё N» показывает количество дополнительных допустимых расширений файлов. Не используй его для количества скрытых или загруженных файлов."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.counter-counts-all-list-items",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.counter|text.counter",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Counter «Всего файлов N» показывает общее количество элементов списка, включая файлы в состояниях Uploading и Error."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.visuals-follow-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|fill|stroke|radius|styles.text|component.icon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "fixedProperties": [
+          "padding",
+          "gap",
+          "radius",
+          "fill",
+          "stroke",
+          "typography",
+          "icon size"
+        ],
+        "ruleText": "Геометрия и визуальные стили FileUpload и FileUploadItem должны соответствовать effective baseline. Ручное изменение padding, gap, radius, fill, stroke, typography или размеров иконок запрещено."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.error-clears-after-successful-validation",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.State|component.validation",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "requiredBehavior": {
+          "from": "Error",
+          "to": "Default",
+          "condition": "successful repeated block validation"
+        },
+        "ruleText": "Общий State=Error снимается только после успешной повторной валидации FileUpload."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.border-platform-matrix",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.platform|variant.View|variant.State|variant.Border",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredBehavior": {
+          "desktop": {
+            "allowedViews": [
+              "Primary",
+              "Secondary"
+            ],
+            "forbiddenStates": [
+              "Disable"
+            ]
+          },
+          "mobile-web": {
+            "Border": false
+          }
+        },
+        "ruleText": "Border разрешён только в [D] FileUpload для View=Primary и View=Secondary, кроме State=Disable. В [M] FileUpload Border запрещён."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.title-view-follows-own-contract",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.titleView|component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Вложенный TitleView настраивается только через параметры, разрешённые контрактом TitleView соответствующего размера."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.fill-hug-sizing",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.sizing.horizontal|layout.sizing.vertical|component.platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "desktop": {
+            "horizontal": "Fill",
+            "vertical": "Hug"
+          },
+          "mobile-web": {
+            "horizontal": "Fill",
+            "vertical": "Hug"
+          }
+        },
+        "ruleText": "[D] и [M] FileUpload должны иметь Fill по ширине и Hug по высоте."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.file-list-is-always-expanded",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileList|component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Показывай полный список загруженных файлов. Сворачивание списка и скрытие отдельных файлов запрещены."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.desktop-dropzone-is-clickable",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.dropzone|component.interaction|component.platform",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В [D] FileUpload вся область Dropzone должна быть кликабельна и открывать системный выбор файла."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.title-required-subtitle-optional",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.titleView|text.title|text.subtitle",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "Title": "visible",
+          "Subtitle": "optional"
+        },
+        "ruleText": "Title в FileUpload обязателен. Subtitle можно скрыть штатным параметром компонента."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.root-and-file-errors-are-exclusive",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.State|component.validation|component.fileItem",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Общая ошибка FileUpload и ошибки отдельных FileUploadItem не должны отображаться одновременно."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.limit-counts-all-list-items",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileList|component.limit|variant.Preset",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "includedStates": [
+          "Default",
+          "Uploading",
+          "Error"
+        ],
+        "ruleText": "При расчёте лимита FileUpload учитывай все элементы списка, включая Uploading и Error."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.mobile-selection-uses-button-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.dropzone|component.interaction|component.platform",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В [M] FileUpload системный выбор файла открывается только по нажатию на кнопку прикрепления; вся область компонента не должна быть кликабельной."
+      },
+      {
+        "ruleId": "component:web-corp.file-upload.empty-state-hides-file-list",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.fileList|component.counter|component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredState": {
+          "whenListIsEmpty": {
+            "FilesGroup": false,
+            "Counter": false
+          }
+        },
+        "ruleText": "В пустом FileUpload без файлов FilesGroup и Counter должны быть скрыты."
+      }
+    ]
+  }
+}

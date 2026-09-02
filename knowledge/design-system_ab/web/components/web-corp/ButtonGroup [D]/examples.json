@@ -1,0 +1,377 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.buttons-group",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "buttons-group-single-icon-change",
+        "title": "Изменение SingleIcon вложенной кнопки должно фиксироваться",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "nestedComponent": "[D] Button",
+          "property": "variant.SingleIcon",
+          "buttonsGroupEffectiveValue": "False",
+          "actualValue": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "showAs": "singleIcon: false → true"
+        }
+      },
+      {
+        "exampleId": "buttons-group-button-fill-after-view-change",
+        "title": "Ручная заливка после смены View сравнивается с effective variant baseline",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "nestedComponent": "[D] Button",
+          "property": "fill",
+          "buttonsGroupEffectiveValue": "Button/Desktop/Colors/Accent/bg",
+          "actualValue": "text/positive"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "showAs": "заливка: Button/Desktop/Colors/Accent/bg → text/positive"
+        }
+      },
+      {
+        "exampleId": "buttons-group-valid-desktop-limit",
+        "title": "Четыре видимые кнопки допустимы на desktop",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "visibleButtonCount": 4,
+          "firstButtonView": "Primary"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не объявлять допустимое количество кнопок нарушением."
+      },
+      {
+        "exampleId": "buttons-group-valid-without-primary",
+        "title": "Группа без Primary допустима",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "visibleButtonCount": 2,
+          "primaryButtonCount": 0
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не требовать Primary, если в группе нет главного действия."
+      },
+      {
+        "exampleId": "buttons-group-invalid-multiple-primary",
+        "title": "Несколько Primary в одной группе запрещены",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "visibleButtonCount": 3,
+          "primaryButtonCount": 2
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.primary-is-first-and-unique"
+        },
+        "expectedAgent": "Оставить не более одной Primary и расположить её первой."
+      },
+      {
+        "exampleId": "buttons-group-invalid-mobile-limit",
+        "title": "Три видимые кнопки недопустимы на mobile-web",
+        "inputChange": {
+          "hostComponent": "[M] ButtonsGroup",
+          "visibleButtonCount": 3
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.visible-button-limit"
+        },
+        "expectedAgent": "Указать лимит в две видимые кнопки для [M] ButtonsGroup."
+      },
+      {
+        "exampleId": "buttons-group-overflow-enables-last-single-icon",
+        "title": "Overflow включает SingleIcon у последней кнопки",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "buttonCount": 2,
+          "Overflow": true,
+          "lastButtonSingleIcon": true
+        },
+        "expectedAudit": {
+          "violation": false,
+          "interpretation": "linked-component-properties"
+        },
+        "expectedAgent": "Объяснить штатную связь Overflow=true и SingleIcon=true и не называть SingleIcon отдельным PickerButton."
+      },
+      {
+        "exampleId": "buttons-group-single-icon-not-last",
+        "title": "SingleIcon не может находиться перед текстовой кнопкой",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "buttonCount": 3,
+          "singleIconPosition": 2
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.single-icon-is-last"
+        },
+        "expectedAgent": "Потребовать перенести SingleIcon в конец группы."
+      },
+      {
+        "exampleId": "buttons-group-invalid-vertical-layout",
+        "title": "Вертикальное направление группы запрещено",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "property": "layout.direction",
+          "effectiveValue": "HORIZONTAL",
+          "actualValue": "VERTICAL"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.horizontal-layout-is-fixed"
+        },
+        "expectedAgent": "Вернуть горизонтальное направление auto layout."
+      },
+      {
+        "exampleId": "buttons-group-invalid-manual-spacing",
+        "title": "Ручное изменение расстояния между кнопками запрещено",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "property": "layout.itemSpacing",
+          "effectiveValue": 16,
+          "actualValue": 24
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.spacing-uses-effective-baseline"
+        },
+        "expectedAgent": "Вернуть itemSpacing к effective baseline выбранного Size."
+      },
+      {
+        "exampleId": "buttons-group-valid-hidden-middle-button",
+        "title": "Штатную кнопку в середине группы можно скрыть",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "hiddenButtonPosition": 2,
+          "remainingButtonCount": 3
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не объявлять скрытие штатной кнопки нарушением само по себе."
+      },
+      {
+        "exampleId": "buttons-group-invalid-single-icon-replacement",
+        "title": "Иконку SingleIcon нельзя заменять",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "property": "component.icon",
+          "effectiveValue": "built-in-overflow-icon",
+          "actualValue": "custom-icon"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.single-icon-icon-is-fixed"
+        },
+        "expectedAgent": "Вернуть иконку SingleIcon к effective baseline компонента."
+      },
+      {
+        "exampleId": "buttons-group-invalid-manual-fill",
+        "title": "Ручная перекраска вложенной кнопки запрещена",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "nestedComponent": "[D] Button",
+          "property": "fill",
+          "effectiveValue": "Button/Desktop/Colors/Primary/bg",
+          "actualValue": "text/positive"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.visual-and-layout-baseline-is-fixed"
+        },
+        "expectedAgent": "Вернуть fill к effective baseline текущего View вложенной Button."
+      },
+      {
+        "exampleId": "buttons-group-valid-overflow-content",
+        "title": "Перенесённое действие сохраняет label, action и icon",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "sourceButton": {
+            "label": "Скачать",
+            "action": "download",
+            "icon": "download"
+          },
+          "optionListItem": {
+            "label": "Скачать",
+            "action": "download",
+            "icon": "download"
+          }
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Подтвердить сохранение содержимого и действия перенесённой кнопки."
+      },
+      {
+        "exampleId": "buttons-group-invalid-duplicate-action",
+        "title": "Действие нельзя дублировать в видимой кнопке и списке",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "visibleButtonAction": "download",
+          "optionListItemAction": "download"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.visible-and-overflow-actions-are-unique"
+        },
+        "expectedAgent": "Удалить дублирующий пункт из списка или убрать соответствующую видимую кнопку."
+      },
+      {
+        "exampleId": "buttons-group-invalid-mobile-overflow-container",
+        "title": "Mobile Web overflow открывается не в desktop OptionList",
+        "inputChange": {
+          "hostComponent": "[M] ButtonsGroup",
+          "actualContainer": "[D] OptionList",
+          "expectedContainer": "BottomSheet"
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.overflow-container-follows-platform"
+        },
+        "expectedAgent": "Использовать BottomSheet для mobile-web."
+      },
+      {
+        "exampleId": "buttons-group-valid-voluntary-overflow",
+        "title": "Overflow можно включить добровольно уже при двух кнопках",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "buttonCount": 2,
+          "Overflow": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не требовать достижения лимита в четыре видимые кнопки для включения Overflow."
+      },
+      {
+        "exampleId": "buttons-group-valid-visible-button-loading",
+        "title": "Loading допустим у отдельной видимой кнопки",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "nestedComponent": "[D] Button",
+          "state": "Loading",
+          "trigger": "after-action-start"
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Проверять Loading по контракту Button и не переносить его на всю группу."
+      },
+      {
+        "exampleId": "buttons-group-invalid-overflow-disabled-state-loss",
+        "title": "Недоступное действие сохраняет disabled state после переноса",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "sourceButtonDisabled": true,
+          "overflowItemDisabled": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.disabled-state-is-preserved-in-overflow"
+        },
+        "expectedAgent": "Сохранить недоступное состояние перенесённого действия в пункте списка."
+      },
+      {
+        "exampleId": "buttons-group-code-only-skeleton",
+        "title": "Skeleton пока существует только в коде",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "figmaSkeletonPropertyPresent": false,
+          "codeSkeletonStatePresent": true
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не объявлять отсутствие Skeleton-настройки в Figma нарушением."
+      },
+      {
+        "exampleId": "buttons-group-valid-overflow-item-without-icon",
+        "title": "Пункт остаётся без иконки, если её не было у кнопки",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "sourceButtonIcon": null,
+          "overflowItemIcon": null
+        },
+        "expectedAudit": {
+          "violation": false
+        },
+        "expectedAgent": "Не требовать добавления иконки в пункт списка."
+      },
+      {
+        "exampleId": "buttons-group-invalid-disabled-item-without-tooltip",
+        "title": "Недоступный пункт требует Tooltip с причиной",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "overflowItemDisabled": true,
+          "tooltipPresent": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.disabled-state-is-preserved-in-overflow"
+        },
+        "expectedAgent": "Добавить Tooltip с причиной недоступности действия."
+      },
+      {
+        "exampleId": "buttons-group-invalid-mobile-overflow-footer",
+        "title": "Mobile BottomSheet не содержит footer",
+        "inputChange": {
+          "hostComponent": "[M] ButtonsGroup",
+          "bottomSheetFooterPresent": true
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.overflow-container-follows-platform"
+        },
+        "expectedAgent": "Оставить в BottomSheet только список действий без footer."
+      },
+      {
+        "exampleId": "buttons-group-overflow-closes-after-action",
+        "title": "Список закрывается после выбора действия",
+        "inputChange": {
+          "hostComponent": "[D] ButtonsGroup",
+          "availableActionSelected": true,
+          "overflowListClosed": false
+        },
+        "expectedAudit": {
+          "violation": true,
+          "ruleId": "component:web-corp.buttons-group.overflow-list-closes-after-action"
+        },
+        "expectedAgent": "Закрыть [D] OptionList или BottomSheet сразу после запуска доступного действия."
+      }
+    ]
+  }
+}

@@ -1,0 +1,787 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web _ Core",
+    "file": "Web _ Core",
+    "generatedAt": "2026-08-04T19:39:48.305Z",
+    "exportVersion": "0.1.0-rest"
+  },
+  "stats": {
+    "componentCount": 2,
+    "contractCount": 2,
+    "activeCount": 2,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "country-picker.universal",
+      "name": "🔩 CountryPicker",
+      "normalizedName": "country-picker",
+      "componentKey": "9e7b0dfd18867cdf2741011425f997b76c756b96",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "61e42e3031edea5a46b75bf60fe4a2c093ad7197",
+        "variants": {
+          "properties": {
+            "DefinedCountry": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "DefinedCountry": "True"
+            },
+            {
+              "DefinedCountry": "False"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "61e42e3031edea5a46b75bf60fe4a2c093ad7197",
+              "id": "69799:150529",
+              "name": "DefinedCountry=True",
+              "properties": {
+                "DefinedCountry": "True"
+              }
+            },
+            {
+              "key": "16f10083bd4ee2526e8a1de4f1cac5331a4550ef",
+              "id": "69799:150530",
+              "name": "DefinedCountry=False",
+              "properties": {
+                "DefinedCountry": "False"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "DefinedCountry=True",
+            "type": "COMPONENT",
+            "path": "DefinedCountry=True",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "DefinedCountry=True",
+            "path": "DefinedCountry=True",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Flag",
+            "path": "DefinedCountry=True / Flag",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "russia_m_color",
+            "path": "DefinedCountry=True / Flag / russia_m_color",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              },
+              "itemSpacing": 10
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "GROUP",
+            "name": "Group",
+            "path": "DefinedCountry=True / Flag / russia_m_color / Group",
+            "visible": true
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "VECTOR",
+            "name": "Vector",
+            "path": "DefinedCountry=True / Flag / russia_m_color / Group / Vector",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#F5F5F5"
+              }
+            ]
+          },
+          {
+            "nodeId": 6,
+            "parentId": 4,
+            "type": "VECTOR",
+            "name": "Vector",
+            "path": "DefinedCountry=True / Flag / russia_m_color / Group / Vector",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FF4B55"
+              }
+            ]
+          },
+          {
+            "nodeId": 7,
+            "parentId": 4,
+            "type": "VECTOR",
+            "name": "Vector",
+            "path": "DefinedCountry=True / Flag / russia_m_color / Group / Vector",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#41479B"
+              }
+            ]
+          },
+          {
+            "nodeId": 8,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "DefinedCountry=True / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 9,
+            "parentId": 8,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "DefinedCountry=True / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "INSTANCE",
+            "name": "chevron-down",
+            "path": "DefinedCountry=True / Fixer / PaintMe / chevron-down",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 10,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "DefinedCountry=True / Fixer / PaintMe / chevron-down / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "16f10083bd4ee2526e8a1de4f1cac5331a4550ef": [
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#F5F5F5"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "update",
+              "id": 7,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": null,
+                    "colorHex": "#FF4B55"
+                  }
+                ]
+              }
+            },
+            {
+              "op": "remove",
+              "id": 3
+            },
+            {
+              "op": "remove",
+              "id": 4
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "61e42e3031edea5a46b75bf60fe4a2c093ad7197",
+            "when": {
+              "DefinedCountry": "True"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "16f10083bd4ee2526e8a1de4f1cac5331a4550ef",
+            "when": {
+              "DefinedCountry": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "DefinedCountry=True",
+                "nodePath": "DefinedCountry=True",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "Vector",
+                "nodePath": "DefinedCountry=True / Flag / russia_m_color / Group / Vector",
+                "affects": [
+                  "fills"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 7,
+                "nodeName": "Vector",
+                "nodePath": "DefinedCountry=True / Flag / russia_m_color / Group / Vector",
+                "affects": [
+                  "fills"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "DefinedCountry=False / Flag / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "world-magnifier",
+                "nodePath": "DefinedCountry=False / Flag / PaintMe / world-magnifier",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "DefinedCountry=False / Flag / PaintMe / world-magnifier / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 3,
+                "nodeName": "russia_m_color",
+                "nodePath": "DefinedCountry=True / Flag / russia_m_color",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 4,
+                "nodeName": "Group",
+                "nodePath": "DefinedCountry=True / Flag / russia_m_color / Group",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "option-list-content-country-code.universal",
+      "name": "🔩 OptionListContent_CountryCode",
+      "normalizedName": "option-list-content-country-code",
+      "componentKey": "4dc00752673cd8f0ae40c174ec499c2917055add",
+      "source": {
+        "library": "Web _ Core",
+        "file": "Web _ Core",
+        "generatedAt": "2026-08-04T19:39:48.305Z",
+        "exportVersion": "0.1.0-rest"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4dc00752673cd8f0ae40c174ec499c2917055add",
+        "variants": {
+          "properties": {},
+          "allowedCombinations": [
+            {}
+          ],
+          "variantKeys": [
+            {
+              "key": "4dc00752673cd8f0ae40c174ec499c2917055add",
+              "id": "569:51587",
+              "name": "🔩 OptionListContent_CountryCode",
+              "properties": {}
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 OptionListContent_CountryCode",
+            "type": "COMPONENT",
+            "path": "🔩 OptionListContent_CountryCode",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "CountryName",
+            "type": "TEXT",
+            "path": "🔩 OptionListContent_CountryCode / Country / Name / CountryName",
+            "required": false,
+            "visible": true,
+            "nodeId": 6
+          },
+          {
+            "name": "+00",
+            "type": "TEXT",
+            "path": "🔩 OptionListContent_CountryCode / Country / Code / +00",
+            "required": false,
+            "visible": true,
+            "nodeId": 8
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 OptionListContent_CountryCode",
+            "path": "🔩 OptionListContent_CountryCode",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 12
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "undefined_m_color",
+            "path": "🔩 OptionListContent_CountryCode / undefined_m_color",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 0,
+                "bottom": 4,
+                "left": 0
+              },
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "Undefined country",
+            "path": "🔩 OptionListContent_CountryCode / undefined_m_color / Undefined country",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+            ],
+            "radius": 2,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.05999999865889549,
+                "tokenKey": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131",
+                "colorHex": "#263758"
+              }
+            ],
+            "fillToken": "VariableID:8981b6bfc89935b939b249245e60158b88ca252e/3541:131"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Country",
+            "path": "🔩 OptionListContent_CountryCode / Country",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Name",
+            "path": "🔩 OptionListContent_CountryCode / Country / Name",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 0,
+                "bottom": 2,
+                "left": 0
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "TEXT",
+            "name": "CountryName",
+            "path": "🔩 OptionListContent_CountryCode / Country / Name / CountryName",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "CountryName",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:020582d780ac6ecbb4d8916c4b68099e42b09126,119051:433919"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Code",
+            "path": "🔩 OptionListContent_CountryCode / Country / Code",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 2,
+                "right": 0,
+                "bottom": 2,
+                "left": 0
+              }
+            },
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "TEXT",
+            "name": "+00",
+            "path": "🔩 OptionListContent_CountryCode / Country / Code / +00",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:45dadc3729a6a54b3dfeeda46556291880e5b46c/9221:59",
+            "text": {
+              "characters": "+00",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.23999999463558197,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:020582d780ac6ecbb4d8916c4b68099e42b09126,119051:433919"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "4dc00752673cd8f0ae40c174ec499c2917055add",
+            "when": {},
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: 🔩 OptionListContent_CountryCode"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,3589 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.forms",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Forms",
+      "library": "Web :: Corp Presets"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [D] StatusPreset",
+        "componentName": "[D] StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [D] StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [D] StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView",
+        "componentName": "[M] TitleView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Medium",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / MainContent / Heading / [D] Addon",
+        "componentName": "[D] Addon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / MainContent / Heading / [D] Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / MainContent / Heading / [D] Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / MainContent / Heading / [D] Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon",
+        "componentName": "[M] RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "IconButton"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "6"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium",
+        "componentName": "AddonMedium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Link"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / AddonMedium / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary",
+        "componentName": "[M] TabsSecondary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40",
+          "View": "Filled"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] StatusPreset",
+        "componentName": "[D] StatusPreset",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Approved",
+          "Style": "Muted",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] StatusPreset / Status",
+        "componentName": "Status",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Shape": "Rounded",
+          "LeftAddon": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] StatusPreset / Status / 🔩 Label",
+        "componentName": "🔩 Label",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Uppercase": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView",
+        "componentName": "[D] TitleView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Medium",
+          "Skeleton": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / MainContent / Heading / [D] TitleAddon",
+        "componentName": "[D] TitleAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL",
+        "componentName": "[D] RightAddonXL",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "Link"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / StatusBadge / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "M (16-24)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / Link / AddonLeft / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / Left / [D] TitleView / [D] RightAddonXL / Link / AddonRight / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "6"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium",
+        "componentName": "AddonMedium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "Link"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / Content / AddonMedium / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary",
+        "componentName": "[D] TabsSecondary",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "40"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / 🔩 Slider",
+        "componentName": "🔩 Slider",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Left": "True",
+          "Right": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / 🔩 Slider / Left / Fixer / PaintMe / chevron-left-compact",
+        "componentName": "chevron-left-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / 🔩 Slider / Right / Fixer / PaintMe / chevron-right-compact",
+        "componentName": "chevron-right-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] AddButton",
+        "path": "Add=Card / [M] Button",
+        "componentName": "[M] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "40",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] AddButton",
+        "path": "Add=Card / [M] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] AddButton",
+        "path": "Add=Card / [M] Button / LeftAddon / LeftAddon / Fixer / PaintMe / plus-compact",
+        "componentName": "plus-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] AddButton",
+        "path": "Add=Card / [M] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] AddButton",
+        "path": "Add=Card / [M] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input",
+        "componentName": "[M] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "FilledState": "False",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "OuterLabel": "True"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input / Field / Content / Placeholder",
+        "componentName": "Placeholder",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Accent": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] Field",
+        "path": "Type=Input / [M] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[M] RemoveAddon",
+        "path": "Empty=false / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "View": "Secondary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] RemoveAddon",
+        "path": "Empty=false / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] RemoveAddon",
+        "path": "Empty=false / [D] IconButton / Icon / Fixer / PaintMe / trash-can-compact-line",
+        "componentName": "trash-can-compact-line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "AddoAccordion",
+        "path": "Presets=PickerButton / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "AddoAccordion",
+        "path": "Presets=PickerButton / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "AddoAccordion",
+        "path": "Presets=PickerButton / [D] IconButton / Icon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "AddonMedium",
+        "path": "Presets=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "8",
+          "View": "Red",
+          "Border": "False"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView / Content / Shape / 🔩 Shape",
+        "componentName": "🔩 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / Link",
+        "componentName": "Link",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "S (14-20)"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / Link / AddonLeft / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / Link / Content / 🔩 Underline",
+        "componentName": "🔩 Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "AddonSmall",
+        "path": "Presets=Link / Link / AddonRight / Wrapper / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets",
+        "componentName": "[D] PlatePresets",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Positive",
+          "BorderRadius": "16",
+          "Border": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft",
+        "componentName": "[D] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Status"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "AttentionAlert",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact",
+        "componentName": "exclamation-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Content",
+        "componentName": "[D] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedWidth": "False",
+          "AddonRight": "False",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Content / Fixer / 🔩 [D] Main",
+        "componentName": "🔩 [D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "LightTitle"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control",
+        "componentName": "[D] Control",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Content": "Closer"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] OuterPlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets",
+        "componentName": "[D] PlatePresets",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Positive",
+          "BorderRadius": "0",
+          "Border": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft",
+        "componentName": "[D] AddonLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "Status"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "AttentionAlert",
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] AddonLeft / StatusBadge / 🔩 Content / Fixer / PaintMe / exclamation-compact",
+        "componentName": "exclamation-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Content",
+        "componentName": "[D] Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "FixedWidth": "False",
+          "AddonRight": "False",
+          "AddonBottom": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Content / Fixer / [D] Main",
+        "componentName": "[D] Main",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Content": "LightTitle"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control",
+        "componentName": "[D] Control",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Content": "Closer"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] InlinePlate",
+        "path": "Presets=Attention / [D] PlatePresets / [D] Control / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Checkbox / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hint": "False",
+          "ErrorMessage": "False",
+          "DisabledLabel": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Checkbox / CheckboxLabel_24 / Checkbox",
+        "componentName": "Checkbox",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Checkbox / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Checkbox / Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Checkbox / Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Primary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] AddButton",
+        "path": "Add=Card / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "40",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] AddButton",
+        "path": "Add=Card / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] AddButton",
+        "path": "Add=Card / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / plus-compact",
+        "componentName": "plus-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] AddButton",
+        "path": "Add=Card / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] AddButton",
+        "path": "Add=Card / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Field",
+        "path": "Type=Input / [D] Input",
+        "componentName": "[D] Input",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "56",
+          "FilledState": "False",
+          "ActiveState": "False",
+          "DisabledState": "False",
+          "ErrorState": "False",
+          "OuterLabel": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Field",
+        "path": "Type=Input / [D] Input / Field / LeftAddons / LeftAddon1",
+        "componentName": "LeftAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Field",
+        "path": "Type=Input / [D] Input / Field / LeftAddons / LeftAddon2",
+        "componentName": "LeftAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Field",
+        "path": "Type=Input / [D] Input / Field / RightAddons / RightAddon2",
+        "componentName": "RightAddon2",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Field",
+        "path": "Type=Input / [D] Input / Field / RightAddons / RightAddon1",
+        "componentName": "RightAddon1",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "[D] Remove",
+        "path": "Empty=false / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32",
+          "View": "Secondary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] Remove",
+        "path": "Empty=false / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] Remove",
+        "path": "Empty=false / [D] IconButton / Icon / Fixer / PaintMe / trash-can-compact-line",
+        "componentName": "trash-can-compact-line",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] TopAddon",
+        "componentName": "[D] TopAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Presets": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack",
+        "componentName": "[D] ButtonStack",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Overflow": "true"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Checkbox / CheckboxLabel_24",
+        "componentName": "CheckboxLabel_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Hint": "False",
+          "ErrorMessage": "False",
+          "DisabledLabel": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Checkbox / CheckboxLabel_24 / Checkbox",
+        "componentName": "Checkbox",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "IndeterminateState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Checkbox / Addon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "NeutralInformation",
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Checkbox / Addon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Checkbox / Addon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Primary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / Content / Left / [M] TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "View": "Primary",
+          "TransparentBg": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] Forms :: Header",
+        "path": "🔒 [M] Forms :: Header / [M] TabsSecondary / [M] Tag",
+        "componentName": "[M] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "True",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Header",
+        "path": "Accordion=false, Opened=false / [D] TabsSecondary / Items / [D] Tag",
+        "componentName": "[D] Tag",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Filled",
+          "Size": "40",
+          "Shape": "Rounded",
+          "SelectedState": "False",
+          "DisabledState": "False",
+          "SingleIcon": "False",
+          "Indicator": "Hidden"
+        }
+      },
+      {
+        "hostComponentName": "[D] ButtonStack",
+        "path": "Overflow=false / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Primary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Primary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] Forms :: Сontrols",
+        "path": "🔒 [D] Forms :: Сontrols / [D] ButtonStack / Buttons / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Secondary",
+          "Size": "56",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        }
+      }
+    ]
+  }
+}

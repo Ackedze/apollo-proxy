@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.table-basic-d",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "manual",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "web-corp.table-basic-d.component-property-change",
+        "title": "Изменение параметра компонента фиксируется отдельно",
+        "inputChange": {
+          "property": "variant.*",
+          "node": "table family component instance"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "groupTitle": "Параметры компонента"
+        }
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.layer-style-change",
+        "title": "Ручное изменение визуального стиля сравнивается с effective baseline",
+        "inputChange": {
+          "property": "styles.text|fill|layout.*",
+          "node": "table row/cell nested layer"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "layer-property",
+          "groupTitle": "Параметры слоя"
+        }
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.max-five-columns",
+        "title": "Basic содержит не более пяти столбцов",
+        "scenario": "В таблицу добавлен шестой столбец.",
+        "expected": "Нарушение; перейти на Wide или сократить число столбцов."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.no-horizontal-scroll",
+        "title": "Изменение ширины не создаёт горизонтальный скролл",
+        "scenario": "Дизайнер расширил один обычный столбец.",
+        "expected": "Уменьшить другой столбец и сохранить совпадение HeadCell/BodyCell."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.second-text-slot",
+        "title": "Text 2 используется по контексту",
+        "scenario": "В BodyCell включён второй текстовый слот.",
+        "expected": "Разрешено как предусмотренная настройка Basic."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.fixed-edge-cell-width",
+        "title": "Ширину control/action-ячеек менять нельзя",
+        "scenario": "Изменена ширина HeadControlCell или BodyActionCell.",
+        "expected": "Нарушение component rule; вернуть effective baseline."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.empty-state",
+        "title": "CorporateSystemMessage заменяет только BodyRow",
+        "scenario": "Таблица находится в empty или error состоянии.",
+        "expected": "Сохранить CorporateTopbar, HeadRow и Pagination; BodyRow заменить на CorporateSystemMessage."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.single-page",
+        "title": "Pagination сохраняется для одной страницы",
+        "scenario": "В таблице одна страница данных.",
+        "expected": "Переключить Pagination в Presets=None, не удалять компонент."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.supported-preset",
+        "title": "Предусмотренный preset разрешён",
+        "scenario": "Дизайнер выбирает preset, доступный в properties ячейки.",
+        "expected": "Разрешённая настройка компонента, не arbitrary instance swap."
+      },
+      {
+        "exampleId": "web-corp.table-basic-d.visual-state",
+        "title": "Визуальные состояния не меняются вручную",
+        "scenario": "Изменён fill в hover, selected или disabled состоянии.",
+        "expected": "Нарушение; состояние полностью определяется effective baseline."
+      }
+    ]
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core.tag-group",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.tag-group.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TagGroup",
+          "layers": [
+            "[D] TagGroup",
+            "[D][Corporate] TagGroup",
+            "[M] TagGroup",
+            "[M][AO] TagGroup",
+            "[M][Corporate]  TagGroup",
+            "🔄 [D][Corporate] TagGroup",
+            "🔄 [M][AO] TagGroup",
+            "🔄 [M][Corporate]  TagGroup",
+            "TagGroup"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core.tag-group.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TagGroup",
+          "layers": [
+            "[D] TagGroup",
+            "[D][Corporate] TagGroup",
+            "[M] TagGroup",
+            "[M][AO] TagGroup",
+            "[M][Corporate]  TagGroup",
+            "🔄 [D][Corporate] TagGroup",
+            "🔄 [M][AO] TagGroup",
+            "🔄 [M][Corporate]  TagGroup",
+            "TagGroup"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-core.tag-group.nested-tag-size-matches-group",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "nested.Tag.variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TagGroup",
+          "layers": [
+            "[D] Tag",
+            "[M] Tag",
+            "Tag"
+          ]
+        },
+        "requiredFactRelation": {
+          "op": "equals",
+          "targetFact": "target.variant.Size",
+          "hostFact": "host.variant.Size"
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "resetSurface": "component-property"
+        },
+        "ruleText": "Size каждого вложенного Tag должен совпадать с Size родительского TagGroup. Изменение размера отдельного элемента группы запрещено.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "INSTANCE" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "component.identity" },
+                "expected": { "literal": "web-core.tag" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "ownership.owner.component.identity" },
+                "expected": { "literal": "web-core.tag-group" }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": { "fact": "component.properties.Size" },
+            "expected": { "fact": "ownership.owner.component.properties.Size" }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Размер вложенного Tag не совпадает с TagGroup",
+            "observed": "У вложенного Tag выбран Size={{actual}}.",
+            "expectation": "Size вложенного Tag должен совпадать с Size родительского TagGroup.",
+            "action": "Установить вложенному Tag размер родительского TagGroup."
+          },
+          "scope": { "platform": ["desktop", "mobile-web"] },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-core.tag-group.right-addon-allows-icon-replacement",
+        "severity": "info",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "component.identity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TagGroup"
+        },
+        "conditions": {
+          "slot": "RightAddon"
+        },
+        "classification": {
+          "treatAsViolation": false
+        },
+        "ruleText": "В иконочном слоте RightAddon разрешено заменять исходный компонент иконки на другую иконку дизайн-системы. Такая замена является допустимой кастомизацией и не требует сброса.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": ["web-core.tag-group"],
+      "predicateRules": [
+        "component:web-core.tag-group.nested-tag-size-matches-group"
+      ],
+      "compositionRules": [],
+      "delegatedRules": [],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-core.tag-group.right-addon-allows-icon-replacement",
+          "effect": "allow"
+        }
+      ],
+      "contextOnlyRules": []
+    }
+  }
+}

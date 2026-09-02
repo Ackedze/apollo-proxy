@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.amount-styles",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "AmountStyles",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "🔒 [D] AmountHeadline",
+        "path": "Style=Headline 18/22 / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] AmountHeadline",
+        "path": "Style=Headline 18/22 / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] AmountHeadline",
+        "path": "Style=Headline 18/22 / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] AmountHeadline",
+        "path": "Style=Headline 16/20 / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] AmountHeadline",
+        "path": "Style=Headline 16/20 / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] AmountHeadline",
+        "path": "Style=Headline 16/20 / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Operation",
+        "componentName": "Operation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Negative": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "contractOwnership": {
+      "nestedPackages": [
+        {
+          "packageId": "web-core.amount",
+          "mode": "host-contract",
+          "reason": "AmountHeadline and AmountParagraph own the effective typography, color, opacity and layout baseline of their nested Core Amount. The nested package remains active when Core Amount is checked outside AmountStyles."
+        }
+      ]
+    },
+    "componentRoles": [
+      {
+        "componentName": "🔒 [D] AmountHeadline",
+        "role": "figma-only-preset",
+        "platform": "desktop",
+        "purpose": "Крупное акцентное отображение суммы.",
+        "standaloneInFigma": true,
+        "codeExport": false
+      },
+      {
+        "componentName": "🔒 [M] AmountHeadline",
+        "role": "figma-only-preset",
+        "platform": "mobile-web",
+        "purpose": "Крупное акцентное отображение суммы.",
+        "standaloneInFigma": true,
+        "codeExport": false
+      },
+      {
+        "componentName": "🔒 AmountParagraph",
+        "role": "figma-only-preset",
+        "platform": "universal",
+        "purpose": "Отображение суммы в таблицах, списках, карточках и второстепенных значениях.",
+        "standaloneInFigma": true,
+        "codeExport": false
+      },
+      {
+        "componentName": "Operation",
+        "role": "internal-component",
+        "platform": "universal",
+        "standaloneInFigma": false,
+        "codeExport": false
+      }
+    ],
+    "partDefaults": {
+      "Major": "required",
+      "Minor": true,
+      "Currency": true,
+      "Operation": false,
+      "Addon": false
+    },
+    "slots": [
+      {
+        "slot": "Addon",
+        "required": false,
+        "defaultVisible": false,
+        "allowedComponents": [
+          "IconView",
+          "StatusBadge"
+        ],
+        "configurationPolicy": "Используй штатные параметры выбранного вложенного компонента.",
+        "maxHeight": "text-line-height",
+        "oversizeAllowed": false,
+        "keepsOwnContextualColors": true
+      }
+    ],
+    "anatomyPolicy": {
+      "fixedOrder": [
+        "Operation",
+        "Major",
+        "Minor",
+        "Currency",
+        "Addon"
+      ],
+      "reorderAllowed": false
+    },
+    "usagePolicy": {
+      "AmountInput": {
+        "embeddedComponent": "Web Core / Amount",
+        "usesThisContract": false
+      }
+    },
+    "layoutPolicy": {
+      "baseline": "current-style-effective-baseline",
+      "manualOverridesAllowed": false,
+      "singleLine": true,
+      "containerProvidesWidth": true,
+      "insufficientWidth": "clip-by-container",
+      "protectedProperties": [
+        "layout.direction",
+        "layout.itemSpacing",
+        "layout.alignment",
+        "layout.sizing"
+      ]
+    },
+    "optionalPartsPolicy": {
+      "parts": [
+        "Operation",
+        "Minor",
+        "Currency",
+        "Addon"
+      ],
+      "canCoexist": true
+    },
+    "valuePolicy": {
+      "domains": [
+        "money",
+        "balance"
+      ],
+      "points": "separate-pattern",
+      "majorMaxCharactersExcludingGroupSeparators": 13,
+      "fractionDigits": {
+        "displayed": [
+          1,
+          2
+        ],
+        "moreThanTwo": "round-to-two"
+      }
+    },
+    "interactionPolicy": {
+      "amountCanBeClickable": true,
+      "interactiveAddonAllowed": true,
+      "addonActionMustMatchAmount": true,
+      "manualUnderlineAllowed": false,
+      "manualBackgroundAllowed": false,
+      "hoverState": "future-rule"
+    },
+    "semanticOwners": [
+      {
+        "owner": "AmountParagraph / Operation",
+        "targetPathPattern": "Operation / Minus",
+        "leafLayer": "Minus",
+        "properties": [
+          "fill",
+          "styles.text"
+        ],
+        "reason": "Minus — paint-bearing text layer для знака операции суммы."
+      },
+      {
+        "owner": "AmountParagraph / Amount",
+        "targetPathPattern": "Amount / Major / Major",
+        "leafLayer": "Major",
+        "properties": [
+          "fill",
+          "styles.text"
+        ],
+        "reason": "Major — paint-bearing text layer для major-части суммы."
+      },
+      {
+        "owner": "AmountParagraph / Amount",
+        "targetPathPattern": "Amount / Minor / Minor",
+        "leafLayer": "Minor",
+        "properties": [
+          "fill",
+          "styles.text"
+        ],
+        "reason": "Minor — paint-bearing text layer для minor-части суммы."
+      },
+      {
+        "owner": "AmountParagraph / Amount",
+        "targetPathPattern": "Amount / Currency / Currency",
+        "leafLayer": "Currency",
+        "properties": [
+          "fill",
+          "styles.text"
+        ],
+        "reason": "Currency — paint-bearing text layer для currency-части суммы."
+      }
+    ],
+    "wraps": [
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Operation / Minus",
+        "componentName": "Minus",
+        "role": "paint-bearing-text-layer",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Amount / Major / Major",
+        "componentName": "Major",
+        "role": "paint-bearing-text-layer",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Amount / Minor / Minor",
+        "componentName": "Minor",
+        "role": "paint-bearing-text-layer",
+        "visible": true
+      },
+      {
+        "hostComponentName": "🔒 AmountParagraph",
+        "path": "Style=Paragraph 14/20 / Amount / Currency / Currency",
+        "componentName": "Currency",
+        "role": "paint-bearing-text-layer",
+        "visible": true
+      }
+    ]
+  }
+}

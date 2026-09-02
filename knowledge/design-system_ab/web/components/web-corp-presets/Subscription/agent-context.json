@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.subscription",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-04-28"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-04-28T19:56:52.500Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-presets/Web _ Corp Presets -- Subscription.json",
+      "library": "Web :: Corp Presets",
+      "file": "Web :: Corp Presets",
+      "generatedAt": "2026-04-28T19:56:52.500Z",
+      "exportVersion": "0.1.0",
+      "files": [
+        "Subscription"
+      ]
+    },
+    "summary": {
+      "componentFamily": "Subscription",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 [M] UniversalModal :: SubscriptionCard",
+        "key": "ee5051def9ba863f3c63c6ea3393599ffddd28b4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Additional",
+            "Benefits",
+            "Conditions",
+            "Details",
+            "Includes",
+            "Limits",
+            "Price"
+          ]
+        }
+      },
+      {
+        "name": "🔒 [D] UniversalModal :: SubscriptionCard",
+        "key": "c4bd850a0b7315914662f3a3e300e242b83de999",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Additional",
+            "Benefits",
+            "Conditions",
+            "Details",
+            "Includes",
+            "Limits",
+            "Price"
+          ]
+        }
+      },
+      {
+        "name": "[M] SubscriptionCard :: Info",
+        "key": "7089f4ae7d305df26879316826f575abf92a1d5b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Status": [
+            "Error",
+            "Neutral",
+            "Pending",
+            "Warning"
+          ]
+        }
+      },
+      {
+        "name": "[M] SubscriptionCard :: Header",
+        "key": "5335f8a8c6a91a8c5f5bd20b52df4dfcc70f6bb2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Info",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[M] SubscriptionCard :: Content",
+        "key": "92edc09cb199664bfc49c94a5e174fd4fc7cec0d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Additional",
+            "Benefits",
+            "Conditions",
+            "Details",
+            "Includes",
+            "Limits",
+            "Price",
+            "SwapMe",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "[M] SubscriptionCard :: Footer",
+        "key": "c01ebc5a06b2fce968bdc0be54d4f4c189ff6fba",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Type": [
+            "Promo",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] SubscriptionCard :: BottomAddon",
+        "key": "a106f121f1406a5116ae3d82249050124ecbfd3d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Promo",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] SubscriptionCard :: Content",
+        "key": "82d3d2a3000b544f9b49f85123700d1a18d690fe",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Additional",
+            "Benefits",
+            "Conditions",
+            "Details",
+            "Includes",
+            "Limits",
+            "Price",
+            "SwapMe",
+            "Text"
+          ]
+        }
+      },
+      {
+        "name": "[D] SubscriptionCard :: TopAddon",
+        "key": "5591bf89b1d25a13484a8aa82d249c918ee70e3a",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Type": [
+            "Info",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] SubscriptionCard :: Info",
+        "key": "7798f4525fa3d361a9fddfd0d78942e075abaf45",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "part",
+        "platform": "desktop",
+        "variantProperties": {
+          "Status": [
+            "Error",
+            "Neutral",
+            "Pending",
+            "Warning"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "Subscription",
+      "library": "Web :: Corp Presets",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    }
+  }
+}

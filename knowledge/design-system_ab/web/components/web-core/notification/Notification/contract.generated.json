@@ -1,0 +1,1445 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core Notification",
+    "file": "Web :: Core Notification",
+    "generatedAt": "2026-04-28T18:10:33.790Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 1,
+    "contractCount": 1,
+    "activeCount": 1,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "notification.desktop",
+      "name": "[D] Notification",
+      "normalizedName": "notification",
+      "componentKey": "e7a43f1f9f40c14e75a5eb4714d15090df57c177",
+      "source": {
+        "library": "Web :: Core Notification",
+        "file": "Web :: Core Notification",
+        "generatedAt": "2026-04-28T18:10:33.790Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "desktop",
+      "figma": {
+        "defaultVariantKey": "efbb725b55bd74c32443456a80d6342e42b40eda",
+        "variants": {
+          "properties": {
+            "Inverted": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Inverted": "False"
+            },
+            {
+              "Inverted": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "efbb725b55bd74c32443456a80d6342e42b40eda",
+              "id": "1:23037",
+              "name": "Inverted=False",
+              "properties": {
+                "Inverted": "False"
+              }
+            },
+            {
+              "key": "414b4c01485dee1cab88001f75f638ebe4c227fe",
+              "id": "5:1835",
+              "name": "Inverted=True",
+              "properties": {
+                "Inverted": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Inverted=False",
+            "type": "COMPONENT",
+            "path": "Inverted=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Title",
+            "type": "TEXT",
+            "path": "Inverted=False / Text / Title",
+            "required": true,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "Caption",
+            "type": "TEXT",
+            "path": "Inverted=False / Text / Caption",
+            "required": false,
+            "visible": true,
+            "nodeId": 11
+          },
+          {
+            "name": "Label",
+            "type": "TEXT",
+            "path": "Inverted=False / Button / [D] Button_Inverted / Text / Label",
+            "required": false,
+            "visible": true,
+            "nodeId": 21
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:24665:750"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:161225b731874655180c29126e4a344df42cff83/3541:184",
+            "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+            "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+            "VariableID:a90b2ece0b76e46edeeb1baa0e49915ecbf4299c/3541:129",
+            "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+            "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:15ca44d12e65f55968ac6612463266abfa573913/9221:65",
+            "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Inverted=False",
+            "path": "Inverted=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:a90b2ece0b76e46edeeb1baa0e49915ecbf4299c/3541:129"
+            ],
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 16,
+                "bottom": 4,
+                "left": 16
+              }
+            },
+            "radius": 16,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:a90b2ece0b76e46edeeb1baa0e49915ecbf4299c/3541:129",
+                "colorHex": "#1C1C1E"
+              }
+            ],
+            "fillToken": "VariableID:a90b2ece0b76e46edeeb1baa0e49915ecbf4299c/3541:129"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Badge",
+            "path": "Inverted=False / Badge",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 12,
+                "right": 12,
+                "bottom": 12,
+                "left": 0
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "INSTANCE",
+            "name": "StatusBadge",
+            "path": "Inverted=False / Badge / StatusBadge",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107"
+            ],
+            "variantProperties": {
+              "View": "PositiveCheckmark",
+              "Size": "24"
+            },
+            "radius": 999,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+                "colorHex": "#0CC44D"
+              }
+            ],
+            "fillToken": "VariableID:4ee6dfca4cfb2bd32e81febe3c4bf0485d2e1477/3541:107",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "PositiveCheckmark",
+                "Size": "24"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "INSTANCE",
+            "name": "🔩 Content",
+            "path": "Inverted=False / Badge / StatusBadge / 🔩 Content",
+            "visible": true,
+            "variantProperties": {
+              "Size": "20",
+              "Type": "Icon"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "20",
+                "Type": "Icon"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=False / Badge / StatusBadge / 🔩 Content / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=False / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:3ae8a4cacc6e560441bd23207c4bf16316c166e0/1930:44"
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "INSTANCE",
+            "name": "checkmark-compact",
+            "path": "Inverted=False / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=False / Badge / StatusBadge / 🔩 Content / Fixer / PaintMe / checkmark-compact / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Inverted=False / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 14,
+                "right": 16,
+                "bottom": 14,
+                "left": 0
+              },
+              "itemSpacing": 4
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Title",
+            "path": "Inverted=False / Text / Title",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:15ca44d12e65f55968ac6612463266abfa573913/9221:65",
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+            "typographyToken": "VariableID:15ca44d12e65f55968ac6612463266abfa573913/9221:65",
+            "text": {
+              "characters": "Title",
+              "fontName": "Alfa Interface Sans Bold",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": 0.4300000071525574,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:a1848d32b95c97f348cf0ba724570da19764dd4f,9221:105"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "Caption",
+            "path": "Inverted=False / Text / Caption",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "Caption",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Button",
+            "path": "Inverted=False / Button",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 10
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 12,
+            "type": "INSTANCE",
+            "name": "[D] Button_Inverted",
+            "path": "Inverted=False / Button / [D] Button_Inverted",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0"
+            ],
+            "variantProperties": {
+              "View": "Transparent",
+              "Size": "48",
+              "Shape": "Rectangular",
+              "SingleIcon": "False",
+              "DisabledState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 4,
+                "right": 20,
+                "bottom": 4,
+                "left": 20
+              },
+              "itemSpacing": 4
+            },
+            "radius": 10,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0,
+                "tokenKey": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:c52bca1d1a94f5d75adbada37c98813cd1b4f9ef/5538:0",
+            "componentInstance": {
+              "variantProperties": {
+                "View": "Transparent",
+                "Size": "48",
+                "Shape": "Rectangular",
+                "SingleIcon": "False",
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "FRAME",
+            "name": "LeftAddon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 15,
+            "parentId": 14,
+            "type": "INSTANCE",
+            "name": "LeftAddon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-24"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-24"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 17,
+            "parentId": 16,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 18,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 20,
+            "parentId": 13,
+            "type": "FRAME",
+            "name": "Text",
+            "path": "Inverted=False / Button / [D] Button_Inverted / Text",
+            "visible": true,
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": 4,
+                "bottom": 0,
+                "left": 4
+              }
+            }
+          },
+          {
+            "nodeId": 21,
+            "parentId": 20,
+            "type": "TEXT",
+            "name": "Label",
+            "path": "Inverted=False / Button / [D] Button_Inverted / Text / Label",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+            "typographyToken": "VariableID:b7120271b4e052d8c33cd9d0ef902bbfdaabf060/9221:76",
+            "text": {
+              "characters": "Label",
+              "fontName": "Alfa Interface Sans Medium",
+              "fontSize": 16,
+              "lineHeight": 20,
+              "letterSpacing": -0.05000000074505806,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:0fd87667e8841a94094062af08ade71d47456827,9221:127"
+              }
+            }
+          },
+          {
+            "nodeId": 22,
+            "parentId": 13,
+            "type": "FRAME",
+            "name": "RightAddon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon",
+            "visible": false
+          },
+          {
+            "nodeId": 23,
+            "parentId": 22,
+            "type": "INSTANCE",
+            "name": "RightAddon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon-24"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon-24"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 25,
+            "parentId": 24,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "INSTANCE",
+            "name": "diamonds",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 27,
+            "parentId": 26,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 28,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Сloser",
+            "path": "Inverted=False / Сloser",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:24665:750"
+            ],
+            "layout": {
+              "padding": {
+                "top": 0,
+                "right": -12,
+                "bottom": 0,
+                "left": 0
+              },
+              "itemSpacing": 3,
+              "paddingTokens": {
+                "top": null,
+                "right": "VariableID:24665:750",
+                "bottom": null,
+                "left": null
+              }
+            }
+          },
+          {
+            "nodeId": 29,
+            "parentId": 28,
+            "type": "INSTANCE",
+            "name": "[D] IconButton_Inverted",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted",
+            "visible": true,
+            "variantProperties": {
+              "Size": "48",
+              "View": "Secondary",
+              "TransparentBg": "False"
+            },
+            "radius": 10,
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "48",
+                "View": "Secondary",
+                "TransparentBg": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "INSTANCE",
+            "name": "Icon",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon",
+            "visible": true,
+            "variantProperties": {
+              "Type": "Icon 24"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Type": "Icon 24"
+              }
+            }
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer",
+            "visible": true
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:161225b731874655180c29126e4a344df42cff83/3541:184"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:161225b731874655180c29126e4a344df42cff83/3541:184",
+                "colorHex": "#EEEEFB"
+              }
+            ],
+            "fillToken": "VariableID:161225b731874655180c29126e4a344df42cff83/3541:184"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 32,
+            "type": "INSTANCE",
+            "name": "cross",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 34,
+            "parentId": 33,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "414b4c01485dee1cab88001f75f638ebe4c227fe": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "Inverted=True",
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 1,
+                    "tokenKey": "VariableID:224167a7a0d8a160932c76a7ef008143801aab08/3541:154",
+                    "colorHex": "#FFFFFF"
+                  }
+                ],
+                "fillToken": "VariableID:224167a7a0d8a160932c76a7ef008143801aab08/3541:154"
+              }
+            },
+            {
+              "op": "update",
+              "id": 10,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.8799999952316284,
+                    "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                    "colorHex": "#030306"
+                  }
+                ],
+                "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+              }
+            },
+            {
+              "op": "update",
+              "id": 11,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.8799999952316284,
+                    "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                    "colorHex": "#030306"
+                  }
+                ],
+                "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+              }
+            },
+            {
+              "op": "remove",
+              "id": 13
+            },
+            {
+              "op": "remove",
+              "id": 14
+            },
+            {
+              "op": "remove",
+              "id": 15
+            },
+            {
+              "op": "remove",
+              "id": 16
+            },
+            {
+              "op": "remove",
+              "id": 17
+            },
+            {
+              "op": "remove",
+              "id": 18
+            },
+            {
+              "op": "remove",
+              "id": 19
+            },
+            {
+              "op": "remove",
+              "id": 20
+            },
+            {
+              "op": "remove",
+              "id": 21
+            },
+            {
+              "op": "remove",
+              "id": 22
+            },
+            {
+              "op": "remove",
+              "id": 23
+            },
+            {
+              "op": "remove",
+              "id": 24
+            },
+            {
+              "op": "remove",
+              "id": 25
+            },
+            {
+              "op": "remove",
+              "id": 26
+            },
+            {
+              "op": "remove",
+              "id": 27
+            },
+            {
+              "op": "remove",
+              "id": 29
+            },
+            {
+              "op": "remove",
+              "id": 30
+            },
+            {
+              "op": "remove",
+              "id": 31
+            },
+            {
+              "op": "remove",
+              "id": 32
+            },
+            {
+              "op": "remove",
+              "id": 33
+            },
+            {
+              "op": "remove",
+              "id": 34
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "efbb725b55bd74c32443456a80d6342e42b40eda",
+            "when": {
+              "Inverted": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "414b4c01485dee1cab88001f75f638ebe4c227fe",
+            "when": {
+              "Inverted": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Inverted=False",
+                "nodePath": "Inverted=False",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 10,
+                "nodeName": "Title",
+                "nodePath": "Inverted=False / Text / Title",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 11,
+                "nodeName": "Caption",
+                "nodePath": "Inverted=False / Text / Caption",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "[D] Button",
+                "nodePath": "Inverted=True / Button / [D] Button",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "LeftAddon",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "LeftAddon",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon / LeftAddon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon / LeftAddon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "diamonds",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Inverted=True / Button / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Text",
+                "nodePath": "Inverted=True / Button / [D] Button / Text",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Label",
+                "nodePath": "Inverted=True / Button / [D] Button / Text / Label",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "RightAddon",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "RightAddon",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon / RightAddon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon / RightAddon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon / RightAddon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "diamonds",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Inverted=True / Button / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "[D] IconButton",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Icon",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton / Icon",
+                "affects": [
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton / Icon / Fixer",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton / Icon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "tokens",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "cross",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton / Icon / Fixer / PaintMe / cross",
+                "affects": [
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "icon",
+                "nodePath": "Inverted=True / Сloser / [D] IconButton / Icon / Fixer / PaintMe / cross / icon",
+                "affects": [
+                  "fills",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 13,
+                "nodeName": "[D] Button_Inverted",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 14,
+                "nodeName": "LeftAddon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 15,
+                "nodeName": "LeftAddon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 16,
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 17,
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 18,
+                "nodeName": "diamonds",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 19,
+                "nodeName": "icon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 20,
+                "nodeName": "Text",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / Text",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 21,
+                "nodeName": "Label",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / Text / Label",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 22,
+                "nodeName": "RightAddon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 23,
+                "nodeName": "RightAddon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 24,
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 25,
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 26,
+                "nodeName": "diamonds",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 27,
+                "nodeName": "icon",
+                "nodePath": "Inverted=False / Button / [D] Button_Inverted / RightAddon / RightAddon / Fixer / PaintMe / diamonds / icon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 29,
+                "nodeName": "[D] IconButton_Inverted",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 30,
+                "nodeName": "Icon",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 31,
+                "nodeName": "Fixer",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 32,
+                "nodeName": "PaintMe",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 33,
+                "nodeName": "cross",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 34,
+                "nodeName": "icon",
+                "nodePath": "Inverted=False / Сloser / [D] IconButton_Inverted / Icon / Fixer / PaintMe / cross / icon",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component has visible text placeholders",
+          "component uses raw color without token"
+        ]
+      }
+    }
+  ]
+}

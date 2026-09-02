@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.corporate-content",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "CorporateContent",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] CorporateContent",
+        "path": "[M] CorporateContent / TopMargin",
+        "componentName": "TopMargin",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] CorporateContent",
+        "path": "[M] CorporateContent / BottomMargin",
+        "componentName": "BottomMargin",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "corporateContent": {
+      "requiredOnProductPage": true,
+      "maxCorporateContentPerPage": 1,
+      "figmaParentComponentRequired": false,
+      "standaloneFigmaUsageAllowed": true,
+      "frontendParentAssembly": "CorporatePage",
+      "platformSelection": {
+        "768-and-above": "[D] CorporateContent",
+        "320-767": "[M] CorporateContent",
+        "at768GridMode": "768"
+      },
+      "allowedByPlatform": {
+        "desktop": "[D] CorporateContent",
+        "mobile-web": "[M] CorporateContent"
+      },
+      "prohibited": [
+        "[T] CorporateContent",
+        "🔄 [T] CorporateContent"
+      ],
+      "bodySlot": {
+        "arbitraryContentAllowed": true,
+        "arbitraryCompositionAllowed": true,
+        "multipleChildrenAllowed": true,
+        "instanceSwapAllowed": true,
+        "directionAndItemSpacing": "nested-composition-defined",
+        "gutterRequired": false,
+        "gutterAllowedInAnyHorizontalComposition": true,
+        "sectionRequiredForGutter": false,
+        "nestedCorporateContentAllowed": false,
+        "swapMeMustBeReplaced": true
+      },
+      "rootConfiguration": {
+        "backgroundVariableCollection": "BackgroundPlate Color",
+        "allowedBackgroundModes": [
+          "base-bg-alt (grey)",
+          "base-bg (white)"
+        ],
+        "defaultBackgroundMode": "base-bg-alt (grey)",
+        "backgroundModeSelectionPolicy": "separate-pattern",
+        "prohibitedBackgroundModes": [
+          "modal-bg-alt (grey)",
+          "modal-bg (white)"
+        ],
+        "gridStyleOverrideAllowed": false,
+        "layoutSizingHorizontal": "FILL",
+        "layoutSizingVertical": "HUG",
+        "clickable": false,
+        "detachAllowed": false,
+        "bodyDetachAllowed": false,
+        "layoutDirection": "VERTICAL",
+        "itemSpacing": 0,
+        "clipsContent": false,
+        "prohibitedManualOverrides": [
+          "radius",
+          "stroke",
+          "effects.*",
+          "opacity",
+          "clipsContent"
+        ],
+        "spacingVariableCollections": [
+          "[D] Grid & Cols",
+          "[M] Grid & Cols"
+        ],
+        "mobileWebRequiredMargins": {
+          "TopMargin": "24",
+          "BottomMargin": "24"
+        }
+      },
+      "headerRelation": {
+        "requiredPreviousSibling": "Header or HeaderMenu",
+        "sharedParentDirection": "VERTICAL",
+        "itemSpacing": 0
+      },
+      "sectionPolicy": {
+        "component": "[D] Section",
+        "role": "nested-supporting",
+        "required": false,
+        "purpose": "horizontal-block-grouping-and-column-management",
+        "gutterMayBeUsedWithoutSection": true,
+        "rootSizing": {
+          "width": "FILL",
+          "height": "HUG"
+        },
+        "directionAndAlignment": "effective-baseline-by-grid-mode",
+        "position": {
+          "true": "Isle below Content",
+          "false": "Isle above Content"
+        },
+        "tabletIsle": {
+          "automatic": true,
+          "trueInModes": [
+            "1024",
+            "768"
+          ],
+          "manualToggleAllowed": false
+        },
+        "slots": {
+          "Content": "arbitrary-content",
+          "Isle": "arbitrary-content"
+        },
+        "instanceSwapAllowed": false,
+        "gutter": {
+          "required": true,
+          "source": "Gutter variable",
+          "manualItemSpacingAllowed": false
+        },
+        "columnWidths": {
+          "source": "Grid & Cols column variables",
+          "manualWidthAllowed": false
+        },
+        "swapMeMustBeReplacedIn": [
+          "Content",
+          "Isle"
+        ],
+        "detachAllowed": false,
+        "manualStyleOverridesAllowed": false
+      }
+    }
+  }
+}

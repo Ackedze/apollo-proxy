@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-tooltip",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "👻 TooltipTail",
+        "key": "641201dedb283e0c13f9c7163fe53e35b71d82a6",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Direction",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Onboarding Tooltip",
+        "key": "c9a8db25e3fb6bc7907464f81547a6295816c59b",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Tail Direction",
+          "variant.Tail Position"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Pips",
+        "key": "f37e127ff81d5218782f8b0b195a23b6146e9919",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Selected"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "Close",
+        "key": "ceb8ef1f3b371a92444b417e2cbdda899e45004d",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "Onboarding footer",
+        "key": "7de70e8a7d2d565ed5f9cdad79a4006dbdf3b8f4",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "Text content",
+        "key": "dc5b76d6efefe35cb0920c8be4d52929383b72c4",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "Onboarding Tooltip",
+        "role": "public-root",
+        "platform": "desktop",
+        "requiredParts": [
+          "Title",
+          "Subtitle",
+          "Close",
+          "at least one Button"
+        ]
+      }
+    ],
+    "internalOnly": [
+      "👻 TooltipTail",
+      "Pips",
+      "Close",
+      "Onboarding footer",
+      "Text content"
+    ],
+    "allowedOverrides": {
+      "text": [
+        "Subhead",
+        "Title",
+        "Subtitle",
+        "Button label"
+      ],
+      "componentProperties": [
+        "Tail Direction",
+        "Tail Position",
+        "Pips.Selected"
+      ],
+      "composition": [
+        "optional Subhead visibility",
+        "Button visibility while one Primary button remains visible",
+        "Pips visibility for single-step or multi-step onboarding"
+      ]
+    },
+    "forbiddenOverrides": [
+      "standalone internal component",
+      "Onboarding Tooltip [D] on mobile-web",
+      "hidden Title",
+      "hidden Subtitle",
+      "hidden Close",
+      "zero visible buttons",
+      "tail not pointing to the target object or area",
+      "Pips count different from onboarding step count",
+      "more than one selected Pip",
+      "visible Pips in single-step onboarding",
+      "hidden Pips in multi-step onboarding",
+      "more than one simultaneous Onboarding Tooltip",
+      "dismiss by Escape or outside click",
+      "more than ten onboarding steps",
+      "more than two visible buttons",
+      "button size other than 40",
+      "button configuration without Primary",
+      "interactive Pips",
+      "button Shape other than Rectangular",
+      "button SingleIcon=true",
+      "button addon",
+      "button DisabledState=true",
+      "hidden or replaced Close",
+      "Onboarding Tooltip covering its target object",
+      "Onboarding Tooltip clipped by the viewport",
+      "link, list or rich text in content",
+      "loading, disabled, error or interrupted state",
+      "interaction with the interface outside the target object",
+      "missing blocking overlay or target highlight",
+      "launch without an existing visible target inside the viewport",
+      "truncated Title or Subtitle",
+      "multiline Button label",
+      "manual width",
+      "manual padding or spacing",
+      "manual radius or fill",
+      "manual typography",
+      "manual opacity or effects"
+    ]
+  }
+}

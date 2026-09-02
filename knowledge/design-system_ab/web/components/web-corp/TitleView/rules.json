@@ -1,0 +1,2047 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.title-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-11"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.title-view.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TitleView",
+          "layers": [
+            "[D] RightAddon",
+            "[D] RightAddonXL",
+            "[D] TitleAddon",
+            "[D] TitleAddonXL",
+            "[D] TitleStatus",
+            "[D] TitleView",
+            "[M] RightAddon",
+            "[M] RightAddonXL",
+            "[M] TitleAddon",
+            "[M] TitleAddonXL",
+            "[M] TitleStatus",
+            "[M] TitleView",
+            "TitleView"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "TitleView",
+          "layers": [
+            "[D] RightAddon",
+            "[D] RightAddonXL",
+            "[D] TitleAddon",
+            "[D] TitleAddonXL",
+            "[D] TitleStatus",
+            "[D] TitleView",
+            "[M] RightAddon",
+            "[M] RightAddonXL",
+            "[M] TitleAddon",
+            "[M] TitleAddonXL",
+            "[M] TitleStatus",
+            "[M] TitleView",
+            "TitleView"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.title-view.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "[D] RightAddon",
+            "[D] RightAddonXL",
+            "[D] TitleAddon",
+            "[D] TitleAddonXL",
+            "[D] TitleStatus",
+            "[D] TitleView",
+            "[M] RightAddon",
+            "[M] RightAddonXL",
+            "[M] TitleAddon",
+            "[M] TitleAddonXL",
+            "[M] TitleStatus",
+            "[M] TitleView"
+          ]
+        },
+        "ruleText": "Изменения variant/property в компонентах семейства TitleView являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "layout.*|styles.stroke|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "[D] RightAddon",
+            "[D] RightAddonXL",
+            "[D] TitleAddon",
+            "[D] TitleAddonXL",
+            "[D] TitleStatus",
+            "[D] TitleView",
+            "[M] RightAddon",
+            "[M] RightAddonXL",
+            "[M] TitleAddon",
+            "[M] TitleAddonXL",
+            "[M] TitleStatus",
+            "[M] TitleView"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри компонентов семейства TitleView нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-and-subtitle-typography-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "styles.text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Title",
+            "Subtitle"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": true
+        },
+        "ruleText": "Типографика Title и Subtitle фиксируется выбранным View компонента TitleView. Менять текстовый стиль заголовка или подзаголовка вручную запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Title",
+                    "Subtitle"
+                  ]
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": [
+                    "web-corp.title-view",
+                    "web-corp.title-view-mobile"
+                  ]
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена фиксированная типографика TitleView",
+            "observed": "Текстовый стиль изменён с {{expected}} на {{actual}}.",
+            "expectation": "Типографика Title и Subtitle должна совпадать с effective baseline выбранного View.",
+            "action": "Сбросить текстовый стиль к effective baseline TitleView.",
+            "targetFact": "appearance.styles.textStyle"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-and-subtitle-color-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "fill|styles.fill",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Title",
+            "Subtitle",
+            "PaintMe"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "useEffectiveBaseline": true
+        },
+        "ruleText": "Цвет текста Title и Subtitle определяется компонентом TitleView и его вложенными статусными блоками. Менять токен заливки текста вручную запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "name"
+                },
+                "expected": {
+                  "literal": [
+                    "Title",
+                    "Subtitle"
+                  ]
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": [
+                    "web-corp.title-view",
+                    "web-corp.title-view-mobile"
+                  ]
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменён фиксированный цвет TitleView",
+            "observed": "Цвет текста изменён с {{expected}} на {{actual}}.",
+            "expectation": "Цвет Title и Subtitle должен совпадать с effective baseline выбранного View.",
+            "action": "Сбросить цвет текста к effective baseline TitleView.",
+            "targetFact": "appearance.fill.value"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.single-xlarge-on-screen",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.single-xlarge",
+        "appliesTo": "screen.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "variant": {
+            "View": "xLarge"
+          }
+        },
+        "requiredComposition": {
+          "maxInstancesPerScreen": 1
+        },
+        "ruleText": "На одном экране может быть только один TitleView с View=xLarge. Остальные заголовки страницы должны использовать View=Large, View=Medium или View=Small."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.external-spacing",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.external-spacing",
+        "appliesTo": "screen.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "placement": "CorporateContent page body",
+          "relationship": "vertical-neighbor"
+        },
+        "requiredSpacing": [
+          {
+            "from": "[D] Header",
+            "to": "[D] TitleView",
+            "axis": "vertical",
+            "spacing": 40,
+            "unit": "px",
+            "token": "TopMargin"
+          },
+          {
+            "from": "[D] TitleView",
+            "to": "[D] Content",
+            "axis": "vertical",
+            "spacing": 32,
+            "unit": "px"
+          },
+          {
+            "from": "[D] TitleView",
+            "to": "[D] TabsView",
+            "axis": "vertical",
+            "spacing": 32,
+            "unit": "px"
+          },
+          {
+            "from": "[D] TitleView",
+            "to": "[D] FiltersBlock",
+            "axis": "vertical",
+            "spacing": 32,
+            "unit": "px"
+          },
+          {
+            "from": "[D] TitleView",
+            "to": "[D] Plate",
+            "axis": "vertical",
+            "spacing": 32,
+            "unit": "px"
+          },
+          {
+            "from": "[D] TitleView",
+            "to": "[D] TopBar",
+            "axis": "vertical",
+            "spacing": 12,
+            "unit": "px",
+            "reason": "TopBar already includes 24 px top spacing"
+          }
+        ],
+        "ruleText": "Внешние вертикальные отступы вокруг TitleView должны соответствовать соседнему блоку: Header -> TitleView 40 px через TopMargin; TitleView -> Content/TabsView/FiltersBlock/Plate 32 px; TitleView -> TopBar 12 px, потому что внутри TopBar уже заложен верхний отступ 24 px."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-content-uses-status-slots",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.status-slots",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "contentRole": "status"
+        },
+        "requiredComposition": {
+          "allowedSlots": [
+            "Status",
+            "TitleStatus",
+            "TitleAddon",
+            "TitleAddonXL"
+          ],
+          "allowedNestedComponents": [
+            "[D] TitleStatus",
+            "[M] TitleStatus",
+            "[D] TitleAddon",
+            "[M] TitleAddon",
+            "[D] TitleAddonXL",
+            "[M] TitleAddonXL",
+            "StatusBadge"
+          ]
+        },
+        "ruleText": "Status используется для состояния страницы, заголовком которой является TitleView с View=xLarge. TitleStatus является опциональным статусным блоком, доступным только при включённом свойстве Status у того же TitleView. TitleAddon и TitleAddonXL используются как опциональные функциональные элементы рядом с заголовком. Не считай отсутствие опционального слота нарушением."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-and-title-status-color-match",
+        "severity": "error",
+        "ruleKind": "design-rule",
+        "severityScope": "design",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.status-color-consistency",
+        "appliesTo": "component.composition|variant.Type|fill",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "requiredVisibleSlots": [
+            "Status",
+            "TitleStatus"
+          ]
+        },
+        "requiredComposition": {
+          "relation": "same-variant-type",
+          "from": "Status.variant.Type",
+          "to": "TitleStatus.variant.Type"
+        },
+        "ruleText": "Если одновременно используются Status и TitleStatus, их значения Type должны совпадать. Type определяет статусный цвет, поэтому разные значения Type создают несогласованное состояние.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "owned-peer-property-equality",
+          "ownerIdentities": [
+            "web-corp.title-view",
+            "web-corp.title-view-mobile"
+          ],
+          "target": {
+            "identities": [
+              "web-corp.title-view",
+              "web-corp.title-view-mobile"
+            ],
+            "names": [
+              "[D] TitleStatus",
+              "[M] TitleStatus"
+            ]
+          },
+          "members": [
+            {
+              "role": "Status",
+              "names": [
+                "StatusPreset"
+              ],
+              "propertyFact": "component.properties.Type"
+            },
+            {
+              "role": "TitleStatus",
+              "names": [
+                "[D] TitleStatus",
+                "[M] TitleStatus"
+              ],
+              "propertyFact": "component.properties.Type"
+            }
+          ],
+          "requiredRoles": [
+            "Status",
+            "TitleStatus"
+          ],
+          "collectionKey": "statusTypeConsistency",
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Типы Status и TitleStatus не совпадают",
+            "observed": "Обнаружены разные значения Type: {{actual}}.",
+            "expectation": "При совместном использовании Status и TitleStatus их значения Type должны совпадать.",
+            "action": "Установить для TitleStatus тот же Type, что используется у Status."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-size-24",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.status-size-24",
+        "appliesTo": "variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Status/StatusPreset"
+          ]
+        },
+        "requiredVariant": {
+          "Size": "24"
+        },
+        "ruleText": "Верхний Status внутри TitleView всегда использует Size=24. Другие значения Size недопустимы.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-style-matches-surface",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.status-style-matches-surface",
+        "appliesTo": "variant.Style|surface.context",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "slot": "Status"
+        },
+        "requiredVariantByContext": {
+          "graySurface": {
+            "Style": "Contrast"
+          },
+          "whiteSurface": {
+            "Style": "Muted"
+          }
+        },
+        "ruleText": "Для верхнего Status используй Style=Contrast на сером фоне и Style=Muted на белом фоне.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "context-map",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "INSTANCE" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "component.identity" },
+                "expected": { "literal": "web-corp.status-property" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "ownership.owner.component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              }
+            ]
+          },
+          "contextFact": "page.context.surface",
+          "targetFact": "component.properties.Style",
+          "mappingEntries": [
+            { "context": "graySurface", "target": "Contrast" },
+            { "context": "whiteSurface", "target": "Muted" }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Стиль Status не соответствует поверхности",
+            "observed": "На поверхности {{context}} используется Status Style={{actual}}.",
+            "expectation": "На серой поверхности используется Contrast, на белой — Muted.",
+            "action": "Установить Style Status в соответствии с поверхностью."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-type-follows-public-api",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Status/StatusPreset"
+          ]
+        },
+        "classification": {
+          "allPublicApiValuesAllowed": true
+        },
+        "ruleText": "Type верхнего Status может принимать любое значение, доступное в public API StatusPreset. Не вводи дополнительные ограничения Type на уровне TitleView.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-status-requires-status",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.properties.TitleStatus|component.properties.Status",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "componentProperties": {
+            "View": "xLarge",
+            "TitleStatus": true
+          }
+        },
+        "requiredVariant": {
+          "Status": true
+        },
+        "ruleText": "В View=xLarge TitleStatus может использоваться только при включённом свойстве Status у того же TitleView. Для Large, Medium и Small слот TitleStatus недоступен и сохранённое скрытое значение свойства не оценивается.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-domain",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": [
+                    "web-corp.title-view",
+                    "web-corp.title-view-mobile"
+                  ]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.TitleStatus"
+                },
+                "expected": {
+                  "literal": true
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.View"
+                },
+                "expected": {
+                  "literal": "xLarge"
+                }
+              }
+            ]
+          },
+          "actual": {
+            "fact": "component.properties.Status"
+          },
+          "allowedValues": [
+            true
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "TitleStatus включён без Status",
+            "observed": "У TitleView включён TitleStatus, но свойство Status имеет значение {{actual}}.",
+            "expectation": "В View=xLarge TitleStatus может использоваться только при Status=true у того же TitleView.",
+            "action": "Включить свойство Status у TitleView или отключить TitleStatus."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.status-label-is-content-override",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.characters|variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Status/Label"
+          ]
+        },
+        "classification": {
+          "contentOverrideAllowed": true,
+          "typeControlsStatusColor": true,
+          "doNotTreatTextChangeAsStyleViolation": true
+        },
+        "ruleText": "Label встроенного Status разрешено менять как content override. Формулировка может уточнять состояние, пока Type остаётся корректным; изменение текста само по себе не является style violation."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-status-content-overrides-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "TitleStatus/Title",
+            "TitleStatus/Subtitle"
+          ]
+        },
+        "classification": {
+          "contentOverrideAllowed": true,
+          "subtitleMaxCharactersIncludingSpaces": 120
+        },
+        "ruleText": "Title и Subtitle внутри TitleStatus разрешено менять как content overrides. Для Subtitle действует рекомендация не превышать 120 символов с пробелами."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.primary-actions-use-button-group",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.primary-actions-use-button-group",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "variant": {
+            "View": "xLarge"
+          },
+          "contentRole": "primary-action"
+        },
+        "requiredComposition": {
+          "allowedSlot": "Button group",
+          "disallowedSlots": [
+            "RightAddon",
+            "RightAddonXL"
+          ]
+        },
+        "ruleText": "В View=xLarge основные целевые действия TitleView размещаются в Button group. RightAddon и RightAddonXL используются для дополнительной ссылки, иконки или вспомогательного действия, но не для primary-действия."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.compact-primary-actions-outside-title-view",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.compact-primary-actions-outside-title-view",
+        "appliesTo": "screen.composition|component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "variant": {
+            "View": [
+              "Large",
+              "Medium",
+              "Small"
+            ]
+          },
+          "contentRole": "primary-action"
+        },
+        "requiredComposition": {
+          "placement": "outside TitleView",
+          "disallowedSlots": [
+            "RightAddon",
+            "RightAddonXL"
+          ]
+        },
+        "ruleText": "Для View=Large, Medium и Small primary-действие размещается вне TitleView. RightAddon и RightAddonXL не используются как обходной слот для primary-действия."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.button-group-max-four-actions",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.button-group-max-four",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "slot": "Button group"
+        },
+        "requiredComposition": {
+          "maxVisibleActions": 4,
+          "overflowComponent": "PickerButton"
+        },
+        "ruleText": "В Button group внутри TitleView рекомендуется показывать не больше четырёх видимых действий. Остальные действия нужно переносить в PickerButton.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.button-group-button-size-by-platform",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.button-group-button-size-by-platform",
+        "appliesTo": "variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view"
+        },
+        "requiredVariantByHost": {
+          "[D] TitleView": {
+            "nestedComponent": "[D] Button",
+            "Size": "56"
+          },
+          "[M] TitleView": {
+            "nestedComponent": "[M] Button",
+            "Size": "48"
+          }
+        },
+        "ruleText": "Button group использует размер кнопки по платформе: Size=56 внутри [D] TitleView и Size=48 внутри [M] TitleView.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.button-properties-delegate-to-button-pattern",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.View|variant.LeftAddon|variant.RightAddon|variant.Hint|variant.singleIcon|text.characters",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Button group/[D] Button",
+            "Button group/[M] Button"
+          ]
+        },
+        "classification": {
+          "delegateToPattern": "ptrn:controls.buttons-and-button-groups",
+          "hostSpecificRestrictions": [
+            "[D] TitleView: Size=56",
+            "[M] TitleView: Size=48"
+          ]
+        },
+        "ruleText": "Кроме платформенного размера Size=56 для [D] TitleView и Size=48 для [M] TitleView, настройки View, label, addons, hint и singleIcon вложенных Button определяются public API Button и паттерном «Кнопки и группы кнопок». TitleView не вводит дополнительных ограничений."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.button-group-single-primary-action",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.single-primary-action",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "slot": "Button group"
+        },
+        "requiredComposition": {
+          "maxPrimaryActions": 1
+        },
+        "ruleText": "В Button group внутри TitleView должно быть не больше одной primary-кнопки. Повторяющиеся действия не должны менять стиль между состояниями страницы без отдельного сценарного основания.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.skeleton-is-component-property",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.skeleton-variant",
+        "appliesTo": "variant.Skeleton",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ]
+        },
+        "classification": {
+          "fullComponentLoadingUsesSkeletonProperty": true,
+          "partialNestedLoadingAllowed": true,
+          "doNotRequireParentSkeletonForPartialLoading": true
+        },
+        "ruleText": "Если загружается весь TitleView, используй component property Skeleton=True. Если загружается только отдельный слот или вложенный элемент, частичное состояние загрузки допустимо при Skeleton=False у родительского TitleView и не является нарушением само по себе.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.slot-availability-by-view",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.slot-availability-by-view",
+        "appliesTo": "component.composition|variant.View",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ]
+        },
+        "requiredComposition": {
+          "xLarge": [
+            "Status",
+            "Title",
+            "TitleAddonXL",
+            "RightAddonXL",
+            "Holding",
+            "Subtitle",
+            "TitleStatus",
+            "Button group"
+          ],
+          "Large": [
+            "Title",
+            "Subtitle",
+            "TitleAddon",
+            "RightAddon"
+          ],
+          "Medium": [
+            "Title",
+            "Subtitle",
+            "TitleAddon",
+            "RightAddon"
+          ],
+          "Small": [
+            "Title",
+            "Subtitle",
+            "TitleAddon",
+            "RightAddon"
+          ]
+        },
+        "ruleText": "Для View=Large, Medium и Small доступны только Title, Subtitle, TitleAddon и RightAddon. Расширенные Status, Holding, TitleStatus, Button group, TitleAddonXL и RightAddonXL относятся к View=xLarge.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "query-count",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "INSTANCE" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "component.properties.View" },
+                "expected": { "literal": ["Large", "Medium", "Small"] }
+              }
+            ]
+          },
+          "query": {
+            "from": "subject",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "visible" },
+                "expected": { "literal": true }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "name" },
+                "expected": {
+                  "literal": [
+                    "Status",
+                    "StatusPreset",
+                    "Holding",
+                    "[D] TitleStatus",
+                    "[M] TitleStatus",
+                    "Button group",
+                    "[D] TitleAddonXL",
+                    "[M] TitleAddonXL",
+                    "[D] RightAddonXL",
+                    "[M] RightAddonXL"
+                  ]
+                }
+              }
+            ]
+          },
+          "lower": 0,
+          "upper": 0,
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "В компактном TitleView включён расширенный слот",
+        "observed": "В компактном TitleView найдено расширенных элементов xLarge: {{actual}}.",
+            "expectation": "View=Large, Medium и Small допускают только Title, Subtitle, TitleAddon и RightAddon.",
+            "action": "Отключить расширенный слот или изменить View на xLarge."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.holding-required-for-group-company-mono-mode",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.holding-for-group-company-mono-mode",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "variant": {
+            "View": "xLarge"
+          },
+          "userCompanyContext": "group-of-companies",
+          "pageCompanyMode": "mono"
+        },
+        "requiredComposition": {
+          "requiredSlot": "Holding",
+          "requiredNestedComponent": "FilterCompanySelect_Single"
+        },
+        "ruleText": "Holding с FilterCompanySelect_Single обязателен, если пользователь работает от группы компаний, а страница доступна только в моно-режиме. В остальных сценариях отсутствие Holding допустимо."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.holding-delegates-to-filter-company-select-contract",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*|component.configuration",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Holding/FilterCompanySelect_Single"
+          ]
+        },
+        "classification": {
+          "delegateToNestedComponentContract": "FilterCompanySelect_Single",
+          "doNotInventHostRestrictions": true
+        },
+        "ruleText": "Параметры FilterCompanySelect_Single внутри Holding настраиваются согласно собственному API и компонентному контракту FilterCompanySelect_Single. TitleView не вводит дополнительных ограничений для Open, Selected, ShowFirstCompany, View и других параметров."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-required-non-empty",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.title-required-non-empty",
+        "appliesTo": "text.characters|layer.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Title"
+          ]
+        },
+        "requiredContent": {
+          "visible": true,
+          "nonEmpty": true
+        },
+        "ruleText": "Title обязателен во всех вариантах TitleView. Его нельзя оставлять пустым или скрывать.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "TEXT" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "name" },
+                "expected": { "literal": "Title" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "ownership.owner.component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "all",
+            "args": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "visible" },
+                "expected": { "literal": true }
+              },
+              {
+                "predicate": "compare",
+                "actual": { "fact": "text.length" },
+                "expected": { "literal": 0 },
+                "operator": "gt"
+              }
+            ]
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "TitleView не содержит заголовок",
+            "observed": "Слой Title скрыт или его текст пуст.",
+            "expectation": "Title обязателен и должен содержать непустой текст.",
+            "action": "Показать Title и задать текст заголовка."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.main-title-names-page",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.main-title-names-page",
+        "appliesTo": "text.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Title"
+          ],
+          "variantProperties": {
+            "View": [
+              "xLarge"
+            ]
+          }
+        },
+        "requiredContent": {
+          "semanticRole": "page-title",
+          "namesPageObjectOrTask": true,
+          "forbidPlaceholderTestJokeOrMeaninglessCopy": true,
+          "insufficientContext": "clarification_then_human_review"
+        },
+        "ruleText": "Title в TitleView View=xLarge должен кратко и осмысленно называть страницу, её основной объект или пользовательскую задачу. Технические заглушки, тестовые, шуточные и бессодержательные формулировки являются ошибкой при однозначном контексте. Если назначение экрана нельзя установить, сначала запроси пояснение, затем передай случай на проверку человеку.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.subtitle-max-120-characters",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.subtitle-max-120-characters",
+        "appliesTo": "text.content",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "Subtitle"
+          ]
+        },
+        "recommendedContent": {
+          "maxCharactersIncludingSpaces": 120
+        },
+        "ruleText": "Рекомендуемая длина Subtitle — не больше 120 символов с пробелами. Превышение является рекомендацией сократить формулировку, а не жёсткой ошибкой компонента.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "TEXT" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "name" },
+                "expected": { "literal": "Subtitle" }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "visible" },
+                "expected": { "literal": true }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "ownership.owner.component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "compare",
+            "actual": { "fact": "text.length" },
+            "expected": { "literal": 120 },
+            "operator": "lte"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Subtitle слишком длинный",
+            "observed": "Длина Subtitle — {{actual}} символов.",
+            "expectation": "Рекомендуемая длина Subtitle — не больше 120 символов с пробелами.",
+            "action": "Сократить Subtitle до 120 символов или меньше."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.title-addon-interaction-follows-type",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.interaction|variant.Type",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "TitleAddon",
+            "TitleAddonXL"
+          ]
+        },
+        "ruleText": "TitleAddon может быть кликабельным. Вариант StatusBadge может реагировать на hover без обязательного действия по клику. Оценивай интерактивность по выбранному Type и контексту, а не требуй одинакового поведения от всех вариантов."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.right-addon-content-follows-type",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition|component.interaction|variant.Type",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "RightAddon",
+            "RightAddonXL"
+          ]
+        },
+        "ruleText": "Состав и поведение RightAddon определяются выбранным Type. Не трактуй RightAddon как произвольный контейнер для нескольких дополнительных элементов."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.*|width|height|layoutSizingHorizontal|layoutSizingVertical|styles.text|fill|stroke|radius|opacity|effects.*|blendMode",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layers": [
+            "*"
+          ]
+        },
+        "classification": {
+          "reportAsCustomization": true,
+          "treatAsViolation": true,
+          "compareAgainstEffectiveBaseline": true
+        },
+        "ruleText": "Layout, sizing, типографика, цвет, stroke, radius, opacity, effects и blend mode корня и всего внутреннего дерева TitleView определяются компонентами и не меняются вручную. Text content overrides и instance swap внутри предусмотренных слотов остаются разрешены.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "ownership.owner.component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              }
+            ]
+          },
+          "paths": [
+            { "suffix": "padding-top", "label": "Верхний padding", "actualFact": "layout.padding.top", "baselineFact": "baseline.effective.layout.padding.top" },
+            { "suffix": "padding-right", "label": "Правый padding", "actualFact": "layout.padding.right", "baselineFact": "baseline.effective.layout.padding.right" },
+            { "suffix": "padding-bottom", "label": "Нижний padding", "actualFact": "layout.padding.bottom", "baselineFact": "baseline.effective.layout.padding.bottom" },
+            { "suffix": "padding-left", "label": "Левый padding", "actualFact": "layout.padding.left", "baselineFact": "baseline.effective.layout.padding.left" },
+            { "suffix": "item-spacing", "label": "Расстояние между элементами", "actualFact": "layout.itemSpacing", "baselineFact": "baseline.effective.layout.itemSpacing" },
+            { "suffix": "sizing-horizontal", "label": "Горизонтальный sizing", "actualFact": "layout.sizingHorizontal", "baselineFact": "baseline.effective.layout.sizingHorizontal" },
+            { "suffix": "sizing-vertical", "label": "Вертикальный sizing", "actualFact": "layout.sizingVertical", "baselineFact": "baseline.effective.layout.sizingVertical" },
+            { "suffix": "width", "label": "Ширина", "actualFact": "width", "baselineFact": "baseline.effective.width" },
+            { "suffix": "height", "label": "Высота", "actualFact": "height", "baselineFact": "baseline.effective.height" },
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "where": [
+                {
+                  "predicate": "equals",
+                  "actual": { "fact": "type" },
+                  "expected": { "literal": "TEXT" }
+                },
+                {
+                  "predicate": "not",
+                  "args": [
+                    {
+                      "predicate": "one-of",
+                      "actual": { "fact": "name" },
+                      "expected": { "literal": ["Title", "Subtitle"] }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value",
+              "where": [
+                {
+                  "predicate": "not",
+                  "args": [
+                    {
+                      "predicate": "all",
+                      "args": [
+                        {
+                          "predicate": "equals",
+                          "actual": { "fact": "type" },
+                          "expected": { "literal": "TEXT" }
+                        },
+                        {
+                          "predicate": "one-of",
+                          "actual": { "fact": "name" },
+                          "expected": { "literal": ["Title", "Subtitle"] }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            { "suffix": "stroke", "label": "Обводка", "actualFact": "appearance.stroke.value", "baselineFact": "baseline.effective.appearance.stroke.value" },
+            { "suffix": "radius", "label": "Скругление", "actualFact": "appearance.radius", "baselineFact": "baseline.effective.appearance.radius" },
+            { "suffix": "opacity", "label": "Прозрачность", "actualFact": "appearance.opacity", "baselineFact": "baseline.effective.appearance.opacity" }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+        "title": "Изменено свойство TitleView: {{property}}",
+        "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+        "expectation": "Свойство «{{property}}» внутреннего слоя должно совпадать с effective baseline TitleView.",
+        "action": "Сбросить свойство «{{property}}» к effective baseline."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-scenarios-belong-to-title-view-pattern",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition|text.editing",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": [
+            "full-title",
+            "partial-title",
+            "date"
+          ]
+        },
+        "classification": {
+          "partOfComponentPattern": true,
+          "sourcePattern": "patterns/p_title-view-editable.md"
+        },
+        "ruleText": "Editable-сценарии являются частью паттерна TitleView. Применяй связанные правила p_title-view-editable.md в этом же компонентном комплекте, а не ищи отдельный компонентный пакет."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-full-title-requires-subtitle",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.full-title-subtitle-required",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": "full-title"
+        },
+        "requiredComposition": {
+          "requiredSlot": "Subtitle",
+          "subtitle": "non-empty"
+        },
+        "ruleText": "Если редактируется весь Title в TitleView, у компонента должен быть непустой Subtitle, который сохраняет смысл экрана после изменения пользовательского названия."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-full-title-pencil-action",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.full-title-pencil-action",
+        "appliesTo": "component.composition|component.interaction",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": "full-title"
+        },
+        "requiredComposition": {
+          "trigger": "button",
+          "icon": "pencil"
+        },
+        "ruleText": "Изменение всего Title запускается отдельной кнопкой с иконкой карандаша."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-partial-title-context-action",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.partial-title-context-action",
+        "appliesTo": "component.composition|component.interaction",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": "partial-title"
+        },
+        "requiredComposition": {
+          "trigger": "context-action-button",
+          "dateIcon": "calendar"
+        },
+        "ruleText": "Изменение отдельной части Title запускается контекстной кнопкой действия. Для даты используется кнопка с иконкой календаря; возможны другие контекстные сценарии."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-completion-context-platform",
+        "severity": "info",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.completion-context-platform",
+        "appliesTo": "component.interaction",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": [
+            "full-title",
+            "partial-title",
+            "other-contextual"
+          ]
+        },
+        "classification": {
+          "dependsOnContext": true,
+          "dependsOnPlatform": true,
+          "doNotRequireWithoutExactRule": [
+            "Enter",
+            "Escape",
+            "confirm-button",
+            "cancel-button"
+          ]
+        },
+        "ruleText": "Способы сохранения, отмены и завершения редактирования зависят от контекста и платформы. Не требуй Enter, Escape или отдельные кнопки без точного сценарного правила."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-date-uses-calendar-icon",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.date-calendar-icon",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "editableContentType": "date"
+        },
+        "requiredComposition": {
+          "requiredIcon": "calendar"
+        },
+        "ruleText": "Если в TitleView редактируется дата, рядом с редактируемым фрагментом должна использоваться иконка календаря, а не generic edit icon."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-title-single-line-ellipsis",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.single-line-ellipsis",
+        "appliesTo": "component.layout",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": [
+            "full-title",
+            "partial-title",
+            "other-contextual"
+          ]
+        },
+        "requiredLayout": {
+          "titleMaxLines": 1,
+          "overflow": "ellipsis"
+        },
+        "ruleText": "Редактируемый Title в TitleView должен сокращаться после первой строки через ellipsis, чтобы пользовательский текст не сдвигал соседние слоты и контент страницы."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.editable-title-keeps-title-view-structure",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view-editable.base-title-view-rules",
+        "appliesTo": "component.composition",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ],
+          "titleEditMode": [
+            "full-title",
+            "partial-title",
+            "other-contextual"
+          ]
+        },
+        "ruleText": "Редактируемый заголовок является сценарием TitleView и должен сохранять компонентную структуру TitleView. Не собирай editable-title вручную из отдельных текстовых слоёв и иконок вне компонента."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.root-fill-hug-sizing",
+        "severity": "warning",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.root-fill-hug-sizing",
+        "appliesTo": "layoutSizingHorizontal|layoutSizingVertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layer": "root"
+        },
+        "recommendedLayout": {
+          "layoutSizingHorizontal": "FILL",
+          "layoutSizingVertical": "HUG",
+          "platformDifference": false
+        },
+        "ruleText": "Для корня TitleView рекомендуется ширина Fill container и высота Hug contents. Рекомендация одинакова для desktop и mobile-web.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "sizing",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "INSTANCE" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "ownership.contour.isRoot" },
+                "expected": { "literal": true }
+              }
+            ]
+          },
+          "expectations": {
+            "layout.sizingHorizontal": "FILL",
+            "layout.sizingVertical": "HUG"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Корень TitleView имеет неверный sizing",
+            "observed": "Sizing корня отличается от рекомендуемого Fill/Hug.",
+            "expectation": "Ширина TitleView должна быть Fill container, высота — Hug contents.",
+            "action": "Установить корню TitleView ширину Fill и высоту Hug."
+          },
+          "scope": {
+            "platform": ["desktop", "mobile-web"]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.title-view.slot-order-required",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.slot-order-required",
+        "appliesTo": "component.composition",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ]
+        },
+        "requiredComposition": {
+          "slotOrder": [
+            "Status",
+            "Heading",
+            "Holding",
+            "Subtitle",
+            "TitleStatus",
+            "Button group"
+          ]
+        },
+        "ruleText": "Порядок слотов Status -> Heading -> Holding -> Subtitle -> TitleStatus -> Button group обязателен. Скрытые или недоступные для текущего View слоты пропускаются без перестановки оставшихся слотов."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.slot-instance-swap-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.composition|instanceSwap",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "components": [
+            "[D] TitleView",
+            "[M] TitleView"
+          ]
+        },
+        "classification": {
+          "instanceSwapAllowed": true,
+          "arbitraryComponentsAllowed": true,
+          "mustPreserveSlotOrderAndRootStructure": true,
+          "doNotTreatSwapAloneAsViolation": true
+        },
+        "ruleText": "В предусмотренных слотах TitleView разрешён instance swap на произвольные компоненты. Сам swap не является нарушением; выбранный компонент оценивается по собственному контракту, а порядок слотов и структура TitleView должны сохраняться."
+      },
+      {
+        "ruleId": "component:web-corp.title-view.root-style-and-clickability-prohibited",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:components.title-view.root-style-and-clickability-prohibited",
+        "appliesTo": "fill|stroke|radius|opacity|effects.*|blendMode|prototype.action",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "web-corp.title-view",
+          "layer": "root"
+        },
+        "classification": {
+          "styleOverridesAllowed": false,
+          "clickable": false,
+          "reportAsCustomization": true,
+          "treatAsViolation": true
+        },
+        "ruleText": "Корень TitleView нельзя оформлять вручную через fill, stroke, radius, opacity, effects или blend mode и нельзя превращать в единую кликабельную поверхность. Интерактивность размещается в предназначенных вложенных элементах.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": { "fact": "type" },
+                "expected": { "literal": "INSTANCE" }
+              },
+              {
+                "predicate": "one-of",
+                "actual": { "fact": "component.identity" },
+                "expected": {
+                  "literal": ["web-corp.title-view", "web-corp.title-view-mobile"]
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": { "fact": "ownership.contour.isRoot" },
+                "expected": { "literal": true }
+              }
+            ]
+          },
+          "paths": [
+            { "suffix": "fill", "label": "Заливка", "actualFact": "appearance.fill.value", "baselineFact": "baseline.effective.appearance.fill.value" },
+            { "suffix": "stroke", "label": "Обводка", "actualFact": "appearance.stroke.value", "baselineFact": "baseline.effective.appearance.stroke.value" },
+            { "suffix": "radius", "label": "Скругление", "actualFact": "appearance.radius", "baselineFact": "baseline.effective.appearance.radius" },
+            { "suffix": "opacity", "label": "Прозрачность", "actualFact": "appearance.opacity", "baselineFact": "baseline.effective.appearance.opacity" }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+        "title": "Изменено оформление корня TitleView: {{property}}",
+        "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+        "expectation": "Свойство «{{property}}» корня TitleView должно совпадать с effective baseline выбранного варианта.",
+        "action": "Сбросить свойство «{{property}}» корня TitleView к effective baseline."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.title-view",
+        "web-corp.title-view-mobile"
+      ],
+      "predicateRules": [
+        "component:web-corp.title-view.title-and-subtitle-typography-is-fixed",
+        "component:web-corp.title-view.title-and-subtitle-color-is-fixed",
+        "component:web-corp.title-view.status-and-title-status-color-match",
+        "component:web-corp.title-view.status-style-matches-surface",
+        "component:web-corp.title-view.title-status-requires-status",
+        "component:web-corp.title-view.slot-availability-by-view",
+        "component:web-corp.title-view.title-required-non-empty",
+        "component:web-corp.title-view.subtitle-max-120-characters",
+        "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+        "component:web-corp.title-view.root-fill-hug-sizing",
+        "component:web-corp.title-view.root-style-and-clickability-prohibited"
+      ],
+      "compositionRules": [
+        {
+          "sourceRuleId": "component:web-corp.title-view.status-size-24",
+          "contractRuleIds": ["component:web-corp.title-view.status-size-24"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.button-group-max-four-actions",
+          "contractRuleIds": ["component:web-corp.title-view.button-group-max-four-actions"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.button-group-button-size-by-platform",
+          "contractRuleIds": [
+            "component:web-corp.title-view.button-size-desktop",
+            "component:web-corp.title-view.button-size-mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.button-group-single-primary-action",
+          "contractRuleIds": ["component:web-corp.title-view.button-group-single-primary-action"]
+        }
+      ],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web-corp.title-view.layer-properties-use-effective-baseline",
+          "targetRuleIds": [
+            "component:web-corp.title-view.title-and-subtitle-typography-is-fixed",
+            "component:web-corp.title-view.title-and-subtitle-color-is-fixed",
+            "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+            "component:web-corp.title-view.root-style-and-clickability-prohibited"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.single-xlarge-on-screen",
+          "targetRuleIds": ["rule:components.title-view.single-xlarge"],
+          "sourcePath": "patterns/p_title-view.md"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.button-properties-delegate-to-button-pattern",
+          "targetRuleIds": ["rule:controls.buttons-and-button-groups.desktop-safe-variants"],
+          "sourcePath": "patterns/p_buttons-and-buttons-group.md"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.holding-delegates-to-filter-company-select-contract",
+          "targetContract": "web-corp.filter-company-select"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.slot-order-required",
+          "targetRuleIds": ["component:web-corp.title-view.visible-slots-follow-required-order"],
+          "sourcePath": "web/components/web-corp/TitleView/composition-contract.json"
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-corp.title-view.component-properties-are-first-class",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.status-type-follows-public-api",
+          "effect": "delegate-public-api"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.status-label-is-content-override",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.title-status-content-overrides-allowed",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-completion-context-platform",
+          "effect": "do-not-infer"
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.slot-instance-swap-allowed",
+          "effect": "allow"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.title-view.external-spacing",
+          "missingFacts": ["page.relations.vertical-neighbor", "page.relations.semantic-role"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.status-content-uses-status-slots",
+          "missingFacts": ["content.semantic-role"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.primary-actions-use-button-group",
+          "missingFacts": ["action.semantic-priority", "slot.semantic-role"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.compact-primary-actions-outside-title-view",
+          "missingFacts": ["action.semantic-priority", "page.relations.action-placement"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.skeleton-is-component-property",
+          "missingFacts": ["loading.scope"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.holding-required-for-group-company-mono-mode",
+          "missingFacts": ["user.company-context", "page.company-mode"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.main-title-names-page",
+          "missingFacts": ["page.semantic-purpose", "text.semantic-role"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.title-addon-interaction-follows-type",
+          "missingFacts": ["interaction.trigger", "interaction.action"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.right-addon-content-follows-type",
+          "missingFacts": ["slot.allowed-content-by-type"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-scenarios-belong-to-title-view-pattern",
+          "missingFacts": ["title.edit-mode"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-full-title-requires-subtitle",
+          "missingFacts": ["title.edit-mode"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-full-title-pencil-action",
+          "missingFacts": ["title.edit-mode", "interaction.action"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-partial-title-context-action",
+          "missingFacts": ["title.edit-mode", "interaction.action"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-date-uses-calendar-icon",
+          "missingFacts": ["title.edit-mode", "content.semantic-type"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-title-single-line-ellipsis",
+          "missingFacts": ["title.edit-mode", "text.max-lines", "text.overflow"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.editable-title-keeps-title-view-structure",
+          "missingFacts": ["title.edit-mode"]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.title-view.manual-layer-style-overrides-prohibited",
+          "missingFacts": ["appearance.effects", "appearance.blendMode"]
+        },
+        {
+          "sourceRuleId": "component:web-corp.title-view.root-style-and-clickability-prohibited",
+          "missingFacts": ["appearance.effects", "appearance.blendMode", "interaction.reactions"]
+        }
+      ]
+    }
+  }
+}

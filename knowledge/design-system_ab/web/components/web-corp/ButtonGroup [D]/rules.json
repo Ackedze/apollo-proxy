@@ -1,0 +1,1235 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.buttons-group",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.button-group.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup",
+            "ButtonGroup [D]"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.button-group.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup",
+            "ButtonGroup [D]"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.buttons-group.exists-in-code",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.identity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "[D] ButtonsGroup и [M] ButtonsGroup существуют в коде и разрешены к использованию как рабочие компоненты соответствующих платформ."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.prefer-group-for-related-buttons",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "component.usage",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Для композиции связанных кнопок предпочтительно использовать ButtonsGroup, а не собирать группу вручную из отдельных Button."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.visible-button-limit",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.structure",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "В [D] ButtonsGroup допускается не более четырёх видимых кнопок, в [M] ButtonsGroup — не более двух.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.primary-is-first-and-unique",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.primary-left",
+        "appliesTo": "variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Primary в ButtonsGroup необязателен. Если Primary используется, он должен быть единственным и располагаться первым.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.minimum-two-buttons",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.structure",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "ButtonsGroup содержит минимум две видимые кнопки.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.uniform-size",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Size",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Все вложенные кнопки используют Size группы. Для [D] и [M] разрешены штатные значения 32, 40, 48 и 56.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.nested-button-views-are-primary-or-secondary",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Внутри ButtonsGroup допускаются только Button с View=Primary или View=Secondary. Более широкие варианты публичного API Button здесь намеренно сужены контрактом группы.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.nested-buttons-follow-button-contract",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*|text.content|component.addon",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "View, DisabledState, addons и Label вложенных кнопок настраиваются по правилам соответствующего компонента Button, если точное правило ButtonsGroup не задаёт более узкое ограничение."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.horizontal-layout-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.direction",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "ButtonsGroup всегда использует горизонтальный auto layout. Менять направление на вертикальное запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.buttons-group"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": {
+              "fact": "layout.mode"
+            },
+            "expected": {
+              "literal": "HORIZONTAL"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено направление ButtonsGroup",
+            "observed": "Корень ButtonsGroup использует layout={{actual}}.",
+            "expectation": "ButtonsGroup должен использовать горизонтальный auto layout.",
+            "action": "Установить горизонтальное направление auto layout."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.spacing-uses-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.itemSpacing|layout.itemSpacingToken",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "requiredConfiguration": {
+          "manualItemSpacingAllowed": false
+        },
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Отступ между кнопками определяется effective baseline выбранного Size. Менять itemSpacing вручную запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.buttons-group"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "item-spacing",
+              "label": "Расстояние между кнопками",
+              "actualFact": "layout.itemSpacing",
+              "baselineFact": "baseline.effective.layout.itemSpacing"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменён отступ между кнопками",
+            "observed": "Расстояние между кнопками изменено с {{expected}} на {{actual}}.",
+            "expectation": "Item spacing должен совпадать с effective baseline выбранного Size ButtonsGroup.",
+            "action": "Сбросить item spacing к effective baseline ButtonsGroup."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.visual-and-layout-baseline-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.padding.*|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Visual и layout properties корня ButtonsGroup сохраняются по effective baseline. Ручные изменения fill, stroke, radius, padding и opacity запрещены; свойства вложенных Button проверяет контракт Core Button.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.buttons-group"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.contour.isRoot"
+                },
+                "expected": {
+                  "literal": true
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "padding-top",
+              "label": "Верхний padding",
+              "actualFact": "layout.padding.top",
+              "baselineFact": "baseline.effective.layout.padding.top"
+            },
+            {
+              "suffix": "padding-right",
+              "label": "Правый padding",
+              "actualFact": "layout.padding.right",
+              "baselineFact": "baseline.effective.layout.padding.right"
+            },
+            {
+              "suffix": "padding-bottom",
+              "label": "Нижний padding",
+              "actualFact": "layout.padding.bottom",
+              "baselineFact": "baseline.effective.layout.padding.bottom"
+            },
+            {
+              "suffix": "padding-left",
+              "label": "Левый padding",
+              "actualFact": "layout.padding.left",
+              "baselineFact": "baseline.effective.layout.padding.left"
+            },
+            {
+              "suffix": "fill",
+              "label": "Заливка",
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value"
+            },
+            {
+              "suffix": "stroke",
+              "label": "Обводка",
+              "actualFact": "appearance.stroke.value",
+              "baselineFact": "baseline.effective.appearance.stroke.value"
+            },
+            {
+              "suffix": "radius",
+              "label": "Скругление",
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius"
+            },
+            {
+              "suffix": "opacity",
+              "label": "Прозрачность",
+              "actualFact": "appearance.opacity",
+              "baselineFact": "baseline.effective.appearance.opacity"
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено свойство корня ButtonsGroup: {{property}}",
+            "observed": "Свойство «{{property}}» изменено с {{expected}} на {{actual}}.",
+            "expectation": "Свойство «{{property}}» корня ButtonsGroup должно совпадать с effective baseline.",
+            "action": "Сбросить свойство «{{property}}» к effective baseline ButtonsGroup."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.root-sizing-is-hug-hug",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "layout.sizing.horizontal|layout.sizing.vertical",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Корневой ButtonsGroup использует Hug по ширине и Hug по высоте.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "sizing",
+          "identity": "web-corp.buttons-group",
+          "expectations": {
+            "layout.sizingHorizontal": "HUG",
+            "layout.sizingVertical": "HUG"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Sizing ButtonsGroup изменён",
+            "observed": "Размер корня ButtonsGroup не соответствует контракту Hug по ширине и Hug по высоте.",
+            "expectation": "Корень ButtonsGroup должен использовать Hug contents по обеим осям.",
+            "action": "Установить для ButtonsGroup ширину Hug и высоту Hug."
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.actions-descend-by-priority",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.primary-left",
+        "appliesTo": "component.order",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Кнопки располагаются слева направо в порядке убывания приоритета действия; SingleIcon при его наличии остаётся последним.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.built-in-buttons-can-be-hidden",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.visibility",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Штатные кнопки разрешено скрывать, включая кнопку в середине группы, если итоговая композиция сохраняет правила приоритета и SingleIcon."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-moves-nearest-action-first",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.order|variant.Overflow",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "При переносе действий в список у SingleIcon первым переносится действие кнопки, расположенной непосредственно перед SingleIcon; дальнейший перенос продолжается справа налево по убыванию приоритета.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.has-no-group-state",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "В Figma у ButtonsGroup нет общего Disabled или Loading state. Состояния настраиваются у вложенных Button по их контракту; общий Skeleton пока существует только в коде."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.single-icon-opens-overflow-list",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Последняя кнопка с SingleIcon=true открывает список перенесённых действий: [D] OptionList на desktop или BottomSheet на mobile-web. Использовать её для другого действия запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.single-icon-icon-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.addon|component.icon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Иконка SingleIcon уже задана компонентом и не может быть изменена или заменена дизайнером.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-container-follows-platform",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "SingleIcon открывает [D] OptionList на desktop и BottomSheet на mobile-web. Mobile BottomSheet содержит только список действий без footer.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-items-preserve-action-content",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text.content|component.icon|component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Пункт списка для перенесённой кнопки сохраняет её label, действие и наличие иконки: если у исходной кнопки иконки нет, пункт списка также остаётся без иконки.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-item-count-is-contextual",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.structure",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Для количества перенесённых действий в OptionList или BottomSheet отдельного максимального ограничения нет."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.button-labels-follow-button-contract",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text.content",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Labels вложенных кнопок свободно меняются по правилам соответствующего Button и паттерна кнопок; дополнительных текстовых ограничений у ButtonsGroup нет."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.visible-and-overflow-actions-are-unique",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction|text.content",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button",
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Каждая видимая текстовая кнопка может запускать отдельное действие, а SingleIcon служит только входом в список перенесённых действий. Одно действие нельзя одновременно оставлять видимым и дублировать в списке.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.use-only-built-in-button-slots",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.structure|component.swap",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Используй только предусмотренные компонентом button slots: до четырёх в [D] и до двух в [M]. Кнопки можно скрывать и показывать; добавлять, дублировать или заменять их через instance swap запрещено.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-enables-last-single-icon",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Overflow|variant.SingleIcon",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "SingleIcon=true разрешён только у последней кнопки ButtonsGroup и требует Overflow=true независимо от количества кнопок. Кнопка с SingleIcon=true открывает платформенный список перенесённых действий.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "fact-assertion",
+          "select": {
+            "from": "selection-root",
+            "traverse": "self-and-descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "INSTANCE"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.identity"
+                },
+                "expected": {
+                  "literal": "web-core.button"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.buttons-group"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "component.properties.SingleIcon"
+                },
+                "expected": {
+                  "literal": "True"
+                }
+              }
+            ]
+          },
+          "assert": {
+            "predicate": "equals",
+            "actual": {
+              "fact": "ownership.owner.component.properties.Overflow"
+            },
+            "expected": {
+              "literal": "true"
+            }
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "SingleIcon включён без Overflow",
+            "observed": "У кнопки «{{targetName}}» включён SingleIcon, но у ButtonsGroup свойство Overflow={{actual}}.",
+            "expectation": "SingleIcon=true разрешён только у последней кнопки группы и требует Overflow=true.",
+            "action": "Включить Overflow у ButtonsGroup или отключить SingleIcon у кнопки.",
+            "targetFact": "ownership.owner.component.properties.Overflow"
+          },
+          "scope": {
+            "platform": [
+              "desktop",
+              "mobile-web"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-is-optional-from-two-buttons",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.Overflow|component.structure",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Overflow=true разрешено включать добровольно в группе минимум из двух кнопок, даже если лимит видимых кнопок платформы ещё не достигнут."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.disabled-state-is-preserved-in-overflow",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.DisabledState|component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button",
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Если перенесённое действие недоступно, его disabled state должно сохраняться в соответствующем пункте OptionList или BottomSheet; по hover показывается Tooltip с причиной недоступности.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.overflow-list-closes-after-action",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "После выбора доступного действия [D] OptionList или BottomSheet сразу закрывается.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.visible-button-loading-follows-button",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Loading разрешён у отдельной видимой Button, например после запуска её действия, и настраивается по контракту Button. У OptionListCell нет Loading state."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.skeleton-is-code-only",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "Skeleton state существует в коде, но пока отсутствует в Figma-компоненте. Не требуй от дизайнера включить или настроить Skeleton до обновления библиотеки."
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.single-icon-is-last",
+        "severity": "error",
+        "source": "pattern-link",
+        "patternRuleId": "rule:controls.buttons-and-button-groups.icon-only-last",
+        "appliesTo": "variant.SingleIcon|component.order",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] Button",
+            "[M] Button"
+          ]
+        },
+        "ruleText": "Кнопка с SingleIcon=true всегда располагается последней в ButtonsGroup.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.buttons-group.single-icon-requires-two-buttons",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.SingleIcon|component.structure",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "ButtonGroup [D]",
+          "layers": [
+            "[D] ButtonsGroup",
+            "[M] ButtonsGroup"
+          ]
+        },
+        "ruleText": "SingleIcon используется только в группе минимум из двух кнопок.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      }
+    ],
+    "executionPolicy": {
+      "schemaVersion": "apollo.component-rule-execution.v1",
+      "componentIdentities": [
+        "web-corp.buttons-group"
+      ],
+      "predicateRules": [
+        "component:web-corp.buttons-group.horizontal-layout-is-fixed",
+        "component:web-corp.buttons-group.overflow-enables-last-single-icon",
+        "component:web-corp.buttons-group.spacing-uses-effective-baseline",
+        "component:web-corp.buttons-group.visual-and-layout-baseline-is-fixed",
+        "component:web-corp.buttons-group.root-sizing-is-hug-hug"
+      ],
+      "compositionRules": [
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.visible-button-limit",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.button-count",
+            "component:web-corp.buttons-group.button-count.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.primary-is-first-and-unique",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.primary-position",
+            "component:web-corp.buttons-group.primary-position.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.minimum-two-buttons",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.button-count",
+            "component:web-corp.buttons-group.button-count.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.uniform-size",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.uniform-size",
+            "component:web-corp.buttons-group.uniform-size.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.nested-button-views-are-primary-or-secondary",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.allowed-views",
+            "component:web-corp.buttons-group.allowed-views.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.single-icon-is-last",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.single-icon-position",
+            "component:web-corp.buttons-group.single-icon-position.mobile"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.single-icon-requires-two-buttons",
+          "contractRuleIds": [
+            "component:web-corp.buttons-group.button-count",
+            "component:web-corp.buttons-group.button-count.mobile"
+          ]
+        }
+      ],
+      "delegatedRules": [
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.nested-buttons-follow-button-contract",
+          "targetContract": "web-core.button"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.button-labels-follow-button-contract",
+          "targetRuleIds": [
+            "rule:controls.buttons-and-button-groups.action-verb",
+            "rule:controls.buttons-and-button-groups.no-abstract-labels"
+          ],
+          "sourcePath": "patterns/p_buttons-and-buttons-group.md"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.visible-button-loading-follows-button",
+          "targetRuleIds": [
+            "component:web-core.button.loading-preserves-width"
+          ],
+          "sourcePath": "web/components/web-core/core/Button/rules.json"
+        }
+      ],
+      "policyRules": [
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.exists-in-code",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.built-in-buttons-can-be-hidden",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.has-no-group-state",
+          "effect": "classification"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-item-count-is-contextual",
+          "effect": "allow-contextual"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-is-optional-from-two-buttons",
+          "effect": "allow"
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.skeleton-is-code-only",
+          "effect": "figma-not-applicable"
+        }
+      ],
+      "contextOnlyRules": [
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.prefer-group-for-related-buttons",
+          "missingFacts": [
+            "action.relatedness",
+            "composition.manual-button-cluster"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.actions-descend-by-priority",
+          "missingFacts": [
+            "action.semantic-priority"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-moves-nearest-action-first",
+          "missingFacts": [
+            "overflow.action-source-order",
+            "overflow.action-target-order"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.single-icon-opens-overflow-list",
+          "missingFacts": [
+            "interaction.trigger",
+            "interaction.target"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.single-icon-icon-is-fixed",
+          "missingFacts": [
+            "baseline.effective.component.identity",
+            "slot.semantic-role"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-container-follows-platform",
+          "missingFacts": [
+            "interaction.target.component.identity",
+            "interaction.target.platform"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-items-preserve-action-content",
+          "missingFacts": [
+            "overflow.action-source-content",
+            "overflow.action-target-content"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.visible-and-overflow-actions-are-unique",
+          "missingFacts": [
+            "action.semantic-identity",
+            "overflow.action-semantic-identity"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.use-only-built-in-button-slots",
+          "missingFacts": [
+            "slot.declared-node-ids",
+            "component.instance-swap-provenance"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.disabled-state-is-preserved-in-overflow",
+          "missingFacts": [
+            "overflow.action-source-disabled-state",
+            "overflow.action-target-disabled-state"
+          ]
+        },
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.overflow-list-closes-after-action",
+          "missingFacts": [
+            "interaction.action",
+            "interaction.post-action-state"
+          ]
+        }
+      ],
+      "coverageGaps": [
+        {
+          "sourceRuleId": "component:web-corp.buttons-group.visual-and-layout-baseline-is-fixed",
+          "missingFacts": [
+            "appearance.effects",
+            "appearance.blendMode"
+          ]
+        }
+      ]
+    }
+  }
+}

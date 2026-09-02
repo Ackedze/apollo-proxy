@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.card-image",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "card-image.standard-xl-active",
+        "title": "Действующая карта в крупном размере",
+        "inputState": {
+          "root": "CardImage",
+          "Cover": "Alfa Business",
+          "Size": "264x164",
+          "State": "Active",
+          "Stack": false,
+          "Show Shadow": true,
+          "cardholderName": "IVAN IVANOV",
+          "lastFourDigits": "·· 1234"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "card-image.account-select-card-account",
+        "title": "CardImage в строке карточного счёта",
+        "inputState": {
+          "host": "AccountSelect",
+          "accountKind": "card-account",
+          "mediaMode": "CardImage",
+          "allRowsUseOneMediaMode": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "card-image.non-card-account-warning",
+        "title": "CardImage использован для некарточного счёта",
+        "inputState": {
+          "host": "AccountSelect",
+          "accountKind": "settlement-account",
+          "mediaMode": "CardImage"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.card-image.account-select-card-account-only"
+        },
+        "expectedAgent": {
+          "recommendation": "Уберите CardImage либо используйте медиа-режим, соответствующий некарточному счёту."
+        }
+      },
+      {
+        "exampleId": "card-image.custom-other-bank-cover",
+        "title": "Разрешённая рубашка карты другого банка",
+        "inputState": {
+          "Cover": "None",
+          "coverOverride": {
+            "path": "Details/CardCover / Image Container",
+            "operation": "first Image fill"
+          },
+          "cardIssuer": "other-bank",
+          "SilverLine.visible": false,
+          "detached": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Карты других банков не поддерживаются.",
+          "Любая замена fill запрещена."
+        ]
+      },
+      {
+        "exampleId": "card-image.invalid-custom-cover-base",
+        "title": "Собственная рубашка добавлена не через Cover=None",
+        "inputState": {
+          "Cover": "Alfa Business",
+          "coverOverride": {
+            "path": "Details/CardCover / Image Container",
+            "operation": "first Image fill"
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.custom-cover-uses-none"
+        },
+        "expectedAgent": {
+          "recommendation": "Установите Cover=None и сохраните рубашку первым Image fill существующего Image Container."
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-other-bank-silver-line",
+        "title": "На рубашке другого банка оставлена SilverLine",
+        "inputState": {
+          "Cover": "None",
+          "cardIssuer": "other-bank",
+          "customImageFill": true,
+          "SilverLine.visible": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.other-bank-hides-silver-line"
+        },
+        "expectedAgent": {
+          "recommendation": "Скройте SilverLine, сохранив остальную структуру CardImage."
+        }
+      },
+      {
+        "exampleId": "card-image.stack-medium",
+        "title": "Стопка карт среднего размера",
+        "inputState": {
+          "Size": "68x42",
+          "State": "Active",
+          "Stack": true,
+          "cardCount": 4,
+          "stackLabel": "+3 карты",
+          "Show Shadow": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-stack-large",
+        "title": "Стопка включена в крупном размере",
+        "inputState": {
+          "Size": "212x132",
+          "State": "Active",
+          "Stack": true,
+          "cardCount": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.stack-combination"
+        },
+        "expectedAgent": {
+          "recommendation": "Выберите M, S или XS либо выключите Stack."
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-xs-locked",
+        "title": "Locked использован в размере XS",
+        "inputState": {
+          "Size": "24x16",
+          "State": "Locked",
+          "Stack": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.xs-active-only"
+        },
+        "expectedAgent": {
+          "recommendation": "Установите State=Active либо выберите размер S и больше."
+        },
+        "mustNotSay": [
+          "Комбинация допустима, потому что она присутствует в raw."
+        ]
+      },
+      {
+        "exampleId": "card-image.invalid-unmasked-number",
+        "title": "Показан полный номер карты",
+        "inputState": {
+          "Size": "264x164",
+          "cardNumber": "5555 5555 5555 1234",
+          "masked": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.number-must-stay-masked"
+        },
+        "expectedAgent": {
+          "recommendation": "Скройте номер и оставьте только маску с последними четырьмя цифрами."
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-cardholder-case",
+        "title": "Имя владельца записано не в uppercase",
+        "inputState": {
+          "Size": "264x164",
+          "cardholderName": "Ivan Ivanov"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.cardholder-name-format"
+        }
+      },
+      {
+        "exampleId": "card-image.single-card-without-shadow",
+        "title": "У одиночной карты отключена тень",
+        "inputState": {
+          "Size": "212x132",
+          "Stack": false,
+          "Show Shadow": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "mustNotSay": [
+          "Тень всегда обязательна."
+        ]
+      },
+      {
+        "exampleId": "card-image.invalid-stack-without-shadow",
+        "title": "У стопки M отключена обязательная тень",
+        "inputState": {
+          "Size": "68x42",
+          "Stack": true,
+          "State": "Active",
+          "Show Shadow": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.shadow-policy"
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-manual-resize",
+        "title": "CardImage растянут до промежуточного размера",
+        "inputState": {
+          "Size": "68x42",
+          "actualWidth": 76,
+          "actualHeight": 47,
+          "manualResize": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.fixed-size-only"
+        }
+      },
+      {
+        "exampleId": "card-image.invalid-detach",
+        "title": "CardImage detachment для изменения рубашки",
+        "inputState": {
+          "root": "detached CardImage",
+          "customCover": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.card-image.custom-cover-preserves-structure"
+        },
+        "expectedAgent": {
+          "recommendation": "Верните библиотечный CardImage и примените рубашку через Cover=None и Image fill без detach."
+        }
+      }
+    ]
+  }
+}

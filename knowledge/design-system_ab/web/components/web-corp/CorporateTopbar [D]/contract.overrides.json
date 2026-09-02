@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.corporate-topbar",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] OptionList",
+        "key": "89e540665837191013a4637b6d68c3cf02438637",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Mode"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Settings",
+        "key": "e4fe5478cf0449862c3d4c952f8b0037e966eda9",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Dropdown"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] StartAddon",
+        "key": "469c8973981e2cae24bab8b2f8a56520b2f97a81",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Presets"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TopBar",
+        "key": "636e6d4474770d65d5b077757a9c1c62c08a8f8c",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Filtered",
+          "variant.Skeleton"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] OptionListHeader",
+        "key": "8cc757eb9bf63ceb33dd3be2f6ba048f2da2320d",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] SortableListItem",
+        "key": "c10e94711f5aec81753a9309cf54ae0932fd5752",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "Control",
+        "key": "e0ce7153952bfd2bc096f6eaa82a048fdc78ea50",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "Divider",
+        "key": "e35a1c0edc453cf729a7f5610550bb240eeb2f37",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "publicComponents": {
+      "desktop": "[D] TopBar"
+    },
+    "standaloneUsage": {
+      "allowed": [
+        "[D] TopBar"
+      ],
+      "internalOnly": [
+        "[D] OptionList",
+        "[D] Settings",
+        "[D] StartAddon",
+        "[D] OptionListHeader",
+        "[D] SortableListItem",
+        "Control",
+        "Divider"
+      ]
+    },
+    "purpose": "Панель управления данными над табличным, списочным или карточным представлением.",
+    "supportedDataViews": [
+      "table",
+      "list",
+      "cards"
+    ],
+    "stateSemantics": {
+      "Filtered=false": {
+        "meaning": "Активная фильтрация отсутствует.",
+        "counterLabel": "Всего"
+      },
+      "Filtered=true": {
+        "meaning": "Активна фильтрация данных.",
+        "counterLabel": "Найдено"
+      },
+      "Skeleton=true": {
+        "meaning": "Данные и TopBar находятся в состоянии загрузки.",
+        "interactionAllowed": false
+      }
+    },
+    "slots": {
+      "Control": {
+        "contentPolicy": "context-defined",
+        "regulated": false,
+        "description": "Содержимое определяется задачей и контекстом конкретного представления данных.",
+        "instanceSwapAllowed": true,
+        "multipleItemsAllowed": true
+      }
+    },
+    "counter": {
+      "required": true,
+      "labelsEditable": false,
+      "valueScope": "all-available-data",
+      "pageLimited": false,
+      "filteredZeroAllowed": true,
+      "labels": {
+        "Filtered=false": "Всего",
+        "Filtered=true": "Найдено"
+      }
+    },
+    "startAddon": {
+      "required": false,
+      "canBeHidden": true,
+      "Select All": {
+        "label": "Выбрать все",
+        "actionScope": "all-available-data",
+        "includesNonVisiblePages": true,
+        "postSelectionState": "unchanged"
+      },
+      "Custom": {
+        "purpose": "Дополнительная настройка отображения данных.",
+        "contentPolicy": "context-defined"
+      }
+    },
+    "settings": {
+      "required": false,
+      "canBeHidden": true,
+      "purpose": "Настройка представления данных, включая видимость и порядок колонок.",
+      "Dropdown=false": "Панель настроек закрыта.",
+      "Dropdown=true": "Отображается вложенный [D] OptionList.",
+      "capabilities": {
+        "Basic": [
+          "column-visibility",
+          "column-order",
+          "switch-data-view"
+        ],
+        "Wide": [
+          "column-visibility",
+          "column-order",
+          "switch-data-view"
+        ],
+        "Core": [
+          "switch-data-view"
+        ]
+      }
+    },
+    "optionListModes": {
+      "Basic": "Настройки для Table Basic.",
+      "Wide": "Настройки для Table Wide.",
+      "Core": "Настройки для 🔄 [D] HeadRow :: Core и других компонентов из Web Corp Components."
+    },
+    "additionalButton": {
+      "required": false,
+      "maxCount": 1,
+      "size": "32",
+      "allowedViews": [
+        "Primary",
+        "Secondary"
+      ],
+      "actionPolicy": "context-defined",
+      "rightAddonConfigurable": true,
+      "leftAddonConfigurable": false
+    },
+    "optionListContent": {
+      "mustMatchDataColumns": true,
+      "rowLabelsEditable": true,
+      "rowsCanBeAdded": true,
+      "rowsCanBeRemoved": true,
+      "rowsCanBeReordered": true,
+      "minimumVisibleColumns": 1,
+      "productLockedColumnsAllowed": false,
+      "changesApply": "immediately"
+    },
+    "platformSelection": {
+      "platform": "desktop",
+      "minWidth": 768,
+      "mobileWebAllowed": false
+    },
+    "baselineProtection": {
+      "scope": "root-and-all-internal-layers",
+      "protected": [
+        "layoutSizingHorizontal",
+        "layoutSizingVertical",
+        "layout.direction",
+        "layout.alignment.*",
+        "layout.padding.*",
+        "layout.itemSpacing",
+        "styles.text",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity",
+        "effects.*"
+      ],
+      "manualOverridesAllowed": false,
+      "policy": "effective-baseline-by-Filtered-Skeleton-and-nested-component-state"
+    },
+    "rootSizing": {
+      "width": "FILL",
+      "height": "HUG"
+    },
+    "externalSpacing": {
+      "afterTitleView": 12,
+      "beforeTableBackgroundPlate": 0,
+      "beforeCards": 16
+    },
+    "tableWidePlacement": {
+      "parent": "common Level-0 desktop content stack",
+      "relationToTablePlate": "[D] TopBar is a sibling placed before [D] BackgroundPlateSlot",
+      "insideBackgroundPlateSlot": false
+    },
+    "resetAll": {
+      "label": "Сбросить всё",
+      "resets": [
+        "column-visibility",
+        "column-order",
+        "grouping",
+        "data-view"
+      ],
+      "doesNotReset": "other-controls"
+    },
+    "grouping": {
+      "availableInModes": [
+        "Wide"
+      ],
+      "required": false,
+      "canBeHidden": true,
+      "groupingParameterPolicy": "defined-by-product-team"
+    },
+    "dataViewTransitions": {
+      "allowed": [
+        "Basic<->Wide",
+        "Core<->Wide"
+      ],
+      "prohibited": [
+        "Basic<->Core"
+      ]
+    },
+    "regionOrder": {
+      "left": [
+        "Counter",
+        "StartAddon"
+      ],
+      "right": [
+        "Control",
+        "Divider",
+        "Settings",
+        "AdditionalButton"
+      ],
+      "reorderAllowed": false
+    },
+    "divider": {
+      "visibleWhen": "Control-is-present",
+      "hiddenWhen": "Control-is-absent"
+    },
+    "dataViewRequirement": {
+      "required": true,
+      "allowed": [
+        "table",
+        "list",
+        "cards"
+      ],
+      "genericActionBarUsageAllowed": false
+    },
+    "textPolicy": {
+      "fixed": [
+        "Настройки",
+        "Выбрать все",
+        "Сбросить всё",
+        "Вид таблицы",
+        "Группировать",
+        "Столбцы",
+        "Всего",
+        "Найдено"
+      ],
+      "contextDefined": [
+        "column-labels",
+        "grouping-parameter",
+        "additional-button-label"
+      ]
+    },
+    "loadingState": {
+      "allowedCombinations": [
+        "Filtered=false, Skeleton=true",
+        "Filtered=true, Skeleton=true"
+      ],
+      "restoresFilteredStateAfterLoading": true
+    },
+    "structureProtection": {
+      "detachAllowed": false,
+      "internalDetachAllowed": false,
+      "internalInstanceSwapAllowed": false,
+      "slotInstanceSwapAllowed": true,
+      "arbitraryChildrenAllowed": false,
+      "rootClickable": false,
+      "interactiveElements": "nested-controls-and-buttons"
+    },
+    "note": "Authored semantic overlay для публичного [D] TopBar и его внутренних supporting-компонентов. Generated baseline хранится отдельно в contract.generated.json."
+  }
+}

@@ -1,0 +1,610 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.account-select",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "account-select.single-flat-sum",
+        "title": "Одиночный выбор из плоского списка с балансом",
+        "inputState": {
+          "root": "[D] AccountOptionListContent ",
+          "SelectType": "Single",
+          "Grouped": "False",
+          "AccountItem.Type": "Sum",
+          "content": "AccountInfo / Sum"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.multi-grouped-number",
+        "title": "Множественный выбор сгруппированных счетов",
+        "inputState": {
+          "root": "[D] AccountOptionListContent ",
+          "SelectType": "Multi",
+          "Grouped": "True",
+          "groupingCriterion": "company ownership",
+          "AccountItem.Type": "Number",
+          "content": "AccountInfo / Number"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.internal-cell-standalone",
+        "title": "Служебная ячейка используется отдельно",
+        "inputState": {
+          "root": "[D] AccountOptionCell / Single"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.public-roots-only",
+          "recommendation": "Использовать [D] AccountOptionListContent."
+        }
+      },
+      {
+        "exampleId": "account-select.swap-me",
+        "title": "Placeholder Type не заменён",
+        "inputState": {
+          "AccountItem.Type": "SwapMe"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.swap-me-must-be-replaced",
+          "recommendation": "Выбрать Sum или Number."
+        }
+      },
+      {
+        "exampleId": "account-select.legacy-number",
+        "title": "Использован legacy-вариант Number",
+        "inputState": {
+          "AccountItem.Type": "❌ Number"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.legacy-number-forbidden"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-info-binding",
+        "title": "Композиция AccountInfo не соответствует Type",
+        "inputState": {
+          "AccountItem.Type": "Number",
+          "content": "AccountInfo / Sum"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.account-info-follows-item-type",
+          "recommendation": "Использовать AccountInfo / Number."
+        }
+      },
+      {
+        "exampleId": "account-select.grouped-default-state",
+        "title": "Группы счетов по компаниям раскрыты по умолчанию",
+        "inputState": {
+          "Grouped": "True",
+          "groupingCriterion": "company ownership",
+          "groupHeaders": [
+            "ООО Альфа",
+            "ООО Бета"
+          ],
+          "expandedGroups": "all"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-group-order",
+        "title": "Порядок групп изменён вручную",
+        "inputState": {
+          "Grouped": "True",
+          "groupOrderChanged": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.group-order-is-fixed"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-selection-control",
+        "title": "Checkbox в Multi скрыт",
+        "inputState": {
+          "SelectType": "Multi",
+          "checkboxVisible": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.selection-controls-are-fixed"
+        }
+      },
+      {
+        "exampleId": "account-select.card-account-image",
+        "title": "Карточный счёт с CardImage",
+        "inputState": {
+          "accountKind": "card",
+          "CardImage": true,
+          "IconView": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.sum-name-masked-number",
+        "title": "AccountInfo Sum показывает название и короткий номер",
+        "inputState": {
+          "AccountItem.Type": "Sum",
+          "content": "AccountInfo / Sum",
+          "Presets": "name + maskedNumber",
+          "visibleValues": [
+            "account name",
+            "short account number"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-hidden-preset-value",
+        "title": "Значение выбранного preset скрыто вручную",
+        "inputState": {
+          "content": "AccountInfo / Number",
+          "Presets": "name + sum",
+          "visibleValues": [
+            "account name"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.account-info-preset-defines-visible-values"
+        }
+      },
+      {
+        "exampleId": "account-select.disabled-multi-account",
+        "title": "Недоступный счёт в Multi",
+        "inputState": {
+          "SelectType": "Multi",
+          "disabled": true,
+          "clickable": false,
+          "Checkbox.DisabledState": true,
+          "Amount.fill": "text/tertiary",
+          "PaymentMaskedNumber.fill": "text/tertiary",
+          "AccountInfo.fill": "text/tertiary",
+          "tooltip": {
+            "View": "Hint",
+            "text": "Счёт временно недоступен"
+          }
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-disabled-clickable",
+        "title": "Недоступный счёт остаётся кликабельным",
+        "inputState": {
+          "disabled": true,
+          "clickable": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.disabled-account-is-non-interactive"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-disabled-without-tooltip",
+        "title": "Для недоступного счёта не указана причина",
+        "inputState": {
+          "disabled": true,
+          "tooltip": null
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.disabled-account-shows-reason-tooltip"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-mixed-media",
+        "title": "В одном списке смешаны IconView и CardImage",
+        "inputState": {
+          "listMedia": [
+            "IconView",
+            "CardImage"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.media-mode-is-exclusive-and-uniform"
+        }
+      },
+      {
+        "exampleId": "account-select.single-commit",
+        "title": "Single закрывается после выбора",
+        "inputState": {
+          "SelectType": "Single",
+          "selectionBehavior": "close-immediately"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.multi-commit",
+        "title": "Multi подтверждается кнопкой Применить",
+        "inputState": {
+          "SelectType": "Multi",
+          "selectionBehavior": "apply-button"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.single-selected",
+        "title": "Выбранный счёт в Single",
+        "inputState": {
+          "SelectType": "Single",
+          "Checkmark.SelectedState": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-disabled-selected",
+        "title": "Недоступный счёт выбран",
+        "inputState": {
+          "disabled": true,
+          "selected": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.disabled-account-cannot-be-selected"
+        }
+      },
+      {
+        "exampleId": "account-select.contextual-order",
+        "title": "Счета отсортированы по убыванию баланса",
+        "inputState": {
+          "sortingPrinciple": "descending",
+          "designerReordered": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-manual-order",
+        "title": "Дизайнер вручную изменил порядок счетов",
+        "inputState": {
+          "designerReordered": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.item-order-is-data-driven"
+        }
+      },
+      {
+        "exampleId": "account-select.viewport-height",
+        "title": "Список высотой 5.5 двухстрочных элементов",
+        "inputState": {
+          "platform": "desktop",
+          "viewportHeight": "5.5 two-line OptionListItem",
+          "multiSelectionButtonBlockIncluded": false,
+          "overflow": "vertical-scroll"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.empty",
+        "title": "Пустой список счетов",
+        "inputState": {
+          "state": "empty",
+          "component": "[D] OptionListEmptyState",
+          "buttons": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-row-style",
+        "title": "Ручное изменение радиуса строки",
+        "inputState": {
+          "property": "radius",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.row-visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "account-select.no-results-state",
+        "title": "Нет результатов поиска",
+        "inputState": {
+          "component": "[D] OptionListEmptyState",
+          "buttons": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.multi-footer-reset",
+        "title": "Footer Multi после ранее сделанного выбора",
+        "inputState": {
+          "SelectType": "Multi",
+          "footer": "[D] OptionListFooter",
+          "buttons": [
+            {
+              "View": "Primary",
+              "label": "Применить"
+            },
+            {
+              "View": "Secondary",
+              "label": "Сбросить"
+            }
+          ],
+          "existingSelection": true,
+          "resetAction": "clear selection to zero"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-mixed-type",
+        "title": "В одном списке смешаны Sum и Number",
+        "inputState": {
+          "AccountItem.Type": [
+            "Sum",
+            "Number"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.list-content-is-uniform"
+        }
+      },
+      {
+        "exampleId": "account-select.select-all",
+        "title": "Выбор всех счетов в Multi",
+        "inputState": {
+          "SelectType": "Multi",
+          "header": "[D] OptionListHeader",
+          "Preset": "Select All",
+          "selectionScope": "all-list",
+          "disabledAccountsIncluded": false,
+          "IndeterminateState": false,
+          "SelectedState": false,
+          "clickAction": "select all available accounts"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.mobile-container",
+        "title": "Mobile AccountSelect в BottomSheet",
+        "inputState": {
+          "root": "[M] AccountOptionListContent ",
+          "container": "BottomSheet"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.mobile-footer",
+        "title": "Footer Multi в Mobile Web",
+        "inputState": {
+          "platform": "mobile-web",
+          "SelectType": "Multi",
+          "footer": "[M] BottomSheetFooter",
+          "buttons": [
+            {
+              "View": "Primary",
+              "label": "Применить"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.search-large-list",
+        "title": "Поиск для списка из 10 счетов",
+        "inputState": {
+          "accountCount": 10,
+          "header": "[D] OptionListHeader",
+          "Preset": "Search",
+          "selectionMode": "Single",
+          "searchScope": [
+            "account name",
+            "account number"
+          ],
+          "placeholder": "Найти по названию или номеру счёта"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-empty-text",
+        "title": "Текст OptionListEmptyState изменён вручную",
+        "inputState": {
+          "component": "[D] OptionListEmptyState",
+          "textEdited": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.empty-state-text-is-fixed"
+        }
+      },
+      {
+        "exampleId": "account-select.apply-zero-selection",
+        "title": "Применение без явного выбора",
+        "inputState": {
+          "explicitSelectionCount": 0,
+          "applyEnabled": true,
+          "effectiveSelection": "all available accounts"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.reset-hides",
+        "title": "Сброс очищает выбор и скрывает кнопку",
+        "inputState": {
+          "beforeResetSelectionCount": 3,
+          "afterResetSelectionCount": 0,
+          "resetVisibleAfterAction": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.select-all-partial",
+        "title": "Частичный выбор в Select All",
+        "inputState": {
+          "selectionState": "partial",
+          "IndeterminateState": true,
+          "SelectedState": false,
+          "clickAction": "select all available accounts"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.select-all-complete",
+        "title": "Все доступные счета выбраны",
+        "inputState": {
+          "selectionState": "all-available",
+          "IndeterminateState": false,
+          "SelectedState": true,
+          "clickAction": "clear all selection"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.large-multi-headers",
+        "title": "Search и Select All для большого Multi",
+        "inputState": {
+          "platform": "desktop",
+          "SelectType": "Multi",
+          "accountCount": 12,
+          "headers": [
+            {
+              "component": "[D] OptionListHeader",
+              "Preset": "Search"
+            },
+            {
+              "component": "[D] OptionListHeader",
+              "Preset": "Select All"
+            }
+          ],
+          "direction": "vertical"
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-search-placeholder",
+        "title": "Placeholder не отражает возможности поиска",
+        "inputState": {
+          "searchScope": [
+            "account name",
+            "account number"
+          ],
+          "placeholder": "Поиск"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.search-placeholder-describes-scope"
+        }
+      },
+      {
+        "exampleId": "account-select.invalid-large-multi-without-select-all",
+        "title": "В большом Multi отсутствует Select All",
+        "inputState": {
+          "SelectType": "Multi",
+          "accountCount": 10,
+          "Select All": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.account-select.select-all-required-for-large-multi"
+        }
+      },
+      {
+        "exampleId": "account-select.mobile-empty-state",
+        "title": "Пустой AccountSelect в Mobile Web",
+        "inputState": {
+          "platform": "mobile-web",
+          "component": "[M] OptionListEmptyState",
+          "buttons": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.corporate-system-message",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-13"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "corporate-system-message-public-root",
+        "scenario": "Дизайнер добавляет [D] CorporateSystemMessage на desktop-страницу.",
+        "expected": "Допустимое использование публичного компонента."
+      },
+      {
+        "exampleId": "corporate-system-message-internal-standalone",
+        "scenario": "Дизайнер использует [D] ErrorView отдельно.",
+        "expected": "Нарушение: используй [D] CorporateSystemMessage с View=Error."
+      },
+      {
+        "exampleId": "corporate-system-message-transition-component",
+        "scenario": "В макете используется .🔄 [M] StatusScreenPage.",
+        "expected": "Нарушение: переходный компонент нельзя использовать в новых макетах."
+      },
+      {
+        "exampleId": "corporate-system-message-no-adaptive",
+        "scenario": "Раздел недоступен в mobile-web, но доступен в desktop; используется View=No adaptive.",
+        "expected": "Допустимый сценарий платформенной недоступности."
+      },
+      {
+        "exampleId": "corporate-system-message-embedded-no-plate",
+        "scenario": "Small-сообщение отображается внутри таблицы с BG plate=False.",
+        "expected": "Допустимое встроенное сообщение."
+      },
+      {
+        "exampleId": "corporate-system-message-standalone-with-plate",
+        "scenario": "Large-сообщение является самостоятельным блоком и использует BG plate=True.",
+        "expected": "Допустимое самостоятельное сообщение."
+      },
+      {
+        "exampleId": "corporate-system-message-small-local",
+        "scenario": "Сообщение относится только к содержимому виджета; используется Size=Small.",
+        "expected": "Допустимый выбор размера."
+      },
+      {
+        "exampleId": "corporate-system-message-large-missing-description",
+        "scenario": "У Size=Large скрыт Description.",
+        "expected": "Нарушение: для Large обязательны Graphic, Title и Description."
+      },
+      {
+        "exampleId": "corporate-system-message-small-title-only",
+        "scenario": "У Size=Small оставлен только Title.",
+        "expected": "Допустимо: для Small обязательным является только Title."
+      },
+      {
+        "exampleId": "corporate-system-message-error-forbidden",
+        "scenario": "Недостаточно прав; выбран View=Error и Type=Forbidden.",
+        "expected": "Допустимый тип ошибки."
+      },
+      {
+        "exampleId": "corporate-system-message-error-wrong-type",
+        "scenario": "Нет интернета; выбран View=Error и Type=Internal Server Error.",
+        "expected": "Нарушение: используй Type=Not Internet Connection."
+      },
+      {
+        "exampleId": "corporate-system-message-empty-search",
+        "scenario": "Поиск не дал результатов; выбран Empty/Type=Nothing Found.",
+        "expected": "Допустимое пустое состояние поиска."
+      },
+      {
+        "exampleId": "corporate-system-message-empty-initial",
+        "scenario": "Объектов ещё не было; выбран Empty/Type=Nothing Found Yet и изменён Description.",
+        "expected": "Допустимо: Description можно уточнять в Nothing Found Yet."
+      },
+      {
+        "exampleId": "corporate-system-message-progress-timer-known",
+        "scenario": "Время ожидания известно; выбран Progress/Type=Timer.",
+        "expected": "Допустимый Progress Type."
+      },
+      {
+        "exampleId": "corporate-system-message-progress-timer-unknown",
+        "scenario": "Время ожидания неизвестно; выбран Progress/Type=Timer.",
+        "expected": "Нарушение: Timer нельзя использовать без известного времени."
+      },
+      {
+        "exampleId": "corporate-system-message-graphic-base",
+        "scenario": "В Base заменена тематическая иконка Graphic.",
+        "expected": "Допустимая настройка Base."
+      },
+      {
+        "exampleId": "corporate-system-message-graphic-error",
+        "scenario": "В Error вручную заменена Graphic.",
+        "expected": "Нарушение: графика специализированного состояния не меняется."
+      },
+      {
+        "exampleId": "corporate-system-message-title-empty",
+        "scenario": "В Empty вручную изменён Title.",
+        "expected": "Нарушение: Title разрешено менять только в Base и Progress."
+      },
+      {
+        "exampleId": "corporate-system-message-three-buttons",
+        "scenario": "В сообщении отображаются три кнопки.",
+        "expected": "Нарушение: допускается максимум одна Primary и одна Secondary."
+      },
+      {
+        "exampleId": "corporate-system-message-small-axis",
+        "scenario": "У Size=Small вручную изменён Axis группы кнопок.",
+        "expected": "Нарушение: Axis можно менять только у Large."
+      },
+      {
+        "exampleId": "corporate-system-message-progress-icon-static",
+        "scenario": "Пользователю нужно подождать, но активная операция не отображается; выбран Progress/Type=Icon.",
+        "expected": "Допустимое статичное ожидание."
+      },
+      {
+        "exampleId": "corporate-system-message-progress-spinner-active",
+        "scenario": "Операция выполняется прямо сейчас, время неизвестно; выбран Progress/Type=Spinner.",
+        "expected": "Допустимое активное ожидание."
+      },
+      {
+        "exampleId": "corporate-system-message-no-buttons",
+        "scenario": "Сценарий не требует действия; группа кнопок скрыта.",
+        "expected": "Допустимо: кнопки необязательны."
+      },
+      {
+        "exampleId": "corporate-system-message-large-vertical-fit",
+        "scenario": "Две длинные кнопки не помещаются горизонтально; у Large выбран Vertical Axis.",
+        "expected": "Допустимая адаптация группы кнопок."
+      },
+      {
+        "exampleId": "corporate-system-message-large-vertical-with-space",
+        "scenario": "Две короткие кнопки свободно помещаются горизонтально, но выбран Vertical Axis.",
+        "expected": "Предупреждение: вертикальная группа не обоснована шириной контейнера."
+      },
+      {
+        "exampleId": "corporate-system-message-caption-error",
+        "scenario": "В Error добавлен Caption с дополнительным пояснением.",
+        "expected": "Допустимо: Caption разрешён в любом View."
+      },
+      {
+        "exampleId": "corporate-system-message-manual-padding",
+        "scenario": "У внутреннего Content вручную изменён padding.",
+        "expected": "Нарушение: восстанови effective baseline выбранных View, Size и BG plate."
+      },
+      {
+        "exampleId": "corporate-system-message-manual-text-style",
+        "scenario": "У Title вручную изменён text style.",
+        "expected": "Нарушение: text style является частью effective baseline."
+      },
+      {
+        "exampleId": "corporate-system-message-large-eight-columns",
+        "scenario": "После формы шириной 8 колонок Large-сообщение занимает те же 8 колонок.",
+        "expected": "Допустимое продолжение исходного сценария."
+      },
+      {
+        "exampleId": "corporate-system-message-small-parent-width",
+        "scenario": "Small-сообщение заполняет ширину родительского виджета.",
+        "expected": "Допустимая ширина Small."
+      },
+      {
+        "exampleId": "corporate-system-message-fixed-width",
+        "scenario": "Корню вручную назначена фиксированная ширина вместо Fill.",
+        "expected": "Нарушение: восстанови Fill по ширине."
+      },
+      {
+        "exampleId": "corporate-system-message-fixed-height",
+        "scenario": "Корню вручную назначена фиксированная высота вместо Hug.",
+        "expected": "Нарушение: восстанови Hug по высоте."
+      },
+      {
+        "exampleId": "corporate-system-message-alignment-left",
+        "scenario": "Текст и действия выровнены по левому краю.",
+        "expected": "Нарушение: содержимое должно быть центрировано."
+      },
+      {
+        "exampleId": "corporate-system-message-detached",
+        "scenario": "CorporateSystemMessage отсоединён от библиотеки.",
+        "expected": "Нарушение: detach запрещён."
+      },
+      {
+        "exampleId": "corporate-system-message-arbitrary-layer",
+        "scenario": "Внутрь компонента вручную добавлен произвольный слой.",
+        "expected": "Нарушение структуры компонента."
+      },
+      {
+        "exampleId": "corporate-system-message-desktop-at-768",
+        "scenario": "На ширине 768 используется [D] CorporateSystemMessage.",
+        "expected": "Допустимый выбор платформенной версии."
+      },
+      {
+        "exampleId": "corporate-system-message-mobile-above-768",
+        "scenario": "На ширине 1024 используется [M] CorporateSystemMessage.",
+        "expected": "Нарушение: на ширине 768 и выше используй [D]."
+      },
+      {
+        "exampleId": "corporate-system-message-root-clickable",
+        "scenario": "Вся поверхность CorporateSystemMessage открывает ссылку по клику.",
+        "expected": "Нарушение: интерактивность разрешена только кнопкам."
+      },
+      {
+        "exampleId": "corporate-system-message-root-hover",
+        "scenario": "Корень меняет оформление при hover.",
+        "expected": "Нарушение: hover-состояние корня запрещено."
+      },
+      {
+        "exampleId": "corporate-system-message-built-in-plate-radius",
+        "scenario": "При BG plate=True вручную изменён radius встроенной подложки.",
+        "expected": "Нарушение: параметры встроенной подложки определяются компонентом поверхности."
+      },
+      {
+        "exampleId": "corporate-system-message-external-slot",
+        "scenario": "CorporateSystemMessage с BG plate=False вложен во внешний BackgroundPlateSlot.",
+        "expected": "Допустимая композиция."
+      },
+      {
+        "exampleId": "corporate-system-message-modal-large",
+        "scenario": "В UniversalModal используется CorporateSystemMessage Size=Large.",
+        "expected": "Допустимый модальный сценарий."
+      },
+      {
+        "exampleId": "corporate-system-message-modal-small",
+        "scenario": "В PopUpSheet используется CorporateSystemMessage Size=Small.",
+        "expected": "Допустимый модальный сценарий."
+      },
+      {
+        "exampleId": "corporate-system-message-no-adaptive-caption",
+        "scenario": "В No adaptive добавлен Caption с альтернативным способом выполнить действие.",
+        "expected": "Допустимый Caption override."
+      },
+      {
+        "exampleId": "corporate-system-message-no-adaptive-title",
+        "scenario": "В No adaptive изменён Title.",
+        "expected": "Нарушение: штатные Graphic, Title и Description менять нельзя."
+      }
+    ]
+  }
+}

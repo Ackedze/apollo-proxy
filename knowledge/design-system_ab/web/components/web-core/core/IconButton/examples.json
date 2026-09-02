@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-core.icon-button",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "icon-button.view-change",
+        "title": "View change should be reported as component property customization",
+        "inputChange": {
+          "node": "[D] IconButton",
+          "property": "variant.View",
+          "referenceValue": "Primary",
+          "actualValue": "Secondary"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "component-property",
+          "showAs": "view: Primary → Secondary"
+        }
+      },
+      {
+        "exampleId": "icon-button.manual-icon-fill-after-view-change",
+        "title": "Manual icon fill change should use effective state baseline",
+        "inputChange": {
+          "node": "Icon / Fixer / PaintMe",
+          "property": "fill",
+          "effectiveReferenceValue": "<current View baseline icon fill>",
+          "actualValue": "<manual token>"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "layer-property",
+          "showAs": "заливка: <current View baseline icon fill> → <manual token>"
+        }
+      },
+      {
+        "exampleId": "icon-button.icon-type-change",
+        "title": "Nested icon Type change should be reported as part/component property",
+        "inputChange": {
+          "node": "Icon",
+          "property": "variant.Type",
+          "referenceValue": "Icon 24",
+          "actualValue": "Spinner 24"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "scope": "part-property",
+          "showAs": "type: Icon 24 → Spinner 24"
+        }
+      }
+    ]
+  }
+}

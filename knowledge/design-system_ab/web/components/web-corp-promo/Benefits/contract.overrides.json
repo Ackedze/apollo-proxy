@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web.benefits",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔒 [D] Benefits",
+        "key": "5eb973ab22e01c40d556cc600f1a5c15101b8192",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Capacity",
+          "variant.Compact",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔒 [M] Benefits",
+        "key": "ef3a7c3654c8457737e2cb71268b3a5a121daa17",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Capacity"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "🔒 [D] Benefits",
+        "role": "figma-only-group-preset",
+        "platform": "desktop",
+        "componentKey": "5eb973ab22e01c40d556cc600f1a5c15101b8192"
+      },
+      {
+        "name": "🔒 [M] Benefits",
+        "role": "figma-only-group-preset",
+        "platform": "mobile-web",
+        "componentKey": "ef3a7c3654c8457737e2cb71268b3a5a121daa17"
+      }
+    ],
+    "publicApi": {
+      "figmaRoots": [
+        "🔒 [D] Benefits",
+        "🔒 [M] Benefits"
+      ],
+      "codeExports": [],
+      "figmaOnly": true,
+      "lifecycle": "active",
+      "plannedReplacement": false,
+      "generationPolicy": "instantiate preset root by component key for Capacity 3 or 4"
+    },
+    "variantSemantics": {
+      "Capacity": "Точное число вложенных BenefitCard: только 3 или 4.",
+      "Compact": "Desktop layout mode: viewport ≤1024 px требует True, viewport >1024 px требует False. False — одна строка с gap 24 px; True — gap 16 px и сетка 2 × 2 для Capacity=4.",
+      "View": "Desktop surface context: Page задаёт base-bg-alt, Modal — modal-bg; Border и Colored разрешены как ручные альтернативы."
+    },
+    "nestedBenefitCardPolicy": {
+      "inheritRulesFrom": "ptrn:components.benefit-card",
+      "perCardContentMayDiffer": true,
+      "editableProperties": [
+        "Background",
+        "CardAxis",
+        "Compact",
+        "GraphicPosition"
+      ],
+      "uniformAcrossPreset": true,
+      "uniformSurfaceType": true,
+      "instanceSwapAllowed": false,
+      "allowedPerCardVisualDifferences": {
+        "surfaceTypes": [
+          "Border",
+          "Colored"
+        ],
+        "properties": [
+          "fill",
+          "stroke"
+        ],
+        "tokenBindingRequired": true,
+        "additionalSegmentPaletteRestriction": false
+      }
+    },
+    "responsivePolicy": {
+      "desktopRoot": "🔒 [D] Benefits",
+      "mobileRoot": "🔒 [M] Benefits",
+      "preserveAcrossPlatforms": [
+        "Capacity",
+        "card order",
+        "card content"
+      ],
+      "manualReorderAllowed": true,
+      "reorderMustBeMirroredAcrossPlatforms": true,
+      "mobileSurfaceContext": "inherited from host and nested BenefitCard settings"
+    },
+    "sizing": {
+      "horizontal": "Fill",
+      "vertical": "Hug",
+      "equalCardHeightAcrossPreset": true
+    },
+    "layoutOwnership": {
+      "owner": "Benefits preset",
+      "manualChangesAllowed": false,
+      "properties": [
+        "gap",
+        "padding",
+        "axis",
+        "wrap"
+      ]
+    },
+    "loadingPolicy": {
+      "uniformAcrossPreset": true,
+      "inheritPerCardRulesFrom": "ptrn:components.benefit-card"
+    },
+    "interactionPolicy": {
+      "containerAction": false,
+      "uniformClickabilityAcrossCards": true,
+      "perCardActionMayDiffer": true,
+      "inheritPerCardRulesFrom": "ptrn:components.benefit-card"
+    },
+    "manualCompositionFallback": {
+      "allowed": true,
+      "onlyWhenCardCountOutsidePresetRange": true,
+      "supportedPresetRange": [
+        3,
+        4
+      ]
+    }
+  }
+}

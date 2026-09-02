@@ -1,0 +1,1409 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.isle-block",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "IsleBlock",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / information-inc",
+        "componentName": "information-inc",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status",
+        "path": "Type=Info / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / information-inc",
+        "componentName": "information-inc",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Status :: 1024+",
+        "path": "Type=Info / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] TopAddon :: 1024+",
+        "path": "Type=IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] TopAddon",
+        "path": "Type=IconView / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ProgressBar",
+        "componentName": "ProgressBar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8px"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ProgressBar",
+        "componentName": "ProgressBar",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8px"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / ↔ SpacingHorizontal",
+        "componentName": "↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "4"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "❌ IsleCustomContent",
+        "path": "Var=1 / Content / Limit / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / TopPadding",
+        "componentName": "TopPadding",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / Top / [D] IsleHeader :: 1024+",
+        "componentName": "[D] IsleHeader :: 1024+",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / body / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / body / content / IsleContent",
+        "componentName": "IsleContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Custom"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / body / content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / body / footer / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / body / footer / [D] IsleFooter :: 1024+",
+        "componentName": "[D] IsleFooter :: 1024+",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / BottomPadding",
+        "componentName": "BottomPadding",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / [D] BackgroundPlate",
+        "componentName": "[D] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 1024+",
+        "path": "Type=Static / [D] BackgroundPlate / [D] Style Level 1",
+        "componentName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / TopPadding",
+        "componentName": "TopPadding",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / Top / [D] IsleHeader :: 768",
+        "componentName": "[D] IsleHeader :: 768",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / body / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / body / content / [D] IsleContent :: 768",
+        "componentName": "[D] IsleContent :: 768",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Custom"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / body / content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / body / footer / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / body / footer / [D] IsleFooter :: 768",
+        "componentName": "[D] IsleFooter :: 768",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / BottomPadding",
+        "componentName": "BottomPadding",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "32"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / [D] BackgroundPlate",
+        "componentName": "[D] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [D] IsleBlock :: 768",
+        "path": "Type=Static / [D] BackgroundPlate / [D] Style Level 1",
+        "componentName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / LeftPadding",
+        "componentName": "LeftPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / TopPadding",
+        "componentName": "TopPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "16"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / Top / [M] IsleHeader",
+        "componentName": "[M] IsleHeader",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / body / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / body / content / [M] IsleContent",
+        "componentName": "[M] IsleContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Custom"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / body / content / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "12"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / body / footer / ↕ SpacingVertical",
+        "componentName": "↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "8"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / body / footer / [M] IsleFooter",
+        "componentName": "[M] IsleFooter",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "SwapMe"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / Container / BottomPadding",
+        "componentName": "BottomPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / RightPadding",
+        "componentName": "RightPadding",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "🔒 [M] IsleBlock",
+        "path": "Type=Static / 🔄 BackgroundPlate",
+        "componentName": "🔄 BackgroundPlate",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Clickable": "Yes",
+          "Hover": "No",
+          "Position": "Outer",
+          "Type": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / information-circle",
+        "componentName": "information-circle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 StatusCompact",
+        "path": "Type=Info / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

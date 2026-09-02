@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core Wrappers",
+    "file": "Web :: Core Wrappers",
+    "generatedAt": "2026-04-28T18:17:09.908Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 1,
+    "contractCount": 1,
+    "activeCount": 1,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "underlay.universal",
+      "name": "Underlay",
+      "normalizedName": "underlay",
+      "componentKey": "64b8ad94907b98897c62bb9341c03bf23af1d74c",
+      "source": {
+        "library": "Web :: Core Wrappers",
+        "file": "Web :: Core Wrappers",
+        "generatedAt": "2026-04-28T18:17:09.908Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "0bbb10d756bc48afa4708555687f8c9b17340762",
+        "variants": {
+          "properties": {
+            "Axis": [
+              "Horizontal",
+              "Vertical"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "Axis": "Vertical"
+            },
+            {
+              "Axis": "Horizontal"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "0bbb10d756bc48afa4708555687f8c9b17340762",
+              "id": "15683:806",
+              "name": "Axis=Vertical",
+              "properties": {
+                "Axis": "Vertical"
+              }
+            },
+            {
+              "key": "0a22b689bb4d6c5989ad96a680e28099125abf8d",
+              "id": "15683:848",
+              "name": "Axis=Horizontal",
+              "properties": {
+                "Axis": "Horizontal"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "Axis=Vertical",
+            "type": "COMPONENT",
+            "path": "Axis=Vertical",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "Content",
+            "type": "SLOT",
+            "path": "Axis=Vertical / Content",
+            "required": true,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [
+            "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36"
+          ],
+          "spacing": [],
+          "fills": [
+            "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+            "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "Axis=Vertical",
+            "path": "Axis=Vertical",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+              "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36"
+            ],
+            "layout": {
+              "padding": {
+                "top": 16,
+                "right": 16,
+                "bottom": 16,
+                "left": 16
+              },
+              "itemSpacing": 10,
+              "paddingTokens": {
+                "top": "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36",
+                "right": "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36",
+                "bottom": "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36",
+                "left": "VariableID:59ff0616087ba120b5ba63514ac2699c634960e4/1:36"
+              }
+            },
+            "radius": 16,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:1dbf4d56a942745335ed8230dfe5b594c0f71841/3541:167"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "SLOT",
+            "name": "Content",
+            "path": "Axis=Vertical / Content",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "ContentExample",
+            "path": "Axis=Vertical / Content / ContentExample",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          },
+          {
+            "nodeId": 4,
+            "parentId": 2,
+            "type": "RECTANGLE",
+            "name": "ContentExample",
+            "path": "Axis=Vertical / Content / ContentExample",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183",
+                "colorHex": "#E4F0FF"
+              }
+            ],
+            "fillToken": "VariableID:b637eaf33ef806563249441181a611f11f15cfb5/3541:183"
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "0bbb10d756bc48afa4708555687f8c9b17340762",
+            "when": {
+              "Axis": "Vertical"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "0a22b689bb4d6c5989ad96a680e28099125abf8d",
+            "when": {
+              "Axis": "Horizontal"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "Axis=Vertical",
+                "nodePath": "Axis=Vertical",
+                "affects": [
+                  "unknown"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-required-slots",
+          "severity": "major",
+          "check": "required slots should be filled",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

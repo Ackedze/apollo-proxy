@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-core.input",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[D] Input",
+        "key": "ef458e5f86b2e18e6f2ff21e21018f6c4ae85b0d",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] Input_Inverted",
+        "key": "60636c863b9221d3fffbd6e75cfa279cc0924646",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Input",
+        "key": "4ae0f84a2b4e515a16100b8eab28dff2c6dfc509",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] Input_Inverted",
+        "key": "fdebaa15ec07c120816bae2b730b735041b9211c",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] Input",
+        "key": "aacaefcbd8c36b5985609691edecccf170067aa6",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [D][Corporate] Input_Inverted",
+        "key": "382cce00ba707c5262ed45e98b21bb37050e2647",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][AO] Input",
+        "key": "b023e2da206158a5bc44ed955525123c29322379",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔄 [M][AO] Input_Inverted",
+        "key": "822800855635a8a76f26182e5c9a3fdb8c783a01",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState",
+          "variant.ErrorState",
+          "variant.FilledState",
+          "variant.OuterLabel",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "appliesTo": {
+      "generatedContract": "contract.generated.json",
+      "rawCatalog": "Web _ Core -- Input.json"
+    },
+    "publicApi": {
+      "variantProperties": {
+        "Size": {
+          "kind": "component-property",
+          "description": "Height/size state компонента Input.",
+          "values": [
+            "40",
+            "48",
+            "56",
+            "64",
+            "72"
+          ]
+        },
+        "FilledState": {
+          "kind": "component-property",
+          "description": "Есть ли у input filled/value state.",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "ActiveState": {
+          "kind": "component-property",
+          "description": "Focus/active visual state компонента.",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "DisabledState": {
+          "kind": "component-property",
+          "description": "Состояние компонента disabled/enabled.",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "ErrorState": {
+          "kind": "component-property",
+          "description": "Validation/error visual state компонента.",
+          "values": [
+            "False",
+            "True"
+          ]
+        },
+        "OuterLabel": {
+          "kind": "component-property",
+          "description": "Размещён ли label снаружи/над field вместо inside/floating.",
+          "values": [
+            "False",
+            "True"
+          ]
+        }
+      }
+    },
+    "anatomySemantics": {
+      "root": {
+        "path": "<variant root>",
+        "scope": "component-root",
+        "designerEditable": false,
+        "notes": "Root visibility/layout управляется component variant properties."
+      },
+      "label": {
+        "path": "Label / Label",
+        "scope": "content-layer",
+        "designerEditable": "content-only",
+        "notes": "Label text можно менять. Text style, fill и placement управляются состоянием компонента и pattern rules."
+      },
+      "field": {
+        "path": "Field",
+        "scope": "visual-container",
+        "designerEditable": false,
+        "notes": "Field fill, radius, stroke и layout управляются size/state variants."
+      },
+      "placeholder": {
+        "path": "Field / Content / Placeholder / Content / Placeholder",
+        "scope": "content-layer",
+        "designerEditable": "content-only",
+        "notes": "Placeholder text можно менять. Text style и fill являются layer properties и обычно должны оставаться под управлением variant."
+      },
+      "hint": {
+        "path": "Hint / HintMessage",
+        "scope": "content-layer",
+        "designerEditable": "content-only",
+        "notes": "Hint или error text можно менять. ErrorState управляет тем, интерпретируется ли этот текст как validation/error state."
+      },
+      "addons": {
+        "path": "Field / LeftAddons/*, Field / RightAddons/*",
+        "scope": "slot-instance",
+        "designerEditable": "variant-property-only",
+        "notes": "Addon instances являются slot configuration. Ручные fills/strokes на addon placeholders являются layer customizations."
+      }
+    },
+    "resetModel": {
+      "componentProperties": [
+        "variant.Size",
+        "variant.FilledState",
+        "variant.ActiveState",
+        "variant.DisabledState",
+        "variant.ErrorState",
+        "variant.OuterLabel"
+      ],
+      "slotProperties": [
+        "LeftAddon1.variant.Type",
+        "LeftAddon2.variant.Type",
+        "RightAddon1.variant.Type",
+        "RightAddon2.variant.Type",
+        "Placeholder.variant.Accent"
+      ],
+      "layerProperties": [
+        "fills",
+        "strokes",
+        "strokeWeight",
+        "cornerRadius",
+        "opacity",
+        "layout.padding",
+        "layout.itemSpacing",
+        "styles.text",
+        "typography"
+      ],
+      "contentProperties": [
+        "Label.characters",
+        "Placeholder.characters",
+        "HintMessage.characters"
+      ],
+      "dependencyPolicy": "При reset состояния компонента layer differences, вызванные только этим состоянием, могут исчезнуть автоматически. Ручные layer overrides должны оставаться независимо сбрасываемыми, пока reset родительского состояния не уберёт их target state."
+    }
+  }
+}

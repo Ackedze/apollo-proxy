@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.table-view",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "manual",
+      "updatedAt": "2026-07-15"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "web-corp.table-view.horizontal-compact-one-column",
+        "title": "Horizontal Compact для одной колонки данных",
+        "scenario": "Просмотровая форма содержит Caption и одну колонку значений.",
+        "expected": "Compact=True; у всех Row одинаковый Compact и SpacingVertical=12 px."
+      },
+      {
+        "exampleId": "web-corp.table-view.horizontal-multi-column",
+        "title": "Horizontal Multi-column для сравнения",
+        "scenario": "Пользователь сравнивает три колонки однотипных данных.",
+        "expected": "Compact=False; обязательна Header Row; у всех Row SpacingVertical=16 px; количество и порядок Header совпадают с колонками."
+      },
+      {
+        "exampleId": "web-corp.table-view.column-count-recommendation",
+        "title": "Рекомендация по числу колонок",
+        "scenario": "В Horizontal Multi-column добавлены четыре колонки данных помимо Caption.",
+        "expected": "Recommendation, а не запрет: рекомендуется максимум три колонки данных или четыре вместе с Caption."
+      },
+      {
+        "exampleId": "web-corp.table-view.caption-optional",
+        "title": "Строка без Caption",
+        "scenario": "Контекст значения понятен, строка содержит только Title и Subtitle.",
+        "expected": "Разрешено. Если Caption включён, он должен описывать тип данных."
+      },
+      {
+        "exampleId": "web-corp.table-view.vertical-context",
+        "title": "Vertical для островка и Mobile Web",
+        "scenario": "Одна колонка данных размещается в островке на Desktop или на Mobile Web.",
+        "expected": "Использовать TableView :: Vertical с одной колонкой данных."
+      },
+      {
+        "exampleId": "web-corp.table-view.sidepanel",
+        "title": "Horizontal SidePanel",
+        "scenario": "Данные показаны в SidePanel, Modal или UniversalModal на Desktop.",
+        "expected": "Одна колонка данных; компактный режим; SpacingVertical=12 px."
+      },
+      {
+        "exampleId": "web-corp.table-view.partial-skeleton",
+        "title": "Частичная загрузка",
+        "scenario": "Загружается только часть значений в нескольких Row или Column.",
+        "expected": "Разрешено независимо включить штатный Skeleton у соответствующих элементов."
+      },
+      {
+        "exampleId": "web-corp.table-view.show-more",
+        "title": "Контекстный ShowMore",
+        "scenario": "По умолчанию показано пять строк, ещё семь скрыто.",
+        "expected": "ShowMore доступен во всех публичных вариантах; подпись Ещё 7 или контекстная, раскрытое состояние — Свернуть."
+      },
+      {
+        "exampleId": "web-corp.table-view.right-addon",
+        "title": "Действия соответствуют колонкам",
+        "scenario": "В строке три колонки, у двух значений есть действия Copy и Edit.",
+        "expected": "Допустимы два RightAddon в соответствующих колонках; Type выбирается по действию."
+      },
+      {
+        "exampleId": "web-corp.table-view.manual-structure-change",
+        "title": "Ручная геометрия и instance swap запрещены",
+        "scenario": "Изменена ширина Column или выполнен instance swap внутри Title.",
+        "expected": "Нарушение component rule; вернуть effective baseline и использовать штатный preset."
+      },
+      {
+        "exampleId": "web-corp.table-view.last-divider",
+        "title": "Divider меняется только у последней строки",
+        "scenario": "В середине TableView вручную скрыт divider.",
+        "expected": "Нарушение. Видимость divider можно вручную менять только у последней Row."
+      },
+      {
+        "exampleId": "web-corp.table-view.additional-header",
+        "title": "Общий заголовок группы колонок",
+        "scenario": "Несколько колонок требуют общего пояснения.",
+        "expected": "Разрешено добавить опциональный дополнительный заголовок и изменить его текст."
+      }
+    ]
+  }
+}

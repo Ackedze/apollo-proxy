@@ -1,0 +1,1237 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.pagination",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Pagination [D]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination",
+        "componentName": "Pagination",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect",
+        "componentName": "OptionSelect",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "OptionList": "Closed"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / OptionSelect / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination",
+        "componentName": "Pagination",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Default"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / 🔩 ArrowLeft",
+        "componentName": "🔩 ArrowLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / 🔩 ArrowLeft / Icon / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "True",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / ArrowRight",
+        "componentName": "ArrowRight",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / ArrowRight / Icon / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Scrollbar_Vertical",
+        "componentName": "Scrollbar_Vertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Start"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / BorderLine",
+        "componentName": "BorderLine",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "false"
+        }
+      },
+      {
+        "hostComponentName": "🔄 AmountRow",
+        "path": "Multiple=false / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 AmountRow",
+        "path": "Multiple=false / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "True",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-three-horizontal",
+        "componentName": "dots-three-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "OptionSelect",
+        "path": "OptionList=Closed / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "OptionSelect",
+        "path": "OptionList=Closed / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "OptionSelect",
+        "path": "OptionList=Closed / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "OptionSelect",
+        "path": "OptionList=Closed / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "OptionSelect",
+        "path": "OptionList=Closed / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect",
+        "componentName": "OptionSelect",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "OptionList": "Closed"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Transparent"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect / [D] Button / LeftAddon / LeftAddon / Fixer / PaintMe / dots-horizontal",
+        "componentName": "dots-horizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect / [D] Button / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / OptionSelect / [D] Button / RightAddon / RightAddon / Fixer / PaintMe / chevron-down",
+        "componentName": "chevron-down",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination",
+        "componentName": "Pagination",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "View": "Default"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / 🔩 ArrowLeft",
+        "componentName": "🔩 ArrowLeft",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "True"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / 🔩 ArrowLeft / Icon / Fixer / PaintMe / chevron-left",
+        "componentName": "chevron-left",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "True",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / ArrowRight",
+        "componentName": "ArrowRight",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / ArrowRight / Icon / Fixer / PaintMe / chevron-right",
+        "componentName": "chevron-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountListCell",
+        "path": "[D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] AmountListCell",
+        "path": "[D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountOptionList",
+        "path": "AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / 🔩 Currency",
+        "componentName": "🔩 Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "$"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / 🔩 Currency",
+        "componentName": "🔩 Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "€"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Minor",
+        "componentName": "Minor",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / AmountOptionList / Body / [D] AmountListCell / CellContent / Amount / Currency",
+        "componentName": "Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "₽"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Text / Link / Underline",
+        "componentName": "Underline",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Line": "Pseudo"
+        }
+      },
+      {
+        "hostComponentName": "Counter",
+        "path": "Counter / Content / Checkbox_24",
+        "componentName": "Checkbox_24",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "IndeterminateState": "False",
+          "SelectedState": "True"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "[D] StickyPagination",
+        "path": "Presets=Pagination / Content / Pagination / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button",
+        "componentName": "[D] Button",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "32",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "ButtonsGroup",
+        "path": "Overflow=true / [D] Button / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / 🔩 Page",
+        "componentName": "🔩 Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "True"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "Pagination",
+        "path": "Skeleton=false / Pagination / Page",
+        "componentName": "Page",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "HiddenState": "False",
+          "SelectedState": "False"
+        }
+      },
+      {
+        "hostComponentName": "AmountRow",
+        "path": "AmountRow / Content / Amount / 🔩 Currency",
+        "componentName": "🔩 Currency",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Opacity": "False",
+          "Type": "$"
+        }
+      }
+    ]
+  }
+}

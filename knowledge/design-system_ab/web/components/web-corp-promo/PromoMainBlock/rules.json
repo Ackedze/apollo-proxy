@@ -1,0 +1,548 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web.promo-main-block",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web.promo-main-block.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PromoMainBlock",
+          "layers": [
+            "[D] ButtonGroup",
+            "[D] DarkOverlay",
+            "[D] LightOverlay",
+            "[D] PromoMainBlock",
+            "[D] SwapMe",
+            "[M] ButtonGroup",
+            "[M] DarkOverlay",
+            "[M] LightOverlay",
+            "[M] PromoMainBlock",
+            "[M] SwapMe",
+            "PromoMainBlock"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "PromoMainBlock",
+          "layers": [
+            "[D] ButtonGroup",
+            "[D] DarkOverlay",
+            "[D] LightOverlay",
+            "[D] PromoMainBlock",
+            "[D] SwapMe",
+            "[M] ButtonGroup",
+            "[M] DarkOverlay",
+            "[M] LightOverlay",
+            "[M] PromoMainBlock",
+            "[M] SwapMe",
+            "PromoMainBlock"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web.promo-main-block.public-roots-only",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "component.root",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "allowed": [
+            "[D] PromoMainBlock",
+            "[M] PromoMainBlock"
+          ]
+        },
+        "ruleText": "Вызывай только публичные D/M roots; ButtonGroup, SwapMe и Overlay являются внутренними.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.first-and-single-on-page",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "page.order|page.componentCount",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "placement": "first",
+          "maxCount": 1
+        },
+        "ruleText": "PromoMainBlock всегда стоит первым на странице и используется только один раз."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.desktop-view-context",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.View|host.context",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Page": "page",
+          "Modal": "modal container",
+          "mobileViewExposed": false
+        },
+        "ruleText": "На desktop View=Page используй на странице, View=Modal — внутри modal; mobile root общий.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.desktop-compact-required",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Compact|viewport|content.fit",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "requiredWhen": [
+            "viewport<=1024",
+            "content-does-not-fit-standard-format"
+          ]
+        },
+        "ruleText": "Используй Compact=True при viewport 1024 px и меньше или когда контент не помещается.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.page-background-must-be-false",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.View|variant.Background",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "when": {
+            "View": "Page",
+            "Background": "True"
+          },
+          "recommended": {
+            "Background": "False"
+          }
+        },
+        "ruleText": "Для View=Page обязательно используй Background=False; Background=True является ошибкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.mobile-background-must-be-true",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "platform|variant.Background",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "when": {
+            "platform": "mobile-web",
+            "Background": "False"
+          },
+          "required": {
+            "Background": "True"
+          }
+        },
+        "ruleText": "В mobile-web разрешён только Background=True; Background=False является ошибкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.appearance-matches-surface",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "variant.Appearance|host.surface",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Light": "light colored surface for MMB segment",
+          "Dark": "dark surface for KIB segment",
+          "appearanceIsTheme": false
+        },
+        "ruleText": "Appearance — не тема: Light используй на светлых цветных подложках ММБ, Dark — на тёмной подложке КИБ.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.page-blur-required",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "property.BlurEffect|variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "when": {
+            "View": "Page",
+            "BlurEffect": false
+          },
+          "modalOptional": true
+        },
+        "ruleText": "Для View=Page BlurEffect обязателен; в modal-контексте он опционален.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.required-content",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Title|content.Subtitle|content.ImageContainer",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "required": [
+            "Title",
+            "Subtitle",
+            "ImageContainer"
+          ]
+        },
+        "ruleText": "Title, Subtitle и ImageContainer обязательны.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.status-count-and-contract",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Status",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "optional": true,
+          "minWhenVisible": 1,
+          "max": 3,
+          "inherits": "StatusBadge"
+        },
+        "ruleText": "Status можно скрыть; при отображении используй 1–3 StatusBadge по их полному контракту."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.multiple-statuses-warning",
+        "severity": "warning",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Status",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "whenVisibleCount": [
+            2,
+            3
+          ],
+          "recommendedCount": 1
+        },
+        "ruleText": "Два или три StatusBadge допустимы, но возвращают warning; предпочтителен один статус."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.holding-context",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "property.Holding|user.companyContext",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "allowedWhen": "user works on behalf of a group of companies",
+          "inherits": "FilterCompanySelect/AccountSelect",
+          "preserveAcrossPlatforms": true
+        },
+        "ruleText": "Holding используй только для пользователя, работающего от группы компаний; сохраняй его между D/M."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.bottom-slot-content",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.BottomSlot",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "optional": true,
+          "allowed": [
+            "plain text",
+            "arbitrary component"
+          ]
+        },
+        "ruleText": "Bottom slot опционален; помещай в него простой текст или произвольный компонент."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.actions-optional",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "actions",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "allowed": [
+            "Primary only",
+            "Secondary only",
+            "Primary + Secondary",
+            "hidden"
+          ]
+        },
+        "ruleText": "CTA опциональны; допустимы Primary, Secondary, оба действия или полностью скрытый action-блок."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.mobile-actions-use-button-stack",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "mobile.actions",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "requiredPresetWhenActionsVisible": "🔒 [M] ButtonStack",
+          "figmaOnly": true,
+          "patternStatus": "pending"
+        },
+        "ruleText": "На mobile при наличии действий используй figma-only пресет 🔒 [M] ButtonStack вместо ButtonGroup."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.content-order-is-fixed",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.order|layout.gap|layout.padding",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "order": [
+            "Status",
+            "Title/Holding",
+            "Subtitle",
+            "Bottom slot",
+            "actions"
+          ],
+          "manualGapAllowed": false,
+          "manualPaddingAllowed": false
+        },
+        "ruleText": "Сохраняй порядок Status → Title/Holding → Subtitle → Bottom slot → actions; не меняй gap и padding вручную."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.text-limits",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.Title|content.Subtitle",
+        "checkType": "llm",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "Title": {
+            "charactersMax": 40,
+            "linesMax": 2
+          },
+          "Subtitle": {
+            "charactersMax": 120,
+            "linesMax": 3
+          }
+        },
+        "ruleText": "Title ограничен 40 символами/2 строками, Subtitle — 120 символами/3 строками.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.image-source-and-settings",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "content.ImageContainer.ImageView",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "required": true,
+          "source": "Corp Image Library",
+          "Crop": "Center",
+          "Size": "534",
+          "Segment": "match page segment and Appearance"
+        },
+        "ruleText": "Используй обязательное изображение из Corp Image Library с Crop=Center и Size=534; Segment должен соответствовать сегменту страницы и Appearance."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.layout-is-component-owned",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "layout.*|content.ImageContainer",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "manualChangesAllowed": false,
+          "componentOwned": [
+            "ImageContainer size",
+            "ImageContainer position",
+            "image crop",
+            "fade",
+            "block height",
+            "gap",
+            "padding"
+          ]
+        },
+        "ruleText": "Не меняй вручную ImageContainer, crop, fade, высоты, gap и padding.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.overlay-is-derived-from-appearance",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "internal.LightOverlay|internal.DarkOverlay|variant.Appearance",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "manualOverlaySelectionAllowed": false,
+          "manualPresetChangeAllowed": false,
+          "selectionSource": "Appearance"
+        },
+        "ruleText": "LightOverlay/DarkOverlay и их Presets выбираются компонентом из Appearance и вручную не меняются."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.status-platform-casing-is-preset-owned",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.Status.Uppercase",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "desktop": true,
+          "mobile": false,
+          "manualAlignmentRequired": false
+        },
+        "ruleText": "Сохраняй текст, тип и количество StatusBadge между D/M; casing True на D и False на M принадлежит пресетам."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.loading-is-not-supported",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "state.loading",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "supported": false
+        },
+        "ruleText": "Не создавай отдельное loading-состояние PromoMainBlock.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web.promo-main-block.container-is-not-clickable",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "interaction.*",
+        "checkType": "deterministic",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "containerClickable": false,
+          "allowedInteractiveRegions": [
+            "CTA",
+            "Holding",
+            "interactive Bottom slot content"
+          ]
+        },
+        "ruleText": "Контейнер некликабелен; интерактивность разрешена только CTA, Holding и интерактивному содержимому Bottom slot."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.active-canonical",
+        "severity": "info",
+        "source": "owner-confirmed",
+        "appliesTo": "lifecycle",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "conditions": {
+          "status": "active",
+          "canonical": true,
+          "replacement": null,
+          "legacyVariants": []
+        },
+        "ruleText": "PromoMainBlock активен и каноничен; replacement и legacy-вариантов нет."
+      },
+      {
+        "ruleId": "component:web.promo-main-block.responsive-parity",
+        "severity": "error",
+        "source": "owner-confirmed",
+        "appliesTo": "responsive.*",
+        "checkType": "llm",
+        "matchKind": "composition_rule",
+        "conditions": {
+          "preserve": [
+            "content",
+            "image",
+            "Status",
+            "Holding",
+            "Bottom slot",
+            "actions",
+            "Appearance"
+          ],
+          "desktopOnly": [
+            "View",
+            "Compact"
+          ],
+          "platformBackground": {
+            "desktopPage": "False",
+            "mobileWeb": "True"
+          }
+        },
+        "ruleText": "Между D/M сохраняй контент, изображение, Status, Holding, Bottom slot, действия и Appearance; Background намеренно различается: D Page=False, M=True."
+      }
+    ]
+  }
+}

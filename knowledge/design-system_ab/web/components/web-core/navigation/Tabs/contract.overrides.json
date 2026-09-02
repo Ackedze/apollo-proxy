@@ -1,0 +1,440 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-core-navigation.tabs",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "[M] 🔄 TabsSecondary",
+        "key": "6e662f3c27660bda0a5b17995b67a6319e6286b7",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] 🔄 TabsSecondary",
+        "key": "470ba328cc0e1b5fcf59edcedb733255750120bf",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 ExampleOptionListContent",
+        "key": "5e988eea2a439f7aeb2a55a05b7d4ca58e4d5624",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Indicator"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 ExampleAddon",
+        "key": "25567b89ee5a4ac534d1bf71163cc0d1ac12519d",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 TabPrimary",
+        "key": "8d45c768b56f9781ec44a60b93a5467a3310236c",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.ActiveState",
+          "variant.DisabledState"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Addon",
+        "key": "f875b10e3bb447d250a4208675e5dbaefa24b754",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Slider",
+        "key": "d6d7eed01d99cc3511dfe15cf4df35d771683894",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Left",
+          "variant.Right"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Slider",
+        "key": "18e95cc695ac9ddff019545dbd9932751b07c3b4",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Left",
+          "variant.Right"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Slider",
+        "key": "6a29142107d9a4d2ac60e88c9a2aaa16de51f4ac",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Left",
+          "variant.Right"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Slider",
+        "key": "7e96411b167cdb8223d73640aeb4ea5f1d3f602b",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Left",
+          "variant.Right"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Slider",
+        "key": "71f50751224f2becd3515bc3c8da24cb13725dee",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Left",
+          "variant.Right"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[M] TabsSecondary",
+        "key": "4d05d1c47c37f00fcd2705dd44a74a9750f9f922",
+        "role": "main",
+        "platform": "mobile-web",
+        "publicProperties": [
+          "variant.Size",
+          "variant.View"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "[D] TabsSecondary",
+        "key": "742f286666794402fc4e91cb801f5c202f30e00c",
+        "role": "main",
+        "platform": "desktop",
+        "publicProperties": [
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "TabsPrimary",
+        "key": "0b6cbeb2069d15adf5be7b9a4ba17acc6a397017",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "component": {
+      "name": "Tabs",
+      "library": "Web :: Core Navigation"
+    },
+    "publicApi": {
+      "components": [
+        {
+          "name": "[M] 🔄 TabsSecondary",
+          "key": "6e662f3c27660bda0a5b17995b67a6319e6286b7",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "scheduled",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ]
+          }
+        },
+        {
+          "name": "[D] 🔄 TabsSecondary",
+          "key": "470ba328cc0e1b5fcf59edcedb733255750120bf",
+          "role": "main",
+          "platform": "desktop",
+          "status": "scheduled",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ]
+          }
+        },
+        {
+          "name": "🔩 ExampleOptionListContent",
+          "key": "5e988eea2a439f7aeb2a55a05b7d4ca58e4d5624",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Indicator": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 ExampleAddon",
+          "key": "25567b89ee5a4ac534d1bf71163cc0d1ac12519d",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {}
+        },
+        {
+          "name": "🔩 TabPrimary",
+          "key": "8d45c768b56f9781ec44a60b93a5467a3310236c",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "ActiveState": [
+              "False",
+              "True"
+            ],
+            "DisabledState": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Addon",
+          "key": "f875b10e3bb447d250a4208675e5dbaefa24b754",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Type": [
+              "Icon 16",
+              "Icon 24",
+              "SwapMe"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Slider",
+          "key": "d6d7eed01d99cc3511dfe15cf4df35d771683894",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Left": [
+              "False",
+              "True"
+            ],
+            "Right": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Slider",
+          "key": "18e95cc695ac9ddff019545dbd9932751b07c3b4",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Left": [
+              "False",
+              "True"
+            ],
+            "Right": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Slider",
+          "key": "6a29142107d9a4d2ac60e88c9a2aaa16de51f4ac",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Left": [
+              "False",
+              "True"
+            ],
+            "Right": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Slider",
+          "key": "7e96411b167cdb8223d73640aeb4ea5f1d3f602b",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Left": [
+              "False",
+              "True"
+            ],
+            "Right": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "🔩 Slider",
+          "key": "71f50751224f2becd3515bc3c8da24cb13725dee",
+          "role": "part",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {
+            "Left": [
+              "False",
+              "True"
+            ],
+            "Right": [
+              "False",
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "[M] TabsSecondary",
+          "key": "4d05d1c47c37f00fcd2705dd44a74a9750f9f922",
+          "role": "main",
+          "platform": "mobile-web",
+          "status": "active",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ],
+            "View": [
+              "Filled",
+              "Transparent"
+            ]
+          }
+        },
+        {
+          "name": "[D] TabsSecondary",
+          "key": "742f286666794402fc4e91cb801f5c202f30e00c",
+          "role": "main",
+          "platform": "desktop",
+          "status": "active",
+          "variantProperties": {
+            "Size": [
+              "32",
+              "40",
+              "48",
+              "56"
+            ]
+          }
+        },
+        {
+          "name": "TabsPrimary",
+          "key": "0b6cbeb2069d15adf5be7b9a4ba17acc6a397017",
+          "role": "main",
+          "platform": "universal",
+          "status": "active",
+          "variantProperties": {}
+        }
+      ]
+    },
+    "nestedComponentAliases": [
+      {
+        "displayName": "TabPrimary",
+        "sourceComponentName": "🔩 TabPrimary",
+        "componentKey": "8d45c768b56f9781ec44a60b93a5467a3310236c",
+        "role": "primary-tab-item"
+      },
+      {
+        "displayName": "TabsPrimary",
+        "sourceComponentName": "TabsPrimary",
+        "componentKey": "0b6cbeb2069d15adf5be7b9a4ba17acc6a397017",
+        "role": "primary-tabs-container"
+      },
+      {
+        "displayName": "[D] TabsSecondary",
+        "sourceComponentName": "[D] TabsSecondary",
+        "componentKey": "742f286666794402fc4e91cb801f5c202f30e00c",
+        "role": "desktop-secondary-tabs-container"
+      },
+      {
+        "displayName": "[M] TabsSecondary",
+        "sourceComponentName": "[M] TabsSecondary",
+        "componentKey": "4d05d1c47c37f00fcd2705dd44a74a9750f9f922",
+        "role": "mobile-secondary-tabs-container"
+      }
+    ],
+    "resetModel": {
+      "componentProperties": [
+        "variant.ActiveState",
+        "variant.DisabledState",
+        "variant.Size",
+        "variant.View"
+      ],
+      "layerProperties": [
+        "layout.itemSpacing",
+        "layout.padding.*",
+        "styles.text",
+        "styles.fill",
+        "styles.stroke",
+        "fill",
+        "stroke",
+        "radius",
+        "opacity"
+      ],
+      "dependencyPolicy": "Standalone Tabs contract описывает core baseline. Composite wrappers вроде TabsView могут переопределять nested TabsPrimary или TabPrimary baselines через собственный composition-contract."
+    }
+  }
+}

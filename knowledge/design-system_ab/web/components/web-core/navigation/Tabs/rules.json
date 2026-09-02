@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-core-navigation.tabs",
+    "status": "draft",
+    "applicability": {
+      "channels": [
+        "universal"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-core-navigation.tabs.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Tabs",
+          "layers": [
+            "[D] 🔄 TabsSecondary",
+            "[D] TabsSecondary",
+            "[M] 🔄 TabsSecondary",
+            "[M] TabsSecondary",
+            "🔩 Addon",
+            "🔩 ExampleAddon",
+            "🔩 ExampleOptionListContent",
+            "🔩 Slider",
+            "🔩 TabPrimary",
+            "Addon",
+            "ExampleAddon",
+            "ExampleOptionListContent",
+            "Slider",
+            "TabPrimary",
+            "Tabs",
+            "TabsPrimary"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-core-navigation.tabs.layer-properties-use-effective-baseline",
+        "severity": "error",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Tabs",
+          "layers": [
+            "[D] 🔄 TabsSecondary",
+            "[D] TabsSecondary",
+            "[M] 🔄 TabsSecondary",
+            "[M] TabsSecondary",
+            "🔩 Addon",
+            "🔩 ExampleAddon",
+            "🔩 ExampleOptionListContent",
+            "🔩 Slider",
+            "🔩 TabPrimary",
+            "Addon",
+            "ExampleAddon",
+            "ExampleOptionListContent",
+            "Slider",
+            "TabPrimary",
+            "Tabs",
+            "TabsPrimary"
+          ]
+        },
+        "ruleText": "Layer/style свойства Core-компонента должны совпадать с effective baseline текущего component variant и nested owner context. Любое фактическое отклонение является нарушением, если отдельное approved правило явно не разрешает эту кастомизацию.",
+        "ruleKind": "design-rule",
+        "classification": {
+          "treatAsViolation": true,
+          "resetSurface": "layer"
+        },
+        "authority": {
+          "status": "active",
+          "provenance": "generated-policy",
+          "revision": 1
+        }
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "id": "component:web-core-navigation.tabs.primary-tab-standalone-spacing",
+        "title": "Standalone baseline отступов TabPrimary",
+        "matchKind": "exact_rule",
+        "severity": "medium",
+        "selector": {
+          "componentNames": [
+            "🔩 TabPrimary",
+            "TabsPrimary"
+          ],
+          "properties": [
+            "layout.itemSpacing"
+          ]
+        },
+        "rule": "Standalone TabPrimary использует itemSpacing 12. Host components могут переопределять это только через собственный composition-contract effective baseline."
+      },
+      {
+        "id": "component:web-core-navigation.tabs.primary-tab-standalone-typography",
+        "title": "Standalone baseline типографики TabPrimary",
+        "matchKind": "exact_rule",
+        "severity": "medium",
+        "selector": {
+          "componentNames": [
+            "🔩 TabPrimary",
+            "TabsPrimary"
+          ],
+          "properties": [
+            "styles.text"
+          ]
+        },
+        "rule": "Standalone primary tab labels используют Paragraph/18–24 Primary Large. Host components могут переопределять это только через собственный composition-contract effective baseline."
+      },
+      {
+        "id": "component:web-core-navigation.tabs.scheduled-secondary-tabs",
+        "title": "Scheduled secondary tabs существуют только как migration context",
+        "matchKind": "exact_rule",
+        "severity": "low",
+        "selector": {
+          "componentNames": [
+            "[D] 🔄 TabsSecondary",
+            "[M] 🔄 TabsSecondary"
+          ]
+        },
+        "rule": "Scheduled secondary tabs являются migration context; active [D]/[M] TabsSecondary entries используются как audit baseline."
+      }
+    ]
+  }
+}

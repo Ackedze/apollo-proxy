@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.file-upload",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- FileUpload.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "FileUpload"
+      ]
+    },
+    "summary": {
+      "componentFamily": "FileUpload",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] FileUpload",
+        "key": "69cd7a25681728b1ee0839eda2e31008a3b4138b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Disable",
+            "Error"
+          ],
+          "View": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[M] FileUpload",
+        "key": "b5f471e37abb34ff0311e6c17124e61d9189139f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "State": [
+            "Default",
+            "Disable",
+            "Error"
+          ],
+          "View": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[D] Attach",
+        "key": "acbe5c23835f268b735d9bcafc538c630835a673",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {}
+      },
+      {
+        "name": "[M] Attach",
+        "key": "1635d596e7494618c19c653a3152b0a39be55dc5",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {}
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:components.file-upload",
+        "patternKey": "components.file-upload",
+        "file": "shared/design-system_ab/patterns/p_file-upload.md",
+        "sourceType": "component-guideline",
+        "updatedAt": "2026-07-16"
+      }
+    ],
+    "summary": {
+      "componentFamily": "FileUpload",
+      "library": "Web _ Corp Components",
+      "purpose": "FileUpload используется для прикрепления одного или нескольких файлов в форме, контентном блоке, модальном окне или Mobile Web-сценарии. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из сгенерированного контекста."
+    },
+    "usageGuidance": [
+      "Primary применяй для загрузки файла непосредственно в форме.",
+      "Secondary применяй внутри информационного блока или раздела страницы.",
+      "Публичными компонентами являются только [D] FileUpload и [M] FileUpload. [D]/[M] Attach — служебные части и не используются отдельно.",
+      "State=Disable запрещает загрузку новых файлов, но сохраняет взаимодействие с уже загруженными файлами.",
+      "При валидации обязательного блока без файлов весь FileUpload принимает State=Error. Ошибки отдельных FileUploadItem независимы и могут различаться. Общая ошибка и ошибки отдельных файлов не отображаются одновременно.",
+      "Снимай общий State=Error только после успешной повторной валидации блока.",
+      "Процесс загрузки файла показывай через FileUploadItem Preset=Uploading.",
+      "Подробные состояния и внутренняя модель FileUploadItem будут описаны в отдельном пакете документов; не придумывай дополнительные правила FileUploadItem из структуры FileUpload.",
+      "Скачать и удалить файл можно во всех состояниях. Повторная загрузка доступна только в Error и Default.",
+      "В State=Disable Border не используется.",
+      "Border доступен только в [D] FileUpload: в View=Primary и View=Secondary, кроме State=Disable. В [M] FileUpload Border запрещён.",
+      "Файлы располагаются в порядке загрузки; менять порядок вручную нельзя.",
+      "Показывай полный список загруженных файлов: не сворачивай его и не скрывай отдельные элементы.",
+      "При расчёте лимита учитывай все элементы списка, включая Uploading и Error.",
+      "«Ещё N» показывает число дополнительных допустимых расширений, а не скрытые загруженные файлы.",
+      "Counter «Всего файлов N» показывает общее количество элементов списка, включая Uploading и Error.",
+      "Counter рекомендуется показывать при единовременной загрузке более 50 файлов.",
+      "Настраивай вложенный TitleView только через параметры, разрешённые контрактом TitleView соответствующего размера. Title обязателен, Subtitle можно скрыть.",
+      "[D] и [M] FileUpload должны иметь Fill по ширине и Hug по высоте.",
+      "Layout и визуальные стили FileUpload/FileUploadItem следуют effective baseline и не меняются вручную.",
+      "Разрешённые text overrides: Title, Subtitle, число N в Counter, File extension, название файла и значения внутри квадратных скобок.",
+      "Скрывай или добавляй части FileUpload только через предусмотренные свойства компонента.",
+      "На desktop вся область Dropzone кликабельна и открывает системный выбор файла; также доступен drag-and-drop, компонент имеет подложку.",
+      "На Mobile Web системный выбор файла открывается только по нажатию на кнопку; отдельной подложки у FileUpload нет.",
+      "Модальный сценарий подходит для массовой загрузки или когда нужна дополнительная информация о процессе загрузки.",
+      "После достижения максимального количества файлов Dropzone остаётся видимым, а весь FileUpload переходит в State=Disable.",
+      "После удаления файла из Disable возвращай FileUpload в Default только если сценарий допускает дальнейшую загрузку и количество элементов стало меньше лимита.",
+      "В пустом состоянии скрывай FilesGroup и Counter.",
+      "Если ожидается больше 50 файлов за раз, рекомендуй счётчик общего количества элементов списка.",
+      "Для действий с файлами используй иконки и tooltip, не текстовые кнопки."
+    ],
+    "contentGuidance": {
+      "formatNames": "Пиши форматы без точки: docx, xls, pdf.",
+      "formatList": "Если форматов больше трёх, показывай первые три и ', ещё N'.",
+      "singleFileLimit": "Не больше N МБ",
+      "multiFileCountLimit": "До N МБ каждый, всего — не больше M файлов",
+      "multiFileTotalSizeLimit": "До N МБ каждый, всего — не больше M МБ",
+      "requiredFileError": "Прикрепите файл",
+      "sizeError": "Нужен файл не больше N МБ",
+      "formatError": "Нужен docx, xls или pdf / Формат не подходит",
+      "formatAndSizeError": "Нужен pdf, png или jpg не больше N МБ",
+      "uploadFailureError": "Не получилось загрузить, попробуйте ещё раз"
+    },
+    "ruleHighlights": [
+      "component:web-corp.file-upload.constraints-visible-before-upload",
+      "component:web-corp.file-upload.single-file-disables-file-upload",
+      "component:web-corp.file-upload.disable-file-upload-at-max-files",
+      "component:web-corp.file-upload.format-names-without-dot",
+      "component:web-corp.file-upload.max-three-formats-before-more",
+      "component:web-corp.file-upload.file-actions-use-icons",
+      "component:web-corp.file-upload.public-roots-only",
+      "component:web-corp.file-upload.view-semantics",
+      "component:web-corp.file-upload.disable-blocks-new-upload-only",
+      "component:web-corp.file-upload.slots-use-component-properties",
+      "component:web-corp.file-upload.platform-interaction-and-surface",
+      "component:web-corp.file-upload.block-and-item-errors-are-separate",
+      "component:web-corp.file-upload.uploading-uses-file-item-preset",
+      "component:web-corp.file-upload.file-actions-follow-state",
+      "component:web-corp.file-upload.disable-hides-border",
+      "component:web-corp.file-upload.text-overrides-are-limited",
+      "component:web-corp.file-upload.file-item-details-are-delegated",
+      "component:web-corp.file-upload.file-order-follows-upload",
+      "component:web-corp.file-upload.more-counts-extensions-only",
+      "component:web-corp.file-upload.counter-counts-all-list-items",
+      "component:web-corp.file-upload.visuals-follow-effective-baseline",
+      "component:web-corp.file-upload.error-clears-after-successful-validation",
+      "component:web-corp.file-upload.border-platform-matrix",
+      "component:web-corp.file-upload.title-view-follows-own-contract",
+      "component:web-corp.file-upload.fill-hug-sizing",
+      "component:web-corp.file-upload.file-list-is-always-expanded",
+      "component:web-corp.file-upload.desktop-dropzone-is-clickable",
+      "component:web-corp.file-upload.title-required-subtitle-optional",
+      "component:web-corp.file-upload.root-and-file-errors-are-exclusive",
+      "component:web-corp.file-upload.limit-counts-all-list-items",
+      "component:web-corp.file-upload.mobile-selection-uses-button-only",
+      "component:web-corp.file-upload.empty-state-hides-file-list"
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  }
+}

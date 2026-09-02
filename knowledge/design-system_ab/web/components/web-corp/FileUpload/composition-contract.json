@@ -1,0 +1,5030 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.file-upload",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "FileUpload",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView",
+        "componentName": "TitleView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "False",
+          "View": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [D] TitleAddon",
+        "componentName": "[D] TitleAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [D] TitleAddon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon",
+        "componentName": "[D] RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "IconButton"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Word",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-doc",
+        "componentName": "document-doc",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Excel",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-excel",
+        "componentName": "document-excel",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach",
+        "componentName": "Attach",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Dropzone",
+        "componentName": "Dropzone",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "State": "Default"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / [D] BackgroundPlate",
+        "componentName": "[D] BackgroundPlate",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Position": "Level 1 (outer)"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / [D] BackgroundPlate / [D] Style Level 1",
+        "componentName": "[D] Style Level 1",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "BackgroundColor": "base-bg-alt (gray)",
+          "Skeleton": "False",
+          "Type": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView",
+        "componentName": "TitleView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "False",
+          "View": "Medium"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [M] TitleAddon",
+        "componentName": "[M] TitleAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "StatusBadge"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [M] TitleAddon / StatusBadge",
+        "componentName": "StatusBadge",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20",
+          "View": "NeutralInformation"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [M] TitleAddon / StatusBadge / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / MainContent / Heading / [M] TitleAddon / StatusBadge / 🔩 Content / Fixer / PaintMe / information-compact",
+        "componentName": "information-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon",
+        "componentName": "[M] RightAddon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Type": "IconButton"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Word",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-doc",
+        "componentName": "document-doc",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Excel",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-excel",
+        "componentName": "document-excel",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "PDF or PPT",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / Progress",
+        "componentName": "Progress",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Preset": "Upload"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / BottomAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView",
+        "componentName": "IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content",
+        "componentName": "Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "16",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Content / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / TopAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Indicator",
+        "componentName": "Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Border": "False",
+          "Size": "8",
+          "View": "Red"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / Shape / Shape",
+        "componentName": "Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "Type": "Icon"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / 🔩 Content / Fixer / PaintMe / document-pdf",
+        "componentName": "document-pdf",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon / IconView / Content / ShapeContent / Border / Border",
+        "componentName": "Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 Content",
+        "componentName": "🔩 Content",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Size & Date"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon",
+        "componentName": "🔩 RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Controls"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrows-cw-compact",
+        "componentName": "arrows-cw-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / arrow-down-line-down-compact",
+        "componentName": "arrow-down-line-down-compact",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon",
+        "componentName": "Icon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon 24"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton / Icon / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach",
+        "componentName": "Attach",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach",
+        "componentName": "Attach",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach",
+        "componentName": "Attach",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "DisabledState": "False",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "Size": "40",
+          "View": "Secondary"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / RightAddon / RightAddon",
+        "componentName": "RightAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-16"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / RightAddon / RightAddon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [D] RightAddon / [D] IconButton / Icon / Fixer / PaintMe / diamonds",
+        "componentName": "diamonds",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "24",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Word",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Excel",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Text content / TitleView / [M] RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "24",
+          "TransparentBg": "False",
+          "View": "Primary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Word",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 LeftAddon",
+        "componentName": "🔩 LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Preset": "Excel",
+          "Style": "Colored"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Files / FilesGroup / FileUploadItem / 🔩 RightAddon / [D] IconButton",
+        "componentName": "[D] IconButton",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "48",
+          "TransparentBg": "False",
+          "View": "Tertiary"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[M] FileUpload",
+        "path": "View=Primary, State=Default / Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[D] Attach",
+        "path": "[D] Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / LeftAddon / LeftAddon",
+        "componentName": "LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Icon-20"
+        }
+      },
+      {
+        "hostComponentName": "[M] Attach",
+        "path": "[M] Attach / Button + Extension / Attach / LeftAddon / LeftAddon / Fixer / PaintMe / paperclip",
+        "componentName": "paperclip",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Color": "False",
+          "Size": "20",
+          "Style": "Line"
+        }
+      }
+    ],
+    "ownershipModel": {
+      "publicRoots": [
+        "[D] FileUpload",
+        "[M] FileUpload"
+      ],
+      "internalComponents": [
+        "[D] Attach",
+        "[M] Attach"
+      ],
+      "internalStandaloneAllowed": false,
+      "defaultNestedDiffPolicy": "compare-against-file-upload-effective-baseline"
+    },
+    "compositionPolicy": {
+      "views": {
+        "Primary": "standalone",
+        "Secondary": "inside-another-block"
+      },
+      "disableState": {
+        "newUploadAllowed": false,
+        "existingFileInteractionsAllowed": true,
+        "Border": false
+      },
+      "validation": {
+        "block": "required block with zero files -> root State=Error",
+        "reset": "root State=Error -> Default only after successful repeated block validation",
+        "file": "each FileUploadItem owns its independent error type",
+        "rootAndFileErrorsMayCoexist": false
+      },
+      "fileItem": {
+        "detailedContract": "separate FileUploadItem package",
+        "uploading": "FileUploadItem Preset=Uploading",
+        "actions": {
+          "download": "all states",
+          "delete": "all states",
+          "retry": [
+            "Default",
+            "Error"
+          ]
+        }
+      },
+      "fileList": {
+        "order": "upload-order",
+        "manualReorderAllowed": false,
+        "display": "full-list",
+        "collapseAllowed": false,
+        "limitCount": "all list items including Uploading and Error"
+      },
+      "moreExtensions": {
+        "meaning": "additional allowed file extensions",
+        "appliesToUploadedFilesCount": false
+      },
+      "counter": {
+        "label": "Всего файлов",
+        "value": "all list items including Uploading and Error",
+        "visibility": "recommended for batches over 50 files"
+      },
+      "titleView": {
+        "configuration": "use only parameters allowed by the TitleView contract for the current size",
+        "Title": "required",
+        "Subtitle": "optional"
+      },
+      "sizing": {
+        "desktop": "Fill/Hug",
+        "mobile-web": "Fill/Hug"
+      },
+      "visualBaseline": {
+        "manualChangesAllowed": false,
+        "properties": [
+          "padding",
+          "gap",
+          "radius",
+          "fill",
+          "stroke",
+          "typography",
+          "icon size"
+        ],
+        "baseline": "effective baseline"
+      },
+      "textOverrides": {
+        "allowed": [
+          "Title",
+          "Subtitle",
+          "Counter.N",
+          "File extension",
+          "file name",
+          "values inside square brackets"
+        ],
+        "otherTextOverridesAllowed": false
+      },
+      "slotVisibility": "component-properties-only",
+      "platforms": {
+        "desktop": {
+          "fileSelection": [
+            "system-picker",
+            "drag-and-drop"
+          ],
+          "dropzoneClickTarget": "entire-dropzone",
+          "backgroundSurface": true,
+          "Border": "allowed in Primary and Secondary except State=Disable"
+        },
+        "mobile-web": {
+          "fileSelection": [
+            "system-picker"
+          ],
+          "fileSelectionClickTarget": "attach-button-only",
+          "backgroundSurface": false,
+          "Border": false
+        }
+      },
+      "maxFiles": {
+        "componentState": "Disable",
+        "dropzoneVisible": true,
+        "returnToDefaultAfterDeletion": "only when the scenario allows further uploads and list count is below the limit"
+      },
+      "emptyState": {
+        "FilesGroup": false,
+        "Counter": false
+      }
+    }
+  }
+}

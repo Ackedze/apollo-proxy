@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web.benefits-block",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T13:29:07.697Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-promo/Web _ Сorp Promo Components -- BenefitsBlock.json",
+      "library": "Web _ Сorp Promo Components",
+      "file": "Web _ Сorp Promo Components",
+      "generatedAt": "2026-07-27T13:29:07.697Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "BenefitsBlock"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "componentPolicy": {
+      "publicRoots": [
+        "[D] BenefitsBlock",
+        "[M] BenefitsBlock"
+      ],
+      "internalFamilies": [
+        "[D] ButtonGroup",
+        "[M] ButtonGroup",
+        "[D] ContentPresets",
+        "[M] ContentPresets"
+      ],
+      "usage": "promo banner for key information and benefits; one per promo page is recommended, multiple are allowed and not a violation",
+      "imagePosition": "desktop Left/Right and mobile-web Top/Bottom are independent",
+      "desktopCompact": "True at viewport <=1024 px or when content does not fit standard format",
+      "backgroundFalse": "host shared surface without own BackgroundPlate",
+      "heightCustom": "controls custom BackgroundPlate height; width unrestricted; content/image overlap forbidden",
+      "requiredContent": [
+        "Title",
+        "Image"
+      ],
+      "contentPresets": "optional; Text for simple text, List for items, Steps for instruction",
+      "buttonGroup": "optional; Primary, Secondary or both",
+      "responsiveParity": "preserve content, image, action count and order; image position may differ",
+      "allowedOwnSurfaceTypes": [
+        "Primary",
+        "Colored"
+      ],
+      "mobileHeight": "no HeightCustom; follows content and preset layout",
+      "rightAddon": "must be hidden",
+      "titleAddon": "inherits full StatusBadge contract",
+      "imageView": {
+        "Crop": "Center",
+        "Size": "348",
+        "Segment": "landing segment",
+        "rawBaselineSize": "534",
+        "ownerOverrideWins": true
+      },
+      "surfaceColorOverrides": "Colored token-bound fill only; Primary baseline only",
+      "loadingWithoutBackground": "allowed",
+      "rootSizing": "Fill horizontal, Hug vertical; HeightCustom affects BackgroundPlate height only",
+      "listAndStepsCount": "owned by nested components",
+      "stepsCountGuidance": "3 recommended; greater than 3 produces warning",
+      "textLimits": "Title 60/2 lines; Text 240/4 lines; Button label inherits Button contract",
+      "imageSource": "Corp :: Image Library; swap allowed with Crop Center, Size 348 and landing Segment",
+      "loading": "whole block including actions; allowed with Background=False",
+      "interaction": "container not clickable; actions via ButtonGroup only",
+      "segmentSync": "ImageView Segment matches Colored fill segment",
+      "imageOverflow": "outside BackgroundPlate only when HeightCustom=False, without content overlap or root overflow",
+      "lifecycle": "active canonical; no replacement or legacy variants",
+      "layoutOwnership": "gap, padding, axis, internal order and ImageContainer size are component-owned",
+      "rawColors": "forbidden; Colored fill must be token-bound and Segment-matched"
+    }
+  }
+}

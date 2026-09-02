@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web-corp.holding-plate",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-08-14"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-08-14T07:48:42.099Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- HoldingPlate.json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-08-14T07:48:42.099Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "HoldingPlate"
+      ]
+    },
+    "summary": {
+      "componentFamily": "HoldingPlate",
+      "library": "Web _ Corp Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "🔒 HoldingPlate",
+        "key": "2ae29ad1eedf15fcc9cdc927a718121e3595f156",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "universal",
+        "variantProperties": {
+          "width": [
+            "12 col",
+            "8 col"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "summary": {
+      "componentFamily": "HoldingPlate",
+      "library": "Web _ Corp Components",
+      "purpose": "Desktop-only Figma-пресет для информационной плашки режима холдинга. Показывает, от лица какой компании работает пользователь, и располагается сразу под TitleView перед контентом страницы."
+    },
+    "usageGuidance": [
+      "Используй HoldingPlate только на desktop и только как библиотечный instance 🔒 HoldingPlate.",
+      "Показывай его только в режиме холдинга, когда страница или действие относятся к одной выбранной компании и нужна дополнительная идентификация источника данных.",
+      "Не используй HoldingPlate для общего multi-company контекста и не показывай его одновременно с TitleView.Holding.",
+      "Расположи HoldingPlate сразу под TitleView и перед основным контентом страницы.",
+      "Выбирай width=12 col или width=8 col по ширине родительского grid-контейнера, а не по breakpoint.",
+      "Сохраняй текстовую конструкцию «Вы работаете от лица [Название компании]», заменяя только название компании; длинный текст остаётся в одну строку и уходит в ellipsis без tooltip.",
+      "Оставляй Caption, StatusBadge и Controls скрытыми.",
+      "Не добавляй HoldingPlate действие и не делай плашку кликабельной.",
+      "Сохраняй Border=True, BorderRadius=16 и padding 12 px вложенного Plate; fill, stroke, typography и цвета не отвязывай от токенов.",
+      "Не создавай для HoldingPlate loading, skeleton, disabled, error, hover или focus-состояния.",
+      "Не detach, не пересобирай пресет вручную и не заменяй вложенные компоненты через instance swap."
+    ],
+    "criticalBaselines": [
+      {
+        "ruleId": "component:web-corp.holding-plate.placement-after-titleview",
+        "baseline": "Порядок страницы: TitleView -> HoldingPlate -> основной контент."
+      },
+      {
+        "ruleId": "component:web-corp.holding-plate.width-follows-parent-grid",
+        "baseline": "width совпадает с 12- или 8-колоночной шириной родительского контейнера."
+      },
+      {
+        "ruleId": "component:web-corp.holding-plate.fixed-content-and-anatomy",
+        "baseline": "Виден только обязательный однострочный Title с фиксированной текстовой конструкцией и ellipsis без tooltip при переполнении; служебные слоты скрыты, действий нет."
+      },
+      {
+        "ruleId": "component:web-corp.holding-plate.single-company-holding-context",
+        "baseline": "Плашка используется только для дополнительной идентификации одной выбранной компании в режиме холдинга."
+      },
+      {
+        "ruleId": "component:web-corp.holding-plate.titleview-holding-mutually-exclusive",
+        "baseline": "HoldingPlate и TitleView.Holding не используются одновременно."
+      },
+      {
+        "ruleId": "component:web-corp.holding-plate.visual-baseline-is-fixed",
+        "baseline": "Plate сохраняет Border=True, BorderRadius=16, padding 12 px и token-bound визуальные свойства."
+      }
+    ],
+    "agentInstructions": [
+      "Не требуй Code Connect или runtime-компонент для HoldingPlate: это Figma-only preset.",
+      "Не интерпретируй HoldingPlate как селектор компании: компонент только сообщает текущий контекст.",
+      "Не советуй HoldingPlate для multi-company контекста или одновременно с TitleView.Holding.",
+      "Не предлагай mobile-web версию без отдельного подтверждённого компонента.",
+      "Не считай width breakpoint-свойством; сопоставляй его с шириной родительской сетки.",
+      "Не разрешай дополнительные тексты, статусы, states или controls без нового owner-confirmed правила.",
+      "Считай актуальным только вложенный [D] Plate с component key 71b20ddb5ef2e8477eaf8afb046c6d9f3d96f372."
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.width"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity"
+      ],
+      "baselinePolicy": "Сначала проверь платформу, позицию на странице и соответствие width родительской grid-ширине. Затем сравнивай anatomy и layer-свойства с effective baseline выбранного width."
+    },
+    "knownIssues": [
+      {
+        "id": "holding-plate.outdated-nested-plate",
+        "status": "resolved",
+        "owner": "AB component owner",
+        "description": "Исходный Figma-компонент использовал устаревшую версию [D] Plate.",
+        "resolution": "Вложенный Plate обновлён; targeted export от 2026-08-14 содержит актуальный component key 71b20ddb5ef2e8477eaf8afb046c6d9f3d96f372."
+      }
+    ]
+  }
+}

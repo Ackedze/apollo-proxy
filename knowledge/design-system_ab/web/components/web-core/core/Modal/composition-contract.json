@@ -1,0 +1,373 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-core.modal",
+    "status": "generated-draft",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "Modal",
+      "library": "Web _ Core"
+    },
+    "wraps": [
+      {
+        "hostComponentName": "[M] ModalHeader",
+        "path": "Content=True / NavigationContent",
+        "componentName": "NavigationContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Back": "False",
+          "Cross": "False",
+          "Custom": "True",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation",
+        "componentName": "Navigation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SecondLevel": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "[M] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "[M] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M][AO] ModalHeader",
+        "path": "Content=True / NavigationContent",
+        "componentName": "NavigationContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Back": "False",
+          "Cross": "False",
+          "Custom": "True",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M][AO] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation",
+        "componentName": "Navigation",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "SecondLevel": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M][AO] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M][AO] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔄 [M][AO] ModalHeader",
+        "path": "Content=True / NavigationContent / Navigation / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [D][AO] ModalNavigationPresets",
+        "path": "Сustom=False, Сross=True, Back=False, Title=False / Cross / Cross / IconWrapper / Wrapper / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [D][AO] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [D][AO] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [D][AO] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "True": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [M][AO] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [M][AO] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [M][AO] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔄 🔩 [M][AO] NavigationContent",
+        "path": "Custom=False, Cross=True, Back=False, Title=None, ↳ Subtitle=False / Cross / Cross / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] ModalNavigationPresets",
+        "path": "Сustom=False, Сross=True, Back=False, Title=False / Cross / Cross / IconWrapper / Wrapper / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] ModalNavigationPresets",
+        "path": "Custom=False, Cross=True, Back=False, Title=False / Cross / Cross / IconWrapper / Wrapper / PaintMe / cross-medium",
+        "componentName": "cross-medium",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [D] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / BackArrow",
+        "componentName": "BackArrow",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Back": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / MiddleSlot",
+        "componentName": "MiddleSlot",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "↳ Subtitle": "False",
+          "Custom": "True",
+          "Empty": "False",
+          "Title": "None"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] Navigation",
+        "path": "SecondLevel=False / Cross",
+        "componentName": "Cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Cross": "False",
+          "Custom": "True",
+          "Empty": "False"
+        }
+      },
+      {
+        "hostComponentName": "🔩 [M] NavigationContent",
+        "path": "Custom=False, Cross=True, Back=False, Title=None, ↳ Subtitle=False / Cross / Cross / Fixer / PaintMe / cross",
+        "componentName": "cross",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      }
+    ]
+  },
+  "manual": {}
+}

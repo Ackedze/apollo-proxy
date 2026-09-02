@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-contract-overrides",
+  "metadata": {
+    "componentKey": "web-corp.card-image",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "note": "Сгенерированный placeholder overlay. При необходимости вручную добавь semantic ownership, reset model и design-rule overrides.",
+    "semanticComponents": [
+      {
+        "name": "🔩 CardItem",
+        "key": "801c15ba3f3cdd87b5fa7bc089cc48379aa37972",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Cover",
+        "key": "2254a4b0565c2acbe8c7fbca11a55b4c92fc5232",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Product Type",
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 Shadow",
+        "key": "e0f79b3378bd428cea895ce4124199edf5509f93",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Size"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 SilverLine",
+        "key": "3fd06cdd38d50a431893a8d2ce9d25f75149a3ac",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Type"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 State",
+        "key": "6e00263c654cf43f85ae1d65455b515f2a843f18",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Size",
+          "variant.State"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "🔩 UserData",
+        "key": "6bb6d7b6fdf195d182ad0b1001500d17dd40960d",
+        "role": "part",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Size",
+          "variant.Style"
+        ],
+        "semanticSlots": []
+      },
+      {
+        "name": "CardImage",
+        "key": "e0b688215640e6280ff9effdbf880ccf248cc65a",
+        "role": "main",
+        "platform": "universal",
+        "publicProperties": [
+          "variant.Cover",
+          "variant.Size",
+          "variant.Stack",
+          "variant.State"
+        ],
+        "semanticSlots": []
+      }
+    ]
+  },
+  "manual": {
+    "semanticComponents": [
+      {
+        "name": "CardImage",
+        "componentKey": "e0b688215640e6280ff9effdbf880ccf248cc65a",
+        "role": "main",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 CardItem",
+        "componentKey": "801c15ba3f3cdd87b5fa7bc089cc48379aa37972",
+        "role": "internal-part",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 Cover",
+        "componentKey": "2254a4b0565c2acbe8c7fbca11a55b4c92fc5232",
+        "role": "internal-part",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 Shadow",
+        "componentKey": "e0f79b3378bd428cea895ce4124199edf5509f93",
+        "role": "internal-part",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 SilverLine",
+        "componentKey": "3fd06cdd38d50a431893a8d2ce9d25f75149a3ac",
+        "role": "internal-part",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 State",
+        "componentKey": "6e00263c654cf43f85ae1d65455b515f2a843f18",
+        "role": "internal-part",
+        "platform": "universal"
+      },
+      {
+        "name": "🔩 UserData",
+        "componentKey": "6bb6d7b6fdf195d182ad0b1001500d17dd40960d",
+        "role": "internal-part",
+        "platform": "universal"
+      }
+    ],
+    "publicApi": {
+      "figmaRoots": [
+        "CardImage"
+      ],
+      "internalRoots": [
+        "🔩 CardItem",
+        "🔩 Cover",
+        "🔩 Shadow",
+        "🔩 SilverLine",
+        "🔩 State",
+        "🔩 UserData"
+      ],
+      "lifecycle": "active",
+      "figmaOnly": false,
+      "codeConnectStatus": "not-configured",
+      "codeExports": [],
+      "runtimeEvidence": "Figma-документация указывает, что runtime выбирает изображение карты по cardId; точный package/import не подтверждён.",
+      "generationPolicy": "Вставляй только CardImage по published component key. Не вставляй технические 🔩-компоненты отдельно и не detach instance."
+    },
+    "usage": {
+      "purpose": "Визуальное представление банковской карты в самостоятельном виде или внутри продуктовых компонентов.",
+      "useWhen": [
+        "Нужно показать конкретную банковскую карту.",
+        "Нужно показать карточный счёт внутри AccountSelect или другого родительского компонента."
+      ],
+      "doNotUseWhen": [
+        "Нужно показать обычный некарточный счёт.",
+        "Нужно показать общий способ оплаты или декоративное изображение.",
+        "Нужно собрать сценарий добавления новой карты или состояние доставки карты."
+      ]
+    },
+    "variantSemantics": {
+      "Cover": {
+        "Alfa Business": "Стандартная рубашка дебетовой карты Alfa Business.",
+        "Alfa Business Premium": "Рубашка карты Alfa Business Premium.",
+        "Alfa Business Credit": "Рубашка кредитной карты Alfa Business.",
+        "None": "Fallback без предустановленного изображения. Обязательная база для разрешённого override рубашки карты другого банка или альтернативного дизайна Альфы."
+      },
+      "Size": {
+        "264x164": {
+          "alias": "XL",
+          "usage": "Крупное представление карты."
+        },
+        "212x132": {
+          "alias": "L",
+          "usage": "Уменьшенное крупное представление карты."
+        },
+        "68x42": {
+          "alias": "M",
+          "usage": "Строка или карточка списка."
+        },
+        "44x28": {
+          "alias": "S",
+          "usage": "Компактная строка."
+        },
+        "24x16": {
+          "alias": "XS",
+          "usage": "Минимальная inline-иллюстрация."
+        }
+      },
+      "State": {
+        "Active": "Действующая карта.",
+        "Inactive": "Недействующая или неактивная карта с индикатором состояния.",
+        "Locked": "Заблокированная карта с иконкой замка.",
+        "supportedBySize": {
+          "264x164": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ],
+          "212x132": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ],
+          "68x42": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ],
+          "44x28": [
+            "Active",
+            "Inactive",
+            "Locked"
+          ],
+          "24x16": [
+            "Active"
+          ]
+        },
+        "legacyCombinations": "Raw содержит отдельные 24x16 Inactive/Locked variants, но владелец подтвердил, что они не входят в публичный контракт."
+      },
+      "Stack": {
+        "false": "Одна карта.",
+        "true": "Две или более карты: верхняя карта соответствует первой карте списка, остальные представлены одной подложкой.",
+        "supportedSizes": [
+          "68x42",
+          "44x28",
+          "24x16"
+        ],
+        "requiredState": "Active",
+        "countPresentation": {
+          "68x42": "+N карты, где N — число остальных скрытых карт",
+          "44x28": "ellipsis",
+          "24x16": "ellipsis"
+        }
+      }
+    },
+    "componentPropertySemantics": {
+      "Show Shadow": {
+        "default": true,
+        "availableForSizes": [
+          "264x164",
+          "212x132",
+          "68x42",
+          "44x28"
+        ],
+        "singleCardPolicy": "Допустимо включать и выключать.",
+        "stackPolicy": "Для Stack=true в размерах 68x42 и 44x28 тень всегда включена. В 24x16 тени нет."
+      }
+    },
+    "contentPolicy": {
+      "cardholderName": {
+        "sizes": [
+          "264x164"
+        ],
+        "editable": true,
+        "uppercase": true,
+        "lines": 1,
+        "overflow": "ellipsis"
+      },
+      "lastFourDigits": {
+        "sizes": [
+          "264x164",
+          "212x132",
+          "68x42"
+        ],
+        "editable": true,
+        "format": "·· 1234",
+        "mustStayMasked": true
+      },
+      "sizesWithoutUserData": [
+        "44x28",
+        "24x16"
+      ]
+    },
+    "coverOverridePolicy": {
+      "allowed": true,
+      "requiredBaseCover": "None",
+      "allowedUseCases": [
+        "Карта другого банка.",
+        "Карта Альфы с альтернативным дизайном."
+      ],
+      "operation": "Добавь новый Image fill первым в списке fills существующего Details/CardCover / Image Container.",
+      "mustPreserve": [
+        "CardImage instance",
+        "🔩 Cover structure",
+        "geometry",
+        "radius",
+        "logo and payment-system ownership",
+        "state overlays"
+      ],
+      "silverLine": {
+        "otherBank": "hidden",
+        "alternativeAlfaDesign": "Скрывай, если полоса уже присутствует в рубашке или конфликтует с её дизайном."
+      }
+    },
+    "visualPolicy": {
+      "silverLineBySize": {
+        "264x164": "complex",
+        "212x132": "complex",
+        "68x42": "simple",
+        "44x28": "simple",
+        "24x16": "hidden"
+      },
+      "manualLayerOverrides": "Запрещены, кроме разрешённого Image fill рубашки, условной видимости SilverLine, имени владельца и последних четырёх цифр.",
+      "fixedSizesOnly": true,
+      "manualResizeAllowed": false
+    },
+    "interactionPolicy": {
+      "interactive": false,
+      "hostOwnsInteraction": true,
+      "loadingErrorEmptyOwnedByHost": true,
+      "coverNoneIsLoading": false
+    },
+    "responsivePolicy": {
+      "platform": "universal",
+      "separateDesktopMobileRoots": false,
+      "manualResizeForResponsive": false
+    },
+    "resetModel": {
+      "variant.*|boolean.Show Shadow": "reset-component-properties",
+      "content.cardholderName|content.lastFourDigits": "reset-content-overrides",
+      "cover.imageFill|cover.silverLineVisibility": "reset-allowed-cover-overrides",
+      "layout.*|styles.text|fill|stroke|radius|opacity|effects.*": "reset-layer-properties-against-effective-card-image-baseline"
+    }
+  }
+}

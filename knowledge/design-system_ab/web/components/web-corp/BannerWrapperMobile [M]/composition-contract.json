@@ -1,0 +1,861 @@
+{
+  "schemaVersion": 2,
+  "documentType": "composition-contract",
+  "metadata": {
+    "componentKey": "web-corp.banner-wrapper-mobile",
+    "status": "generated-draft",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-04"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "component": {
+      "name": "BannerWrapperMobile [M]",
+      "library": "Web _ Corp Components"
+    },
+    "wraps": [
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": ".LeftAddon",
+        "path": "Type=IconView, Skeleton=No / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24 px"
+        }
+      },
+      {
+        "hostComponentName": ".RightContent",
+        "path": "Type=IconWrapper, Skeleton=No / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": ".RightContent",
+        "path": "Type=IconWrapper, Skeleton=No / IconWrapper / Wrapper / PaintMe / chevron-right-shift-right",
+        "componentName": "chevron-right-shift-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 12px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "Zero"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon",
+        "componentName": ".LeftAddon",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "No",
+          "Type": "IconView"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / BottomAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView",
+        "componentName": "🔄 IconView",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "20"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Circle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / TopAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 16 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / 🔄 Indicator",
+        "componentName": "🔄 Indicator",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "border": "false",
+          "size": "xs [8 px]",
+          "view": "red"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / Shape / 👻 Shape",
+        "componentName": "👻 Shape",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / ShapeContent / BgIcon",
+        "componentName": "BgIcon",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / ShapeContent / BgIcon / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "xxl | 48 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / ShapeContent / Border / 👻 Border",
+        "componentName": "👻 Border",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Form": "Superellipse"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .LeftAddon / 🔄 IconView / Content / ShapeContent / 👻 MainContent / IconWrapper / Wrapper / PaintMe / SwapMe",
+        "componentName": "SwapMe",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24 px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / TextContent / Subhead",
+        "componentName": "Subhead",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Subhead"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / TextContent / Extra Title",
+        "componentName": "Extra Title",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "ExtraTitle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / TextContent / Title",
+        "componentName": "Title",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Title"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / TextContent / Subtitle",
+        "componentName": "Subtitle",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Type": "Subtitle"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .RightContent",
+        "componentName": ".RightContent",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Skeleton": "No",
+          "Type": "IconWrapper"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .RightContent / IconWrapper",
+        "componentName": "IconWrapper",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 24px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / .RightContent / IconWrapper / Wrapper / PaintMe / chevron-right-shift-right",
+        "componentName": "chevron-right-shift-right",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "Zero"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / 🔄 ButtonMobile",
+        "componentName": "🔄 ButtonMobile",
+        "role": "internal-instance",
+        "visible": false,
+        "variantProperties": {
+          "disable": "False",
+          "label": "True",
+          "leftAddon": "False",
+          "loading": "False",
+          "rightAddon": "False",
+          "size": "XXS (32)",
+          "view": "secondary"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / 🔄 ButtonMobile / 👻 Base",
+        "componentName": "👻 Base",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "configuration": "T",
+          "size": "XXS_Mobile",
+          "type": "solid"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / 🔄 ButtonMobile / 👻 Base / 👻 Fixer",
+        "componentName": "👻 Fixer",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "48 | XXS & XS"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "s | 12px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      }
+    ]
+  },
+  "manual": {
+    "wraps": [
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / ContentLayout / Content / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "m | 16px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / Layout / 🔄 ↕ SpacingVertical",
+        "componentName": "🔄 ↕ SpacingVertical",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      },
+      {
+        "hostComponentName": "BannerWrapperMobile",
+        "path": "Banner=False, Skeleton=False / 🔄 ↔ SpacingHorizontal",
+        "componentName": "🔄 ↔ SpacingHorizontal",
+        "role": "internal-instance",
+        "visible": true,
+        "variantProperties": {
+          "Size": "2xs | 04px"
+        }
+      }
+    ]
+  }
+}

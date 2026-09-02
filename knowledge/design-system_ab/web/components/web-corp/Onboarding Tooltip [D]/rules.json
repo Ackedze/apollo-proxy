@@ -1,0 +1,776 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-rules",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-tooltip",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2,
+    "ruleAuthorityMigrationRevision": 1
+  },
+  "generated": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.component-properties-are-first-class",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "variant.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layers": [
+            "👻 TooltipTail",
+            "Close",
+            "Onboarding footer",
+            "Onboarding Tooltip",
+            "Onboarding Tooltip [D]",
+            "Pips",
+            "Text content",
+            "TooltipTail"
+          ]
+        },
+        "ruleText": "Изменения variant/property в этом семействе компонентов являются component-property customizations. Показывай их отдельно от производных визуальных изменений layer."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.layer-properties-use-effective-baseline",
+        "severity": "warning",
+        "source": "composition-contract",
+        "appliesTo": "layout.*|styles.text|fill|stroke|radius|opacity",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layers": [
+            "👻 TooltipTail",
+            "Close",
+            "Onboarding footer",
+            "Onboarding Tooltip",
+            "Onboarding Tooltip [D]",
+            "Pips",
+            "Text content",
+            "TooltipTail"
+          ]
+        },
+        "ruleText": "Изменения layer/style внутри этого семейства компонентов нужно сравнивать с effective baseline текущего component variant и nested owner context."
+      }
+    ]
+  },
+  "manual": {
+    "rules": [
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.lifecycle-context-is-informational",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.status",
+        "checkType": "manual",
+        "ruleText": "Lifecycle status компонента является контекстом для агента. Не считай его дизайн-нарушением, если не найден отдельный pattern или exact design rule."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.public-root-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй Onboarding Tooltip как публичный корень. 👻 TooltipTail, Pips, Close, Onboarding footer и Text content являются служебными частями и не используются отдельно.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.desktop-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.platform",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Tooltip [D] используется только на desktop от 768 px. На mobile-web onboarding-сценарий показывается в BottomSheet.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.required-anatomy",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component|text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Tooltip должен содержать Title, Subtitle, Close и как минимум одну видимую кнопку.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.scenario-purpose",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Используй onboarding, когда нужно помочь пользователю освоить изменившийся или неочевидный интерфейс: например после крупного обновления или при запуске полезной функции с неочевидным расположением."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.trigger-model",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.trigger",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding может запускаться автоматически или по триггерному событию. Возможность повторного запуска определяется бизнес-логикой продукта."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.tail-points-to-target",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "variant.Tail Direction|variant.Tail Position|component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Выбирай Tail Direction и Tail Position по расположению связанного элемента. Хвост Onboarding Tooltip должен указывать на целевой объект или область.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.pips-match-steps",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.steps|variant.Selected",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В одношаговом onboarding Pips скрыты. В многошаговом Pips обязательны на каждом шаге, их количество совпадает с количеством шагов, выбранным может быть только один Pip. Pips служат индикатором и не являются интерактивными.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.button-configuration",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Size|variant.Shape|variant.SingleIcon|variant.DisabledState",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layers": [
+            "Onboarding footer/Button group/[D][Corporate] Button 1",
+            "Onboarding footer/Button group/[D][Corporate] Button 2"
+          ]
+        },
+        "requiredVariant": {
+          "Size": "40",
+          "Shape": "Rectangular",
+          "SingleIcon": "False",
+          "DisabledState": "False"
+        },
+        "ruleText": "Используй одну или две кнопки Size=40, Shape=Rectangular, SingleIcon=False, без addons и с DisabledState=False. Primary обязательна, Secondary опциональна. Кнопки переключают шаг, выполняют навигацию или завершают onboarding.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.primary-button-role-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layer": "Onboarding footer/Button group/[D][Corporate] Button 1"
+        },
+        "requiredVariant": {
+          "View": "Primary"
+        },
+        "ruleText": "Первая кнопка в Onboarding footer выполняет роль Primary. Не меняй её View вручную.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.secondary-button-role-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.View",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layer": "Onboarding footer/Button group/[D][Corporate] Button 2"
+        },
+        "requiredVariant": {
+          "View": "Secondary"
+        },
+        "ruleText": "Вторая кнопка в Onboarding footer, когда она видима, выполняет роль Secondary. Не меняй её View вручную.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.editable-content",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "text|component.visibility",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Subhead опционален. Тексты Subhead, Title, Subtitle и labels кнопок можно менять по контексту onboarding."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.content-length-recommendations",
+        "severity": "warning",
+        "source": "component-contract",
+        "appliesTo": "text",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Рекомендуемые максимумы: Subhead — 20 символов, Title — 30, Subtitle — 90, label кнопки — 10. Превышение является предупреждением, а не запретом."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.maximum-ten-steps",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.steps",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Один onboarding может содержать не более десяти шагов.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.close-is-required-and-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.Close",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Close обязателен, закрывает текущий onboarding без подтверждения и не может быть скрыт или заменён другой иконкой.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.close-icon-configuration-is-fixed",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "variant.Size|variant.Color|variant.Style",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "target": {
+          "component": "Onboarding Tooltip [D]",
+          "layer": "Content/Content/Close/cross"
+        },
+        "requiredVariant": {
+          "Size": "24",
+          "Color": "False",
+          "Style": "Line"
+        },
+        "ruleText": "Встроенная иконка Close использует Size=24, Color=False и Style=Line. Её конфигурацию нельзя менять вручную.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.target-must-remain-visible",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Tooltip может перекрывать другие элементы управления, но не должен перекрывать связанный объект или область. Целевой объект может оставаться интерактивным.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.visuals-follow-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "layout.width|layout.padding.*|layout.itemSpacing|radius|fill|styles.text|opacity|effects.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Ширина, padding, spacing, radius, fill, typography, opacity и effects должны соответствовать effective baseline. Высота использует Hug и определяется контентом.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 2
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.onboarding-tooltip"
+                }
+              },
+              {
+                "predicate": "exists",
+                "actual": {
+                  "fact": "appearance.fill.value"
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.fill.value",
+              "baselineFact": "baseline.effective.appearance.fill.value",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменена заливка Onboarding Tooltip",
+            "observed": "Заливка изменена с {{expected}} на {{actual}}.",
+            "expectation": "Заливка внутренних слоёв Onboarding Tooltip должна совпадать с effective baseline выбранного варианта.",
+            "action": "Сбросить заливку к effective baseline Onboarding Tooltip.",
+            "targetFact": "appearance.fill.value"
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.radius-follows-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "radius|cornerRadius|cornerRadius.*",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Скругления Onboarding Tooltip и его внутренних слоёв должны соответствовать effective baseline выбранного варианта и не изменяются вручную.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.onboarding-tooltip"
+                }
+              },
+              {
+                "predicate": "exists",
+                "actual": {
+                  "fact": "appearance.radius"
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.radius",
+              "baselineFact": "baseline.effective.appearance.radius",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменено скругление Onboarding Tooltip",
+            "observed": "Скругление изменено с {{expected}} на {{actual}}.",
+            "expectation": "Скругление должно совпадать с effective baseline выбранного варианта Onboarding Tooltip.",
+            "action": "Сбросить скругление к effective baseline Onboarding Tooltip.",
+            "targetFact": "appearance.radius"
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.typography-follows-effective-baseline",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "styles.text|typography",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Текстовые стили внутренних текстовых слоёв Onboarding Tooltip должны соответствовать effective baseline выбранного варианта и не изменяются вручную.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "baseline",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.onboarding-tooltip"
+                }
+              },
+              {
+                "predicate": "binding-satisfies",
+                "actual": {
+                  "fact": "bindings.styles.text"
+                },
+                "expected": {
+                  "literal": {
+                    "bound": true,
+                    "kind": "text-style"
+                  }
+                }
+              }
+            ]
+          },
+          "pairs": [
+            {
+              "actualFact": "appearance.styles.textStyle",
+              "baselineFact": "baseline.effective.appearance.styles.textStyle",
+              "required": true
+            }
+          ],
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "Изменён текстовый стиль Onboarding Tooltip",
+            "observed": "Текстовый стиль изменён с {{expected}} на {{actual}}.",
+            "expectation": "Текстовый стиль должен совпадать с effective baseline выбранного варианта Onboarding Tooltip.",
+            "action": "Сбросить текстовый стиль к effective baseline Onboarding Tooltip.",
+            "targetFact": "appearance.styles.textStyle"
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.text-style-binding-required",
+        "severity": "error",
+        "source": "component-contract",
+        "ruleKind": "design-rule",
+        "appliesTo": "styles.text|typography",
+        "checkType": "deterministic",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Каждый внутренний текстовый слой Onboarding Tooltip должен быть связан с опубликованным Figma Text Style. Raw typography без Text Style запрещена.",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        },
+        "predicateContour": {
+          "schemaVersion": "apollo.contour-definition.v1",
+          "kind": "binding-set",
+          "select": {
+            "from": "selection-root",
+            "traverse": "descendants",
+            "where": [
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "type"
+                },
+                "expected": {
+                  "literal": "TEXT"
+                }
+              },
+              {
+                "predicate": "equals",
+                "actual": {
+                  "fact": "ownership.owner.component.identity"
+                },
+                "expected": {
+                  "literal": "web-corp.onboarding-tooltip"
+                }
+              }
+            ]
+          },
+          "paths": [
+            {
+              "suffix": "text-style",
+              "label": "Текстовый стиль",
+              "valueFact": "appearance.styles.textStyle",
+              "bindingFact": "bindings.styles.text",
+              "requireValue": false
+            }
+          ],
+          "expectedBinding": {
+            "bound": true,
+            "kind": "text-style"
+          },
+          "presentation": {
+            "schemaVersion": "apollo.predicate-presentation.v1",
+            "title": "{{property}} не связан с Figma Text Style",
+            "observed": "Для текстового слоя используется raw typography без привязки к Figma Text Style.",
+            "expectation": "Внутренние текстовые слои Onboarding Tooltip должны использовать опубликованные Figma Text Styles.",
+            "action": "Назначить канонический Text Style из effective baseline Onboarding Tooltip.",
+            "targetFact": "appearance.styles.textStyle"
+          },
+          "scope": {
+            "platform": [
+              "desktop"
+            ]
+          },
+          "unknownPolicy": "not-evaluable"
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.plain-text-content-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Subhead, Title и Subtitle содержат только обычный текст. Не добавляй ссылки, списки и rich-text элементы.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.must-fit-viewport",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Tooltip должен полностью помещаться в viewport без обрезания. Если места недостаточно, измени Tail Direction или Tail Position.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.default-state-only",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.state",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "У Onboarding Tooltip нет loading, disabled, error и interrupted states. Не создавай эти состояния вручную.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.blocks-outside-interaction",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Во время onboarding взаимодействие с остальным интерфейсом блокируется. Связанный объект может оставаться интерактивным.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.step-button-model",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.steps|component.buttons",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "В одношаговом и на первом шаге многошагового onboarding показывай только Primary. На промежуточных шагах используй Secondary для возврата и Primary для перехода далее. На последнем шаге показывай Primary для завершения.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.single-visible-tooltip",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Одновременно отображается только один Onboarding Tooltip. При переходе следующий tooltip заменяет предыдущий.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.dismiss-methods",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.interaction",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Закрывай onboarding только через Close или финальное Primary-действие. Esc и клик вне компонента не закрывают onboarding. Действие целевого объекта может перевести сценарий на следующий шаг или завершить его.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.text-overflow-model",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "text",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Subhead остаётся в одну строку и обрезается многоточием. Title и Subtitle переносятся без truncation. Label кнопки всегда остаётся в одну строку.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.blocking-overlay-required",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.composition",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Блокирующий слой с выделенной целевой областью является обязательной частью композиции onboarding.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.target-must-be-available",
+        "severity": "error",
+        "source": "component-contract",
+        "appliesTo": "component.trigger|component.position",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Не запускай onboarding, если целевой объект отсутствует, скрыт или находится за пределами viewport.",
+        "ruleKind": "design-rule",
+        "authority": {
+          "status": "active",
+          "provenance": "design-system-author",
+          "revision": 1
+        }
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.temporary-surfaces-allowed",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.context",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Onboarding Tooltip можно использовать поверх Modal или Drawer, если целевой объект расположен внутри этой поверхности."
+      },
+      {
+        "ruleId": "component:web-corp.onboarding-tooltip.flow-is-business-logic",
+        "severity": "info",
+        "source": "component-contract",
+        "appliesTo": "component.flow",
+        "checkType": "manual",
+        "matchKind": "exact_component_rule",
+        "ruleText": "Порядок шагов, переходы между страницами, повторный запуск и пропуск onboarding через Close определяются бизнес-логикой продукта."
+      }
+    ]
+  }
+}

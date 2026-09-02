@@ -1,0 +1,406 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web-corp.onboarding-tooltip",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-22"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "onboarding-tooltip.desktop-feature-introduction",
+        "title": "Знакомство с полезной функцией на desktop",
+        "inputState": {
+          "platform": "desktop",
+          "root": "Onboarding Tooltip",
+          "titleVisible": true,
+          "subtitleVisible": true,
+          "closeVisible": true,
+          "visibleButtons": 1
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-internal-part",
+        "title": "Служебная часть используется отдельно",
+        "inputState": {
+          "root": "Onboarding footer"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.public-root-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-mobile-web",
+        "title": "Desktop-компонент используется на mobile-web",
+        "inputState": {
+          "platform": "mobile-web",
+          "root": "Onboarding Tooltip"
+        },
+        "expectedAudit": {
+          "category": "wrongChannel",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.desktop-only"
+        },
+        "expectedAgent": "Предложить перенести onboarding-сценарий в BottomSheet."
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-missing-required-part",
+        "title": "Скрыта обязательная часть",
+        "inputState": {
+          "titleVisible": true,
+          "subtitleVisible": false,
+          "closeVisible": true,
+          "visibleButtons": 1
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.required-anatomy"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-no-buttons",
+        "title": "Скрыты все кнопки",
+        "inputState": {
+          "visibleButtons": 0
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.required-anatomy"
+        },
+        "mustNotSay": [
+          "В onboarding всегда должны быть две кнопки.",
+          "Onboarding ограничен конкретным числом шагов."
+        ]
+      },
+      {
+        "exampleId": "onboarding-tooltip.multi-step",
+        "title": "Многошаговый onboarding с согласованной пагинацией",
+        "inputState": {
+          "steps": 4,
+          "visiblePips": 4,
+          "selectedPips": 1,
+          "buttons": [
+            {
+              "view": "Secondary",
+              "size": 40,
+              "action": "previous-step"
+            },
+            {
+              "view": "Primary",
+              "size": 40,
+              "action": "next-step"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-pips",
+        "title": "Пагинация не соответствует шагам",
+        "inputState": {
+          "steps": 4,
+          "visiblePips": 3,
+          "selectedPips": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.pips-match-steps"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-tail-target",
+        "title": "Хвост не указывает на целевую область",
+        "inputState": {
+          "tailPointsToTarget": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.tail-points-to-target"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-button-configuration",
+        "title": "Использованы три кнопки или отсутствует Primary",
+        "inputState": {
+          "visibleButtons": 3,
+          "primaryButtons": 0,
+          "buttonSize": 48
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.button-configuration"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.content-length-warning",
+        "title": "Текст превышает рекомендуемый максимум",
+        "inputState": {
+          "titleCharacters": 31,
+          "subtitleCharacters": 91
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "warning",
+          "ruleId": "component:web-corp.onboarding-tooltip.content-length-recommendations"
+        },
+        "mustNotSay": [
+          "Такой текст запрещён.",
+          "Лимит onboarding равен лимиту обычного Tooltip."
+        ]
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-eleven-steps",
+        "title": "Onboarding содержит одиннадцать шагов",
+        "inputState": {
+          "steps": 11
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.maximum-ten-steps"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-hidden-close",
+        "title": "Close скрыт или заменён",
+        "inputState": {
+          "closeVisible": false,
+          "closeIconReplaced": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.close-is-required-and-fixed"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-covers-target",
+        "title": "Tooltip перекрывает целевой объект",
+        "inputState": {
+          "targetVisible": false,
+          "targetInteractive": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.target-must-remain-visible"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-manual-visual",
+        "title": "Вручную изменены ширина и скругление",
+        "inputState": {
+          "manualWidth": true,
+          "property": "radius",
+          "changedFromEffectiveBaseline": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.visuals-follow-effective-baseline"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-interactive-pips",
+        "title": "Pips используются для навигации",
+        "inputState": {
+          "pipsInteractive": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.pips-match-steps"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-button-state",
+        "title": "Кнопка содержит addon или disabled state",
+        "inputState": {
+          "buttonAddon": true,
+          "buttonDisabledState": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.button-configuration"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-rich-content",
+        "title": "В Subtitle добавлена ссылка",
+        "inputState": {
+          "subtitleHasLink": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.plain-text-content-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-viewport-clipping",
+        "title": "Tooltip обрезается границей viewport",
+        "inputState": {
+          "viewportClipped": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.must-fit-viewport"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-custom-state",
+        "title": "Добавлено loading-состояние",
+        "inputState": {
+          "state": "loading"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.default-state-only"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.single-step-without-pips",
+        "title": "Одношаговый onboarding без Pips",
+        "inputState": {
+          "steps": 1,
+          "visiblePips": 0,
+          "buttons": [
+            "Primary"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-step-buttons",
+        "title": "На первом шаге показана Secondary",
+        "inputState": {
+          "step": "first",
+          "buttons": [
+            "Secondary",
+            "Primary"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.step-button-model"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-two-visible-tooltips",
+        "title": "Одновременно показаны два шага",
+        "inputState": {
+          "visibleOnboardingTooltips": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.single-visible-tooltip"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-outside-dismiss",
+        "title": "Onboarding закрывается кликом вне компонента",
+        "inputState": {
+          "dismissMethod": "outside-click"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.dismiss-methods"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.text-overflow",
+        "title": "Корректное поведение длинного текста",
+        "inputState": {
+          "subheadOverflow": "ellipsis",
+          "titleOverflow": "wrap",
+          "subtitleOverflow": "wrap",
+          "buttonLabelLines": 1
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-missing-overlay",
+        "title": "Отсутствует блокирующий слой",
+        "inputState": {
+          "blockingOverlay": false,
+          "targetHighlighted": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.blocking-overlay-required"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.modal-target",
+        "title": "Onboarding внутри Modal",
+        "inputState": {
+          "surface": "Modal",
+          "targetInsideSurface": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        }
+      },
+      {
+        "exampleId": "onboarding-tooltip.invalid-target-unavailable",
+        "title": "Onboarding запускается без доступной цели",
+        "inputState": {
+          "targetExists": true,
+          "targetVisible": false,
+          "targetInsideViewport": false,
+          "onboardingStarted": true
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web-corp.onboarding-tooltip.target-must-be-available"
+        }
+      }
+    ]
+  }
+}

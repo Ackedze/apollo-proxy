@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-audit-mapping",
+  "metadata": {
+    "componentKey": "web-corp.card-swiper-mobile",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "mobile-web"
+      ],
+      "source": "owner-confirmed",
+      "updatedAt": "2026-08-03"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T12:58:40.628Z",
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp/Web _ Corp Components -- CardSwiperMobile [M].json",
+      "library": "Web _ Corp Components",
+      "file": "Web _ Corp Components",
+      "generatedAt": "2026-07-27T12:58:40.628Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "CardSwiperMobile [M]"
+      ]
+    },
+    "classification": [
+      {
+        "match": {
+          "propertyPrefix": "variant."
+        },
+        "scope": "component-property",
+        "groupTitle": "Параметры компонента",
+        "priority": 10,
+        "resetAction": "reset-component-properties"
+      },
+      {
+        "match": {
+          "propertyPrefix": "layout."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 20,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "styles.text"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "displayName": "Стиль текст",
+        "priority": 30,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "fill"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 40,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "stroke"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 50,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "stroke."
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 55,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "radius"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 60,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "opacity"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 70,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "propertyPrefix": "effects"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 80,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blend.mode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 90,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "blendMode"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 91,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      },
+      {
+        "match": {
+          "property": "clipsContent"
+        },
+        "scope": "layer-property",
+        "groupTitle": "Параметры слоя",
+        "priority": 100,
+        "resetAction": "reset-layer-properties",
+        "effectiveBaseline": "composition-contract"
+      }
+    ],
+    "categories": [
+      {
+        "when": {
+          "propertyPrefix": "variant."
+        },
+        "category": "component-property",
+        "resetSurface": "parameters"
+      },
+      {
+        "when": {
+          "propertyPrefix": "layout."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use component effective baseline after host and nested variant resolution."
+      },
+      {
+        "when": {
+          "propertyPrefix": "styles."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved style label or style id from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "fill"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "stroke"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use resolved token/style/color from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "stroke."
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use stroke geometry from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "radius"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use radius from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "opacity"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use opacity and opacity token from the effective baseline."
+      },
+      {
+        "when": {
+          "propertyPrefix": "effects"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use effect types and values from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blend.mode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "blendMode"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use blend mode from the effective baseline."
+      },
+      {
+        "when": {
+          "property": "clipsContent"
+        },
+        "category": "layer-property",
+        "resetSurface": "layer",
+        "baselinePolicy": "Use the changed node as the affected target."
+      }
+    ],
+    "groupingOrder": [
+      "component-property",
+      "layer-property"
+    ],
+    "evidencePolicy": {
+      "showVariantBeforeDerivedVisuals": true,
+      "useChangedNodeAsAffectedTarget": true,
+      "keepLayerOverrideSeparateFromVariantChange": true,
+      "suppressWrapperOwnedDiffsWhenEqualToEffectiveBaseline": true
+    }
+  },
+  "manual": {
+    "categories": [
+      {
+        "when": {
+          "property": "variant.Screen Size"
+        },
+        "category": "component-property",
+        "groupTitle": "Параметры компонента",
+        "displayName": "Размер экрана",
+        "resetSurface": "parameters",
+        "baselinePolicy": "Resolve from viewport: 320-360 for 320–359 px; 360+ from 360 px."
+      },
+      {
+        "when": {
+          "property": "boolean.Show Start#17127:0"
+        },
+        "category": "component-property",
+        "groupTitle": "Параметры компонента",
+        "displayName": "Показать предыдущую карту",
+        "resetSurface": "parameters",
+        "baselinePolicy": "True only when selectedIndex > 0."
+      },
+      {
+        "when": {
+          "property": "boolean.Show End#17127:3"
+        },
+        "category": "component-property",
+        "groupTitle": "Параметры компонента",
+        "displayName": "Показать следующую карту",
+        "resetSurface": "parameters",
+        "baselinePolicy": "True only when selectedIndex < cardCount - 1."
+      },
+      {
+        "when": {
+          "property": "content.cards"
+        },
+        "category": "content-property",
+        "groupTitle": "Данные карусели",
+        "displayName": "Карты",
+        "resetSurface": "data",
+        "baselinePolicy": "At least one card; preserve input order."
+      },
+      {
+        "when": {
+          "property": "content.selectedIndex"
+        },
+        "category": "content-property",
+        "groupTitle": "Данные карусели",
+        "displayName": "Выбранная карта",
+        "resetSurface": "selection",
+        "baselinePolicy": "Use explicit selectedIndex or fallback 0."
+      },
+      {
+        "when": {
+          "propertyPrefix": "nested.CardImage.variant."
+        },
+        "category": "nested-component-property",
+        "groupTitle": "Параметры карты",
+        "resetSurface": "nested-component",
+        "baselinePolicy": "Resolve carousel role first. Size and Stack are host-owned; Cover and State inherit the CardImage contract."
+      },
+      {
+        "when": {
+          "propertyPrefix": "nested.CardImage.content."
+        },
+        "category": "content-property",
+        "groupTitle": "Данные карты",
+        "resetSurface": "nested-content",
+        "baselinePolicy": "Use the effective CardImage size/content baseline for the current carousel role."
+      },
+      {
+        "when": {
+          "propertyPrefix": "interaction.carousel."
+        },
+        "category": "interaction",
+        "groupTitle": "Поведение карусели",
+        "resetSurface": "runtime",
+        "baselinePolicy": "Non-cyclic, one-position navigation. Runtime/manual evidence is required."
+      }
+    ],
+    "displayNames": {
+      "CardsCollection": "Окно карусели",
+      "LeftCardWrapper": "Предыдущая карта",
+      "RightCardWrapper": "Следующая карта",
+      "CardImage": "Банковская карта"
+    },
+    "effectiveBaselineOrder": [
+      "viewport and Screen Size",
+      "cards and selectedIndex",
+      "previous/current/next role",
+      "host-owned CardImage Size and Stack",
+      "CardImage Cover, State, content and allowed leaf overrides"
+    ],
+    "ownerConfirmedExceptions": [
+      {
+        "property": "bottom spacing",
+        "appliesTo": "Screen Size=320-360",
+        "effectiveValue": 32,
+        "generatedValue": 24,
+        "note": "Use owner-confirmed 32 px; do not edit generated contract manually."
+      }
+    ],
+    "runtimeLimitations": [
+      "Apollo can classify Figma property and layer diffs, but card count, source order, cyclic behavior, one-step motion and accessibility require composition, runtime or agentic evidence.",
+      "Do not present duration, easing or reduced-motion checks as active until the React contract is connected.",
+      "Different CardImage Cover, State or content is informational unless an exact CardImage rule is violated."
+    ],
+    "codeExportAliases": [],
+    "hostIntegrationNote": "CardSwiperMobile owns CardImage Size, Stack and position. Resolve those values before auditing per-card Cover, State, content and allowed leaf overrides."
+  }
+}

@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web.promo-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T13:29:07.697Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-promo/Web _ Сorp Promo Components -- PromoCard.json",
+      "library": "Web _ Сorp Promo Components",
+      "file": "Web _ Сorp Promo Components",
+      "generatedAt": "2026-07-27T13:29:07.697Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "PromoCard"
+      ]
+    },
+    "summary": {
+      "componentFamily": "PromoCard",
+      "library": "Web _ Сorp Promo Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] BottomContent",
+        "key": "aad90e6678a0b45a92508830bedf65d2a71a1b20",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "ButtonGroup",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] ButtonGroup",
+        "key": "0e2df7fab70eda269c69a56a56dacda317c7a0a7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] ContentWrapper",
+        "key": "6a31fd40538d0f319da89c2858786ff157ae05ab",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Centred": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[D] ImageContainerLarge",
+        "key": "066c4eb0c9143cd7db366aeda5c013bbd62651bb",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] ImageContainerMedium",
+        "key": "11a38eec6adf4a582b6e9e629138c94673adc47e",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] ImageContainerSmall",
+        "key": "9614e92101c3db8a434a4c8d25b2316feffcfcae",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[D] PromoCard",
+        "key": "efdc65ad205ceb06c6940d074b9f131f15ebc5e8",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Image": [
+            "Bottom",
+            "None (Figma only)",
+            "Top"
+          ],
+          "ImageCrop": [
+            "False",
+            "True"
+          ],
+          "Size": [
+            "Large",
+            "Medium",
+            "Small"
+          ]
+        }
+      },
+      {
+        "name": "[M] BottomContent",
+        "key": "3f06774ee9b429513f35ca161325de5b059126f4",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "ButtonGroup",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[M] ButtonGroup",
+        "key": "1f30e0c7404a462ffd4bf05ad58865d1f5d80ef7",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Axis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "PrimaryButton": [
+            "False",
+            "True"
+          ],
+          "SecondaryButton": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] ContentWrapper",
+        "key": "c35a1154fe5ba275cf3cf1153c8183873a60d08f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Centred": [
+            "False",
+            "True"
+          ],
+          "Title": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[M] ImageContainerLarge",
+        "key": "6bd209233f2df1485bc9dc49c63ad1a29b0e8d54",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] ImageContainerMedium",
+        "key": "dab4dc492e7c0c69fe31de7a0194e79044eaea11",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] ImageContainerSmall",
+        "key": "b072357ed494550e58a20e6d878a457fa05b74f2",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Image Centred": [
+            "False",
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "[M] PromoCard",
+        "key": "1b7189d801ba823fb46086c963929003fe30242d",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Image": [
+            "Bottom",
+            "None (Figma only)",
+            "Top"
+          ],
+          "ImageCrop": [
+            "False",
+            "True"
+          ],
+          "Size": [
+            "Large",
+            "Medium",
+            "Small"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:components.promo-card",
+        "patternKey": "components.promo-card",
+        "file": "shared/design-system_ab/patterns/p_promo-card.md",
+        "sourceType": "component-guideline",
+        "updatedAt": "2026-07-20"
+      },
+      {
+        "patternId": "ptrn:media.images-and-formats",
+        "patternKey": "media.images-and-formats",
+        "file": "shared/design-system_ab/patterns/p_images_format.md",
+        "sourceType": "design-guideline"
+      },
+      {
+        "patternId": "ptrn:components.background-plate",
+        "patternKey": "components.background-plate",
+        "file": "shared/design-system_ab/patterns/p_background-plate.md",
+        "sourceType": "component-guideline"
+      }
+    ],
+    "summary": {
+      "componentFamily": "PromoCard",
+      "library": "Web _ Сorp Promo Components",
+      "purpose": "PromoCard показывает отдельное промопредложение, преимущество или акцию с помощью текста, изображения и опционального действия."
+    },
+    "usageGuidance": [
+      "Используй [D] PromoCard при ширине 768 px и больше, [M] PromoCard — при ширине меньше 768 px.",
+      "BottomContent, ButtonGroup, ContentWrapper и ImageContainer являются служебными частями и отдельно не используются.",
+      "Small, Medium и Large выбираются по композиции.",
+      "Title обязателен. Subtitle можно скрыть.",
+      "Рекомендуемые лимиты: Title до 60 символов и двух строк, Subtitle до 120 символов и трёх строк.",
+      "Используй Image=Top или Image=Bottom. Image=None разрешён только в бенто-композиции.",
+      "При Image=None установи ImageCrop=False и Offset=False.",
+      "Изображение заменяй через ImageView и бери из Corp :: Image Library.",
+      "В ImageView можно менять Segment. Crop и Size сохраняются по effective baseline; обрезкой управляет PromoCard.ImageCrop.",
+      "Offset разрешён только при Image=Top и может сочетаться с ImageCrop.",
+      "Image Centred служебного ImageContainer не является публичной настройкой и остаётся по effective baseline.",
+      "При Image=Top используется fade. На Colored поверхности градиент использует тот же цветовой токен, что и заливка [Promo] BackgroundPlate.",
+      "ContentWrapper.Centred выбирается по контексту. При Centred=True рекомендуется вертикальная группа кнопок.",
+      "BottomContent — открытый slot для одного локального или библиотечного component instance.",
+      "В готовом макете замени SwapMe. Вложенный компонент не детачь и настраивай по его собственному контракту.",
+      "Допустимо не использовать кнопки. Для одной кнопки доступны Primary и Secondary; для двух — Primary / Secondary и Secondary / Transparent.",
+      "Размер кнопок: 48 на desktop и 56 на mobile-web. Публичные настройки кнопок следуют контракту Button.",
+      "PromoCard может быть полностью кликабельной. Один интерактивный элемент должен дублировать действие карточки.",
+      "Текстовая ссылка внутри текстового блока может выполнять отдельное поясняющее действие, например открыть Tooltip.",
+      "При двух кнопках карточка не кликабельна целиком; каждая кнопка может выполнять своё действие.",
+      "Не рекомендуется одновременно использовать кнопки и другой интерактивный элемент, кроме текстовой ссылки внутри текста.",
+      "Настраивай [Promo] BackgroundPlate по его контракту. Для Colored разрешена токенизированная заливка, для Border — токенизированная обводка.",
+      "Type=Secondary разрешён, но не рекомендуется.",
+      "Skeleton=True доступен для любого Type поверхности, скрывает весь контент и блокирует карточку.",
+      "Корень обычно использует Hug по высоте, Stopper — Fill. Ширина и итоговая высота зависят от композиции.",
+      "Внутренние padding, gap, radius, typography, opacity и effects должны соответствовать effective baseline."
+    ],
+    "contentGuidance": {
+      "Title": "Обязательный заголовок: рекомендуется до 60 символов и двух строк.",
+      "Subtitle": "Опциональное пояснение: рекомендуется до 120 символов и трёх строк.",
+      "Image": "Изображение из Corp :: Image Library; обязательно вне бенто-композиции.",
+      "BottomContent": "Один локальный или библиотечный component instance, выбранный через instance swap."
+    },
+    "ruleHighlights": [
+      "component:web.promo-card.public-roots-only",
+      "component:web.promo-card.platform-version-must-match",
+      "component:web.promo-card.title-required",
+      "component:web.promo-card.content-limits",
+      "component:web.promo-card-image-none-bento-only",
+      "component:web.promo-card-image-none-disables-image-effects",
+      "component:web.promo-card-offset-top-only",
+      "component:web.promo-card-image-view-overrides",
+      "component:web.promo-card-internal-image-alignment-baseline",
+      "component:web.promo-card-top-fade-matches-surface",
+      "component:web.promo-card-bottom-content-is-open-slot",
+      "component:web.promo-card-bottom-content-single-instance",
+      "component:web.promo-card-bottom-content-follows-own-contract",
+      "component:web.promo-card.button-composition",
+      "component:web.promo-card-content-alignment-contextual",
+      "component:web.promo-card-click-action-consistency",
+      "component:web.promo-card-two-buttons-disable-card-click",
+      "component:web.promo-card-avoid-multiple-interactive-elements",
+      "component:web.promo-card-surface-follows-contract",
+      "component:web.promo-card-secondary-surface-not-recommended",
+      "component:web.promo-card-skeleton-covers-entire-card",
+      "component:web.promo-card-visuals-follow-effective-baseline"
+    ]
+  }
+}

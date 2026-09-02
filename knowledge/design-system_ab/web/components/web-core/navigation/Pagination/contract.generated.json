@@ -1,0 +1,2428 @@
+{
+  "schemaVersion": "apollo.ds-contracts.v1",
+  "source": {
+    "library": "Web :: Core Navigation",
+    "file": "Web :: Core Navigation",
+    "generatedAt": "2026-04-28T18:08:47.704Z",
+    "exportVersion": "0.1.0"
+  },
+  "stats": {
+    "componentCount": 5,
+    "contractCount": 5,
+    "activeCount": 5,
+    "deprecatedCount": 0,
+    "scheduledCount": 0
+  },
+  "contracts": [
+    {
+      "id": "pagination.universal",
+      "name": "Pagination",
+      "normalizedName": "pagination",
+      "componentKey": "c585cf18c3f2600ba23689f3ed3f9e6acb528467",
+      "source": {
+        "library": "Web :: Core Navigation",
+        "file": "Web :: Core Navigation",
+        "generatedAt": "2026-04-28T18:08:47.704Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "main",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "4da965ddb5aaa37cba6464a3d9b3338b662bf494",
+        "variants": {
+          "properties": {
+            "View": [
+              "Default",
+              "Per-page"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "View": "Default"
+            },
+            {
+              "View": "Per-page"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "4da965ddb5aaa37cba6464a3d9b3338b662bf494",
+              "id": "57:3962",
+              "name": "View=Default",
+              "properties": {
+                "View": "Default"
+              }
+            },
+            {
+              "key": "28b9f7a8bfc748d32d81f978058ff26a6b067139",
+              "id": "57:3975",
+              "name": "View=Per-page",
+              "properties": {
+                "View": "Per-page"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "View=Default",
+            "type": "COMPONENT",
+            "path": "View=Default",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 10
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 12
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 14
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 16
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 18
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 20
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 22
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 24
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 26
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "View=Default / Page / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 28
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "View=Default",
+            "path": "View=Default",
+            "visible": true,
+            "layout": {
+              "itemSpacing": 8
+            }
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "ArrowLeft",
+            "path": "View=Default / ArrowLeft",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "View=Default / ArrowLeft / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "View=Default / ArrowLeft / Icon / Fixer",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "View=Default / ArrowLeft / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 6,
+            "parentId": 5,
+            "type": "RECTANGLE",
+            "name": "Placeholder",
+            "path": "View=Default / ArrowLeft / Icon / Fixer / PaintMe / Placeholder",
+            "visible": true
+          },
+          {
+            "nodeId": 7,
+            "parentId": 5,
+            "type": "INSTANCE",
+            "name": "chevron-left",
+            "path": "View=Default / ArrowLeft / Icon / Fixer / PaintMe / chevron-left",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 8,
+            "parentId": 7,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "View=Default / ArrowLeft / Icon / Fixer / PaintMe / chevron-left / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          },
+          {
+            "nodeId": 9,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 10,
+            "parentId": 9,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 11,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 12,
+            "parentId": 11,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 13,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 14,
+            "parentId": 13,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 15,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 16,
+            "parentId": 15,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 17,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 18,
+            "parentId": 17,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 19,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 20,
+            "parentId": 19,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 21,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 22,
+            "parentId": 21,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 23,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 24,
+            "parentId": 23,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 25,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 26,
+            "parentId": 25,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 27,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "Page",
+            "path": "View=Default / Page",
+            "visible": true,
+            "variantProperties": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 28,
+            "parentId": 27,
+            "type": "TEXT",
+            "name": "N",
+            "path": "View=Default / Page / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.550000011920929,
+                "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                "colorHex": "#040413"
+              }
+            ],
+            "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 29,
+            "parentId": 1,
+            "type": "INSTANCE",
+            "name": "ArrowRight",
+            "path": "View=Default / ArrowRight",
+            "visible": true,
+            "variantProperties": {
+              "DisabledState": "False"
+            },
+            "radius": 8,
+            "componentInstance": {
+              "variantProperties": {
+                "DisabledState": "False"
+              }
+            }
+          },
+          {
+            "nodeId": 30,
+            "parentId": 29,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "View=Default / ArrowRight / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 31,
+            "parentId": 30,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "View=Default / ArrowRight / Icon / Fixer",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 32,
+            "parentId": 31,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "View=Default / ArrowRight / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 33,
+            "parentId": 32,
+            "type": "RECTANGLE",
+            "name": "Placeholder",
+            "path": "View=Default / ArrowRight / Icon / Fixer / PaintMe / Placeholder",
+            "visible": true
+          },
+          {
+            "nodeId": 34,
+            "parentId": 32,
+            "type": "INSTANCE",
+            "name": "chevron-right",
+            "path": "View=Default / ArrowRight / Icon / Fixer / PaintMe / chevron-right",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 35,
+            "parentId": 34,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "View=Default / ArrowRight / Icon / Fixer / PaintMe / chevron-right / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "28b9f7a8bfc748d32d81f978058ff26a6b067139": [
+            {
+              "op": "update",
+              "id": 1,
+              "value": {
+                "name": "View=Per-page",
+                "layout": {
+                  "itemSpacing": 16
+                }
+              }
+            },
+            {
+              "op": "remove",
+              "id": 27
+            },
+            {
+              "op": "remove",
+              "id": 28
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "4da965ddb5aaa37cba6464a3d9b3338b662bf494",
+            "when": {
+              "View": "Default"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "28b9f7a8bfc748d32d81f978058ff26a6b067139",
+            "when": {
+              "View": "Per-page"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "View=Default",
+                "nodePath": "View=Default",
+                "affects": [
+                  "layout"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "PageText",
+                "nodePath": "View=Per-page / PageText",
+                "affects": [
+                  "fills",
+                  "layout",
+                  "radius",
+                  "structure",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "N",
+                "nodePath": "View=Per-page / PageText / N",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "из",
+                "nodePath": "View=Per-page / PageText / из",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "N",
+                "nodePath": "View=Per-page / PageText / N",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "страниц",
+                "nodePath": "View=Per-page / PageText / страниц",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 27,
+                "nodeName": "Page",
+                "nodePath": "View=Default / Page",
+                "affects": [
+                  "structure"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 28,
+                "nodeName": "N",
+                "nodePath": "View=Default / Page / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "arrow-right.universal",
+      "name": "🔩 ArrowRight",
+      "normalizedName": "arrow-right",
+      "componentKey": "8aa8f4a88a5feb924c0fefacf3bacb45976185c9",
+      "source": {
+        "library": "Web :: Core Navigation",
+        "file": "Web :: Core Navigation",
+        "generatedAt": "2026-04-28T18:08:47.704Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "76b369e6813b8835d9b44ea42b4e598ff6aa3b06",
+        "variants": {
+          "properties": {
+            "DisabledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "DisabledState": "False"
+            },
+            {
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "76b369e6813b8835d9b44ea42b4e598ff6aa3b06",
+              "id": "57:3869",
+              "name": "DisabledState=False",
+              "properties": {
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "e644f4a621a9f5ff37cea435cbfb1ee4fe299988",
+              "id": "57:3871",
+              "name": "DisabledState=True",
+              "properties": {
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "DisabledState=False",
+            "type": "COMPONENT",
+            "path": "DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "DisabledState=False",
+            "path": "DisabledState=False",
+            "visible": true,
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "DisabledState=False / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "DisabledState=False / Icon / Fixer",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "RECTANGLE",
+            "name": "Placeholder",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / Placeholder",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "chevron-right",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / chevron-right",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / chevron-right / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "e644f4a621a9f5ff37cea435cbfb1ee4fe299988": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.2800000011920929,
+                    "tokenKey": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112",
+                    "colorHex": "#090C25"
+                  }
+                ],
+                "fillToken": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "76b369e6813b8835d9b44ea42b4e598ff6aa3b06",
+            "when": {
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "e644f4a621a9f5ff37cea435cbfb1ee4fe299988",
+            "when": {
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "DisabledState=False",
+                "nodePath": "DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "PaintMe",
+                "nodePath": "DisabledState=False / Icon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "arrow-left.universal",
+      "name": "🔩 ArrowLeft",
+      "normalizedName": "arrow-left",
+      "componentKey": "7ac85c4f70945877dc395e211090753dc613eb27",
+      "source": {
+        "library": "Web :: Core Navigation",
+        "file": "Web :: Core Navigation",
+        "generatedAt": "2026-04-28T18:08:47.704Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "cefad4d8d9338228922f5578c5f3d11f52a69ef1",
+        "variants": {
+          "properties": {
+            "DisabledState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "DisabledState": "False"
+            },
+            {
+              "DisabledState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "cefad4d8d9338228922f5578c5f3d11f52a69ef1",
+              "id": "57:3864",
+              "name": "DisabledState=False",
+              "properties": {
+                "DisabledState": "False"
+              }
+            },
+            {
+              "key": "042de328c1c9e42a6aebadc2c065aac035510378",
+              "id": "57:3866",
+              "name": "DisabledState=True",
+              "properties": {
+                "DisabledState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "DisabledState=False",
+            "type": "COMPONENT",
+            "path": "DisabledState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          ],
+          "strokes": [],
+          "typography": []
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "DisabledState=False",
+            "path": "DisabledState=False",
+            "visible": true,
+            "radius": 8
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "FRAME",
+            "name": "Icon",
+            "path": "DisabledState=False / Icon",
+            "visible": true
+          },
+          {
+            "nodeId": 3,
+            "parentId": 2,
+            "type": "FRAME",
+            "name": "Fixer",
+            "path": "DisabledState=False / Icon / Fixer",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 4,
+            "parentId": 3,
+            "type": "BOOLEAN_OPERATION",
+            "name": "PaintMe",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.4699999988079071,
+                "tokenKey": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130",
+                "colorHex": "#040415"
+              }
+            ],
+            "fillToken": "VariableID:faac436b14cc199cfe97243b05af867af9ecb365/3541:130"
+          },
+          {
+            "nodeId": 5,
+            "parentId": 4,
+            "type": "RECTANGLE",
+            "name": "Placeholder",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / Placeholder",
+            "visible": true
+          },
+          {
+            "nodeId": 6,
+            "parentId": 4,
+            "type": "INSTANCE",
+            "name": "chevron-left",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / chevron-left",
+            "visible": true,
+            "variantProperties": {
+              "Size": "m"
+            },
+            "componentInstance": {
+              "variantProperties": {
+                "Size": "m"
+              }
+            }
+          },
+          {
+            "nodeId": 7,
+            "parentId": 6,
+            "type": "VECTOR",
+            "name": "icon",
+            "path": "DisabledState=False / Icon / Fixer / PaintMe / chevron-left / icon",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#747474"
+              }
+            ]
+          }
+        ],
+        "variantStructures": {
+          "042de328c1c9e42a6aebadc2c065aac035510378": [
+            {
+              "op": "update",
+              "id": 4,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.2800000011920929,
+                    "tokenKey": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112",
+                    "colorHex": "#090C25"
+                  }
+                ],
+                "fillToken": "VariableID:8e44b1c2e5a90ce2fea643e2e5be2c6e838feaef/3541:112"
+              }
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "cefad4d8d9338228922f5578c5f3d11f52a69ef1",
+            "when": {
+              "DisabledState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "042de328c1c9e42a6aebadc2c065aac035510378",
+            "when": {
+              "DisabledState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "DisabledState=False",
+                "nodePath": "DisabledState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 4,
+                "nodeName": "PaintMe",
+                "nodePath": "DisabledState=False / Icon / Fixer / PaintMe",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "placeholder layers should be replaced",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component has placeholder nodes",
+          "component uses raw color without token"
+        ]
+      }
+    },
+    {
+      "id": "page-text.universal",
+      "name": "🔩 PageText",
+      "normalizedName": "page-text",
+      "componentKey": "5df6d66044d7b659853326642d7e28a61f56b8dd",
+      "source": {
+        "library": "Web :: Core Navigation",
+        "file": "Web :: Core Navigation",
+        "generatedAt": "2026-04-28T18:08:47.704Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "5df6d66044d7b659853326642d7e28a61f56b8dd",
+        "variants": {
+          "properties": {
+            "raw": [
+              "🔩 PageText"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "raw": "🔩 PageText"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "5df6d66044d7b659853326642d7e28a61f56b8dd",
+              "id": "57:3858",
+              "name": "🔩 PageText",
+              "properties": {
+                "raw": "🔩 PageText"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "🔩 PageText",
+            "type": "COMPONENT",
+            "path": "🔩 PageText",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "🔩 PageText / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          },
+          {
+            "name": "из",
+            "type": "TEXT",
+            "path": "🔩 PageText / из",
+            "required": false,
+            "visible": true,
+            "nodeId": 3
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "🔩 PageText / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 4
+          },
+          {
+            "name": "страниц",
+            "type": "TEXT",
+            "path": "🔩 PageText / страниц",
+            "required": false,
+            "visible": true,
+            "nodeId": 5
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "🔩 PageText",
+            "path": "🔩 PageText",
+            "visible": true,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": false,
+                "opacity": 1,
+                "tokenKey": null,
+                "colorHex": "#FFFFFF"
+              }
+            ]
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "N",
+            "path": "🔩 PageText / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 3,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "из",
+            "path": "🔩 PageText / из",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "\\из\\ ",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 4,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "N",
+            "path": "🔩 PageText / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "NN",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          },
+          {
+            "nodeId": 5,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "страниц",
+            "path": "🔩 PageText / страниц",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": " страниц",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          }
+        ],
+        "variantStructures": {},
+        "variantStructureRules": [
+          {
+            "variantKey": "5df6d66044d7b659853326642d7e28a61f56b8dd",
+            "when": {
+              "raw": "🔩 PageText"
+            },
+            "operations": []
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping",
+          "component uses raw color without token",
+          "variant name cannot be fully parsed: 🔩 PageText"
+        ]
+      }
+    },
+    {
+      "id": "page.universal",
+      "name": "🔩 Page",
+      "normalizedName": "page",
+      "componentKey": "feafa24573eed17a88b01d0e336cf5b64dea1bf7",
+      "source": {
+        "library": "Web :: Core Navigation",
+        "file": "Web :: Core Navigation",
+        "generatedAt": "2026-04-28T18:08:47.704Z",
+        "exportVersion": "0.1.0"
+      },
+      "status": "active",
+      "role": "part",
+      "platform": "universal",
+      "figma": {
+        "defaultVariantKey": "bb482faf97eb60cd33b778fd0216ad8fb30cad99",
+        "variants": {
+          "properties": {
+            "HiddenState": [
+              "False",
+              "True"
+            ],
+            "SelectedState": [
+              "False",
+              "True"
+            ]
+          },
+          "allowedCombinations": [
+            {
+              "SelectedState": "True",
+              "HiddenState": "False"
+            },
+            {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            {
+              "SelectedState": "False",
+              "HiddenState": "True"
+            }
+          ],
+          "variantKeys": [
+            {
+              "key": "bb482faf97eb60cd33b778fd0216ad8fb30cad99",
+              "id": "57:3852",
+              "name": "SelectedState=True, HiddenState=False",
+              "properties": {
+                "SelectedState": "True",
+                "HiddenState": "False"
+              }
+            },
+            {
+              "key": "59d38d9d38866fa91922df7a5cbd722e523d96cb",
+              "id": "57:3854",
+              "name": "SelectedState=False, HiddenState=False",
+              "properties": {
+                "SelectedState": "False",
+                "HiddenState": "False"
+              }
+            },
+            {
+              "key": "a15f2e49fd2dd377773ce4217054f0a0fcba2325",
+              "id": "57:3856",
+              "name": "SelectedState=False, HiddenState=True",
+              "properties": {
+                "SelectedState": "False",
+                "HiddenState": "True"
+              }
+            }
+          ]
+        },
+        "anatomy": [
+          {
+            "name": "SelectedState=True, HiddenState=False",
+            "type": "COMPONENT",
+            "path": "SelectedState=True, HiddenState=False",
+            "required": true,
+            "visible": true,
+            "nodeId": 1
+          },
+          {
+            "name": "N",
+            "type": "TEXT",
+            "path": "SelectedState=True, HiddenState=False / N",
+            "required": false,
+            "visible": true,
+            "nodeId": 2
+          }
+        ],
+        "tokens": {
+          "padding": [],
+          "spacing": [],
+          "fills": [
+            "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+            "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+          ],
+          "strokes": [],
+          "typography": [
+            "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90"
+          ]
+        },
+        "structureSignature": [
+          {
+            "nodeId": 1,
+            "parentId": null,
+            "type": "COMPONENT",
+            "name": "SelectedState=True, HiddenState=False",
+            "path": "SelectedState=True, HiddenState=False",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+            ],
+            "layout": {
+              "padding": {
+                "top": 6,
+                "right": 4,
+                "bottom": 6,
+                "left": 4
+              }
+            },
+            "radius": 8,
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.8799999952316284,
+                "tokenKey": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208",
+                "colorHex": "#030306"
+              }
+            ],
+            "fillToken": "VariableID:53f842b1771349c5dca692351edfc422e8f081b5/3541:208"
+          },
+          {
+            "nodeId": 2,
+            "parentId": 1,
+            "type": "TEXT",
+            "name": "N",
+            "path": "SelectedState=True, HiddenState=False / N",
+            "visible": true,
+            "tokenRefs": [
+              "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+              "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135"
+            ],
+            "fills": [
+              {
+                "type": "SOLID",
+                "visible": true,
+                "opacity": 0.9399999976158142,
+                "tokenKey": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+                "colorHex": "#FFFFFF"
+              }
+            ],
+            "fillToken": "VariableID:de53e1056e003a1b3aedbb9e81b2d767e4c85fa2/3541:135",
+            "typographyToken": "VariableID:92cf07b9293d13f66c460e3ad17e71b714d44c91/9221:90",
+            "text": {
+              "characters": "N",
+              "fontName": "Alfa Interface Sans Regular",
+              "fontSize": 14,
+              "lineHeight": 20,
+              "letterSpacing": -0.07999999821186066,
+              "paragraphSpacing": 0
+            },
+            "styles": {
+              "text": {
+                "styleKey": "S:6fb5ab6969beee7da9e23dfcbab2f4864b30b665,9221:96"
+              }
+            }
+          }
+        ],
+        "variantStructures": {
+          "59d38d9d38866fa91922df7a5cbd722e523d96cb": [
+            {
+              "op": "update",
+              "id": 2,
+              "value": {
+                "fills": [
+                  {
+                    "type": "SOLID",
+                    "visible": true,
+                    "opacity": 0.550000011920929,
+                    "tokenKey": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205",
+                    "colorHex": "#040413"
+                  }
+                ],
+                "fillToken": "VariableID:d9d26239617e3ab9e69d7ed378d811a3c4561063/3541:205"
+              }
+            }
+          ],
+          "a15f2e49fd2dd377773ce4217054f0a0fcba2325": [
+            {
+              "op": "remove",
+              "id": 2
+            }
+          ]
+        },
+        "variantStructureRules": [
+          {
+            "variantKey": "bb482faf97eb60cd33b778fd0216ad8fb30cad99",
+            "when": {
+              "SelectedState": "True",
+              "HiddenState": "False"
+            },
+            "operations": []
+          },
+          {
+            "variantKey": "59d38d9d38866fa91922df7a5cbd722e523d96cb",
+            "when": {
+              "SelectedState": "False",
+              "HiddenState": "False"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "SelectedState=True, HiddenState=False",
+                "nodePath": "SelectedState=True, HiddenState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "update",
+                "nodeId": 2,
+                "nodeName": "N",
+                "nodePath": "SelectedState=True, HiddenState=False / N",
+                "affects": [
+                  "fills",
+                  "tokens"
+                ]
+              }
+            ]
+          },
+          {
+            "variantKey": "a15f2e49fd2dd377773ce4217054f0a0fcba2325",
+            "when": {
+              "SelectedState": "False",
+              "HiddenState": "True"
+            },
+            "operations": [
+              {
+                "op": "update",
+                "nodeId": 1,
+                "nodeName": "SelectedState=True, HiddenState=False",
+                "nodePath": "SelectedState=True, HiddenState=False",
+                "affects": [
+                  "unknown"
+                ]
+              },
+              {
+                "op": "add",
+                "nodeName": "...",
+                "nodePath": "SelectedState=False, HiddenState=True / ...",
+                "affects": [
+                  "fills",
+                  "structure",
+                  "tokens",
+                  "typography",
+                  "visibility"
+                ]
+              },
+              {
+                "op": "remove",
+                "nodeId": 2,
+                "nodeName": "N",
+                "nodePath": "SelectedState=True, HiddenState=False / N",
+                "affects": [
+                  "structure"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "qualityRules": [
+        {
+          "id": "component-known-key",
+          "severity": "major",
+          "check": "component key must exist in contract index",
+          "executable": true
+        },
+        {
+          "id": "component-no-visible-placeholder",
+          "severity": "major",
+          "check": "visible placeholder layers should not remain in usage",
+          "executable": true
+        },
+        {
+          "id": "component-platform-match",
+          "severity": "major",
+          "check": "component platform must match target platform",
+          "executable": true
+        },
+        {
+          "id": "component-status-valid",
+          "severity": "major",
+          "check": "component lifecycle status must be supported",
+          "executable": true
+        },
+        {
+          "id": "component-token-consistency",
+          "severity": "minor",
+          "check": "token references should stay consistent with contract",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-combination",
+          "severity": "major",
+          "check": "variant properties must match allowed combinations",
+          "executable": true
+        },
+        {
+          "id": "component-valid-variant-values",
+          "severity": "major",
+          "check": "variant properties must use allowed values",
+          "executable": true
+        }
+      ],
+      "docs": {
+        "description": "",
+        "useWhen": [],
+        "doNotUseWhen": [],
+        "knownLimitations": []
+      },
+      "meta": {
+        "generated": true,
+        "needsOverlay": true,
+        "warnings": [
+          "component has empty description",
+          "component has no code mapping"
+        ]
+      }
+    }
+  ]
+}

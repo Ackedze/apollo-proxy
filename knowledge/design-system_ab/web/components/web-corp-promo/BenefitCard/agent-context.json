@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-agent-context",
+  "metadata": {
+    "componentKey": "web.benefit-card",
+    "status": "ready",
+    "applicability": {
+      "channels": [
+        "b2b"
+      ],
+      "platforms": [
+        "desktop",
+        "mobile-web"
+      ],
+      "source": "path-policy",
+      "updatedAt": "2026-07-27"
+    },
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "generatedAt": "2026-07-27T13:29:07.697Z",
+    "sourceFiles": [
+      "contract.generated.json",
+      "contract.overrides.json",
+      "rules.json",
+      "audit-mapping.json",
+      "examples.json",
+      "composition-contract.json"
+    ],
+    "source": {
+      "rawCatalogPath": "JSONS/web/components/web-corp-promo/Web _ Сorp Promo Components -- BenefitCard.json",
+      "library": "Web _ Сorp Promo Components",
+      "file": "Web _ Сorp Promo Components",
+      "generatedAt": "2026-07-27T13:29:07.697Z",
+      "exportVersion": "0.1.0-rest",
+      "files": [
+        "BenefitCard"
+      ]
+    },
+    "summary": {
+      "componentFamily": "BenefitCard",
+      "library": "Web _ Сorp Promo Components",
+      "purpose": "Сгенерированный контекст компонента. Для рекомендаций используй exact component rules и pattern rules; не выводи дизайн-запреты только из этого сгенерированного контекста."
+    },
+    "components": [
+      {
+        "name": "[D] BenefitCard",
+        "key": "61cba21130d5adfd36b798bb4a41f6ccd148c1aa",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Background": [
+            "False",
+            "True"
+          ],
+          "CardAxis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "Compact": [
+            "False",
+            "True"
+          ],
+          "GraphicPosition": [
+            "Left",
+            "Right"
+          ]
+        }
+      },
+      {
+        "name": "[D] BottomContent",
+        "key": "4158b0817d3da15996c620b445d98333276765b1",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Link",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[D] ContentWrapper",
+        "key": "50fff839e4e9d53bebdef186d5b82f126fba525f",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Title": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[D] Graphic",
+        "key": "b221a157df3d0f2a3ea77e5ddb2e0481825850c0",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "desktop",
+        "variantProperties": {
+          "Presets": [
+            "Icon",
+            "IconView",
+            "Image"
+          ]
+        }
+      },
+      {
+        "name": "[M] BenefitCard",
+        "key": "88ade0c593a37cf9805f43be9eb82c84d07a56f6",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Background": [
+            "False",
+            "True"
+          ],
+          "CardAxis": [
+            "Horizontal",
+            "Vertical"
+          ],
+          "Compact": [
+            "False",
+            "True"
+          ],
+          "GraphicPosition": [
+            "Left",
+            "Right"
+          ]
+        }
+      },
+      {
+        "name": "[M] BottomContent",
+        "key": "26c17fc60aaf65818137b58279d23ceae0f8458c",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "Link",
+            "SwapMe"
+          ]
+        }
+      },
+      {
+        "name": "[M] ContentWrapper",
+        "key": "33dc955273cb7f19895895cc1e59e2e9df53154b",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Title": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      },
+      {
+        "name": "[M] Graphic",
+        "key": "8e6f3ac5782b25a3155f43992a467717e158fcce",
+        "description": "",
+        "descriptionProvenance": "figma",
+        "status": "active",
+        "role": "main",
+        "platform": "mobile-web",
+        "variantProperties": {
+          "Presets": [
+            "Icon",
+            "IconView",
+            "Image"
+          ]
+        }
+      }
+    ],
+    "auditInterpretation": {
+      "componentProperties": [
+        "variant.*"
+      ],
+      "layerProperties": [
+        "fill",
+        "stroke",
+        "stroke.*",
+        "styles.text",
+        "layout.*",
+        "radius",
+        "opacity",
+        "opacityToken",
+        "effects.*",
+        "blend.mode",
+        "blendMode",
+        "clipsContent"
+      ],
+      "baselinePolicy": "Сравнивай изменения layer с effective baseline текущего состояния компонента, если доступен host composition context."
+    }
+  },
+  "manual": {
+    "patternReferences": [
+      {
+        "patternId": "ptrn:components.benefit-card",
+        "patternKey": "components.benefit-card",
+        "file": "shared/design-system_ab/patterns/p_benefit-card.md",
+        "sourceType": "component-guideline",
+        "updatedAt": "2026-07-20"
+      },
+      {
+        "patternId": "ptrn:media.images-and-formats",
+        "patternKey": "media.images-and-formats",
+        "file": "shared/design-system_ab/patterns/p_images_format.md",
+        "sourceType": "design-guideline"
+      },
+      {
+        "patternId": "ptrn:components.background-plate",
+        "patternKey": "components.background-plate",
+        "file": "shared/design-system_ab/patterns/p_background-plate.md",
+        "sourceType": "component-guideline"
+      }
+    ],
+    "summary": {
+      "componentFamily": "BenefitCard",
+      "library": "Web _ Сorp Promo Components",
+      "purpose": "BenefitCard показывает преимущество, функцию или ключевое ценностное предложение в карточке с обязательными заголовком и графикой."
+    },
+    "usageGuidance": [
+      "Используй [D] BenefitCard на desktop и [M] BenefitCard на mobile-web.",
+      "Граница версий — 768 px: [D] применяется при ширине 768 px и больше, [M] — при ширине меньше 768 px.",
+      "BottomContent, ContentWrapper и Graphic являются служебными частями BenefitCard и не используются отдельно.",
+      "Title и Graphic обязательны. Subtitle можно скрыть, BottomContent можно включить как Link.",
+      "Title ограничен 60 символами и двумя строками, Subtitle — 120 символами и тремя строками, Link — 32 символами и одной строкой.",
+      "Graphic допускает Image, Icon и IconView; выбирай вариант по контексту.",
+      "Всю графику бери из Corp :: Image Library. Для Image заменяй содержимое ImageView, для Icon используй набор glyph-26.",
+      "Для [D] BenefitCard при ширине 1024 px и меньше обязательно включай Compact. Для [M] BenefitCard Compact не обязателен. Compact также используется, когда контент не помещается в стандартный формат.",
+      "При Compact=True используй ContentWrapper.Title=Secondary. При Compact=False разрешены Primary и Secondary.",
+      "В готовом макете BottomContent допускает только Link; SwapMe является placeholder. У Link можно менять только текст.",
+      "В ImageView можно менять только Segment. Crop, Size и остальные параметры сохраняются по effective baseline.",
+      "При Graphic.Presets=Icon можно заменить glyph в пределах glyph-26, но нельзя менять размер и цвет иконки.",
+      "В IconView можно использовать все публичные настройки по контракту IconView.",
+      "Не добавляй произвольный контент: состав ограничен Title, опциональным Subtitle, Graphic и одной ссылкой BottomContent.",
+      "Skeleton доступен только при Background=True. Он переводит в загрузку всю BenefitCard: контент скрывается, взаимодействие блокируется; частичный skeleton не используется.",
+      "Для групп карточек предпочтительно используй пресет 🔒 Benefits. Ручная группировка допустима, но требует проверки.",
+      "Одиночная карточка использует Hug по высоте. В группе карточек разрешён Fill для выравнивания высоты.",
+      "Stopper по умолчанию использует Fill по высоте. Fixed допустим, если контент должен оставаться визуально цельным.",
+      "Ширина и высота внешней карточки определяются контекстом.",
+      "Все сочетания CardAxis и GraphicPosition из каталога разрешены и выбираются по контексту.",
+      "Если Title и Subtitle занимают по одной строке, выровняй контент по центру. При скрытом Subtitle однострочный Title также центрируется. При переносе отображаемого текста выровняй контент по верхнему краю.",
+      "Background=True создаёт самостоятельную карточку. Background=False можно использовать на общей подложке или без дополнительной поверхности.",
+      "BenefitCard может быть целиком кликабельной и одновременно содержать BottomContent.Link, но они должны выполнять одно действие.",
+      "Внутренние отступы, интервалы, скругления, заливки, обводки, типографика, opacity и эффекты должны соответствовать effective baseline.",
+      "Type вложенного [Promo] BackgroundPlate можно менять по его компонентному контракту. Для Colored разрешён токенизированный цвет заливки, для Border — токенизированный цвет обводки.",
+      "Все штатные Type [Promo] BackgroundPlate разрешены, но Secondary не рекомендуется.",
+      "Сейчас дополнительного ограничения палитры нет. В будущем появятся отдельные палитры для сегментов ММБ, СБ и КИБ."
+    ],
+    "contentGuidance": {
+      "Title": "Обязательный заголовок преимущества: до 60 символов и двух строк.",
+      "Subtitle": "Опциональное пояснение: до 120 символов и трёх строк; может быть скрыто.",
+      "Graphic": "Обязательная графика из Corp :: Image Library.",
+      "BottomContent": "Опциональная однострочная ссылка до 32 символов через Presets=Link."
+    },
+    "ruleHighlights": [
+      "component:web.benefit-card.public-roots-only",
+      "component:web.benefit-card.title-and-graphic-required",
+      "component:web.benefit-card.compact-required-at-1024",
+      "component:web.benefit-card-platform-version-must-match",
+      "component:web.benefit-card.compact-uses-secondary-title",
+      "component:web.benefit-card-title-content-limit",
+      "component:web.benefit-card-subtitle-content-limit",
+      "component:web.benefit-card-link-content-limit",
+      "component:web.benefit-card.graphic-preset-is-contextual",
+      "component:web.benefit-card.graphic-library-required",
+      "component:web.benefit-card.icon-uses-glyph-26",
+      "component:web.benefit-card-icon-visuals-follow-baseline",
+      "component:web.benefit-card-image-view-segment-only",
+      "component:web.benefit-card-icon-view-public-settings-allowed",
+      "component:web.benefit-card-bottom-content-link-only",
+      "component:web.benefit-card-bottom-link-text-only",
+      "component:web.benefit-card-content-is-closed",
+      "component:web.benefit-card-skeleton-covers-entire-card",
+      "component:web.benefit-card-use-benefits-preset-for-groups",
+      "component:web.benefit-card.vertical-resizing-policy",
+      "component:web.benefit-card.content-alignment-follows-lines",
+      "component:web.benefit-card.axis-and-graphic-position-are-contextual",
+      "component:web.benefit-card.background-controls-surface",
+      "component:web.benefit-card.background-plate-style-overrides",
+      "component:web.benefit-card.background-plate-colors-use-tokens",
+      "component:web.benefit-card-secondary-surface-not-recommended",
+      "component:web.benefit-card-card-and-link-may-be-clickable",
+      "component:web.benefit-card-card-and-link-actions-match",
+      "component:web.benefit-card.visuals-follow-effective-baseline"
+    ]
+  }
+}

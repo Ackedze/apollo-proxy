@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 2,
+  "documentType": "component-examples",
+  "metadata": {
+    "componentKey": "web.benefits",
+    "status": "ready",
+    "ownershipSchema": "apollo.artifact-ownership.v2",
+    "owners": {
+      "generated": "athena-cli",
+      "manual": "design-system-authors",
+      "runtime": "apollo-runtime"
+    },
+    "migratedFrom": 1,
+    "ownershipMigrationRevision": 2
+  },
+  "generated": {
+    "examples": []
+  },
+  "manual": {
+    "examples": [
+      {
+        "exampleId": "benefits.desktop-page-four",
+        "title": "Четыре карточки на широком desktop-лендинге",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "viewport": 1280,
+          "Capacity": "4",
+          "Compact": "False",
+          "View": "Page",
+          "visibleBenefitCards": 4
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать композицию штатной и не требовать runtime-компонент для Figma-only пресета.",
+        "mustNotSay": "Benefits должен иметь Code Connect mapping."
+      },
+      {
+        "exampleId": "benefits.desktop-compact-four",
+        "title": "Четыре карточки в compact-сетке 2 × 2",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "viewport": 1024,
+          "Capacity": "4",
+          "Compact": "True",
+          "layout": "2x2",
+          "gap": 16
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Подтвердить соответствие compact-правилу.",
+        "mustNotSay": "Capacity=4 всегда должен располагаться в одну строку."
+      },
+      {
+        "exampleId": "benefits.invalid-card-count",
+        "title": "Из Capacity=3 удалена одна карточка",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "Capacity": "3",
+          "visibleBenefitCards": 2
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.capacity-matches-card-count"
+        },
+        "expectedAgent": "Предложить восстановить третью карточку или отказаться от Benefits.",
+        "mustNotSay": "Capacity=3 разрешает две или три карточки."
+      },
+      {
+        "exampleId": "benefits.invalid-inconsistent-card-settings",
+        "title": "У одной карточки отличается GraphicPosition",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "nestedBenefitCards": [
+            {
+              "GraphicPosition": "Right"
+            },
+            {
+              "GraphicPosition": "Left"
+            },
+            {
+              "GraphicPosition": "Right"
+            }
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.nested-card-settings-are-uniform"
+        },
+        "expectedAgent": "Предложить выровнять GraphicPosition у всех карточек.",
+        "mustNotSay": "Разные GraphicPosition разрешены для визуального разнообразия."
+      },
+      {
+        "exampleId": "benefits.allowed-colored-differences",
+        "title": "Карточки Colored используют разные разрешённые заливки",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "surfaceType": "Colored",
+          "uniformCardSettings": true,
+          "perCardFillDiffers": true
+        },
+        "expectedAudit": {
+          "category": "info",
+          "ruleId": "component:web.benefits.nested-card-settings-are-uniform"
+        },
+        "expectedAgent": "Не требовать выравнивания разрешённых цветов заливки.",
+        "mustNotSay": "Все Colored-карточки обязаны иметь один цвет."
+      },
+      {
+        "exampleId": "benefits.mobile-inherits-modal-context",
+        "title": "Mobile Benefits внутри модального контейнера",
+        "inputState": {
+          "root": "🔒 [M] Benefits",
+          "hostContext": "Modal",
+          "ViewProperty": "not-exposed",
+          "surfaceContextInherited": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать отсутствие View штатным и оценивать поверхность по host context.",
+        "mustNotSay": "Для mobile Benefits необходимо вручную добавить View=Modal."
+      },
+      {
+        "exampleId": "benefits.invalid-responsive-content-mismatch",
+        "title": "На mobile изменён порядок преимуществ",
+        "inputState": {
+          "desktop": {
+            "Capacity": "3",
+            "cardOrder": [
+              "A",
+              "B",
+              "C"
+            ]
+          },
+          "mobile": {
+            "Capacity": "3",
+            "cardOrder": [
+              "B",
+              "A",
+              "C"
+            ]
+          }
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.responsive-content-parity"
+        },
+        "expectedAgent": "Предложить восстановить одинаковый порядок карточек на desktop и mobile-web.",
+        "mustNotSay": "Mobile Benefits может менять порядок преимуществ без отдельного правила."
+      },
+      {
+        "exampleId": "benefits.allowed-per-card-content",
+        "title": "Карточки содержат разные преимущества",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "uniformStructuralSettings": true,
+          "titlesDiffer": true,
+          "subtitlesDiffer": true,
+          "graphicsDiffer": true,
+          "bottomContentDiffers": true,
+          "eachCardMatchesBenefitCardContract": true
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Применить правила BenefitCard к каждой карточке отдельно и не требовать одинакового контента.",
+        "mustNotSay": "Все карточки Benefits должны содержать одинаковые Title, Subtitle и Graphic."
+      },
+      {
+        "exampleId": "benefits.invalid-mixed-surface-types",
+        "title": "В одной группе смешаны Border и Colored",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "surfaceTypes": [
+            "Border",
+            "Colored",
+            "Border"
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.surface-type-is-uniform"
+        },
+        "expectedAgent": "Предложить выбрать единый тип поверхности для всей группы.",
+        "mustNotSay": "В одной группе можно свободно смешивать Border и Colored."
+      },
+      {
+        "exampleId": "benefits.invalid-manual-layout",
+        "title": "Вручную изменён gap пресета",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "Capacity": "4",
+          "Compact": "True",
+          "gap": 24,
+          "expectedGap": 16,
+          "layoutSizingHorizontal": "FIXED",
+          "layoutSizingVertical": "HUG"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleIds": [
+            "component:web.benefits.layout-is-preset-owned",
+            "component:web.benefits.fill-width-hug-height"
+          ]
+        },
+        "expectedAgent": "Предложить вернуть gap к effective baseline и установить ширину Fill.",
+        "mustNotSay": "Gap и sizing корня Benefits можно менять произвольно."
+      },
+      {
+        "exampleId": "benefits.invalid-compact-above-1024",
+        "title": "Compact включён на широком viewport",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "viewport": 1280,
+          "Compact": "True"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.desktop-compact-required-at-1024"
+        },
+        "expectedAgent": "Предложить установить Compact=False при viewport больше 1024 px.",
+        "mustNotSay": "На широком viewport разрешены оба значения Compact."
+      },
+      {
+        "exampleId": "benefits.allowed-synchronized-reorder",
+        "title": "Порядок карточек изменён одинаково на desktop и mobile-web",
+        "inputState": {
+          "desktopCardOrder": [
+            "C",
+            "A",
+            "B"
+          ],
+          "mobileCardOrder": [
+            "C",
+            "A",
+            "B"
+          ]
+        },
+        "expectedAudit": {
+          "category": "info",
+          "ruleId": "component:web.benefits.manual-reorder-preserves-responsive-parity"
+        },
+        "expectedAgent": "Считать перестановку допустимой, поскольку порядок синхронизирован.",
+        "mustNotSay": "Порядок карточек Benefits никогда нельзя менять."
+      },
+      {
+        "exampleId": "benefits.invalid-unequal-height-compact-grid",
+        "title": "В сетке 2 × 2 карточки имеют разную высоту",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "Capacity": "4",
+          "Compact": "True",
+          "cardHeights": [
+            158,
+            158,
+            180,
+            180
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.cards-have-equal-height"
+        },
+        "expectedAgent": "Предложить выровнять высоту всех четырёх карточек, а не только карточек в каждой строке.",
+        "mustNotSay": "В 2 × 2 достаточно одинаковой высоты внутри каждой строки."
+      },
+      {
+        "exampleId": "benefits.invalid-mixed-loading",
+        "title": "Skeleton включён только у части карточек",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "cardLoadingStates": [
+            true,
+            true,
+            false,
+            false
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.loading-state-is-uniform"
+        },
+        "expectedAgent": "Предложить синхронизировать loading/Skeleton для всей группы.",
+        "mustNotSay": "В Benefits допускается loading отдельных карточек."
+      },
+      {
+        "exampleId": "benefits.invalid-raw-colored-fill",
+        "title": "Colored использует raw fill",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "surfaceType": "Colored",
+          "fillDiffersPerCard": true,
+          "tokenBinding": false
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.surface-colors-use-background-plate-tokens"
+        },
+        "expectedAgent": "Предложить заменить raw fill на разрешённый токен BackgroundPlate.",
+        "mustNotSay": "Для разных Colored-карточек допустимы произвольные raw-цвета."
+      },
+      {
+        "exampleId": "benefits.allowed-manual-group-outside-range",
+        "title": "Две BenefitCard собраны вручную без Benefits",
+        "inputState": {
+          "root": "manual BenefitCard group",
+          "cardCount": 2,
+          "BenefitsUsed": false
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Считать ручную композицию допустимой, потому что количество не поддерживается Benefits.",
+        "mustNotSay": "Любая группа BenefitCard обязана использовать Benefits."
+      },
+      {
+        "exampleId": "benefits.invalid-nested-instance-swap",
+        "title": "BenefitCard заменена другим компонентом",
+        "inputState": {
+          "root": "🔒 [D] Benefits",
+          "nestedInstance": "PromoCard",
+          "expectedNestedInstance": "[D] BenefitCard"
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.nested-benefit-card-instance-swap-forbidden"
+        },
+        "expectedAgent": "Предложить вернуть штатную [D] BenefitCard.",
+        "mustNotSay": "В слот Benefits можно подставить любую карточку."
+      },
+      {
+        "exampleId": "benefits.allowed-different-actions",
+        "title": "Все карточки кликабельны и ведут к разным целям",
+        "inputState": {
+          "containerAction": false,
+          "cardActions": [
+            "/feature-a",
+            "/feature-b",
+            "/feature-c"
+          ]
+        },
+        "expectedAudit": {
+          "category": "none"
+        },
+        "expectedAgent": "Применить правила действия BenefitCard к каждой карточке и не требовать одинаковых целей.",
+        "mustNotSay": "Все BenefitCard группы должны вести по одной ссылке."
+      },
+      {
+        "exampleId": "benefits.invalid-mixed-clickability",
+        "title": "Часть карточек кликабельна, часть — нет",
+        "inputState": {
+          "cardClickable": [
+            true,
+            false,
+            true
+          ]
+        },
+        "expectedAudit": {
+          "category": "customizations",
+          "severity": "error",
+          "ruleId": "component:web.benefits.clickability-is-uniform"
+        },
+        "expectedAgent": "Предложить добавить действие всем карточкам либо убрать его у всех.",
+        "mustNotSay": "Смешанная кликабельность допустима внутри Benefits."
+      }
+    ]
+  }
+}
