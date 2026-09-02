@@ -67,13 +67,13 @@ const APOLLO_CODEX_INPUT_BUDGET_CHARS = Math.max(
   APOLLO_CODEX_INPUT_WARN_CHARS + 1
 );
 const CODEX_DS_AI_HUB = path.resolve(
-  process.env.CODEX_DS_AI_HUB || resolveKnowledgePath(
+  process.env.CODEX_DS_AI_HUB || process.env.DS_AI_HUB_ROOT || resolveKnowledgePath(
     path.join(__dirname, 'knowledge', 'ds-ai-hub'),
     path.join(__dirname, '..', '..', 'ds-ai-hub')
   )
 );
 const CODEX_DESIGN_SYSTEM = path.resolve(
-  process.env.CODEX_DESIGN_SYSTEM || resolveKnowledgePath(
+  process.env.CODEX_DESIGN_SYSTEM || process.env.DESIGN_SYSTEM_AB_ROOT || resolveKnowledgePath(
     path.join(__dirname, 'knowledge', 'design-system_ab'),
     path.join(__dirname, '..', '..', 'shared', 'design-system_ab')
   )

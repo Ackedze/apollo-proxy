@@ -93,6 +93,8 @@ snapshot из `ds-ai-hub` и релевантных `patterns`, `apollo` и `JSO
 JSON. Неполный набор блокирует запуск с `CODEX_KNOWLEDGE_INCOMPLETE`, а не
 превращается в уточняющий вопрос дизайнеру. Переменные `CODEX_DS_AI_HUB` и
 `CODEX_DESIGN_SYSTEM` позволяют явно использовать другие checkout-каталоги.
+Для единого isolated-worktree workflow proxy также принимает их алиасы
+`DS_AI_HUB_ROOT` и `DESIGN_SYSTEM_AB_ROOT`; явные `CODEX_*` имеют приоритет.
 Langflow-ключи и другие proxy secrets не передаются в окружение Codex-процесса.
 Требуемая версия Apollo skill закреплена в сборке proxy и не задаётся через
 пользовательский `.env`, поэтому старый конфиг не блокирует обновление приложения.

@@ -11,7 +11,9 @@ const {
 } = require('../src/predicate-engine/release-loader');
 const { compilePredicateReleaseRules } = require('../src/predicate-engine/release-service');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 const BUTTONS_GROUP_KEY = 'f05915599f71e822fd8b46a2b2509a2e395005cf';
 
 function buttonsGroupReleaseRules() {

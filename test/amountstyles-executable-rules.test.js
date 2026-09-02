@@ -6,7 +6,9 @@ const { evaluateRules, validateRule } = require('../src/predicate-engine');
 const { compileContourRule } = require('../src/predicate-engine/contour-rules');
 const { loadComponentContourCatalog } = require('../src/predicate-engine/release-loader');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 const jsonRoot = path.join(designSystemRoot, 'JSONS');
 const packageEntry = {
   packagePath: 'web/components/web-corp/AmountStyles',

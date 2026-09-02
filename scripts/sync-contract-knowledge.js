@@ -5,10 +5,11 @@ const path = require('node:path');
 
 const PROXY_ROOT = path.resolve(__dirname, '..');
 const REPOSITORY_ROOT = path.resolve(PROXY_ROOT, '..', '..');
+const DESIGN_SYSTEM_ROOT = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.join(REPOSITORY_ROOT, 'shared', 'design-system_ab');
 const DEFAULT_SOURCE = path.join(
-  REPOSITORY_ROOT,
-  'shared',
-  'design-system_ab',
+  DESIGN_SYSTEM_ROOT,
   'JSONS'
 );
 const INDEX_PATH = path.join(
@@ -147,4 +148,3 @@ if (require.main === module) {
 }
 
 module.exports = { buildArtifactPlan, copyArtifactPlan, parseArgs };
-

@@ -41,6 +41,18 @@ snapshot.
 ./services/apollo-proxy/macos-app/scripts/build-app.sh
 ```
 
+При сборке из изолированных worktree явно передайте оба источника знаний:
+
+```bash
+DS_AI_HUB_ROOT="/absolute/path/to/ds-ai-hub" \
+DESIGN_SYSTEM_AB_ROOT="/absolute/path/to/design-system_ab" \
+./macos-app/scripts/build-app.sh
+```
+
+Сборщик использует эти же пути для human knowledge, Apollo rules, crosswalk и
+индексированных contract artifacts. Это исключает незаметную упаковку старых
+данных из основного checkout во время проверки изменений из worktree.
+
 Перед первой сборкой на машине должен быть принят Xcode license:
 
 ```bash
@@ -90,6 +102,33 @@ services/apollo-proxy/macos-app/dist/ApolloProxyControl-macOS.zip
 ```
 
 Рабочая сборка создаётся только в `dist/`. Bundle внутри `Sources/` запрещён и не должен появляться в репозитории.
+
+## Обязательная синхронизация знаний перед Figma-тестом
+
+Новые или изменённые Predicate-правила нельзя проверять в Figma, пока они не
+запечены в **две** копии proxy:
+
+1. bundle приложения — `dist/ApolloProxyControl.app/.../embedded-proxy`;
+2. фактически работающий runtime —
+   `~/Library/Application Support/ApolloProxyControl/proxy`.
+
+При старте приложение разворачивает runtime из bundle по build marker. Поэтому
+синхронизация только одной из копий приводит к ложному тесту: после перезапуска
+старые правила могут вернуться, а активный proxy продолжит не находить новые
+нарушения.
+
+Перед каждым Figma-прогоном необходимо:
+
+1. выполнить `scripts/sync-contract-knowledge.js` для обеих копий и
+   синхронизировать связанные `apollo/rule-crosswalk.json` и human-источники;
+2. сверить SHA-256 изменённого `rules.json` в source, bundle и runtime;
+3. без перезапуска либо после него выполнить smoke-test
+   `POST /v1/validate/predicates` с известным componentKey и убедиться, что
+   нужные `ruleId` присутствуют в `validation.rules`;
+4. только затем запускать ручной Figma-тест.
+
+Если proxy был перезапущен после синхронизации runtime, повторно проверьте
+runtime-копию: приложение могло переустановить её из bundle.
 
 ## Диагностика проблем запуска
 

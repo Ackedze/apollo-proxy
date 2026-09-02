@@ -14,6 +14,7 @@ const {
   distanceRule,
   factDomainRule,
   factAssertionRule,
+  requiredRegionsRule,
   ownedPeerPropertyEqualityRule,
   platformMatchRule,
   publicRootRule,
@@ -1356,6 +1357,14 @@ test('universal contour compiler accepts only the closed registered template set
     },
   }));
   assert.equal(assertionRule.assert.predicate, 'compare');
+  assert.equal(assertionRule.assert.missingPolicy, 'unknown');
+  const requiredRule = requiredRegionsRule(Object.assign(options('compiled.required-regions'), {
+    identity: 'demo.card',
+    collectionKey: 'content',
+    regions: [{ role: 'Title', names: ['Title'], requireVisibleText: true }],
+  }));
+  assert.equal(requiredRule.assert.predicate, 'equals');
+  assert.equal(requiredRule.assert.actual.fact, 'composition.requiredRegions.content.errors');
   const compiled = compileContourRule(Object.assign(options('compiled.sizing'), {
     kind: 'sizing',
     identity: 'demo.card',
