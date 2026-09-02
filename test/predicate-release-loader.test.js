@@ -158,6 +158,102 @@ test('BenefitCard execution policy closes the DS AI Hub rules and exposes execut
   );
 });
 
+test('ContentCardWrapper projects every human rule into one explicit execution route', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp/ContentCardWrapper/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.metadata.status, 'generated-draft');
+  assert.equal(document.manual.rules.length, 30);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    '5c53b3d9a9357a015219531e6d4ad1843faeef6b',
+  ]);
+  assert.deepEqual(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web-corp.content-card-wrapper.'))
+      .map((definition) => [definition.ruleId, definition.kind])
+      .sort(([left], [right]) => left.localeCompare(right)),
+    [
+      ['component:web-corp.content-card-wrapper.background-plate-level-by-platform', 'context-map'],
+      ['component:web-corp.content-card-wrapper.edge-padding-immutable', 'baseline-set'],
+      ['component:web-corp.content-card-wrapper.inter-item-gap-tokenized', 'fact-assertion'],
+      ['component:web-corp.content-card-wrapper.layer-properties-use-effective-baseline', 'baseline-set'],
+      ['component:web-corp.content-card-wrapper.public-root-only', 'public-root'],
+      ['component:web-corp.content-card-wrapper.skeleton-variant', 'fact-assertion'],
+      ['component:web-corp.content-card-wrapper.slot-placeholder-must-be-replaced', 'slot-contract'],
+      ['component:web-corp.content-card-wrapper.text-style-immutable', 'baseline-set'],
+    ],
+  );
+
+  const contours = new Map(
+    release.contourDefinitions
+      .filter((definition) => definition.ruleId.startsWith('component:web-corp.content-card-wrapper.'))
+      .map((definition) => [definition.ruleId, definition]),
+  );
+  for (const ruleId of [
+    'component:web-corp.content-card-wrapper.skeleton-variant',
+    'component:web-corp.content-card-wrapper.edge-padding-immutable',
+  ]) {
+    assert.ok(
+      contours.get(ruleId).select.where.some((condition) => (
+        condition.actual?.fact === 'component.family'
+        && condition.expected?.literal === 'content-card-wrapper'
+      )),
+      `${ruleId} must target the public ContentCardWrapper root, not a standalone internal part`,
+    );
+  }
+  const gapContour = contours.get(
+    'component:web-corp.content-card-wrapper.inter-item-gap-tokenized',
+  );
+  const placeholderContour = contours.get(
+    'component:web-corp.content-card-wrapper.slot-placeholder-must-be-replaced',
+  );
+  assert.deepEqual(placeholderContour.slot.families, [
+    'left-slot',
+    'content-presets',
+    'status-slot',
+    'right-slot',
+  ]);
+  assert.equal(placeholderContour.visibleOnly, true);
+  assert.ok(
+    gapContour.select.where.some((condition) => (
+      condition.actual?.fact === 'ownership.contour.root.component.family'
+      && condition.expected?.literal === 'content-card-wrapper'
+    )),
+    'inter-item-gap-tokenized must remain inside a ContentCardWrapper contour',
+  );
+  assert.ok(
+    gapContour.select.where.some((condition) => (
+      condition.predicate === 'equals'
+      && condition.actual?.fact === 'directOverride.fields.itemSpacing'
+      && condition.expected?.literal === true
+    )),
+    'inter-item-gap-tokenized must evaluate explicitly overridden gaps only, not every nested auto-layout',
+  );
+  for (const ruleId of [
+    'component:web-corp.content-card-wrapper.text-style-immutable',
+    'component:web-corp.content-card-wrapper.layer-properties-use-effective-baseline',
+  ]) {
+    assert.ok(
+      contours.get(ruleId).select.where.some((condition) => (
+        condition.actual?.fact === 'ownership.contour.root.component.family'
+        && condition.expected?.literal === 'content-card-wrapper'
+      )),
+      `${ruleId} must not inherit the ContentCardWrapper identity from an internal standalone part`,
+    );
+  }
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
 test('TitleView execution policy closes every real component rule exactly once', () => {
   const rulesPath = path.join(
     designSystemRoot,
@@ -478,8 +574,22 @@ test('FilterCompanySelect execution policy closes every real component rule exac
     'JSONS/web/components/web-corp/FilterCompanySelect/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  assert.equal(document.manual.rules.length, 32);
+  assert.equal(document.manual.rules.length, 28);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+  assert.equal(
+    document.manual.rules.some((rule) => (
+      rule.ruleId === 'component:web-corp.filter-company-select.selected-value-content'
+    )),
+    false,
+    'selected-value display is delegated to its nested owners',
+  );
+  assert.equal(
+    document.manual.executionPolicy.contextOnlyRules.some((entry) => (
+      entry.sourceRuleId === 'component:web-corp.filter-company-select.form-uses-select-view'
+    )),
+    false,
+    'holding scenario rules are not component-owned routes',
+  );
 
   const incomplete = structuredClone(document);
   incomplete.manual.executionPolicy.contextOnlyRules.pop();

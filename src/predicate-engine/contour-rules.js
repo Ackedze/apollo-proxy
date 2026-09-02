@@ -831,7 +831,17 @@ function derivedGeometryRule(options) {
 
 function slotContractRule(options) {
   const ownerIdentity = requireString(options.ownerIdentity, 'ownerIdentity');
-  const slotFamily = requireString(options.slot?.family, 'slot.family');
+  const hasSingleSlotFamily = typeof options.slot?.family === 'string' && options.slot.family;
+  const hasSlotFamilies = Array.isArray(options.slot?.families);
+  if (hasSingleSlotFamily && hasSlotFamilies) {
+    throw new TypeError('slot-contract accepts either slot.family or slot.families, not both');
+  }
+  if (!hasSingleSlotFamily && !hasSlotFamilies) {
+    throw new TypeError('slot-contract requires slot.family or slot.families');
+  }
+  const slotFamilies = hasSlotFamilies
+    ? requireStringArray(options.slot.families, 'slot.families')
+    : [requireString(options.slot.family, 'slot.family')];
   if (!Array.isArray(options.checks) || !options.checks.length) {
     throw new TypeError('slot-contract requires a non-empty checks array');
   }
@@ -848,11 +858,18 @@ function slotContractRule(options) {
       actual: { fact: 'ownership.contour.root.component.identity' },
       expected: { literal: ownerIdentity },
     }, {
-      predicate: 'equals',
+      predicate: slotFamilies.length === 1 ? 'equals' : 'one-of',
       actual: { fact: 'component.family' },
-      expected: { literal: slotFamily },
+      expected: { literal: slotFamilies.length === 1 ? slotFamilies[0] : slotFamilies },
     }],
   };
+  if (options.visibleOnly === true) {
+    select.where.push({
+      predicate: 'equals',
+      actual: { fact: 'visible' },
+      expected: { literal: true },
+    });
+  }
 
   return options.checks.map((check) => {
     const id = requireString(check?.id, 'slot-contract check.id');

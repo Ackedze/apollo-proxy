@@ -55,6 +55,7 @@ const BACKGROUND_PLATE_MOBILE_SLOT_KEY = '1745af83255e324781c2fbadfe0ad8cc7f13e0
 const BACKGROUND_PLATE_MOBILE_STYLE_LEVEL_1_KEY = 'efc528bd86582d96a824edeb2c257dc8b22a8f14';
 const FILTER_COMPANY_SELECT_SINGLE_KEY = '7a0f566e36767d14d873e7ed22295ac0ac86fa69';
 const FILTER_COMPANY_SELECT_INTERNAL_KEY = '646b38ca55ddc9c7b3837c11ed671c50d0a6d66a';
+const FILTER_COMPANY_SELECT_COMPACT_TAG_KEY = '378b326969116e8ec24e8bebcb3a33148f9802a1';
 const ICON_VIEW_KEY = 'f188fb1de981b2f32966f4844a4b10cffdb81c35';
 const ICON_VIEW_CONTENT_KEY = '913a526e98f177533ca3e4495d6658d0120e6afe';
 const CORPORATE_SYSTEM_MESSAGE_KEY = '985497c1f5a102a52e4d4dc40b6953303db72f8e';
@@ -715,13 +716,16 @@ function filterCompanySelectRequest({
   componentKey = FILTER_COMPANY_SELECT_SINGLE_KEY,
   platform = 'desktop',
   showFirstCompany = 'False',
+  view = 'Select',
+  selected = 'True',
   radius = 12,
   baselineRadius = null,
   overridden = false,
+  controlLabel = 'Компания',
 } = {}) {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   const properties = componentKey === FILTER_COMPANY_SELECT_SINGLE_KEY
-    ? { View: 'Select', ShowFirstCompany: showFirstCompany }
+    ? { View: view, Selected: selected, ShowFirstCompany: showFirstCompany }
     : {};
   const root = evidenceNode({
     nodeId: 'c21:0',
@@ -735,6 +739,26 @@ function filterCompanySelectRequest({
       radius,
     },
   });
+  const controlOwner = {
+    nodeId: 'c21:0',
+    componentKey: FILTER_COMPANY_SELECT_SINGLE_KEY,
+    name: '[D] FilterCompanySelect_Single',
+    path: 'C21 / [D] FilterCompanySelect_Single',
+    relativePath: '',
+    variantProperties: properties,
+    componentProperties: properties,
+  };
+  const controlLabelNode = evidenceNode({
+    nodeId: 'c21:label',
+    parentNodeId: 'c21:0',
+    childOrder: 0,
+    depth: 1,
+    path: 'C21 / [D] FilterCompanySelect_Single / [D] CompactTag',
+    name: '[D] CompactTag',
+    component: component(FILTER_COMPANY_SELECT_COMPACT_TAG_KEY, '[D] CompactTag', { '✎ Label': controlLabel }),
+    componentOwner: controlOwner,
+  });
+  root.childNodeIds = ['c21:label'];
   if (overridden) {
     root.component.directOverrides = [{
       nodeId: 'c21:0',
@@ -747,7 +771,7 @@ function filterCompanySelectRequest({
   input.evidenceBundle.context.channel = platform === 'desktop' ? 'Desktop' : 'Mobile Web';
   input.evidenceBundle.context.viewportWidth = platform === 'desktop' ? 1440 : 390;
   input.evidenceBundle.context.selectionNodeIds = ['c21:0'];
-  input.evidenceBundle.graph.nodes = [root];
+  input.evidenceBundle.graph.nodes = [root, controlLabelNode];
   input.evidenceBundle.graph.relations = [];
   input.evidenceBundle.changes = baselineRadius === null ? [] : [{
     id: 'change-filter-company-select-radius',
@@ -801,12 +825,27 @@ test('C21 executes FilterCompanySelect public-root, platform, legacy property an
   const platformRule = 'component:web-corp.filter-company-select.desktop-only';
   const legacyRule = 'component:web-corp.filter-company-select.show-first-company-forbidden';
   const radiusRule = 'component:web-corp.filter-company-select.root-visuals-follow-effective-baseline.radius';
+  const compactSelectionRule = 'component:web-corp.filter-company-select.single-compact-selected-required';
+  const controlLabelRule = 'component:web-corp.filter-company-select.control-label-company-required';
 
   const pass = evaluate();
   assert.equal(find(pass, publicRootRule).classification, 'compliant');
   assert.equal(find(pass, platformRule).classification, 'compliant');
   assert.equal(find(pass, legacyRule).classification, 'compliant');
   assert.equal(find(pass, radiusRule).classification, 'compliant');
+  assert.equal(find(pass, controlLabelRule).classification, 'compliant');
+
+  const changedControlLabel = evaluate({ controlLabel: 'Организация' });
+  assert.equal(find(changedControlLabel, controlLabelRule).classification, 'violation');
+  assert.equal(find(changedControlLabel, controlLabelRule).focusNodeId, 'c21:label');
+  assert.equal(find(changedControlLabel, controlLabelRule).trace.actual, 'Организация');
+
+  const compactPass = evaluate({ view: 'Compact', selected: 'True' });
+  assert.equal(find(compactPass, compactSelectionRule).classification, 'compliant');
+
+  const compactWithoutSelection = evaluate({ view: 'Compact', selected: 'False' });
+  assert.equal(find(compactWithoutSelection, compactSelectionRule).classification, 'violation');
+  assert.equal(find(compactWithoutSelection, compactSelectionRule).trace.actual, 'False');
 
   const internalRoot = evaluate({ componentKey: FILTER_COMPANY_SELECT_INTERNAL_KEY });
   assert.equal(find(internalRoot, publicRootRule).classification, 'violation');

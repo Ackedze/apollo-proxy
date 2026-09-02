@@ -81,9 +81,16 @@ function sourceNode({
   };
 }
 
-function paymentEvidence({ gap = 4, addonHeight = 16, addonFamily = 'status-badge' } = {}) {
+function paymentEvidence({
+  gap = 4,
+  addonHeight = 16,
+  addonFamily = 'status-badge',
+  addonVisible = true,
+} = {}) {
   const addonX = 104 + gap;
-  const nestedKey = addonFamily === 'swap-me' ? keys.swapMe : keys.statusBadge;
+  const nestedKey = addonFamily === 'swap-me'
+    ? keys.swapMe
+    : (addonFamily ? keys.statusBadge : null);
   const owner = {
     nodeId: 'root',
     componentKey: keys.root,
@@ -131,12 +138,13 @@ function paymentEvidence({ gap = 4, addonHeight = 16, addonFamily = 'status-badg
         sourceNode({
           nodeId: 'addon', parentNodeId: 'root', childOrder: 2, name: 'Addon',
           childNodeIds: ['addon-content'], bounds: { x: addonX, y: 0, width: 16, height: addonHeight },
-          component: component(keys.rightAddon, 'RightAddon'), componentOwner: owner,
+          component: component(keys.rightAddon, 'RightAddon'), componentOwner: owner, visible: addonVisible,
         }),
         sourceNode({
-          nodeId: 'addon-content', parentNodeId: 'addon', name: addonFamily,
+          nodeId: 'addon-content', parentNodeId: 'addon', name: addonFamily || 'Plain text',
+          type: addonFamily ? 'INSTANCE' : 'TEXT',
           bounds: { x: addonX, y: 0, width: 16, height: addonHeight },
-          component: component(nestedKey, addonFamily), componentOwner: owner,
+          component: nestedKey ? component(nestedKey, addonFamily) : null, componentOwner: owner,
         }),
       ],
     },
@@ -195,4 +203,85 @@ test('slot contract detects a placeholder and independent geometry defects', () 
       .classification,
     'violation',
   );
+});
+
+test('slot contract supports multiple slot families and can limit evaluation to visible slots', () => {
+  const rules = compileContourRule({
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'slot-contract',
+    ruleId: 'test.payment-masked-number.visible-slot-placeholder',
+    revision: 1,
+    sourcePath: 'test',
+    sourceChecksum: 'test-checksum',
+    sourceAnchor: 'test',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+    ownerIdentity: 'web-corp.payment-masked-number',
+    slot: { families: ['right-addon', 'not-present'] },
+    visibleOnly: true,
+    checks: [{
+      id: 'placeholder',
+      op: 'forbid-descendant-families',
+      forbiddenFamilies: ['swap-me'],
+      minNestedComponents: 1,
+      presentation: {
+        schemaVersion: 'apollo.predicate-presentation.v1',
+        title: 'Test', observed: 'Test', expectation: 'Test', action: 'Test',
+      },
+    }],
+  });
+  const evaluate = (options) => evaluateRules({
+    snapshot: buildPredicateSnapshotV2({
+      evidenceBundle: paymentEvidence(options),
+      release: { knowledgeSource: 'design-system_ab', revision: 'test', checksum: 'test' },
+      componentIndex,
+    }),
+    rules,
+    ruleRelease: 'test',
+  }).evaluations;
+
+  assert.equal(evaluate({ addonFamily: 'swap-me' })[0].classification, 'violation');
+  assert.equal(
+    evaluate({ addonFamily: 'swap-me', addonVisible: false })[0].classification,
+    'not-applicable',
+  );
+});
+
+test('placeholder-only slot contract accepts text content when the source rule only forbids SwapMe', () => {
+  const rules = compileContourRule({
+    schemaVersion: 'apollo.contour-definition.v1',
+    kind: 'slot-contract',
+    ruleId: 'test.payment-masked-number.placeholder-only',
+    revision: 1,
+    sourcePath: 'test',
+    sourceChecksum: 'test-checksum',
+    sourceAnchor: 'test',
+    authorityStatus: 'active',
+    provenance: 'design-system-author',
+    severity: 'error',
+    ownerIdentity: 'web-corp.payment-masked-number',
+    slot: { family: 'right-addon' },
+    checks: [{
+      id: 'placeholder',
+      op: 'forbid-descendant-families',
+      forbiddenFamilies: ['swap-me'],
+      presentation: {
+        schemaVersion: 'apollo.predicate-presentation.v1',
+        title: 'Test', observed: 'Test', expectation: 'Test', action: 'Test',
+      },
+    }],
+  });
+  const evaluate = (options) => evaluateRules({
+    snapshot: buildPredicateSnapshotV2({
+      evidenceBundle: paymentEvidence(options),
+      release: { knowledgeSource: 'design-system_ab', revision: 'test', checksum: 'test' },
+      componentIndex,
+    }),
+    rules,
+    ruleRelease: 'test',
+  }).evaluations;
+
+  assert.equal(evaluate({ addonFamily: null })[0].classification, 'compliant');
+  assert.equal(evaluate({ addonFamily: 'swap-me' })[0].classification, 'violation');
 });

@@ -74,4 +74,40 @@ test('rule crosswalk links Apollo rules to verifiable human evidence without ID 
       .map((entry) => entry.apolloRuleId),
   );
   assert.deepEqual(mappedAmountStylesRuleIds, expectedAmountStylesRuleIds);
+
+  const contentCardWrapper = JSON.parse(fs.readFileSync(
+    path.join(designSystemRoot, 'JSONS/web/components/web-corp/ContentCardWrapper/rules.json'),
+    'utf8',
+  ));
+  const expectedContentCardWrapperRuleIds = new Set(
+    contentCardWrapper.manual.rules.map((rule) => rule.ruleId),
+  );
+  const mappedContentCardWrapperRuleIds = new Set(
+    crosswalk.entries
+      .filter((entry) => entry.apolloSource === 'JSONS/web/components/web-corp/ContentCardWrapper/rules.json')
+      .map((entry) => entry.apolloRuleId),
+  );
+  assert.deepEqual(mappedContentCardWrapperRuleIds, expectedContentCardWrapperRuleIds);
+
+  const filterCompanySelect = JSON.parse(fs.readFileSync(
+    path.join(designSystemRoot, 'JSONS/web/components/web-corp/FilterCompanySelect/rules.json'),
+    'utf8',
+  ));
+  const expectedFilterCompanySelectRuleIds = new Set(
+    filterCompanySelect.manual.rules.map((rule) => rule.ruleId),
+  );
+  const mappedFilterCompanySelectRuleIds = new Set(
+    crosswalk.entries
+      .filter((entry) => entry.apolloSource === 'JSONS/web/components/web-corp/FilterCompanySelect/rules.json')
+      .map((entry) => entry.apolloRuleId),
+  );
+  assert.deepEqual(mappedFilterCompanySelectRuleIds, expectedFilterCompanySelectRuleIds);
+
+  const projection = crosswalk.projections?.filterCompanySelect;
+  assert.equal(projection?.readiness, 'draft');
+  assert.equal(projection?.humanRuleRoutes?.length, 21);
+  assert.deepEqual(
+    projection.retiredApolloRuleIds,
+    ['component:web-corp.filter-company-select.selected-value-content'],
+  );
 });

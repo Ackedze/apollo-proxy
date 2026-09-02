@@ -431,6 +431,31 @@ function directOverrideFields(ownerNode, nodeId) {
   return Array.isArray(override?.fields) ? override.fields : [];
 }
 
+// Figma records overrides made inside an instance on the public instance
+// itself. Project that evidence back to the affected graph node so a generic
+// predicate can select a changed raw layer without guessing its baseline.
+// This is deliberately separate from `overrides`, which contains only
+// baseline-comparison changes emitted by the deterministic audit.
+function addDirectOverrideEvidence(nodes) {
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  for (const node of nodes) {
+    const owner = node.component
+      ? node
+      : (node.ownership?.ownerNodeId ? nodeById.get(node.ownership.ownerNodeId) : null);
+    const fields = directOverrideFields(owner, node.id);
+    if (!fields.length) continue;
+    node.directOverride = {
+      ownerNodeId: owner?.id || null,
+      fieldNames: fields.slice().sort(),
+      fields: {},
+    };
+    for (const field of fields) {
+      setObjectPath(node, `directOverride.fields.${field}`, true);
+    }
+  }
+  return nodes;
+}
+
 function hasTextStyleOverride(ownerNode, nodeId) {
   return directOverrideFields(ownerNode, nodeId).some(
     (field) => TEXT_STYLE_OVERRIDE_FIELDS.has(field),
@@ -1994,9 +2019,11 @@ function buildPredicateSnapshotV2(input) {
       },
       overrides: baseline.overrides,
       overrideProperties: baseline.overrideProperties,
+      directOverride: null,
       unknownFacts,
     };
   });
+  nodes = addDirectOverrideEvidence(nodes);
   nodes = addCompositionFacts(nodes);
   nodes = addDeclaredCompositionFacts(nodes, input.compositionDefinitions);
   nodes = addBenefitsCompositionFacts(nodes);

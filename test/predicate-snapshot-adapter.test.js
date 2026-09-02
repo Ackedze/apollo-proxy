@@ -626,6 +626,38 @@ function adapt(evidenceBundle, options = {}) {
   });
 }
 
+test('Snapshot v2 projects a direct raw-layer override onto its affected node', () => {
+  const evidenceBundle = bundle();
+  evidenceBundle.graph.nodes[0].childNodeIds.push('1:gap');
+  evidenceBundle.graph.nodes[0].component.directOverrides = [{
+    nodeId: '1:gap',
+    fields: ['boundVariables', 'itemSpacing'],
+  }];
+  evidenceBundle.graph.nodes.push(evidenceNode({
+    nodeId: '1:gap',
+    parentNodeId: '1:0',
+    childOrder: 2,
+    depth: 1,
+    path: '[D] ButtonsGroup / Raw gap',
+    name: 'Raw gap',
+    componentOwner: {
+      nodeId: '1:0',
+      componentKey: 'buttons-group-key',
+      name: '[D] ButtonsGroup',
+      path: '[D] ButtonsGroup',
+      relativePath: '',
+      variantProperties: { Size: '56' },
+      componentProperties: { Size: '56', Overflow: 'true' },
+    },
+  }));
+
+  const snapshot = adapt(evidenceBundle);
+  const rawGap = snapshot.nodes.find((node) => node.id === '1:gap');
+  assert.equal(rawGap.directOverride.ownerNodeId, '1:0');
+  assert.equal(rawGap.directOverride.fields.itemSpacing, true);
+  assert.equal(rawGap.directOverride.fields.boundVariables, true);
+});
+
 test('Snapshot v2 adapter preserves exact ButtonsGroup ownership facts', () => {
   const snapshot = adapt(bundle());
   const button = snapshot.nodes.find((node) => node.id === '1:2');
