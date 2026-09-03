@@ -7,6 +7,9 @@
   "scripts": {
     "skill:sync": "node scripts/sync-codex-skill.js",
     "knowledge:check": "node scripts/sync-contract-knowledge.js --check",
+    "knowledge:build": "node scripts/build-knowledge-package.js",
+    "knowledge:publish": "node scripts/publish-knowledge-package.js",
+    "knowledge:test": "node --test test/knowledge-package.test.js",
     "predicate:migration-audit": "node scripts/audit-predicate-migration-wave.js",
     "prestart": "npm run skill:sync",
     "start": "node server.js",

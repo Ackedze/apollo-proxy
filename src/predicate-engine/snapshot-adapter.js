@@ -2171,6 +2171,12 @@ function buildPredicateSnapshotV2(input) {
       knowledgeSource: input.release.knowledgeSource,
       revision: input.release.revision,
       checksum: input.release.checksum,
+      ...(input.release.contentVersion
+        ? { contentVersion: input.release.contentVersion }
+        : {}),
+      ...(input.release.sourceCommits
+        ? { sourceCommits: input.release.sourceCommits }
+        : {}),
     },
     selection: bundle.context.selectionNodeIds.slice(),
     nodes,

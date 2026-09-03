@@ -54,6 +54,17 @@ enum CodexAuthStatus: Equatable {
     case error(String)
 }
 
+enum KnowledgeUpdateStatus: Equatable {
+    case idle
+    case checking
+    case updateAvailable(String)
+    case downloading
+    case validating
+    case ready(String)
+    case failed(String)
+    case upToDate(String)
+}
+
 @MainActor
 final class ProxyManager: NSObject {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -63,6 +74,9 @@ final class ProxyManager: NSObject {
     private let apolloURLLineItem = NSMenuItem(title: "APOLLO_AGENT_URL: not set", action: nil, keyEquivalent: "")
     private let codexStatusLineItem = NSMenuItem(title: "Codex: Checking...", action: nil, keyEquivalent: "")
     private let knowledgeSourceLineItem = NSMenuItem(title: "Knowledge: ds-ai-hub", action: nil, keyEquivalent: "")
+    private let knowledgeUpdateLineItem = NSMenuItem(title: "Knowledge update: Initializing...", action: nil, keyEquivalent: "")
+    private let updateKnowledgeItem = NSMenuItem(title: "Обновить знания", action: #selector(updateKnowledgeAction), keyEquivalent: "")
+    private let rollbackKnowledgeItem = NSMenuItem(title: "Откатить знания", action: #selector(rollbackKnowledgeAction), keyEquivalent: "")
     private let startItem = NSMenuItem(title: "Start Proxy", action: #selector(startProxyAction), keyEquivalent: "")
     private let stopItem = NSMenuItem(title: "Stop Proxy", action: #selector(stopProxyAction), keyEquivalent: "")
     private let authorizeCodexItem = NSMenuItem(title: "Authorize Codex...", action: #selector(authorizeCodexAction), keyEquivalent: "")
@@ -78,15 +92,20 @@ final class ProxyManager: NSObject {
     private var codexAuthProcess: Process?
     private var outputPipe: Pipe?
     private var healthTimer: Timer?
+    private var knowledgeTimer: Timer?
     private var status: ProxyStatus = .stopped {
         didSet { refreshUI() }
     }
     private var codexAuthStatus: CodexAuthStatus = .checking {
         didSet { refreshUI() }
     }
+    private var knowledgeUpdateStatus: KnowledgeUpdateStatus = .idle {
+        didSet { refreshUI() }
+    }
 
     private let appSupportURL: URL
     private let proxyInstallURL: URL
+    private let knowledgeStoreURL: URL
     private let overridesURL: URL
     private let logURL: URL
     private let logQueue = DispatchQueue(label: "ApolloProxyControl.logQueue")
@@ -95,23 +114,35 @@ final class ProxyManager: NSObject {
     private var isStoppingIntentionally = false
     private var pendingRestartAfterStop = false
     private var pendingProxyStartAfterAuthorization = false
+    private var knowledgeRuntime: KnowledgeCommandStatus?
+    private var knowledgeCommandRunning = false
+    private var pendingKnowledgeRestart = false
 
     override init() {
         let fm = FileManager.default
         let appSupportRoot = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         appSupportURL = appSupportRoot.appendingPathComponent("ApolloProxyControl", isDirectory: true)
         proxyInstallURL = appSupportURL.appendingPathComponent("proxy", isDirectory: true)
+        knowledgeStoreURL = appSupportURL.appendingPathComponent("knowledge", isDirectory: true)
         overridesURL = appSupportURL.appendingPathComponent("user-overrides.env", isDirectory: false)
         logURL = appSupportURL.appendingPathComponent("proxy.log", isDirectory: false)
         super.init()
         configureMenu()
         refreshUI()
         startHealthChecks()
+        startKnowledgeChecks()
     }
 
     func setupStatusItem(autoStartProxy: Bool = false) {
         statusItem.button?.title = "AP:Off"
         statusItem.menu = menu
+        do {
+            try ensureProxyInstalled()
+            knowledgeRuntime = try knowledgeCommandRunner().runSynchronously("ensure")
+        } catch {
+            knowledgeUpdateStatus = .failed(error.localizedDescription)
+        }
+        checkForKnowledgeUpdate()
         checkCodexAuthorization(startProxyWhenReady: autoStartProxy)
     }
 
@@ -121,11 +152,13 @@ final class ProxyManager: NSObject {
         apolloURLLineItem.isEnabled = false
         codexStatusLineItem.isEnabled = false
         knowledgeSourceLineItem.isEnabled = false
+        knowledgeUpdateLineItem.isEnabled = false
         menu.addItem(statusLineItem)
         menu.addItem(proxyVersionLineItem)
         menu.addItem(apolloURLLineItem)
         menu.addItem(codexStatusLineItem)
         menu.addItem(knowledgeSourceLineItem)
+        menu.addItem(knowledgeUpdateLineItem)
         menu.addItem(.separator())
 
         startItem.target = self
@@ -150,6 +183,12 @@ final class ProxyManager: NSObject {
         switchKnowledgeSourceItem.target = self
         menu.addItem(switchKnowledgeSourceItem)
 
+        updateKnowledgeItem.target = self
+        menu.addItem(updateKnowledgeItem)
+
+        rollbackKnowledgeItem.target = self
+        menu.addItem(rollbackKnowledgeItem)
+
         openEnvItem.target = self
         menu.addItem(openEnvItem)
 
@@ -173,6 +212,31 @@ final class ProxyManager: NSObject {
         switchKnowledgeSourceItem.title = knowledgeSource == "ds-ai-hub"
             ? "Switch to design-system_ab..."
             : "Switch to ds-ai-hub..."
+        let currentKnowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "seed"
+        switch knowledgeUpdateStatus {
+        case .idle:
+            knowledgeUpdateLineItem.title = "Knowledge update: \(currentKnowledgeVersion)"
+        case .checking:
+            knowledgeUpdateLineItem.title = "Knowledge update: Checking..."
+        case .updateAvailable(let version):
+            knowledgeUpdateLineItem.title = "Knowledge update available: \(version)"
+        case .downloading:
+            knowledgeUpdateLineItem.title = "Knowledge update: Downloading..."
+        case .validating:
+            knowledgeUpdateLineItem.title = "Knowledge update: Validating..."
+        case .ready(let version):
+            knowledgeUpdateLineItem.title = "Knowledge update: Ready (\(version))"
+        case .failed(let message):
+            knowledgeUpdateLineItem.title = "Knowledge update: Failed (\(message.prefix(48)))"
+        case .upToDate(let version):
+            knowledgeUpdateLineItem.title = "Knowledge update: Up to date (\(version))"
+        }
+        if case .updateAvailable = knowledgeUpdateStatus {
+            updateKnowledgeItem.isEnabled = !knowledgeCommandRunning
+        } else {
+            updateKnowledgeItem.isEnabled = false
+        }
+        rollbackKnowledgeItem.isEnabled = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil
 
         switch codexAuthStatus {
         case .checking:
@@ -212,26 +276,37 @@ final class ProxyManager: NSObject {
 
         switch status {
         case .stopped:
-            statusItem.button?.title = "AP:Off"
+            setStatusItemTitle("AP:Off")
             statusLineItem.title = "Status: Stopped"
             startItem.isEnabled = codexReady
             stopItem.isEnabled = false
         case .starting:
-            statusItem.button?.title = "AP:..."
+            setStatusItemTitle("AP:...")
             statusLineItem.title = "Status: Starting..."
             startItem.isEnabled = false
             stopItem.isEnabled = true
         case .running:
             let port = readPort()
-            statusItem.button?.title = "AP:On"
+            setStatusItemTitle("AP:On")
             statusLineItem.title = "Status: Running on :\(port)"
             startItem.isEnabled = false
             stopItem.isEnabled = true
         case .error(let message):
-            statusItem.button?.title = "AP:Err"
+            setStatusItemTitle("AP:Err")
             statusLineItem.title = "Status: Error (\(message))"
             startItem.isEnabled = codexReady
             stopItem.isEnabled = process != nil
+        }
+    }
+
+    private func setStatusItemTitle(_ base: String) {
+        switch knowledgeUpdateStatus {
+        case .updateAvailable:
+            statusItem.button?.title = "\(base) ↑"
+        case .failed:
+            statusItem.button?.title = "\(base) !"
+        default:
+            statusItem.button?.title = base
         }
     }
 
@@ -278,6 +353,15 @@ final class ProxyManager: NSObject {
         }
     }
 
+    private func startKnowledgeChecks() {
+        knowledgeTimer?.invalidate()
+        knowledgeTimer = Timer.scheduledTimer(withTimeInterval: 2 * 60 * 60, repeats: true) { [weak self] _ in
+            Task { @MainActor in
+                self?.checkForKnowledgeUpdate()
+            }
+        }
+    }
+
     private func checkHealth() {
         guard process != nil else {
             if case .running = status {
@@ -314,8 +398,163 @@ final class ProxyManager: NSObject {
                    self.status != .running {
                     self.status = .running
                 }
+                if self.pendingKnowledgeRestart,
+                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let activeRequests = json["activeRequests"] as? Int,
+                   let codex = json["codex"] as? [String: Any],
+                   activeRequests == 0,
+                   codex["busy"] as? Bool == false {
+                    self.pendingKnowledgeRestart = false
+                    self.pendingRestartAfterStop = true
+                    self.stopProxyAction()
+                }
             }
         }.resume()
+    }
+
+    private func configuredKnowledgeDescriptorURL() -> String? {
+        if let configured = readEnvMap()?["APOLLO_KNOWLEDGE_DESCRIPTOR_URL"]?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !configured.isEmpty {
+            return configured
+        }
+        if let bundled = Bundle.main.object(forInfoDictionaryKey: "ApolloKnowledgeDescriptorURL") as? String,
+           !bundled.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return bundled
+        }
+        return nil
+    }
+
+    private func knowledgeCommandEnvironment() -> [String: String] {
+        var environment = ProcessInfo.processInfo.environment
+        if let token = readEnvMap()?["APOLLO_KNOWLEDGE_TOKEN"], !token.isEmpty {
+            environment["APOLLO_KNOWLEDGE_TOKEN"] = token
+        }
+        return environment
+    }
+
+    private func knowledgeCommandRunner() throws -> KnowledgeCommandRunner {
+        guard let nodeURL = resolveNodeExecutableURL() else {
+            throw KnowledgeCommandError.failed("Bundled Node runtime is unavailable.")
+        }
+        let cliURL = proxyInstallURL
+            .appendingPathComponent("scripts", isDirectory: true)
+            .appendingPathComponent("knowledge-package-cli.js", isDirectory: false)
+        guard FileManager.default.fileExists(atPath: cliURL.path) else {
+            throw KnowledgeCommandError.failed("Knowledge updater is missing from embedded proxy.")
+        }
+        guard let seedURL = Bundle.main.resourceURL?
+            .appendingPathComponent("knowledge-seed", isDirectory: true)
+            .appendingPathComponent("package", isDirectory: true),
+              FileManager.default.fileExists(atPath: seedURL.path) else {
+            throw KnowledgeCommandError.failed("Embedded knowledge seed is missing.")
+        }
+        return KnowledgeCommandRunner(
+            nodeURL: nodeURL,
+            cliURL: cliURL,
+            storeURL: knowledgeStoreURL,
+            seedURL: seedURL,
+            descriptorURL: configuredKnowledgeDescriptorURL(),
+            environment: knowledgeCommandEnvironment()
+        )
+    }
+
+    private func checkForKnowledgeUpdate() {
+        guard !knowledgeCommandRunning else { return }
+        guard configuredKnowledgeDescriptorURL() != nil else {
+            knowledgeUpdateStatus = .idle
+            return
+        }
+        knowledgeCommandRunning = true
+        knowledgeUpdateStatus = .checking
+        do {
+            try knowledgeCommandRunner().run("check", phase: { _ in }) { [weak self] result in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.knowledgeCommandRunning = false
+                    switch result {
+                    case .success(let value):
+                        self.knowledgeRuntime = value
+                        let version = value.descriptor?.contentVersion ?? "unknown"
+                        self.knowledgeUpdateStatus = value.updateAvailable == true
+                            ? .updateAvailable(version)
+                            : .upToDate(version)
+                    case .failure(let error):
+                        self.knowledgeUpdateStatus = .failed(error.localizedDescription)
+                        self.appendLog("=== \(Date()) Knowledge check failed: \(error.localizedDescription) ===\n")
+                    }
+                }
+            }
+        } catch {
+            knowledgeCommandRunning = false
+            knowledgeUpdateStatus = .failed(error.localizedDescription)
+        }
+    }
+
+    private func applyUpdatedKnowledgeRuntime() {
+        guard process != nil else { return }
+        pendingKnowledgeRestart = true
+        appendLog("=== \(Date()) Knowledge update waits for active audit before proxy restart ===\n")
+        checkHealth()
+    }
+
+    @objc private func updateKnowledgeAction() {
+        guard !knowledgeCommandRunning else { return }
+        knowledgeCommandRunning = true
+        knowledgeUpdateStatus = .downloading
+        do {
+            try knowledgeCommandRunner().run("update", phase: { [weak self] phase in
+                Task { @MainActor in
+                    if phase == "validating" { self?.knowledgeUpdateStatus = .validating }
+                    if phase == "downloading" { self?.knowledgeUpdateStatus = .downloading }
+                }
+            }) { [weak self] result in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.knowledgeCommandRunning = false
+                    switch result {
+                    case .success(let value):
+                        self.knowledgeRuntime = value
+                        let version = value.current?.contentVersion ?? "unknown"
+                        self.knowledgeUpdateStatus = .ready(version)
+                        self.appendLog("=== \(Date()) Knowledge \(version) validated and activated ===\n")
+                        self.applyUpdatedKnowledgeRuntime()
+                    case .failure(let error):
+                        self.knowledgeUpdateStatus = .failed(error.localizedDescription)
+                        self.appendLog("=== \(Date()) Knowledge update failed; current retained: \(error.localizedDescription) ===\n")
+                    }
+                }
+            }
+        } catch {
+            knowledgeCommandRunning = false
+            knowledgeUpdateStatus = .failed(error.localizedDescription)
+        }
+    }
+
+    @objc private func rollbackKnowledgeAction() {
+        guard !knowledgeCommandRunning else { return }
+        knowledgeCommandRunning = true
+        knowledgeUpdateStatus = .validating
+        do {
+            try knowledgeCommandRunner().run("rollback", phase: { _ in }) { [weak self] result in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.knowledgeCommandRunning = false
+                    switch result {
+                    case .success(let value):
+                        self.knowledgeRuntime = value
+                        let version = value.current?.contentVersion ?? "unknown"
+                        self.knowledgeUpdateStatus = .ready(version)
+                        self.appendLog("=== \(Date()) Knowledge rolled back to \(version) ===\n")
+                        self.applyUpdatedKnowledgeRuntime()
+                    case .failure(let error):
+                        self.knowledgeUpdateStatus = .failed(error.localizedDescription)
+                    }
+                }
+            }
+        } catch {
+            knowledgeCommandRunning = false
+            knowledgeUpdateStatus = .failed(error.localizedDescription)
+        }
     }
 
     private func readPort() -> Int {
@@ -779,10 +1018,15 @@ final class ProxyManager: NSObject {
             )
         }
 
+        let existingEnvURL = proxyInstallURL.appendingPathComponent(".env", isDirectory: false)
+        let preservedEnv = try? Data(contentsOf: existingEnvURL)
         if fm.fileExists(atPath: proxyInstallURL.path) {
             try fm.removeItem(at: proxyInstallURL)
         }
         try fm.copyItem(at: embeddedURL, to: proxyInstallURL)
+        if let preservedEnv {
+            try preservedEnv.write(to: existingEnvURL, options: .atomic)
+        }
     }
 
     private func appendLog(_ chunk: String) {
@@ -970,6 +1214,7 @@ final class ProxyManager: NSObject {
 
         do {
             try ensureProxyInstalled()
+            knowledgeRuntime = try knowledgeCommandRunner().runSynchronously("ensure")
         } catch {
             status = .error("Setup failed")
             showError("Cannot prepare proxy", error.localizedDescription)
@@ -1047,7 +1292,22 @@ final class ProxyManager: NSObject {
         task.currentDirectoryURL = proxyInstallURL
         task.standardOutput = pipe
         task.standardError = pipe
-        task.environment = ProcessInfo.processInfo.environment
+        var environment = ProcessInfo.processInfo.environment
+        if let runtime = knowledgeRuntime,
+           let current = runtime.current,
+           let designSystemRoot = runtime.designSystemRoot,
+           let dsAiHubRoot = runtime.dsAiHubRoot {
+            environment["CODEX_DESIGN_SYSTEM"] = designSystemRoot
+            environment["CODEX_DS_AI_HUB"] = dsAiHubRoot
+            environment["APOLLO_KNOWLEDGE_CONTENT_VERSION"] = current.contentVersion
+            if let commit = current.sourceCommits?["design-system_ab"] ?? nil {
+                environment["APOLLO_KNOWLEDGE_DESIGN_SYSTEM_COMMIT"] = commit
+            }
+            if let commit = current.sourceCommits?["ds-ai-hub"] ?? nil {
+                environment["APOLLO_KNOWLEDGE_DS_AI_HUB_COMMIT"] = commit
+            }
+        }
+        task.environment = environment
         task.terminationHandler = { [weak self] process in
             Task { @MainActor in
                 guard let self else { return }

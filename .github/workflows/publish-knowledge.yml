@@ -1,0 +1,102 @@
+name: Publish Apollo knowledge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "knowledge/**"
+      - "src/knowledge-package/**"
+      - "src/predicate-engine/**"
+      - "src/generation/**"
+      - "scripts/build-knowledge-package.js"
+      - "scripts/knowledge-package-cli.js"
+      - "scripts/sync-contract-knowledge.js"
+      - "schemas/apollo-knowledge-package-v1.schema.json"
+      - "server.js"
+      - "package.json"
+      - "package-lock.json"
+  repository_dispatch:
+    types: [knowledge-inputs-changed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: apollo-knowledge-stable
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Apollo proxy
+        uses: actions/checkout@v5
+        with:
+          path: DS-AB-Plugin/services/apollo-proxy
+
+      - name: Checkout writable design-system_ab main
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ vars.DESIGN_SYSTEM_REPOSITORY || 'Ackedze/design-system_ab' }}
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.KNOWLEDGE_PUBLISH_TOKEN }}
+          path: DS-AB-Plugin/shared/design-system_ab
+
+      - name: Checkout ds-ai-hub at dispatched revision
+        uses: actions/checkout@v5
+        with:
+          repository: ${{ vars.DS_AI_HUB_REPOSITORY || 'core-ds/ds-ai-hub' }}
+          ref: ${{ github.event.client_payload.ds_ai_hub_sha || 'main' }}
+          token: ${{ secrets.KNOWLEDGE_SOURCES_TOKEN }}
+          path: DS-AB-Plugin/ds-ai-hub
+
+      - name: Install Apollo dependencies
+        working-directory: DS-AB-Plugin/services/apollo-proxy
+        run: npm ci --ignore-scripts
+
+      - name: Run ds-ai-hub source gates
+        working-directory: DS-AB-Plugin/ds-ai-hub
+        run: |
+          npm run lint-knowledge
+          npm run check:ab-pr
+          npm run test:p0-gates
+
+      - name: Validate design-system_ab component packages
+        working-directory: DS-AB-Plugin/shared/design-system_ab
+        run: |
+          find JSONS/web/components -name rules.json -print0 |
+            while IFS= read -r -d '' rules; do
+              node .claude/skills/corp-component-authoring/scripts/validate-component-package.mjs "$(dirname "$rules")"
+            done
+
+      - name: Run Apollo gates
+        working-directory: DS-AB-Plugin/services/apollo-proxy
+        run: npm test
+
+      - name: Verify dispatched design-system_ab revision
+        if: ${{ github.event.client_payload.design_system_sha != '' }}
+        working-directory: DS-AB-Plugin/shared/design-system_ab
+        env:
+          EXPECTED_DESIGN_SHA: ${{ github.event.client_payload.design_system_sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_DESIGN_SHA"
+
+      - name: Configure stable descriptor commit author
+        working-directory: DS-AB-Plugin/shared/design-system_ab
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Build, verify and publish immutable knowledge
+        working-directory: DS-AB-Plugin/services/apollo-proxy
+        env:
+          GH_TOKEN: ${{ secrets.KNOWLEDGE_PUBLISH_TOKEN }}
+          APOLLO_KNOWLEDGE_GITHUB_REPOSITORY: ${{ vars.DESIGN_SYSTEM_REPOSITORY || 'Ackedze/design-system_ab' }}
+          APOLLO_KNOWLEDGE_GITHUB_BRANCH: main
+        run: |
+          npm run knowledge:publish -- \
+            --skip-gates \
+            --design-system-root ../../shared/design-system_ab \
+            --ds-ai-hub-root ../../ds-ai-hub \
+            --output dist/knowledge-publish

@@ -200,7 +200,16 @@ function request(secondProperties, firstProperties = {
 test('production predicate service evaluates only rules from the knowledge release', () => {
   const input = request({ View: 'Accent', Size: '40' });
   delete input.ruleSet;
-  const output = evaluatePredicateReleaseRequest(input, { designSystemRoot });
+  const output = evaluatePredicateReleaseRequest(input, {
+    designSystemRoot,
+    knowledgeRelease: {
+      contentVersion: 'ds-test.hub-test.fixture',
+      sourceCommits: {
+        'design-system_ab': '1'.repeat(40),
+        'ds-ai-hub': '2'.repeat(40),
+      },
+    },
+  });
   const ruleIds = new Set(output.rules.map((rule) => rule.ruleId));
 
   assert.equal(ruleIds.has('component:web-corp.buttons-group.allowed-views'), true);
@@ -217,6 +226,8 @@ test('production predicate service evaluates only rules from the knowledge relea
     true,
   );
   assert.equal(output.repeatability.stable, true);
+  assert.equal(output.snapshot.release.contentVersion, 'ds-test.hub-test.fixture');
+  assert.equal(output.snapshot.release.sourceCommits['design-system_ab'], '1'.repeat(40));
 });
 
 test('isolated predicate endpoint service evaluates P01/P02/P03 without an agent', () => {

@@ -19,6 +19,8 @@ snapshot.
 - Изменение `APOLLO_AGENT_URL` прямо в miniapp без пересборки `.app`.
 - Переключение источника Apollo v3 между `ds-ai-hub` и `design-system_ab` с
   автоматическим перезапуском proxy.
+- Независимый от On/Off knowledge updater: launch check, проверка каждые два
+  часа, `Обновить знания`, `Откатить знания` и current/previous/seed recovery.
 - Просмотр и редактирование `.env`.
 - Просмотр `proxy.log`.
 - Автоматическая установка встроенного прокси в:
@@ -81,7 +83,12 @@ REQUIRE_NOTARIZATION=1 \
 - подписывает весь `.app` после упаковки ресурсов;
 - при `NOTARY_KEYCHAIN_PROFILE` отправляет архив на notarization, stapling и перепаковывает zip;
 - вшивает build marker, чтобы при обновлении `.app` встроенный proxy переустанавливался у пользователя.
-- добавляет `ds-ai-hub` и компактный Apollo/pattern/redpolicy knowledge snapshot из `design-system_ab`.
+- добавляет data-only проекцию `ds-ai-hub` и компактный Apollo/pattern/redpolicy
+  snapshot из `design-system_ab` как аварийный seed; новые версии приходят
+  отдельно от `.app` по HTTPS и не требуют системного `npm install`;
+- по умолчанию вшивает stable descriptor
+  `https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/knowledge/channels/stable.json`;
+  другой URL можно задать сборочной переменной `KNOWLEDGE_DESCRIPTOR_URL`;
 - добавляет все индексированные component contract packages, копируя только
   объявленные artifacts и проверяя полноту относительно
   `componentContractIndex.json`;
@@ -103,32 +110,22 @@ services/apollo-proxy/macos-app/dist/ApolloProxyControl-macOS.zip
 
 Рабочая сборка создаётся только в `dist/`. Bundle внутри `Sources/` запрещён и не должен появляться в репозитории.
 
-## Обязательная синхронизация знаний перед Figma-тестом
+## Проверка новых знаний перед Figma-тестом
 
-Новые или изменённые Predicate-правила нельзя проверять в Figma, пока они не
-запечены в **две** копии proxy:
+Изменение Predicate-правил больше не требует пересборки `.app`. После публикации
+нового knowledge release:
 
-1. bundle приложения — `dist/ApolloProxyControl.app/.../embedded-proxy`;
-2. фактически работающий runtime —
-   `~/Library/Application Support/ApolloProxyControl/proxy`.
+1. запусти ApolloProxyControl и дождись `Доступно обновление знаний` либо вызови
+   `Проверить обновление знаний`;
+2. выбери `Обновить знания` и дождись состояния `Знания обновлены`;
+3. в меню или `GET /health` сверь `contentVersion` и source commits с release;
+4. выполни smoke-test `POST /v1/validate/predicates` с известным componentKey и
+   убедись, что нужные `ruleId` присутствуют в `validation.rules`;
+5. только затем запускай ручной Figma-тест.
 
-При старте приложение разворачивает runtime из bundle по build marker. Поэтому
-синхронизация только одной из копий приводит к ложному тесту: после перезапуска
-старые правила могут вернуться, а активный proxy продолжит не находить новые
-нарушения.
-
-Перед каждым Figma-прогоном необходимо:
-
-1. выполнить `scripts/sync-contract-knowledge.js` для обеих копий и
-   синхронизировать связанные `apollo/rule-crosswalk.json` и human-источники;
-2. сверить SHA-256 изменённого `rules.json` в source, bundle и runtime;
-3. без перезапуска либо после него выполнить smoke-test
-   `POST /v1/validate/predicates` с известным componentKey и убедиться, что
-   нужные `ruleId` присутствуют в `validation.rules`;
-4. только затем запускать ручной Figma-тест.
-
-Если proxy был перезапущен после синхронизации runtime, повторно проверьте
-runtime-копию: приложение могло переустановить её из bundle.
+Текущий аудит не прерывается: приложение ждёт освобождения proxy и применяет
+новую версию со следующего запроса. Для аварийной проверки доступно действие
+`Откатить знания`, меняющее местами валидные `current` и `previous`.
 
 ## Диагностика проблем запуска
 

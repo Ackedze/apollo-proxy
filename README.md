@@ -28,6 +28,8 @@ CODEX_BIN=/Applications/ChatGPT.app/Contents/Resources/codex
 CODEX_MODEL=
 APOLLO_CODEX_REPORT_STRATEGY=packet
 APOLLO_CODEX_KNOWLEDGE_SOURCE=ds-ai-hub
+APOLLO_KNOWLEDGE_DESCRIPTOR_URL=https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/knowledge/channels/stable.json
+APOLLO_KNOWLEDGE_TOKEN=
 APOLLO_CODEX_INPUT_WARN_CHARS=700000
 APOLLO_CODEX_INPUT_BUDGET_CHARS=900000
 CODEX_IDLE_TIMEOUT_MS=300000
@@ -39,6 +41,20 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 ```
 
 `APOLLO_AGENT_KEY` и `APOLLO_AGENT_INSECURE_TLS` имеют fallback на старые переменные `LANGFLOW_KEY` и `LANGFLOW_INSECURE_TLS`, чтобы можно было переиспользовать текущий локальный конфиг.
+
+`APOLLO_KNOWLEDGE_DESCRIPTOR_URL` задаёт HTTPS descriptor удалённого
+data-only knowledge package. Проверка выполняется при запуске ApolloProxyControl
+и каждые два часа, но скачивание и активация происходят только после действия
+`Обновить знания`. Опциональный read-only bearer token хранится только в
+пользовательском `.env`. Архитектура, manifest, CI и recovery описаны в
+[`docs/knowledge-package.md`](docs/knowledge-package.md).
+
+Архив хранится как immutable asset GitHub Release в `Ackedze/design-system_ab`,
+а `stable.json` — в `main` того же репозитория. Владельцу достаточно иметь
+авторизованный `gh` и по запросу запускать `npm run knowledge:publish`.
+Команда сама прогоняет Apollo gates, собирает и валидирует пакет, проверяет
+загруженный архив и только затем обновляет descriptor. Пример переменных находится в
+[`docs/knowledge-publish.env.example`](docs/knowledge-publish.env.example).
 
 ## Эндпоинты
 

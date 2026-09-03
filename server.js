@@ -126,6 +126,13 @@ const APOLLO_CODEX_KNOWLEDGE_SOURCE =
   process.env.APOLLO_CODEX_KNOWLEDGE_SOURCE === 'design-system_ab'
     ? 'design-system_ab'
     : 'ds-ai-hub';
+const APOLLO_KNOWLEDGE_RELEASE = Object.freeze({
+  contentVersion: process.env.APOLLO_KNOWLEDGE_CONTENT_VERSION || 'embedded-seed',
+  sourceCommits: {
+    'design-system_ab': process.env.APOLLO_KNOWLEDGE_DESIGN_SYSTEM_COMMIT || null,
+    'ds-ai-hub': process.env.APOLLO_KNOWLEDGE_DS_AI_HUB_COMMIT || null,
+  },
+});
 const APOLLO_CODEX_SKILL_ROOT = path.join(
   CODEX_WORKSPACE,
   '.agents',
@@ -201,6 +208,20 @@ if (APOLLO_AGENT_INSECURE_TLS) {
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '30mb', strict: false }));
+let activeApiRequests = 0;
+app.use((req, res, next) => {
+  if (req.path === '/health') return next();
+  activeApiRequests += 1;
+  let released = false;
+  const release = () => {
+    if (released) return;
+    released = true;
+    activeApiRequests = Math.max(0, activeApiRequests - 1);
+  };
+  res.once('finish', release);
+  res.once('close', release);
+  return next();
+});
 
 function resolveCodexBinary() {
   const candidates = [
@@ -415,9 +436,14 @@ function inspectDsAiHubKnowledge() {
 }
 
 function inspectActiveApolloKnowledge() {
-  return APOLLO_CODEX_KNOWLEDGE_SOURCE === 'ds-ai-hub'
+  const inspected = APOLLO_CODEX_KNOWLEDGE_SOURCE === 'ds-ai-hub'
     ? inspectDsAiHubKnowledge()
     : inspectApolloContractKnowledge();
+  return {
+    ...inspected,
+    contentVersion: APOLLO_KNOWLEDGE_RELEASE.contentVersion,
+    sourceCommits: APOLLO_KNOWLEDGE_RELEASE.sourceCommits,
+  };
 }
 
 function assertCodexRuntimeReady() {
@@ -1280,9 +1306,9 @@ function buildApolloSkillRequest(payload, preparedSnapshot, runtimeManifest) {
         selectionUrl: buildFigmaSelectionUrl(preparedSnapshot, rootNodeId),
       },
       knowledge: {
-        packageVersion: null,
+        packageVersion: runtimeManifest?.knowledge?.contentVersion || null,
         packageChecksum: runtimeManifest?.knowledge?.checksum || null,
-        sourceRevisions: {},
+        sourceRevisions: runtimeManifest?.knowledge?.sourceCommits || {},
       },
     },
     snapshot: {
@@ -1335,9 +1361,9 @@ function buildApolloCustomizationReportSkillRequest(
         ),
       },
       knowledge: {
-        packageVersion: null,
+        packageVersion: runtimeManifest?.knowledge?.contentVersion || null,
         packageChecksum: runtimeManifest?.knowledge?.checksum || null,
-        sourceRevisions: {},
+        sourceRevisions: runtimeManifest?.knowledge?.sourceCommits || {},
       },
     },
     report: compactApolloCustomizationReport(report),
@@ -1372,9 +1398,9 @@ function buildApolloPatternReportSkillRequest(payload, report, runtimeManifest) 
         ),
       },
       knowledge: {
-        packageVersion: null,
+        packageVersion: runtimeManifest?.knowledge?.contentVersion || null,
         packageChecksum: runtimeManifest?.knowledge?.checksum || null,
-        sourceRevisions: {},
+        sourceRevisions: runtimeManifest?.knowledge?.sourceCommits || {},
       },
     },
     report: compactApolloPatternReport(report),
@@ -1409,9 +1435,9 @@ function buildApolloTextReportSkillRequest(payload, report, runtimeManifest) {
         ),
       },
       knowledge: {
-        packageVersion: null,
+        packageVersion: runtimeManifest?.knowledge?.contentVersion || null,
         packageChecksum: runtimeManifest?.knowledge?.checksum || null,
-        sourceRevisions: {},
+        sourceRevisions: runtimeManifest?.knowledge?.sourceCommits || {},
       },
     },
     report: compactApolloTextReport(report),
@@ -6502,6 +6528,7 @@ async function callCodexDialogue(inputValue) {
     );
     console.info('[Apollo][codex] dialogue completed', {
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
+      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
     });
     return result;
@@ -8594,6 +8621,12 @@ async function callCodexValidator(payload, onProgress, options = {}) {
     ? options.runId
     : `direct_${crypto.randomUUID()}`;
   const persistDebug = shouldPersistCodexDebugArtifacts(mode);
+  console.info('[Apollo][audit] knowledge release pinned', {
+    auditId: debugRunId,
+    mode,
+    knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
+    knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+  });
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-')
   );
@@ -8609,6 +8642,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         patternPassBudgetChars: APOLLO_CODEX_PATTERN_PASS_BUDGET_CHARS,
         patternReasoningEffort: APOLLO_CODEX_PATTERN_REASONING_EFFORT,
         knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
+        knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
         sourceReportId: payload?.report?.reportId || null,
       });
       await writeCodexDebugArtifact(
@@ -8829,7 +8863,10 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         verified
       );
     }
-    return verified;
+    return {
+      ...verified,
+      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+    };
   } catch (error) {
     if (persistDebug) {
       await writeCodexDebugArtifact(debugRunId, '99-error.json', {
@@ -8861,6 +8898,7 @@ function createCodexRun(payload) {
     events: [],
     validation: null,
     error: null,
+    knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
   };
   codexRuns.set(id, run);
   appendCodexRunProgress(run, CODEX_PROGRESS_STAGES.queued);
@@ -8953,6 +8991,7 @@ function publicCodexRun(run) {
     events: run.events,
     validation: run.status === 'completed' ? run.validation : null,
     error: run.status === 'failed' ? run.error : null,
+    knowledgeRelease: run.knowledgeRelease,
   };
 }
 
@@ -8990,6 +9029,8 @@ app.get('/health', (req, res) => {
   }
   res.json({
     ok: true,
+    activeRequests: activeApiRequests,
+    knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     codex: {
       configured: Boolean(CODEX_BIN),
       busy: activeCodexRuns > 0,
@@ -9012,6 +9053,7 @@ app.post('/v1/validate/predicates', (req, res) => {
   try {
     const validation = evaluatePredicateReleaseRequest(req.body ?? {}, {
       designSystemRoot: CODEX_DESIGN_SYSTEM,
+      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     });
     const evaluations = Array.isArray(validation?.result?.evaluations)
       ? validation.result.evaluations
@@ -9023,8 +9065,9 @@ app.post('/v1/validate/predicates', (req, res) => {
       evaluationCount: evaluations.length,
       findingCount: evaluations.filter((item) => item?.classification === 'violation').length,
       repeatability: validation?.repeatability || null,
+      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     });
-    res.json({ success: true, validation });
+    res.json({ success: true, validation, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
@@ -9066,7 +9109,7 @@ app.post('/v1/generation/plan', async (req, res) => {
       componentCount: plan.knowledge.componentCount,
       warningCount: plan.warnings.length,
     });
-    res.json({ success: true, status: 'ready', plan });
+    res.json({ success: true, status: 'ready', plan, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
@@ -9096,7 +9139,7 @@ app.post('/v1/validate/codex', async (req, res) => {
   activeCodexRuns += 1;
   try {
     const validation = await callCodexValidator(payload);
-    res.json({ success: true, validation });
+    res.json({ success: true, validation, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
   } catch (err) {
     res.status(err.status || 500).json({
       success: false,
@@ -9181,7 +9224,7 @@ app.post('/analyze', async (req, res) => {
       throw buildHtmlResponseError('text/html', result);
     }
 
-    res.json({ success: true, result, source: inputValue.source });
+    res.json({ success: true, result, source: inputValue.source, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
   } catch (err) {
     res.status(err.status || 500).json({
       success: false,
@@ -9197,6 +9240,11 @@ function startServer() {
     console.log(`Apollo proxy running on http://${HOST}:${PORT}`);
     console.log(
       `Apollo Codex knowledge source: ${APOLLO_CODEX_KNOWLEDGE_SOURCE}`
+    );
+    console.log(
+      `Apollo knowledge release: ${APOLLO_KNOWLEDGE_RELEASE.contentVersion} ` +
+      `(design-system_ab=${APOLLO_KNOWLEDGE_RELEASE.sourceCommits['design-system_ab'] || 'unknown'}, ` +
+      `ds-ai-hub=${APOLLO_KNOWLEDGE_RELEASE.sourceCommits['ds-ai-hub'] || 'unknown'})`
     );
     console.log(
       `Apollo Codex pattern packet: ${APOLLO_CODEX_PATTERN_PACKET_MODE}`

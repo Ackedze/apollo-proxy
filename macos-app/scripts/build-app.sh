@@ -25,6 +25,8 @@ SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
 REQUIRE_NOTARIZATION="${REQUIRE_NOTARIZATION:-0}"
 EMBED_PROXY_ENV="${EMBED_PROXY_ENV:-0}"
+KNOWLEDGE_DESCRIPTOR_URL="${KNOWLEDGE_DESCRIPTOR_URL:-https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/knowledge/channels/stable.json}"
+KNOWLEDGE_DESCRIPTOR_XML="$(printf '%s' "${KNOWLEDGE_DESCRIPTOR_URL}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 SOURCE_APP_BUNDLE="${APP_ROOT}/Sources/ApolloProxyControl/${APP_NAME}.app"
 
 if [[ -d "${SOURCE_APP_BUNDLE}" ]]; then
@@ -111,6 +113,8 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
   <string>13.0</string>
   <key>LSUIElement</key>
   <true/>
+  <key>ApolloKnowledgeDescriptorURL</key>
+  <string>${KNOWLEDGE_DESCRIPTOR_XML}</string>
 </dict>
 </plist>
 EOF
@@ -133,57 +137,18 @@ rsync -a --delete \
   --exclude "coverage" \
   --exclude "codex-workspace/debug-runs" \
   --exclude "macos-app" \
+  --exclude "knowledge" \
   --exclude "dist" \
   --exclude "runtime" \
   "${PROXY_ROOT}/" \
   "${APP_BUNDLE}/Contents/Resources/embedded-proxy/"
 
-KNOWLEDGE_ROOT="${APP_BUNDLE}/Contents/Resources/embedded-proxy/knowledge"
-mkdir -p \
-  "${KNOWLEDGE_ROOT}/ds-ai-hub" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/tokens" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  --exclude ".git" \
-  --exclude "node_modules" \
-  "${DS_AI_HUB_SOURCE}/" \
-  "${KNOWLEDGE_ROOT}/ds-ai-hub/"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  "${DESIGN_SYSTEM_SOURCE}/patterns/" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/patterns/"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  "${DESIGN_SYSTEM_SOURCE}/redpolrules/" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  "${DESIGN_SYSTEM_SOURCE}/apollo/" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/apollo/"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  "${DESIGN_SYSTEM_SOURCE}/JSONS/apollo/" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/apollo/"
-node "${PROXY_ROOT}/scripts/sync-contract-knowledge.js" \
-  --source "${DESIGN_SYSTEM_SOURCE}/JSONS" \
-  --target "${KNOWLEDGE_ROOT}/design-system_ab/JSONS"
-rsync -a --delete \
-  --exclude ".DS_Store" \
-  "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS/tokens/" \
-  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/tokens/"
-if [[ ! -f "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/dictionary.json" ]]; then
-  echo "Redpolicy knowledge was not embedded into ApolloProxyControl." >&2
-  exit 1
-fi
-for knowledge_file in README.md AGENTIC_FILES.md COMPONENT_AUTHORING.md; do
-  if [[ -f "${DESIGN_SYSTEM_SOURCE}/${knowledge_file}" ]]; then
-    cp \
-      "${DESIGN_SYSTEM_SOURCE}/${knowledge_file}" \
-      "${KNOWLEDGE_ROOT}/design-system_ab/${knowledge_file}"
-  fi
-done
+KNOWLEDGE_SEED_ROOT="${APP_BUNDLE}/Contents/Resources/knowledge-seed"
+node "${PROXY_ROOT}/scripts/build-knowledge-package.js" \
+  --design-system-root "${DESIGN_SYSTEM_SOURCE}" \
+  --ds-ai-hub-root "${DS_AI_HUB_SOURCE}" \
+  --output "${KNOWLEDGE_SEED_ROOT}" \
+  --directory-only
 
 if [[ -z "${NODE_EXECUTABLE}" ]]; then
   echo "Node.js is required on the build machine to create a shareable app bundle." >&2

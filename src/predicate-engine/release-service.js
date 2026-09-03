@@ -131,6 +131,13 @@ function evaluatePredicateReleaseRequest(payload, options) {
     options.designSystemRoot,
     collectComponentKeys(evidenceBundle),
   );
+  if (options.knowledgeRelease) {
+    loaded.release = {
+      ...loaded.release,
+      contentVersion: options.knowledgeRelease.contentVersion,
+      sourceCommits: options.knowledgeRelease.sourceCommits,
+    };
+  }
   const snapshot = buildPredicateSnapshotV2({
     evidenceBundle,
     auditId: payload.auditId || evidenceBundle.sourceReportId,
