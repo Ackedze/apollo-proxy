@@ -17,6 +17,7 @@ ARM64_EXECUTABLE="${ARM64_BUILD_DIR}/${APP_NAME}"
 X86_64_EXECUTABLE="${X86_64_BUILD_DIR}/${APP_NAME}"
 UNIVERSAL_EXECUTABLE="${DIST_DIR}/${APP_NAME}-universal"
 NODE_EXECUTABLE="$(command -v node || true)"
+PROXY_VERSION="$(node -p "require('${PROXY_ROOT}/package.json').version")"
 BUILD_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
@@ -101,7 +102,7 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.0</string>
+  <string>${PROXY_VERSION}</string>
   <key>CFBundleVersion</key>
   <string>1</string>
   <key>LSMinimumSystemVersion</key>
@@ -139,6 +140,7 @@ KNOWLEDGE_ROOT="${APP_BUNDLE}/Contents/Resources/embedded-proxy/knowledge"
 mkdir -p \
   "${KNOWLEDGE_ROOT}/ds-ai-hub" \
   "${KNOWLEDGE_ROOT}/design-system_ab/JSONS" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/tokens" \
   "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules"
 rsync -a --delete \
   --exclude ".DS_Store" \
@@ -165,6 +167,10 @@ rsync -a --delete \
 node "${PROXY_ROOT}/scripts/sync-contract-knowledge.js" \
   --source "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS" \
   --target "${KNOWLEDGE_ROOT}/design-system_ab/JSONS"
+rsync -a --delete \
+  --exclude ".DS_Store" \
+  "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS/tokens/" \
+  "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/tokens/"
 if [[ ! -f "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/dictionary.json" ]]; then
   echo "Redpolicy knowledge was not embedded into ApolloProxyControl." >&2
   exit 1

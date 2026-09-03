@@ -42,12 +42,13 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 
 ## Эндпоинты
 
-- `GET /health` -> `{ ok: true, codex: { skill, knowledge } }`; блок
+- `GET /health` -> `{ ok: true, codex: { skill, knowledge }, generation: { context } }`; блок
   `knowledge` показывает полноту contract package (`packageCount`,
-  `artifactCount`, checksum).
+  `artifactCount`, checksum), а `generation.context` — готовность semantic index,
+  число проиндексированных паттернов/компонентов и лимит context packet.
 - `POST /analyze` -> `{ success, result, source }`
 - `POST /v1/validate/predicates` -> `{ success, validation: { snapshot, result } }`
-- `POST /v1/generation/plan` -> `{ success, plan }`
+- `POST /v1/generation/plan` -> `{ success, status, plan? | clarification? }`
 - `POST /v1/validate/codex` -> `{ success, validation }`
 - `POST /v1/validate/codex/runs` -> `202 { success, run }`
 - `GET /v1/validate/codex/runs/:runId` -> `{ success, run }`
@@ -55,11 +56,33 @@ CODEX_DESIGN_SYSTEM=/absolute/path/to/design-system_ab
 - `GET /v1/analyze/codex/runs/:runId` -> `{ success, run }`
 
 `POST /v1/generation/plan` — независимый от проверки MVP-планировщик макетов.
-Он принимает `{ "prompt": "..." }`, разрешает активные Figma-компоненты только
-по локальным `contract.generated.json` Apollo Proxy и возвращает белый список
-frame/component-узлов формата `apollo.generation-plan.v1`. Endpoint не запускает
-predicate engine и не принимает клиентские правила. MVP распознаёт формы,
-табличные/списочные экраны, экраны результата и явные имена компонентов.
+Он принимает `{ "prompt": "...", "dialogue": [...] }`. До запуска агента Proxy
+строит локальный semantic index по pattern- и component-метаданным `ds-ai-hub`,
+ранжирует кандидатов по всему диалогу и собирает ограниченный
+`apollo.generation-context.v1` packet. В packet входят обязательные router/skill
+документы и полные, не обрезанные semantic projections релевантных
+pattern/cookbook/adapter-файлов. Figma URL, file/component keys и node IDs в этих
+проекциях редактируются; исходный и проекционный SHA-256 сохраняются раздельно.
+
+Отдельный read-only Codex-планировщик работает во временном каталоге, видит
+только `context-packet.json`, не получает `ds-ai-hub`/`design-system_ab` через
+`--add-dir` и возвращает semantic plan без Figma keys. Proxy отклоняет ссылку на
+любой source path, которого не было в выданном packet. Если решение
+зависит от отсутствующих или спорных данных, endpoint отвечает
+`status: "clarification_required"`; до ответа пользователя технический план не
+строится и Figma не изменяется. Для готового semantic plan Proxy перепроверяет
+каждый source path и ruleId в `ds-ai-hub`, затем отдельно разрешает component
+keys, допустимые variants, текстовые пути и variable keys из
+`design-system_ab`. Результат — закрытый список frame/component-узлов формата
+`apollo.generation-plan.v2` с trace обоих источников и retrieval packet. В генераторе нет whitelist
+конкретных patternId: лендинг, форма и новые паттерны проходят через один
+semantic resolver. Endpoint не запускает predicate engine и не принимает
+клиентские правила.
+
+Меню `ApolloProxyControl` показывает установленную версию Proxy и точный UTC
+`build-id`, например `Proxy: v1.0.1 · build 20260903T081500Z`. Значение читается
+из runtime в `Application Support`, поэтому по нему можно отличить фактически
+запущенную сборку от другой `.app` с тем же semver.
 
 `POST /analyze` принимает строку, `{ text: "..." }` или `{ report: {...} }`. Apollo отправляет compact `*_agent.json` как `report`. Для открытых вопросов поле `source` выбирает маршрут: `langflow` (значение по умолчанию) или `codex`. В режиме `codex` proxy извлекает вопрос из envelope `design-dialogue`, ограничивает историю, запускает отдельный `codex exec` в `read-only`/`ephemeral` режиме и возвращает финальный Markdown из активного `APOLLO_CODEX_KNOWLEDGE_SOURCE`; LangFlow-секреты в процесс Codex не передаются.
 
@@ -98,7 +121,8 @@ fail-closed проверки ответ адаптируется к UI-конт�
 snapshot из `ds-ai-hub` и релевантных `patterns`, `apollo` и `JSONS/apollo`
 каталогов `design-system_ab`. Из `componentContractIndex.json` дополнительно
 собираются все явно перечисленные contract artifacts без тяжёлых raw catalog
-JSON. Неполный набор блокирует запуск с `CODEX_KNOWLEDGE_INCOMPLETE`, а не
+JSON; token-каталоги также включаются для разрешения published variable keys
+генератором. Неполный набор блокирует запуск с `CODEX_KNOWLEDGE_INCOMPLETE`, а не
 превращается в уточняющий вопрос дизайнеру. Переменные `CODEX_DS_AI_HUB` и
 `CODEX_DESIGN_SYSTEM` позволяют явно использовать другие checkout-каталоги.
 Langflow-ключи и другие proxy secrets не передаются в окружение Codex-процесса.

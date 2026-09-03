@@ -11,7 +11,9 @@ const {
 } = require('../src/predicate-engine/release-loader');
 const { compilePredicateReleaseRules } = require('../src/predicate-engine/release-service');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 const BUTTONS_GROUP_KEY = 'f05915599f71e822fd8b46a2b2509a2e395005cf';
 
 function buttonsGroupReleaseRules() {
@@ -911,21 +913,35 @@ test('Snapshot v2 adapter treats unavailable Developer VM fileKey as an explicit
 
 test('Snapshot v2 adapter exposes actual and effective baseline on the same generic property path', () => {
   const evidenceBundle = bundle();
-  evidenceBundle.changes = [{
-    id: 'change-radius',
-    nodeId: '1:0',
-    property: 'appearance.radius',
-    baselineReferenceId: 'baseline-radius',
-    baseline: { value: 16, resourceName: null },
-    actual: { value: 20, resourceName: null },
-    bindingStatus: null,
-    mapping: { method: 'apollo-effective-baseline-diff', quality: 'exact' },
-  }];
+  evidenceBundle.changes = [
+    {
+      id: 'change-radius',
+      nodeId: '1:0',
+      property: 'appearance.radius',
+      baselineReferenceId: 'baseline-radius',
+      baseline: { value: 16, resourceName: null },
+      actual: { value: 20, resourceName: null },
+      bindingStatus: null,
+      mapping: { method: 'apollo-effective-baseline-diff', quality: 'exact' },
+    },
+    {
+      id: 'change-view',
+      nodeId: '1:0',
+      property: 'variant.View',
+      baselineReferenceId: 'baseline-view',
+      baseline: { value: 'Primary', resourceName: null },
+      actual: { value: 'Secondary', resourceName: null },
+      bindingStatus: null,
+      mapping: { method: 'apollo-effective-baseline-diff', quality: 'exact' },
+    },
+  ];
 
   const snapshot = adapt(evidenceBundle);
   const root = snapshot.nodes.find((item) => item.id === '1:0');
   assert.equal(root.appearance.radius, 20);
   assert.equal(root.baseline.effective.appearance.radius, 16);
+  assert.equal(root.component.properties.View, 'Secondary');
+  assert.equal(root.baseline.effective.component.properties.View, 'Primary');
 });
 
 test('C19 exposes text-style binding and baseline facts for a non-TitleView component', () => {

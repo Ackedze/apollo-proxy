@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://apollo.local/schemas/generation-semantic-plan.v1.json",
+  "title": "Apollo generation semantic plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "role": {
+          "type": "string",
+          "enum": ["pattern", "component-recipe", "guideline", "skill", "token-guideline"]
+        },
+        "purpose": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "ruleIds": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "type": "string", "minLength": 1, "maxLength": 300 }
+        }
+      },
+      "required": ["path", "role", "purpose", "ruleIds"]
+    },
+    "property": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "value": { "type": ["string", "boolean"], "maxLength": 500 }
+      },
+      "required": ["name", "value"]
+    },
+    "textOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "value": { "type": "string", "minLength": 1, "maxLength": 2000 }
+      },
+      "required": ["path", "value"]
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "type": { "type": "string", "enum": ["frame", "component"] },
+        "parentId": { "type": ["string", "null"], "maxLength": 80 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "width": {
+          "type": ["string", "number"],
+          "pattern": "^fill$",
+          "minimum": 120,
+          "maximum": 1920
+        },
+        "minHeight": { "type": ["number", "null"], "minimum": 1, "maximum": 2160 },
+        "layout": { "type": ["string", "null"], "enum": ["vertical", "horizontal", null] },
+        "gap": { "type": ["number", "null"], "minimum": 0, "maximum": 128 },
+        "padding": { "type": ["number", "null"], "minimum": 0, "maximum": 160 },
+        "fillRole": {
+          "type": ["string", "null"],
+          "enum": ["none", "base", "base-alt", "modal", "modal-alt", null]
+        },
+        "cornerRadius": { "type": ["number", "null"], "minimum": 0, "maximum": 160 },
+        "componentQuery": { "type": ["string", "null"], "maxLength": 200 },
+        "variantProperties": {
+          "type": "array",
+          "maxItems": 40,
+          "items": { "$ref": "#/$defs/property" }
+        },
+        "textOverrides": {
+          "type": "array",
+          "maxItems": 40,
+          "items": { "$ref": "#/$defs/textOverride" }
+        }
+      },
+      "required": [
+        "id", "type", "parentId", "name", "width", "minHeight", "layout",
+        "gap", "padding", "fillRole", "cornerRadius", "componentQuery",
+        "variantProperties", "textOverrides"
+      ]
+    }
+  },
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "apollo.semantic-generation.v1" },
+    "status": { "type": "string", "enum": ["ready", "clarification_required"] },
+    "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 500 },
+    "kind": { "type": ["string", "null"], "enum": ["pattern", "recipe", null] },
+    "recipe": { "type": ["string", "null"], "maxLength": 100 },
+    "platform": { "type": ["string", "null"], "enum": ["desktop", "mobile-web", null] },
+    "primaryPattern": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "sourcePath": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "ruleIds": {
+          "type": "array",
+          "maxItems": 100,
+          "items": { "type": "string", "minLength": 1, "maxLength": 300 }
+        }
+      },
+      "required": ["id", "sourcePath", "ruleIds"]
+    },
+    "sources": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "clarification": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "question": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "suggestedAnswers": {
+          "type": "array",
+          "maxItems": 4,
+          "items": { "type": "string", "minLength": 1, "maxLength": 300 }
+        }
+      },
+      "required": ["question", "reason", "suggestedAnswers"]
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/node" }
+    }
+  },
+  "required": [
+    "schemaVersion", "status", "title", "summary", "kind", "recipe",
+    "platform", "primaryPattern", "sources", "clarification", "nodes"
+  ]
+}

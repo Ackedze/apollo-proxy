@@ -7,7 +7,9 @@ const {
 } = require('../src/predicate-engine/release-service');
 const evaluatePredicatePilotRequest = evaluatePredicateReleaseRequest;
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 const BUTTONS_GROUP_KEY = 'f05915599f71e822fd8b46a2b2509a2e395005cf';
 const BUTTON_KEY = '0012e7a5e420b87136b910b29578a4d06e6dd30c';
 const TITLE_VIEW_KEY = '3bfd179dc3b4c996f58db4cbcd26687a356fb3b7';
@@ -66,6 +68,11 @@ const AMOUNT_HEADLINE_MOBILE_KEY = 'cee3a597980650c3d43dbe8bf283d2c4f6c1507e';
 const AMOUNT_PARAGRAPH_KEY = '6276f825ec9ee2ceded5305171c715a7dd73637e';
 const CORPORATE_APP_HEADER_DESKTOP_KEY = 'd187029a0a1af08dbb499e13b3ef2ac98efaaac2';
 const CORPORATE_APP_HEADER_ICON_BUTTON_KEY = 'f2dfdad5655f459cc9ba62db6add21f440f47e5c';
+const PROMO_MAIN_BLOCK_DESKTOP_KEY = 'e691885120337235bc0443186870e7b120567f40';
+const PROMO_MAIN_BLOCK_MOBILE_KEY = '3b7ac57095a531c933b5960841f09f94b6324988';
+const PROMO_MAIN_BLOCK_IMAGE_VIEW_KEY = 'c24abd31d970ab80c3e9539d600f8cf92278ed06';
+const PROMO_MAIN_BLOCK_DESKTOP_SWAP_ME_KEY = 'f8d936e26f91aa08fc75406ab2b1ee84c5461ba3';
+const PROMO_MAIN_BLOCK_DESKTOP_BUTTON_GROUP_KEY = 'd18f2f015a4b5509e3aa19ca008af35649983d94';
 
 function component(key, name, properties) {
   return {
@@ -710,6 +717,292 @@ test('CorporateAppHeaderNew platform rule ignores standalone internal families',
   ).result.evaluations.find((item) => item.ruleId === ruleId);
 
   assert.equal(evaluation.classification, 'not-applicable');
+});
+
+function promoMainBlockRequest({
+  platform = 'desktop',
+  view = 'Page',
+  background = 'False',
+  compact = 'False',
+  blurEffect = 'True',
+  viewportWidth = platform === 'desktop' ? 1440 : 390,
+  emptyRegion = null,
+  imageCrop = 'Center',
+  imageSize = '534',
+  geometryOverride = null,
+  nestedSwapMe = false,
+  buttonView = null,
+  buttonBaselineView = null,
+} = {}) {
+  const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
+  const isDesktop = platform === 'desktop';
+  const key = isDesktop ? PROMO_MAIN_BLOCK_DESKTOP_KEY : PROMO_MAIN_BLOCK_MOBILE_KEY;
+  const name = isDesktop ? '[D] PromoMainBlock' : '[M] PromoMainBlock';
+  const properties = {
+    Appearance: 'Light',
+    Background: background,
+  };
+  if (isDesktop) Object.assign(properties, {
+    View: view,
+    Compact: compact,
+    BlurEffect: blurEffect,
+  });
+  const root = evidenceNode({
+    nodeId: 'promo:0',
+    path: `Promo / ${name}`,
+    name,
+    component: component(key, name, properties),
+  });
+  const owner = {
+    nodeId: 'promo:0',
+    componentKey: key,
+    name,
+    path: `Promo / ${name}`,
+    relativePath: '',
+    variantProperties: properties,
+    componentProperties: properties,
+  };
+  const region = (role, index) => evidenceNode({
+    nodeId: `promo:${role}`,
+    parentNodeId: 'promo:0',
+    childOrder: index,
+    depth: 1,
+    path: `Promo / ${name} / ${role}`,
+    name: role,
+    type: 'FRAME',
+    component: null,
+    componentOwner: owner,
+  });
+  const title = region('Title', 0);
+  const subtitle = region('Subtitle', 1);
+  const imageRegionName = isDesktop ? 'ImageContainer' : 'ImageContent';
+  const imageContainer = region(imageRegionName, 2);
+  const textNode = (role, parentNodeId, index) => evidenceNode({
+    nodeId: `promo:${role}:text`,
+    parentNodeId,
+    childOrder: index,
+    depth: 2,
+    path: `Promo / ${name} / ${role} / Value`,
+    name: 'Value',
+    type: 'TEXT',
+    component: null,
+    componentOwner: owner,
+    text: {
+      characters: role,
+      length: role.length,
+      textStyleId: 'style-id',
+      lineHeight: 24,
+    },
+  });
+  const titleText = textNode('Title', title.nodeId, 0);
+  const subtitleText = textNode('Subtitle', subtitle.nodeId, 0);
+  const imageView = evidenceNode({
+    nodeId: 'promo:image-view',
+    parentNodeId: imageContainer.nodeId,
+    childOrder: 0,
+    depth: 2,
+    path: `Promo / ${name} / ${imageRegionName} / ImageView`,
+    name: 'ImageView',
+    component: component(PROMO_MAIN_BLOCK_IMAGE_VIEW_KEY, 'ImageView', {
+      Crop: imageCrop,
+      Size: imageSize,
+      Segment: 'MMB',
+    }),
+    componentOwner: owner,
+  });
+  title.childNodeIds = emptyRegion === 'Title' ? [] : [titleText.nodeId];
+  subtitle.childNodeIds = emptyRegion === 'Subtitle' ? [] : [subtitleText.nodeId];
+  imageContainer.childNodeIds = [imageView.nodeId];
+  root.childNodeIds = [title.nodeId, subtitle.nodeId, imageContainer.nodeId];
+  const graphNodes = [root, title, subtitle, imageContainer, imageView];
+  if (emptyRegion !== 'Title') graphNodes.push(titleText);
+  if (emptyRegion !== 'Subtitle') graphNodes.push(subtitleText);
+  if (geometryOverride) {
+    root.component.directOverrides = [{ nodeId: 'promo:0', fields: [geometryOverride] }];
+  }
+  if (nestedSwapMe) {
+    const swapMe = evidenceNode({
+      nodeId: 'promo:swap-me',
+      parentNodeId: 'promo:0',
+      childOrder: 3,
+      depth: 1,
+      path: `Promo / ${name} / Bottom / SwapMe`,
+      name: '[D] SwapMe',
+      component: component(PROMO_MAIN_BLOCK_DESKTOP_SWAP_ME_KEY, '[D] SwapMe', {
+        Presets: 'SwapMe',
+      }),
+      componentOwner: owner,
+    });
+    root.childNodeIds.push(swapMe.nodeId);
+    graphNodes.push(swapMe);
+  }
+  if (buttonView !== null) {
+    const buttonGroup = evidenceNode({
+      nodeId: 'promo:button-group',
+      parentNodeId: 'promo:0',
+      childOrder: 4,
+      depth: 1,
+      path: `Promo / ${name} / ButtonGroup`,
+      name: 'ButtonGroup',
+      component: component(PROMO_MAIN_BLOCK_DESKTOP_BUTTON_GROUP_KEY, 'ButtonGroup', {}),
+      componentOwner: owner,
+    });
+    const buttonGroupOwner = {
+      nodeId: buttonGroup.nodeId,
+      componentKey: PROMO_MAIN_BLOCK_DESKTOP_BUTTON_GROUP_KEY,
+      name: buttonGroup.name,
+      path: buttonGroup.path,
+      relativePath: 'ButtonGroup',
+      variantProperties: {},
+      componentProperties: {},
+    };
+    const button = evidenceNode({
+      nodeId: 'promo:button',
+      parentNodeId: buttonGroup.nodeId,
+      childOrder: 0,
+      depth: 2,
+      path: `Promo / ${name} / ButtonGroup / Button`,
+      name: 'Primary',
+      component: component(BUTTON_KEY, 'Primary', {
+        View: buttonView,
+        Size: '56',
+        Shape: 'Rectangular',
+        SingleIcon: 'False',
+        DisabledState: 'False',
+      }),
+      componentOwner: buttonGroupOwner,
+    });
+    buttonGroup.childNodeIds = [button.nodeId];
+    root.childNodeIds.push(buttonGroup.nodeId);
+    graphNodes.push(buttonGroup, button);
+    if (buttonBaselineView !== null) {
+      button.component.directOverrides = [{
+        nodeId: button.nodeId,
+        fields: ['componentProperties'],
+      }];
+      input.evidenceBundle.changes = [{
+        id: 'change-promo-button-view',
+        nodeId: button.nodeId,
+        nodeName: button.name,
+        nodePath: button.path,
+        property: 'variant.View',
+        kind: 'component-property',
+        ownerComponentKey: key,
+        baselineReferenceId: 'baseline-promo-button-view',
+        baseline: { value: buttonBaselineView },
+        actual: { value: buttonView },
+        bindingStatus: null,
+        mapping: {
+          method: 'apollo-effective-baseline-diff',
+          quality: 'exact',
+          referenceOrigin: 'host',
+          nestedOwnerRelativePath: 'ButtonGroup/Primary',
+        },
+        candidateRuleIds: [
+          'component:web.promo-main-block.desktop-actions-follow-baseline',
+        ],
+      }];
+    }
+  }
+  input.evidenceBundle.reportId = 'promo-main-block:evidence';
+  input.evidenceBundle.sourceReportId = 'promo-main-block';
+  input.evidenceBundle.context.platform = platform;
+  input.evidenceBundle.context.channel = isDesktop ? 'Desktop' : 'Mobile Web';
+  input.evidenceBundle.context.viewportWidth = viewportWidth;
+  input.evidenceBundle.context.selectionNodeIds = ['promo:0'];
+  input.evidenceBundle.graph.nodes = graphNodes;
+  input.evidenceBundle.graph.relations = [];
+  input.evidenceBundle.changes = input.evidenceBundle.changes || [];
+  input.evidenceBundle.coverage.visibleNodeCount = graphNodes.length;
+  input.evidenceBundle.coverage.componentNodeCount = graphNodes.filter((node) => node.component).length;
+  input.evidenceBundle.coverage.baselineChangeCount = 0;
+  return input;
+}
+
+test('PromoMainBlock enforces Background matrix, desktop Compact and BlurEffect', () => {
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    promoMainBlockRequest(options),
+    { designSystemRoot },
+  );
+  const find = (output, ruleId) => output.result.evaluations.find(
+    (item) => item.ruleId === ruleId,
+  );
+  const backgroundRule = 'component:web.promo-main-block.background-matrix';
+  const compactRule = 'component:web.promo-main-block.desktop-compact-under-1024';
+  const blurRule = 'component:web.promo-main-block.desktop-blur-required';
+  const publicRootRule = 'component:web.promo-main-block.public-roots-only';
+
+  const desktopPage = evaluate();
+  assert.equal(find(desktopPage, publicRootRule).classification, 'compliant');
+  assert.equal(find(desktopPage, backgroundRule).classification, 'compliant');
+  assert.equal(find(desktopPage, blurRule).classification, 'compliant');
+  assert.equal(find(desktopPage, compactRule).classification, 'not-evaluable');
+
+  const desktopModalWithoutBackground = evaluate({ view: 'Modal', background: 'False' });
+  assert.equal(find(desktopModalWithoutBackground, backgroundRule).classification, 'violation');
+
+  const mobileWithoutBackground = evaluate({ platform: 'mobile-web', background: 'False' });
+  assert.equal(find(mobileWithoutBackground, backgroundRule).classification, 'violation');
+
+  const narrowDesktop = evaluate({ viewportWidth: 1024, compact: 'False' });
+  assert.equal(find(narrowDesktop, compactRule).classification, 'violation');
+
+  const desktopWithoutBlur = evaluate({ blurEffect: 'False' });
+  assert.equal(find(desktopWithoutBlur, blurRule).classification, 'violation');
+});
+
+test('PromoMainBlock evaluates required visible regions from structure, not fabricated root props', () => {
+  const ruleId = 'component:web.promo-main-block.required-content';
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    promoMainBlockRequest(options),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluate().classification, 'compliant');
+  assert.equal(evaluate({ platform: 'mobile-web' }).classification, 'compliant');
+  const hiddenSubtitle = evaluate({ emptyRegion: 'Subtitle' });
+  assert.equal(hiddenSubtitle.classification, 'violation');
+  assert.equal(hiddenSubtitle.focusNodeId, 'promo:0');
+});
+
+test('PromoMainBlock scopes Bottom SwapMe to nested content and detects real geometry overrides', () => {
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    promoMainBlockRequest(options),
+    { designSystemRoot },
+  ).result.evaluations;
+  const find = (evaluations, ruleId) => evaluations.find((item) => item.ruleId === ruleId);
+  const bottomRule = 'component:web.promo-main-block.bottom-slot-final-content';
+  const geometryRule = 'component:web.promo-main-block.layout-is-component-owned';
+
+  assert.equal(find(evaluate(), bottomRule).classification, 'not-applicable');
+  assert.equal(find(evaluate({ nestedSwapMe: true }), bottomRule).classification, 'violation');
+  assert.equal(find(evaluate({ geometryOverride: 'height' }), geometryRule).classification, 'violation');
+});
+
+test('PromoMainBlock resolves nested ImageView by stable key even without a package index entry', () => {
+  const ruleId = 'component:web.promo-main-block.image-source-and-settings';
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    promoMainBlockRequest(options),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluate().classification, 'compliant');
+  const fail = evaluate({ imageCrop: 'Fit', imageSize: '80' });
+  assert.equal(fail.classification, 'violation');
+  assert.equal(fail.focusNodeId, 'promo:image-view');
+});
+
+test('PromoMainBlock applies its effective baseline rule to an owned Core Button contour', () => {
+  const ruleId = 'component:web.promo-main-block.desktop-actions-follow-baseline.view';
+  const evaluation = evaluatePredicatePilotRequest(
+    promoMainBlockRequest({ buttonView: 'Accent', buttonBaselineView: 'Primary' }),
+    { designSystemRoot },
+  ).result.evaluations.find((item) => item.ruleId === ruleId);
+
+  assert.equal(evaluation.classification, 'violation');
+  assert.equal(evaluation.focusNodeId, 'promo:button');
+  assert.equal(evaluation.trace.actual, 'Accent');
+  assert.equal(evaluation.trace.expected, 'Primary');
 });
 
 function filterCompanySelectRequest({

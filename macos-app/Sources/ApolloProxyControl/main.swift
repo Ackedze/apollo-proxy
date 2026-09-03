@@ -59,6 +59,7 @@ final class ProxyManager: NSObject {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     private let menu = NSMenu()
     private let statusLineItem = NSMenuItem(title: "Status: Stopped", action: nil, keyEquivalent: "")
+    private let proxyVersionLineItem = NSMenuItem(title: "Proxy: unknown", action: nil, keyEquivalent: "")
     private let apolloURLLineItem = NSMenuItem(title: "APOLLO_AGENT_URL: not set", action: nil, keyEquivalent: "")
     private let codexStatusLineItem = NSMenuItem(title: "Codex: Checking...", action: nil, keyEquivalent: "")
     private let knowledgeSourceLineItem = NSMenuItem(title: "Knowledge: ds-ai-hub", action: nil, keyEquivalent: "")
@@ -116,10 +117,12 @@ final class ProxyManager: NSObject {
 
     private func configureMenu() {
         statusLineItem.isEnabled = false
+        proxyVersionLineItem.isEnabled = false
         apolloURLLineItem.isEnabled = false
         codexStatusLineItem.isEnabled = false
         knowledgeSourceLineItem.isEnabled = false
         menu.addItem(statusLineItem)
+        menu.addItem(proxyVersionLineItem)
         menu.addItem(apolloURLLineItem)
         menu.addItem(codexStatusLineItem)
         menu.addItem(knowledgeSourceLineItem)
@@ -163,6 +166,7 @@ final class ProxyManager: NSObject {
     }
 
     private func refreshUI() {
+        proxyVersionLineItem.title = formattedProxyVersionForMenu()
         apolloURLLineItem.title = "APOLLO_AGENT_URL: \(formattedApolloURLForMenu())"
         let knowledgeSource = readConfiguredKnowledgeSource()
         knowledgeSourceLineItem.title = "Knowledge: \(knowledgeSource)"
@@ -240,6 +244,29 @@ final class ProxyManager: NSObject {
             return value
         }
         return "\(value.prefix(69))..."
+    }
+
+    private func readProxyPackageVersion(from directoryURL: URL) -> String? {
+        let packageURL = directoryURL.appendingPathComponent("package.json", isDirectory: false)
+        guard let data = try? Data(contentsOf: packageURL),
+              let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let version = json["version"] as? String else {
+            return nil
+        }
+        let normalized = version.trimmingCharacters(in: .whitespacesAndNewlines)
+        return normalized.isEmpty ? nil : normalized
+    }
+
+    private func formattedProxyVersionForMenu() -> String {
+        let embeddedURL = Bundle.main.resourceURL?
+            .appendingPathComponent("embedded-proxy", isDirectory: true)
+        let version = readProxyPackageVersion(from: proxyInstallURL)
+            ?? embeddedURL.flatMap { readProxyPackageVersion(from: $0) }
+            ?? "unknown"
+        let buildMarker = readBuildMarker(from: proxyInstallURL)
+            ?? embeddedURL.flatMap { readBuildMarker(from: $0) }
+            ?? "unknown"
+        return "Proxy: v\(version) · build \(buildMarker)"
     }
 
     private func startHealthChecks() {
@@ -700,8 +727,13 @@ final class ProxyManager: NSObject {
             return false
         }
 
-        let installedBuildMarker = readBuildMarker(from: proxyInstallURL)
-        return bundledBuildMarker != installedBuildMarker
+        guard let installedBuildMarker = readBuildMarker(from: proxyInstallURL) else {
+            return true
+        }
+
+        // Build markers are UTC timestamps (yyyyMMdd'T'HHmmss'Z'). Never let an
+        // older development bundle replace a newer runtime in Application Support.
+        return bundledBuildMarker > installedBuildMarker
     }
 
     private func ensureProxyInstalled() throws {

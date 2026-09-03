@@ -383,6 +383,9 @@ function baselineForNode(changes, baselineReferences) {
 }
 
 function snapshotPropertyForChange(property) {
+  if (typeof property === 'string' && property.startsWith('variant.')) {
+    return `component.properties.${property.slice('variant.'.length)}`;
+  }
   if (property === 'styles.text') return 'appearance.styles.textStyle';
   if (property === 'fill' || property === 'styles.fill') return 'appearance.fill';
   if (property === 'stroke' || property === 'styles.stroke') return 'appearance.stroke';
@@ -956,6 +959,81 @@ function addTableViewCompositionFacts(nodes) {
         'composition.visibleHeaderRowNodeIds',
         'composition.visibleHeaderRowCount',
       ])).sort();
+    }
+  }
+  return nodes;
+}
+
+// Build declaration-driven structural facts for component regions. This is
+// intentionally generic: component rules describe semantic roles and their
+// canonical structural anchors, while the adapter only resolves the visible
+// descendant graph. Hidden nodes are absent from EvidenceBundle v2, so a
+// hidden required text becomes an empty region instead of a fabricated prop.
+function addRequiredRegionFacts(nodes, definitions) {
+  const policies = (definitions || []).filter((definition) => (
+    definition?.kind === 'required-regions'
+  ));
+  if (!policies.length) return nodes;
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+
+  function isDescendantOf(node, ancestorId) {
+    let current = node?.parentId ? nodeById.get(node.parentId) : null;
+    const visited = new Set();
+    while (current && !visited.has(current.id)) {
+      if (current.id === ancestorId) return true;
+      visited.add(current.id);
+      current = current.parentId ? nodeById.get(current.parentId) : null;
+    }
+    return false;
+  }
+
+  for (const policy of policies) {
+    const owners = nodes.filter((node) => (
+      node.type === 'INSTANCE' && node.component?.identity === policy.identity
+    ));
+    for (const owner of owners) {
+      const descendants = nodes.filter((node) => (
+        node.visible === true && isDescendantOf(node, owner.id)
+      ));
+      const errors = [];
+      const regions = {};
+      for (const descriptor of policy.regions || []) {
+        const names = new Set(descriptor.names || []);
+        const candidates = descendants.filter((node) => names.has(node.name));
+        const region = candidates.length === 1 ? candidates[0] : null;
+        const contentNodes = region
+          ? nodes.filter((node) => (
+              node.visible === true
+              && (node.id === region.id || isDescendantOf(node, region.id))
+              && (
+                descriptor.requireVisibleText !== true
+                || (
+                  node.type === 'TEXT'
+                  && Number.isFinite(node.text?.length)
+                  && node.text.length > 0
+                )
+              )
+            ))
+          : [];
+        if (!region) errors.push(`${descriptor.role}:missing`);
+        else if (descriptor.requireVisibleText === true && !contentNodes.length) {
+          errors.push(`${descriptor.role}:empty`);
+        }
+        regions[descriptor.role] = {
+          regionNodeIds: candidates.map((node) => node.id).sort(),
+          contentNodeIds: contentNodes.map((node) => node.id).sort(),
+          present: Boolean(region),
+          valid: Boolean(region) && (
+            descriptor.requireVisibleText !== true || contentNodes.length > 0
+          ),
+        };
+      }
+      owner.composition = Object.assign({}, owner.composition || {});
+      if (!owner.composition.requiredRegions) owner.composition.requiredRegions = {};
+      owner.composition.requiredRegions[policy.collectionKey] = {
+        roles: regions,
+        errors: errors.sort(),
+      };
     }
   }
   return nodes;
@@ -2028,6 +2106,7 @@ function buildPredicateSnapshotV2(input) {
   nodes = addDeclaredCompositionFacts(nodes, input.compositionDefinitions);
   nodes = addBenefitsCompositionFacts(nodes);
   nodes = addTableViewCompositionFacts(nodes);
+  nodes = addRequiredRegionFacts(nodes, input.contourDefinitions);
   nodes = addParentCompositionFacts(nodes);
   nodes = addSiblingLayoutFacts(nodes);
   nodes = addComponentContourFacts(nodes);
@@ -2094,6 +2173,7 @@ function buildPredicateSnapshotV2(input) {
 
 module.exports = {
   addDeclaredCompositionFacts,
+  addRequiredRegionFacts,
   addSiblingLayoutFacts,
   addSlotOrderFacts,
   buildPredicateSnapshotV2,

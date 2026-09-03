@@ -14,6 +14,14 @@ const {
 const {
   createGenerationPlan,
 } = require('./src/generation/planner');
+const {
+  buildGenerationAgentPrompt,
+  normalizeGenerationRequest,
+} = require('./src/generation/semantic-planner');
+const {
+  buildGenerationContextPacket,
+  inspectSemanticIndex,
+} = require('./src/generation/semantic-index');
 
 const HOST = process.env.HOST || '127.0.0.1';
 const PORT = process.env.PORT || 3001;
@@ -138,6 +146,11 @@ const CODEX_PATTERN_OUTPUT_SCHEMA = path.join(
   'references',
   'pattern-assessment-response.schema.json'
 );
+const CODEX_GENERATION_OUTPUT_SCHEMA = path.join(
+  __dirname,
+  'schemas',
+  'apollo-generation-semantic-plan.schema.json'
+);
 const CODEX_RUN_TTL_MS = Math.max(
   Number.parseInt(process.env.CODEX_RUN_TTL_MS || '600000', 10) || 600000,
   60000
@@ -146,6 +159,7 @@ const APOLLO_DIALOGUE_MAX_QUESTION_CHARS = 12000;
 const APOLLO_DIALOGUE_MAX_HISTORY_ITEMS = 12;
 const APOLLO_DIALOGUE_MAX_HISTORY_CHARS = 48000;
 let activeCodexRuns = 0;
+let activeGenerationCodexRuns = 0;
 const codexRuns = new Map();
 let contractKnowledgeCache = null;
 let dsAiHubKnowledgeCache = null;
@@ -435,6 +449,37 @@ function assertCodexRuntimeReady() {
     skill: inspectApolloCodexSkill(),
     knowledge: inspectActiveApolloKnowledge(),
   };
+}
+
+function assertGenerationRuntimeReady() {
+  const requiredDirectories = [
+    ['CODEX_WORKSPACE', CODEX_WORKSPACE],
+    ['CODEX_DS_AI_HUB', CODEX_DS_AI_HUB],
+    ['CODEX_DESIGN_SYSTEM', CODEX_DESIGN_SYSTEM],
+  ];
+  for (const [name, directory] of requiredDirectories) {
+    if (!fs.existsSync(directory) || !fs.statSync(directory).isDirectory()) {
+      const error = new Error(`${name} directory does not exist: ${directory}`);
+      error.status = 503;
+      error.code = 'GENERATION_RUNTIME_NOT_READY';
+      throw error;
+    }
+  }
+  if (!fs.existsSync(CODEX_GENERATION_OUTPUT_SCHEMA)) {
+    const error = new Error(
+      `Generation output schema is missing: ${CODEX_GENERATION_OUTPUT_SCHEMA}`
+    );
+    error.status = 503;
+    error.code = 'GENERATION_RUNTIME_NOT_READY';
+    throw error;
+  }
+  if (path.isAbsolute(CODEX_BIN) && !fs.existsSync(CODEX_BIN)) {
+    const error = new Error(`CODEX_BIN does not exist: ${CODEX_BIN}`);
+    error.status = 503;
+    error.code = 'GENERATION_RUNTIME_NOT_READY';
+    throw error;
+  }
+  inspectSemanticIndex(CODEX_DS_AI_HUB);
 }
 
 function sanitizeSessionId(value) {
@@ -6320,6 +6365,81 @@ function runCodexProcess(
   });
 }
 
+async function callCodexGenerationPlanner(payload) {
+  const request = normalizeGenerationRequest(payload);
+  if (activeGenerationCodexRuns >= 1) {
+    const error = new Error('Apollo уже планирует другой макет.');
+    error.status = 429;
+    error.code = 'GENERATION_AGENT_BUSY';
+    throw error;
+  }
+  assertGenerationRuntimeReady();
+  const runDirectory = await fsp.mkdtemp(
+    path.join(os.tmpdir(), 'apollo-codex-generation-')
+  );
+  const outputPath = path.join(runDirectory, 'semantic-plan.json');
+  const contextPath = path.join(runDirectory, 'context-packet.json');
+  const context = buildGenerationContextPacket(request, CODEX_DS_AI_HUB);
+  await fsp.writeFile(contextPath, context.serialized, 'utf8');
+  const args = [
+    'exec',
+    '--json',
+    '--ephemeral',
+    '--ignore-user-config',
+    '--ignore-rules',
+    '--sandbox',
+    'read-only',
+    '--skip-git-repo-check',
+    '--cd',
+    runDirectory,
+    '--output-schema',
+    CODEX_GENERATION_OUTPUT_SCHEMA,
+    '--output-last-message',
+    outputPath,
+  ];
+  if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+  args.push('-');
+  const prompt = buildGenerationAgentPrompt(
+    request,
+    path.basename(contextPath),
+    context.trace,
+  );
+
+  console.info('[Apollo][generation] context packet prepared', context.trace);
+
+  activeGenerationCodexRuns += 1;
+  try {
+    const result = await runCodexProcess(
+      args,
+      prompt,
+      outputPath,
+      null,
+      'reading_design_system',
+      {
+        mode: 'generation-planning',
+        model: CODEX_MODEL || null,
+        workingDirectory: runDirectory,
+      }
+    );
+    console.info('[Apollo][generation] semantic plan prepared', {
+      status: result?.status || null,
+      kind: result?.kind || null,
+      patternId: result?.primaryPattern?.id || null,
+      platform: result?.platform || null,
+      sourceCount: Array.isArray(result?.sources) ? result.sources.length : 0,
+      nodeCount: Array.isArray(result?.nodes) ? result.nodes.length : 0,
+    });
+    return {
+      semanticPlan: result,
+      contextTrace: context.trace,
+      allowedSourcePaths: context.allowedSourcePaths,
+    };
+  } finally {
+    activeGenerationCodexRuns = Math.max(0, activeGenerationCodexRuns - 1);
+    await fsp.rm(runDirectory, { recursive: true, force: true });
+  }
+}
+
 async function callCodexDialogue(inputValue) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
@@ -8878,6 +8998,13 @@ app.get('/health', (req, res) => {
       skill,
       knowledge,
     },
+    generation: {
+      configured: Boolean(CODEX_BIN),
+      busy: activeGenerationCodexRuns > 0,
+      semanticSource: 'ds-ai-hub',
+      technicalSource: 'design-system_ab',
+      context: inspectSemanticIndex(CODEX_DS_AI_HUB),
+    },
   });
 });
 
@@ -8908,18 +9035,38 @@ app.post('/v1/validate/predicates', (req, res) => {
   }
 });
 
-app.post('/v1/generation/plan', (req, res) => {
+app.post('/v1/generation/plan', async (req, res) => {
   try {
-    const plan = createGenerationPlan(req.body ?? {}, {
+    const generation = await callCodexGenerationPlanner(req.body ?? {});
+    const outcome = createGenerationPlan(req.body ?? {}, generation.semanticPlan, {
+      dsAiHubRoot: CODEX_DS_AI_HUB,
       designSystemRoot: CODEX_DESIGN_SYSTEM,
+      contextTrace: generation.contextTrace,
+      allowedSourcePaths: generation.allowedSourcePaths,
     });
+    if (outcome.status === 'clarification_required') {
+      console.log('[Apollo][generation] clarification requested', {
+        question: outcome.clarification.question,
+        sourceCount: outcome.knowledge.sources.length,
+      });
+      res.json({
+        success: true,
+        status: 'clarification_required',
+        clarification: outcome.clarification,
+        knowledge: outcome.knowledge,
+      });
+      return;
+    }
+    const plan = outcome;
     console.log('[Apollo][generation] plan prepared', {
+      kind: plan.kind,
       recipe: plan.recipe,
+      patternId: plan.pattern?.id || null,
       platform: plan.platform,
       componentCount: plan.knowledge.componentCount,
       warningCount: plan.warnings.length,
     });
-    res.json({ success: true, plan });
+    res.json({ success: true, status: 'ready', plan });
   } catch (error) {
     res.status(error.status || 500).json({
       success: false,
@@ -9114,6 +9261,9 @@ module.exports = {
   collectApolloReportComponentKeys,
   evaluatePredicateReleaseRequest,
   createGenerationPlan,
+  callCodexGenerationPlanner,
+  assertGenerationRuntimeReady,
+  buildGenerationAgentPrompt,
   buildCodexPrompt,
   buildCodexInputMetrics,
   assertCodexInputWithinBudget,

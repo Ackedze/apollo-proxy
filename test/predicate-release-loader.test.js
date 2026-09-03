@@ -12,7 +12,9 @@ const { compileCompositionContract } = require('../src/predicate-engine/composit
 const { compileContourRule } = require('../src/predicate-engine/contour-rules');
 const { compilePredicateReleaseRules } = require('../src/predicate-engine/release-service');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 
 test('generic package loader compiles only composition artifacts declared by requested packages', () => {
   const jsonRoot = path.join(designSystemRoot, 'JSONS');
@@ -590,6 +592,44 @@ test('FilterCompanySelect execution policy closes every real component rule exac
     false,
     'holding scenario rules are not component-owned routes',
   );
+
+  const incomplete = structuredClone(document);
+  incomplete.manual.executionPolicy.contextOnlyRules.pop();
+  assert.throws(
+    () => validateComponentExecutionPolicy(incomplete, []),
+    /is not closed/,
+  );
+});
+
+test('PromoMainBlock projects 24 owner-confirmed rules into explicit execution routes', () => {
+  const rulesPath = path.join(
+    designSystemRoot,
+    'JSONS/web/components/web-corp-promo/PromoMainBlock/rules.json',
+  );
+  const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
+  assert.equal(document.manual.rules.length, 24);
+  assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+
+  const release = loadPredicateRelease(designSystemRoot, [
+    'e691885120337235bc0443186870e7b120567f40',
+    '3b7ac57095a531c933b5960841f09f94b6324988',
+  ]);
+  const promoContours = release.contourDefinitions
+    .filter((definition) => definition.ruleId.startsWith('component:web.promo-main-block.'))
+    .map((definition) => [definition.ruleId, definition.kind])
+    .sort(([left], [right]) => left.localeCompare(right));
+  assert.deepEqual(promoContours, [
+    ['component:web.promo-main-block.background-matrix', 'fact-assertion'],
+    ['component:web.promo-main-block.bottom-slot-final-content', 'fact-domain'],
+    ['component:web.promo-main-block.desktop-actions-follow-baseline', 'baseline-set'],
+    ['component:web.promo-main-block.desktop-blur-required', 'fact-domain'],
+    ['component:web.promo-main-block.desktop-compact-under-1024', 'fact-domain'],
+    ['component:web.promo-main-block.image-source-and-settings', 'fact-assertion'],
+    ['component:web.promo-main-block.layout-is-component-owned', 'fact-assertion'],
+    ['component:web.promo-main-block.mobile-internal-button-group-warning', 'fact-domain'],
+    ['component:web.promo-main-block.public-roots-only', 'public-root'],
+    ['component:web.promo-main-block.required-content', 'required-regions'],
+  ]);
 
   const incomplete = structuredClone(document);
   incomplete.manual.executionPolicy.contextOnlyRules.pop();

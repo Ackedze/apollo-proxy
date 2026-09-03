@@ -70,6 +70,37 @@ function createRule(options) {
   };
 }
 
+const ABSENCE_AWARE_PREDICATES = new Set([
+  'equals',
+  'not-equals',
+  'one-of',
+  'none-of',
+  'compare',
+  'approximately-equals',
+  'between',
+  'string-length-between',
+]);
+
+// A missing snapshot fact means that the collector did not observe enough
+// evidence. It must not become a design violation implicitly. Rules that make
+// presence itself normative must say so with `exists` or `fact-present`.
+function withUnknownMissingPolicy(expression) {
+  if (!expression || typeof expression !== 'object' || Array.isArray(expression)) {
+    return expression;
+  }
+  const normalized = Object.assign({}, expression);
+  if (
+    ABSENCE_AWARE_PREDICATES.has(normalized.predicate)
+    && normalized.missingPolicy === undefined
+  ) {
+    normalized.missingPolicy = 'unknown';
+  }
+  if (Array.isArray(normalized.args)) {
+    normalized.args = normalized.args.map(withUnknownMissingPolicy);
+  }
+  return normalized;
+}
+
 function publicRootRule(options) {
   const targetFact = options.contourRootFamilyFact
     || 'ownership.contour.root.component.family';
@@ -768,7 +799,44 @@ function factAssertionRule(options) {
   }
   return createRule(Object.assign({}, options, {
     select: options.select,
-    assert: options.assert,
+    assert: withUnknownMissingPolicy(options.assert),
+  }));
+}
+
+function requiredRegionsRule(options) {
+  const identity = requireString(options.identity, 'identity');
+  const collectionKey = requireString(options.collectionKey, 'collectionKey');
+  if (!/^[A-Za-z][A-Za-z0-9_-]*$/.test(collectionKey)) {
+    throw new TypeError('required-regions collectionKey is invalid');
+  }
+  if (!Array.isArray(options.regions) || !options.regions.length) {
+    throw new TypeError('required-regions requires a non-empty regions array');
+  }
+  const roles = new Set();
+  for (const region of options.regions) {
+    const role = requireString(region?.role, 'required region role');
+    if (roles.has(role)) throw new TypeError(`required-regions duplicate role: ${role}`);
+    roles.add(role);
+    requireStringArray(region.names, `required region ${role}.names`);
+    if (
+      region.requireVisibleText !== undefined
+      && typeof region.requireVisibleText !== 'boolean'
+    ) {
+      throw new TypeError(`required region ${role}.requireVisibleText must be boolean`);
+    }
+  }
+  const errorsFact = `composition.requiredRegions.${collectionKey}.errors`;
+  return createRule(Object.assign({}, options, {
+    presentation: options.presentation
+      ? Object.assign({}, options.presentation, { targetFact: errorsFact })
+      : null,
+    select: options.select || componentSelector(identity, options.where),
+    assert: {
+      predicate: 'equals',
+      actual: { fact: errorsFact },
+      expected: { literal: [] },
+      missingPolicy: 'unknown',
+    },
   }));
 }
 
@@ -960,6 +1028,7 @@ const CONTOUR_BUILDERS = Object.freeze({
   'baseline-set': baselineSetRules,
   'fact-domain': factDomainRule,
   'fact-assertion': factAssertionRule,
+  'required-regions': requiredRegionsRule,
   'query-count': queryCountRule,
   'query-unique': queryUniqueRule,
   'derived-geometry': derivedGeometryRule,
@@ -1000,6 +1069,7 @@ module.exports = {
   distanceRule,
   factDomainRule,
   factAssertionRule,
+  requiredRegionsRule,
   publicRootRule,
   platformMatchRule,
   queryCountRule,
