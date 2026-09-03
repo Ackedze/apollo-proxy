@@ -113,9 +113,12 @@ Publisher убеждается, что локальный `design-system_ab/main
 Apollo». Агент делает dry-run, сообщает размер и версию, отдельно спрашивает
 разрешение на live publish/commit/push, затем возвращает release и descriptor URL.
 
-## Опциональный CI
+## Возможный CI в будущем
 
-Локальные triggers в `apollo-proxy` перечислены в `.github/workflows/publish-knowledge.yml`. В source repos после успешных собственных gates нужен `repository_dispatch` типа `knowledge-inputs-changed` при изменениях:
+Prompt-driven publisher является основным MVP-flow и не требует GitHub Actions
+secrets. Если позже понадобится автоматизация, source repos после успешных
+собственных gates могут отправлять `repository_dispatch` типа
+`knowledge-inputs-changed` при изменениях:
 
 `design-system_ab`:
 
@@ -132,15 +135,14 @@ Apollo». Агент делает dry-run, сообщает размер и ве
 - `core/web/components/**/*.md|json|yaml|yml|txt`;
 - `README.md`, `CONTRACT.md`.
 
-Publisher checks out exact dispatched SHAs, runs Apollo tests and source gates,
-builds twice and compares SHA-256, validates the package, uploads the immutable
-tarball first, and commits `channels/stable.json` only last. A failed or
-incompatible build therefore cannot become latest/stable.
+Будущий workflow должен checkout exact dispatched SHAs, прогнать Apollo/source
+gates, дважды собрать пакет и сравнить SHA-256, загрузить immutable tarball и
+только последним шагом закоммитить `channels/stable.json`. Частичная или
+несовместимая сборка не должна становиться stable.
 
-GitHub Actions остаётся опциональным вариантом на будущее; для prompt-driven MVP
-он не требуется. Workflow использует отдельный repository-scoped token с правом
-создавать Releases и писать только в `design-system_ab`; `stable.json` обновляется
-только после всех gates.
+Такой workflow потребует отдельный repository-scoped token с правом создавать
+Releases и писать только в `design-system_ab`. Активного workflow в MVP нет,
+поэтому отсутствие этого секрета не создаёт падающие CI-запуски.
 
 Конфигурация workflow:
 
