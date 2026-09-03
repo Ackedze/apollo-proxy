@@ -6,9 +6,12 @@ const { evaluateRules } = require('../src/predicate-engine');
 const { compileContourRule } = require('../src/predicate-engine/contour-rules');
 const { buildPredicateSnapshotV2 } = require('../src/predicate-engine/snapshot-adapter');
 
-const rulesPath = path.resolve(
-  __dirname,
-  '../../../shared/design-system_ab/JSONS/web/components/web-corp/PaymentMaskedNumber/rules.json',
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
+const rulesPath = path.join(
+  designSystemRoot,
+  'JSONS/web/components/web-corp/PaymentMaskedNumber/rules.json',
 );
 const paymentRules = require(rulesPath);
 

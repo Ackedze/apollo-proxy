@@ -1015,6 +1015,17 @@ function addRequiredRegionFacts(nodes, definitions) {
               )
             ))
           : [];
+        // Project the declarative region role onto the resolved content nodes.
+        // Rules can now address semantic content (for example Title text) by
+        // contract role instead of relying on mutable layer names such as
+        // `value` or on a component-specific relative path.
+        for (const contentNode of contentNodes) {
+          contentNode.composition = Object.assign({}, contentNode.composition || {});
+          if (!contentNode.composition.regionMembership) {
+            contentNode.composition.regionMembership = {};
+          }
+          contentNode.composition.regionMembership[policy.collectionKey] = descriptor.role;
+        }
         if (!region) errors.push(`${descriptor.role}:missing`);
         else if (descriptor.requireVisibleText === true && !contentNodes.length) {
           errors.push(`${descriptor.role}:empty`);

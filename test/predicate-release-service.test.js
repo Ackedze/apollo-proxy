@@ -733,6 +733,14 @@ function promoMainBlockRequest({
   nestedSwapMe = false,
   buttonView = null,
   buttonBaselineView = null,
+  titleTextStyle = 'Headline–System/40–48 Large',
+  titleBaselineTextStyle = null,
+  titleFill = 'text/primary',
+  titleBaselineFill = null,
+  subtitleTextStyle = 'Paragraph/16–24 Primary Medium',
+  subtitleBaselineTextStyle = null,
+  subtitleFill = 'text/primary',
+  subtitleBaselineFill = null,
 } = {}) {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   const isDesktop = platform === 'desktop';
@@ -777,7 +785,7 @@ function promoMainBlockRequest({
   const subtitle = region('Subtitle', 1);
   const imageRegionName = isDesktop ? 'ImageContainer' : 'ImageContent';
   const imageContainer = region(imageRegionName, 2);
-  const textNode = (role, parentNodeId, index) => evidenceNode({
+  const textNode = (role, parentNodeId, index, textStyle, fill) => evidenceNode({
     nodeId: `promo:${role}:text`,
     parentNodeId,
     childOrder: index,
@@ -790,12 +798,40 @@ function promoMainBlockRequest({
     text: {
       characters: role,
       length: role.length,
-      textStyleId: 'style-id',
+      textStyleId: textStyle,
       lineHeight: 24,
     },
+    styles: {
+      fillStyleId: null,
+      strokeStyleId: null,
+      textStyleId: textStyle,
+      effectStyleId: null,
+    },
+    appearance: {
+      opacity: 1,
+      radius: 0,
+      fill: {
+        value: fill,
+        resourceType: 'token',
+        resourceId: `${role}-fill-token`,
+        resourceName: fill,
+        bindingName: fill,
+        bindingCollection: 'Interface Dynamic',
+        styleId: null,
+        visible: true,
+        paintCount: 1,
+        paintTypes: ['SOLID'],
+      },
+    },
   });
-  const titleText = textNode('Title', title.nodeId, 0);
-  const subtitleText = textNode('Subtitle', subtitle.nodeId, 0);
+  const titleText = textNode('Title', title.nodeId, 0, titleTextStyle, titleFill);
+  const subtitleText = textNode(
+    'Subtitle',
+    subtitle.nodeId,
+    0,
+    subtitleTextStyle,
+    subtitleFill,
+  );
   const imageView = evidenceNode({
     nodeId: 'promo:image-view',
     parentNodeId: imageContainer.nodeId,
@@ -913,9 +949,83 @@ function promoMainBlockRequest({
   input.evidenceBundle.graph.nodes = graphNodes;
   input.evidenceBundle.graph.relations = [];
   input.evidenceBundle.changes = input.evidenceBundle.changes || [];
+  const visualChanges = [
+    {
+      role: 'Title',
+      node: titleText,
+      property: 'styles.text',
+      actual: titleTextStyle,
+      baseline: titleBaselineTextStyle,
+    },
+    {
+      role: 'Title',
+      node: titleText,
+      property: 'fill',
+      actual: titleFill,
+      baseline: titleBaselineFill,
+    },
+    {
+      role: 'Subtitle',
+      node: subtitleText,
+      property: 'styles.text',
+      actual: subtitleTextStyle,
+      baseline: subtitleBaselineTextStyle,
+    },
+    {
+      role: 'Subtitle',
+      node: subtitleText,
+      property: 'fill',
+      actual: subtitleFill,
+      baseline: subtitleBaselineFill,
+    },
+  ].filter((change) => change.baseline !== null && graphNodes.includes(change.node));
+  for (const change of visualChanges) {
+    const baselineReferenceId = `baseline-promo-${change.role.toLowerCase()}-${change.property.replace('.', '-')}`;
+    input.evidenceBundle.baselines.push({
+      id: baselineReferenceId,
+      componentKey: key,
+      nestedOwnerComponentKey: key,
+      nestedOwnerRelativePath: `${change.role}/Value`,
+      variantProperties: properties,
+    });
+    input.evidenceBundle.changes.push({
+      id: `change-promo-${change.role.toLowerCase()}-${change.property.replace('.', '-')}`,
+      nodeId: change.node.nodeId,
+      nodeName: change.node.name,
+      nodePath: change.node.path,
+      property: change.property,
+      kind: change.property === 'fill' ? 'paint' : 'text-style',
+      ownerComponentKey: key,
+      baselineReferenceId,
+      baseline: {
+        value: change.baseline,
+        resourceType: change.property === 'fill' ? 'token' : 'style',
+        resourceName: change.baseline,
+        bindingName: change.property === 'fill' ? change.baseline : null,
+        bindingCollection: change.property === 'fill' ? 'Interface Dynamic' : null,
+      },
+      actual: {
+        value: change.actual,
+        resourceType: change.property === 'fill' ? 'token' : 'style',
+        resourceName: change.actual,
+        bindingName: change.property === 'fill' ? change.actual : null,
+        bindingCollection: change.property === 'fill' ? 'Interface Dynamic' : null,
+      },
+      bindingStatus: change.property === 'fill' ? 'different-binding' : null,
+      mapping: {
+        method: 'apollo-effective-baseline-diff',
+        quality: 'exact',
+        referenceOrigin: 'host',
+        nestedOwnerRelativePath: `${change.role}/Value`,
+      },
+      candidateRuleIds: [
+        'component:web.promo-main-block.title-subtitle-visuals-follow-baseline',
+      ],
+    });
+  }
   input.evidenceBundle.coverage.visibleNodeCount = graphNodes.length;
   input.evidenceBundle.coverage.componentNodeCount = graphNodes.filter((node) => node.component).length;
-  input.evidenceBundle.coverage.baselineChangeCount = 0;
+  input.evidenceBundle.coverage.baselineChangeCount = input.evidenceBundle.changes.length;
   return input;
 }
 
@@ -963,6 +1073,43 @@ test('PromoMainBlock evaluates required visible regions from structure, not fabr
   const hiddenSubtitle = evaluate({ emptyRegion: 'Subtitle' });
   assert.equal(hiddenSubtitle.classification, 'violation');
   assert.equal(hiddenSubtitle.focusNodeId, 'promo:0');
+});
+
+test('PromoMainBlock preserves Title and Subtitle visual baseline by semantic region role', () => {
+  const baseRuleId = 'component:web.promo-main-block.title-subtitle-visuals-follow-baseline';
+  const evaluate = (options = {}) => evaluatePredicatePilotRequest(
+    promoMainBlockRequest(options),
+    { designSystemRoot },
+  );
+  const related = (output) => output.result.evaluations.filter(
+    (item) => item.ruleId.startsWith(`${baseRuleId}.`),
+  );
+
+  const pass = related(evaluate());
+  assert.equal(pass.length, 4);
+  assert.ok(pass.every((item) => item.classification === 'compliant'));
+
+  const fail = related(evaluate({
+    titleTextStyle: 'Headline–System/30–36 Medium',
+    titleBaselineTextStyle: 'Headline–System/40–48 Large',
+    titleFill: 'text/secondary',
+    titleBaselineFill: 'text/primary',
+    subtitleTextStyle: 'Headline-System-Mobile/30–36 Large',
+    subtitleBaselineTextStyle: 'Paragraph/16–24 Primary Medium',
+    subtitleFill: 'text/positive',
+    subtitleBaselineFill: 'text/primary',
+  })).filter((item) => item.classification === 'violation');
+
+  assert.equal(fail.length, 4);
+  assert.deepEqual(
+    fail.map((item) => [item.ruleId, item.focusNodeId]).sort(),
+    [
+      [`${baseRuleId}.fill`, 'promo:Subtitle:text'],
+      [`${baseRuleId}.fill`, 'promo:Title:text'],
+      [`${baseRuleId}.typography`, 'promo:Subtitle:text'],
+      [`${baseRuleId}.typography`, 'promo:Title:text'],
+    ].sort(),
+  );
 });
 
 test('PromoMainBlock scopes Bottom SwapMe to nested content and detects real geometry overrides', () => {

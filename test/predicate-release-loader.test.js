@@ -601,13 +601,13 @@ test('FilterCompanySelect execution policy closes every real component rule exac
   );
 });
 
-test('PromoMainBlock projects 24 owner-confirmed rules into explicit execution routes', () => {
+test('PromoMainBlock projects 25 owner-confirmed rules into explicit execution routes', () => {
   const rulesPath = path.join(
     designSystemRoot,
     'JSONS/web/components/web-corp-promo/PromoMainBlock/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  assert.equal(document.manual.rules.length, 24);
+  assert.equal(document.manual.rules.length, 25);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
 
   const release = loadPredicateRelease(designSystemRoot, [
@@ -629,6 +629,7 @@ test('PromoMainBlock projects 24 owner-confirmed rules into explicit execution r
     ['component:web.promo-main-block.mobile-internal-button-group-warning', 'fact-domain'],
     ['component:web.promo-main-block.public-roots-only', 'public-root'],
     ['component:web.promo-main-block.required-content', 'required-regions'],
+    ['component:web.promo-main-block.title-subtitle-visuals-follow-baseline', 'baseline-set'],
   ]);
 
   const incomplete = structuredClone(document);

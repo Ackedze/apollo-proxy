@@ -3,8 +3,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
-const hubRoot = path.resolve(__dirname, '../../../ds-ai-hub');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
+const hubRoot = process.env.DS_AI_HUB_ROOT
+  ? path.resolve(process.env.DS_AI_HUB_ROOT)
+  : path.resolve(__dirname, '../../../ds-ai-hub');
 const crosswalkPath = path.join(designSystemRoot, 'apollo/rule-crosswalk.json');
 
 function hasRuleId(value, ruleId) {
@@ -103,6 +107,26 @@ test('rule crosswalk links Apollo rules to verifiable human evidence without ID 
   );
   assert.deepEqual(mappedFilterCompanySelectRuleIds, expectedFilterCompanySelectRuleIds);
 
+  const promoMainBlock = JSON.parse(fs.readFileSync(
+    path.join(
+      designSystemRoot,
+      'JSONS/web/components/web-corp-promo/PromoMainBlock/rules.json',
+    ),
+    'utf8',
+  ));
+  const expectedPromoMainBlockRuleIds = new Set(
+    promoMainBlock.manual.rules.map((rule) => rule.ruleId),
+  );
+  const mappedPromoMainBlockRuleIds = new Set(
+    crosswalk.entries
+      .filter((entry) => (
+        entry.apolloSource
+        === 'JSONS/web/components/web-corp-promo/PromoMainBlock/rules.json'
+      ))
+      .map((entry) => entry.apolloRuleId),
+  );
+  assert.deepEqual(mappedPromoMainBlockRuleIds, expectedPromoMainBlockRuleIds);
+
   const projection = crosswalk.projections?.filterCompanySelect;
   assert.equal(projection?.readiness, 'draft');
   assert.equal(projection?.humanRuleRoutes?.length, 21);
@@ -110,4 +134,9 @@ test('rule crosswalk links Apollo rules to verifiable human evidence without ID 
     projection.retiredApolloRuleIds,
     ['component:web-corp.filter-company-select.selected-value-content'],
   );
+
+  const promoProjection = crosswalk.projections?.promoMainBlock;
+  assert.equal(promoProjection?.readiness, 'ready');
+  assert.equal(promoProjection?.humanRuleRoutes?.length, 25);
+  assert.equal(promoProjection?.scenarioRules?.owner, 'landingPagesPattern');
 });

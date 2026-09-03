@@ -4,7 +4,9 @@ const test = require('node:test');
 
 const { auditMigrationWave } = require('../src/predicate-engine/migration-wave-audit');
 
-const designSystemRoot = path.resolve(__dirname, '../../../shared/design-system_ab');
+const designSystemRoot = process.env.DESIGN_SYSTEM_AB_ROOT
+  ? path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT)
+  : path.resolve(__dirname, '../../../shared/design-system_ab');
 
 test('migration wave audit exposes freshness and production closure without changing runtime', () => {
   const audit = auditMigrationWave(designSystemRoot);

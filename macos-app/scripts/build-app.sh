@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PROXY_ROOT="$(cd "${APP_ROOT}/.." && pwd)"
 REPOSITORY_ROOT="$(cd "${PROXY_ROOT}/../.." && pwd)"
+DS_AI_HUB_SOURCE="${DS_AI_HUB_ROOT:-${REPOSITORY_ROOT}/ds-ai-hub}"
+DESIGN_SYSTEM_SOURCE="${DESIGN_SYSTEM_AB_ROOT:-${REPOSITORY_ROOT}/shared/design-system_ab}"
 
 APP_NAME="ApolloProxyControl"
 BUNDLE_ID="com.redpol.apollo-proxy-control"
@@ -146,26 +148,26 @@ rsync -a --delete \
   --exclude ".DS_Store" \
   --exclude ".git" \
   --exclude "node_modules" \
-  "${REPOSITORY_ROOT}/ds-ai-hub/" \
+  "${DS_AI_HUB_SOURCE}/" \
   "${KNOWLEDGE_ROOT}/ds-ai-hub/"
 rsync -a --delete \
   --exclude ".DS_Store" \
-  "${REPOSITORY_ROOT}/shared/design-system_ab/patterns/" \
+  "${DESIGN_SYSTEM_SOURCE}/patterns/" \
   "${KNOWLEDGE_ROOT}/design-system_ab/patterns/"
 rsync -a --delete \
   --exclude ".DS_Store" \
-  "${REPOSITORY_ROOT}/shared/design-system_ab/redpolrules/" \
+  "${DESIGN_SYSTEM_SOURCE}/redpolrules/" \
   "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/"
 rsync -a --delete \
   --exclude ".DS_Store" \
-  "${REPOSITORY_ROOT}/shared/design-system_ab/apollo/" \
+  "${DESIGN_SYSTEM_SOURCE}/apollo/" \
   "${KNOWLEDGE_ROOT}/design-system_ab/apollo/"
 rsync -a --delete \
   --exclude ".DS_Store" \
-  "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS/apollo/" \
+  "${DESIGN_SYSTEM_SOURCE}/JSONS/apollo/" \
   "${KNOWLEDGE_ROOT}/design-system_ab/JSONS/apollo/"
 node "${PROXY_ROOT}/scripts/sync-contract-knowledge.js" \
-  --source "${REPOSITORY_ROOT}/shared/design-system_ab/JSONS" \
+  --source "${DESIGN_SYSTEM_SOURCE}/JSONS" \
   --target "${KNOWLEDGE_ROOT}/design-system_ab/JSONS"
 rsync -a --delete \
   --exclude ".DS_Store" \
@@ -176,9 +178,9 @@ if [[ ! -f "${KNOWLEDGE_ROOT}/design-system_ab/redpolrules/dictionary.json" ]]; 
   exit 1
 fi
 for knowledge_file in README.md AGENTIC_FILES.md COMPONENT_AUTHORING.md; do
-  if [[ -f "${REPOSITORY_ROOT}/shared/design-system_ab/${knowledge_file}" ]]; then
+  if [[ -f "${DESIGN_SYSTEM_SOURCE}/${knowledge_file}" ]]; then
     cp \
-      "${REPOSITORY_ROOT}/shared/design-system_ab/${knowledge_file}" \
+      "${DESIGN_SYSTEM_SOURCE}/${knowledge_file}" \
       "${KNOWLEDGE_ROOT}/design-system_ab/${knowledge_file}"
   fi
 done
