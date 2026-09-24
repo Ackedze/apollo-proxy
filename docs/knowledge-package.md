@@ -113,6 +113,26 @@ Publisher убеждается, что локальный `design-system_ab/main
 Apollo». Агент делает dry-run, сообщает размер и версию, отдельно спрашивает
 разрешение на live publish/commit/push, затем возвращает release и descriptor URL.
 
+### Обязательная синхронизация с AB knowledge
+
+Изменения потребляемых файлов `ds-ai-hub/products/ab/**` всегда рассматриваются как изменение
+входа knowledge package. Source-правка и proxy-правка идут отдельными ветками и PR, но одной
+рабочей цепочкой:
+
+1. В AB PR указывается связанный proxy PR.
+2. На чистых checkout выполняется воспроизводимый `npm run knowledge:publish -- --dry-run`;
+   в proxy PR записываются точные SHA `ds-ai-hub` и `design-system_ab` и полученный
+   `contentVersion`.
+3. Stable-канал не продвигается по незамёрженному source-коммиту. После merge AB PR dry-run
+   повторяется на точном merge SHA, затем публикуется immutable archive и последним шагом
+   обновляется `stable.json`.
+4. Если изменение не входит в проекцию, перевыпуск не имитируется: в обоих PR фиксируются
+   `not applicable`, проверенный путь и причина.
+
+Незакоммиченные файлы между checkout не копируются. Источник пакета определяется только SHA в
+manifest, поэтому параллельная работа ведётся в отдельных worktree/клонах и не может подменять
+содержимое уже проверенного source-коммита.
+
 ## Возможный CI в будущем
 
 Prompt-driven publisher является основным MVP-flow и не требует GitHub Actions
