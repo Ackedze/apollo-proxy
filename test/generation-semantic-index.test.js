@@ -11,7 +11,11 @@ const {
   inspectSemanticIndex,
 } = require('../src/generation/semantic-index');
 
-const HUB_ROOT = path.resolve(__dirname, '../../../ds-ai-hub');
+const HUB_ROOT = path.resolve(
+  process.env.DS_AI_HUB_ROOT
+    || process.env.CODEX_DS_AI_HUB
+    || path.resolve(__dirname, '../../../ds-ai-hub'),
+);
 
 function checksum(content) {
   return crypto.createHash('sha256').update(content).digest('hex');
@@ -39,7 +43,7 @@ test('indexes the current ds-ai-hub and builds a bounded landing context packet'
     result.packet.retrieval.patternCandidates[0].id,
     'ptrn:landing-pages.alfa-business',
   );
-  for (const expected of ['PromoMainBlock', 'BenefitCard', 'PromoCard', 'FAQ', 'VOC']) {
+  for (const expected of ['PromoMainBlock', 'BenefitCard', 'NavigationCardView', 'FAQ', 'VOC']) {
     assert.ok(componentIds(result.packet).includes(expected), `missing ${expected}`);
   }
   assert.deepEqual(
