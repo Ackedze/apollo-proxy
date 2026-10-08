@@ -13,6 +13,7 @@ test('migration wave audit exposes freshness and production closure without chan
   assert.equal(audit.schemaVersion, 'apollo.predicate-migration-audit.v1');
   assert.equal(audit.waveId, 'wave-1-no-new-operators');
   assert.equal(audit.packages.length, 8);
+  assert.equal(audit.packages.every(entry => entry.contractPath.startsWith('experiments/')), true);
   assert.equal(audit.packages.every((entry) => entry.contractFresh), true);
   assert.equal(audit.packages.every((entry) => !entry.duplicateSourceRuleIds.length), true);
 
@@ -80,4 +81,88 @@ test('migration wave audit exposes freshness and production closure without chan
   assert.deepEqual(backgroundPlate.invalidProductionPredicateBridgeRuleIds, []);
   assert.deepEqual(backgroundPlate.blockingUnsupportedRuleIds, []);
   assert.equal(audit.safeToPromote, true);
+});
+
+const fs = require('node:fs');
+const os = require('node:os');
+const crypto = require('node:crypto');
+
+function syntheticMigration(t) {
+  const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-migration-path-'));
+  t.after(() => fs.rmSync(temporary, { recursive: true, force: true }));
+  const root = path.join(temporary, 'source');
+  const rules = { manual: { rules: [], executionPolicy: {} } };
+  const entry = { packageId: 'synthetic', sourcePath: 'JSONS/synthetic', contractPath: 'synthetic/compiled/component-contract.v2.json' };
+  const manifest = { schemaVersion: 'apollo.contract-v2-migration-wave.v1', waveId: 'synthetic', status: 'draft', readyPackages: [entry], supportingPackages: [] };
+  const manifestPath = path.join(root, 'experiments/migration-wave-1.json');
+  const rulesPath = path.join(root, entry.sourcePath, 'rules.json');
+  const contractPath = path.join(root, 'experiments', entry.contractPath);
+  for (const f of [manifestPath, rulesPath, contractPath]) fs.mkdirSync(path.dirname(f), { recursive: true });
+  fs.writeFileSync(rulesPath, JSON.stringify(rules));
+  fs.writeFileSync(contractPath, JSON.stringify({ package: { sourceFiles: [{ file: 'JSONS/synthetic/rules.json', sha256: crypto.createHash('sha256').update(fs.readFileSync(rulesPath)).digest('hex') }] } }));
+  const writeManifest = () => fs.writeFileSync(manifestPath, JSON.stringify(manifest));
+  writeManifest();
+  return { root, temporary, manifestPath, rulesPath, contractPath, manifest, entry, writeManifest };
+}
+
+for (const field of ['sourcePath', 'contractPath']) {
+  for (const invalid of ['../outside.json', '/outside.json', 'C:\\outside.json', 'synthetic\\outside.json', 'synthetic/../outside.json']) {
+    test(`migration rejects escaping ${field}: ${invalid}`, t => {
+      const fixture = syntheticMigration(t);
+      fixture.entry[field] = invalid;
+      fixture.writeManifest();
+      assert.throws(() => auditMigrationWave(fixture.root), error => error.code === 'MIGRATION_PATH_INVALID');
+    });
+  }
+}
+
+for (const field of ['sourcePath', 'contractPath']) {
+  test(`migration rejects ${field} symlink escaping its allowed root`, t => {
+    const fixture = syntheticMigration(t);
+    const outside = path.join(fixture.temporary, 'outside');
+    fs.mkdirSync(outside);
+    const link = field === 'sourcePath' ? path.join(fixture.root, 'JSONS/escape') : path.join(fixture.root, 'experiments/escape');
+    fs.symlinkSync(outside, link);
+    if (field === 'sourcePath') {
+      fixture.entry.sourcePath = 'JSONS/escape';
+    } else {
+      fs.copyFileSync(fixture.contractPath, path.join(outside, 'contract.json'));
+      fixture.entry.contractPath = 'escape/contract.json';
+    }
+    fixture.writeManifest();
+    assert.throws(() => auditMigrationWave(fixture.root), error => error.code === 'MIGRATION_PATH_INVALID');
+  });
+}
+
+test('migration does not fall back to an obsolete manifest tree', t => {
+  const fixture = syntheticMigration(t);
+  const old = path.join(fixture.root, 'JSONS/experiments/component-contract-v2/migration-wave-1.json');
+  fs.mkdirSync(path.dirname(old), { recursive: true });
+  fs.copyFileSync(fixture.manifestPath, old);
+  fs.rmSync(fixture.manifestPath);
+  assert.throws(() => auditMigrationWave(fixture.root), error => error.code === 'ENOENT');
+});
+
+test('migration does not substitute an obsolete compiled contract', t => {
+  const fixture = syntheticMigration(t);
+  const old = path.join(fixture.root, 'JSONS/experiments/component-contract-v2', fixture.entry.contractPath);
+  fs.mkdirSync(path.dirname(old), { recursive: true });
+  fs.copyFileSync(fixture.contractPath, old);
+  fs.rmSync(fixture.contractPath);
+  assert.throws(() => auditMigrationWave(fixture.root), error => error.code === 'ENOENT');
+});
+
+test('migration rejects missing rules before computing freshness', t => {
+  const fixture = syntheticMigration(t);
+  fs.rmSync(fixture.rulesPath);
+  assert.throws(() => auditMigrationWave(fixture.root), error => error.code === 'ENOENT');
+});
+
+test('migration preserves rules byte pin failure and default-off manifest status', t => {
+  const fixture = syntheticMigration(t);
+  fs.appendFileSync(fixture.rulesPath, '\n');
+  const audit = auditMigrationWave(fixture.root);
+  assert.equal(audit.packages[0].contractFresh, false);
+  assert.equal(audit.safeToPromote, false);
+  assert.equal(audit.manifestStatus, 'draft');
 });

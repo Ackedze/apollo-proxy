@@ -44,16 +44,6 @@ enum ProxyStatus: Equatable {
     case error(String)
 }
 
-enum CodexAuthStatus: Equatable {
-    case checking
-    case notConfigured
-    case binaryMissing
-    case unauthorized
-    case authorizing
-    case authorized(method: String?)
-    case error(String)
-}
-
 enum KnowledgeUpdateStatus: Equatable {
     case idle
     case checking
@@ -68,35 +58,26 @@ enum KnowledgeUpdateStatus: Equatable {
 @MainActor
 final class ProxyManager: NSObject {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private let statusIndicator = StatusItemIndicator()
     private let menu = NSMenu()
-    private let statusLineItem = NSMenuItem(title: "Status: Stopped", action: nil, keyEquivalent: "")
-    private let proxyVersionLineItem = NSMenuItem(title: "Proxy: unknown", action: nil, keyEquivalent: "")
-    private let apolloURLLineItem = NSMenuItem(title: "APOLLO_AGENT_URL: not set", action: nil, keyEquivalent: "")
-    private let codexStatusLineItem = NSMenuItem(title: "Codex: Checking...", action: nil, keyEquivalent: "")
-    private let knowledgeSourceLineItem = NSMenuItem(title: "Knowledge: ds-ai-hub", action: nil, keyEquivalent: "")
-    private let knowledgeUpdateLineItem = NSMenuItem(title: "Knowledge update: Initializing...", action: nil, keyEquivalent: "")
+    private let statusLineItem = NSMenuItem(title: "Прокси выключен", action: nil, keyEquivalent: "")
     private let updateKnowledgeItem = NSMenuItem(title: "Обновить знания", action: #selector(updateKnowledgeAction), keyEquivalent: "")
-    private let rollbackKnowledgeItem = NSMenuItem(title: "Откатить знания", action: #selector(rollbackKnowledgeAction), keyEquivalent: "")
-    private let startItem = NSMenuItem(title: "Start Proxy", action: #selector(startProxyAction), keyEquivalent: "")
-    private let stopItem = NSMenuItem(title: "Stop Proxy", action: #selector(stopProxyAction), keyEquivalent: "")
-    private let authorizeCodexItem = NSMenuItem(title: "Authorize Codex...", action: #selector(authorizeCodexAction), keyEquivalent: "")
-    private let checkCodexAccessItem = NSMenuItem(title: "Check Codex Access", action: #selector(checkCodexAccessAction), keyEquivalent: "")
-    private let editApolloURLItem = NSMenuItem(title: "Set Apollo URL...", action: #selector(editApolloURLAction), keyEquivalent: "")
-    private let switchKnowledgeSourceItem = NSMenuItem(title: "Switch to design-system_ab...", action: #selector(switchKnowledgeSourceAction), keyEquivalent: "")
-    private let openEnvItem = NSMenuItem(title: "Open .env", action: #selector(openEnvAction), keyEquivalent: "")
-    private let openLogsItem = NSMenuItem(title: "Open Logs", action: #selector(openLogsAction), keyEquivalent: "")
-    private let openProxyFolderItem = NSMenuItem(title: "Open Proxy Folder", action: #selector(openProxyFolderAction), keyEquivalent: "")
-    private let quitItem = NSMenuItem(title: "Quit", action: #selector(quitAction), keyEquivalent: "q")
+    private let startItem = NSMenuItem(title: "Запустить прокси", action: #selector(toggleProxyAction), keyEquivalent: "")
+    private let authorizeAgentItem = NSMenuItem(title: "Войти в Codex…", action: #selector(authorizeAgentAction), keyEquivalent: "")
+    private let aboutItem = NSMenuItem(title: "О прокси…", action: #selector(showProxyDetailsAction), keyEquivalent: ",")
+    private let checkKnowledgeItem = NSMenuItem(title: "Проверить обновления знаний", action: #selector(checkKnowledgeAction), keyEquivalent: "")
+    private let quitItem = NSMenuItem(title: "Завершить", action: #selector(quitAction), keyEquivalent: "q")
 
     private var process: Process?
-    private var codexAuthProcess: Process?
+    private var agentAuthProcess: Process?
     private var outputPipe: Pipe?
+    private var lifetimePipe: Pipe?
     private var healthTimer: Timer?
     private var knowledgeTimer: Timer?
     private var status: ProxyStatus = .stopped {
         didSet { refreshUI() }
     }
-    private var codexAuthStatus: CodexAuthStatus = .checking {
+    private var agentAuthStatus: AgentAuthStatus = .checking {
         didSet { refreshUI() }
     }
     private var knowledgeUpdateStatus: KnowledgeUpdateStatus = .idle {
@@ -110,13 +91,19 @@ final class ProxyManager: NSObject {
     private let logURL: URL
     private let logQueue = DispatchQueue(label: "ApolloProxyControl.logQueue")
     private var cachedNodeExecutableURL: URL?
-    private var cachedCodexExecutableURL: URL?
+    private var cachedAgentExecutableURL: URL?
+    private var cachedAgentLookupKey = ""
+    private var claudeLoginTimer: Timer?
+    private var authCheckTimer: Timer?
+    private var proxyHasActiveWork = false
+    private var detailsController: ProxyDetailsWindowController?
     private var isStoppingIntentionally = false
     private var pendingRestartAfterStop = false
     private var pendingProxyStartAfterAuthorization = false
     private var knowledgeRuntime: KnowledgeCommandStatus?
     private var knowledgeCommandRunning = false
     private var pendingKnowledgeRestart = false
+    private var isQuitting = false
 
     override init() {
         let fm = FileManager.default
@@ -143,182 +130,144 @@ final class ProxyManager: NSObject {
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
         checkForKnowledgeUpdate()
-        checkCodexAuthorization(startProxyWhenReady: autoStartProxy)
+        checkAgentAuthorization(startProxyWhenReady: autoStartProxy)
     }
 
     private func configureMenu() {
+        menu.autoenablesItems = false
         statusLineItem.isEnabled = false
-        proxyVersionLineItem.isEnabled = false
-        apolloURLLineItem.isEnabled = false
-        codexStatusLineItem.isEnabled = false
-        knowledgeSourceLineItem.isEnabled = false
-        knowledgeUpdateLineItem.isEnabled = false
         menu.addItem(statusLineItem)
-        menu.addItem(proxyVersionLineItem)
-        menu.addItem(apolloURLLineItem)
-        menu.addItem(codexStatusLineItem)
-        menu.addItem(knowledgeSourceLineItem)
-        menu.addItem(knowledgeUpdateLineItem)
-        menu.addItem(.separator())
-
         startItem.target = self
         menu.addItem(startItem)
-
-        stopItem.target = self
-        menu.addItem(stopItem)
-
         menu.addItem(.separator())
-
-        authorizeCodexItem.target = self
-        menu.addItem(authorizeCodexItem)
-
-        checkCodexAccessItem.target = self
-        menu.addItem(checkCodexAccessItem)
-
-        menu.addItem(.separator())
-
-        editApolloURLItem.target = self
-        menu.addItem(editApolloURLItem)
-
-        switchKnowledgeSourceItem.target = self
-        menu.addItem(switchKnowledgeSourceItem)
-
+        authorizeAgentItem.target = self
+        menu.addItem(authorizeAgentItem)
         updateKnowledgeItem.target = self
         menu.addItem(updateKnowledgeItem)
-
-        rollbackKnowledgeItem.target = self
-        menu.addItem(rollbackKnowledgeItem)
-
-        openEnvItem.target = self
-        menu.addItem(openEnvItem)
-
-        openLogsItem.target = self
-        menu.addItem(openLogsItem)
-
-        openProxyFolderItem.target = self
-        menu.addItem(openProxyFolderItem)
-
+        checkKnowledgeItem.target = self
+        menu.addItem(checkKnowledgeItem)
         menu.addItem(.separator())
-
+        aboutItem.target = self
+        menu.addItem(aboutItem)
         quitItem.target = self
         menu.addItem(quitItem)
     }
 
     private func refreshUI() {
-        proxyVersionLineItem.title = formattedProxyVersionForMenu()
-        apolloURLLineItem.title = "APOLLO_AGENT_URL: \(formattedApolloURLForMenu())"
-        let knowledgeSource = readConfiguredKnowledgeSource()
-        knowledgeSourceLineItem.title = "Knowledge: \(knowledgeSource)"
-        switchKnowledgeSourceItem.title = knowledgeSource == "ds-ai-hub"
-            ? "Switch to design-system_ab..."
-            : "Switch to ds-ai-hub..."
-        let currentKnowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "seed"
+        let provider = selectedProvider
+        var snapshot = ProxyDetailsSnapshot()
+        snapshot.provider = provider
+        snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
+        snapshot.apolloURL = readConfiguredApolloURL() ?? ""
+        snapshot.knowledgeSource = readConfiguredKnowledgeSource()
+        snapshot.knowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
+        if let commits = knowledgeRuntime?.current?.sourceCommits {
+            snapshot.sourceCommits = commits.sorted(by: { $0.key < $1.key }).compactMap { key, value in
+                value.map { "\(key): \($0)" }
+            }.joined(separator: "\n")
+        }
         switch knowledgeUpdateStatus {
-        case .idle:
-            knowledgeUpdateLineItem.title = "Knowledge update: \(currentKnowledgeVersion)"
-        case .checking:
-            knowledgeUpdateLineItem.title = "Knowledge update: Checking..."
-        case .updateAvailable(let version):
-            knowledgeUpdateLineItem.title = "Knowledge update available: \(version)"
-        case .downloading:
-            knowledgeUpdateLineItem.title = "Knowledge update: Downloading..."
-        case .validating:
-            knowledgeUpdateLineItem.title = "Knowledge update: Validating..."
-        case .ready(let version):
-            knowledgeUpdateLineItem.title = "Knowledge update: Ready (\(version))"
-        case .failed(let message):
-            knowledgeUpdateLineItem.title = "Knowledge update: Failed (\(message.prefix(48)))"
-        case .upToDate(let version):
-            knowledgeUpdateLineItem.title = "Knowledge update: Up to date (\(version))"
+        case .idle: snapshot.knowledgeStatus = "Проверка обновлений ещё не выполнена"
+        case .checking: snapshot.knowledgeStatus = "Проверяем обновления…"
+        case .updateAvailable: snapshot.knowledgeStatus = "Доступно обновление знаний"
+        case .downloading: snapshot.knowledgeStatus = "Загружаем знания…"
+        case .validating: snapshot.knowledgeStatus = "Проверяем пакет знаний…"
+        case .ready: snapshot.knowledgeStatus = "Знания обновлены"
+        case .failed(let message): snapshot.knowledgeStatus = "Ошибка обновления: \(message)"
+        case .upToDate: snapshot.knowledgeStatus = "Установлена актуальная версия знаний"
         }
-        if case .updateAvailable = knowledgeUpdateStatus {
-            updateKnowledgeItem.isEnabled = !knowledgeCommandRunning
-        } else {
-            updateKnowledgeItem.isEnabled = false
-        }
-        rollbackKnowledgeItem.isEnabled = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil
-
-        switch codexAuthStatus {
-        case .checking:
-            codexStatusLineItem.title = "Codex: Checking..."
-        case .notConfigured:
-            codexStatusLineItem.title = "Codex: Not configured"
-        case .binaryMissing:
-            codexStatusLineItem.title = "Codex: CLI not found"
-        case .unauthorized:
-            codexStatusLineItem.title = "Codex: Authorization required"
-        case .authorizing:
-            codexStatusLineItem.title = "Codex: Authorizing..."
+        if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning }
+        snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil
+        snapshot.canCheckKnowledge = !knowledgeCommandRunning
+        snapshot.canChangeAgent = agentAuthProcess == nil && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting
+        snapshot.cliMissing = agentAuthStatus == .binaryMissing
+        snapshot.canLogin = agentAuthProcess == nil && (claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
+        snapshot.canCheckAccess = agentAuthProcess == nil
+        snapshot.loginTitle = claudeLoginTimer != nil ? "Отменить ожидание" : "Войти в \(provider.name)…"
+        snapshot.authorizationHelp = provider == .claude
+            ? "Вход выполняется в Claude Code через Terminal. Нужен Claude Code 2.1.248 или новее."
+            : "Вход выполняется через официальный Codex CLI и ваш аккаунт."
+        switch agentAuthStatus {
+        case .checking: snapshot.authorization = "Проверяем вход…"
+        case .notConfigured: snapshot.authorization = "Локальный AI-агент не настроен"
+        case .binaryMissing: snapshot.authorization = "\(provider.name) CLI не найден. Установите его и проверьте вход."
+        case .unauthorized: snapshot.authorization = "Войдите в \(provider.name), чтобы использовать агент"
+        case .authorizing: snapshot.authorization = "Ожидаем завершения входа в \(provider.name)…"
         case .authorized(let method):
-            if let method, !method.isEmpty {
-                codexStatusLineItem.title = "Codex: Authorized via \(method)"
-            } else {
-                codexStatusLineItem.title = "Codex: Authorized"
-            }
-        case .error(let message):
-            codexStatusLineItem.title = "Codex: Error (\(message))"
+            snapshot.authorization = method.map { "Вход выполнен через \($0)" } ?? "Вход выполнен"
+            snapshot.loginTitle = "Сменить аккаунт…"
+        case .error(let message): snapshot.authorization = message
         }
-
-        let codexRequired = isCodexConfigured()
-        let codexReady: Bool
-        if codexRequired {
-            if case .authorized = codexAuthStatus {
-                codexReady = true
-            } else {
-                codexReady = false
-            }
-        } else {
-            codexReady = true
-        }
-        authorizeCodexItem.isEnabled = codexRequired && codexAuthProcess == nil && resolveCodexExecutableURL() != nil
-        authorizeCodexItem.title = codexAuthStatus == .unauthorized ? "Authorize Codex..." : "Reauthorize Codex..."
-        checkCodexAccessItem.isEnabled = codexRequired && codexAuthProcess == nil
-
+        authorizeAgentItem.title = "Войти в \(provider.name)…"
+        authorizeAgentItem.isHidden = agentAuthStatus != .unauthorized && agentAuthStatus != .binaryMissing
+        authorizeAgentItem.isEnabled = agentAuthProcess == nil
+        updateKnowledgeItem.isEnabled = snapshot.canUpdate
+        updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
+        updateKnowledgeItem.title = knowledgeCommandRunning ? snapshot.knowledgeStatus : "Обновить знания"
+        checkKnowledgeItem.isEnabled = !knowledgeCommandRunning
         switch status {
         case .stopped:
             setStatusItemTitle("AP:Off")
-            statusLineItem.title = "Status: Stopped"
-            startItem.isEnabled = codexReady
-            stopItem.isEnabled = false
+            snapshot.status = "Прокси выключен"
+            startItem.title = "Запустить прокси"
+            startItem.isEnabled = true
         case .starting:
             setStatusItemTitle("AP:...")
-            statusLineItem.title = "Status: Starting..."
-            startItem.isEnabled = false
-            stopItem.isEnabled = true
+            snapshot.status = "Прокси запускается…"
+            startItem.title = "Остановить прокси"
+            startItem.isEnabled = process != nil
         case .running:
-            let port = readPort()
             setStatusItemTitle("AP:On")
-            statusLineItem.title = "Status: Running on :\(port)"
-            startItem.isEnabled = false
-            stopItem.isEnabled = true
+            snapshot.status = "Прокси работает · порт \(readPort())"
+            startItem.title = "Остановить прокси"
+            startItem.isEnabled = true
         case .error(let message):
             setStatusItemTitle("AP:Err")
-            statusLineItem.title = "Status: Error (\(message))"
-            startItem.isEnabled = codexReady
-            stopItem.isEnabled = process != nil
+            snapshot.status = "Ошибка прокси: \(message)"
+            startItem.title = process == nil ? "Запустить прокси" : "Остановить прокси"
+            startItem.isEnabled = true
         }
+        // The menu stays compact even when a diagnostic contains a long path.
+        if case .error = status { statusLineItem.title = "Ошибка прокси · подробнее в «О прокси»" }
+        else { statusLineItem.title = snapshot.status }
+        detailsController?.update(snapshot)
     }
 
     private func setStatusItemTitle(_ base: String) {
+        guard let button = statusItem.button else { return }
+        button.title = base
+        switch status {
+        case .stopped:
+            statusIndicator.apply(to: button, mode: .hidden, description: "Proxy выключен.")
+            return
+        case .starting:
+            statusIndicator.apply(to: button, mode: .busy, description: "Proxy запускается.")
+            return
+        case .error:
+            statusIndicator.apply(to: button, mode: .error, description: "Ошибка Proxy. Подробности в меню.")
+            return
+        case .running:
+            break
+        }
         switch knowledgeUpdateStatus {
+        case .idle:
+            statusIndicator.apply(to: button, mode: .active, description: "Proxy работает.")
+        case .checking:
+            statusIndicator.apply(to: button, mode: .busy, description: "Проверка обновления знаний.")
         case .updateAvailable:
-            statusItem.button?.title = "\(base) ↑"
+            statusIndicator.apply(to: button, mode: .updateAvailable,
+                                  description: "Доступно обновление знаний. Выберите «Обновить знания» в меню.")
+        case .downloading:
+            statusIndicator.apply(to: button, mode: .busy, description: "Загрузка знаний.")
+        case .validating:
+            statusIndicator.apply(to: button, mode: .busy, description: "Проверка пакета знаний.")
+        case .ready:
+            statusIndicator.apply(to: button, mode: .active, description: "Proxy работает. Знания обновлены.")
         case .failed:
-            statusItem.button?.title = "\(base) !"
-        default:
-            statusItem.button?.title = base
+            statusIndicator.apply(to: button, mode: .error, description: "Ошибка обновления знаний. Подробности в меню.")
+        case .upToDate:
+            statusIndicator.apply(to: button, mode: .active, description: "Proxy работает. Знания актуальны.")
         }
-    }
-
-    private func formattedApolloURLForMenu() -> String {
-        let value = readConfiguredApolloURL()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        guard !value.isEmpty else {
-            return "not set"
-        }
-        if value.count <= 72 {
-            return value
-        }
-        return "\(value.prefix(69))..."
     }
 
     private func readProxyPackageVersion(from directoryURL: URL) -> String? {
@@ -364,6 +313,7 @@ final class ProxyManager: NSObject {
 
     private func checkHealth() {
         guard process != nil else {
+            proxyHasActiveWork = false
             if case .running = status {
                 status = .stopped
             }
@@ -381,7 +331,7 @@ final class ProxyManager: NSObject {
 
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, !self.isQuitting else { return }
                 guard let http = response as? HTTPURLResponse, http.statusCode == 200, let data else {
                     if case .starting = self.status {
                         return
@@ -398,12 +348,18 @@ final class ProxyManager: NSObject {
                    self.status != .running {
                     self.status = .running
                 }
+                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                    let agent = json["agent"] as? [String: Any]
+                    let codex = json["codex"] as? [String: Any]
+                    let generation = json["generation"] as? [String: Any]
+                    self.proxyHasActiveWork = (json["activeRequests"] as? Int ?? 0) > 0 || agent?["busy"] as? Bool == true || codex?["busy"] as? Bool == true || generation?["busy"] as? Bool == true
+                    self.refreshUI()
+                }
                 if self.pendingKnowledgeRestart,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let activeRequests = json["activeRequests"] as? Int,
-                   let codex = json["codex"] as? [String: Any],
                    activeRequests == 0,
-                   codex["busy"] as? Bool == false {
+                   !self.proxyHasActiveWork {
                     self.pendingKnowledgeRestart = false
                     self.pendingRestartAfterStop = true
                     self.stopProxyAction()
@@ -691,255 +647,191 @@ final class ProxyManager: NSObject {
         guard let env = readEnvMap() else {
             return "The proxy configuration file is missing. Open .env and fill it in."
         }
+        if let provider = env["APOLLO_CLI_PROVIDER"], CLIProvider(rawValue: provider) == nil {
+            return "Укажите codex или claude в APOLLO_CLI_PROVIDER либо выберите агент в окне «О прокси»."
+        }
 
         let apolloURL = env["APOLLO_AGENT_URL"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        let codexBinary = env["CODEX_BIN"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if apolloURL.isEmpty && codexBinary.isEmpty {
-            return "Configure APOLLO_AGENT_URL for Langflow or CODEX_BIN for Apollo v2/v3, then start the proxy again."
+        let agentBinary = resolveAgentExecutableURL()
+        if apolloURL.isEmpty && agentBinary == nil {
+            return "Установите выбранный AI-агент или укажите адрес сервера Apollo в окне «О прокси»."
         }
 
         return nil
     }
 
-    private func isCodexConfigured() -> Bool {
-        let configured = readEnvMap()?["CODEX_BIN"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        return !configured.isEmpty
+    private var selectedProvider: CLIProvider {
+        CLIProvider(rawValue: readEnvMap()?["APOLLO_CLI_PROVIDER"] ?? "codex") ?? .codex
     }
 
-    private func buildCodexEnvironment() -> [String: String] {
-        var environment = ProcessInfo.processInfo.environment
-        let allowedOverrides = [
-            "HOME",
-            "CODEX_HOME",
-            "CODEX_CA_CERTIFICATE",
-            "SSL_CERT_FILE",
-            "HTTPS_PROXY",
-            "HTTP_PROXY",
-            "NO_PROXY",
-            "https_proxy",
-            "http_proxy",
-            "no_proxy"
-        ]
-        if let env = readEnvMap() {
-            for key in allowedOverrides {
-                if let value = env[key], !value.isEmpty {
-                    environment[key] = value
-                }
-            }
-        }
+    private func isAgentConfigured() -> Bool {
+        let env = readEnvMap() ?? [:]
+        return selectedProvider == .claude || env["APOLLO_CLI_PROVIDER"] != nil || !(env["CODEX_BIN"] ?? "").isEmpty
+    }
+
+    private func buildAgentEnvironment() -> [String: String] {
+        let common = ["PATH", "HOME", "USER", "LOGNAME", "SHELL", "TMPDIR", "LANG", "LC_ALL",
+                      "SSL_CERT_FILE", "NODE_EXTRA_CA_CERTS", "HTTPS_PROXY", "HTTP_PROXY", "NO_PROXY",
+                      "https_proxy", "http_proxy", "no_proxy"]
+        let claude = ["CLAUDE_CONFIG_DIR", "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN", "CLAUDE_CODE_OAUTH_TOKEN",
+                      "ANTHROPIC_BASE_URL", "CLAUDE_CODE_USE_BEDROCK", "CLAUDE_CODE_USE_VERTEX", "CLAUDE_CODE_USE_FOUNDRY",
+                      "AWS_PROFILE", "AWS_REGION", "AWS_DEFAULT_REGION", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY",
+                      "AWS_SESSION_TOKEN", "AWS_BEARER_TOKEN_BEDROCK", "GOOGLE_APPLICATION_CREDENTIALS",
+                      "ANTHROPIC_VERTEX_PROJECT_ID", "CLOUD_ML_REGION", "ANTHROPIC_FOUNDRY_RESOURCE",
+                      "ANTHROPIC_FOUNDRY_BASE_URL", "ANTHROPIC_FOUNDRY_API_KEY"]
+        let allowed = common + (selectedProvider == .claude ? claude : ["CODEX_HOME", "CODEX_CA_CERTIFICATE"])
+        var environment = ProcessInfo.processInfo.environment.filter { allowed.contains($0.key) }
+        let config = readEnvMap() ?? [:]
+        for key in allowed { if let value = config[key], !value.isEmpty { environment[key] = value } }
         return environment
     }
 
-    private func resolveCodexExecutableURL() -> URL? {
-        if let cachedCodexExecutableURL,
-           FileManager.default.isExecutableFile(atPath: cachedCodexExecutableURL.path) {
-            return cachedCodexExecutableURL
-        }
-
+    private func resolveAgentExecutableURL() -> URL? {
+        let provider = selectedProvider
+        let configured = readEnvMap()?[provider.binaryKey]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let key = provider.rawValue + ":" + configured
         let fm = FileManager.default
-        let configured = readEnvMap()?["CODEX_BIN"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        var candidates: [String] = []
-        if configured.hasPrefix("/") {
-            candidates.append(configured)
+        if cachedAgentLookupKey == key, let cachedAgentExecutableURL, fm.isExecutableFile(atPath: cachedAgentExecutableURL.path) {
+            return cachedAgentExecutableURL
         }
-        candidates.append(contentsOf: [
-            "/Applications/ChatGPT.app/Contents/Resources/codex",
-            "/opt/homebrew/bin/codex",
-            "/usr/local/bin/codex"
-        ])
-
-        for path in candidates where fm.isExecutableFile(atPath: path) {
-            let url = URL(fileURLWithPath: path)
-            cachedCodexExecutableURL = url
+        cachedAgentLookupKey = key
+        cachedAgentExecutableURL = nil
+        let home = buildAgentEnvironment()["HOME"] ?? fm.homeDirectoryForCurrentUser.path
+        for candidate in provider.candidates(configured: configured, home: home) where fm.isExecutableFile(atPath: candidate) {
+            let url = URL(fileURLWithPath: candidate)
+            cachedAgentExecutableURL = url
             return url
         }
-
-        let lookupName = configured.isEmpty || configured.contains("/") ? "codex" : configured
+        if configured.hasPrefix("/") { return nil }
         let lookup = Process()
         lookup.executableURL = URL(fileURLWithPath: "/usr/bin/which")
-        lookup.arguments = [lookupName]
-        lookup.environment = buildCodexEnvironment()
+        lookup.arguments = [configured.isEmpty ? provider.rawValue : configured]
+        lookup.environment = buildAgentEnvironment()
         let output = Pipe()
-        lookup.standardOutput = output
-        lookup.standardError = Pipe()
+        lookup.standardOutput = output; lookup.standardError = Pipe()
         do {
-            try lookup.run()
-            lookup.waitUntilExit()
-            let raw = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?
-                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            try lookup.run(); lookup.waitUntilExit()
+            let raw = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
             if lookup.terminationStatus == 0, raw.hasPrefix("/"), fm.isExecutableFile(atPath: raw) {
-                let url = URL(fileURLWithPath: raw)
-                cachedCodexExecutableURL = url
-                return url
+                let url = URL(fileURLWithPath: raw); cachedAgentExecutableURL = url; return url
             }
-        } catch {
-            return nil
-        }
+        } catch { return nil }
         return nil
     }
 
-    private func codexAuthMethod(from output: String) -> String? {
-        let normalized = output.lowercased()
-        if normalized.contains("chatgpt") {
-            return "ChatGPT"
-        }
-        if normalized.contains("api key") {
-            return "API key"
-        }
-        if normalized.contains("access token") {
-            return "access token"
-        }
-        return nil
-    }
-
-    private func checkCodexAuthorization(startProxyWhenReady: Bool = false, showResult: Bool = false) {
-        guard codexAuthProcess == nil else {
-            if startProxyWhenReady {
-                pendingProxyStartAfterAuthorization = true
-            }
+    private func checkAgentAuthorization(startProxyWhenReady: Bool = false, showResult: Bool = false) {
+        if startProxyWhenReady { pendingProxyStartAfterAuthorization = true }
+        guard agentAuthProcess == nil, !isQuitting else { return }
+        do { try ensureProxyInstalled() } catch { agentAuthStatus = .error("Не удалось подготовить прокси."); return }
+        guard isAgentConfigured() else { agentAuthStatus = .notConfigured; return }
+        guard let binary = resolveAgentExecutableURL() else {
+            agentAuthStatus = .binaryMissing
+            if showResult { showProxyDetailsAction() }
             return
         }
-
-        do {
-            try ensureProxyInstalled()
-        } catch {
-            codexAuthStatus = .error("setup failed")
-            if showResult {
-                showError("Cannot check Codex access", error.localizedDescription)
-            }
-            return
-        }
-
-        guard isCodexConfigured() else {
-            codexAuthStatus = .notConfigured
-            return
-        }
-        guard let codexURL = resolveCodexExecutableURL() else {
-            codexAuthStatus = .binaryMissing
-            if showResult {
-                showError(
-                    "Codex CLI is unavailable",
-                    "Install ChatGPT Desktop with Codex or configure CODEX_BIN, then try again."
-                )
-            }
-            return
-        }
-
-        codexAuthStatus = .checking
-        let task = Process()
-        let output = Pipe()
-        task.executableURL = codexURL
-        task.arguments = ["login", "status"]
-        task.environment = buildCodexEnvironment()
-        task.standardOutput = output
-        task.standardError = output
-        task.terminationHandler = { [weak self] finishedTask in
+        let provider = selectedProvider
+        if claudeLoginTimer == nil { agentAuthStatus = .checking }
+        let task = Process(), output = Pipe(), errors = Pipe()
+        task.executableURL = binary
+        task.arguments = provider.statusArguments
+        task.environment = buildAgentEnvironment()
+        task.standardOutput = output; task.standardError = errors
+        errors.fileHandleForReading.readabilityHandler = { _ = $0.availableData }
+        task.terminationHandler = { [weak self] finished in
             let data = output.fileHandleForReading.readDataToEndOfFile()
+            errors.fileHandleForReading.readabilityHandler = nil
             let text = String(data: data, encoding: .utf8) ?? ""
             Task { @MainActor in
-                guard let self else { return }
-                self.codexAuthProcess = nil
-                if finishedTask.terminationStatus == 0 {
-                    self.codexAuthStatus = .authorized(method: self.codexAuthMethod(from: text))
-                    self.appendLog("=== \(Date()) Codex authorization check succeeded ===\n")
-                    if showResult {
-                        self.showInfo("Codex is authorized", "Apollo can now use Codex for design validation.")
-                    }
-                    if startProxyWhenReady || self.pendingProxyStartAfterAuthorization {
+                guard let self, self.agentAuthProcess === finished else { return }
+                self.authCheckTimer?.invalidate(); self.authCheckTimer = nil
+                self.agentAuthProcess = nil
+                guard !self.isQuitting, self.selectedProvider == provider else { return }
+                let result = AgentCLI.authenticationStatus(provider: provider, exitCode: finished.terminationStatus, output: text)
+                if case .authorized = result {
+                    self.claudeLoginTimer?.invalidate(); self.claudeLoginTimer = nil
+                    self.agentAuthStatus = result
+                    self.appendLog("=== \(Date()) \(provider.name) authorization check succeeded ===\n")
+                    if self.pendingProxyStartAfterAuthorization {
                         self.pendingProxyStartAfterAuthorization = false
                         self.startProxyAction()
                     }
-                } else {
-                    self.codexAuthStatus = .unauthorized
-                    self.pendingProxyStartAfterAuthorization = false
-                    self.appendLog("=== \(Date()) Codex authorization check failed (exit \(finishedTask.terminationStatus)) ===\n")
-                    if showResult {
-                        self.showError("Codex authorization required", "Choose Authorize Codex and complete the browser sign-in.")
-                    }
+                } else if self.claudeLoginTimer == nil {
+                    self.agentAuthStatus = result
+                } else if case .error = result {
+                    self.claudeLoginTimer?.invalidate(); self.claudeLoginTimer = nil
+                    self.agentAuthStatus = result
+                } else { self.refreshUI() }
+                if showResult { self.showProxyDetailsAction() }
+            }
+        }
+        do {
+            agentAuthProcess = task; try task.run()
+            authCheckTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: false) { [weak self, weak task] _ in
+                Task { @MainActor in
+                    guard let self, let task, self.agentAuthProcess === task, task.isRunning else { return }
+                    task.terminate()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { if task.isRunning { Darwin.kill(task.processIdentifier, SIGKILL) } }
                 }
             }
-        }
-
-        do {
-            codexAuthProcess = task
-            try task.run()
         } catch {
-            codexAuthProcess = nil
-            codexAuthStatus = .error("check failed")
-            if showResult {
-                showError("Cannot check Codex access", error.localizedDescription)
+            errors.fileHandleForReading.readabilityHandler = nil
+            agentAuthProcess = nil; agentAuthStatus = .error("Не удалось запустить проверку входа.")
+        }
+    }
+
+    @objc private func checkAgentAccessAction() { checkAgentAuthorization(showResult: true) }
+
+    @objc private func authorizeAgentAction() {
+        if let timer = claudeLoginTimer {
+            timer.invalidate(); claudeLoginTimer = nil
+            pendingProxyStartAfterAuthorization = false
+            agentAuthStatus = .unauthorized
+            return
+        }
+        guard agentAuthProcess == nil, !isQuitting else { return }
+        guard let binary = resolveAgentExecutableURL() else { agentAuthStatus = .binaryMissing; showProxyDetailsAction(); return }
+        let provider = selectedProvider
+        agentAuthStatus = .authorizing
+        if provider == .claude {
+            let command = AgentCLI.claudeLoginCommand(binary: binary, configDirectory: buildAgentEnvironment()["CLAUDE_CONFIG_DIR"])
+            var error: NSDictionary?
+            let result = NSAppleScript(source: AgentCLI.terminalAppleScript(command: command))?.executeAndReturnError(&error)
+            guard result != nil, error == nil else {
+                agentAuthStatus = .error("Не удалось открыть Terminal. Выполните claude auth login в Terminal и нажмите «Проверить вход».")
+                showProxyDetailsAction(); return
             }
-        }
-    }
-
-    @objc private func checkCodexAccessAction() {
-        checkCodexAuthorization(showResult: true)
-    }
-
-    @objc private func authorizeCodexAction() {
-        guard codexAuthProcess == nil else {
+            let deadline = Date().addingTimeInterval(600)
+            claudeLoginTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
+                Task { @MainActor in
+                    guard let self else { return }
+                    guard !self.isQuitting, self.selectedProvider == .claude else {
+                        self.claudeLoginTimer?.invalidate(); self.claudeLoginTimer = nil; return
+                    }
+                    if Date() >= deadline {
+                        self.claudeLoginTimer?.invalidate(); self.claudeLoginTimer = nil
+                        self.agentAuthStatus = .unauthorized
+                    } else { self.checkAgentAuthorization() }
+                }
+            }
+            refreshUI()
             return
         }
-        do {
-            try ensureProxyInstalled()
-        } catch {
-            codexAuthStatus = .error("setup failed")
-            showError("Cannot authorize Codex", error.localizedDescription)
-            return
-        }
-        guard let codexURL = resolveCodexExecutableURL() else {
-            codexAuthStatus = .binaryMissing
-            showError(
-                "Codex CLI is unavailable",
-                "Install ChatGPT Desktop with Codex or configure CODEX_BIN, then try again."
-            )
-            return
-        }
-
-        codexAuthStatus = .authorizing
-        appendLog("=== \(Date()) Codex authorization started ===\n")
-        let task = Process()
-        let output = Pipe()
-        task.executableURL = codexURL
-        task.arguments = ["login"]
-        task.environment = buildCodexEnvironment()
-        task.standardOutput = output
-        task.standardError = output
-        task.terminationHandler = { [weak self] finishedTask in
+        let task = Process(), output = Pipe()
+        task.executableURL = binary; task.arguments = provider.loginArguments
+        task.environment = buildAgentEnvironment()
+        task.standardOutput = output; task.standardError = output
+        output.fileHandleForReading.readabilityHandler = { _ = $0.availableData }
+        task.terminationHandler = { [weak self] finished in
             output.fileHandleForReading.readabilityHandler = nil
             Task { @MainActor in
-                guard let self else { return }
-                self.codexAuthProcess = nil
-                if finishedTask.terminationStatus == 0 {
-                    self.appendLog("=== \(Date()) Codex authorization flow completed ===\n")
-                    self.checkCodexAuthorization(
-                        startProxyWhenReady: self.pendingProxyStartAfterAuthorization,
-                        showResult: true
-                    )
-                } else {
-                    self.codexAuthStatus = .unauthorized
-                    self.pendingProxyStartAfterAuthorization = false
-                    self.appendLog("=== \(Date()) Codex authorization failed (exit \(finishedTask.terminationStatus)) ===\n")
-                    self.showError(
-                        "Codex authorization was not completed",
-                        "Try again or use Check Codex Access after signing in through ChatGPT Desktop."
-                    )
-                }
+                guard let self, self.agentAuthProcess === finished, !self.isQuitting else { return }
+                self.agentAuthProcess = nil
+                if finished.terminationStatus == 0 { self.checkAgentAuthorization() }
+                else { self.agentAuthStatus = .unauthorized; self.pendingProxyStartAfterAuthorization = false }
             }
         }
-        output.fileHandleForReading.readabilityHandler = { handle in
-            _ = handle.availableData
-        }
-
-        do {
-            codexAuthProcess = task
-            try task.run()
-        } catch {
-            output.fileHandleForReading.readabilityHandler = nil
-            codexAuthProcess = nil
-            codexAuthStatus = .error("login failed")
-            showError("Cannot start Codex authorization", error.localizedDescription)
-        }
+        do { agentAuthProcess = task; try task.run() }
+        catch { output.fileHandleForReading.readabilityHandler = nil; agentAuthProcess = nil; agentAuthStatus = .error("Не удалось начать вход в Codex.") }
     }
 
     private func readBuildMarker(from directoryURL: URL) -> String? {
@@ -1208,7 +1100,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func startProxyAction() {
-        if process != nil {
+        if isQuitting || process != nil {
             return
         }
 
@@ -1236,26 +1128,10 @@ final class ProxyManager: NSObject {
             return
         }
 
-        if isCodexConfigured() {
-            guard case .authorized = codexAuthStatus else {
+        if isAgentConfigured() {
+            guard case .authorized = agentAuthStatus else {
                 pendingProxyStartAfterAuthorization = true
-                if codexAuthStatus == .checking || codexAuthStatus == .authorizing {
-                    showInfo("Checking Codex access", "Apollo will start the proxy after Codex authorization is confirmed.")
-                    return
-                }
-
-                let alert = NSAlert()
-                alert.alertStyle = .informational
-                alert.messageText = "Authorize Codex"
-                alert.informativeText = "Apollo uses Codex under your account. Sign in through your ChatGPT workspace; Apollo does not receive or store your password or tokens."
-                alert.addButton(withTitle: "Authorize Codex")
-                alert.addButton(withTitle: "Cancel")
-                NSApp.activate(ignoringOtherApps: true)
-                if alert.runModal() == .alertFirstButtonReturn {
-                    authorizeCodexAction()
-                } else {
-                    pendingProxyStartAfterAuthorization = false
-                }
+                if agentAuthStatus != .checking && agentAuthStatus != .authorizing { showProxyDetailsAction() }
                 return
             }
         }
@@ -1308,15 +1184,19 @@ final class ProxyManager: NSObject {
             }
         }
         task.environment = environment
+        let lifetime = ProxyProcessLifecycle.connectParentLifetime(to: task)
+        lifetimePipe = lifetime
         task.terminationHandler = { [weak self] process in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, self.process === process else { return }
                 self.outputPipe?.fileHandleForReading.readabilityHandler = nil
                 self.outputPipe = nil
+                try? self.lifetimePipe?.fileHandleForWriting.close()
+                self.lifetimePipe = nil
                 self.process = nil
                 let intentionalStop = self.isStoppingIntentionally
                 self.isStoppingIntentionally = false
-                let shouldRestart = intentionalStop && self.pendingRestartAfterStop
+                let shouldRestart = !self.isQuitting && intentionalStop && self.pendingRestartAfterStop
                 self.pendingRestartAfterStop = false
 
                 if shouldRestart {
@@ -1343,6 +1223,8 @@ final class ProxyManager: NSObject {
             showError("Cannot start proxy", error.localizedDescription)
             outputPipe?.fileHandleForReading.readabilityHandler = nil
             outputPipe = nil
+            try? lifetime.fileHandleForWriting.close()
+            lifetimePipe = nil
             process = nil
         }
     }
@@ -1354,16 +1236,77 @@ final class ProxyManager: NSObject {
         }
         isStoppingIntentionally = true
         appendLog("=== \(Date()) Stopping proxy ===\n")
-        process.terminate()
+        ProxyProcessLifecycle.requestStop(process, lifetime: lifetimePipe)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
-            guard let self, let stillRunning = self.process else {
-                return
-            }
-            if stillRunning.isRunning {
-                Darwin.kill(stillRunning.processIdentifier, SIGKILL)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            // Only force-stop the process for which termination was requested.
+            // A knowledge update may already have launched its replacement by
+            // the time this timeout fires.
+            if process.isRunning {
+                Darwin.kill(process.processIdentifier, SIGKILL)
             }
         }
+    }
+
+    @objc private func toggleProxyAction() {
+        if process != nil { stopProxyAction() } else { startProxyAction() }
+    }
+
+    @objc private func checkKnowledgeAction() { checkForKnowledgeUpdate() }
+
+    @objc func showProxyDetailsAction() {
+        if detailsController == nil {
+            let controller = ProxyDetailsWindowController()
+            controller.onAction = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .login: self.authorizeAgentAction()
+                case .checkAccess: self.checkAgentAccessAction()
+                case .installCLI: NSWorkspace.shared.open(self.selectedProvider.installationURL)
+                case .checkKnowledge: self.checkForKnowledgeUpdate()
+                case .updateKnowledge: self.updateKnowledgeAction()
+                case .rollbackKnowledge: self.rollbackKnowledgeAction()
+                case .editURL: self.editApolloURLAction()
+                case .openConfiguration: self.openEnvAction()
+                case .openLogs: self.openLogsAction()
+                case .openFolder: self.openProxyFolderAction()
+                }
+            }
+            controller.onProviderChange = { [weak self] provider in self?.selectAgent(provider) }
+            controller.onKnowledgeSourceChange = { [weak self] source in
+                guard let self, source != self.readConfiguredKnowledgeSource() else { return }
+                self.switchKnowledgeSourceAction()
+                self.refreshUI()
+            }
+            detailsController = controller
+        }
+        refreshUI()
+        detailsController?.present()
+    }
+
+    private func selectAgent(_ provider: CLIProvider) {
+        guard provider != selectedProvider else { return }
+        guard agentAuthProcess == nil, !knowledgeCommandRunning, !proxyHasActiveWork else {
+            refreshUI()
+            return
+        }
+        claudeLoginTimer?.invalidate(); claudeLoginTimer = nil
+        pendingProxyStartAfterAuthorization = false
+        do {
+            try ensureProxyInstalled()
+            try writeEnvValue(provider.rawValue, forKey: "APOLLO_CLI_PROVIDER", to: overridesURL)
+            try writeEnvValue(provider.rawValue, forKey: "APOLLO_CLI_PROVIDER",
+                              to: proxyInstallURL.appendingPathComponent(".env", isDirectory: false))
+            cachedAgentExecutableURL = nil
+            agentAuthStatus = .checking
+            let wasRunning = process != nil
+            checkAgentAuthorization(startProxyWhenReady: wasRunning)
+            if wasRunning {
+                pendingRestartAfterStop = true
+                stopProxyAction()
+            }
+            refreshUI()
+        } catch { showError("Не удалось сменить агент", error.localizedDescription); refreshUI() }
     }
 
     @objc private func editApolloURLAction() {
@@ -1481,13 +1424,31 @@ final class ProxyManager: NSObject {
         }
     }
 
+    func prepareForTermination() {
+        guard !isQuitting else { return }
+        isQuitting = true
+        healthTimer?.invalidate()
+        knowledgeTimer?.invalidate()
+        claudeLoginTimer?.invalidate()
+        authCheckTimer?.invalidate()
+        detailsController?.close()
+        pendingRestartAfterStop = false
+        pendingProxyStartAfterAuthorization = false
+        pendingKnowledgeRestart = false
+        isStoppingIntentionally = true
+        try? lifetimePipe?.fileHandleForWriting.close()
+        let children = [process, agentAuthProcess].compactMap { $0 }
+        if !ProxyProcessLifecycle.stopAndWait(children) {
+            appendLog("=== \(Date()) A child process did not exit after SIGKILL ===\n")
+        }
+        outputPipe?.fileHandleForReading.readabilityHandler = nil
+        outputPipe = nil
+        lifetimePipe = nil
+        process = nil
+        agentAuthProcess = nil
+    }
+
     @objc private func quitAction() {
-        if let process {
-            process.terminate()
-        }
-        if let codexAuthProcess {
-            codexAuthProcess.terminate()
-        }
         NSApp.terminate(nil)
     }
 }
@@ -1503,10 +1464,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             autoStartProxy: CommandLine.arguments.contains("--start-proxy")
         )
         self.manager = manager
+        if CommandLine.arguments.contains("--show-about") { manager.showProxyDetailsAction() }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         false
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        manager?.prepareForTermination()
     }
 }
 

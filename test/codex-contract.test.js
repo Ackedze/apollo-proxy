@@ -46,6 +46,13 @@ const {
   writeCodexDebugArtifact,
 } = require('../server');
 
+// Integration cases read the canonical existing sources, independently of any
+// local component-only projection or the developer's selected desktop release.
+const packetSourceRoots = {
+  designSystemRoot: path.resolve(process.env.DESIGN_SYSTEM_AB_ROOT || path.join(__dirname, '../../../shared/design-system_ab')),
+  dsAiHubRoot: path.resolve(process.env.DS_AI_HUB_ROOT || path.join(__dirname, '../../../ds-ai-hub')),
+};
+
 function skillManifest() {
   return inspectApolloCodexSkill();
 }
@@ -584,6 +591,8 @@ test('Apollo proxy resolves the first form pattern into a bounded packet', async
 
   const packet = await buildResolvedPatternAuditPacket(request, {
     knowledgeSource: 'ds-ai-hub',
+    designSystemRoot: packetSourceRoots.designSystemRoot,
+    dsAiHubRoot: packetSourceRoots.dsAiHubRoot,
   });
   assert.equal(packet.documentType, 'apollo-resolved-pattern-audit-packet');
   assert.deepEqual(packet.resolution.unresolvedRuleIds, []);
@@ -683,6 +692,8 @@ test('Apollo proxy expands compact pattern assessments into the verified UI cont
   );
   const fullPacket = await buildResolvedPatternAuditPacket(request, {
     knowledgeSource: 'design-system_ab',
+    designSystemRoot: packetSourceRoots.designSystemRoot,
+    dsAiHubRoot: packetSourceRoots.dsAiHubRoot,
   });
   const packet = compactResolvedPatternAuditPacket(fullPacket);
   const observation = packet.observations[0];
@@ -883,6 +894,8 @@ test('Apollo compact pattern response preserves deterministic component verdicts
   );
   const fullPacket = await buildResolvedPatternAuditPacket(request, {
     knowledgeSource: 'design-system_ab',
+    designSystemRoot: packetSourceRoots.designSystemRoot,
+    dsAiHubRoot: packetSourceRoots.dsAiHubRoot,
   });
   const packet = compactResolvedPatternAuditPacket(fullPacket);
   packet.semanticModel.rules.push({
@@ -2308,6 +2321,8 @@ test('Apollo proxy passes raw TitleView layout relations to an active general ru
   );
   const packet = await buildResolvedPatternAuditPacket(request, {
     knowledgeSource: 'design-system_ab',
+    designSystemRoot: packetSourceRoots.designSystemRoot,
+    dsAiHubRoot: packetSourceRoots.dsAiHubRoot,
   });
 
   assert.deepEqual(packet.resolution.unresolvedRuleIds, []);
@@ -2343,7 +2358,7 @@ test('Apollo proxy builds a private text audit packet from editorial sources', a
   assert.equal(request.context.platform, 'desktop');
   assert.equal(compactApolloTextReport(payload.report).facts.texts.length, 1);
 
-  const packet = await buildResolvedTextAuditPacket(request);
+  const packet = await buildResolvedTextAuditPacket(request, packetSourceRoots);
   assert.equal(packet.documentType, 'apollo-resolved-text-audit-packet');
   assert.equal(packet.report.facts, undefined);
   assert.equal(packet.report.summary.scannedTextNodes, 1);

@@ -6,8 +6,12 @@ const test = require('node:test');
 
 const {
   PLAN_SCHEMA_VERSION,
+  applyPatternCompilerDefaults,
   clearGenerationCatalogCache,
   createGenerationPlan,
+  findComponent,
+  inspectGenerationComponentAvailability,
+  loadGenerationCatalog,
 } = require('../src/generation/planner');
 
 function writeJson(filePath, value) {
@@ -22,6 +26,19 @@ function writeContract(root, packageName, contracts) {
   );
 }
 
+function writeSemanticTargets(root, packageName, componentId, profiles) {
+  writeJson(
+    path.join(root, 'web', 'components', packageName, 'semantic-targets.json'),
+    {
+      schemaVersion: 1,
+      documentType: 'generation-semantic-target-map',
+      componentId,
+      sourceContract: 'contract.generated.json',
+      profiles,
+    },
+  );
+}
+
 function fixtureContract(id, name, platform, key, options = {}) {
   return {
     id,
@@ -33,7 +50,10 @@ function fixtureContract(id, name, platform, key, options = {}) {
     componentKey: key,
     figma: {
       defaultVariantKey: key,
-      variants: { properties: options.variants || {} },
+      variants: {
+        properties: options.variants || {},
+        variantKeys: [{ key, properties: options.defaultVariantProperties || {} }],
+      },
       anatomy: options.anatomy || [],
     },
   };
@@ -69,10 +89,17 @@ function createFixtureRoots() {
   writeTokenCatalog(designSystemRoot);
   const entries = [
     ['PromoMainBlock', 'promo-main-block.mobile-web', '[M] PromoMainBlock', '1', 'mobile-web'],
+    ['CorporateContent', 'corporate-content.mobile-web', '[M] CorporateContent', 'b', 'mobile-web'],
+    ['Benefits', 'benefits.mobile-web', '🔒 [M] Benefits', 'c', 'mobile-web'],
+    ['ButtonStack', 'button-stack.mobile-web', '🔒 [M] ButtonStack', 'd', 'mobile-web'],
     ['BenefitCard', 'benefit-card.mobile-web', '[M] BenefitCard', '2', 'mobile-web'],
     ['PromoCard', 'promo-card.mobile-web', '[M] PromoCard', '3', 'mobile-web'],
-    ['FAQ', 'faq.mobile-web', '🔒 [M] FAQ', '4', 'mobile-web'],
+    ['FAQ', 'faq.mobile-web', '[M][Promo] FAQ', '4', 'mobile-web'],
     ['Form', 'form.mobile-web', '🔒 [M] Form', '5', 'mobile-web'],
+    ['Textarea', 'textarea.mobile-web', '[M] Textarea', 'e', 'mobile-web'],
+    ['Button', 'button.mobile-web', '[M] Button', 'f', 'mobile-web'],
+    ['VOC', 'voc.mobile-web', '[M] VOC', '8', 'mobile-web'],
+    ['TitleViewMobile', 'title-view.mobile-web', '[M] TitleView', 'a', 'mobile-web'],
     ['TitleView', 'title-view.desktop', '[D] TitleView', '6', 'desktop'],
     ['Input', 'input.desktop', '[D] Input', '7', 'desktop'],
     ['Select', 'select.desktop', '[D] Select', '8', 'desktop'],
@@ -81,9 +108,38 @@ function createFixtureRoots() {
   ];
   for (const [packageName, id, name, digit, platform] of entries) {
     let options = {};
-    if (packageName === 'Input') {
+    if (packageName === 'PromoMainBlock') {
       options = {
-          variants: { Size: ['48', '56'], OuterLabel: ['False', 'True'] },
+        variants: { Appearance: ['Light', 'Dark'], Background: ['True', 'False'] },
+        anatomy: [
+          { type: 'TEXT', path: 'Content / Title / value' },
+          { type: 'TEXT', path: 'Content / ButtonGroup / Primary / Text / Label' },
+        ],
+      };
+    } else if (packageName === 'CorporateContent') {
+      options = { anatomy: [{ type: 'SLOT', path: '[M] CorporateContent / [M] Body' }] };
+    } else if (packageName === 'Benefits') {
+      options = { variants: { Capacity: ['3', '4'] } };
+    } else if (packageName === 'ButtonStack') {
+      options = {
+        anatomy: [{ type: 'TEXT', path: 'Presets=Primary / Content / MainButtonStack / [M] Button / Text / Label' }],
+      };
+    } else if (packageName === 'Button') {
+      options = { anatomy: [{ type: 'TEXT', path: '[M] Button / Text / Label' }] };
+    } else if (packageName === 'VOC') {
+      options = { anatomy: [{ type: 'FRAME', path: '[M] VOC / ModalHeader' }] };
+    } else if (packageName === 'Input') {
+      options = {
+          variants: {
+            Size: ['48', '56'],
+            FilledState: ['False', 'True'],
+            OuterLabel: ['False', 'True'],
+          },
+          defaultVariantProperties: {
+            Size: '56',
+            FilledState: 'False',
+            OuterLabel: 'True',
+          },
           anatomy: [
             {
               type: 'TEXT',
@@ -95,10 +151,14 @@ function createFixtureRoots() {
             },
           ],
         };
-    } else if (packageName === 'TitleView') {
+    } else if (packageName === 'TitleView' || packageName === 'TitleViewMobile') {
       options = {
         variants: { View: ['xLarge', 'Large', 'Medium', 'Small'] },
         anatomy: [
+          {
+            type: 'TEXT',
+            path: 'MainContent / Heading / Title',
+          },
           {
             type: 'TEXT',
             path: 'View=xLarge, Skeleton=False / MainContent / Subtitle / Subtitle',
@@ -114,6 +174,52 @@ function createFixtureRoots() {
       fixtureContract(id, name, platform, digit.repeat(40), options),
     ]);
   }
+  writeSemanticTargets(designSystemRoot, 'PromoMainBlock', 'PromoMainBlock', [{
+    id: 'mobile-page',
+    platform: 'mobile-web',
+    contractId: 'promo-main-block.mobile-web',
+    publicRoot: '[M] PromoMainBlock',
+    verification: { source: 'contract.generated.json', liveInstanceVerified: false },
+    targets: [
+      {
+        id: 'variant.appearance',
+        kind: 'variant-property',
+        supported: true,
+        property: 'Appearance',
+        values: { light: 'Light', dark: 'Dark' },
+      },
+      {
+        id: 'content.title',
+        kind: 'text',
+        supported: true,
+        selectors: [{ strategy: 'path-suffix', path: 'Content / Title / value', nodeTypes: ['TEXT'], occurrence: 0 }],
+        writePolicy: 'first',
+      },
+      {
+        id: 'content.image',
+        kind: 'unsupported',
+        supported: false,
+        reason: 'Asset selection unavailable.',
+      },
+    ],
+  }]);
+  writeSemanticTargets(designSystemRoot, 'CorporateContent', 'CorporateContent', [{
+    id: 'mobile',
+    platform: 'mobile-web',
+    contractId: 'corporate-content.mobile-web',
+    publicRoot: '[M] CorporateContent',
+    verification: { source: 'contract.generated.json', liveInstanceVerified: false },
+    targets: [{
+      id: 'slots.body',
+      kind: 'slot',
+      supported: true,
+      selectors: [{ strategy: 'path-suffix', path: '[M] Body', nodeTypes: ['SLOT'], occurrence: 0 }],
+      writePolicy: 'first',
+    }],
+  }]);
+  writeContract(designSystemRoot, 'NavigationCardView', [
+    fixtureContract('navigation-card-view.mobile-web', '[M] Benefits', 'mobile-web', '0'.repeat(40)),
+  ]);
   writeHubSource(dsAiHubRoot, 'products/ab/patterns/landing-pages.md', [
     '# Pattern: Лендинги в Альфа-Бизнесе',
     '- patternId: ptrn:landing-pages.alfa-business',
@@ -130,20 +236,42 @@ function createFixtureRoots() {
     '# Cookbook: Input',
     'Size, OuterLabel, Field / Content / Label',
   ]);
-  for (const componentName of [
-    'promo-main-block',
-    'benefit-card',
-    'promo-card',
-    'faq',
-    'form',
-    'title-view',
-    'select',
-    'buttons-group',
-  ]) {
+  const componentRoots = {
+    PromoMainBlock: '[M] PromoMainBlock',
+    CorporateContent: '[M] CorporateContent',
+    Benefits: '🔒 [M] Benefits',
+    ButtonStack: '🔒 [M] ButtonStack',
+    BenefitCard: '[M] BenefitCard',
+    PromoCard: '[M] PromoCard',
+    FAQ: '[M][Promo] FAQ',
+    Form: '🔒 [M] Form',
+    Textarea: '[M] Textarea',
+    Button: '[M] Button',
+    VOC: '[M] VOC',
+    TitleView: '[D] TitleView',
+    Input: '[D] Input',
+    Select: '[D] Select',
+    ButtonsGroup: '[D] ButtonsGroup',
+    ContentCardWrapper: '[D] ContentCardWrapper',
+  };
+  for (const [componentId, componentRoot] of Object.entries(componentRoots)) {
+    const componentName = componentId.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
     writeHubSource(
       dsAiHubRoot,
       `products/ab/components/${componentName}/cookbook.md`,
       [`# Cookbook: ${componentName}`],
+    );
+    writeJson(
+      path.join(dsAiHubRoot, `products/ab/components/${componentName}/meta.json`),
+      {
+        id: componentId,
+        publicComponentRoots: componentId === 'TitleView'
+          ? ['[D] TitleView', '[M] TitleView']
+          : [componentRoot],
+        recommendedComponentRoots: componentId === 'TitleView'
+          ? ['[D] TitleView', '[M] TitleView']
+          : [componentRoot],
+      },
     );
   }
   return { root, designSystemRoot, dsAiHubRoot };
@@ -153,12 +281,26 @@ function source(pathValue, role, ruleIds = []) {
   return { path: pathValue, role, purpose: `Использовать ${pathValue}`, ruleIds };
 }
 
+function componentSources(componentIds) {
+  return componentIds.flatMap((componentId) => {
+    const directory = componentId.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+    return [
+      source(`products/ab/components/${directory}/meta.json`, 'guideline'),
+      source(`products/ab/components/${directory}/cookbook.md`, 'component-recipe'),
+    ];
+  });
+}
+
 function frame(id, parentId, name, options = {}) {
   return {
     id,
     type: 'frame',
     parentId,
     name,
+    semanticRole: options.semanticRole || (parentId === null ? 'screen' : 'content'),
+    semanticComponentId: null,
+    placement: options.placement || 'append',
+    parentPath: options.parentPath || null,
     width: options.width || 'fill',
     minHeight: options.minHeight ?? null,
     layout: options.layout || 'vertical',
@@ -172,12 +314,36 @@ function frame(id, parentId, name, options = {}) {
   };
 }
 
-function component(id, parentId, componentQuery, options = {}) {
+const COMPONENT_ROOTS = {
+  PromoMainBlock: '[M] PromoMainBlock',
+  CorporateContent: '[M] CorporateContent',
+  Benefits: '🔒 [M] Benefits',
+  ButtonStack: '🔒 [M] ButtonStack',
+  BenefitCard: '[M] BenefitCard',
+  PromoCard: '[M] PromoCard',
+  FAQ: '[M][Promo] FAQ',
+  Form: '🔒 [M] Form',
+  Textarea: '[M] Textarea',
+  Button: '[M] Button',
+  VOC: '[M] VOC',
+  TitleView: '[D] TitleView',
+  Input: '[D] Input',
+  Select: '[D] Select',
+  ButtonsGroup: '[D] ButtonsGroup',
+  ContentCardWrapper: '[D] ContentCardWrapper',
+};
+
+function component(id, parentId, semanticComponentId, options = {}) {
+  const componentQuery = options.componentQuery || COMPONENT_ROOTS[semanticComponentId];
   return {
     id,
     type: 'component',
     parentId,
     name: options.name || componentQuery,
+    semanticRole: options.semanticRole || 'content',
+    semanticComponentId,
+    placement: options.placement || 'append',
+    parentPath: options.parentPath || null,
     componentQuery,
     width: options.width || 'fill',
     minHeight: null,
@@ -193,7 +359,7 @@ function component(id, parentId, componentQuery, options = {}) {
 
 function readySemanticPlan(overrides = {}) {
   return {
-    schemaVersion: 'apollo.semantic-generation.v1',
+    schemaVersion: 'apollo.semantic-generation.v3',
     status: 'ready',
     title: 'Лендинг',
     summary: 'Лендинг собран агентом по правилам ds-ai-hub.',
@@ -211,18 +377,13 @@ function readySemanticPlan(overrides = {}) {
         'pattern',
         ['rule:landing.required-three-sections'],
       ),
-      ...[
-        'promo-main-block',
-        'benefit-card',
-        'promo-card',
-        'faq',
-        'form',
-      ].map((name) => source(
-        `products/ab/components/${name}/cookbook.md`,
-        'component-recipe',
-      )),
+      ...componentSources([
+        'PromoMainBlock', 'CorporateContent', 'ButtonStack', 'Benefits',
+        'PromoCard', 'FAQ', 'Textarea', 'Button', 'TitleView',
+      ]),
     ],
     clarification: null,
+    blocked: null,
     nodes: [
       frame('screen', null, 'Apollo · Лендинг', {
         width: 390,
@@ -231,20 +392,40 @@ function readySemanticPlan(overrides = {}) {
         padding: 0,
         fillRole: 'base',
       }),
-      frame('hero', 'screen', 'Главный блок'),
-      frame('main', 'screen', 'Основной контент'),
-      frame('benefits', 'main', 'Бенефиты'),
-      frame('features', 'main', 'Ключевые особенности', { fillRole: 'base-alt' }),
-      frame('footer', 'screen', 'Футер'),
-      component('hero-component', 'hero', 'PromoMainBlock'),
-      ...Array.from({ length: 3 }, (_, index) =>
-        component(`benefit-${index + 1}`, 'benefits', 'BenefitCard')
-      ),
+      component('corporate', 'screen', 'CorporateContent'),
+      frame('main', 'corporate', 'Основной контент', {
+        semanticRole: 'main-content',
+        placement: 'replace-slot',
+        parentPath: '[M] Body',
+      }),
+      component('hero-component', 'main', 'PromoMainBlock', { semanticRole: 'hero' }),
+      component('hero-action', 'hero-component', 'ButtonStack', {
+        semanticRole: 'primary-action',
+        placement: 'swap-instance',
+        parentPath: 'Content / ContentWrapper / ButtonGroup',
+        textOverrides: [{ path: '[M] Button / Text / Label', value: 'Оставить отзыв' }],
+      }),
+      component('benefits', 'main', 'Benefits', {
+        semanticRole: 'benefits',
+        variantProperties: [{ name: 'Capacity', value: '3' }],
+      }),
+      frame('features', 'main', 'Ключевые особенности', { semanticRole: 'features', fillRole: 'base-alt' }),
       ...Array.from({ length: 5 }, (_, index) =>
-        component(`feature-${index + 1}`, 'features', 'PromoCard')
+        component(`feature-${index + 1}`, 'features', 'PromoCard', { semanticRole: 'feature' })
       ),
-      component('faq', 'footer', 'FAQ'),
-      component('form', 'footer', 'Form'),
+      frame('footer', 'main', 'Футер', { semanticRole: 'footer' }),
+      component('faq-heading', 'footer', 'TitleView', {
+        semanticRole: 'content',
+        componentQuery: '[M] TitleView',
+        textOverrides: [{ path: 'MainContent / Heading / Title', value: 'Частые вопросы' }],
+      }),
+      component('faq', 'footer', 'FAQ', { semanticRole: 'faq' }),
+      frame('form', 'footer', 'Форма обратной связи', { semanticRole: 'form' }),
+      component('comment', 'form', 'Textarea', { semanticRole: 'field' }),
+      component('form-action', 'form', 'Button', {
+        semanticRole: 'primary-action',
+        textOverrides: [{ path: 'Text / Label', value: 'Оставить отзыв' }],
+      }),
     ],
     ...overrides,
   };
@@ -265,22 +446,25 @@ test('resolves an agent landing plan through ds-ai-hub evidence and design-syste
     assert.equal(plan.pattern.sourcePath, 'products/ab/patterns/landing-pages.md');
     assert.equal(plan.knowledge.primarySource, 'ds-ai-hub');
     assert.equal(plan.knowledge.technicalSource, 'design-system_ab');
-    assert.equal(plan.knowledge.componentCount, 11);
+    assert.equal(plan.knowledge.componentCount, 13);
+    assert.equal(plan.preflight.status, 'passed');
     assert.equal(plan.nodes[0].fillVariableKey, 'c'.repeat(40));
     assert.deepEqual(
       plan.nodes.filter((node) => node.type === 'component').map((node) => node.componentId),
       [
+        'corporate-content.mobile-web',
         'promo-main-block.mobile-web',
-        'benefit-card.mobile-web',
-        'benefit-card.mobile-web',
-        'benefit-card.mobile-web',
+        'button-stack.mobile-web',
+        'benefits.mobile-web',
         'promo-card.mobile-web',
         'promo-card.mobile-web',
         'promo-card.mobile-web',
         'promo-card.mobile-web',
         'promo-card.mobile-web',
+        'title-view.mobile-web',
         'faq.mobile-web',
-        'form.mobile-web',
+        'textarea.mobile-web',
+        'button.mobile-web',
       ],
     );
   } finally {
@@ -306,14 +490,16 @@ test('supports the form pattern without a pattern-specific compiler', () => {
           'pattern',
           ['rule:forms.layout-8-4'],
         ),
-        source('products/ab/components/input/cookbook.md', 'component-recipe'),
-        source('products/ab/components/title-view/cookbook.md', 'component-recipe'),
-        source('products/ab/components/select/cookbook.md', 'component-recipe'),
-        source('products/ab/components/buttons-group/cookbook.md', 'component-recipe'),
+        ...componentSources(['Input', 'TitleView', 'Select', 'ButtonsGroup']),
       ],
       nodes: [
         frame('screen', null, 'Apollo · Форма', { width: 1200, fillRole: 'base-alt' }),
-        frame('left', 'screen', 'Основная форма', { width: 760, padding: 32, gap: 24 }),
+        frame('left', 'screen', 'Основная форма', {
+          width: 760,
+          padding: 32,
+          gap: 24,
+          semanticRole: 'form',
+        }),
         component('title', 'left', 'TitleView', {
           variantProperties: [{ name: 'View', value: 'Medium' }],
           textOverrides: [{ path: 'Subtitle', value: 'Данные компании' }],
@@ -359,7 +545,7 @@ test('returns an agent clarification without reading technical catalogs', () => 
   fs.rmSync(roots.designSystemRoot, { recursive: true, force: true });
   try {
     const semantic = {
-      schemaVersion: 'apollo.semantic-generation.v1',
+      schemaVersion: 'apollo.semantic-generation.v3',
       status: 'clarification_required',
       title: 'Нужно уточнение',
       summary: 'Состав формы зависит от сценария.',
@@ -373,6 +559,7 @@ test('returns an agent clarification without reading technical catalogs', () => 
         reason: 'От ответа зависит состав и группировка полей.',
         suggestedAnswers: ['Контакты', 'Реквизиты компании'],
       },
+      blocked: null,
       nodes: [],
     };
     const result = createGenerationPlan(
@@ -382,6 +569,79 @@ test('returns an agent clarification without reading technical catalogs', () => 
     );
     assert.equal(result.status, 'clarification_required');
     assert.match(result.clarification.question, /Какие данные/);
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('converts a technical clarification into a terminal blocked outcome', () => {
+  const roots = createFixtureRoots();
+  fs.rmSync(roots.designSystemRoot, { recursive: true, force: true });
+  try {
+    const semantic = {
+      schemaVersion: 'apollo.semantic-generation.v3',
+      status: 'clarification_required',
+      title: 'Нужно уточнение',
+      summary: 'В пакете нет исполнимого target.',
+      kind: null,
+      recipe: null,
+      platform: null,
+      primaryPattern: null,
+      sources: [source('products/ab/patterns/landing-pages.md', 'pattern')],
+      clarification: {
+        question: 'Добавить semantic target в контракт?',
+        reason: 'В context packet нет нужного технического контракта.',
+        suggestedAnswers: ['Да, обновить контракт'],
+      },
+      blocked: null,
+      nodes: [],
+    };
+    const result = createGenerationPlan(
+      { prompt: 'Собери лендинг' },
+      semantic,
+      { dsAiHubRoot: roots.dsAiHubRoot },
+    );
+    assert.equal(result.status, 'blocked');
+    assert.equal(result.blocked.code, 'GENERATION_CAPABILITY_MISSING');
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('stops a repeated product clarification instead of looping', () => {
+  const roots = createFixtureRoots();
+  fs.rmSync(roots.designSystemRoot, { recursive: true, force: true });
+  try {
+    const semantic = {
+      schemaVersion: 'apollo.semantic-generation.v3',
+      status: 'clarification_required',
+      title: 'Нужно уточнение',
+      summary: 'Нужен продуктовый выбор.',
+      kind: null,
+      recipe: null,
+      platform: null,
+      primaryPattern: null,
+      sources: [source('products/ab/patterns/landing-pages.md', 'pattern')],
+      clarification: {
+        question: 'Какое главное действие использовать?',
+        reason: 'От ответа зависит CTA.',
+        suggestedAnswers: ['Оставить отзыв', 'Подробнее'],
+      },
+      blocked: null,
+      nodes: [],
+    };
+    const result = createGenerationPlan(
+      {
+        prompt: 'Оставить отзыв',
+        brief: 'Собери лендинг',
+        dialogue: [{ role: 'assistant', text: 'Какое главное действие использовать?' }],
+        clarificationRound: 1,
+      },
+      semantic,
+      { dsAiHubRoot: roots.dsAiHubRoot },
+    );
+    assert.equal(result.status, 'blocked');
+    assert.equal(result.blocked.code, 'GENERATION_CLARIFICATION_LIMIT');
   } finally {
     fs.rmSync(roots.root, { recursive: true, force: true });
   }
@@ -427,12 +687,11 @@ test('rejects unsupported component properties from the technical contract', () 
     const defaultSources = readySemanticPlan().sources;
     const semantic = readySemanticPlan({
       platform: 'desktop',
-      sources: defaultSources.concat(
-        source('products/ab/components/input/cookbook.md', 'component-recipe'),
-      ),
+      sources: defaultSources.concat(componentSources(['Input'])),
       nodes: [
         frame('screen', null, 'Форма', { width: 1200 }),
         component('input', 'screen', 'Input', {
+          semanticRole: 'form',
           variantProperties: [{ name: 'Size', value: '96' }],
         }),
       ],
@@ -446,6 +705,133 @@ test('rejects unsupported component properties from the technical contract', () 
   }
 });
 
+test('omits a semantic text target that is unavailable in the selected component state', () => {
+  const roots = createFixtureRoots();
+  try {
+    writeSemanticTargets(roots.designSystemRoot, 'Input', 'Input', [{
+      id: 'desktop-comment',
+      platform: 'desktop',
+      contractId: 'input.desktop',
+      publicRoot: '[D] Input',
+      verification: { source: 'contract.generated.json', liveInstanceVerified: true },
+      targets: [
+        {
+          id: 'variant.outerLabel',
+          kind: 'variant-property',
+          supported: true,
+          property: 'OuterLabel',
+          values: { true: 'True', false: 'False' },
+        },
+        {
+          id: 'content.placeholder',
+          kind: 'text',
+          supported: true,
+          selectors: [{
+            strategy: 'path-suffix',
+            path: 'Field / Content / Placeholder / Content / Placeholder',
+            nodeTypes: ['TEXT'],
+            occurrence: 0,
+          }],
+          writePolicy: 'first',
+          availableWhen: [
+            { property: 'FilledState', values: ['False'] },
+            { property: 'OuterLabel', values: ['True'] },
+          ],
+          onUnavailable: 'omit',
+        },
+      ],
+    }]);
+    clearGenerationCatalogCache();
+    const semantic = readySemanticPlan({
+      platform: 'desktop',
+      sources: [
+        source('products/ab/patterns/landing-pages.md', 'pattern', ['rule:landing.required-three-sections']),
+        ...componentSources(['Input']),
+      ],
+      nodes: [
+        frame('screen', null, 'Поле', { width: 1200 }),
+        component('input', 'screen', 'Input', {
+          semanticRole: 'field',
+          variantProperties: [{ name: 'variant.outerLabel', value: false }],
+          textOverrides: [{ path: 'content.placeholder', value: 'Ваш комментарий' }],
+        }),
+      ],
+    });
+    const plan = createGenerationPlan({ prompt: 'Добавь поле ввода' }, semantic, roots);
+    const input = plan.nodes.find((node) => node.id === 'input');
+    assert.deepEqual(input.variantProperties, [{ name: 'OuterLabel', value: 'False' }]);
+    assert.deepEqual(input.textOverrides, []);
+    assert.deepEqual(input.preconditionOverrides, []);
+    assert.match(plan.warnings.join('\n'), /content\.placeholder пропущен/u);
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('compiles semantic edit context before the final nested instance state', () => {
+  const roots = createFixtureRoots();
+  try {
+    writeSemanticTargets(roots.designSystemRoot, 'FAQ', 'FAQ', [{
+      id: 'mobile-promo-footer',
+      platform: 'mobile-web',
+      contractId: 'faq.mobile-web',
+      publicRoot: '[M][Promo] FAQ',
+      verification: { source: 'contract.generated.json', liveInstanceVerified: true },
+      targets: [
+        {
+          id: 'items.1.answer',
+          kind: 'text',
+          supported: true,
+          selectors: [{
+            strategy: 'path-suffix',
+            path: 'FAQItem 01 / Accordion / Body / 🔩 AccordionBody / Subtitle',
+            nodeTypes: ['TEXT'],
+            occurrence: 0,
+          }],
+          writePolicy: 'first',
+          editContext: [{ target: 'items.1.open', value: 'true' }],
+        },
+        {
+          id: 'items.1.open',
+          kind: 'instance-property',
+          supported: true,
+          property: 'Open',
+          values: { true: 'True', false: 'False' },
+          selectors: [{
+            strategy: 'path-suffix',
+            path: 'FAQItem 01',
+            nodeTypes: ['INSTANCE'],
+            occurrence: 0,
+          }],
+          writePolicy: 'first',
+        },
+      ],
+    }]);
+    clearGenerationCatalogCache();
+    const semantic = readySemanticPlan({
+      sources: [
+        source('products/ab/patterns/landing-pages.md', 'pattern', ['rule:landing.required-three-sections']),
+        ...componentSources(['FAQ']),
+      ],
+      nodes: [
+        frame('screen', null, 'FAQ', { width: 390 }),
+        component('faq', 'screen', 'FAQ', {
+          semanticRole: 'faq',
+          variantProperties: [{ name: 'items.1.open', value: false }],
+          textOverrides: [{ path: 'items.1.answer', value: 'Ответ FAQ' }],
+        }),
+      ],
+    });
+    const plan = createGenerationPlan({ prompt: 'Настрой компонент' }, semantic, roots);
+    const faq = plan.nodes.find((node) => node.id === 'faq');
+    assert.deepEqual(faq.preconditionOverrides[0].properties, [{ name: 'Open', value: 'True' }]);
+    assert.deepEqual(faq.instancePropertyOverrides[0].properties, [{ name: 'Open', value: 'False' }]);
+    assert.equal(faq.textOverrides[0].semanticTarget, 'items.1.answer');
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
 test('rejects a component that has no semantic evidence in ds-ai-hub sources', () => {
   const roots = createFixtureRoots();
   try {
@@ -453,12 +839,183 @@ test('rejects a component that has no semantic evidence in ds-ai-hub sources', (
       platform: 'desktop',
       nodes: [
         frame('screen', null, 'Форма', { width: 1200 }),
-        component('input', 'screen', 'Input'),
+        component('input', 'screen', 'Input', { semanticRole: 'form' }),
       ],
     });
     assert.throws(
       () => createGenerationPlan({ prompt: 'Форма' }, semantic, roots),
       (error) => error.code === 'GENERATION_COMPONENT_KNOWLEDGE_MISSING',
+    );
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('resolves the exact Benefits public root and never falls back to NavigationCardView', () => {
+  const roots = createFixtureRoots();
+  try {
+    const catalog = loadGenerationCatalog(roots.designSystemRoot);
+    const exact = findComponent(catalog, '🔒 [M] Benefits', 'mobile-web', 'Benefits');
+    const wrongRoot = findComponent(catalog, '[M] Benefits', 'mobile-web', 'Benefits');
+    assert.equal(exact.id, 'benefits.mobile-web');
+    assert.equal(wrongRoot, null);
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('projects executable technical properties without exposing Figma keys', () => {
+  const roots = createFixtureRoots();
+  try {
+    const availability = inspectGenerationComponentAvailability(
+      roots.designSystemRoot,
+      ['PromoMainBlock'],
+    );
+    assert.equal(availability.PromoMainBlock.available, true);
+    assert.deepEqual(
+      availability.PromoMainBlock.contracts[0].variantProperties,
+      { Appearance: ['Light', 'Dark'], Background: ['True', 'False'] },
+    );
+    assert.equal(JSON.stringify(availability).includes('1'.repeat(40)), false);
+    assert.equal('BlurEffect' in availability.PromoMainBlock.contracts[0].variantProperties, false);
+    assert.deepEqual(
+      availability.PromoMainBlock.contracts[0].semanticTargetProfiles[0].targets.map((target) => target.id),
+      ['variant.appearance', 'content.title', 'content.image'],
+    );
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('compiles semantic targets into exact runtime operations', () => {
+  const roots = createFixtureRoots();
+  try {
+    const semantic = readySemanticPlan();
+    semantic.nodes.find((node) => node.id === 'main').parentPath = 'slots.body';
+    const hero = semantic.nodes.find((node) => node.id === 'hero-component');
+    hero.variantProperties = [{ name: 'variant.appearance', value: 'light' }];
+    hero.textOverrides = [{ path: 'content.title', value: 'Новый продукт' }];
+    const plan = createGenerationPlan(
+      { prompt: 'Подготовь лендинг для мобильного веба' },
+      semantic,
+      roots,
+    );
+    const main = plan.nodes.find((node) => node.id === 'main');
+    const compiledHero = plan.nodes.find((node) => node.id === 'hero-component');
+    assert.equal(main.parentPath, '[M] Body');
+    assert.equal(main.parentSemanticTarget, 'slots.body');
+    assert.deepEqual(compiledHero.variantProperties, [{ name: 'Appearance', value: 'Light' }]);
+    assert.deepEqual(compiledHero.textOverrides, [{
+      path: 'Content / Title / value',
+      occurrence: 0,
+      nodeTypes: ['TEXT'],
+      semanticTarget: 'content.title',
+      value: 'Новый продукт',
+    }]);
+    assert.ok(
+      plan.knowledge.sources.some((source) => source.role === 'semantic-target-map'),
+    );
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('preflight rejects a landing that loses the exact primary action label', () => {
+  const roots = createFixtureRoots();
+  try {
+    const semantic = readySemanticPlan();
+    semantic.nodes.find((node) => node.id === 'form-action').textOverrides = [];
+    assert.throws(
+      () => createGenerationPlan({
+        prompt: 'Лендинг для мобильного веба с формой. Ключевое действие — Оставить отзыв',
+      }, semantic, roots),
+      (error) =>
+        error.code === 'GENERATION_PREFLIGHT_FAILED' &&
+        error.details.checks.some((check) => check.id === 'action:exact-label' && check.status === 'fail'),
+    );
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('preflight preserves original brief requirements after a clarification answer', () => {
+  const roots = createFixtureRoots();
+  try {
+    const plan = createGenerationPlan({
+      prompt: 'Без изображений',
+      brief: 'Лендинг для мобильного веба: 3 преимущества, 5 карточек, FAQ и форма. Ключевое действие — Оставить отзыв',
+      dialogue: [{ role: 'assistant', text: 'Использовать изображения?' }],
+      clarificationRound: 1,
+    }, readySemanticPlan(), roots);
+    assert.equal(plan.preflight.intent.requirements.benefits, 3);
+    assert.equal(plan.preflight.intent.requirements.featureCards, 5);
+    assert.equal(plan.preflight.intent.primaryAction, 'Оставить отзыв');
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('landing compiler enforces CorporateContent body placement and base footer surface', () => {
+  const roots = createFixtureRoots();
+  try {
+    const semantic = readySemanticPlan();
+    const main = semantic.nodes.find((node) => node.id === 'main');
+    main.parentId = 'screen';
+    main.placement = 'append';
+    main.parentPath = null;
+    const footer = semantic.nodes.find((node) => node.id === 'footer');
+    footer.parentId = 'screen';
+    footer.fillRole = 'base-alt';
+    semantic.nodes.reverse();
+    const plan = createGenerationPlan({
+      prompt: 'Лендинг для мобильного веба: 3 преимущества, 5 карточек, FAQ и форма. Ключевое действие — Оставить отзыв',
+    }, semantic, roots);
+    const compiledMain = plan.nodes.find((node) => node.id === 'main');
+    const compiledFooter = plan.nodes.find((node) => node.id === 'footer');
+    assert.equal(compiledMain.parentId, 'corporate');
+    assert.equal(compiledMain.placement, 'replace-slot');
+    assert.equal(compiledMain.parentSemanticTarget, 'slots.body');
+    assert.equal(compiledFooter.parentId, 'main');
+    assert.equal(compiledFooter.fillVariableName, 'base-bg/primary');
+    assert.equal(plan.nodes[0].id, 'screen');
+    assert.ok(plan.nodes.findIndex((node) => node.id === 'main') < plan.nodes.findIndex((node) => node.id === 'footer'));
+  } finally {
+    fs.rmSync(roots.root, { recursive: true, force: true });
+  }
+});
+
+test('desktop landing compiler creates a deterministic five-card bento', () => {
+  const semantic = readySemanticPlan({ platform: 'desktop' });
+  const normalized = applyPatternCompilerDefaults(semantic);
+  const features = normalized.nodes.find((node) => node.semanticRole === 'features');
+  const rows = normalized.nodes.filter((node) =>
+    node.type === 'frame' && node.parentId === features.id && node.layout === 'horizontal'
+  );
+  const cards = normalized.nodes.filter((node) => node.semanticRole === 'feature');
+  assert.equal(rows.length, 2);
+  assert.deepEqual(
+    rows.map((row) => cards.filter((card) => card.parentId === row.id).length),
+    [3, 2],
+  );
+  for (const card of cards) {
+    assert.ok(card.variantProperties.some((property) => property.name === 'variant.size' && property.value === 'small'));
+    assert.ok(card.variantProperties.some((property) => property.name === 'variant.image' && property.value === 'none'));
+  }
+});
+
+test('rejects modal VOC when the request asks for an inline feedback form', () => {
+  const roots = createFixtureRoots();
+  try {
+    const semantic = readySemanticPlan({
+      sources: readySemanticPlan().sources.concat(componentSources(['VOC'])),
+      nodes: [
+        frame('screen', null, 'Форма обратной связи', { width: 390 }),
+        component('voc', 'screen', 'VOC', { semanticRole: 'form' }),
+      ],
+    });
+    assert.throws(
+      () => createGenerationPlan({ prompt: 'Собери встроенную форму обратной связи' }, semantic, roots),
+      (error) => error.code === 'GENERATION_PRESENTATION_MISMATCH',
     );
   } finally {
     fs.rmSync(roots.root, { recursive: true, force: true });

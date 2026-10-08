@@ -10,7 +10,7 @@ const {
 
 function readyResponse() {
   return {
-    schemaVersion: 'apollo.semantic-generation.v1',
+    schemaVersion: 'apollo.semantic-generation.v3',
     status: 'ready',
     title: 'Форма',
     summary: 'Форма по правилам ds-ai-hub.',
@@ -29,12 +29,17 @@ function readyResponse() {
       ruleIds: ['rule:forms.layout-8-4'],
     }],
     clarification: null,
+    blocked: null,
     nodes: [
       {
         id: 'screen',
         type: 'frame',
         parentId: null,
         name: 'Форма',
+        semanticRole: 'screen',
+        semanticComponentId: null,
+        placement: 'append',
+        parentPath: null,
         width: 1200,
         minHeight: 800,
         layout: 'vertical',
@@ -51,6 +56,10 @@ function readyResponse() {
         type: 'component',
         parentId: 'screen',
         name: 'Заголовок',
+        semanticRole: 'content',
+        semanticComponentId: 'TitleView',
+        placement: 'append',
+        parentPath: null,
         width: 'fill',
         minHeight: null,
         layout: null,
@@ -58,7 +67,7 @@ function readyResponse() {
         padding: null,
         fillRole: null,
         cornerRadius: null,
-        componentQuery: 'TitleView',
+        componentQuery: '[D] TitleView',
         variantProperties: [],
         textOverrides: [],
       },
@@ -75,6 +84,19 @@ test('normalizes a bounded generation dialogue', () => {
     { role: 'assistant', text: 'Что должно быть в форме?' },
     { role: 'user', text: 'Контактные данные' },
   ]);
+});
+
+test('preserves the original user brief when the dialogue exceeds the recent window', () => {
+  const dialogue = normalizeGenerationDialogue([
+    { role: 'user', text: 'Исходный бриф: CTA — Оставить отзыв' },
+    ...Array.from({ length: 24 }, (_, index) => ({
+      role: index % 2 ? 'user' : 'assistant',
+      text: `Реплика ${index + 1}`,
+    })),
+  ]);
+  assert.equal(dialogue.length, 16);
+  assert.equal(dialogue[0].text, 'Исходный бриф: CTA — Оставить отзыв');
+  assert.equal(dialogue.at(-1).text, 'Реплика 24');
 });
 
 test('generation prompt makes ds-ai-hub semantic and keeps keys outside the agent', () => {
@@ -95,15 +117,22 @@ test('generation prompt makes ds-ai-hub semantic and keeps keys outside the agen
   assert.match(prompt, /Не ищи и не указывай Figma component keys/);
   assert.match(prompt, /Технические ключи.*design-system_ab/);
   assert.match(prompt, /Никогда не спрашивай у пользователя component name, key, cookbook/);
-  assert.match(prompt, /meta подтверждает подходящий public root/);
+  assert.match(prompt, /publicComponentRoot/);
+  assert.match(prompt, /placement=replace-slot/);
+  assert.match(prompt, /technicalContracts.*исполнимый технический API/);
+  assert.match(prompt, /semanticTargetProfiles/);
+  assert.match(prompt, /ordered targets items\.N/);
   assert.match(prompt, /ruleIds можно только дословно копировать/);
   assert.match(prompt, /clarification_required/);
+  assert.match(prompt, /<original_brief>/);
+  assert.match(prompt, /Исходный бриф неизменяем/);
+  assert.match(prompt, /status=blocked/);
   assert.match(prompt, /Какие поля нужны/);
 });
 
 test('accepts a clarification response as a first-class outcome', () => {
   const response = {
-    schemaVersion: 'apollo.semantic-generation.v1',
+    schemaVersion: 'apollo.semantic-generation.v3',
     status: 'clarification_required',
     title: 'Нужно уточнение',
     summary: 'Недостаточно данных о составе формы.',
@@ -117,6 +146,7 @@ test('accepts a clarification response as a first-class outcome', () => {
       reason: 'Состав полей определяет структуру формы.',
       suggestedAnswers: ['Контакты', 'Реквизиты'],
     },
+    blocked: null,
     nodes: [],
   };
   assert.equal(
@@ -142,7 +172,7 @@ test('normalizes neutral nullable frame fields without guessing component data',
 
 test('rejects a clarification response that also mutates the canvas', () => {
   const response = {
-    schemaVersion: 'apollo.semantic-generation.v1',
+    schemaVersion: 'apollo.semantic-generation.v3',
     status: 'clarification_required',
     title: 'Нужно уточнение',
     summary: 'Недостаточно данных.',
@@ -156,10 +186,34 @@ test('rejects a clarification response that also mutates the canvas', () => {
       reason: 'Нужен состав.',
       suggestedAnswers: [],
     },
+    blocked: null,
     nodes: [{ id: 'screen', type: 'script', source: 'figma.currentPage.remove()' }],
   };
   assert.throws(
     () => validateSemanticGenerationResponse(response),
     /некорректный запрос уточнения/,
   );
+});
+
+test('accepts a terminal blocked response without canvas nodes', () => {
+  const response = {
+    schemaVersion: 'apollo.semantic-generation.v3',
+    status: 'blocked',
+    title: 'Генерация остановлена',
+    summary: 'Не хватает исполнимой возможности.',
+    kind: null,
+    recipe: null,
+    platform: null,
+    primaryPattern: null,
+    sources: [],
+    clarification: null,
+    blocked: {
+      code: 'GENERATION_CAPABILITY_MISSING',
+      message: 'Этот блок пока нельзя собрать.',
+      reason: 'Нет semantic target.',
+      missingCapabilities: ['content.image'],
+    },
+    nodes: [],
+  };
+  assert.equal(validateSemanticGenerationResponse(response).status, 'blocked');
 });

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://apollo.local/schemas/generation-semantic-plan.v1.json",
-  "title": "Apollo generation semantic plan v1",
+  "$id": "https://apollo.local/schemas/generation-semantic-plan.v3.json",
+  "title": "Apollo generation semantic plan v3",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -12,7 +12,7 @@
         "path": { "type": "string", "minLength": 1, "maxLength": 500 },
         "role": {
           "type": "string",
-          "enum": ["pattern", "component-recipe", "guideline", "skill", "token-guideline"]
+          "enum": ["pattern", "component-recipe", "generation-contract", "guideline", "skill", "token-guideline"]
         },
         "purpose": { "type": "string", "minLength": 1, "maxLength": 500 },
         "ruleIds": {
@@ -49,6 +49,16 @@
         "type": { "type": "string", "enum": ["frame", "component"] },
         "parentId": { "type": ["string", "null"], "maxLength": 80 },
         "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "semanticRole": {
+          "type": "string",
+          "enum": [
+            "screen", "hero", "main-content", "benefits", "benefit", "features",
+            "feature", "footer", "faq", "form", "primary-action", "content", "field"
+          ]
+        },
+        "semanticComponentId": { "type": ["string", "null"], "maxLength": 200 },
+        "placement": { "type": "string", "enum": ["append", "replace-slot", "swap-instance"] },
+        "parentPath": { "type": ["string", "null"], "maxLength": 500 },
         "width": {
           "type": ["string", "number"],
           "pattern": "^fill$",
@@ -77,15 +87,16 @@
         }
       },
       "required": [
-        "id", "type", "parentId", "name", "width", "minHeight", "layout",
+        "id", "type", "parentId", "name", "semanticRole", "semanticComponentId",
+        "placement", "parentPath", "width", "minHeight", "layout",
         "gap", "padding", "fillRole", "cornerRadius", "componentQuery",
         "variantProperties", "textOverrides"
       ]
     }
   },
   "properties": {
-    "schemaVersion": { "type": "string", "const": "apollo.semantic-generation.v1" },
-    "status": { "type": "string", "enum": ["ready", "clarification_required"] },
+    "schemaVersion": { "type": "string", "const": "apollo.semantic-generation.v3" },
+    "status": { "type": "string", "enum": ["ready", "clarification_required", "blocked"] },
     "title": { "type": "string", "minLength": 1, "maxLength": 160 },
     "summary": { "type": "string", "minLength": 1, "maxLength": 500 },
     "kind": { "type": ["string", "null"], "enum": ["pattern", "recipe", null] },
@@ -124,6 +135,21 @@
       },
       "required": ["question", "reason", "suggestedAnswers"]
     },
+    "blocked": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+$", "maxLength": 120 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 1500 },
+        "missingCapabilities": {
+          "type": "array",
+          "maxItems": 20,
+          "items": { "type": "string", "minLength": 1, "maxLength": 200 }
+        }
+      },
+      "required": ["code", "message", "reason", "missingCapabilities"]
+    },
     "nodes": {
       "type": "array",
       "maxItems": 64,
@@ -132,6 +158,6 @@
   },
   "required": [
     "schemaVersion", "status", "title", "summary", "kind", "recipe",
-    "platform", "primaryPattern", "sources", "clarification", "nodes"
+    "platform", "primaryPattern", "sources", "clarification", "blocked", "nodes"
   ]
 }

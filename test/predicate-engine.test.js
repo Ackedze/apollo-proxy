@@ -90,6 +90,59 @@ function evaluate(testSnapshot, testRule) {
   }).evaluations[0];
 }
 
+test('product scope is evaluated against the explicit snapshot Product', () => {
+  const productRule = rule('equals', 'component.properties.View', 'Primary', {
+    scope: { platform: ['desktop'], pageType: ['form'], product: ['ab'] },
+  });
+  const matching = snapshot({
+    context: { fileKey: 'file-key', pageId: '0:1', platform: 'desktop', pageType: 'form', product: 'ab' },
+  });
+  const different = snapshot({
+    context: { fileKey: 'file-key', pageId: '0:1', platform: 'desktop', pageType: 'form', product: 'ao' },
+  });
+  const missing = snapshot();
+
+  assert.equal(evaluate(matching, productRule).classification, 'compliant');
+  const differentResult = evaluate(different, productRule);
+  const missingResult = evaluate(missing, productRule);
+  assert.equal(differentResult.classification, 'not-applicable');
+  assert.equal(differentResult.trace.reason, 'rule product scope does not apply');
+  assert.equal(differentResult.trace.actual, 'ao');
+  assert.deepEqual(differentResult.trace.expected, ['ab']);
+  assert.deepEqual(differentResult.trace.factPaths, ['page.context.product']);
+  assert.equal(missingResult.classification, 'not-evaluable');
+  assert.equal(missingResult.applicability, 'unknown');
+  assert.equal(missingResult.trace.actual.state, 'absent');
+});
+
+test('every scope dimension uses three-valued applicability', () => {
+  for (const dimension of ['platform', 'product', 'channel', 'pageType']) {
+    const scoped = rule('equals', 'component.properties.View', 'Primary', {scope: {[dimension]: ['matching']}});
+    for (const value of [undefined, null, '', 42, ['matching']]) {
+      const result = evaluate(snapshot({context: {[dimension]: value}}), scoped);
+      assert.equal(result.classification, 'not-evaluable', `${dimension}: ${JSON.stringify(value)}`);
+      assert.equal(result.trace.truth, 'unknown');
+    }
+    assert.equal(evaluate(snapshot({context: {[dimension]: 'matching'}}), scoped).classification, 'compliant');
+    assert.equal(evaluate(snapshot({context: {[dimension]: 'different'}}), scoped).classification, 'not-applicable');
+    const unknown = evaluate(snapshot({context: {[dimension]: 'different', unknownFacts: [dimension]}}), scoped);
+    assert.equal(unknown.applicability, 'unknown');
+    assert.equal(unknown.trace.actual.state, 'unknown');
+  }
+});
+
+test('known false scope or condition dominates missing context in conjunction', () => {
+  const scoped = rule('equals', 'component.properties.View', 'Primary', {scope: {product: ['ab'], channel: ['adaptive']}});
+  assert.equal(evaluate(snapshot({context: {channel: 'desktop'}}), scoped).classification, 'not-applicable');
+  scoped.when = {predicate: 'equals', actual: {fact: 'component.properties.View'}, expected: {literal: 'Text'}, missingPolicy: 'unknown'};
+  assert.equal(evaluate(snapshot({context: {}}), scoped).classification, 'not-applicable');
+});
+
+test('empty scope means all, not missing evidence', () => {
+  const unscoped = rule('equals', 'component.properties.View', 'Primary', {scope: {product: [], channel: []}});
+  assert.equal(evaluate(snapshot({context: {}}), unscoped).classification, 'compliant');
+});
+
 test('fact-present distinguishes a known null from an absent or unknown fact', () => {
   const testRule = rule('fact-present', 'baseline.effective.appearance.stroke.value');
 

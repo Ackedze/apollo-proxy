@@ -278,6 +278,12 @@ function validateRule(rule) {
   if (!['require', 'forbid', 'allow'].includes(rule.effect)) {
     throw capabilityError('RULE_IR_INVALID', `Unsupported rule effect: ${rule.effect}`);
   }
+  for (const [dimension, values] of Object.entries(rule.scope || {})) {
+    if (!['platform', 'product', 'channel', 'pageType'].includes(dimension)
+      || (values !== undefined && (!Array.isArray(values) || values.some((value) => typeof value !== 'string' || !value.trim())))) {
+      throw capabilityError('RULE_IR_INVALID', `Unsupported or invalid scope dimension: ${dimension}`);
+    }
+  }
   if (!rule.select || !SELECTOR_ORIGINS.has(rule.select.from)) {
     throw capabilityError('SELECTOR_UNKNOWN', `Unknown selector origin: ${rule.select?.from}`);
   }
@@ -922,13 +928,20 @@ function evaluateExpression(expression, subject, snapshot) {
 
 function scopeApplicability(rule, snapshot) {
   const scope = rule.scope || {};
-  if (scope.platform?.length && !scope.platform.includes(snapshot.context?.platform)) {
-    return APPLICABILITY.NOT_APPLICABLE;
+  let unknown;
+  for (const key of ['platform', 'product', 'channel', 'pageType']) {
+    if (!scope[key]?.length) continue;
+    const factPath = `page.context.${key}`;
+    const actual = resolveValue({ fact: factPath }, { unknownFacts: [] }, snapshot);
+    const result = { dimension: key === 'pageType' ? 'page type' : key, actual, expected: scope[key], factPath };
+    if (actual.state !== 'known' || typeof actual.value !== 'string' || !actual.value.trim()) {
+      unknown = unknown || { ...result, applicability: APPLICABILITY.UNKNOWN };
+      continue;
+    }
+    // Scope dimensions are a conjunction: a known mismatch dominates unknowns.
+    if (!scope[key].includes(actual.value)) return { ...result, applicability: APPLICABILITY.NOT_APPLICABLE };
   }
-  if (scope.pageType?.length && (
-    !snapshot.context?.pageType || !scope.pageType.includes(snapshot.context.pageType)
-  )) return APPLICABILITY.NOT_APPLICABLE;
-  return APPLICABILITY.APPLICABLE;
+  return unknown || { applicability: APPLICABILITY.APPLICABLE };
 }
 
 function nodeIndex(snapshot) {
@@ -1237,11 +1250,23 @@ function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
       evaluations.push(makeEvaluation(hash, rule, fallback, APPLICABILITY.UNKNOWN, 'not-evaluable', trace));
       continue;
     }
-    const applicability = scopeApplicability(rule, snapshot);
-    if (applicability !== APPLICABILITY.APPLICABLE) {
-      const trace = makeTrace(rule.assert.predicate, TRUTH.UNKNOWN, 'rule scope does not apply', { state: 'unknown' }, { state: 'unknown' }, []);
-      evaluations.push(makeEvaluation(hash, rule, fallback, applicability, 'not-applicable', trace));
-      continue;
+    const scopeResult = scopeApplicability(rule, snapshot);
+    let unknownScopeTrace;
+    if (scopeResult.applicability !== APPLICABILITY.APPLICABLE) {
+      const unknown = scopeResult.applicability === APPLICABILITY.UNKNOWN;
+      const trace = makeTrace(
+        'one-of',
+        unknown ? TRUTH.UNKNOWN : TRUTH.FALSE,
+        `rule ${scopeResult.dimension} scope ${unknown ? 'is unknown' : 'does not apply'}`,
+        scopeResult.actual,
+        { state: 'known', value: scopeResult.expected },
+        [scopeResult.factPath],
+      );
+      if (!unknown) {
+        evaluations.push(makeEvaluation(hash, rule, fallback, scopeResult.applicability, 'not-applicable', trace));
+        continue;
+      }
+      unknownScopeTrace = trace;
     }
     const selected = selectSubjects(rule, snapshot);
     if (selected.unknown && !selected.nodes.length) {
@@ -1250,6 +1275,10 @@ function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
       continue;
     }
     if (!selected.nodes.length) {
+      if (unknownScopeTrace) {
+        evaluations.push(makeEvaluation(hash, rule, fallback, APPLICABILITY.UNKNOWN, rule.unknownPolicy, unknownScopeTrace));
+        continue;
+      }
       const trace = makeTrace(rule.assert.predicate, TRUTH.UNKNOWN, 'selector matched no visible nodes', { state: 'absent' }, { state: 'unknown' }, []);
       evaluations.push(makeEvaluation(hash, rule, fallback, APPLICABILITY.NOT_APPLICABLE, 'not-applicable', trace));
       continue;
@@ -1265,6 +1294,10 @@ function evaluateRules({ snapshot, rules, ruleRelease = 'unversioned' }) {
           evaluations.push(makeEvaluation(hash, rule, subject, APPLICABILITY.UNKNOWN, rule.unknownPolicy, whenTrace));
           continue;
         }
+      }
+      if (unknownScopeTrace) {
+        evaluations.push(makeEvaluation(hash, rule, subject, APPLICABILITY.UNKNOWN, rule.unknownPolicy, unknownScopeTrace));
+        continue;
       }
       const trace = evaluateExpression(rule.assert, subject, snapshot);
       evaluations.push(makeEvaluation(

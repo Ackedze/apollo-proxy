@@ -139,11 +139,21 @@ rsync -a --delete \
   --exclude "macos-app" \
   --exclude "knowledge" \
   --exclude "dist" \
+  --exclude "knowledge" \
   --exclude "runtime" \
   "${PROXY_ROOT}/" \
   "${APP_BUNDLE}/Contents/Resources/embedded-proxy/"
 
 KNOWLEDGE_SEED_ROOT="${APP_BUNDLE}/Contents/Resources/knowledge-seed"
+V4_PILOT_SOURCE="${APOLLO_V4_RELEASE_ROOT:-${REPOSITORY_ROOT}/projects/Apollo-v3/apps/apollo-v4/dist/pilot-release}"
+if [[ -f "${V4_PILOT_SOURCE}/manifest.json" ]]; then
+  node -e 'require(process.argv[1]).readRelease(process.argv[2])' \
+    "${PROXY_ROOT}/src/contracts-v4/service.js" "${V4_PILOT_SOURCE}"
+  mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/component-contract-v4"
+  rsync -a --delete "${V4_PILOT_SOURCE}/" \
+    "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/component-contract-v4/"
+  echo "Embedded the local unpublished Apollo v4 contract pilot."
+fi
 node "${PROXY_ROOT}/scripts/build-knowledge-package.js" \
   --design-system-root "${DESIGN_SYSTEM_SOURCE}" \
   --ds-ai-hub-root "${DS_AI_HUB_SOURCE}" \

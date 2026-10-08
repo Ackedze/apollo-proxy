@@ -8,11 +8,18 @@ const path = require('path');
 const { spawn } = require('child_process');
 const express = require('express');
 const cors = require('cors');
+const { bindManagedProxyLifetime } = require('./src/proxy-lifecycle');
+const { resolveKnowledgeRoot, assertCompleteKnowledgeRoot } = require('./src/knowledge-root');
+const { selectedCliProvider, resolveClaudeBinary, runClaudeProcess } = require('./src/cli-agent');
+const { version: APOLLO_PROXY_VERSION } = require('./package.json');
+const { mountContractV4Routes } = require('./src/contracts-v4/service');
+const { mountGenerationV4Routes } = require('./src/generation-v4/service');
 const {
   evaluatePredicateReleaseRequest,
 } = require('./src/predicate-engine/release-service');
 const {
   createGenerationPlan,
+  inspectGenerationComponentAvailability,
 } = require('./src/generation/planner');
 const {
   buildGenerationAgentPrompt,
@@ -20,6 +27,7 @@ const {
 } = require('./src/generation/semantic-planner');
 const {
   buildGenerationContextPacket,
+  buildSemanticIndex,
   inspectSemanticIndex,
 } = require('./src/generation/semantic-index');
 
@@ -38,8 +46,10 @@ const APOLLO_AGENT_MAX_ATTEMPTS = Math.max(
 );
 let dispatcher;
 
-const CODEX_BIN = process.env.CODEX_BIN || resolveCodexBinary();
+const CODEX_BIN = resolveCodexBinary(process.env.CODEX_BIN);
 const CODEX_MODEL = process.env.CODEX_MODEL || '';
+const CLI_PROVIDER = selectedCliProvider();
+const CLI_AGENT_BIN = CLI_PROVIDER === 'claude' ? resolveClaudeBinary(process.env.CLAUDE_BIN) : CODEX_BIN;
 const CODEX_IDLE_TIMEOUT_MS = Math.max(
   Number.parseInt(
     process.env.CODEX_IDLE_TIMEOUT_MS ||
@@ -77,18 +87,18 @@ const APOLLO_CODEX_INPUT_BUDGET_CHARS = Math.max(
   ),
   APOLLO_CODEX_INPUT_WARN_CHARS + 1
 );
-const CODEX_DS_AI_HUB = path.resolve(
-  process.env.CODEX_DS_AI_HUB || process.env.DS_AI_HUB_ROOT || resolveKnowledgePath(
-    path.join(__dirname, 'knowledge', 'ds-ai-hub'),
-    path.join(__dirname, '..', '..', 'ds-ai-hub')
-  )
-);
-const CODEX_DESIGN_SYSTEM = path.resolve(
-  process.env.CODEX_DESIGN_SYSTEM || process.env.DESIGN_SYSTEM_AB_ROOT || resolveKnowledgePath(
-    path.join(__dirname, 'knowledge', 'design-system_ab'),
-    path.join(__dirname, '..', '..', 'shared', 'design-system_ab')
-  )
-);
+const CODEX_DS_AI_HUB = resolveKnowledgeRoot({
+  kind: 'ds-ai-hub',
+  configuredRoot: process.env.CODEX_DS_AI_HUB || process.env.DS_AI_HUB_ROOT,
+  bundledRoot: path.join(__dirname, 'knowledge', 'ds-ai-hub'),
+  checkoutRoot: path.join(__dirname, '..', '..', 'ds-ai-hub'),
+});
+const CODEX_DESIGN_SYSTEM = resolveKnowledgeRoot({
+  kind: 'design-system_ab',
+  configuredRoot: process.env.CODEX_DESIGN_SYSTEM || process.env.DESIGN_SYSTEM_AB_ROOT,
+  bundledRoot: path.join(__dirname, 'knowledge', 'design-system_ab'),
+  checkoutRoot: path.join(__dirname, '..', '..', 'shared', 'design-system_ab'),
+});
 const APOLLO_CODEX_SKILL_NAME = 'apollo-design-validator';
 // This is a build compatibility gate, not a user preference. Keeping it out of
 // .env prevents an app update from being pinned to an obsolete skill version by
@@ -223,20 +233,27 @@ app.use((req, res, next) => {
   return next();
 });
 
-function resolveCodexBinary() {
-  const candidates = [
+function resolveCodexBinary(configured = '') {
+  const candidates = [];
+  if (configured.includes('/')) {
+    candidates.push(configured);
+  }
+  candidates.push(
+    '/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex',
+    '/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex',
     '/Applications/ChatGPT.app/Contents/Resources/codex',
     '/opt/homebrew/bin/codex',
     '/usr/local/bin/codex',
-  ];
+  );
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) return candidate;
   }
-  return 'codex';
+  return configured && !configured.includes('/') ? configured : 'codex';
 }
 
-function resolveKnowledgePath(bundledPath, checkoutPath) {
-  return fs.existsSync(bundledPath) ? bundledPath : checkoutPath;
+function assertSelectedKnowledgeRoots() {
+  assertCompleteKnowledgeRoot(CODEX_DESIGN_SYSTEM, 'design-system_ab');
+  assertCompleteKnowledgeRoot(CODEX_DS_AI_HUB, 'ds-ai-hub');
 }
 
 function listFilesRecursively(root, directory = root) {
@@ -436,6 +453,7 @@ function inspectDsAiHubKnowledge() {
 }
 
 function inspectActiveApolloKnowledge() {
+  assertSelectedKnowledgeRoots();
   const inspected = APOLLO_CODEX_KNOWLEDGE_SOURCE === 'ds-ai-hub'
     ? inspectDsAiHubKnowledge()
     : inspectApolloContractKnowledge();
@@ -447,6 +465,7 @@ function inspectActiveApolloKnowledge() {
 }
 
 function assertCodexRuntimeReady() {
+  assertSelectedKnowledgeRoots();
   const requiredDirectories = [
     ['CODEX_WORKSPACE', CODEX_WORKSPACE],
     ['CODEX_DS_AI_HUB', CODEX_DS_AI_HUB],
@@ -466,8 +485,8 @@ function assertCodexRuntimeReady() {
       throw err;
     }
   }
-  if (path.isAbsolute(CODEX_BIN) && !fs.existsSync(CODEX_BIN)) {
-    const err = new Error(`CODEX_BIN does not exist: ${CODEX_BIN}`);
+  if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
+    const err = new Error(`${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`);
     err.status = 503;
     throw err;
   }
@@ -478,6 +497,7 @@ function assertCodexRuntimeReady() {
 }
 
 function assertGenerationRuntimeReady() {
+  assertSelectedKnowledgeRoots();
   const requiredDirectories = [
     ['CODEX_WORKSPACE', CODEX_WORKSPACE],
     ['CODEX_DS_AI_HUB', CODEX_DS_AI_HUB],
@@ -499,8 +519,8 @@ function assertGenerationRuntimeReady() {
     error.code = 'GENERATION_RUNTIME_NOT_READY';
     throw error;
   }
-  if (path.isAbsolute(CODEX_BIN) && !fs.existsSync(CODEX_BIN)) {
-    const error = new Error(`CODEX_BIN does not exist: ${CODEX_BIN}`);
+  if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
+    const error = new Error(`${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`);
     error.status = 503;
     error.code = 'GENERATION_RUNTIME_NOT_READY';
     throw error;
@@ -6253,6 +6273,12 @@ function runCodexProcess(
   telemetryContext = {},
   outputFormat = 'json'
 ) {
+  if (CLI_PROVIDER === 'claude') {
+    return runClaudeProcess({ binary: CLI_AGENT_BIN, codexArgs: args, prompt, outputPath,
+      outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs: CODEX_MAX_RUNTIME_MS,
+      onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
+      model: process.env.CLAUDE_MODEL || '', skillRoot: APOLLO_CODEX_SKILL_ROOT });
+  }
   return new Promise((resolve, reject) => {
     const workingDirectory =
       typeof telemetryContext.workingDirectory === 'string' &&
@@ -6405,7 +6431,14 @@ async function callCodexGenerationPlanner(payload) {
   );
   const outputPath = path.join(runDirectory, 'semantic-plan.json');
   const contextPath = path.join(runDirectory, 'context-packet.json');
-  const context = buildGenerationContextPacket(request, CODEX_DS_AI_HUB);
+  const semanticIndex = buildSemanticIndex(CODEX_DS_AI_HUB);
+  const technicalAvailability = inspectGenerationComponentAvailability(
+    CODEX_DESIGN_SYSTEM,
+    semanticIndex.components.map((component) => component.id),
+  );
+  const context = buildGenerationContextPacket(request, CODEX_DS_AI_HUB, {
+    technicalAvailability,
+  });
   await fsp.writeFile(contextPath, context.serialized, 'utf8');
   const args = [
     'exec',
@@ -6466,6 +6499,36 @@ async function callCodexGenerationPlanner(payload) {
   }
 }
 
+async function callCodexContractExplanation(prompt, schema) {
+  if (activeCodexRuns >= 1) {
+    const error = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
+    error.status = 429;
+    throw error;
+  }
+  if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
+    const error = new Error(`${CLI_PROVIDER} недоступен в ApolloProxyControl.`);
+    error.status = 503;
+    throw error;
+  }
+  activeCodexRuns++;
+  let directory;
+  try {
+    directory = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-contract-v4-'));
+    const output = path.join(directory, 'explanation.json'), schemaPath = path.join(directory, 'schema.json');
+    await fsp.writeFile(schemaPath, JSON.stringify(schema));
+    const args = ['exec', '--json', '--ephemeral', '--ignore-user-config', '--ignore-rules',
+      '--sandbox', 'read-only', '--skip-git-repo-check', '--cd', directory,
+      '--output-schema', schemaPath, '--output-last-message', output];
+    if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+    args.push('-');
+    return await runCodexProcess(args, prompt, output, null, 'analyzing_layout',
+      { mode: 'contract-v4-explanation', model: CODEX_MODEL || null, workingDirectory: directory });
+  } finally {
+    activeCodexRuns = Math.max(0, activeCodexRuns - 1);
+    if (directory) await fsp.rm(directory, { recursive: true, force: true });
+  }
+}
+
 async function callCodexDialogue(inputValue) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
@@ -6474,7 +6537,7 @@ async function callCodexDialogue(inputValue) {
     throw err;
   }
   if (activeCodexRuns >= 1) {
-    const err = new Error('Codex is already processing another Apollo request.');
+    const err = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     err.status = 429;
     throw err;
   }
@@ -9031,8 +9094,18 @@ app.get('/health', (req, res) => {
     ok: true,
     activeRequests: activeApiRequests,
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+    proxy: {
+      name: 'apollo-proxy',
+      version: APOLLO_PROXY_VERSION,
+    },
+    agent: {
+      provider: CLI_PROVIDER,
+      configured: Boolean(CLI_AGENT_BIN),
+      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0,
+    },
     codex: {
-      configured: Boolean(CODEX_BIN),
+      provider: CLI_PROVIDER,
+      configured: Boolean(CLI_AGENT_BIN),
       busy: activeCodexRuns > 0,
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
@@ -9040,7 +9113,8 @@ app.get('/health', (req, res) => {
       knowledge,
     },
     generation: {
-      configured: Boolean(CODEX_BIN),
+      provider: CLI_PROVIDER,
+      configured: Boolean(CLI_AGENT_BIN),
       busy: activeGenerationCodexRuns > 0,
       semanticSource: 'ds-ai-hub',
       technicalSource: 'design-system_ab',
@@ -9048,6 +9122,9 @@ app.get('/health', (req, res) => {
     },
   });
 });
+
+mountContractV4Routes(app, { explain: callCodexContractExplanation });
+mountGenerationV4Routes(app);
 
 app.post('/v1/validate/predicates', (req, res) => {
   try {
@@ -9100,6 +9177,20 @@ app.post('/v1/generation/plan', async (req, res) => {
       });
       return;
     }
+    if (outcome.status === 'blocked') {
+      console.log('[Apollo][generation] generation blocked', {
+        code: outcome.blocked.code,
+        missingCapabilities: outcome.blocked.missingCapabilities,
+        sourceCount: outcome.knowledge.sources.length,
+      });
+      res.json({
+        success: true,
+        status: 'blocked',
+        blocked: outcome.blocked,
+        knowledge: outcome.knowledge,
+      });
+      return;
+    }
     const plan = outcome;
     console.log('[Apollo][generation] plan prepared', {
       kind: plan.kind,
@@ -9108,9 +9199,15 @@ app.post('/v1/generation/plan', async (req, res) => {
       platform: plan.platform,
       componentCount: plan.knowledge.componentCount,
       warningCount: plan.warnings.length,
+      preflightCheckCount: plan.preflight.checks.length,
     });
     res.json({ success: true, status: 'ready', plan, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
   } catch (error) {
+    console.error('[Apollo][generation] planning failed', {
+      code: error.code || 'GENERATION_PLANNING_FAILED',
+      message: error.message || 'Generation planning error',
+      details: error.details || null,
+    });
     res.status(error.status || 500).json({
       success: false,
       error: error.message || 'Generation planning error',
@@ -9277,7 +9374,10 @@ function startServer() {
 }
 
 if (require.main === module) {
-  startServer();
+  const server = startServer();
+  if (process.env.APOLLO_PROXY_MANAGED === '1') {
+    bindManagedProxyLifetime(server);
+  }
 }
 
 module.exports = {
@@ -9310,6 +9410,7 @@ module.exports = {
   evaluatePredicateReleaseRequest,
   createGenerationPlan,
   callCodexGenerationPlanner,
+  callCodexContractExplanation,
   assertGenerationRuntimeReady,
   buildGenerationAgentPrompt,
   buildCodexPrompt,

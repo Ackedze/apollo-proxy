@@ -2770,8 +2770,10 @@ test('P15 form first-level BackgroundPlate siblings have a 24 px vertical gap', 
   });
   assert.equal(
     evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification,
-    'not-applicable',
+    'not-evaluable',
   );
+  notFormSnapshot.context.pageType = 'landing';
+  assert.equal(evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification, 'not-applicable');
 });
 
 function formSecondLevelActionSpacingBundle(gap = 32, actionView = 'Primary') {
@@ -2987,8 +2989,10 @@ test('P16 allows only the first TitleView Medium on a form plate', () => {
   });
   assert.equal(
     evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification,
-    'not-applicable',
+    'not-evaluable',
   );
+  notFormSnapshot.context.pageType = 'landing';
+  assert.equal(evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification, 'not-applicable');
 });
 
 function formTitleContentGapBundle(gap = 24) {
@@ -3091,8 +3095,10 @@ test('P17 measures the exact gap from TitleView Medium to first form content', (
   });
   assert.equal(
     evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification,
-    'not-applicable',
+    'not-evaluable',
   );
+  notFormSnapshot.context.pageType = 'landing';
+  assert.equal(evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification, 'not-applicable');
 });
 
 test('P18 evaluates all standard content insets against the first-level form surface', () => {
@@ -3142,8 +3148,10 @@ test('P18 evaluates all standard content insets against the first-level form sur
   });
   assert.equal(
     evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification,
-    'not-applicable',
+    'not-evaluable',
   );
+  notFormSnapshot.context.pageType = 'landing';
+  assert.equal(evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification, 'not-applicable');
 });
 
 function formEightFourLayoutBundle(gap = 24, overrides = {}) {
@@ -3300,8 +3308,10 @@ test('P19 evaluates the desktop form 8+4 grid and focuses its horizontal owner',
   });
   assert.equal(
     evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification,
-    'not-applicable',
+    'not-evaluable',
   );
+  notFormSnapshot.context.pageType = 'landing';
+  assert.equal(evaluateRules({ snapshot: notFormSnapshot, rules: [rule] }).evaluations[0].classification, 'not-applicable');
 });
 
 function realFormOwnerUnderlayBundle(actionView = 'Primary') {

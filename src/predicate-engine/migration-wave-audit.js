@@ -2,7 +2,26 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const MIGRATION_WAVE_PATH = 'JSONS/experiments/component-contract-v2/migration-wave-1.json';
+const MIGRATION_WAVE_PATH = 'experiments/migration-wave-1.json';
+
+function resolveMigrationPath(root, relativePath) {
+  if (typeof relativePath !== 'string' || !relativePath || relativePath.length > 1024
+    || path.isAbsolute(relativePath) || path.win32.isAbsolute(relativePath)
+    || relativePath.includes('\\')
+    || relativePath.split('/').some(part => !part || part === '.' || part === '..')) {
+    const error = new TypeError('Migration artifact path is invalid or escapes its root.');
+    error.code = 'MIGRATION_PATH_INVALID';
+    throw error;
+  }
+  const base = fs.realpathSync(root);
+  const actual = fs.realpathSync(path.resolve(base, relativePath));
+  if (!actual.startsWith(`${base}${path.sep}`)) {
+    const error = new TypeError('Migration artifact path is invalid or escapes its root.');
+    error.code = 'MIGRATION_PATH_INVALID';
+    throw error;
+  }
+  return actual;
+}
 
 function sha256File(filePath) {
   return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
@@ -34,7 +53,8 @@ function classifiedSourceRuleIds(policy) {
 }
 
 function auditMigrationWave(designSystemRoot) {
-  const manifestPath = path.join(designSystemRoot, MIGRATION_WAVE_PATH);
+  const manifestPath = resolveMigrationPath(designSystemRoot, MIGRATION_WAVE_PATH);
+  const experimentsRoot = path.dirname(manifestPath);
   const manifest = readJson(manifestPath);
   if (manifest.schemaVersion !== 'apollo.contract-v2-migration-wave.v1') {
     throw new TypeError('Predicate migration wave has an unsupported schemaVersion');
@@ -48,13 +68,9 @@ function auditMigrationWave(designSystemRoot) {
     entry,
   })));
   const packages = entries.map(({ role, entry }) => {
-    const sourceRoot = path.join(designSystemRoot, entry.sourcePath);
-    const rulesPath = path.join(sourceRoot, 'rules.json');
-    const contractPath = path.join(
-      designSystemRoot,
-      'JSONS/experiments/component-contract-v2',
-      entry.contractPath,
-    );
+    const sourceRoot = resolveMigrationPath(designSystemRoot, entry.sourcePath);
+    const rulesPath = resolveMigrationPath(sourceRoot, 'rules.json');
+    const contractPath = resolveMigrationPath(experimentsRoot, entry.contractPath);
     const rulesDocument = readJson(rulesPath);
     const contract = readJson(contractPath);
     const sourceRules = rulesDocument.manual?.rules || [];
@@ -97,7 +113,7 @@ function auditMigrationWave(designSystemRoot) {
       packageId: entry.packageId,
       role,
       sourcePath: rulesSourcePath,
-      contractPath: `JSONS/experiments/component-contract-v2/${entry.contractPath}`,
+      contractPath: `experiments/${entry.contractPath}`,
       sourceRuleCount: sourceRuleIds.length,
       deterministicRuleCount: entry.deterministicRules,
       agentRuleCount: entry.agentRules,

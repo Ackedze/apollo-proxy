@@ -84,6 +84,32 @@ async function buildArtifactPlan(sourceRoot, targetRoot = null) {
         bytes: stat.size,
       });
     }
+    const semanticTargetsRelativePath = path.join(
+      packagePath,
+      'semantic-targets.json'
+    );
+    if (!targetPaths.has(semanticTargetsRelativePath)) {
+      const semanticTargetsSourcePath = path.resolve(
+        sourceRoot,
+        semanticTargetsRelativePath
+      );
+      const semanticTargetsStat = await fsp
+        .stat(semanticTargetsSourcePath)
+        .catch(() => null);
+      if (semanticTargetsStat?.isFile()) {
+        targetPaths.add(semanticTargetsRelativePath);
+        plan.push({
+          packageKey: packageEntry.componentKey,
+          role: 'generationSemanticTargets',
+          relativePath: semanticTargetsRelativePath,
+          sourcePath: semanticTargetsSourcePath,
+          targetPath: targetRoot
+            ? path.join(targetRoot, semanticTargetsRelativePath)
+            : null,
+          bytes: semanticTargetsStat.size,
+        });
+      }
+    }
   }
   return { index, plan };
 }

@@ -2,24 +2,16 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
-const CONTEXT_PACKET_SCHEMA_VERSION = 'apollo.generation-context.v1';
+const CONTEXT_PACKET_SCHEMA_VERSION = 'apollo.generation-context.v3';
 const MAX_CONTEXT_PACKET_CHARS = 240000;
-const MAX_CONTEXT_DOCUMENT_CHARS = 205000;
+const MAX_CONTEXT_TECHNICAL_RESERVE_CHARS = 41000;
+const MAX_CONTEXT_DOCUMENT_CHARS =
+  MAX_CONTEXT_PACKET_CHARS - MAX_CONTEXT_TECHNICAL_RESERVE_CHARS;
 const MAX_PATTERN_CANDIDATES = 3;
 const MAX_COMPONENT_CANDIDATES = 20;
 
 const BASE_DOCUMENTS = [
-  ['AGENTS.md', 'skill'],
-  ['docs/AGENT-ROUTER.md', 'skill'],
   ['products/ab/manifest.json', 'guideline'],
-  ['skills/design-figma/SKILL.md', 'skill'],
-  ['skills/design-figma/01-cookbook/01-index.md', 'skill'],
-  ['skills/design-figma/01-cookbook/03-import-instance.md', 'component-recipe'],
-  ['skills/design-figma/01-cookbook/04-auto-layout-sizing.md', 'component-recipe'],
-  ['skills/design-figma/01-cookbook/05-structural-containers.md', 'component-recipe'],
-  ['skills/design-figma/01-cookbook/06-text.md', 'component-recipe'],
-  ['skills/design-figma/01-cookbook/07-boolean-text-props.md', 'component-recipe'],
-  ['skills/design-figma/01-cookbook/12-surfaces.md', 'token-guideline'],
 ];
 
 const STOP_WORDS = new Set([
@@ -146,6 +138,7 @@ function listFiles(directory, predicate) {
 function collectComponentDocumentPaths(componentDirectory) {
   const candidates = [
     'meta.json',
+    'generation.json',
     'cookbook.md',
     'figma/cookbook.md',
   ].map((relativePath) => path.join(componentDirectory, relativePath));
@@ -165,9 +158,78 @@ function collectComponentDocumentPaths(componentDirectory) {
     'adapter.figma.md',
     'figma/adapter.md',
   ].map((relativePath) => path.join(componentDirectory, relativePath)));
+  const documentPriority = (absolutePath) => {
+    const relativePath = path.relative(componentDirectory, absolutePath);
+    if (relativePath === 'meta.json') return 0;
+    if (relativePath === 'generation.json') return 1;
+    if (relativePath === 'instructions.md' || relativePath === 'guidelines.md') return 2;
+    if (/(?:^|\/)adapter(?:\.figma)?\.md$/.test(relativePath)) return 3;
+    if (/(?:^|\/)cookbook(?:\.md|\/01-overview\.md)$/.test(relativePath)) return 4;
+    return 5;
+  };
   return Array.from(new Set(candidates))
     .filter((absolutePath) => fs.statSync(absolutePath, { throwIfNoEntry: false })?.isFile())
-    .filter((absolutePath) => !/(?:adapter\.code|bridge|figma-keys)/i.test(absolutePath));
+    .filter((absolutePath) => !/(?:adapter\.code|bridge|figma-keys)/i.test(absolutePath))
+    .sort((left, right) =>
+      documentPriority(left) - documentPriority(right) || left.localeCompare(right, 'en')
+    );
+}
+
+function extractRequestedCount(text, nounPattern) {
+  const match = normalizeText(text).match(new RegExp(`(?:^|\\s)(\\d{1,2})\\s+(?:${nounPattern})`, 'u'));
+  return match ? Number(match[1]) : null;
+}
+
+function extractPrimaryAction(text) {
+  const patterns = [
+    /(?:ключевое|главное|основное)\s+действие[^—–:\n]*[—–:]\s*[«"']?([^»"'\n.,;]{2,80})/iu,
+    /(?:текст|название)\s+(?:главной\s+)?кнопки[^—–:\n]*[—–:]\s*[«"']?([^»"'\n.,;]{2,80})/iu,
+  ];
+  for (const pattern of patterns) {
+    const match = String(text || '').match(pattern);
+    if (match?.[1]) return match[1].trim();
+  }
+  return null;
+}
+
+function extractGenerationIntent(requestText) {
+  const normalized = normalizeText(requestText);
+  const isLanding = /(?:лендинг|landing|промо\s+страниц)/u.test(normalized);
+  const asksForForm = /(?:форм|обратн[\p{L}]*\s+связ|feedback\s+form|review\s+form)/u.test(normalized);
+  const explicitlyModal = /(?:модаль|модальн|modal|popup|попап|voc)/u.test(normalized);
+  return {
+    schemaVersion: 'apollo.generation-intent.v1',
+    kind: isLanding ? 'landing' : asksForForm ? 'form' : 'unknown',
+    platform: /(?:mobile\s+web|мобил[\p{L}]*\s+(?:веб[\p{L}]*|web))/u.test(normalized)
+      ? 'mobile-web'
+      : /(?:desktop|десктоп)/u.test(normalized) ? 'desktop' : null,
+    primaryAction: extractPrimaryAction(requestText),
+    requirements: {
+      benefits: extractRequestedCount(requestText, '(?:основ[\\p{L}]*\\s+)?преимуществ[\\p{L}]*|benefit[a-z]*'),
+      featureCards: extractRequestedCount(requestText, 'карточ[\\p{L}]*(?:\\s+с\\s+ключев[\\p{L}]+\\s+особенност[\\p{L}]*)?|feature[a-z]*'),
+      faq: /(?:част[\p{L}]*\s+вопрос|блок\s+с\s+вопрос|faq)/u.test(normalized),
+      form: asksForForm,
+      formPresentation: asksForForm ? (explicitlyModal ? 'modal' : 'inline') : null,
+    },
+  };
+}
+
+function requiredComponentIds(intent) {
+  const ids = [];
+  if (intent.kind === 'landing') {
+    ids.push('PromoMainBlock', 'CorporateContent', 'Benefits', 'PromoCard', 'FAQ');
+    if (intent.requirements.benefits) ids.push('BenefitCard');
+    if (intent.platform === 'mobile-web') ids.push('ButtonStack');
+  }
+  if (intent.requirements.form) {
+    if (intent.requirements.formPresentation === 'modal') {
+      ids.push('VOC');
+    } else {
+      if (intent.kind !== 'landing') ids.push('ContentCardWrapper');
+      ids.push('TitleView', 'Input', 'Button');
+    }
+  }
+  return Array.from(new Set(ids));
 }
 
 function patternMetadata(content, relativePath) {
@@ -193,6 +255,12 @@ function createPatternEntry(root, absolutePath) {
     identity: normalizeText(identityText),
     identityTokens: tokenize(identityText),
     contentTokens: tokenize(content),
+    generationPath: (() => {
+      const candidate = absolutePath.replace(/\.md$/i, '.generation.json');
+      return fs.statSync(candidate, { throwIfNoEntry: false })?.isFile()
+        ? path.relative(root, candidate)
+        : null;
+    })(),
   };
 }
 
@@ -342,6 +410,9 @@ function rankComponents(index, requestText, requestTokens, selectedPatterns) {
 }
 
 function sourceRoleForPath(relativePath) {
+  if (relativePath.endsWith('/generation.json') || relativePath.endsWith('.generation.json')) {
+    return 'generation-contract';
+  }
   if (relativePath.includes('/patterns/')) return 'pattern';
   if (relativePath.endsWith('meta.json') || /(?:guidelines|instructions)\.md$/.test(relativePath)) {
     return 'guideline';
@@ -383,28 +454,66 @@ function addPacketDocument(state, root, relativePath, role, required = false) {
   return true;
 }
 
-function buildGenerationContextPacket(request, dsAiHubRoot) {
+function buildGenerationContextPacket(request, dsAiHubRoot, options = {}) {
   const index = buildSemanticIndex(dsAiHubRoot);
   const dialogueText = Array.isArray(request.dialogue)
     ? request.dialogue.map((entry) => entry.text).join('\n')
     : '';
-  const requestText = `${dialogueText}\n${request.prompt}`.trim();
+  const requestText = `${request.brief || ''}\n${dialogueText}\n${request.prompt}`.trim();
   const requestTokens = tokenize(requestText, false);
   const expandedRequestTokens = tokenize(requestText, true);
+  const intent = extractGenerationIntent(requestText);
   const rankedPatterns = rankPatterns(index, requestText, expandedRequestTokens);
   const positivePatterns = rankedPatterns.filter((candidate) => candidate.score > 0);
   const candidatePatterns = positivePatterns.length ? positivePatterns : rankedPatterns;
   const primaryPatternScore = Math.max(0, candidatePatterns[0]?.score || 0);
-  const selectedPatterns = candidatePatterns
+  let selectedPatterns = candidatePatterns
     .filter((candidate, index) => index === 0 || candidate.score >= primaryPatternScore * 0.65)
     .slice(0, MAX_PATTERN_CANDIDATES)
     .map((candidate) => candidate.entry);
+  if (intent.kind === 'landing') {
+    const requiredPatternIds = ['ptrn:landing-pages.alfa-business'];
+    selectedPatterns = requiredPatternIds
+      .map((patternId) => index.patterns.find((entry) => entry.id === patternId))
+      .filter(Boolean);
+  }
   const rankedComponents = rankComponents(index, requestText, requestTokens, selectedPatterns);
-  const selectedComponents = rankedComponents
+  const requiredIds = requiredComponentIds(intent);
+  const requiredComponents = requiredIds.map((componentId) =>
+    index.components.find((entry) => entry.id === componentId)
+  ).filter(Boolean);
+  const selectedComponents = Array.from(new Map([
+    ...requiredComponents.map((entry) => [entry.id, entry]),
+    ...rankedComponents
     .filter((candidate) => candidate.score > 0)
     .slice(0, MAX_COMPONENT_CANDIDATES)
-    .map((candidate) => candidate.entry);
+    .filter((candidate) => !(
+      candidate.entry.id === 'VOC' && intent.requirements.formPresentation === 'inline'
+    ))
+    .map((candidate) => [candidate.entry.id, candidate.entry]),
+  ]).values()).slice(0, MAX_COMPONENT_CANDIDATES);
 
+  const technicalAvailability = options.technicalAvailability || {};
+  const isTechnicallyAvailable = (componentId) => {
+    const capability = technicalAvailability[componentId];
+    if (typeof capability === 'boolean') return capability;
+    return capability?.available !== false;
+  };
+  const projectedTechnicalContracts = (entry) => {
+    if (!requiredIds.includes(entry.id)) return [];
+    const capability = technicalAvailability[entry.id];
+    if (!capability || typeof capability !== 'object') return [];
+    return (capability.contracts || [])
+      .filter((contract) =>
+        !intent.platform || contract.platform === intent.platform || contract.platform === 'universal'
+      )
+      .slice(0, 4)
+      .map((contract) => ({
+        ...contract,
+        textTargets: (contract.textTargets || []).slice(0, 8),
+        slotTargets: (contract.slotTargets || []).slice(0, 4),
+      }));
+  };
   const state = { documents: [], paths: new Set(), estimatedSize: 0 };
   for (const [relativePath, role] of BASE_DOCUMENTS) {
     addPacketDocument(state, index.root, relativePath, role, true);
@@ -417,19 +526,64 @@ function buildGenerationContextPacket(request, dsAiHubRoot) {
       'pattern',
       indexPosition === 0,
     );
+    if (entry.generationPath) {
+      addPacketDocument(
+        state,
+        index.root,
+        entry.generationPath,
+        'generation-contract',
+        indexPosition === 0,
+      );
+    }
   });
 
-  const componentDocumentLists = selectedComponents.map((entry) => ({
+  const componentDocumentLists = selectedComponents
+    .filter((entry) => isTechnicallyAvailable(entry.id))
+    .map((entry) => ({
     entry,
     paths: entry.documentPaths,
-  }));
-  const maximumDepth = Math.max(0, ...componentDocumentLists.map((item) => item.paths.length));
-  for (let depth = 0; depth < maximumDepth; depth += 1) {
-    for (const item of componentDocumentLists) {
-      const relativePath = item.paths[depth];
-      if (!relativePath) continue;
-      addPacketDocument(state, index.root, relativePath, sourceRoleForPath(relativePath));
+    required: requiredIds.includes(entry.id),
+    hasSemanticTargets: projectedTechnicalContracts(entry).some((contract) =>
+      (contract.semanticTargetProfiles || []).length > 0
+    ),
+    }));
+  const requiredLists = componentDocumentLists.filter((item) => item.required);
+  const optionalLists = componentDocumentLists.filter((item) => !item.required);
+  const addComponentDocuments = (lists, required) => {
+    for (const item of lists) {
+      const orderedPaths = item.paths.slice().sort((left, right) => {
+        const priority = (relativePath) => {
+          if (relativePath.endsWith('/meta.json')) return 0;
+          if (relativePath.endsWith('/generation.json')) return 1;
+          if (/(?:instructions|guidelines)\.md$/.test(relativePath)) return 2;
+          if (/(?:^|\/)adapter(?:\.figma)?\.md$/.test(relativePath)) return 3;
+          return 4;
+        };
+        return priority(left) - priority(right) || left.localeCompare(right, 'en');
+      });
+      const hasGenerationContract = orderedPaths.some((relativePath) =>
+        relativePath.endsWith('/generation.json')
+      );
+      const documentLimit = required
+        ? hasGenerationContract || !item.hasSemanticTargets ? 3 : 2
+        : 2;
+      for (const relativePath of orderedPaths.slice(0, documentLimit)) {
+        const isRequiredDocument = required && (
+          relativePath.endsWith('/meta.json') || relativePath.endsWith('/generation.json')
+        );
+        addPacketDocument(
+          state,
+          index.root,
+          relativePath,
+          sourceRoleForPath(relativePath),
+          isRequiredDocument,
+        );
+      }
     }
+  };
+  addComponentDocuments(requiredLists, true);
+  if (intent.kind === 'unknown') {
+    addComponentDocuments(optionalLists, false);
   }
 
   const packetBase = {
@@ -440,19 +594,27 @@ function buildGenerationContextPacket(request, dsAiHubRoot) {
       semanticProjection: true,
       figmaKeysExcluded: true,
       technicalIdentifiersRedacted: true,
+      technicalCapabilityProjection: true,
+      semanticTargetProjection: true,
+      generationContractsIncluded: true,
       postGenerationVerificationExcluded: true,
     },
     retrieval: {
+      intent,
+      requiredComponentIds: requiredIds,
       queryTokens: Array.from(expandedRequestTokens).sort(),
-      patternCandidates: rankedPatterns.slice(0, MAX_PATTERN_CANDIDATES).map((candidate) => ({
-        id: candidate.entry.id,
-        path: candidate.entry.relativePath,
-        score: candidate.score,
+      patternCandidates: selectedPatterns.map((entry) => ({
+        id: entry.id,
+        path: entry.relativePath,
+        score: rankedPatterns.find((candidate) => candidate.entry.id === entry.id)?.score || 0,
       })),
-      componentCandidates: rankedComponents.slice(0, MAX_COMPONENT_CANDIDATES).map((candidate) => ({
-        id: candidate.entry.id,
-        directory: candidate.entry.relativeDirectory,
-        score: candidate.score,
+      componentCandidates: selectedComponents.map((entry) => ({
+        id: entry.id,
+        directory: entry.relativeDirectory,
+        score: rankedComponents.find((candidate) => candidate.entry.id === entry.id)?.score || 0,
+        required: requiredIds.includes(entry.id),
+        technicalAvailable: isTechnicallyAvailable(entry.id),
+        technicalContracts: projectedTechnicalContracts(entry),
       })),
     },
     documents: state.documents,
@@ -486,6 +648,7 @@ function buildGenerationContextPacket(request, dsAiHubRoot) {
       packetChars: serialized.length,
       patternIds: selectedPatterns.map((entry) => entry.id),
       componentIds: selectedComponents.map((entry) => entry.id),
+      intent,
     },
   };
 }
@@ -516,4 +679,5 @@ module.exports = {
   inspectSemanticIndex,
   normalizeText,
   tokenize,
+  extractGenerationIntent,
 };

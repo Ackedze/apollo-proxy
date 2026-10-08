@@ -274,6 +274,7 @@ function packageRecord(manifest, packageRoot, kind = 'downloaded') {
     kind,
     checksum: manifest.checksum,
     sourceCommits: manifest.sourceCommits,
+    generatedAt: manifest.generatedAt,
     activatedAt: new Date().toISOString(),
   };
 }
@@ -293,6 +294,23 @@ async function ensureStore({ storeRoot, seedRoot, engineVersion = ENGINE_VERSION
   const state = await readStoreState(storeRoot);
   const current = await validateRecord(state?.current, engineVersion);
   if (current) {
+    const seedManifest = await validatePackageDirectory(seedRoot, engineVersion);
+    const seed = packageRecord(seedManifest, seedRoot, 'seed');
+    const seedIsAtLeastAsRecent =
+      Date.parse(seed.generatedAt) >= Date.parse(current.generatedAt);
+    if (
+      seed.contentVersion !== current.contentVersion &&
+      seedIsAtLeastAsRecent
+    ) {
+      const activated = {
+        schemaVersion: STORE_SCHEMA_VERSION,
+        current: seed,
+        previous: current,
+      };
+      await writeJsonAtomic(path.join(storeRoot, 'state.json'), activated);
+      await cleanupVersions(storeRoot, activated);
+      return { state: activated, recovered: true };
+    }
     const validated = { ...state, current };
     await cleanupVersions(storeRoot, validated);
     return { state: validated, recovered: false };
@@ -445,10 +463,12 @@ function publicStatus(state, update = {}) {
       kind: current.kind,
       path: current.path,
       sourceCommits: current.sourceCommits,
+      generatedAt: current.generatedAt,
     } : null,
     previous: state?.previous ? {
       contentVersion: state.previous.contentVersion,
       kind: state.previous.kind,
+      generatedAt: state.previous.generatedAt,
     } : null,
     designSystemRoot: current ? path.join(current.path, 'data', 'design-system_ab') : null,
     dsAiHubRoot: current ? path.join(current.path, 'data', 'ds-ai-hub') : null,

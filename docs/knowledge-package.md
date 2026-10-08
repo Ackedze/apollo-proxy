@@ -52,10 +52,11 @@ Predicate/детерминированный runtime:
 Agent/chat projection:
 
 - text/JSON/YAML из `ds-ai-hub/products/ab/**`;
+- text/JSON/YAML из `ds-ai-hub/products/abm/patterns/**`;
 - text/JSON/YAML из `ds-ai-hub/core/web/components/**`;
 - корневые `README.md` и `CONTRACT.md`.
 
-Не включаются `skills`, `tools`, `evals`, registry builds, node_modules, изображения и бинарные assets. Это сохраняет используемые resolver-ом component keys/instructions/guidelines/meta и product patterns. Для будущего полнотекстового dialogue за пределами AB/core components нужен отдельный opt-in package/channel, а не раздувание Predicate release.
+Не включаются `skills`, `tools`, `evals`, registry builds, node_modules, изображения и бинарные assets. Это сохраняет используемые resolver-ом component keys/instructions/guidelines/meta и product patterns AB/ABM. Для будущего полнотекстового dialogue за пределами этой проекции нужен отдельный opt-in package/channel, а не раздувание Predicate release.
 
 ## Delivery и авторизация
 
@@ -132,6 +133,7 @@ secrets. Если позже понадобится автоматизация, 
 `ds-ai-hub`:
 
 - `products/ab/**/*.md|json|yaml|yml|txt`;
+- `products/abm/patterns/**/*.md|json|yaml|yml|txt`;
 - `core/web/components/**/*.md|json|yaml|yml|txt`;
 - `README.md`, `CONTRACT.md`.
 

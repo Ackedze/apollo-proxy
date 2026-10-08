@@ -17,9 +17,11 @@ const TEXT_DATA_EXTENSIONS = new Set(['.json', '.md', '.yaml', '.yml', '.txt']);
 const DESIGN_RUNTIME_ARTIFACT_ROLES = new Set(['rules', 'composition', 'generatedContract']);
 const DESIGN_GIT_INPUT_PATHS = [
   'JSONS/apollo',
+  'JSONS/tokens',
   ':(glob)JSONS/web/components/**/rules.json',
   ':(glob)JSONS/web/components/**/composition-contract.json',
   ':(glob)JSONS/web/components/**/contract.generated.json',
+  ':(glob)JSONS/web/components/**/semantic-targets.json',
   'apollo',
   'patterns',
   'redpolrules',
@@ -28,9 +30,13 @@ const DESIGN_GIT_INPUT_PATHS = [
   'COMPONENT_AUTHORING.md',
   ':(exclude)apollo/knowledge/channels/**',
 ];
-const HUB_GIT_INPUT_PATHS = [
+const HUB_DATA_ROOTS = [
   'products/ab',
+  'products/abm/patterns',
   'core/web/components',
+];
+const HUB_GIT_INPUT_PATHS = [
+  ...HUB_DATA_ROOTS,
   'README.md',
   'CONTRACT.md',
 ];
@@ -92,6 +98,7 @@ async function collectDesignSystemFiles(root) {
     }
   };
   await addTree('JSONS/apollo', TEXT_DATA_EXTENSIONS);
+  await addTree('JSONS/tokens', TEXT_DATA_EXTENSIONS);
   await addTree('apollo', TEXT_DATA_EXTENSIONS, (item) => !item.startsWith('knowledge/channels/'));
   await addTree('patterns', TEXT_DATA_EXTENSIONS);
   await addTree('redpolrules', TEXT_DATA_EXTENSIONS);
@@ -110,6 +117,18 @@ async function collectDesignSystemFiles(root) {
       const source = assertInside(root, path.join(root, relative));
       if (!(await fsp.stat(source).catch(() => null))?.isFile()) throw new Error(`Missing indexed artifact: ${relative}`);
       result.add(relative);
+    }
+    const semanticTargetsRelative = path.posix.join(
+      'JSONS',
+      packageEntry.packagePath,
+      'semantic-targets.json'
+    );
+    const semanticTargetsSource = assertInside(
+      root,
+      path.join(root, semanticTargetsRelative)
+    );
+    if ((await fsp.stat(semanticTargetsSource).catch(() => null))?.isFile()) {
+      result.add(semanticTargetsRelative);
     }
   }
   return [...result].sort();
@@ -131,10 +150,16 @@ function compactGeneratedContract(document) {
       figma: contract.figma ? {
         defaultVariantKey: contract.figma.defaultVariantKey || null,
         variants: {
+          properties: contract.figma.variants?.properties || {},
           variantKeys: (contract.figma.variants?.variantKeys || []).map((variant) => ({
             key: variant.key || null,
+            properties: variant.properties || {},
           })),
         },
+        anatomy: (contract.figma.anatomy || []).map((entry) => ({
+          path: entry.path || null,
+          type: entry.type || null,
+        })),
       } : null,
     })),
   };
@@ -161,7 +186,7 @@ async function rewriteDesignRuntimeProjection(sourceRoot, packageRoot) {
 
 async function collectDsAiHubFiles(root) {
   const result = new Set();
-  for (const relativeRoot of ['products/ab', 'core/web/components']) {
+  for (const relativeRoot of HUB_DATA_ROOTS) {
     const absoluteRoot = path.join(root, relativeRoot);
     if (!(await fsp.stat(absoluteRoot).catch(() => null))?.isDirectory()) continue;
     for (const relative of await walkFiles(absoluteRoot, (item) => TEXT_DATA_EXTENSIONS.has(path.extname(item).toLowerCase()))) {
@@ -246,8 +271,8 @@ async function buildKnowledgePackage(options) {
       sourceCommits: { 'design-system_ab': designCommit, 'ds-ai-hub': hubCommit },
       generatedAt,
       projection: {
-        predicate: 'design-system_ab/JSONS indexed artifacts + apollo + patterns + redpolrules',
-        agent: 'ds-ai-hub products/ab + core/web/components text data',
+        predicate: 'design-system_ab/JSONS indexed artifacts + generation semantic targets + tokens + apollo + patterns + redpolrules',
+        agent: `ds-ai-hub ${HUB_DATA_ROOTS.join(' + ')} text data`,
       },
       artifactCount: artifacts.length,
       totalBytes: artifacts.reduce((total, artifact) => total + artifact.size, 0),

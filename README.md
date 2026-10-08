@@ -1,9 +1,114 @@
 # apollo-proxy
 
+## Локальный AI-агент: Codex или Claude
+
+В miniapp откройте «О прокси…» и выберите агент. Выбор сохраняется в
+`APOLLO_CLI_PROVIDER=codex|claude`; по умолчанию остаётся Codex. Авторизация
+принадлежит официальному CLI: `codex login` или `claude auth login`.
+Miniapp проверяет статус входа и не извлекает токены аккаунта.
+
+Для Claude нужен установленный Claude Code 2.1.248+. Можно задать `CLAUDE_BIN`,
+`CLAUDE_MODEL` и, для отдельной конфигурации аккаунта, `CLAUDE_CONFIG_DIR`.
+Программа вызывает неизменённый CLI пользователя, не реализует собственный
+Claude OAuth и не использует Agent SDK с токенами подписки.
+См. [вход в Claude Code](https://code.claude.com/docs/en/authentication) и
+[условия интеграции официального CLI](https://code.claude.com/docs/en/legal-and-compliance).
+
+Агент выбирается для существующих маршрутов проверок, анализа отчётов,
+объяснения контрактов и диалога. Имена маршрутов с `codex` сохранены для
+совместимости клиентов; `/health.agent.provider` показывает выбранный CLI.
+Детерминированные движки и проверки evidence работают независимо от агента.
+
+Claude запускается в отдельной папке запроса с `--restricted`, `--safe-mode`,
+только `Read,Glob,Grep`, без сохранения сессии и без пользовательских MCP/skills.
+Apollo явно разрешает нужные knowledge roots, свой проверенный skill и
+изображения запроса. JSON Schema передаётся в CLI, а ответ проходит те же
+проверки Apollo. Неизвестный provider блокирует запуск; ошибки входа дают 401,
+отсутствующий/устаревший CLI — 503, таймаут — 504.
+
+Проверки без обращения к аккаунтам:
+`node --test test/cli-agent.test.js test/contract-v4-launcher.test.js`.
+
+## Локальный пилот Apollo v4
+
+Новые ComponentContract v2.1 обслуживаются отдельными маршрутами:
+
+- `GET /v2/contracts` — index локального pilot release.
+- `GET /v2/contracts/:id` — главный manual с фактами и авторскими dependencies (`source`), release pins.
+- `POST /v2/contracts/resolve` — уникальные пары componentKey/componentSetKey → нужные source packages с dependency closure; missing/conflicting keys видны явно. Пустой batch + releaseId проверяет неизменность release (409 при смене).
+- `POST /v2/contracts/explain` — frozen snapshot + release + auditId;
+  Proxy повторно исполняет snapshot и просит Codex объяснить тот же результат.
+
+Пакет CorporateContent r11 + Button r31 + Spinner r8 + Amount r5 + AmountStyles r10 создаётся `npm run v4:release:pilot` из главных manual в design-system_ab. Runtime profile 0.4.0 компилирует источник общим compiler Editor. Proxy сверяет source/manual/facts hashes и производный compiled cache, затем проверяет всю цепочку dependency pins и сверяет
+embedded child с отдельным пакетом, scope, revision и index hashes. По умолчанию
+используется соседний `projects/Apollo-v3/apps/apollo-v4/dist/pilot-release`;
+`APOLLO_V4_RELEASE_ROOT` задаёт иной путь. Embedded `.app` получает проверенный
+пакет при следующей сборке; в отдельном checkout его нужно передать явно.
+Отсутствие или несовместимость пакета даёт 503, изменившийся release — 409.
+Legacy knowledge не подмешивается. Это unpublished component pilot с fixed dependencies.
+
+Apollo v4 по умолчанию сканирует любое выделение и запрашивает контракты по ключам; package ID и имя вручную не выбираются. JSON-отчёт содержит отдельные component snapshots/pins и area coverage. Объяснение вызывается явно для выбранного checked instance.
+
+Новый агентский маршрут пользуется existing Codex launcher и authorization,
+но работает в отдельной temporary directory без `--add-dir` к Hub или DS.
+Snapshot не пишется в debug artifacts. При ответе проверяются exact
+rule/evaluation references; агентское объяснение не меняет deterministic verdict.
+Delegated execution и updater/rollback этих packages пока не реализованы.
+Агент получает неисполняемую проекцию: все source rules и dependency pins,
+variant facts выбранных snapshots и deterministic evaluations. Неиспользуемые
+варианты и asset catalogs исключены с явным указанием ограничений. Повторный
+аудит всегда использует полный compiled contract, а лимит prompt остаётся прежним.
+Reference bodies и baselines также опущены явно. Все нарушения/unknown сохраняют
+полные traces; остальные оценки представлены таблицей `resolvedEvaluations`,
+с точными IDs, RuleID, classification, focus и `dependencyEvidence` provenance.
+Original frozen snapshot и engine result не меняются.
+
+Проверки: сначала соберите Apollo v4, затем
+`node --test test/contract-v4.test.js test/contract-v4-launcher.test.js`.
+23 service/HTTP/projection tests и CLI launcher test прошли. CLI в тестах имитируется;
+HTTP test требует разрешённого loopback. Workspace integration tests пропускаются,
+если соседний v4 bundle не собран. Полный existing suite также запускался:
+обнаружены прежние отсутствующие knowledge/migration-wave paths и несогласованный
+ContentCardWrapper crosswalk. Они не исправлялись в рамках v4 pilot.
+
+На предыдущем профиле 0.1.0 отдельный smoke с настоящим авторизованным Codex прошёл через сервер
+собранной `.app` на синтетическом снимке. Запускается явно (использует агент):
+
+```sh
+node scripts/test-contract-v4-agent.js macos-app/dist/ApolloProxyControl.app/Contents/Resources/embedded-proxy
+```
+
+Скрипт создаёт temporary synthetic release, намеренно исключает legacy
+knowledge directories и private .env, проверяет response references и очищает
+сервер/temporary files. В `.local/v4-qa/agent-smoke.json` остаются только агрегаты.
+Реальный Figma snapshot этим smoke не подтверждается.
+
+Проверка размера проекции на 115 приватных Button archives выполняется отдельно
+без вызова Codex/Figma: `node scripts/test-contract-v4-projection.js`.
+Максимальный пакет — 842 813 символов при лимите 900 000; проверены все RuleIR,
+source policies, actual/before facts, evaluation identities/provenance и traces
+замечаний. В `.local/v4-qa/button-prompt-size.json` сохраняются только агрегаты.
+
 Локальный Node.js-прокси для Langflow, Apollo v2 Codex validator и анализа
 компактных отчётов Apollo v3.
 
 ## Настройка
+
+### Predicate Engine: применимость ComponentContract
+
+Scope `platform`, `product`, `channel`, `pageType` исполняется одинаково:
+совпадение запускает assertion, известное несовпадение даёт `not-applicable`,
+отсутствие/null/пустое значение или explicit `unknownFacts` даёт applicability
+`unknown` с `unknownPolicy` правила. Пустой массив scope означает все значения.
+Заведомо ложная другая ось/when делает AND-условие неприменимым даже при
+недостающем контексте. Неизвестные оси scope отклоняются, а не игнорируются.
+Это изменение исправляет прежнее поведение, где отсутствие Product/pageType
+считалось доказательством неприменимости правила. Потребители должны передавать
+подтверждённый контекст; нельзя заполнять его догадками ради зелёной проверки.
+
+Матрица Editor: `projects/ComponentContractEditor/docs/P0_APPLICABILITY.ru.md`.
+
+### Запуск
 
 1. Скопируйте `.env.example` в `.env`.
 2. Заполните `APOLLO_AGENT_KEY`. Можно использовать тот же ключ, что и в `langflow-proxy`.
@@ -24,7 +129,7 @@ APOLLO_AGENT_URL=https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run
 APOLLO_AGENT_KEY=
 APOLLO_AGENT_INSECURE_TLS=1
 
-CODEX_BIN=/Applications/ChatGPT.app/Contents/Resources/codex
+CODEX_BIN=/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex
 CODEX_MODEL=
 APOLLO_CODEX_REPORT_STRATEGY=packet
 APOLLO_CODEX_KNOWLEDGE_SOURCE=ds-ai-hub
@@ -49,6 +154,9 @@ data-only knowledge package. Проверка выполняется при за
 пользовательском `.env`. Архитектура, manifest, CI и recovery описаны в
 [`docs/knowledge-package.md`](docs/knowledge-package.md).
 
+В пакет знаний входят также паттерны ABM из `ds-ai-hub/products/abm/patterns/**`.
+Их изменения учитываются при определении версии пакета.
+
 Архив хранится как immutable asset GitHub Release в `Ackedze/design-system_ab`,
 а `stable.json` — в `main` того же репозитория. Владельцу достаточно иметь
 авторизованный `gh` и по запросу запускать `npm run knowledge:publish`.
@@ -58,13 +166,13 @@ data-only knowledge package. Проверка выполняется при за
 
 ## Эндпоинты
 
-- `GET /health` -> `{ ok: true, codex: { skill, knowledge }, generation: { context } }`; блок
+- `GET /health` -> `{ ok: true, proxy: { name, version }, codex: { skill, knowledge }, generation: { context } }`; блок
   `knowledge` показывает полноту contract package (`packageCount`,
   `artifactCount`, checksum), а `generation.context` — готовность semantic index,
   число проиндексированных паттернов/компонентов и лимит context packet.
 - `POST /analyze` -> `{ success, result, source }`
 - `POST /v1/validate/predicates` -> `{ success, validation: { snapshot, result } }`
-- `POST /v1/generation/plan` -> `{ success, status, plan? | clarification? }`
+- `POST /v1/generation/plan` -> `{ success, status, plan? | clarification? | blocked? }`
 - `POST /v1/validate/codex` -> `{ success, validation }`
 - `POST /v1/validate/codex/runs` -> `202 { success, run }`
 - `GET /v1/validate/codex/runs/:runId` -> `{ success, run }`
@@ -72,10 +180,11 @@ data-only knowledge package. Проверка выполняется при за
 - `GET /v1/analyze/codex/runs/:runId` -> `{ success, run }`
 
 `POST /v1/generation/plan` — независимый от проверки MVP-планировщик макетов.
-Он принимает `{ "prompt": "...", "dialogue": [...] }`. До запуска агента Proxy
+Он принимает `{ "prompt": "...", "brief": "...", "dialogue": [...], "clarificationRound": 0 }`.
+Исходный brief сохраняется отдельно и не заменяется очередным ответом. До запуска агента Proxy
 строит локальный semantic index по pattern- и component-метаданным `ds-ai-hub`,
 ранжирует кандидатов по всему диалогу и собирает ограниченный
-`apollo.generation-context.v1` packet. В packet входят обязательные router/skill
+`apollo.generation-context.v3` packet. В packet входят обязательные manifest/pattern
 документы и полные, не обрезанные semantic projections релевантных
 pattern/cookbook/adapter-файлов. Figma URL, file/component keys и node IDs в этих
 проекциях редактируются; исходный и проекционный SHA-256 сохраняются раздельно.
@@ -86,13 +195,18 @@ pattern/cookbook/adapter-файлов. Figma URL, file/component keys и node ID
 любой source path, которого не было в выданном packet. Если решение
 зависит от отсутствующих или спорных данных, endpoint отвечает
 `status: "clarification_required"`; до ответа пользователя технический план не
-строится и Figma не изменяется. Для готового semantic plan Proxy перепроверяет
+строится и Figma не изменяется. Технический тупик, пятый раунд или повтор уже
+заданного вопроса завершаются `status: "blocked"`, а не новым уточнением. Для готового semantic plan Proxy перепроверяет
 каждый source path и ruleId в `ds-ai-hub`, затем отдельно разрешает component
 keys, допустимые variants, текстовые пути и variable keys из
 `design-system_ab`. Результат — закрытый список frame/component-узлов формата
-`apollo.generation-plan.v2` с trace обоих источников и retrieval packet. В генераторе нет whitelist
-конкретных patternId: лендинг, форма и новые паттерны проходят через один
-semantic resolver. Endpoint не запускает predicate engine и не принимает
+`apollo.generation-plan.v5` с trace обоих источников, retrieval packet и preflight report.
+Общий semantic resolver остаётся универсальным; для desktop landing MVP поверх него есть
+детерминированные compiler defaults для `CorporateContent → slots.body`, PromoCard bento 3+2 и
+base-surface footer. Semantic target maps также задают state-dependent `availableWhen` и временный
+`editContext`: Proxy удаляет недоступный необязательный target до Figma, а Apollo может временно
+переключить вложенный variant для записи контента и восстановить требуемое финальное состояние.
+Endpoint не запускает predicate engine и не принимает
 клиентские правила.
 
 Меню `ApolloProxyControl` показывает установленную версию Proxy и точный UTC
@@ -392,3 +506,58 @@ REQUIRE_NOTARIZATION=1 \
 По умолчанию shareable `.app` не вшивает `services/apollo-proxy/.env`. Для старого
 внутреннего режима это можно явно включить переменной `EMBED_PROXY_ENV=1`, но
 такой архив может содержать секреты и не предназначен для раздачи дизайнерам.
+
+Apollo v4 Generation frontend использует отдельные `/v4/generation/frontend/execute`, `/cancel` и `/artifacts/:id/*` routes. Fixed DTO, server-owned accepted profile/bank, private tmp output, actual TS/Vite/Chrome checks, cancel/TTL cleanup; default profile port unavailable. Details: [Apollo frontend handoff](../../projects/Apollo-v3/apps/apollo-v4/docs/GENERATION_FRONTEND_HOST.md). Current local runtime updated only in isolated Generation service files.
+
+06.10.2026 isolated Generation service поддерживает current producer registry 1.1.0
+с полным lock/currentInputs/full five-package closure. Actual current BG request
+доходит до SOURCE_COMPILE; CC source/API Ready сохраняет Code profile/native block.
+No normative artifact; legacy release/knowledge routing не менялось.
+[Fresh consumer handoff и pins](../../projects/Apollo-v3/apps/apollo-v4/docs/GENERATION_CURRENT_INPUTS.md).
+
+## Apollo v4 static source / producer review
+
+`POST /v4/generation/static-review` accepts only version, requestId, input and
+current UI buildHash. Filesystem paths and trusted manifest/report SHA pins are
+server-owned in `src/generation-v4/static-review-config.json`. The existing
+read-only reader checks source/build closure and returns compact unaccepted
+metadata, blocked targets and Generation hash null. Missing product fields remain
+explicit; stale producer content stays historical. No prepare/execute/native/
+import/preview/writer or installed app/process lifecycle operation is called.
+
+Synthetic HTTP16/context+frontend7 and panel browser440/360 passed. Full suite:
+391 passed/7 legacy catalog/crosswalk failures, reproduced with pre-stage service;
+knowledge check passed. Installed-runtime deployment and a fully green Proxy gate
+are not claimed. [Detailed evidence](../../projects/Apollo-v3/apps/apollo-v4/docs/GENERATION_STATIC_REVIEW_ROUTE.md).
+
+### Local knowledge roots
+
+The bare Node/CLI default selects a complete local knowledge root, or the existing
+shared checkout when `knowledge/design-system_ab` is only a component projection.
+The design-system root must contain the JSONS component index and pattern catalog,
+redpol dictionary and Markdown patterns. The hub root must contain product/core
+component directories and product patterns. A component-only copy produced by
+`sync-contract-knowledge` is not a complete runtime knowledge package.
+
+Explicit `CODEX_DESIGN_SYSTEM` / `CODEX_DS_AI_HUB` (or their existing root aliases)
+retain priority, including roots supplied by the desktop current-release launcher.
+An incomplete or malformed selected root fails with `CODEX_KNOWLEDGE_INCOMPLETE`;
+it is never replaced silently or mixed with checkout sources. This structural
+check does not replace the existing managed-release inventory/hash validator.
+Migration audit reads the existing `experiments/migration-wave-1.json` and resolves
+its compiled contract entries inside `experiments`, rejecting escaping paths.
+
+
+Static-review consumer-binding preparation supports a closed additive v2
+request/result/envelope at the existing read-only route. v1 stays closed.
+Only local provider/operator context can supply `staticReviewReceiptPin` and
+`staticReviewArtifactRoots`; environment equivalents are
+`APOLLO_STATIC_REVIEW_RECEIPT_PATH`, `APOLLO_STATIC_REVIEW_RECEIPT_SHA256` and
+optional `APOLLO_STATIC_REVIEW_ARTIFACT_ROOT`. No trust anchor is read from HTTP,
+imported JSON or static-review-config. C0 selectors remain unchanged during
+stage1. Missing/invalid receipt stays unverified/rejected; a verified detached
+binding does not rewrite original producer freshness or grant generation,
+source/API/coverage/native/live/release acceptance. Config, provider/readers,
+complete source/API/dependency vectors and build pins are checked across reads.
+Final receipt creation and selector write require a separate reviewed handoff;
+no automatic repin loop or app restart is part of preparation.

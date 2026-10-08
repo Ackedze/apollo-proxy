@@ -23,6 +23,8 @@
         },
         "pageId": { "type": "string", "minLength": 1 },
         "platform": { "enum": ["desktop", "mobile-web", "ios", "android"] },
+        "product": { "type": ["string", "null"] },
+        "channel": { "type": ["string", "null"] },
         "pageType": { "type": ["string", "null"] },
         "viewportWidth": { "type": ["number", "null"], "minimum": 0 },
         "surface": { "type": ["string", "null"] },
