@@ -39,7 +39,7 @@ Apollo явно разрешает нужные knowledge roots, свой про
 - `POST /v2/contracts/explain` — frozen snapshot + release + auditId;
   Proxy повторно исполняет snapshot и просит Codex объяснить тот же результат.
 
-Пакет CorporateContent r11 + Button r31 + Spinner r8 + Amount r5 + AmountStyles r10 создаётся `npm run v4:release:pilot` из главных manual в design-system_ab. Runtime profile 0.4.0 компилирует источник общим compiler Editor. Proxy сверяет source/manual/facts hashes и производный compiled cache, затем проверяет всю цепочку dependency pins и сверяет
+Действующий исторический pilot включает CorporateContent r11 + Button r31 + Spinner r8 + Amount r5 + AmountStyles r10 и runtime profile 0.4.0. Loader также принимает authoring profiles 0.3.0 и 0.4.1: allowlist, authoring mode и revision checks согласованы. Поддержка профиля не устанавливает новый пакет и не расширяет generation mappings. Общий assembler умеет подготовить новый staging из одного accepted source list и явного accepted runtime/core; используйте прямой `node scripts/build-pilot-release.js --inputs …`, описанный в README Apollo v4. `npm run v4:release:pilot` выполняет shared build и не является изолированным updater. Proxy сверяет source/manual/facts hashes и производный compiled cache, затем проверяет всю цепочку dependency pins и сверяет
 embedded child с отдельным пакетом, scope, revision и index hashes. По умолчанию
 используется соседний `projects/Apollo-v3/apps/apollo-v4/dist/pilot-release`;
 `APOLLO_V4_RELEASE_ROOT` задаёт иной путь. Embedded `.app` получает проверенный
@@ -53,7 +53,7 @@ Apollo v4 по умолчанию сканирует любое выделени
 но работает в отдельной temporary directory без `--add-dir` к Hub или DS.
 Snapshot не пишется в debug artifacts. При ответе проверяются exact
 rule/evaluation references; агентское объяснение не меняет deterministic verdict.
-Delegated execution и updater/rollback этих packages пока не реализованы.
+Delegated execution не включён. Локальный audit installer/manifest rollback доступен через `scripts/install-pilot-release.js` в Apollo v4 только для отдельно принятого data update классаA с неизменным runtime и retained entries. Первая миграция/runtime или изменение generation pins требует отдельного согласованного окна и независимой проверки обоих readers; generic knowledge sync этот release не активирует.
 Агент получает неисполняемую проекцию: все source rules и dependency pins,
 variant facts выбранных snapshots и deterministic evaluations. Неиспользуемые
 варианты и asset catalogs исключены с явным указанием ограничений. Повторный
@@ -561,3 +561,105 @@ source/API/coverage/native/live/release acceptance. Config, provider/readers,
 complete source/API/dependency vectors and build pins are checked across reads.
 Final receipt creation and selector write require a separate reviewed handoff;
 no automatic repin loop or app restart is part of preparation.
+
+
+## Каталоги токенов и стилей для V3 / V4
+
+Выбранный immutable knowledge package служит источником каталогов. `GET /v1/style-token-catalog/inventory` возвращает `snapshotId`, `knowledge.contentVersion`, `readerCodeSha256` и идентификаторы доступных источников. `POST /v1/style-token-catalog/catalogs` принимает только `{ protocolVersion: "apollo.style-token-read.v1", snapshotId, contentVersion, sourceIds }`, где `sourceIds` содержит от 1 до 32 уникальных строк из inventory. Ответ содержит полный исходный JSON каждого каталога, исходные hash pins и `loaderMeta` для существующего загрузчика V3. Все режимы, concrete alias values, scopes и поля PAINT / TEXT / EFFECT сохраняются; matching выполняют существующие helpers потребителя.
+
+Новый parser ограничивает эти POST-запросы и `/v1/style-token-catalog/query`, `/v2/resources/display-names/resolve` до 65 536 байт, включая chunked whitespace. Полный ответ каталогов ограничен 8 MiB. Disconnect отменяет чтение; частичные ответы не возвращаются. Ошибки: 400 — некорректный JSON / типы / лишние поля, 404 — неизвестный источник, 409 — устаревший пакет / lease, 413 — превышение лимита, 503 — источник отсутствует в пакете. После смены пакета следует перезапустить Proxy и получить новый inventory. Runtime не читает каталоги из незакреплённого checkout.
+
+`GET /v2/resources/display-names` и `POST /v2/resources/display-names/resolve` возвращают имена по точному key. Для одного EFFECT key с несколькими экспортированными строками и одинаковыми name / group возвращается `duplicateState: "same-label-export-records"`; различающиеся имена и конфликтующие token records остаются ambiguous. Эти read API не разрешают native mutation и не меняют существующие selected-key guards потребителя.
+
+Обычная сборка knowledge включает `JSONS/styles/*.json`. Для локального добавления ровно 9 каталогов стилей к существующему пакету builder принимает `--base-package <immutable-package-root>` вместе с `--directory-only`, `--design-system-root`, `--ds-ai-hub-root` и `--output`. Он проверяет 23 token catalogs, 9 style catalogs и reference manifest против source commit базового пакета; не включает другие изменённые файлы checkout. Неизменённые данные переиспользуются через hardlinks, generated provenance создаётся отдельно. Результат валидируется существующим package validator; этот режим не создаёт архив или descriptor и не публикует пакет.
+
+
+### Apollo V4: планирование по текущим контрактам
+
+Планировщик передаёт `TARGET_CONTEXT` и `CONTRACT_CONTEXT` по одному разу.
+Для generic Figma mapping используется полная authoring-проекция
+`figmaMappingRecords`; физические native targets остаются в пакете исполнения.
+Нормы и доступные semantic/typed ports не обрезаются. Итоговый prompt проверяется
+до запуска CLI: свыше 900 000 символов возвращается `PROMPT_CONTEXT_LIMIT`,
+а не общий `CODEX_PROCESS_FAILED` после отказа процесса.
+
+`POST /v4/generation/plan` принимает только версионированный запрос с описанием,
+платформой и viewport. Сервер читает current-contract-packages через текущий
+producer, затем вызывает настроенный read-only CLI агент с authoring manuals.
+Ответ — Draft ScreenSpec с hashes использованных входов; создание targets не
+запускается. Неизвестные mappings/порты, stale inputs и некорректная схема
+отклоняются. Клиент не задаёт пути, source, readiness или результаты проверок.
+Новый Draft использует ScreenSpec v2: у статичных owned items явно задан
+`behavior: "none"`, технические ограничения находятся в `capabilityGaps`,
+продуктовые вопросы — в `unresolved`. V1 продолжает приниматься с обязательным
+объявленным `eventId` у каждого owned item. Envelope запроса и ответа остаётся v1;
+ни одна версия Draft не разрешает target execution.
+# Native generation callback budget
+
+Planning and native worker CLI requests share a 900 000 character pre-launch
+budget. The worker counts its profile prefix as part of that budget. Its model
+view keeps complete manual bodies once and retains RuleID/source references,
+semantic bindings, typed ports, physical targets, skills and the latest native
+observation. Immutable provider packets and broker guards remain complete.
+Identical rule/manual copies are referenced rather than truncated; differing
+source data is preserved. Excess input returns `AGENT_CONTEXT_LIMIT` before
+spawn. Failed worker processes preserve a private `*.failure.json` receipt with
+bounded stderr, error events, exit code, prompt sizes/hashes and trace ID. Public
+diagnostics contain the code, sizes and trace ID, without stderr or source text.
+
+Figma model steps may request up to 24 low-level operations. The proxy forwards
+them in ordered callbacks of at most four operations, with a fresh sequence and
+nonce for each receipt. This prevents earlier work in a large step from consuming
+the broker's ten-second callback budget. It adds no model turns and preserves the
+192-operation/run and existing callback, cancellation and cleanup limits.
+
+Every full native receipt remains in eval and postcondition checks. The next
+model prompt retains the latest complete tree/image and explicitly marked
+summaries of older receipts, including every original evidence hash. Summary
+hashes are references to stored receipts and do not grant native authority.
+
+Contract/planning CLI failures save `process-error.json` through the existing
+private Codex debug recorder before the temporary workspace is removed. This
+contains the error code, message and existing bounded process details, without
+the input prompt.
+
+
+Native eval events belong to the model attempt that requested their operations;
+callback sequence/callId remain separate in each original receipt. Invalid eval
+event types or attempt links preserve the first `recording-failure.json` with
+run, event type, native call and expected/actual values. The same bounded
+diagnostic appears in the native run gaps under assembly details.
+
+
+Ask (`POST /analyze`, source=codex) читает базу знаний, установленную в Proxy. Пользовательскому плагину не требуются CODEX_WORKSPACE, checkout дизайн-системы, validator skill или audit schema. Каждый запрос CLI выполняется в отдельной временной директории Proxy с read-only доступом к выбранной базе; директория удаляется после завершения. Проверки пакета знаний и CLI сохраняются; legacy audit/generation readiness не меняется.
+
+### Идентификаторы сбоев генерации
+
+Планировщик, worker CLI, native broker и журнал используют общий публичный формат
+`apollo.generation-failure.v1`: канонический модуль `generation-failure.js` Apollo V4
+и его побайтово одинаковая локальная поставка `failure-diagnostic.js` в proxy.
+Proxy загружает только локальную поставку и не требует checkout автора. `code` —
+постоянный идентификатор типа (`AGENT_CONTEXT_LIMIT`, `FIGMA_PORT_UNAVAILABLE`
+и т. п.); `errorId` — уникальный случай. При передаче ошибки этот ID сохраняется.
+Коды определяются в местах отказа; отдельные коды для каждого компонента не нужны.
+
+Контекст: `phase`, `stage`, `requestId` либо `runId`, `revision`, `specHash`,
+`sourceHash`, `modelStep`, `callId`, `nativeSequence`, `operationIndex` (с нуля),
+`operation`, `handle`, `nodeId`, `rootNodeId`, `mappingId`, `port`, `traceId`.
+Неизвестные значения — `null`; `nodeStatus=unresolved` означает, что физический
+узел не установлен. Root ID или родитель не подставляются вместо неисправного
+узла. Отказ CLI до native-вызова не свидетельствует об ошибке Figma-компонента.
+
+Публичный контекст содержит ограниченные идентификаторы и числовые индексы.
+stderr, исходные значения и полные traces остаются в приватных evidence. По
+`traceId` находится `<traceId>.failure.json`; по `runId` — журнал `run-evals`,
+где `model-error.diagnostic` сохраняет тот же `errorId`. Native gap передаёт JSON
+в существующем поле `message`, без ослабления закрытой схемы наблюдения.
+Журнал сохраняет первую ошибку записи в `recording-failure.json` вместе с
+ожидаемыми и фактическими значениями. Старые записи без новых ID не переписываются.
+
+### Figma generation context
+
+The model view scopes generic native profiles to component mappings in the frozen ScreenSpec, keeping every choice/port for those mappings, dependency definitions and complete contract manuals. Immutable broker packets are unchanged. Repeated observation/postcondition checks reference exact entries in the per-prompt CHECKS table; original statuses and full receipts remain stored. Text-only CLI prompts carry PNG metadata instead of base64 bytes and cannot treat metadata as a visual check. The final CLI input still has the unchanged 900000-character admission limit.
+
+Generation failure diagnostics retain compound native root/node IDs using the same bounded native-ID grammar as the Figma protocol. Other public correlation tokens retain their stricter format. The local failure-diagnostic.js remains byte-identical to the canonical Apollo generation-failure module.

@@ -18,6 +18,8 @@ const DESIGN_RUNTIME_ARTIFACT_ROLES = new Set(['rules', 'composition', 'generate
 const DESIGN_GIT_INPUT_PATHS = [
   'JSONS/apollo',
   'JSONS/tokens',
+  'JSONS/styles',
+  'JSONS/referenceSourcesMVP.json',
   ':(glob)JSONS/web/components/**/rules.json',
   ':(glob)JSONS/web/components/**/composition-contract.json',
   ':(glob)JSONS/web/components/**/contract.generated.json',
@@ -99,6 +101,7 @@ async function collectDesignSystemFiles(root) {
   };
   await addTree('JSONS/apollo', TEXT_DATA_EXTENSIONS);
   await addTree('JSONS/tokens', TEXT_DATA_EXTENSIONS);
+  await addTree('JSONS/styles', new Set(['.json']));
   await addTree('apollo', TEXT_DATA_EXTENSIONS, (item) => !item.startsWith('knowledge/channels/'));
   await addTree('patterns', TEXT_DATA_EXTENSIONS);
   await addTree('redpolrules', TEXT_DATA_EXTENSIONS);
@@ -241,6 +244,7 @@ function sourceDate(options, designRoot, hubRoot, designCommit, hubCommit) {
 }
 
 async function buildKnowledgePackage(options) {
+  if (options['base-package']) return extendPackageWithCatalogs(options);
   const designRoot = path.resolve(options['design-system-root']);
   const hubRoot = path.resolve(options['ds-ai-hub-root']);
   const outputRoot = path.resolve(options.output);
@@ -260,6 +264,7 @@ async function buildKnowledgePackage(options) {
     await copyProjection(designRoot, await collectDesignSystemFiles(designRoot), packageRoot, 'design-system_ab');
     await rewriteDesignRuntimeProjection(designRoot, packageRoot);
     await copyProjection(hubRoot, await collectDsAiHubFiles(hubRoot), packageRoot, 'ds-ai-hub');
+    await writeCatalogProvenance(designRoot, packageRoot, designCommit);
     const artifacts = await artifactManifest(packageRoot);
     const checksum = manifestChecksum(artifacts);
     const contentVersion = options['content-version'] || `ds-${designCommit.slice(0, 12)}.hub-${hubCommit.slice(0, 12)}.${checksum.value.slice(0, 12)}`;
@@ -271,7 +276,7 @@ async function buildKnowledgePackage(options) {
       sourceCommits: { 'design-system_ab': designCommit, 'ds-ai-hub': hubCommit },
       generatedAt,
       projection: {
-        predicate: 'design-system_ab/JSONS indexed artifacts + generation semantic targets + tokens + apollo + patterns + redpolrules',
+        predicate: 'design-system_ab/JSONS indexed artifacts + generation semantic targets + tokens + styles + apollo + patterns + redpolrules',
         agent: `ds-ai-hub ${HUB_DATA_ROOTS.join(' + ')} text data`,
       },
       artifactCount: artifacts.length,
@@ -328,6 +333,110 @@ async function buildKnowledgePackage(options) {
   }
 }
 
+// A local catalog extension reuses immutable base bytes; it never packages a dirty authoring tree.
+async function extendPackageWithCatalogs(options) {
+  if (!options.directoryOnly) throw new Error('--base-package requires --directory-only; local extension cannot publish.');
+  const baseRoot = path.resolve(options['base-package']);
+  const designRoot = path.resolve(options['design-system-root']);
+  const target = path.resolve(options.output, 'package');
+  if (target === baseRoot || target.startsWith(baseRoot + path.sep)) throw new Error('Local output must not modify the base package.');
+  const base = await validatePackageDirectory(baseRoot, options.minEngine || ENGINE_VERSION);
+  const styles = (await walkFiles(path.join(designRoot, 'JSONS/styles'), p => p.endsWith('.json')))
+    .map(p => 'JSONS/styles/' + p);
+  if (styles.length !== 9) throw new Error('Local V3 extension requires exactly the nine canonical style catalogs.');
+  const sourceCommit = base.sourceCommits['design-system_ab'];
+  const referencePath = 'JSONS/referenceSourcesMVP.json';
+  const referenceBytes = await fsp.readFile(path.join(designRoot,referencePath));
+  const referenceTracked = spawnSync('git',['-C',designRoot,'show',sourceCommit+':'+referencePath]);
+  if(referenceTracked.status!==0 || !referenceTracked.stdout.equals(referenceBytes)) throw new Error('Reference manifest does not match the pinned base source commit.');
+  const catalogPaths = [...base.artifacts.filter(a => a.path.startsWith('data/design-system_ab/JSONS/tokens/'))
+    .map(a => a.path.slice('data/design-system_ab/'.length)), ...styles].sort();
+  if (catalogPaths.filter(p => p.startsWith('JSONS/tokens/')).length !== 23) throw new Error('Local V3 extension requires 23 token catalogs.');
+  const sourcePins = [];
+  for (const relative of catalogPaths) {
+    const source = assertInside(designRoot, path.join(designRoot, relative));
+    const bytes = await fsp.readFile(source);
+    const tracked = spawnSync('git', ['-C', designRoot, 'show', sourceCommit + ':' + relative]);
+    if (tracked.status !== 0 || !tracked.stdout.equals(bytes)) throw new Error('Catalog does not match the pinned base source commit: ' + relative);
+    const digest = crypto.createHash('sha256').update(bytes).digest('hex');
+    const artifact = base.artifacts.find(a => a.path === 'data/design-system_ab/' + relative);
+    if (artifact && (artifact.sha256 !== digest || artifact.size !== bytes.length)) throw new Error('Catalog differs from base package: ' + relative);
+    const document = JSON.parse(bytes);
+    const kind = relative.startsWith('JSONS/tokens/') ? 'tokens' : 'styles';
+    if (!Array.isArray(kind === 'tokens' ? document.collections : document.styles)) throw new Error('Invalid catalog: ' + relative);
+    sourcePins.push({sourceId: 'design-system_ab/' + relative, kind, sourceCommit,
+      sourcePath: relative, sha256: digest, size: bytes.length});
+  }
+  await fsp.mkdir(path.dirname(target), {recursive:true});
+  await fsp.mkdir(target);
+  try {
+    for (const artifact of base.artifacts) {
+      // Generated provenance is recreated; never share its inode with immutable input.
+      if (artifact.path === 'data/design-system_ab/apollo/style-token-catalog-provenance.json') continue;
+      const destination = path.join(target, artifact.path);
+      await fsp.mkdir(path.dirname(destination), {recursive:true});
+      await fsp.link(path.join(baseRoot, artifact.path), destination);
+    }
+    for (const relative of styles) {
+      const destination = path.join(target, 'data/design-system_ab', relative);
+      await fsp.mkdir(path.dirname(destination), {recursive:true});
+      if (base.artifacts.some(a => a.path === 'data/design-system_ab/' + relative)) continue;
+      await fsp.copyFile(path.join(designRoot, relative), destination);
+    }
+    await writeCatalogProvenance(designRoot, target, sourceCommit);
+    for(const pin of sourcePins){
+      const packaged=path.join(target,'data/design-system_ab',pin.sourcePath);
+      if((await fsp.stat(packaged)).size!==pin.size || await sha256File(packaged)!==pin.sha256)throw new Error('Source changed during local catalog packaging: '+pin.sourcePath);
+    }
+    const provenance=JSON.parse(await fsp.readFile(path.join(target,'data/design-system_ab/apollo/style-token-catalog-provenance.json'),'utf8'));
+    if(provenance.referenceManifest.sha256!==crypto.createHash('sha256').update(referenceBytes).digest('hex'))throw new Error('Reference manifest changed during local catalog packaging.');
+    const artifacts = await artifactManifest(target), checksum = manifestChecksum(artifacts);
+    const manifest = checksum.value===base.checksum.value ? base : Object.assign({}, base, {
+      contentVersion: `ds-${sourceCommit.slice(0,12)}.hub-${base.sourceCommits['ds-ai-hub'].slice(0,12)}.${checksum.value.slice(0,12)}`,
+      projection: Object.assign({}, base.projection, {catalogs: {
+        classification: 'PINNED_LOCAL_V3_CATALOG_EXTENSION', baseManifestSha256: await sha256File(path.join(baseRoot,'manifest.json')),
+        tokenCatalogs:23, styleCatalogs:9, sourcePins,
+      }}),
+      artifacts, artifactCount:artifacts.length, totalBytes:artifacts.reduce((n,a)=>n+a.size,0), checksum,
+    });
+    await fsp.writeFile(path.join(target,'manifest.json'), manifest===base
+      ? await fsp.readFile(path.join(baseRoot,'manifest.json')) : JSON.stringify(manifest,null,2)+'\n');
+    const metadata = JSON.parse(await fsp.readFile(path.join(baseRoot,'package.json'),'utf8'));
+    metadata.version = '0.0.0-' + checksum.value.slice(0,12);
+    await fsp.writeFile(path.join(target,'package.json'), JSON.stringify(metadata,null,2)+'\n');
+    await validatePackageDirectory(target, options.minEngine || ENGINE_VERSION);
+    return {manifest, packageRoot:target, tarball:null, descriptor:null};
+  } catch (error) {
+    await fsp.rm(target,{recursive:true,force:true});
+    throw error;
+  }
+}
+
+async function writeCatalogProvenance(designRoot,packageRoot,sourceCommit){
+  const referencePath=path.join(designRoot,'JSONS/referenceSourcesMVP.json');
+  if(!(await fsp.stat(referencePath).catch(()=>null))?.isFile())return;
+  const referenceBytes=await fsp.readFile(referencePath);
+  const reference=JSON.parse(referenceBytes);
+  const entries=[...(reference.catalogs||[]),...(reference.libraries||[]).flatMap(l=>l.catalogs||[])];
+  const selected=entries.filter(e=>typeof e.path==='string' && /^(tokens|styles)\/[^/]+\.json$/.test(e.path));
+  const seen=new Set(),sourcePins=[];
+  for(const entry of selected){
+    const sourceId='design-system_ab/JSONS/'+entry.path;
+    if(seen.has(sourceId))throw new Error('Duplicate catalog in reference manifest: '+sourceId);seen.add(sourceId);
+    const packagedPath='data/'+sourceId;
+    const bytes=await fsp.readFile(path.join(packageRoot,packagedPath));
+    sourcePins.push({sourceId,kind:entry.path.startsWith('tokens/')?'tokens':'styles',deliveryFileName:entry.fileName,
+      sourceCommit,packagedPath,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),size:bytes.length});
+  }
+  if(sourcePins.filter(s=>s.kind==='tokens').length!==23 || sourcePins.filter(s=>s.kind==='styles').length!==9)throw new Error('Reference manifest must provide23 token and9 style catalogs.');
+  const file=path.join(packageRoot,'data/design-system_ab/apollo/style-token-catalog-provenance.json');
+  await fsp.mkdir(path.dirname(file),{recursive:true});
+  await fsp.rm(file,{force:true});
+  await fsp.writeFile(file,JSON.stringify({schemaVersion:'apollo.catalog-provenance.v1',sourceCommit,
+    referenceManifest:{path:'JSONS/referenceSourcesMVP.json',size:referenceBytes.length,sha256:crypto.createHash('sha256').update(referenceBytes).digest('hex')},
+    sourceOrder:sourcePins.map(s=>s.sourceId),sourcePins},null,2)+'\n');
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   for (const required of ['design-system-root', 'ds-ai-hub-root', 'output']) {
@@ -352,6 +461,7 @@ if (require.main === module) {
 module.exports = {
   artifactManifest,
   buildKnowledgePackage,
+  extendPackageWithCatalogs,
   collectDesignSystemFiles,
   collectDsAiHubFiles,
   compactGeneratedContract,

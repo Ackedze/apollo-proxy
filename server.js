@@ -14,6 +14,7 @@ const { selectedCliProvider, resolveClaudeBinary, runClaudeProcess } = require('
 const { version: APOLLO_PROXY_VERSION } = require('./package.json');
 const { mountContractV4Routes } = require('./src/contracts-v4/service');
 const { mountGenerationV4Routes } = require('./src/generation-v4/service');
+const { mountStyleTokenCatalogRoutes, installStyleTokenCatalogParser } = require('./src/style-token-catalog/service');
 const {
   evaluatePredicateReleaseRequest,
 } = require('./src/predicate-engine/release-service');
@@ -217,6 +218,7 @@ if (APOLLO_AGENT_INSECURE_TLS) {
 
 const app = express();
 app.use(cors());
+installStyleTokenCatalogParser(app);
 app.use(express.json({ limit: '30mb', strict: false }));
 let activeApiRequests = 0;
 app.use((req, res, next) => {
@@ -6523,6 +6525,12 @@ async function callCodexContractExplanation(prompt, schema) {
     args.push('-');
     return await runCodexProcess(args, prompt, output, null, 'analyzing_layout',
       { mode: 'contract-v4-explanation', model: CODEX_MODEL || null, workingDirectory: directory });
+  } catch (error) {
+    if (directory) await writeCodexDebugArtifact(path.basename(directory), 'process-error.json', {
+      mode: 'contract-v4-explanation', code: error.code || null, status: error.status || null,
+      message: error.message || String(error), details: error.details || null,
+    });
+    throw error;
   } finally {
     activeCodexRuns = Math.max(0, activeCodexRuns - 1);
     if (directory) await fsp.rm(directory, { recursive: true, force: true });
@@ -6542,7 +6550,14 @@ async function callCodexDialogue(inputValue) {
     throw err;
   }
 
-  assertCodexRuntimeReady();
+  // Dialogue reads Proxy-owned knowledge in its disposable request directory.
+  // Validator workspace, skills and output schemas are not used by this route.
+  inspectActiveApolloKnowledge();
+  if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
+    const error = new Error(`${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`);
+    error.status = 503;
+    throw error;
+  }
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
@@ -9124,7 +9139,21 @@ app.get('/health', (req, res) => {
 });
 
 mountContractV4Routes(app, { explain: callCodexContractExplanation });
-mountGenerationV4Routes(app);
+mountGenerationV4Routes(app, { plan: callCodexContractExplanation, promptTargetConfigFile: process.env.APOLLO_AGENT_MVP_CONFIG, promptNativeConfigFile: process.env.APOLLO_AGENT_FIGMA_CONFIG });
+require('./src/generation-v4/agent-runtime').mountConfiguredAgentRoutes(app, {
+  configFile: process.env.APOLLO_AGENT_MVP_CONFIG,
+  providerFactory: config => require('./src/generation-v4/service').loadProvider({ apolloRoot: config.apolloRoot }),
+  provider: CLI_PROVIDER, binary: CLI_AGENT_BIN, model: CODEX_MODEL,
+  environment: buildCodexEnvironment(),
+  evalRoot: process.env.APOLLO_AGENT_EVAL_ROOT || null,
+});
+require('./src/generation-v4/agent-figma-runtime').mountConfiguredAgentFigmaHostRoutes(app, {
+  configFile: process.env.APOLLO_AGENT_FIGMA_CONFIG,
+  providerFactory: config => require('./src/generation-v4/service').loadProvider({ apolloRoot: config.apolloRoot }),
+  provider: CLI_PROVIDER, binary: CLI_AGENT_BIN, model: CODEX_MODEL,
+  environment: buildCodexEnvironment(),
+});
+mountStyleTokenCatalogRoutes(app, { designSystemRoot: CODEX_DESIGN_SYSTEM, knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE });
 
 app.post('/v1/validate/predicates', (req, res) => {
   try {

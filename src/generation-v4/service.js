@@ -17,7 +17,8 @@ function loadProvider(options={}) {
     'packages/adapter-frontend/dist/index.cjs','packages/adapter-frontend/host/frontend-host.cjs','packages/adapter-frontend/host/frontend-toolchain.cjs','packages/adapter-frontend/host/frontend-render.cjs','packages/adapter-frontend/host/frontend-browser.cjs',
     'packages/generation-core/dist/index.cjs','packages/component-contract-core/dist/core.cjs',
     'apps/apollo-v4/scripts/generation-code-connect-inputs.js','apps/apollo-v4/scripts/generation-package-inputs.js',
-    'apps/apollo-v4/scripts/generation-current-producer.js','apps/apollo-v4/scripts/generation-representation-evidence.js']) {
+    'apps/apollo-v4/scripts/generation-current-producer.js','apps/apollo-v4/scripts/generation-representation-evidence.js',
+    'apps/apollo-v4/scripts/generation-prompt-inputs.js']) {
     const absolute=path.join(apollo,file); if(fs.existsSync(absolute)) delete require.cache[require.resolve(absolute)];
   }
   // Resolve from the configured checkout, not from any prompt/request field.
@@ -26,11 +27,15 @@ function loadProvider(options={}) {
   const {createCodeConnectReader} = require(path.join(apollo,'apps/apollo-v4/scripts/generation-code-connect-inputs.js'));
   const adapter=require(path.join(apollo,'packages/adapter-frontend/dist/index.cjs'));
   const {createFrontendHost}=require(path.join(apollo,'packages/adapter-frontend/host/frontend-host.cjs'));
+  const {createPromptContractReader}=require(path.join(apollo,'apps/apollo-v4/scripts/generation-prompt-inputs.js'));
+  const core=require(path.join(apollo,'packages/component-contract-core/dist/core.cjs'));
   return {apolloRoot:apollo,repo,planning,adapter,createFrontendHost,hash:runtime.contractHash,validate:planning.validateScreenSpec,
+    readPromptContext:createPromptContractReader({apolloRoot:apollo,repo,catalog,workspaceRoot:workspace,hash:runtime.contractHash,runtime,readZip:core.readZip}),
     readContext:createCodeConnectReader({repo,catalog,workspaceRoot:workspace,hash:runtime.contractHash})};
 }
 function mountGenerationV4Routes(app, options={}) {
   require('./static-review-service').mountStaticReviewRoutes(app,options);
+  require('./prompt-service').mountPromptRoutes(app,options,loadProvider);
   const frontend=require('./frontend-service').mountFrontendRoutes(app,options,loadProvider);
   let active = false;
   app.post('/v4/generation/context', async (req,res) => {

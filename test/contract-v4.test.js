@@ -6,17 +6,15 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const express = require('express');
 const service = require('../src/contracts-v4/service');
-const runtimePath = path.resolve(__dirname, '../../../projects/Apollo-v3/apps/apollo-v4/dist/runtime.cjs');
-const available = fs.existsSync(runtimePath);
+const { runtimePath } = require('./fixtures/supported-contract-v4');
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const stable = value => Array.isArray(value) ? `[${value.map(stable).join(',')}]` : value && typeof value === 'object'
   ? `{${Object.keys(value).sort().map(key => `${JSON.stringify(key)}:${stable(value[key])}`).join(',')}}` : JSON.stringify(value);
 
 function fixture(t, dependency = false) {
-  const { contract, snapshot } = require('../../../projects/Apollo-v3/apps/apollo-v4/tests/fixtures');
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-contract-v4-test-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
-  const sources = require('../../../projects/Apollo-v3/apps/apollo-v4/tests/authoring-fixtures');
+  const sources = require('./fixtures/supported-contract-v4');
   const nested = dependency ? sources.nested() : null;
   const source = nested ? nested.source : sources.source(), api = require(runtimePath);
   const authored = api.loadAuthoringSource(source), document = authored.contract;
@@ -50,7 +48,7 @@ test('missing pilot is unavailable and cannot fall back to legacy knowledge', t 
   assert.throws(() => service.readRelease(root), error => error.code === 'CONTRACT_V4_NOT_INSTALLED');
 });
 
-test('frozen packet is recomputed by the same runtime, without accepting a caller verdict', { skip: !available }, t => {
+test('frozen packet is recomputed by the same runtime, without accepting a caller verdict', t => {
   const f = fixture(t); f.body.result = { engine: { evaluations: [{ classification: 'compliant' }] } };
   f.body.snapshot.nodes[0].appearance.opacity = .2;
   const packet = service.buildExplanationPacket(f.body, f.root);
@@ -72,10 +70,10 @@ for (const [label, mutate, expected] of [
   ['authoring identity', f => { f.entry.sourceHash = 'd'.repeat(64); f.save(); }, /source checksum/],
   ['compiled cache', f => fs.appendFileSync(path.join(f.root, 'contract-cache.json'), ' '), /cache mismatch/],
 ]) {
-  test(`corrupt ${label} fails closed`, { skip: !available }, t => { const f = fixture(t); mutate(f); assert.throws(() => service.readRelease(f.root), expected); });
+  test(`corrupt ${label} fails closed`, t => { const f = fixture(t); mutate(f); assert.throws(() => service.readRelease(f.root), expected); });
 }
 
-test('stale release, foreign component and forged snapshot hash never reach Codex', { skip: !available }, t => {
+test('stale release, foreign component and forged snapshot hash never reach Codex', t => {
   const f = fixture(t), clone = value => JSON.parse(JSON.stringify(value));
   const stale = clone(f.body); stale.release.id = 'c'.repeat(64); assert.throws(() => service.buildExplanationPacket(stale, f.root), error => error.status === 409);
   const foreign = clone(f.body); foreign.snapshot.source.componentKey = 'foreign'; assert.throws(() => service.buildExplanationPacket(foreign, f.root), /not covered/);
@@ -83,7 +81,7 @@ test('stale release, foreign component and forged snapshot hash never reach Code
   const source = clone(f.body); source.release.sourceHash = 'c'.repeat(64); assert.throws(() => service.buildExplanationPacket(source, f.root), error => error.status === 409);
 });
 
-test('agent references must match deterministic evaluation and RuleID', { skip: !available }, t => {
+test('agent references must match deterministic evaluation and RuleID', t => {
   const f = fixture(t), packet = service.buildExplanationPacket(f.body, f.root), evaluation = packet.deterministicResult.engine.evaluations[0];
   const valid = { summary: 'Проверено', findings: [{ evaluationId: evaluation.evaluationId, ruleId: evaluation.ruleId, explanation: 'Значение соответствует требованию.' }] };
   assert.equal(service.validateExplanation(valid, packet), valid);
@@ -94,7 +92,7 @@ test('agent references must match deterministic evaluation and RuleID', { skip: 
   ]) assert.throws(() => service.validateExplanation(invalid, packet), error => error.status === 502);
 });
 
-test('HTTP pilot load and explanation preserve release pins and validated references', { skip: !available }, async t => {
+test('HTTP pilot load and explanation preserve release pins and validated references', async t => {
   const f = fixture(t), app = express(); app.use(express.json());
   let calls = 0;
   service.mountContractV4Routes(app, { releaseRoot: f.root, explain: async prompt => {
@@ -124,10 +122,10 @@ test('HTTP pilot load and explanation preserve release pins and validated refere
   assert.equal(stale.status, 409); assert.equal(calls, 1);
 });
 
-test('proxy recomputes child violations and checks their own RuleID and occurrence evidence', { skip: !available }, t => {
+test('proxy recomputes child violations and checks their own RuleID and occurrence evidence', t => {
   const f = fixture(t, true);
   f.body.snapshot.nodes.find(n => n.id === 'left-child').appearance.opacity = .3;
-  require('../../../projects/Apollo-v3/apps/apollo-v4/tests/dependency-fixtures').syncCapture(f.body.snapshot, 'left');
+  require('./fixtures/supported-contract-v4').syncCapture(f.body.snapshot, 'left');
   const packet = service.buildExplanationPacket(f.body, f.root);
   const violation = packet.deterministicResult.engine.evaluations.find(e => e.dependency && e.classification === 'violation');
   assert.equal(violation.ruleId, 'test.child.opacity.1.1'); assert.equal(violation.subjectNodeId, 'left-child');
@@ -144,11 +142,11 @@ for (const [label, mutate, expected] of [
   ['missing released child', f => { f.manifest.contracts.pop(); }, /release closure/],
   ['runtime profile', f => { f.manifest.runtime.version = '0.1.0'; }, /profile version/],
   ['child revision', f => { f.manifest.contracts[1].revision = 2; }, /revision index/],
-]) test(`corrupt dependency ${label} fails closed`, { skip: !available }, t => {
+]) test(`corrupt dependency ${label} fails closed`, t => {
   const f = fixture(t, true); mutate(f); f.save(); assert.throws(() => service.readRelease(f.root), expected);
 });
 
-test('agent projection bounds variant catalogs while retaining all source rules and child pins', { skip: !available }, t => {
+test('agent projection bounds variant catalogs while retaining all source rules and child pins', t => {
   const f = fixture(t, true), packet = service.buildExplanationPacket(f.body, f.root);
   packet.contract.facts.variantEvidence.assetCatalogs = { unrelated: 'x'.repeat(950000) };
   packet.contract.facts.variantEvidence.variants.push({ componentKey: 'unselected', componentSetKey: 'other', structureId: 'other', properties: {} });
@@ -183,14 +181,14 @@ test('agent projection bounds variant catalogs while retaining all source rules 
   assert.equal(engine.evaluations.length, 0);
   assert.equal(JSON.stringify(packet), before);
   f.body.snapshot.nodes.find(n => n.id === 'left-child').appearance.opacity = .3;
-  require('../../../projects/Apollo-v3/apps/apollo-v4/tests/dependency-fixtures').syncCapture(f.body.snapshot, 'left');
+  require('./fixtures/supported-contract-v4').syncCapture(f.body.snapshot, 'left');
   const failurePacket = service.buildExplanationPacket(f.body, f.root), failurePrompt = service.buildExplanationPrompt(failurePacket);
   const failureProjection = JSON.parse(failurePrompt.slice(failurePrompt.indexOf('\n') + 1));
   const failure = failurePacket.deterministicResult.engine.evaluations.find(e => e.classification === 'violation');
   assert.deepEqual(failureProjection.deterministicResult.engine.evaluations.find(e => e.evaluationId === failure.evaluationId), JSON.parse(JSON.stringify(failure)));
 });
 
-test('batch key resolution deduplicates identities and packages, includes bound sources and preserves missing keys', { skip: !available }, t => {
+test('batch key resolution deduplicates identities and packages, includes bound sources and preserves missing keys', t => {
   const f = fixture(t, true);
   const result = service.resolveContracts({ components: [
     { componentKey: 'host-key' }, { componentKey: 'host-key' },
@@ -207,23 +205,57 @@ test('batch key resolution deduplicates identities and packages, includes bound 
   assert.equal(result.contracts.some(item => item.contract), false);
 });
 
-test('conflicting main and set keys cannot choose one normative source silently', { skip: !available }, t => {
+test('conflicting main and set keys cannot choose one normative source silently', t => {
   const f = fixture(t, true);
   const result = service.resolveContracts({ components: [{ componentKey: 'host-key', componentSetKey: 'child-key' }] }, f.root);
   assert.deepEqual(result.contracts, []); assert.equal(result.resolutions[0].status, 'identity-conflict');
 });
 
-test('empty key batch verifies one release identity and rejects mixed revisions', { skip: !available }, t => {
+test('empty key batch verifies one release identity and rejects mixed revisions', t => {
   const f = fixture(t);
   const result = service.resolveContracts({ components: [], releaseId: f.manifest.id }, f.root);
   assert.deepEqual(result.contracts, []); assert.deepEqual(result.resolutions, []);
   assert.throws(() => service.resolveContracts({ components: [], releaseId: 'c'.repeat(64) }, f.root), error => error.status === 409);
 });
 
-test('invalid, oversized and missing component-key requests fail before resolution', { skip: !available }, t => {
+test('invalid, oversized and missing component-key requests fail before resolution', t => {
   const f = fixture(t);
   for (const body of [null, {}, { components: 'all' }, { components: [{}] }, { components: [null] },
     { components: [{ componentKey: ['test-key'] }] }, { components: [{ componentKey: '../contract' }] },
     { components: [{ componentKey: 'a'.repeat(129) }] }, { components: Array.from({ length: 1001 }, () => ({ componentKey: 'test-key' })) },
     { components: [], releaseId: 'bad' }]) assert.throws(() => service.resolveContracts(body, f.root), error => error.status === 400);
+});
+
+function currentAuthoringRuntimeFixture(t) {
+  const f = fixture(t);
+  const runtimeFile = path.resolve(__dirname, '../../../projects/Apollo-v3/apps/apollo-v4/dist/runtime.cjs');
+  const bytes = fs.readFileSync(runtimeFile), api = require(runtimeFile);
+  assert.equal(api.RUNTIME_VERSION, '0.4.1');
+  const source = JSON.parse(fs.readFileSync(path.join(f.root, f.entry.file))), loaded = api.loadAuthoringSource(source);
+  const cache = Buffer.from(JSON.stringify(loaded.contract));
+  fs.writeFileSync(path.join(f.root, f.entry.compiledCache.file), cache);
+  Object.assign(f.entry, { sourceHash: loaded.sourceHash, contractHash: api.contractHash(loaded.contract),
+    manualSourceHash: loaded.contract.package.manualSourceHash, generatedFactsHash: loaded.contract.package.generatedFactsHash,
+    revision: loaded.contract.package.manualRevision || loaded.contract.rules[0].revision,
+    dependencies: api.collectContractDependencies(loaded.contract), compiledCache: { file: f.entry.compiledCache.file, sha256: sha(cache) } });
+  fs.writeFileSync(path.join(f.root, 'runtime.cjs'), bytes);
+  f.manifest.runtime = { file: 'runtime.cjs', sha256: sha(bytes), version: api.RUNTIME_VERSION };
+  f.manifest.sourceSchema = api.SOURCE_SCHEMA; f.save();
+  const identity = Object.assign({}, f.manifest); delete identity.id;
+  assert.equal(f.manifest.id, sha(JSON.stringify(identity)));
+  assert.equal(sha(fs.readFileSync(path.join(f.root, 'runtime.cjs'))), f.manifest.runtime.sha256);
+  return { f, loaded, source };
+}
+test('current real 0.4.1 authoring runtime preserves source and compiled identity', t => {
+  const { f, loaded, source } = currentAuthoringRuntimeFixture(t), result = service.readRelease(f.root);
+  assert.equal(result.manifest.runtime.version, '0.4.1');
+  assert.deepEqual(result.contracts[0].source, source); assert.deepEqual(result.contracts[0].contract, loaded.contract);
+  assert.equal(result.contracts[0].release.sourceHash, loaded.sourceHash);
+});
+test('unsupported declared profile fails closed despite valid manifest and runtime checksums', t => {
+  const { f } = currentAuthoringRuntimeFixture(t);
+  f.manifest.runtime.version = '0.9.0'; f.save();
+  assert.equal(sha(fs.readFileSync(path.join(f.root, 'runtime.cjs'))), f.manifest.runtime.sha256);
+  assert.throws(() => service.readRelease(f.root), error => error.status === 503
+    && error.code === 'CONTRACT_V4_INVALID' && error.message === 'Incompatible local contract release');
 });

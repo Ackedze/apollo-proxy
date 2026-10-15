@@ -96,6 +96,9 @@ final class ProxyManager: NSObject {
     private var claudeLoginTimer: Timer?
     private var authCheckTimer: Timer?
     private var proxyHasActiveWork = false
+    private var healthSnapshot: ProxyHealthSnapshot?
+    private var checkingProxyStart = false
+    private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
     private var isStoppingIntentionally = false
     private var pendingRestartAfterStop = false
@@ -160,8 +163,12 @@ final class ProxyManager: NSObject {
         snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
         snapshot.apolloURL = readConfiguredApolloURL() ?? ""
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
-        snapshot.knowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
-        if let commits = knowledgeRuntime?.current?.sourceCommits {
+        snapshot.knowledgeVersion = (isExternalProxyRunning ? healthSnapshot?.knowledgeVersion : nil)
+            ?? knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
+        let sourceCommits: [String: String?]? = isExternalProxyRunning
+            ? healthSnapshot?.sourceCommits?.mapValues { Optional($0) }
+            : knowledgeRuntime?.current?.sourceCommits
+        if let commits = sourceCommits {
             snapshot.sourceCommits = commits.sorted(by: { $0.key < $1.key }).compactMap { key, value in
                 value.map { "\(key): \($0)" }
             }.joined(separator: "\n")
@@ -176,10 +183,11 @@ final class ProxyManager: NSObject {
         case .failed(let message): snapshot.knowledgeStatus = "Ошибка обновления: \(message)"
         case .upToDate: snapshot.knowledgeStatus = "Установлена актуальная версия знаний"
         }
-        if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning }
-        snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil
-        snapshot.canCheckKnowledge = !knowledgeCommandRunning
-        snapshot.canChangeAgent = agentAuthProcess == nil && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting
+        if isExternalProxyRunning { snapshot.knowledgeStatus = "Пакет отдельного запуска. Обновление выполняется вне миниаппа." }
+        if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning && !isExternalProxyRunning }
+        snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil && !isExternalProxyRunning
+        snapshot.canCheckKnowledge = !knowledgeCommandRunning && !isExternalProxyRunning
+        snapshot.canChangeAgent = agentAuthProcess == nil && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting && !isExternalProxyRunning
         snapshot.cliMissing = agentAuthStatus == .binaryMissing
         snapshot.canLogin = agentAuthProcess == nil && (claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
         snapshot.canCheckAccess = agentAuthProcess == nil
@@ -204,7 +212,7 @@ final class ProxyManager: NSObject {
         updateKnowledgeItem.isEnabled = snapshot.canUpdate
         updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
         updateKnowledgeItem.title = knowledgeCommandRunning ? snapshot.knowledgeStatus : "Обновить знания"
-        checkKnowledgeItem.isEnabled = !knowledgeCommandRunning
+        checkKnowledgeItem.isEnabled = snapshot.canCheckKnowledge
         switch status {
         case .stopped:
             setStatusItemTitle("AP:Off")
@@ -218,9 +226,9 @@ final class ProxyManager: NSObject {
             startItem.isEnabled = process != nil
         case .running:
             setStatusItemTitle("AP:On")
-            snapshot.status = "Прокси работает · порт \(readPort())"
-            startItem.title = "Остановить прокси"
-            startItem.isEnabled = true
+            snapshot.status = "Прокси работает · порт \(readPort())" + (isExternalProxyRunning ? " · отдельный запуск" : "")
+            startItem.title = isExternalProxyRunning ? "Запущен вне миниаппа" : "Остановить прокси"
+            startItem.isEnabled = !isExternalProxyRunning
         case .error(let message):
             setStatusItemTitle("AP:Err")
             snapshot.status = "Ошибка прокси: \(message)"
@@ -248,6 +256,11 @@ final class ProxyManager: NSObject {
             return
         case .running:
             break
+        }
+        if isExternalProxyRunning {
+            statusIndicator.apply(to: button, mode: healthSnapshot?.knowledgeReady == false ? .error : .active,
+                                  description: healthSnapshot?.knowledgeReady == false ? "Ошибка знаний работающего Proxy." : "Proxy работает. Отдельный запуск.")
+            return
         }
         switch knowledgeUpdateStatus {
         case .idle:
@@ -311,18 +324,12 @@ final class ProxyManager: NSObject {
         }
     }
 
-    private func checkHealth() {
-        guard process != nil else {
-            proxyHasActiveWork = false
-            if case .running = status {
-                status = .stopped
-            }
-            return
-        }
-
+    private func checkHealth(completion: (@MainActor @Sendable (Bool) -> Void)? = nil) {
+        let observedProcess = process
         let port = readPort()
         guard let url = URL(string: "http://127.0.0.1:\(port)/health") else {
             status = .error("Invalid health URL")
+            completion?(false)
             return
         }
 
@@ -332,33 +339,27 @@ final class ProxyManager: NSObject {
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
             Task { @MainActor in
                 guard let self, !self.isQuitting else { return }
-                guard let http = response as? HTTPURLResponse, http.statusCode == 200, let data else {
-                    if case .starting = self.status {
-                        return
-                    }
-                    if case .running = self.status {
-                        self.status = .starting
-                    }
+                guard self.process === observedProcess else { completion?(false); return }
+                guard !self.isStoppingIntentionally else { completion?(false); return }
+                let http = response as? HTTPURLResponse
+                guard let health = ProxyHealthSnapshot.decode(data, statusCode: http?.statusCode) else {
+                    self.healthSnapshot = nil
+                    self.proxyHasActiveWork = false
+                    if self.status == .running { self.status = self.process == nil ? .stopped : .starting }
+                    completion?(false)
                     return
                 }
-
-                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let ok = json["ok"] as? Bool,
-                   ok == true,
-                   self.status != .running {
-                    self.status = .running
+                self.healthSnapshot = health
+                self.proxyHasActiveWork = health.busy
+                if self.status != .running, observedProcess == nil {
+                    self.appendLog("=== \(Date()) Connected to existing Apollo proxy on port \(port); no child started ===\n")
                 }
-                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                    let agent = json["agent"] as? [String: Any]
-                    let codex = json["codex"] as? [String: Any]
-                    let generation = json["generation"] as? [String: Any]
-                    self.proxyHasActiveWork = (json["activeRequests"] as? Int ?? 0) > 0 || agent?["busy"] as? Bool == true || codex?["busy"] as? Bool == true || generation?["busy"] as? Bool == true
-                    self.refreshUI()
-                }
+                self.status = .running
+                self.refreshUI()
+                completion?(true)
                 if self.pendingKnowledgeRestart,
-                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let activeRequests = json["activeRequests"] as? Int,
-                   activeRequests == 0,
+                   self.process != nil,
+                   health.activeRequests == 0,
                    !self.proxyHasActiveWork {
                     self.pendingKnowledgeRestart = false
                     self.pendingRestartAfterStop = true
@@ -415,7 +416,7 @@ final class ProxyManager: NSObject {
     }
 
     private func checkForKnowledgeUpdate() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         guard configuredKnowledgeDescriptorURL() != nil else {
             knowledgeUpdateStatus = .idle
             return
@@ -454,7 +455,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func updateKnowledgeAction() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .downloading
         do {
@@ -487,7 +488,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func rollbackKnowledgeAction() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .validating
         do {
@@ -1100,9 +1101,19 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func startProxyAction() {
-        if isQuitting || process != nil {
-            return
+        guard !isQuitting, process == nil, !checkingProxyStart else { return }
+        checkingProxyStart = true
+        status = .starting
+        checkHealth { [weak self] running in
+            guard let self else { return }
+            self.checkingProxyStart = false
+            guard !running, !self.isQuitting, self.process == nil else { return }
+            self.launchManagedProxy()
         }
+    }
+
+    private func launchManagedProxy() {
+        guard !isQuitting, process == nil else { return }
 
         do {
             try ensureProxyInstalled()
@@ -1286,7 +1297,7 @@ final class ProxyManager: NSObject {
 
     private func selectAgent(_ provider: CLIProvider) {
         guard provider != selectedProvider else { return }
-        guard agentAuthProcess == nil, !knowledgeCommandRunning, !proxyHasActiveWork else {
+        guard agentAuthProcess == nil, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning else {
             refreshUI()
             return
         }

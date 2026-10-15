@@ -12,13 +12,13 @@ function releaseFile(root, file) {
   if (path.dirname(absolute) !== fs.realpathSync(root)) fail('Release artifact escapes the local package', 503);
   return absolute;
 }
-function readRelease(root) {
-  if (!fs.existsSync(path.join(root, 'manifest.json'))) fail('Локальный пилот контрактов не установлен. Соберите release:pilot в Apollo v4.', 503, 'CONTRACT_V4_NOT_INSTALLED');
-  const manifest = JSON.parse(fs.readFileSync(releaseFile(root, 'manifest.json'), 'utf8'));
+function readRelease(root, manifestFile = 'manifest.json') {
+  if (!fs.existsSync(path.join(root, manifestFile))) fail('Локальный пилот контрактов не установлен. Соберите release:pilot в Apollo v4.', 503, 'CONTRACT_V4_NOT_INSTALLED');
+  const manifest = JSON.parse(fs.readFileSync(releaseFile(root, manifestFile), 'utf8'));
   const identity = Object.assign({}, manifest); delete identity.id;
   if (manifest.schemaVersion !== 'apollo.contract-release.v1-experimental'
     || manifest.channel !== 'local-pilot' || manifest.published !== false
-    || manifest.id !== sha(JSON.stringify(identity)) || !['0.1.0', '0.2.0', '0.3.0', '0.4.0'].includes(manifest.runtime?.version)
+    || manifest.id !== sha(JSON.stringify(identity)) || !['0.1.0', '0.2.0', '0.3.0', '0.4.0', '0.4.1'].includes(manifest.runtime?.version)
     || !Array.isArray(manifest.contracts) || !manifest.contracts.length) fail('Incompatible local contract release', 503);
   const runtimePath = releaseFile(root, manifest.runtime.file);
   if (sha(fs.readFileSync(runtimePath)) !== manifest.runtime.sha256) fail('Runtime checksum mismatch', 503);
@@ -26,7 +26,7 @@ function readRelease(root) {
   let runtime = runtimeCache.get(cacheKey);
   if (!runtime) { delete require.cache[require.resolve(runtimePath)]; runtime = require(runtimePath); runtimeCache.clear(); runtimeCache.set(cacheKey, runtime); }
   if ((runtime.RUNTIME_VERSION || '0.1.0') !== manifest.runtime.version) fail('Runtime profile version mismatch', 503);
-  const authoring = ['0.3.0', '0.4.0'].includes(manifest.runtime.version);
+  const authoring = ['0.3.0', '0.4.0', '0.4.1'].includes(manifest.runtime.version);
   if (authoring && manifest.sourceSchema !== runtime.SOURCE_SCHEMA) fail('Authoring source schema mismatch', 503);
   const ids = new Set(), routing = new Set();
   const contracts = manifest.contracts.map(entry => {
@@ -49,7 +49,7 @@ function readRelease(root) {
     const dependencies = runtime.collectContractDependencies ? runtime.collectContractDependencies(contract) : [];
     const scope = dependencies.length ? 'component-with-dependencies' : 'standalone-component';
     if (entry.scope !== scope || JSON.stringify(entry.dependencies || []) !== JSON.stringify(dependencies)) fail('Contract dependency index mismatch', 503);
-    if (['0.2.0', '0.3.0', '0.4.0'].includes(manifest.runtime.version) && (entry.componentId !== contract.package.componentId
+    if (['0.2.0', '0.3.0', '0.4.0', '0.4.1'].includes(manifest.runtime.version) && (entry.componentId !== contract.package.componentId
       || entry.revision !== (contract.package.manualRevision || contract.rules[0]?.revision))) fail('Contract revision index mismatch', 503);
     const expectedKeys = Array.from(runtime.collectContractKeys(contract)).sort();
     if (!Array.isArray(entry.keys) || new Set(entry.keys).size !== entry.keys.length
