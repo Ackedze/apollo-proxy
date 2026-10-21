@@ -6,18 +6,19 @@ const path = require('node:path');
 const os = require('node:os');
 const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
-const { sourceOf, readGitIndex, updateFromGit, extractSnapshot } = require('../scripts/git-data-cli');
+const { sourceOf, advertisedCommit, readGitIndex, updateFromGit, extractSnapshot } = require('../scripts/git-data-cli');
 const runtimeId = 'a'.repeat(64), dataId = 'b'.repeat(64), commit = 'c'.repeat(40);
 const sourceUrl = 'https://raw.githubusercontent.com/example/data/main/apollo/data-packages/current.json';
 const archiveBytes = Buffer.from('corrupt snapshot');
+const pkt = text => (Buffer.byteLength(text) + 4).toString(16).padStart(4, '0') + text;
 const index = { schemaVersion: 'apollo.git-data-index.v1', runtimeId,
   snapshot: { path: 'apollo/data-packages/r1/contracts.tgz', dataId, sha256: 'd'.repeat(64), bytes: archiveBytes.length } };
 function transport(document = index) {
   const calls = [];
   return { calls, request: async (url, options) => {
     calls.push({ url, options });
-    if (url.includes('/git/ref/')) return Response.json({ ref: 'refs/heads/main', object: { type: 'commit', sha: commit } });
-    assert.ok(url.endsWith('?ref=' + commit));
+    if (url.includes('/info/refs?')) return new Response(pkt('# service=git-upload-pack\n') + '0000' + pkt(commit + ' refs/heads/main\n') + '0000');
+    assert.ok(url.includes('/' + commit + '/'));
     return url.includes('current.json') ? Response.json(document) : new Response(archiveBytes);
   } };
 }
@@ -40,9 +41,17 @@ test('index and archive URLs are pinned to the resolved commit; incompatible run
   const network = transport();
   assert.equal((await readGitIndex(sourceUrl, runtimeId, undefined, network.request)).commit, commit);
   assert.equal(network.calls.length, 2);
-  assert.match(network.calls[1].url, new RegExp('ref=' + commit + '$'));
-  assert.equal(network.calls[1].options.headers.Accept, 'application/vnd.github.raw+json');
+  assert.ok(network.calls[1].url.includes('/' + commit + '/'));
+  assert.equal(network.calls[1].options.headers.Accept, 'application/octet-stream');
   await assert.rejects(readGitIndex(sourceUrl, 'e'.repeat(64), undefined, transport().request), /incompatible/);
+});
+
+test('Git advertisement rejects truncation, duplicate branch and absent branch', () => {
+  const entry = pkt(commit + ' refs/heads/main\n');
+  assert.equal(advertisedCommit(Buffer.from(entry + '0000'), 'main'), commit);
+  assert.throws(() => advertisedCommit(Buffer.from(entry.slice(0, -2)), 'main'), /Truncated/);
+  assert.throws(() => advertisedCommit(Buffer.from(entry + entry), 'main'), /Ambiguous/);
+  assert.throws(() => advertisedCommit(Buffer.from(entry), 'other'), /not found/);
 });
 
 test('check/no-op fetches only Git metadata and never downloads the archive', async t => {

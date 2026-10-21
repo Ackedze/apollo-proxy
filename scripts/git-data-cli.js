@@ -16,7 +16,7 @@ function sourceOf(value) {
 }
 
 async function get(url, token, request, raw = false) {
-  const response = await request(url, { headers: { Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json',
+  const response = await request(url, { headers: { Accept: raw ? 'application/octet-stream' : 'application/x-git-upload-pack-advertisement',
     'User-Agent': 'ApolloProxyControl', 'Cache-Control': 'no-cache', ...(token ? { Authorization: 'Bearer ' + token } : {}) },
     redirect: 'error', signal: AbortSignal.timeout(60000) });
   if (!response.ok) throw Error('Git data request failed with HTTP ' + response.status);
@@ -24,15 +24,34 @@ async function get(url, token, request, raw = false) {
 }
 
 function contentUrl(source, commit, file) {
-  return 'https://api.github.com/repos/' + source.owner + '/' + source.repo + '/contents/' +
-    file.split('/').map(encodeURIComponent).join('/') + '?ref=' + commit;
+  return 'https://raw.githubusercontent.com/' + source.owner + '/' + source.repo + '/' + commit + '/' +
+    file.split('/').map(encodeURIComponent).join('/');
+}
+
+function advertisedCommit(bytes, ref) {
+  let found;
+  for (let offset = 0; offset < bytes.length;) {
+    const header = bytes.subarray(offset, offset + 4).toString();
+    if (!/^[a-f0-9]{4}$/i.test(header)) throw Error('Invalid Git reference advertisement.');
+    const size = parseInt(header, 16);
+    if (size === 0) { offset += 4; continue; }
+    if (size < 4 || offset + size > bytes.length) throw Error('Truncated Git reference advertisement.');
+    const line = bytes.subarray(offset + 4, offset + size).toString().split('\0')[0].trimEnd();
+    const match = /^([a-f0-9]{40}) (.+)$/.exec(line);
+    if (match?.[2] === 'refs/heads/' + ref) {
+      if (found) throw Error('Ambiguous Git branch identity.');
+      found = match[1];
+    }
+    offset += size;
+  }
+  if (!found) throw Error('Git branch not found.');
+  return found;
 }
 
 async function readGitIndex(url, runtimeId, token, request = fetch) {
   const source = sourceOf(url);
-  const ref = await (await get('https://api.github.com/repos/' + source.owner + '/' + source.repo + '/git/ref/heads/' + encodeURIComponent(source.ref), token, request)).json();
-  if (ref.ref !== 'refs/heads/' + source.ref || ref.object?.type !== 'commit' || !/^[a-f0-9]{40}$/.test(ref.object.sha || '')) throw Error('Invalid Git branch identity.');
-  const commit = ref.object.sha;
+  const refs = await get('https://github.com/' + source.owner + '/' + source.repo + '.git/info/refs?service=git-upload-pack', token, request);
+  const commit = advertisedCommit(Buffer.from(await refs.arrayBuffer()), source.ref);
   const index = await (await get(contentUrl(source, commit, source.file), token, request, true)).json();
   if (index.schemaVersion !== 'apollo.git-data-index.v1' || index.runtimeId !== runtimeId ||
       !safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
@@ -150,4 +169,4 @@ async function main(argv) {
   child.on('exit', code => { process.exitCode = code ?? 1; });
 }
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.log(JSON.stringify({ success: false, code: error.code || 'GIT_DATA_UPDATE_FAILED', error: error.message })); process.exitCode = 1; });
-module.exports = { sourceOf, contentUrl, readGitIndex, extractSnapshot, updateFromGit, runCommand };
+module.exports = { sourceOf, contentUrl, advertisedCommit, readGitIndex, extractSnapshot, updateFromGit, runCommand };
