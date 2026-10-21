@@ -845,6 +845,7 @@ async function callCodexContractExplanation(
       '--output-last-message',
       output,
     ];
+    if (requestTelemetry.dataOnly) for (const setting of ['features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','web_search="disabled"','mcp_servers={}']) args.push('-c',setting);
     if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
     args.push('-');
     return await runCodexProcess(
@@ -1552,6 +1553,7 @@ app.get('/health', async (req, res) => {
 });
 
 mountContractRoutes(app, { explain: callCodexContractExplanation });
+require('./src/skills/layer-names').mountLayerNameRoutes(app,{plan:callCodexContractExplanation});
 require('./src/generation-agent/recipe-catalog').mountRecipeRoutes(app);
 mountGenerationRoutes(app, {
   plan: callCodexContractExplanation,

@@ -44,3 +44,27 @@ test('sparse portable code copies literal module closure and rejects external/au
   put('src/start.cjs', 'require("../../outside.cjs")');
   assert.throws(() => buildPortableRuntime({ ...options, output: path.join(root, 'bad-outside') }), /outside accepted code root/);
 });
+
+test('packed naming skill and protocol run without the source checkout; missing/stale inputs fail closed', t => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-naming-bundle-')));
+  t.after(() => fs.rmSync(root,{recursive:true,force:true}));
+  const source = path.join(root,'code'), actual = path.resolve(__dirname,'../../../projects/Apollo');
+  const put = (name,body) => { const file=path.join(source,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,body); };
+  const naming = ['skills/figma-layer-name-hygiene/profile.json','skills/figma-layer-name-hygiene/SKILL.md','src/skills/layer-names/protocol.js'];
+  for (const file of naming) put(file,fs.readFileSync(path.join(actual,file)));
+  put('instructions/agent-generation/skill-profile.json',JSON.stringify({targets:{}}));
+  put('dist/build-inputs.json',JSON.stringify({profileVersion:'0.4.1'}));
+  put('dist/agent-figma-provider-descriptor.json',JSON.stringify({sourceHash:'a'.repeat(64)}));
+  const options={apolloRoot:source,output:path.join(root,'installed'),entries:naming.concat('dist/agent-figma-provider-descriptor.json')};
+  const runtime=buildPortableRuntime(options);assert.equal(readRuntime(options.output).id,runtime.id);
+  fs.renameSync(source,source+'-unavailable');
+  const {loadSkill}=require('../src/skills/layer-names'), skill=loadSkill(options.output);
+  skill.assertCurrent();assert.equal(skill.protocol.SCHEMA,'apollo.layer-names.v1');assert.match(skill.instructions,/nodeId/);
+  fs.appendFileSync(path.join(options.output,naming[1]),'\nDrift');
+  assert.throws(()=>loadSkill(options.output),{code:'LAYER_NAMES_SKILL_STALE'});
+  fs.renameSync(source+'-unavailable',source);
+  fs.appendFileSync(path.join(source,naming[2]),'\n// stale protocol');
+  assert.throws(()=>buildPortableRuntime(Object.assign({},options,{output:path.join(root,'stale')})),{code:'LAYER_NAMES_SKILL_STALE'});
+  fs.unlinkSync(path.join(source,naming[1]));
+  assert.throws(()=>buildPortableRuntime(Object.assign({},options,{output:path.join(root,'missing')})));
+});

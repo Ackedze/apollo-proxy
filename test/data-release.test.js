@@ -26,11 +26,14 @@ function pins(root) {
   }
   walk(root); return result.sort((a, b) => a.file.localeCompare(b.file));
 }
-function fixture(t) {
+function fixture(t, naming = false) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-data-release-')));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const runtimeRoot = path.join(root, 'code'), storeRoot = path.join(root, 'installed');
   put(runtimeRoot, 'dist/runtime.cjs', '// Synthetic code fixture, never executed\n');
+  if (naming) for (const file of ['skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene/SKILL.md', 'src/skills/layer-names/protocol.js']) {
+    put(runtimeRoot, file, fs.readFileSync(path.resolve(__dirname, '../../../projects/Apollo', file)).toString());
+  }
   const runtime = { schemaVersion: release.RUNTIME_SCHEMA, profileVersion: '0.4.1', nativeSourceHash: 'a'.repeat(64), files: pins(runtimeRoot) };
   runtime.id = release.idOf(runtime); put(runtimeRoot, 'portable-runtime.json', runtime);
   function make(version) {
@@ -70,6 +73,41 @@ function fixture(t) {
     return { tarballPath: file, expectedIntegrity: 'sha256-' + Buffer.from(await sha256File(file), 'hex').toString('base64'), expectedContentVersion: value.manifest.id };
   }
   return { root, runtimeRoot, runtime, storeRoot, make, seed, options, archive };
+}
+
+function refreshInventory(value) {
+  value.manifest.files = pins(value.packageRoot).filter(pin => pin.file !== 'manifest.json');
+  value.manifest.id = release.idOf(value.manifest);
+  put(value.packageRoot, 'manifest.json', value.manifest);
+  return value;
+}
+function skillRelease(f, label) {
+  const value = { packageRoot: path.join(f.root, label, 'package'), manifest: structuredClone(f.seed.manifest) };
+  fs.cpSync(f.seed.packageRoot, value.packageRoot, { recursive: true });
+  const folder = 'skills/figma-layer-name-hygiene/', profile = JSON.parse(fs.readFileSync(path.join(f.runtimeRoot, folder, 'profile.json')));
+  const instructions = fs.readFileSync(path.join(f.runtimeRoot, folder, 'SKILL.md'), 'utf8') + '\nREMOTE_NAMING_RULE_FIXTURE\n';
+  profile.version = '0.1.1';
+  profile.files[0].bytes = Buffer.byteLength(instructions); profile.files[0].sha256 = release.sha(Buffer.from(instructions));
+  put(value.packageRoot, folder + 'SKILL.md', instructions); put(value.packageRoot, folder + 'profile.json', profile);
+  return refreshInventory(value);
+}
+async function namingEndpoint(t, f, releaseRoot) {
+  const express = require('express'), app = express(), prompts = [];
+  app.use(express.json());
+  require('../src/skills/layer-names').mountLayerNameRoutes(app, {
+    apolloRoot: f.runtimeRoot, releaseRoot,
+    plan: async prompt => { prompts.push(prompt); return { changes: [] }; },
+  });
+  const server = await new Promise(resolve => { const s = app.listen(0, '127.0.0.1', () => resolve(s)); });
+  t.after(() => new Promise(resolve => { server.closeIdleConnections?.(); server.close(resolve); }));
+  return { prompts, async call() {
+    const snapshot = { schemaVersion: 'apollo.layer-names.v1', snapshotId: 'owned-fixture', pageId: '1:1', rootIds: ['2:1'], scopeName: 'Owned fixture', observedCount: 1, skippedCount: 0,
+      nodes: [{ nodeId: '2:1', type: 'FRAME', parentId: '1:1', oldName: 'Frame 1', path: 'Frame 1', texts: ['Delivery'] }] };
+    const response = await fetch('http://127.0.0.1:' + server.address().port + '/skills/layer-names/plan', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ requestId: 'owned-request', snapshot }),
+    });
+    return { status: response.status, body: await response.json() };
+  } };
 }
 
 test('one pointer updates knowledge and installed contracts together, preserves admitted bytes and rolls back', async t => {
@@ -201,4 +239,123 @@ test('remote CLI checks, downloads, validates and rolls back; offline/error keep
   await assert.rejects(runCommand('update', options), { code: 'DATA_RELEASE_INTEGRITY_INVALID' });
   assert.equal((await runCommand('status', options)).current.contentVersion, f.seed.manifest.id);
   assert.equal(fs.readdirSync(f.storeRoot).some(file => file.startsWith('.download-')), false);
+});
+
+test('remote instructions update the actual naming endpoint on unchanged code; offline and rollback keep admitted versions', async t => {
+  const f = fixture(t, true), first = await release.ensureStore(f.options);
+  const { loadSkill } = require('../src/skills/layer-names');
+  const old = loadSkill(f.runtimeRoot, { releaseRoot: first.state.current.path });
+  const before = await (await namingEndpoint(t, f, first.state.current.path)).call();
+  assert.equal(before.status, 200); assert.equal(before.body.skill.version, '0.1.0');
+  const code = fs.readFileSync(path.join(f.runtimeRoot, 'portable-runtime.json'));
+  const next = skillRelease(f, 'remote-skill'), archive = await f.archive(next);
+  assert.equal(next.manifest.dataId, f.seed.manifest.dataId);
+  assert.equal(next.manifest.knowledgeVersion, f.seed.manifest.knowledgeVersion);
+  const originalFetch = global.fetch, originalEnsure = release.ensureStore, originalInstall = release.installTarball;
+  t.after(() => { global.fetch = originalFetch; release.ensureStore = originalEnsure; release.installTarball = originalInstall; });
+  release.ensureStore = options => originalEnsure({ ...options, validateData: f.options.validateData });
+  release.installTarball = options => originalInstall({ ...options, validateData: f.options.validateData });
+  const descriptor = { schemaVersion: release.CHANNEL_SCHEMA, channel: 'stable', contentVersion: next.manifest.id,
+    runtimeId: f.runtime.id, tarballUrl: 'https://example.test/immutable-skill.tgz', tarballIntegrity: archive.expectedIntegrity };
+  global.fetch = async url => {
+    const response = new Response(new URL(url).pathname.endsWith('.json') ? JSON.stringify(descriptor) : fs.readFileSync(archive.tarballPath));
+    Object.defineProperty(response, 'url', { value: String(url) }); return response;
+  };
+  const options = { store: f.storeRoot, seed: f.seed.packageRoot, runtime: f.runtimeRoot, descriptor: 'https://example.test/stable.json' };
+  const updated = await runCommand('update', options);
+  global.fetch = originalFetch;
+  const endpoint = await namingEndpoint(t, f, updated.releaseRoot), result = await endpoint.call();
+  assert.equal(result.status, 200); assert.equal(result.body.skill.version, '0.1.1');
+  assert.match(endpoint.prompts[0], /REMOTE_NAMING_RULE_FIXTURE/);
+  assert.equal(result.body.skill.sha256, release.sha(fs.readFileSync(path.join(updated.releaseRoot, 'skills/figma-layer-name-hygiene/profile.json'))));
+  assert.deepEqual(fs.readFileSync(path.join(f.runtimeRoot, 'portable-runtime.json')), code);
+  assert.equal(release.readRuntime(f.runtimeRoot).id, f.runtime.id); old.assertCurrent();
+  const state = fs.readFileSync(path.join(f.storeRoot, 'state.json'));
+  global.fetch = async () => { throw Error('offline'); };
+  await assert.rejects(runCommand('check', options), /offline/);
+  assert.deepEqual(fs.readFileSync(path.join(f.storeRoot, 'state.json')), state);
+  global.fetch = originalFetch;
+  assert.equal((await endpoint.call()).body.skill.version, '0.1.1');
+  const back = await release.rollbackStore(f.options), restored = await namingEndpoint(t, f, back.current.path);
+  assert.equal((await restored.call()).body.skill.version, '0.1.0');
+  assert.doesNotMatch(restored.prompts[0], /REMOTE_NAMING_RULE_FIXTURE/);
+  loadSkill(f.runtimeRoot, { releaseRoot: updated.releaseRoot }).assertCurrent();
+});
+
+test('a declared missing, stale or incompatible skill never replaces current or falls back silently', async t => {
+  const f = fixture(t, true); await release.ensureStore(f.options);
+  const before = fs.readFileSync(path.join(f.storeRoot, 'state.json')), folder = 'skills/figma-layer-name-hygiene/';
+  const variants = [
+    ['missing-profile', root => fs.unlinkSync(path.join(root, folder, 'profile.json')), 'LAYER_NAMES_SKILL_UNAVAILABLE'],
+    ['missing-instructions', root => fs.unlinkSync(path.join(root, folder, 'SKILL.md')), 'LAYER_NAMES_SKILL_UNAVAILABLE'],
+    ['stale-instructions', root => fs.appendFileSync(path.join(root, folder, 'SKILL.md'), '\nChanged'), 'LAYER_NAMES_SKILL_STALE'],
+    ['incompatible-protocol', root => { const file = path.join(root, folder, 'profile.json'), profile = JSON.parse(fs.readFileSync(file)); profile.files[1].sha256 = 'f'.repeat(64); put(root, folder + 'profile.json', profile); }, 'LAYER_NAMES_SKILL_STALE'],
+    ['unsupported-profile', root => { const profile = JSON.parse(fs.readFileSync(path.join(root, folder, 'profile.json'))); profile.schemaVersion = 'unsupported'; put(root, folder + 'profile.json', profile); }, 'LAYER_NAMES_SKILL_UNAVAILABLE'],
+    ['invalid-version', root => { const profile = JSON.parse(fs.readFileSync(path.join(root, folder, 'profile.json'))); profile.version = ['0.1.1']; put(root, folder + 'profile.json', profile); }, 'LAYER_NAMES_SKILL_UNAVAILABLE'],
+  ];
+  for (const [label, change, code] of variants) {
+    const value = skillRelease(f, label); change(value.packageRoot); refreshInventory(value);
+    await assert.rejects(release.installTarball({ ...f.options, ...await f.archive(value) }), { code });
+    assert.deepEqual(fs.readFileSync(path.join(f.storeRoot, 'state.json')), before);
+    const endpoint = await namingEndpoint(t, f, value.packageRoot);
+    assert.equal((await endpoint.call()).status, 503); assert.equal(endpoint.prompts.length, 0);
+  }
+});
+
+test('changing even a consistently repinned release invalidates an already admitted skill', t => {
+  const f = fixture(t, true), value = skillRelease(f, 'admitted');
+  const skill = require('../src/skills/layer-names').loadSkill(f.runtimeRoot, { releaseRoot: value.packageRoot });
+  const folder = 'skills/figma-layer-name-hygiene/', profile = JSON.parse(fs.readFileSync(path.join(value.packageRoot, folder, 'profile.json')));
+  const text = 'Changed instructions with valid new hashes';
+  profile.version = '0.1.2'; profile.files[0].bytes = Buffer.byteLength(text); profile.files[0].sha256 = release.sha(Buffer.from(text));
+  put(value.packageRoot, folder + 'SKILL.md', text); put(value.packageRoot, folder + 'profile.json', profile); refreshInventory(value);
+  assert.throws(() => skill.assertCurrent(), { code: 'LAYER_NAMES_SKILL_STALE' });
+});
+
+test('skill payloads cannot deliver executable code or choose arbitrary files', async t => {
+  const f = fixture(t, true); await release.ensureStore(f.options);
+  const state = fs.readFileSync(path.join(f.storeRoot, 'state.json'));
+  for (const [label, file] of [['script', 'skills/figma-layer-name-hygiene/protocol.js'], ['other', 'skills/unrelated/profile.json']]) {
+    const value = skillRelease(f, label); put(value.packageRoot, file, 'throw Error("EXECUTED_DATA")'); refreshInventory(value);
+    await assert.rejects(release.installTarball({ ...f.options, ...await f.archive(value) }), { code: 'DATA_RELEASE_EXECUTABLE_FORBIDDEN' });
+    assert.deepEqual(fs.readFileSync(path.join(f.storeRoot, 'state.json')), state);
+  }
+});
+
+test('publisher builds and installs pinned source instructions against the existing portable runtime without rebuilding it', async t => {
+  const f = fixture(t, true), apolloRoot = path.resolve(__dirname, '../../../projects/Apollo');
+  const runtimeRoot = path.join(f.root, 'portable');
+  require('../scripts/build-portable-runtime').buildPortableRuntime({ apolloRoot, output: runtimeRoot });
+  const code = fs.readFileSync(path.join(runtimeRoot, 'portable-runtime.json'));
+  const runtime = require(path.join(apolloRoot, 'dist/runtime.cjs'));
+  const core = require(path.join(apolloRoot, 'packages/component-contract-core/dist/core.cjs'));
+  const source = require(path.join(apolloRoot, 'tests/authoring-fixtures')).source();
+  const contract = runtime.loadAuthoringSource(source).contract, zip = path.join(f.root, 'owned-contract.zip');
+  fs.writeFileSync(zip, core.createZip([core.textZipEntry('contract.manual.json', source.manual), core.textZipEntry('compiled/component-contract.v2.json', contract)]));
+  const dataRoot = path.join(f.root, 'actual-data');
+  await require('../scripts/import-data-package').importDataPackage({ root: dataRoot, apolloRoot, packages: [zip] });
+  const { buildDataRelease } = require('../scripts/build-data-release');
+  const options = { dataRoot, knowledgeRoot: path.join(f.seed.packageRoot, 'knowledge'), runtimeRoot,
+    tarballUrl: 'https://example.test/releases/{version}/apollo-data.tgz' };
+  const bundled = await buildDataRelease({ ...options, output: path.join(f.root, 'bundled-release') });
+  const selected = skillRelease(f, 'pinned-source');
+  const updated = await buildDataRelease({ ...options, skillsRoot: path.join(selected.packageRoot, 'skills'), output: path.join(f.root, 'updated-release') });
+  assert.equal(updated.manifest.runtimeId, bundled.manifest.runtimeId);
+  assert.equal(updated.manifest.dataId, bundled.manifest.dataId);
+  assert.equal(updated.manifest.knowledgeVersion, bundled.manifest.knowledgeVersion);
+  assert.deepEqual(fs.readFileSync(path.join(runtimeRoot, 'portable-runtime.json')), code);
+  assert.deepEqual(updated.manifest.files.filter(pin => pin.file.startsWith('skills/')).map(pin => pin.file).sort(),
+    ['skills/figma-layer-name-hygiene/SKILL.md', 'skills/figma-layer-name-hygiene/profile.json']);
+  const settings = { runtimeRoot, seedRoot: bundled.packageRoot, storeRoot: path.join(f.root, 'actual-store') };
+  await release.ensureStore(settings);
+  const state = await release.installTarball({ ...settings, tarballPath: updated.tarballPath,
+    expectedIntegrity: updated.descriptor.tarballIntegrity, expectedContentVersion: updated.manifest.id });
+  const { loadSkill } = require('../src/skills/layer-names'), skill = loadSkill(runtimeRoot, { releaseRoot: state.current.path });
+  assert.equal(skill.version, '0.1.1'); assert.match(skill.instructions, /REMOTE_NAMING_RULE_FIXTURE/); skill.assertCurrent();
+  const restored = await release.rollbackStore(settings);
+  assert.equal(loadSkill(runtimeRoot, { releaseRoot: restored.current.path }).version, '0.1.0');
+  // A declared source can never silently revert to the embedded skill.
+  fs.appendFileSync(path.join(selected.packageRoot, 'skills/figma-layer-name-hygiene/SKILL.md'), '\nSource drift');
+  await assert.rejects(buildDataRelease({ ...options, skillsRoot: path.join(selected.packageRoot, 'skills'), output: path.join(f.root, 'stale-source-release') }), { code: 'LAYER_NAMES_SKILL_STALE' });
+  await assert.rejects(buildDataRelease({ ...options, skillsRoot: path.join(f.root, 'missing-source'), output: path.join(f.root, 'missing-source-release') }), { code: 'LAYER_NAMES_SKILL_UNAVAILABLE' });
 });

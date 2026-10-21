@@ -14,6 +14,8 @@ const ENTRIES = [
   'src/generation/context/resources.js', 'src/generation/context/ledger.js',
   'scripts/agent-run-inputs.cjs', 'scripts/agent-generation-skills.cjs',
   'scripts/agent-frontend-workspace.cjs', 'scripts/agent-page-background.cjs',
+  'src/skills/layer-names/protocol.js',
+  'skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene/SKILL.md',
 ];
 function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIES }) {
   apolloRoot = fs.realpathSync(apolloRoot); output = path.resolve(output);
@@ -54,6 +56,9 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
     }
   }
   for (const entry of entries) include(path.join(apolloRoot, entry));
+  const namingSkill = entries.includes('src/skills/layer-names/protocol.js')
+    ? require('../src/skills/layer-names').loadSkill(apolloRoot) : null;
+  namingSkill?.assertCurrent();
   tree('instructions/agent-generation');
   const profile = JSON.parse(fs.readFileSync(path.join(apolloRoot, 'instructions/agent-generation/skill-profile.json')));
   for (const target of Object.values(profile.targets)) {
@@ -78,6 +83,7 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
   fs.writeFileSync(path.join(output, 'portable-runtime.json'), JSON.stringify(manifest, null, 2) + '\n');
   // Detect a source change across copying without producing another source/build seal.
   for (const value of files.values()) if (!fs.readFileSync(value.source).equals(value.sourceBytes)) throw Error('Portable runtime input changed during packaging.');
+  namingSkill?.assertCurrent();
   return manifest;
 }
 if (require.main === module) {

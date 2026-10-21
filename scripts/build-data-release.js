@@ -41,7 +41,7 @@ async function projectPortableData({ dataRoot, runtimeRoot, output }) {
   return { index, files: data.reader.pins.size };
 }
 
-async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, tarballUrl, profile }) {
+async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, tarballUrl, profile, skillsRoot }) {
   dataRoot = path.resolve(dataRoot); knowledgeRoot = path.resolve(knowledgeRoot); runtimeRoot = path.resolve(runtimeRoot); output = path.resolve(output);
   if (profile !== undefined && profile !== PORTABLE_PROFILE) throw Error('Unknown portable profile.');
   if (new URL(tarballUrl).protocol !== 'https:') throw Error('An immutable HTTPS release asset URL is required.');
@@ -62,6 +62,18 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
       await fs.mkdir(path.dirname(destination), { recursive: true });
       await fs.copyFile(path.join(source, relative), destination);
     }
+  }
+  const sourceSkills = path.resolve(skillsRoot || path.join(runtimeRoot, 'skills'));
+  const namingFolder = path.join(sourceSkills, 'figma-layer-name-hygiene');
+  // New instructions can be published against an unchanged, accepted runtime.
+  if (skillsRoot !== undefined || require('node:fs').existsSync(namingFolder)) {
+    const skill = require('../src/skills/layer-names').loadSkill(runtimeRoot, { skillsRoot: sourceSkills });
+    for (const file of ['SKILL.md', 'profile.json']) {
+      const target = path.join(root, 'skills/figma-layer-name-hygiene', file);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.copyFile(path.join(namingFolder, file), target);
+    }
+    skill.assertCurrent();
   }
   const data = JSON.parse(await fs.readFile(path.join(root, 'contracts/manifest.json'), 'utf8'));
   const files = [];
@@ -88,8 +100,8 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
 if (require.main === module) {
   const options = {};
   for (let i = 2; i < process.argv.length; i += 2) {
-    const key = { '--data': 'dataRoot', '--knowledge': 'knowledgeRoot', '--runtime': 'runtimeRoot', '--output': 'output', '--tarball-url': 'tarballUrl', '--profile': 'profile' }[process.argv[i]];
-    if (!key || !process.argv[i + 1]) throw Error('Expected --data ROOT --knowledge ROOT --runtime ROOT --output NEW_ROOT --tarball-url HTTPS_URL');
+    const key = { '--data': 'dataRoot', '--knowledge': 'knowledgeRoot', '--runtime': 'runtimeRoot', '--output': 'output', '--tarball-url': 'tarballUrl', '--profile': 'profile', '--skills-root': 'skillsRoot' }[process.argv[i]];
+    if (!key || !process.argv[i + 1]) throw Error('Expected --data ROOT --knowledge ROOT --runtime ROOT --output NEW_ROOT --tarball-url HTTPS_URL [--skills-root ROOT]');
     options[key] = process.argv[i + 1];
   }
   buildDataRelease(options).then(result => console.log(JSON.stringify({ contentVersion: result.manifest.id, tarball: result.tarballPath }))).catch(error => { console.error(error.message); process.exitCode = 1; });
