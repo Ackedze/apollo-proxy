@@ -32,7 +32,7 @@ function fixture(t, naming = false) {
   const runtimeRoot = path.join(root, 'code'), storeRoot = path.join(root, 'installed');
   put(runtimeRoot, 'dist/runtime.cjs', '// Synthetic code fixture, never executed\n');
   if (naming) for (const file of ['skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene/SKILL.md', 'src/skills/layer-names/protocol.js']) {
-    put(runtimeRoot, file, fs.readFileSync(path.resolve(__dirname, '../../../projects/Apollo', file)).toString());
+    put(runtimeRoot, file, fs.readFileSync(path.join(process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname, '../../../projects/Apollo'), file)).toString());
   }
   const runtime = { schemaVersion: release.RUNTIME_SCHEMA, profileVersion: '0.4.1', nativeSourceHash: 'a'.repeat(64), files: pins(runtimeRoot) };
   runtime.id = release.idOf(runtime); put(runtimeRoot, 'portable-runtime.json', runtime);
@@ -323,7 +323,7 @@ test('skill payloads cannot deliver executable code or choose arbitrary files', 
 });
 
 test('publisher builds and installs pinned source instructions against the existing portable runtime without rebuilding it', async t => {
-  const f = fixture(t, true), apolloRoot = path.resolve(__dirname, '../../../projects/Apollo');
+  const f = fixture(t, true), apolloRoot = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname, '../../../projects/Apollo');
   const runtimeRoot = path.join(f.root, 'portable');
   require('../scripts/build-portable-runtime').buildPortableRuntime({ apolloRoot, output: runtimeRoot });
   const code = fs.readFileSync(path.join(runtimeRoot, 'portable-runtime.json'));
@@ -354,6 +354,22 @@ test('publisher builds and installs pinned source instructions against the exist
   assert.equal(skill.version, '0.1.1'); assert.match(skill.instructions, /REMOTE_NAMING_RULE_FIXTURE/); skill.assertCurrent();
   const restored = await release.rollbackStore(settings);
   assert.equal(loadSkill(runtimeRoot, { releaseRoot: restored.current.path }).version, '0.1.0');
+  // The agent-loop policy is data too; the accepted v1 runtime stays byte-identical.
+  const runSource=path.join(f.root,'run-source'),runFolder=path.join(runSource,'figma-layer-name-hygiene-run');
+  fs.cpSync(require('../src/skills/run-skill').BUNDLED,runFolder,{recursive:true});
+  const runProfile=JSON.parse(fs.readFileSync(path.join(runFolder,'profile.json')));
+  const runText=fs.readFileSync(path.join(runFolder,'SKILL.md'),'utf8')+'\nREMOTE_RUN_POLICY_FIXTURE\n';
+  runProfile.version='0.2.1';runProfile.instructions={sha256:release.sha(Buffer.from(runText)),bytes:Buffer.byteLength(runText)};
+  put(runFolder,'SKILL.md',runText);put(runFolder,'profile.json',runProfile);
+  const runRelease=await buildDataRelease({...options,skillsRoot:runSource,output:path.join(f.root,'run-release')});
+  assert.equal(runRelease.manifest.runtimeId,bundled.manifest.runtimeId);
+  assert.deepEqual(runRelease.manifest.files.filter(pin=>pin.file.startsWith('skills/')).map(pin=>pin.file).sort(),['skills/figma-layer-name-hygiene-run/SKILL.md','skills/figma-layer-name-hygiene-run/profile.json']);
+  const installedRun=await release.installTarball({...settings,tarballPath:runRelease.tarballPath,expectedIntegrity:runRelease.descriptor.tarballIntegrity,expectedContentVersion:runRelease.manifest.id});
+  const runSkill=require('../src/skills/run-skill').loadRunSkill(runtimeRoot,{releaseRoot:installedRun.current.path});
+  assert.equal(runSkill.version,'0.2.1');assert.match(runSkill.instructions,/REMOTE_RUN_POLICY_FIXTURE/);runSkill.assertCurrent();
+  assert.deepEqual(fs.readFileSync(path.join(runtimeRoot,'portable-runtime.json')),code);
+  runProfile.wire.sha256='0'.repeat(64);put(runFolder,'profile.json',runProfile);
+  await assert.rejects(buildDataRelease({...options,skillsRoot:runSource,output:path.join(f.root,'bad-wire-release')}),{code:'LAYER_NAMES_RUN_PROFILE_INCOMPATIBLE'});
   // A declared source can never silently revert to the embedded skill.
   fs.appendFileSync(path.join(selected.packageRoot, 'skills/figma-layer-name-hygiene/SKILL.md'), '\nSource drift');
   await assert.rejects(buildDataRelease({ ...options, skillsRoot: path.join(selected.packageRoot, 'skills'), output: path.join(f.root, 'stale-source-release') }), { code: 'LAYER_NAMES_SKILL_STALE' });

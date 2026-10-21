@@ -19,7 +19,7 @@ function loadSkill(apolloRoot, {releaseRoot,skillsRoot} = {}) {
     if (JSON.stringify(JSON.parse(bytes)) !== JSON.stringify(manifest)) fail('LAYER_NAMES_SKILL_STALE');
     pins.push({path:file,sha256:sha(bytes),max:Infinity});
     // Only a legacy release with no skill files may use the bundled instructions.
-    if (manifest.files.some(pin => pin.file.startsWith('skills/'))) selectedSkills = path.join(releaseRoot,'skills');
+    if (manifest.files.some(pin => pin.file.startsWith('skills/figma-layer-name-hygiene/'))) selectedSkills = path.join(releaseRoot,'skills');
   }
   const profilePath = path.join(selectedSkills,'figma-layer-name-hygiene/profile.json');
   const profileBytes = read(profilePath);
@@ -40,11 +40,45 @@ function loadSkill(apolloRoot, {releaseRoot,skillsRoot} = {}) {
   return {protocol:require(protocolPath),instructions:bodies[0],version:profile.version,sha256:sha(profileBytes),
     assertCurrent() { for (const pin of pins) if (sha(read(pin.path,pin.max)) !== pin.sha256) fail('LAYER_NAMES_SKILL_STALE'); }};
 }
-function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../../projects/Apollo'),releaseRoot = process.env.APOLLO_RELEASE_ROOT} = {}) {
+function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../../projects/Apollo'),releaseRoot = process.env.APOLLO_RELEASE_ROOT,maxRuntimeMs=900000,onTrace} = {}) {
   let active = false;
+  const runner=require('./runner').createSkillRunner({invoke:plan,maxRuntimeMs,onTrace});
+  function error(res,error) {
+    const code=/^LAYER_NAMES_[A-Z_]+$/.test(error.code || '') ? error.code : 'LAYER_NAMES_UNAVAILABLE';
+    res.status(error.status || 503).json({success:false,code,error:code});
+  }
+  app.post('/skills/layer-names/runs',(req,res)=>{
+    try {
+      if(active)fail('LAYER_NAMES_BUSY',409);
+      const skill=require('./run-skill').loadRunSkill(apolloRoot,{releaseRoot}),p=skill.protocol,body=req.body;
+      if(!p.exact(body,['schemaVersion','wire','requestId','snapshot']) || body.schemaVersion!==p.RUN_SCHEMA || !p.string(body.requestId,150)
+        || !p.snapshotValid(body.snapshot) || Buffer.byteLength(JSON.stringify(body))>512*1024)fail('LAYER_NAMES_INPUT_INVALID',400);
+      if(!p.exact(body.wire,['version','sha256']) || body.wire.version!==p.WIRE_VERSION || body.wire.sha256!==p.WIRE_SHA256)fail('LAYER_NAMES_WIRE_INCOMPATIBLE',409);
+      res.status(202).json({success:true,run:runner.begin({requestId:body.requestId,snapshot:body.snapshot,skill,protocol:p})});
+    }catch(e){error(res,e);}
+  });
+  app.get('/skills/layer-names/runs/:runId',(req,res)=>{
+    try {
+      if(Object.keys(req.query).join(',')!=='requestId' || typeof req.query.requestId!=='string')fail('LAYER_NAMES_INPUT_INVALID',400);
+      res.json({success:true,run:runner.read(req.params.runId,req.query.requestId)});
+    }catch(e){error(res,e);}
+  });
+  app.post('/skills/layer-names/runs/:runId/context',(req,res)=>{
+    try {
+      const b=req.body;
+      if(!b || Object.keys(b).sort().join(',')!=='callId,context,requestId' || typeof b.requestId!=='string' || typeof b.callId!=='string')fail('LAYER_NAMES_INPUT_INVALID',400);
+      res.json({success:true,run:runner.observe({runId:req.params.runId,requestId:b.requestId,callId:b.callId,context:b.context})});
+    }catch(e){error(res,e);}
+  });
+  app.post('/skills/layer-names/runs/:runId/cancel',(req,res)=>{
+    try {
+      if(!req.body || Object.keys(req.body).join(',')!=='requestId' || typeof req.body.requestId!=='string')fail('LAYER_NAMES_INPUT_INVALID',400);
+      res.json({success:true,run:runner.cancel(req.params.runId,req.body.requestId)});
+    }catch(e){error(res,e);}
+  });
   app.post('/skills/layer-names/plan', async (req,res) => {
     try {
-      if (active) fail('LAYER_NAMES_BUSY',409);
+      if (active || runner.busy()) fail('LAYER_NAMES_BUSY',409);
       const skill = loadSkill(apolloRoot,{releaseRoot}), p = skill.protocol, body = req.body;
       if (!p.exact(body,['requestId','snapshot']) || !p.string(body.requestId,150) || !p.snapshotValid(body.snapshot) || Buffer.byteLength(JSON.stringify(body)) > 512 * 1024) fail('LAYER_NAMES_INPUT_INVALID',400);
       active = true;
@@ -61,5 +95,6 @@ function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT
       res.status(error.status || 503).json({success:false,code,error:code});
     }
   });
+  return runner;
 }
 module.exports = {loadSkill,mountLayerNameRoutes};

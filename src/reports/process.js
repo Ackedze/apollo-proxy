@@ -14,9 +14,13 @@ function runCodexProcess(
   telemetryContext = {},
   outputFormat = 'json'
 ) {
+  const signal=telemetryContext.signal, budget=telemetryContext.runtimeBudgetMs;
+  if (signal?.aborted) return Promise.reject(Object.assign(Error('CLI request cancelled.'),{code:'CLI_CANCELLED',status:499}));
+  if (budget!==undefined && (!Number.isSafeInteger(budget) || budget<1)) return Promise.reject(Object.assign(Error('CLI time budget exhausted.'),{code:'CLI_TIME_BUDGET_EXHAUSTED',status:504}));
+  const maxRuntimeMs=budget===undefined ? CODEX_MAX_RUNTIME_MS : Math.min(budget,CODEX_MAX_RUNTIME_MS);
   if (CLI_PROVIDER === 'claude') {
     return runClaudeProcess({ binary: CLI_AGENT_BIN, codexArgs: args, prompt, outputPath,
-      outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs: CODEX_MAX_RUNTIME_MS,
+      outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs, signal,
       onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
       model: process.env.CLAUDE_MODEL || '', skillRoot: APOLLO_CODEX_SKILL_ROOT });
   }
@@ -30,39 +34,57 @@ function runCodexProcess(
       cwd: workingDirectory,
       env: buildCodexEnvironment(),
       shell: false,
+      detached: Boolean((budget!==undefined || signal) && process.platform!=='win32'),
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     let stdout = '';
     let stdoutLineBuffer = '';
     let stderr = '';
     let lastAgentMessage = '';
-    let settled = false;
+    let settled = false, failure = null, forceTimer;
+    const onAbort=()=>stop(Object.assign(Error('CLI request cancelled.'),{code:'CLI_CANCELLED',status:499}));
+    function kill(signalName) {
+      try { if ((budget!==undefined || signal) && process.platform!=='win32' && child.pid) process.kill(-child.pid,signalName); else child.kill(signalName); }
+      catch { child.kill(signalName); }
+    }
+    function stop(error) {
+      if (settled || failure) return;
+      failure=error; kill('SIGTERM');
+      forceTimer=setTimeout(()=>{if(!settled)kill('SIGKILL');},3000);
+    }
+    function cleanup() {
+      if (idleTimeout) clearTimeout(idleTimeout);
+      clearTimeout(maxRuntimeTimeout);clearTimeout(forceTimer);
+      signal?.removeEventListener('abort',onAbort);
+    }
 
     let idleTimeout = null;
     const maxRuntimeTimeout = setTimeout(() => {
       if (settled) return;
-      child.kill('SIGTERM');
       const err = new Error(
-        `Codex validation exceeded the maximum runtime of ${CODEX_MAX_RUNTIME_MS} ms.`
+        `Codex validation exceeded the maximum runtime of ${maxRuntimeMs} ms.`
       );
       err.status = 504;
       err.code = 'CODEX_MAX_RUNTIME_EXCEEDED';
+      if (budget!==undefined || signal) {stop(err);return;}
+      child.kill('SIGTERM');
       settled = true;
       if (idleTimeout) clearTimeout(idleTimeout);
       reject(err);
-    }, CODEX_MAX_RUNTIME_MS);
+    }, maxRuntimeMs);
 
     const refreshIdleTimeout = () => {
       if (settled) return;
       if (idleTimeout) clearTimeout(idleTimeout);
       idleTimeout = setTimeout(() => {
         if (settled) return;
-        child.kill('SIGTERM');
         const err = new Error(
           `Codex validation produced no output for ${CODEX_IDLE_TIMEOUT_MS} ms.`
         );
         err.status = 504;
         err.code = 'CODEX_IDLE_TIMEOUT';
+        if (budget!==undefined || signal) {stop(err);return;}
+        child.kill('SIGTERM');
         settled = true;
         clearTimeout(maxRuntimeTimeout);
         reject(err);
@@ -71,6 +93,7 @@ function runCodexProcess(
     refreshIdleTimeout();
 
     child.stdout.on('data', (chunk) => {
+      if (failure) return;
       refreshIdleTimeout();
       const text = chunk.toString('utf8');
       if (stdout.length < 2 * 1024 * 1024) stdout += text;
@@ -107,13 +130,13 @@ function runCodexProcess(
       }
     });
     child.stderr.on('data', (chunk) => {
+      if (failure) return;
       refreshIdleTimeout();
       if (stderr.length < 2 * 1024 * 1024) stderr += chunk.toString('utf8');
     });
     child.on('error', (error) => {
       if (settled) return;
-      if (idleTimeout) clearTimeout(idleTimeout);
-      clearTimeout(maxRuntimeTimeout);
+      cleanup();
       settled = true;
       const err = new Error(`Failed to start Codex: ${error.message}`);
       err.status = 503;
@@ -121,9 +144,9 @@ function runCodexProcess(
     });
     child.on('close', async (code) => {
       if (settled) return;
-      if (idleTimeout) clearTimeout(idleTimeout);
-      clearTimeout(maxRuntimeTimeout);
+      cleanup();
       settled = true;
+      if (failure) {reject(failure);return;}
       if (code !== 0) {
         reject(buildCodexProcessExitError(code, stderr, stdout));
         return;
@@ -155,6 +178,9 @@ function runCodexProcess(
       }
     });
 
+    child.stdin.on('error',()=>{});
+    signal?.addEventListener('abort',onAbort,{once:true});
+    if (signal?.aborted) onAbort();
     child.stdin.end(prompt);
   });
 }

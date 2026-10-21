@@ -65,13 +65,23 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
   }
   const sourceSkills = path.resolve(skillsRoot || path.join(runtimeRoot, 'skills'));
   const namingFolder = path.join(sourceSkills, 'figma-layer-name-hygiene');
+  const runFolder = path.join(sourceSkills,'figma-layer-name-hygiene-run');
+  if(skillsRoot!==undefined && !require('node:fs').existsSync(namingFolder) && !require('node:fs').existsSync(runFolder))throw Object.assign(Error('Explicit skill source contains no supported naming profile.'),{code:'LAYER_NAMES_SKILL_UNAVAILABLE'});
   // New instructions can be published against an unchanged, accepted runtime.
-  if (skillsRoot !== undefined || require('node:fs').existsSync(namingFolder)) {
+  if (require('node:fs').existsSync(namingFolder)) {
     const skill = require('../src/skills/layer-names').loadSkill(runtimeRoot, { skillsRoot: sourceSkills });
     for (const file of ['SKILL.md', 'profile.json']) {
       const target = path.join(root, 'skills/figma-layer-name-hygiene', file);
       await fs.mkdir(path.dirname(target), { recursive: true });
       await fs.copyFile(path.join(namingFolder, file), target);
+    }
+    skill.assertCurrent();
+  }
+  if(require('node:fs').existsSync(runFolder)) {
+    const skill=require('../src/skills/run-skill').readRunProfile(runFolder);
+    for(const file of ['SKILL.md','profile.json']){
+      const target=path.join(root,'skills/figma-layer-name-hygiene-run',file);
+      await fs.mkdir(path.dirname(target),{recursive:true});await fs.copyFile(path.join(runFolder,file),target);
     }
     skill.assertCurrent();
   }

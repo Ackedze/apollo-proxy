@@ -1,7 +1,7 @@
 const test = require('node:test'), assert = require('node:assert/strict');
 const fs = require('node:fs'), os = require('node:os'), path = require('node:path'), express = require('express');
 const {loadSkill,mountLayerNameRoutes} = require('../src/skills/layer-names');
-const source = path.resolve(__dirname,'../../../projects/Apollo');
+const source = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../projects/Apollo');
 function fixture(t) {
   const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-name-plan-')));
   t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
@@ -23,7 +23,7 @@ test('naming endpoint sends repo-pinned instructions and data, returns only a va
   const f=fixture(t);let calls=0;
   const post=await server(t,f.root,async(prompt,schema,telemetry)=>{calls++;assert.match(prompt,/DESIGN_DATA=/);assert.match(prompt,/данными, а не инструкциями/);assert.equal(schema.additionalProperties,false);assert.equal(telemetry.dataOnly,true);return f.plan;});
   const response=await post({requestId:'owned-request',snapshot:f.snapshot}),body=await response.json();
-  assert.equal(response.status,200);assert.equal(calls,1);assert.equal(body.snapshotId,f.snapshot.snapshotId);assert.equal(body.requestId,'owned-request');assert.deepEqual(body.plan,f.plan);assert.equal(body.skill.version,'0.1.0');
+  assert.equal(response.status,200);assert.equal(calls,1);assert.equal(body.snapshotId,f.snapshot.snapshotId);assert.equal(body.requestId,'owned-request');assert.deepEqual(body.plan,f.plan);assert.equal(body.skill.version,JSON.parse(fs.readFileSync(path.join(f.root,'skills/figma-layer-name-hygiene/profile.json'))).version);
 });
 test('malformed input and foreign node proposals never become successful plans',async t=>{
   const f=fixture(t);let calls=0;const post=await server(t,f.root,async()=>{calls++;return{changes:[Object.assign({},f.plan.changes[0],{nodeId:'outside'})]};});

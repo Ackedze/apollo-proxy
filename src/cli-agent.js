@@ -56,16 +56,18 @@ function buildClaudeInvocation(codexArgs, prompt, outputPath, { model = '', skil
   // Each request gets a private working directory, even when the Codex invocation
   // uses the shared workspace. Only the explicit knowledge roots are added.
   const cwd = path.dirname(outputPath);
+  const dataOnly=codexArgs.includes('features.shell_tool=false');
   let adaptedPrompt = prompt;
   if (skillRoot && /^Используй \$apollo-design-validator\.(?:\r?\n|$)/.test(prompt)) {
     directories.add(skillRoot);
     adaptedPrompt = adaptedPrompt.replace('Используй $apollo-design-validator.',
       `Прочитай ${path.join(skillRoot, 'SKILL.md')} и используй этот Apollo skill как инструкцию для проверки.`);
   }
-  adaptedPrompt += '\nДоступны только Read, Glob и Grep. Используй их для чтения JSON, документов и изображений вместо shell. Не изменяй файлы.';
+  adaptedPrompt += dataOnly ? '\nВсе данные переданы в запросе. Инструменты отключены. Верни только JSON по схеме.'
+    : '\nДоступны только Read, Glob и Grep. Используй их для чтения JSON, документов и изображений вместо shell. Не изменяй файлы.';
   if (images.length) adaptedPrompt += `\nИзображения для визуальной проверки (прочитай через Read):\n${images.join('\n')}`;
   const args = ['-p', '--output-format', 'stream-json', '--verbose', '--restricted', '--safe-mode',
-    '--no-session-persistence', '--tools', 'Read,Glob,Grep', '--allowedTools', 'Read,Glob,Grep',
+    '--no-session-persistence', '--tools', dataOnly ? '' : 'Read,Glob,Grep', '--allowedTools', dataOnly ? '' : 'Read,Glob,Grep',
     '--permission-mode', 'dontAsk', '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}'];
   for (const directory of directories) if (directory !== cwd) args.push('--add-dir', directory);
   const schemaPath = values('--output-schema')[0];
@@ -76,7 +78,9 @@ function buildClaudeInvocation(codexArgs, prompt, outputPath, { model = '', skil
 
 function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat = 'json',
   idleTimeoutMs = 300000, maxRuntimeMs = 900000, onProgress, analysisStage, model, skillRoot,
-  environment = buildClaudeEnvironment() }) {
+  environment = buildClaudeEnvironment(), signal }) {
+  if (signal?.aborted) return Promise.reject(agentError('CLI request cancelled.',499,'CLI_CANCELLED'));
+  if (!Number.isSafeInteger(maxRuntimeMs) || maxRuntimeMs<1) return Promise.reject(agentError('CLI time budget exhausted.',504,'CLI_TIME_BUDGET_EXHAUSTED'));
   const invocation = buildClaudeInvocation(codexArgs, prompt, outputPath, { model, skillRoot });
   return new Promise((resolve, reject) => {
     const child = spawn(binary, invocation.args, { cwd: invocation.cwd, env: environment,
@@ -93,6 +97,7 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
       if (!failure) idleTimer = setTimeout(() => stop(agentError('Claude не отвечает. Повторите запрос.', 504, 'CLAUDE_IDLE_TIMEOUT')), idleTimeoutMs);
     };
     const maxTimer = setTimeout(() => stop(agentError('Превышено время выполнения Claude.', 504, 'CLAUDE_MAX_RUNTIME_EXCEEDED')), maxRuntimeMs);
+    const onAbort=()=>stop(agentError('CLI request cancelled.',499,'CLI_CANCELLED'));
     refreshIdle();
     const consume = line => {
       if (!line.trim()) return;
@@ -113,6 +118,7 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
     child.on('error', () => { failure = agentError('Claude Code не найден. Установите CLI или задайте CLAUDE_BIN.', 503, 'CLAUDE_CLI_UNAVAILABLE'); });
     child.on('close', async code => {
       closed = true; clearTimeout(idleTimer); clearTimeout(maxTimer); clearTimeout(forceTimer);
+      signal?.removeEventListener('abort',onAbort);
       consume(buffer);
       if (failure) return reject(failure);
       if (code !== 0 || result?.is_error) return reject(claudeFailure(code, stderr, result));
@@ -125,6 +131,8 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
         resolve(value);
       } catch { reject(agentError('Claude вернул некорректный ответ. Повторите запрос.', 502, 'CLAUDE_OUTPUT_INVALID')); }
     });
+    signal?.addEventListener('abort',onAbort,{once:true});
+    if (signal?.aborted) onAbort();
     child.stdin.end(invocation.prompt);
   });
 }

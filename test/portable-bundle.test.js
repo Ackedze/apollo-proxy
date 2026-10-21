@@ -48,7 +48,7 @@ test('sparse portable code copies literal module closure and rejects external/au
 test('packed naming skill and protocol run without the source checkout; missing/stale inputs fail closed', t => {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-naming-bundle-')));
   t.after(() => fs.rmSync(root,{recursive:true,force:true}));
-  const source = path.join(root,'code'), actual = path.resolve(__dirname,'../../../projects/Apollo');
+  const source = path.join(root,'code'), actual = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../projects/Apollo');
   const put = (name,body) => { const file=path.join(source,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,body); };
   const naming = ['skills/figma-layer-name-hygiene/profile.json','skills/figma-layer-name-hygiene/SKILL.md','src/skills/layer-names/protocol.js'];
   for (const file of naming) put(file,fs.readFileSync(path.join(actual,file)));

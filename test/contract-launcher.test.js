@@ -12,9 +12,10 @@ test('contract explanation launches isolated Codex, reports busy/auth errors and
 const fs = require('node:fs'), args = process.argv.slice(2);
 let input = ''; process.stdin.on('data', chunk => input += chunk);
 process.stdin.on('end', () => {
-  fs.writeFileSync(${JSON.stringify(record)}, JSON.stringify({ args, cwd: process.cwd(), input }));
+  fs.writeFileSync(${JSON.stringify(record)}, JSON.stringify({ args, cwd: process.cwd(), input, pid:process.pid }));
   if (input === 'auth-error') { process.stderr.write('not logged in'); process.exit(1); }
   if (input === 'process-error') { process.stderr.write('synthetic process failure'); process.exit(2); }
+  if (input.startsWith('hang')) {setInterval(()=>{},1000);return;}
   setTimeout(() => {
     fs.writeFileSync(args[args.indexOf('--output-last-message') + 1], JSON.stringify({ summary: 'stub', findings: [] }));
   }, 100);
@@ -46,4 +47,15 @@ process.stdin.on('end', () => {
   assert.equal(receipt.details.stderr, 'synthetic process failure');
   assert.equal(Object.hasOwn(receipt, 'prompt'), false);
   assert.equal((await callCodexContractExplanation('after-error', {})).summary, 'stub');
+  const before=fs.readFileSync(record,'utf8'),preAborted=new AbortController();preAborted.abort();
+  await assert.rejects(callCodexContractExplanation('pre-aborted',{}, {signal:preAborted.signal,runtimeBudgetMs:1000}),e=>e.code==='CLI_CANCELLED');
+  await assert.rejects(callCodexContractExplanation('exhausted',{}, {runtimeBudgetMs:0}),e=>e.code==='CLI_TIME_BUDGET_EXHAUSTED');
+  assert.equal(fs.readFileSync(record,'utf8'),before,'No CLI spawned for pre-aborted or exhausted requests');
+  await assert.rejects(callCodexContractExplanation('hang-budget',{}, {runtimeBudgetMs:50}),e=>e.code==='CODEX_MAX_RUNTIME_EXCEEDED');
+  const controller=new AbortController(),work=callCodexContractExplanation('hang-abort',{}, {signal:controller.signal,runtimeBudgetMs:5000});
+  for(let i=0;i<200;i++){if(JSON.parse(fs.readFileSync(record)).input==='hang-abort')break;await new Promise(resolve=>setTimeout(resolve,5));}
+  const child=JSON.parse(fs.readFileSync(record));assert.equal(child.input,'hang-abort');controller.abort();
+  await assert.rejects(work,e=>e.code==='CLI_CANCELLED');assert.throws(()=>process.kill(child.pid,0),e=>e.code==='ESRCH');
+  assert.equal(require('node:events').getEventListeners(controller.signal,'abort').length,0);
+  assert.equal((await callCodexContractExplanation('after-abort', {})).summary,'stub','Global CLI slot is released after child termination');
 });

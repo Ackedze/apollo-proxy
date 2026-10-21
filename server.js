@@ -276,6 +276,7 @@ const {
 } = require('./src/generation/semantic-index');
 let dispatcher;
 let activeCodexRuns = 0;
+let namingRuns = null;
 let activeGenerationCodexRuns = 0;
 let contractKnowledgeCache = null;
 let dsAiHubKnowledgeCache = null;
@@ -858,6 +859,8 @@ async function callCodexContractExplanation(
         mode: 'contract-v4-explanation',
         model: CODEX_MODEL || null,
         workingDirectory: directory,
+        runtimeBudgetMs: requestTelemetry.runtimeBudgetMs,
+        signal: requestTelemetry.signal,
         onEvent: (event) => {
           if (event.type === 'turn.completed') usageEvents.push(event);
         },
@@ -1530,12 +1533,12 @@ app.get('/health', async (req, res) => {
     agent: {
       provider: CLI_PROVIDER,
       configured: Boolean(CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy,
+      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || Boolean(namingRuns?.busy()),
     },
     codex: {
       provider: CLI_PROVIDER,
       configured: Boolean(CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0,
+      busy: activeCodexRuns > 0 || Boolean(namingRuns?.busy()),
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
       skill,
@@ -1553,7 +1556,7 @@ app.get('/health', async (req, res) => {
 });
 
 mountContractRoutes(app, { explain: callCodexContractExplanation });
-require('./src/skills/layer-names').mountLayerNameRoutes(app,{plan:callCodexContractExplanation});
+namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{plan:callCodexContractExplanation,maxRuntimeMs:Math.min(CODEX_MAX_RUNTIME_MS,900000),onTrace:event=>console.info('[Apollo][skills]',event)});
 require('./src/generation-agent/recipe-catalog').mountRecipeRoutes(app);
 mountGenerationRoutes(app, {
   plan: callCodexContractExplanation,

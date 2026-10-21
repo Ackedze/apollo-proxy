@@ -56,6 +56,28 @@ test('Claude invocation confines file access, preserves schemas/images and loads
   assert.ok(!packet.args.includes('/own-skill'));
 });
 
+test('data-only Claude requests expose no built-in tools and keep MCP disabled',t=>{
+  const {root}=fixture(t),schema=path.join(root,'schema.json');fs.writeFileSync(schema,'{"type":"object"}');
+  const value=buildClaudeInvocation(['-c','features.shell_tool=false','--output-schema',schema],'Owned context',path.join(root,'result.json'));
+  assert.equal(value.args[value.args.indexOf('--tools')+1],'');assert.equal(value.args[value.args.indexOf('--allowedTools')+1],'');
+  assert.equal(value.args[value.args.indexOf('--mcp-config')+1],'{"mcpServers":{}}');assert.doesNotMatch(value.prompt,/Доступны только Read/);
+});
+
+test('Claude pre-abort avoids spawn and active abort cleans its signal listener',async t=>{
+  const {root,binary,record}=fixture(t),outputPath=path.join(root,'cancelled.json'),controller=new AbortController();controller.abort();
+  const options={binary,codexArgs:[],outputPath,environment:{PATH:process.env.PATH},maxRuntimeMs:10000};
+  await assert.rejects(runClaudeProcess({...options,prompt:'hang',signal:controller.signal}),e=>e.code==='CLI_CANCELLED');assert.equal(fs.existsSync(record),false);
+  await assert.rejects(runClaudeProcess({...options,prompt:'hang',maxRuntimeMs:0}),e=>e.code==='CLI_TIME_BUDGET_EXHAUSTED');assert.equal(fs.existsSync(record),false);
+  const active=new AbortController(),work=runClaudeProcess({...options,prompt:'hang-abort',signal:active.signal}),outcome=work.then(value=>({value}),error=>({error}));
+  try{
+    const deadline=Date.now()+5000;
+    while(!fs.existsSync(record)&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,10));
+    assert.equal(fs.existsSync(record),true);active.abort();
+    assert.equal((await outcome).error?.code,'CLI_CANCELLED');assert.equal(require('node:events').getEventListeners(active.signal,'abort').length,0);
+  }finally{active.abort();await outcome;}
+  assert.equal((await runClaudeProcess({...options,prompt:'after-abort'})).summary,'stub');
+});
+
 test('Claude streams progress, returns structured/text results and reports actionable auth/CLI/output failures', async t => {
   const {root,binary}=fixture(t),outputPath=path.join(root,'result.json'),progress=[];
   const options={binary,codexArgs:[],outputPath,onProgress:stage=>progress.push(stage),environment:{PATH:process.env.PATH},idleTimeoutMs:5000};
