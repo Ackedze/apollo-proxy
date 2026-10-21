@@ -11,6 +11,7 @@ struct ProxyDetailsSnapshot {
     var canCheckAccess = false
     var canChangeAgent = true
     var cliMissing = false
+    var authorizationBusy = false
     var knowledgeSource = "ds-ai-hub"
     var knowledgeStatus = ""
     var knowledgeVersion = ""
@@ -37,6 +38,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let agentPicker = NSSegmentedControl(labels: ["Codex", "Claude"], trackingMode: .selectOne, target: nil, action: nil)
     private let authorizationLabel = NSTextField(wrappingLabelWithString: "")
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
+    private let authorizationProgress = NSProgressIndicator()
     private let knowledgePicker = NSPopUpButton(frame: .zero, pullsDown: false)
     private let knowledgeLabel = NSTextField(wrappingLabelWithString: "")
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
@@ -70,10 +72,12 @@ final class ProxyDetailsWindowController: NSWindowController {
         agentPicker.isEnabled = state.canChangeAgent
         authorizationLabel.stringValue = state.authorization
         authorizationHelp.stringValue = state.authorizationHelp
+        if state.authorizationBusy { authorizationProgress.startAnimation(nil) }
+        else { authorizationProgress.stopAnimation(nil) }
         buttons[.login]?.title = state.loginTitle
         buttons[.login]?.isEnabled = state.canLogin
         buttons[.checkAccess]?.isEnabled = state.canCheckAccess
-        buttons[.installCLI]?.isHidden = !state.cliMissing
+        buttons[.installCLI]?.isHidden = !state.cliMissing || state.provider == .codex
         knowledgePicker.selectItem(withTitle: state.knowledgeSource)
         knowledgePicker.isEnabled = state.canCheckKnowledge && state.canChangeAgent
         knowledgeLabel.stringValue = state.knowledgeStatus
@@ -139,8 +143,14 @@ final class ProxyDetailsWindowController: NSWindowController {
         agentPicker.target = self; agentPicker.action = #selector(providerChanged)
         agentPicker.setAccessibilityLabel("AI-агент")
         style(authorizationLabel); style(authorizationHelp, secondary: true)
-        section([heading("AI-агент"), agentPicker, authorizationLabel, authorizationHelp,
-                 row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Установить CLI…", .installCLI)])])
+        authorizationProgress.style = .spinning
+        authorizationProgress.controlSize = .small
+        authorizationProgress.isDisplayedWhenStopped = false
+        authorizationProgress.setAccessibilityLabel("Подготовка AI-агента")
+        let authorizationRow = row([authorizationProgress, authorizationLabel])
+        section([heading("AI-агент"), agentPicker, authorizationRow, authorizationHelp,
+                 row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])])
+        authorizationRow.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         knowledgePicker.addItems(withTitles: ["ds-ai-hub", "design-system_ab"])
         knowledgePicker.target = self; knowledgePicker.action = #selector(knowledgeSourceChanged)
         knowledgePicker.setAccessibilityLabel("Источник знаний")

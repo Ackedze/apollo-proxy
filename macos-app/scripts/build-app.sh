@@ -10,23 +10,30 @@ DESIGN_SYSTEM_SOURCE="${DESIGN_SYSTEM_AB_ROOT:-${REPOSITORY_ROOT}/shared/design-
 
 APP_NAME="ApolloProxyControl"
 BUNDLE_ID="com.redpol.apollo-proxy-control"
-DIST_DIR="${APP_ROOT}/dist"
+DIST_DIR="${APOLLO_APP_DIST_DIR:-${APP_ROOT}/dist}"
+BUILD_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
+WORK_DIR="${APP_ROOT}/build/package-${BUILD_STAMP}"
 APP_BUNDLE="${DIST_DIR}/${APP_NAME}.app"
-ARCHIVE_PATH="${DIST_DIR}/${APP_NAME}-macOS.zip"
+ARCHIVE_PATH="${DIST_DIR}/${APP_NAME}-macOS-${BUILD_STAMP}.zip"
 ARM64_BUILD_DIR="${APP_ROOT}/.build/arm64-apple-macosx/release"
 X86_64_BUILD_DIR="${APP_ROOT}/.build/x86_64-apple-macosx/release"
 ARM64_EXECUTABLE="${ARM64_BUILD_DIR}/${APP_NAME}"
 X86_64_EXECUTABLE="${X86_64_BUILD_DIR}/${APP_NAME}"
 UNIVERSAL_EXECUTABLE="${DIST_DIR}/${APP_NAME}-universal"
-NODE_EXECUTABLE="$(command -v node || true)"
+NODE_EXECUTABLE="${APOLLO_NODE_SOURCE:-$(command -v node || true)}"
 PROXY_VERSION="$(node -p "require('${PROXY_ROOT}/package.json').version")"
-BUILD_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
 REQUIRE_NOTARIZATION="${REQUIRE_NOTARIZATION:-0}"
 EMBED_PROXY_ENV="${EMBED_PROXY_ENV:-0}"
 KNOWLEDGE_DESCRIPTOR_URL="${KNOWLEDGE_DESCRIPTOR_URL:-https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/knowledge/channels/stable.json}"
 KNOWLEDGE_DESCRIPTOR_XML="$(printf '%s' "${KNOWLEDGE_DESCRIPTOR_URL}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
+DATA_DESCRIPTOR_URL="${APOLLO_DATA_DESCRIPTOR_URL:-}"
+DATA_ASSET_URL_TEMPLATE="${APOLLO_DATA_ASSET_URL:-}"
+if [[ -z "${DATA_ASSET_URL_TEMPLATE}" ]]; then
+  DATA_ASSET_URL_TEMPLATE='https://github.com/Ackedze/design-system_ab/releases/download/apollo-data-{version}/apollo-data-{version}.tgz'
+fi
+DATA_DESCRIPTOR_XML="$(printf '%s' "${DATA_DESCRIPTOR_URL}" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 SOURCE_APP_BUNDLE="${APP_ROOT}/Sources/ApolloProxyControl/${APP_NAME}.app"
 
 if [[ -d "${SOURCE_APP_BUNDLE}" ]]; then
@@ -55,7 +62,7 @@ sign_target() {
 }
 
 create_archive() {
-  rm -f "${ARCHIVE_PATH}"
+  [[ ! -e "${ARCHIVE_PATH}" ]] || { echo "Archive already exists: ${ARCHIVE_PATH}" >&2; return 1; }
   ditto -c -k --sequesterRsrc --keepParent "${APP_BUNDLE}" "${ARCHIVE_PATH}"
 }
 
@@ -113,6 +120,8 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
   <string>13.0</string>
   <key>LSUIElement</key>
   <true/>
+  <key>ApolloDataDescriptorURL</key>
+  <string>${DATA_DESCRIPTOR_XML}</string>
   <key>ApolloKnowledgeDescriptorURL</key>
   <string>${KNOWLEDGE_DESCRIPTOR_XML}</string>
 </dict>
@@ -132,33 +141,56 @@ rsync -a --delete \
   --exclude ".DS_Store" \
   --exclude ".git" \
   --exclude ".gitignore" \
-  --exclude ".env" \
+  --exclude ".local" \
+  --include ".env.example" \
+  --exclude ".env*" \
+  --exclude "*.log" \
+  --exclude "test" \
+  --exclude "docs" \
   --exclude "build" \
   --exclude "coverage" \
   --exclude "codex-workspace/debug-runs" \
   --exclude "macos-app" \
   --exclude "knowledge" \
   --exclude "dist" \
-  --exclude "knowledge" \
   --exclude "runtime" \
   "${PROXY_ROOT}/" \
   "${APP_BUNDLE}/Contents/Resources/embedded-proxy/"
 
-KNOWLEDGE_SEED_ROOT="${APP_BUNDLE}/Contents/Resources/knowledge-seed"
-V4_PILOT_SOURCE="${APOLLO_V4_RELEASE_ROOT:-${REPOSITORY_ROOT}/projects/Apollo-v3/apps/apollo-v4/dist/pilot-release}"
-if [[ -f "${V4_PILOT_SOURCE}/manifest.json" ]]; then
-  node -e 'require(process.argv[1]).readRelease(process.argv[2])' \
-    "${PROXY_ROOT}/src/contracts-v4/service.js" "${V4_PILOT_SOURCE}"
-  mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/component-contract-v4"
-  rsync -a --delete "${V4_PILOT_SOURCE}/" \
-    "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/component-contract-v4/"
-  echo "Embedded the local unpublished Apollo v4 contract pilot."
+KNOWLEDGE_SEED_ROOT="${WORK_DIR}/knowledge-seed"
+mkdir -p "${WORK_DIR}"
+PORTABLE_RUNTIME_SOURCE="${APOLLO_PORTABLE_RUNTIME_SOURCE:-${WORK_DIR}/runtime/apollo}"
+if [[ -z "${APOLLO_PORTABLE_RUNTIME_SOURCE:-}" ]]; then
+  PORTABLE_APOLLO_ROOT="${APOLLO_PROJECT_ROOT:-${REPOSITORY_ROOT}/projects/Apollo}"
+  node "${PROXY_ROOT}/scripts/build-portable-runtime.js" \
+    --apollo-root "${PORTABLE_APOLLO_ROOT}" \
+    --skills-root "${APOLLO_SKILLS_SOURCE:-${PORTABLE_APOLLO_ROOT}/skills}" --output "${PORTABLE_RUNTIME_SOURCE}"
 fi
-node "${PROXY_ROOT}/scripts/build-knowledge-package.js" \
-  --design-system-root "${DESIGN_SYSTEM_SOURCE}" \
-  --ds-ai-hub-root "${DS_AI_HUB_SOURCE}" \
-  --output "${KNOWLEDGE_SEED_ROOT}" \
-  --directory-only
+node -e 'require(process.argv[1]).readRuntime(process.argv[2])' "${PROXY_ROOT}/src/data-release" "${PORTABLE_RUNTIME_SOURCE}"
+mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/apollo"
+rsync -a --delete "${PORTABLE_RUNTIME_SOURCE}/" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/apollo/"
+if [[ -n "${APOLLO_DATA_RELEASE_SEED_SOURCE:-}" ]]; then
+  RELEASE_SEED="${APOLLO_DATA_RELEASE_SEED_SOURCE}"
+else
+  if [[ -n "${KNOWLEDGE_SEED_SOURCE:-}" ]]; then
+    KNOWLEDGE_PACKAGE="${KNOWLEDGE_SEED_SOURCE}"
+  else
+    node "${PROXY_ROOT}/scripts/build-knowledge-package.js" \
+      --design-system-root "${DESIGN_SYSTEM_SOURCE}" --ds-ai-hub-root "${DS_AI_HUB_SOURCE}" \
+      --output "${KNOWLEDGE_SEED_ROOT}" --directory-only
+    KNOWLEDGE_PACKAGE="${KNOWLEDGE_SEED_ROOT}/package"
+  fi
+  node "${PROXY_ROOT}/scripts/build-data-release.js" \
+    --profile checking-ask-figma-mcp \
+    --data "${APOLLO_DATA_ROOT:-${PROXY_ROOT}/runtime/data}" --knowledge "${KNOWLEDGE_PACKAGE}" \
+    --runtime "${PORTABLE_RUNTIME_SOURCE}" --output "${WORK_DIR}/data-release" \
+    --tarball-url "${DATA_ASSET_URL_TEMPLATE}"
+  RELEASE_SEED="${WORK_DIR}/data-release/package"
+fi
+node -e 'require(process.argv[1]).validateRelease(process.argv[2],{runtimeRoot:process.argv[3]}).catch(e=>{console.error(e.message);process.exitCode=1})' \
+  "${PROXY_ROOT}/src/data-release" "${RELEASE_SEED}" "${PORTABLE_RUNTIME_SOURCE}"
+mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed"
+rsync -a --delete "${RELEASE_SEED}/" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed/"
 
 if [[ -z "${NODE_EXECUTABLE}" ]]; then
   echo "Node.js is required on the build machine to create a shareable app bundle." >&2
@@ -169,11 +201,9 @@ mkdir -p "${APP_BUNDLE}/Contents/Resources/runtime/bin"
 cp "${NODE_EXECUTABLE}" "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 chmod +x "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 
-if [[ "${EMBED_PROXY_ENV}" == "1" && -f "${PROXY_ROOT}/.env" ]]; then
-  cp "${PROXY_ROOT}/.env" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.env"
-  echo "Embedded shared proxy config from ${PROXY_ROOT}/.env (EMBED_PROXY_ENV=1)"
-else
-  echo "Shared .env was not embedded. ApolloProxyControl will create a per-user config from .env.example."
+if [[ "${EMBED_PROXY_ENV}" == "1" ]]; then
+  echo "Personal .env/auth configuration cannot be embedded in a portable distribution." >&2
+  exit 1
 fi
 
 printf '%s\n' "${BUILD_STAMP}" > "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.bundle-build-id"
@@ -190,17 +220,16 @@ fi
 codesign --verify --deep --strict --verbose=2 "${APP_BUNDLE}"
 
 echo "[7/7] Packing transfer archive..."
-create_archive
-
 if [[ -n "${NOTARY_KEYCHAIN_PROFILE}" ]]; then
+  NOTARY_ARCHIVE="${WORK_DIR}/${APP_NAME}-notarization.zip"
+  ditto -c -k --sequesterRsrc --keepParent "${APP_BUNDLE}" "${NOTARY_ARCHIVE}"
   echo "[notarization] Submitting archive to Apple..."
-  xcrun notarytool submit "${ARCHIVE_PATH}" --keychain-profile "${NOTARY_KEYCHAIN_PROFILE}" --wait
+  xcrun notarytool submit "${NOTARY_ARCHIVE}" --keychain-profile "${NOTARY_KEYCHAIN_PROFILE}" --wait
   echo "[notarization] Stapling ticket to app bundle..."
   xcrun stapler staple "${APP_BUNDLE}"
   xcrun stapler validate "${APP_BUNDLE}"
-  echo "[notarization] Repacking stapled app bundle..."
-  create_archive
 fi
+create_archive
 
 if [[ "${SIGN_IDENTITY}" == "-" ]]; then
   echo "Warning: app is ad-hoc signed. It is useful for local testing, but not for frictionless distribution." >&2

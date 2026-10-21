@@ -42,7 +42,8 @@ async function createPackage(
   root,
   version,
   compatibility = { min: ENGINE_VERSION, max: ENGINE_VERSION },
-  generatedAt = '2026-09-03T00:00:00.000Z'
+  generatedAt = '2026-09-03T00:00:00.000Z',
+  additionalFiles = {}
 ) {
   const packageRoot = path.join(root, version, 'package');
   const files = {
@@ -51,6 +52,7 @@ async function createPackage(
     'data/design-system_ab/redpolrules/dictionary.json': JSON.stringify({ rules: [] }),
     'data/ds-ai-hub/products/ab/components/fixture/figma-keys.json': JSON.stringify({ componentKey: 'fixture' }),
     'data/ds-ai-hub/core/web/components/fixture/figma-keys.json': JSON.stringify({ componentKey: 'core-fixture' }),
+    ...additionalFiles,
   };
   for (const [relative, content] of Object.entries(files)) {
     const target = path.join(packageRoot, relative);
@@ -221,6 +223,31 @@ test('archive validation rejects path traversal before extraction', async (t) =>
     () => validateArchiveEntries(tarball),
     (error) => error.code === 'KNOWLEDGE_ARCHIVE_UNSAFE'
   );
+});
+
+test('a GUI C locale accepts Cyrillic and emoji paths and installs their exact bytes', async t => {
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-knowledge-unicode-'));
+  t.after(() => fsp.rm(root, { recursive: true, force: true }));
+  const relative = 'data/design-system_ab/JSONS/web/components/не-подключать/🚧OnboardingPersonalizationPage/composition-contract.json';
+  await createPackage(root, 'unicode', undefined, undefined, { [relative]: '{"name":"Онбординг 🚧"}\n' });
+  const archive = await pack(root, 'unicode');
+  const child = spawnSync(process.execPath, ['-e', `
+    require(process.argv[1]).installTarball({storeRoot:process.argv[2],tarballPath:process.argv[3],expectedIntegrity:process.argv[4]})
+      .catch(e=>{console.error(e);process.exitCode=1});
+  `, path.resolve(__dirname, '../src/knowledge-package'), path.join(root, 'store'), archive.tarball, archive.integrity],
+  { encoding: 'utf8', env: { ...process.env, LC_ALL: 'C', LANG: 'C' } });
+  assert.equal(child.status, 0, child.stderr);
+  assert.equal(await fsp.readFile(path.join(root, 'store/versions/unicode', relative), 'utf8'), '{"name":"Онбординг 🚧"}\n');
+});
+
+test('UTF-8 archive listing still rejects escaped separators and control characters', async t => {
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-knowledge-unsafe-'));
+  t.after(() => fsp.rm(root, { recursive: true, force: true }));
+  for (const entry of ['package/with\\backslash.json', 'package/line\nbreak.json', 'package/carriage\rreturn.json']) {
+    const file = path.join(root, 'unsafe.tgz');
+    await fsp.writeFile(file, maliciousTarball(entry));
+    assert.throws(() => validateArchiveEntries(file), e => e.code === 'KNOWLEDGE_ARCHIVE_UNSAFE');
+  }
 });
 
 test('artifact tampering fails package validation', async (t) => {

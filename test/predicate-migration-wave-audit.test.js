@@ -72,12 +72,9 @@ test('migration wave audit exposes freshness and production closure without chan
   });
   assert.equal(benefits.missingRoutes.length, 0);
   assert.equal(buttonStack.missingRoutes.length, 0);
-  assert.equal(backgroundPlate.sourceRuleCount, 30);
+  assert.equal(backgroundPlate.sourceRuleCount, 19);
   assert.equal(backgroundPlate.missingRoutes.length, 0);
-  assert.deepEqual(backgroundPlate.productionPredicateBridgeRuleIds, [
-    'component:web-corp.background-plate.platform-version-must-match',
-    'component:web-corp.background-plate.slot-content-levels',
-  ]);
+  assert.deepEqual(backgroundPlate.productionPredicateBridgeRuleIds, []);
   assert.deepEqual(backgroundPlate.invalidProductionPredicateBridgeRuleIds, []);
   assert.deepEqual(backgroundPlate.blockingUnsupportedRuleIds, []);
   assert.equal(audit.safeToPromote, true);
@@ -104,6 +101,34 @@ function syntheticMigration(t) {
   writeManifest();
   return { root, temporary, manifestPath, rulesPath, contractPath, manifest, entry, writeManifest };
 }
+
+test('BackgroundPlate migration artifact is reproducible from its current source rules', t => {
+  const { buildPackageExperiment } = require(path.join(
+    designSystemRoot, 'scripts/build_component_contract_v2_capability_experiments',
+  ));
+  const { classifyPackage, waveEntry } = require(path.join(
+    designSystemRoot, 'scripts/classify_component_contract_v2_rule_execution',
+  ));
+  const outputRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-bg-migration-'));
+  t.after(() => fs.rmSync(outputRoot, { recursive: true, force: true }));
+  const built = buildPackageExperiment({
+    sourceLibrary: 'web-corp', sourceName: 'BackgroundPlate',
+    targetName: 'BackgroundPlate', packageId: 'web-corp.background-plate',
+    compositionRuleSources: {},
+  }, outputRoot);
+  const current = JSON.parse(fs.readFileSync(path.join(
+    designSystemRoot, 'experiments', built.contractPath,
+  ), 'utf8'));
+  assert.deepEqual(current, JSON.parse(JSON.stringify(built.contract)));
+  const classified = classifyPackage(built, new Set([
+    'JSONS/web/components/web-corp/BackgroundPlate',
+  ]), outputRoot);
+  const manifest = JSON.parse(fs.readFileSync(path.join(
+    designSystemRoot, 'experiments/migration-wave-1.json',
+  ), 'utf8'));
+  assert.deepEqual(manifest.readyPackages.find(entry =>
+    entry.packageId === built.packageId), waveEntry(classified));
+});
 
 for (const field of ['sourcePath', 'contractPath']) {
   for (const invalid of ['../outside.json', '/outside.json', 'C:\\outside.json', 'synthetic\\outside.json', 'synthetic/../outside.json']) {

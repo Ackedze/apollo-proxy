@@ -22,6 +22,7 @@ struct KnowledgeVersionSummary: Decodable {
     let kind: String
     let path: String?
     let sourceCommits: [String: String?]?
+    let knowledgeVersion: String?
 }
 
 struct KnowledgeCommandStatus: Decodable {
@@ -34,6 +35,8 @@ struct KnowledgeCommandStatus: Decodable {
     let updated: Bool?
     let rolledBack: Bool?
     let descriptor: KnowledgeDescriptorSummary?
+    let dataRoot: String?
+    let releaseRoot: String?
 }
 
 struct KnowledgeDescriptorSummary: Decodable {
@@ -61,6 +64,7 @@ struct KnowledgeCommandRunner {
     let seedURL: URL
     let descriptorURL: String?
     let environment: [String: String]
+    var runtimeURL: URL? = nil
 
     private func process(for command: String) -> (Process, Pipe, Pipe) {
         let task = Process()
@@ -74,6 +78,7 @@ struct KnowledgeCommandRunner {
             "--seed", seedURL.path,
             "--engine", "1.0.1",
         ] + (descriptorURL.map { ["--descriptor", $0] } ?? [])
+            + (runtimeURL.map { ["--runtime", $0.path] } ?? [])
         task.environment = environment
         task.standardOutput = stdout
         task.standardError = stderr

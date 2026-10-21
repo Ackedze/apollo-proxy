@@ -7,14 +7,17 @@ output schema и read-only knowledge snapshot. Apollo v3 отправляет ч
 `POST /v1/analyze/codex/runs` компактный WIP-отчёт кастомизаций без полного
 snapshot.
 
-Для Apollo v4 build script дополнительно включает локальный unpublished
-contract release CorporateContent + Button + Spinner + Amount + AmountStyles, если предварительно выполнен `npm run v4:release:pilot`
-в Apollo-v3. Можно указать `APOLLO_V4_RELEASE_ROOT`. Пакет содержит главные manual с facts/dependency sources, производный compiled cache, полный dependency index и pinned runtime profile 0.4.0;
-GET `/v2/contracts`, пакетный POST `/v2/contracts/resolve` по ключам выделения и POST
-`/v2/contracts/explain` не используют legacy knowledge. Старую установленную
-`.app` требуется пересобрать. Новая локальная ad-hoc сборка создана, подпись и
-встроенный release проверены. Сервер предыдущей сборки (профиль 0.1.0) вызвал настоящий Codex
-на synthetic snapshot; desktop launcher и полный Figma run пока не проверены.
+Сборщик включает минимальный Apollo runtime и единый installed-data snapshot:
+контракты с facts, compiled cache и точными mapping, а также legacy knowledge.
+Checkout автора и его конфигурация потребителю не нужны. При первом запуске данные
+копируются в собственное версионированное хранилище пользователя. GET `/v2/contracts`,
+POST `/v2/contracts/resolve` и POST `/v2/contracts/explain` используют modern contracts.
+Удалённый канал задаётся отдельно; без опубликованного канала работает встроенный пакет.
+См. [передачу коллеге и агенту](DELEGATION.md).
+
+Профиль первой поставки: проверка макетов, «Спросить», Figma MCP. Frontend
+явно недоступен до отдельного подключения собственного SDK; SDK proof/source
+файлы исключены из переносимого снимка. Полный исходный индекс остаётся у владельца.
 
 ## Что умеет
 
@@ -30,9 +33,17 @@ GET `/v2/contracts`, пакетный POST `/v2/contracts/resolve` по ключ
   Кнопка входа открывает `claude auth login` в Terminal, чтобы работал и
   браузерный вход, и ручной ввод кода. Miniapp проверяет `claude auth status`
   и показывает результат; токены и файлы учётной записи не читает.
-- При отсутствии CLI доступна ссылка на официальную инструкцию установки.
+- Для Codex CLI ищется автоматически в ChatGPT/Codex Desktop, `~/Applications`,
+  `~/.local/bin`, Homebrew и PATH. Старый путь из шаблона `.env` не блокирует
+  автопоиск; явно заданный собственный абсолютный путь сохраняет приоритет.
+- Если Codex не установлен, кнопка «Установить и войти…» загружает официальный
+  HTTPS installer OpenAI, устанавливает CLI в `~/.local/bin` и запускает
+  браузерный вход. Terminal, Node.js и редактирование `.env` не нужны.
+  Существующий вход проверяется автоматически при запуске приложения;
+  установка начинается только после нажатия кнопки пользователем.
+- Для Claude при отсутствии CLI доступна ссылка на официальную инструкцию установки.
   `CLAUDE_CONFIG_DIR` позволяет выбрать отдельную конфигурацию аккаунта;
-  `CLAUDE_MODEL` задаёт модель только для Claude. CLI устанавливается отдельно.
+  `CLAUDE_MODEL` задаёт модель только для Claude. Claude CLI устанавливается отдельно.
 - `Запустить прокси` / `Остановить прокси` из строки меню.
 - При выходе приложение дожидается остановки своих дочерних процессов;
   после трёх секунд ожидания зависший процесс получает `SIGKILL`. Прокси также
@@ -43,6 +54,10 @@ GET `/v2/contracts`, пакетный POST `/v2/contracts/resolve` по ключ
 - Для Codex кнопка входа запускает официальный browser flow `codex login`.
 - Кнопка проверки входа использует `codex login status` или `claude auth status`.
 - Проверка доступности `GET /health`.
+- Если Apollo уже работает на настроенном порту вне миниаппа, приложение
+  показывает его реальное состояние и активный пакет, не запускает второй
+  процесс и не останавливает чужой. В этом режиме запуск/остановка и обновление
+  данных остаются у исходного launcher; изменение агента в миниаппе отключено.
 - Изменение `APOLLO_AGENT_URL` прямо в miniapp без пересборки `.app`.
 - Переключение источника Apollo v3 между `ds-ai-hub` и `design-system_ab` с
   автоматическим перезапуском proxy.
@@ -57,7 +72,7 @@ GET `/v2/contracts`, пакетный POST `/v2/contracts/resolve` по ключ
 - Автоматическая установка встроенного прокси в:
   `~/Library/Application Support/ApolloProxyControl/proxy`
 - Запуск через встроенный `node`, который вшивается в `.app` при сборке.
-- Запуск локального Codex CLI из `ChatGPT.app` или пути `CODEX_BIN`.
+- Автопоиск собственного CLI пользователя; `CODEX_BIN`/`CLAUDE_BIN` задаются только для явного переопределения.
 
 ## Требования
 
@@ -68,7 +83,7 @@ GET `/v2/contracts`, пакетный POST `/v2/contracts/resolve` по ключ
 
 ## Сборка `.app`
 
-Из корня `DS-AB-Plugin`:
+Из корня рабочего пространства с `services/apollo-proxy`:
 
 ```bash
 ./services/apollo-proxy/macos-app/scripts/build-app.sh
@@ -216,7 +231,7 @@ spctl --assess --type execute --verbose=4 /path/to/ApolloProxyControl.app
 
 ## Первичный запуск у пользователя
 
-1. Передавать тестировщикам именно `ApolloProxyControl-macOS.zip`, а не голую `.app` директорию.
+1. Передавать тестировщикам версионный `ApolloProxyControl-macOS-<build>.zip`, а не голую `.app` директорию. Перед заменой завершить прежний AP через «Выйти».
 2. На машине тестировщика распаковать архив в Finder.
 3. Переместить `ApolloProxyControl.app` в `/Applications`.
 4. Если macOS блокирует запуск ad-hoc или не notarized сборки, снять quarantine flag и открыть приложение:
@@ -227,15 +242,12 @@ chmod +x /Applications/ApolloProxyControl.app/Contents/MacOS/ApolloProxyControl
 open /Applications/ApolloProxyControl.app
 ```
 
-5. При необходимости нажать `Set Apollo URL...` и сохранить адрес Apollo прямо в меню приложения.
-6. Проверить строку `Codex`. Если показано `Authorization required`, нажать
-   `Authorize Codex...` и завершить вход через браузер.
-7. Дождаться `Codex: Authorized via ChatGPT`.
-8. Нажать `Start Proxy`.
-9. В строке `Knowledge` проверить активный источник. По умолчанию используется
-   `ds-ai-hub`; пункт `Switch to design-system_ab...` позволяет вернуться к
-   прежним contract packages и затем переключиться обратно.
-10. Если нужно проверить или поменять остальные параметры, использовать `Open .env`.
+5. Открыть AP → «О прокси…», выбрать Codex или Claude и войти в собственный аккаунт.
+   Если Codex отсутствует, нажать «Установить и войти…». Claude CLI устанавливается отдельно.
+6. Дождаться подтверждения входа и нажать «Запустить прокси».
+7. Открыть Apollo в Figma, выделить экземпляр компонента и выполнить проверку макета.
+   Для «Спросить» задать вопрос о компоненте или паттерне.
+8. Адрес агента, источник знаний, параметры и журнал находятся в «О прокси…».
 
 Для локального автоматизированного прогона ту же сборку можно открыть так:
 
@@ -250,8 +262,7 @@ open /Applications/ApolloProxyControl.app --args --start-proxy
 
 - По умолчанию shareable-сборка не вшивает `services/apollo-proxy/.env` и создаёт
   пользовательский конфиг из `.env.example` при первом запуске.
-- Режим `EMBED_PROXY_ENV=1` вшивает `.env`, включая секреты, и предназначен
-  только для контролируемой внутренней диагностики.
+- Режим `EMBED_PROXY_ENV=1` запрещён для переносимой поставки; личный `.env` в архив не вшивается.
 - ApolloProxyControl не читает и не сохраняет токены Codex: ими управляет сам
   Codex CLI через стандартное локальное хранилище пользователя.
 - На каждом Mac встроенный proxy раскладывается в `~/Library/Application Support/ApolloProxyControl/proxy`.

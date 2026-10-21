@@ -9,23 +9,32 @@ enum CLIProvider: String, CaseIterable {
     var statusArguments: [String] { self == .codex ? ["login", "status"] : ["auth", "status"] }
     var loginArguments: [String] { self == .codex ? ["login"] : ["auth", "login"] }
     var installationURL: URL {
-        URL(string: self == .claude ? "https://code.claude.com/docs/en/setup" : "https://openai.com/codex/")!
+        URL(string: self == .claude ? "https://code.claude.com/docs/en/setup" : "https://learn.chatgpt.com/docs/codex/cli")!
+    }
+
+    static let legacyCodexBinary = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex"
+
+    func canInstall(configured: String) -> Bool {
+        self == .codex && ["", "codex", Self.legacyCodexBinary].contains(configured)
     }
 
     func candidates(configured: String, home: String) -> [String] {
-        if configured.hasPrefix("/") { return [configured] }
+        // Older app bundles shipped this machine-specific path as the default.
+        if configured.hasPrefix("/"), self != .codex || configured != Self.legacyCodexBinary { return [configured] }
         if self == .claude {
             return [home + "/.local/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"]
         }
-        return ["/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
-                "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
-                "/Applications/ChatGPT.app/Contents/Resources/codex",
-                "/opt/homebrew/bin/codex", "/usr/local/bin/codex"]
+        let desktop = ["/Applications", home + "/Applications"].flatMap { root in
+            [root + "/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+             root + "/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+             root + "/ChatGPT.app/Contents/Resources/codex", root + "/Codex.app/Contents/Resources/codex"]
+        }
+        return desktop + [home + "/.local/bin/codex", "/opt/homebrew/bin/codex", "/usr/local/bin/codex"]
     }
 }
 
 enum AgentAuthStatus: Equatable {
-    case checking, notConfigured, binaryMissing, unauthorized, authorizing
+    case checking, notConfigured, binaryMissing, installing, unauthorized, authorizing
     case authorized(method: String?)
     case error(String)
 }
