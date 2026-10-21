@@ -1,0 +1,211 @@
+{
+  "schemaVersion": "apollo.recipe-catalog.v1",
+  "recipes": [
+    {
+      "id": "layout.two-column-plates",
+      "revision": 1,
+      "purpose": "Двухколоночная сетка пустых BackgroundPlateSlot в Body CorporateContent.",
+      "status": "pilot",
+      "Ready": false,
+      "match": {
+        "platform": "desktop",
+        "viewport": {
+          "width": 1600,
+          "height": 900
+        },
+        "rootMappingId": "arui-private.corporate-content.desktop",
+        "rootSlot": "body",
+        "itemMappingId": "arui-private.background-plate.slot.desktop",
+        "itemCounts": [
+          4,
+          5
+        ],
+        "itemProps": {
+          "Type": "Primary",
+          "Skeleton": "False"
+        },
+        "columns": 2,
+        "gap": 24,
+        "kind": "uniform-grid"
+      },
+      "composition": {
+        "columns": 2,
+        "order": "left-to-right then top-to-bottom",
+        "incompleteRow": "left aligned, preserve item width",
+        "rowCount": "ceil(itemCount/2)",
+        "content": "empty slots only",
+        "gapToken": "spacing.24",
+        "sizing": {
+          "content": "native grid.content width; HUG height",
+          "body": "grid.cols12 width; HUG height",
+          "row": "HUG both axes",
+          "plate": "grid.cols6 width; HUG height"
+        },
+        "appearance": {
+          "sceneOwner": "owned preview root",
+          "descendants": "inherit scene; preserve intrinsic Body/Slot transitions",
+          "pageSurface": "page-gray by default; page-white only when requested",
+          "explicitComponentRootModes": "only intrinsic source-owned modes; never copy resolvedVariableModes"
+        }
+      },
+      "adapters": {
+        "figma": {
+          "status": "authoring-verified",
+          "testedItemCounts": [
+            4,
+            5
+          ],
+          "productRuntime": "pending-owner-test",
+          "mappingIds": [
+            "arui-private.corporate-content.desktop",
+            "arui-private.background-plate.slot.desktop"
+          ],
+          "bindings": {
+            "status": "Construction hints correlated with the accepted mappings; mappings remain authoritative.",
+            "components": {
+              "content": {
+                "key": "a8d13cb6e1ae67a7296709f669238f41971c7197",
+                "nativeBodyProperty": "[D] Body#135096:3"
+              },
+              "plate": {
+                "key": "6d5d4dda10be00621991e9b5a0152db4e47f4e2f",
+                "nativeSlotProperty": "Slot#136328:0"
+              }
+            },
+            "variables": {
+              "spacing.24": {
+                "key": "f7b969edbf5d6f8d732bf46ef7fd3f7c5511fb49",
+                "name": "24",
+                "collection": "Spacing"
+              },
+              "grid.cols6": {
+                "key": "e1a7e890ccc56b29b10ac41b5a58ab0330783b34",
+                "name": "Cols/6 Col"
+              },
+              "grid.cols12": {
+                "key": "d677954a4d564f85c88a4da62193ff974b972ba3",
+                "name": "Cols/12 Col"
+              }
+            },
+            "collections": {
+              "backgroundPlateLevel": {
+                "key": "ded155c084dd88445e29d4134aad0e9cfb1700d7"
+              },
+              "backgroundPlateColor": {
+                "key": "22d83aeb0d0d643a5359f63464a2ab81838fbe9f"
+              },
+              "grid": {
+                "key": "5f96960a28ff79ed2672bea2cea5205b948d333f"
+              },
+              "interfaceDynamic": {
+                "key": "2ae5c089455193b1a150088ae44ee3e41cd081cc"
+              }
+            }
+          },
+          "roles": {
+            "preview": {
+              "kind": "owned-viewport",
+              "size": "viewport",
+              "appearanceOwner": "scene",
+              "hostSurface": "white preview frame from owner example"
+            },
+            "content": {
+              "mappingId": "arui-private.corporate-content.desktop",
+              "width": "preserve native grid.content binding",
+              "height": "HUG",
+              "parent": "preview",
+              "slot": "body",
+              "sceneModes": "inherit"
+            },
+            "body": {
+              "kind": "mapped-native-slot",
+              "owner": "content",
+              "direction": "vertical",
+              "gap": "spacing.24",
+              "width": "preserve grid.cols12",
+              "height": "HUG",
+              "children": "rows directly; no extra grid wrapper",
+              "intrinsicModes": "preserve source Body Level1/Radius1"
+            },
+            "row": {
+              "kind": "transparent-auto-layout",
+              "parent": "body",
+              "direction": "horizontal",
+              "gap": "spacing.24",
+              "width": "HUG",
+              "height": "HUG",
+              "maxItems": 2,
+              "explicitSceneModes": "none"
+            },
+            "plate": {
+              "mappingId": "arui-private.background-plate.slot.desktop",
+              "choice": "backgroundplate.desktop.slot.primary.false",
+              "props": {
+                "Type": "Primary",
+                "Skeleton": "False"
+              },
+              "parent": "row",
+              "width": "grid.cols6",
+              "height": "HUG",
+              "fill": "preserve BackgroundColor binding; resolve in inherited context",
+              "padding": "preserve observed native 24px baseline for this empty example; not a global padding norm",
+              "explicitSceneModes": "none"
+            },
+            "plateSlot": {
+              "kind": "mapped-native-slot",
+              "owner": "plate",
+              "slot": "Slot",
+              "payload": [],
+              "intrinsicModes": "preserve source Slot Level2/Radius2"
+            }
+          },
+          "sceneModes": {
+            "backgroundPlateLevel": "Level-0 (base)",
+            "backgroundPlateColor": "page-gray → base-bg-alt (grey); page-white → base-bg (white)",
+            "grid": "1600+",
+            "interfaceDynamic": "BlueTint Light"
+          }
+        },
+        "frontend": {
+          "status": "not-tested",
+          "bindings": null
+        }
+      },
+      "assembly": [
+        "Create isolated preview and set its declared scene modes before inserting components.",
+        "Import verified published variants; load source text fonts; preserve intrinsic source modes.",
+        "Insert CorporateContent with native grid width and HUG height. Resolve Body by typed property reference.",
+        "Use transparent horizontal rows, bound to spacing.24. Prefer rows directly in Body when planning a new spec; preserve all nodes of an already frozen spec.",
+        "Insert up to two Primary/False BackgroundPlateSlot per row. Bind widths to grid.cols6; preserve empty Slot and native height.",
+        "Replace only untouched default Body payload within the fresh owned instance after intended rows are inserted.",
+        "Record actual final native IDs after SLOT normalization, preserve the result and leave original references unchanged."
+      ],
+      "constraints": [
+        "Apply only when the frozen ScreenSpec matches applicability. Preserve every declared spec ID and node, including an explicit wrapper if present; do not silently reshape a frozen spec.",
+        "This recipe applies component contracts and does not replace their rules or authorize new props.",
+        "Use the native mappings supplied by the host. Recipe bindings are correlated construction hints; stop for a changed identity instead of guessing.",
+        "Use the scene collection keys and actual returned mode IDs, never hardcode variable collection IDs from a reference file.",
+        "Preserve source-owned Body Level1/Radius1 and Slot Level2/Radius2 transitions.",
+        "Empty plates use Primary/False; never detach or replace library fills.",
+        "Design checking remains disabled. Preserve partial results; Ready=false."
+      ],
+      "provenance": {
+        "reference": {
+          "fileKey": "I3MsagXR8Tz2eZcGtIgUk8",
+          "nodeId": "14102:68799"
+        },
+        "negativeReference": {
+          "fileKey": "I3MsagXR8Tz2eZcGtIgUk8",
+          "nodeId": "14102:68786"
+        },
+        "nativeReproductions": [
+          "14115:20534",
+          "14115:20558"
+        ],
+        "evidence": "plate-recipe305: published identities, count4/count5, inherited surface modes; four-item image matches reference at1200x675",
+        "acceptedNativeSourceHash": "520c0e0fe388d111872379e2b0145595e5f2af0fd3cd3d553dd143fdd9796175"
+      },
+      "planning": "Use horizontal rows directly in the root body slot, two items per row, spacing.24, HUG heights and inherited scene appearance. Preserve count and order; the final incomplete row stays left aligned. No extra vertical grid wrapper is needed."
+    }
+  ]
+}

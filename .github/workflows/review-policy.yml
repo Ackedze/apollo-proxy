@@ -1,0 +1,32 @@
+name: Owner review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  owner-review:
+    name: Required owner review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v9
+        with:
+          script: |
+            const pull = context.payload.pull_request;
+            if (!pull) { core.setFailed('Missing pull request.'); return; }
+            if (pull.draft) { core.notice('Owner review is pending for this draft.'); return; }
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner: context.repo.owner, repo: context.repo.repo, pull_number: pull.number, per_page: 100,
+            });
+            const decisive = reviews.filter(review => review.user?.login === 'Ackedze'
+              && ['APPROVED', 'CHANGES_REQUESTED', 'DISMISSED'].includes(review.state));
+            const latest = decisive.at(-1);
+            if (latest?.state !== 'APPROVED' || latest.commit_id !== pull.head.sha) {
+              core.setFailed('Ackedze must approve the current head commit before merge.');
+            }

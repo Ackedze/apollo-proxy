@@ -15,7 +15,7 @@ const TARGET_ROOT = path.join(
 );
 const SOURCE_CANDIDATES = [
   process.env.APOLLO_SKILL_SOURCE_ROOT,
-  path.join(REPOSITORY_ROOT, 'projects', 'Apollo-v3', '.agents', 'skills', SKILL_NAME),
+  path.join(REPOSITORY_ROOT, 'projects', 'Apollo', '.agents', 'skills', SKILL_NAME),
   path.join(REPOSITORY_ROOT, 'projects', 'Apollo-v2', '.agents', 'skills', SKILL_NAME),
   TARGET_ROOT,
 ].filter(Boolean);

@@ -581,56 +581,33 @@ test('AccountSelect platform-match covers D/M roots on both selected channels', 
   assert.equal(desktopOnMobile.trace.expected, 'desktop');
 });
 
-test('BackgroundPlate public-root rejects standalone Style Level and accepts published roots', () => {
-  const ruleId = 'component:web-corp.background-plate.public-roots-only';
-  const evaluate = (componentKey, platform = 'desktop') => evaluatePredicatePilotRequest(
-    backgroundPlatePublicRootRequest(componentKey, platform),
-    { designSystemRoot },
-  ).result.evaluations.find((item) => item.ruleId === ruleId);
-
+test('BackgroundPlate does not restore the retired standalone Style restriction', () => {
   for (const componentKey of [
-    BACKGROUND_PLATE_DESKTOP_ROOT_KEY,
-    BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+    BACKGROUND_PLATE_DESKTOP_ROOT_KEY, BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+    BACKGROUND_PLATE_STYLE_LEVEL_1_KEY, BACKGROUND_PLATE_MOBILE_STYLE_LEVEL_1_KEY,
   ]) {
-    assert.equal(evaluate(componentKey).classification, 'compliant');
-  }
-
-  for (const componentKey of [
-    BACKGROUND_PLATE_STYLE_LEVEL_1_KEY,
-    BACKGROUND_PLATE_MOBILE_STYLE_LEVEL_1_KEY,
-  ]) {
-    const violation = evaluate(
-      componentKey,
-      componentKey === BACKGROUND_PLATE_STYLE_LEVEL_1_KEY ? 'desktop' : 'mobile-web',
+    const output = evaluatePredicatePilotRequest(
+      backgroundPlatePublicRootRequest(componentKey), { designSystemRoot },
     );
-    assert.equal(violation.classification, 'violation');
-    assert.equal(violation.focusNodeId, '21:20');
-    assert.equal(violation.trace.actual, 'style-level-1');
-    assert.deepEqual(violation.trace.expected, ['background-plate', 'background-plate-slot']);
+    assert.equal(output.result.evaluations.some((item) =>
+      item.ruleId === 'component:web-corp.background-plate.public-roots-only'), false);
+    assert.equal(output.result.coverage.unclassified, 0);
   }
 });
 
-test('BackgroundPlate platform-match covers D/M roots on both selected channels', () => {
-  const ruleId = 'component:web-corp.background-plate.platform-version-must-match';
-  const evaluate = (componentKey, platform) => evaluatePredicatePilotRequest(
-    backgroundPlatePublicRootRequest(componentKey, platform),
-    { designSystemRoot },
-  ).result.evaluations.find((item) => item.ruleId === ruleId);
-
+test('BackgroundPlate does not restore the retired platform-match restriction', () => {
   for (const componentKey of [
-    BACKGROUND_PLATE_DESKTOP_ROOT_KEY,
-    BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+    BACKGROUND_PLATE_DESKTOP_ROOT_KEY, BACKGROUND_PLATE_DESKTOP_SLOT_KEY,
+    BACKGROUND_PLATE_MOBILE_ROOT_KEY, BACKGROUND_PLATE_MOBILE_SLOT_KEY,
   ]) {
-    assert.equal(evaluate(componentKey, 'desktop').classification, 'compliant');
-    assert.equal(evaluate(componentKey, 'mobile-web').classification, 'violation');
-  }
-
-  for (const componentKey of [
-    BACKGROUND_PLATE_MOBILE_ROOT_KEY,
-    BACKGROUND_PLATE_MOBILE_SLOT_KEY,
-  ]) {
-    assert.equal(evaluate(componentKey, 'mobile-web').classification, 'compliant');
-    assert.equal(evaluate(componentKey, 'desktop').classification, 'violation');
+    for (const platform of ['desktop', 'mobile-web']) {
+      const output = evaluatePredicatePilotRequest(
+        backgroundPlatePublicRootRequest(componentKey, platform), { designSystemRoot },
+      );
+      assert.equal(output.result.evaluations.some((item) =>
+        item.ruleId === 'component:web-corp.background-plate.platform-version-must-match'), false);
+      assert.equal(output.result.coverage.unclassified, 0);
+    }
   }
 });
 
@@ -4715,7 +4692,7 @@ test('legacy BackgroundPlate roots do not load removed padding token rules', () 
   assert.equal(paddingEvaluations.length, 0);
 });
 
-test('isolated predicate endpoint evaluates P06 from sibling overlay composition', () => {
+test('BackgroundPlate does not restore retired component-level underlay rules for sibling composition', () => {
   const input = request({ View: 'Secondary', Size: '56', SingleIcon: 'False' });
   input.evidenceBundle.context.selectionNodeIds = ['4:0'];
   input.evidenceBundle.graph.nodes = [
@@ -4792,15 +4769,8 @@ test('isolated predicate endpoint evaluates P06 from sibling overlay composition
   input.evidenceBundle.changes = [];
 
   const output = evaluatePredicatePilotRequest(input, { designSystemRoot });
-  const evaluation = output.result.evaluations.find((item) => (
-    item.ruleId === 'component:web-corp.background-plate.level-2-requires-level-1'
-  ));
-
-  assert.equal(evaluation.classification, 'compliant');
-  assert.equal(evaluation.focusNodeId, '4:2');
-  assert.equal(evaluation.trace.children[5].actual, 'ABSOLUTE');
-  assert.equal(evaluation.trace.children[7].predicate, 'after');
-  assert.equal(evaluation.trace.children[8].predicate, 'contains');
+  assert.equal(output.result.evaluations.some((item) =>
+    item.ruleId === 'component:web-corp.background-plate.level-2-requires-level-1'), false);
   assert.equal(output.result.coverage.unclassified, 0);
 });
 

@@ -38,7 +38,8 @@ test('rule crosswalk links Apollo rules to verifiable human evidence without ID 
     assert.equal(seenApolloRuleIds.has(entry.apolloRuleId), false, `duplicate ${entry.apolloRuleId}`);
     seenApolloRuleIds.add(entry.apolloRuleId);
     assert.ok(allowedRelations.has(entry.relation), `unsupported relation ${entry.relation}`);
-    assert.ok(['verified', 'conflict'].includes(entry.review.status));
+    assert.ok(['draft', 'verified', 'conflict'].includes(entry.review.status));
+    assert.ok(entry.review.basis, `${entry.apolloRuleId} has no review basis`);
     assert.ok(Array.isArray(entry.hubEvidence));
     if (entry.relation === 'technical-only') assert.equal(entry.hubEvidence.length, 0);
     if (entry.relation === 'conflict') {

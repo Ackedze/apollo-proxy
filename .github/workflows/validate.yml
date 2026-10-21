@@ -1,0 +1,23 @@
+name: Ask regressions
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ask:
+    name: Ask without author workspace
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # These tests create their own knowledge/CLI fixtures; they need no account or data checkout.
+      - run: node --test test/dialogue-source.test.js test/dialogue-runtime.test.js test/cli-agent.test.js

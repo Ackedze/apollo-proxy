@@ -70,6 +70,7 @@ final class ProxyManager: NSObject {
 
     private var process: Process?
     private var agentAuthProcess: Process?
+    private let codexInstaller = CodexCLIInstaller()
     private var outputPipe: Pipe?
     private var lifetimePipe: Pipe?
     private var healthTimer: Timer?
@@ -96,6 +97,9 @@ final class ProxyManager: NSObject {
     private var claudeLoginTimer: Timer?
     private var authCheckTimer: Timer?
     private var proxyHasActiveWork = false
+    private var healthSnapshot: ProxyHealthSnapshot?
+    private var checkingProxyStart = false
+    private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
     private var isStoppingIntentionally = false
     private var pendingRestartAfterStop = false
@@ -160,8 +164,12 @@ final class ProxyManager: NSObject {
         snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
         snapshot.apolloURL = readConfiguredApolloURL() ?? ""
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
-        snapshot.knowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
-        if let commits = knowledgeRuntime?.current?.sourceCommits {
+        snapshot.knowledgeVersion = (isExternalProxyRunning ? healthSnapshot?.knowledgeVersion : nil)
+            ?? knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
+        let sourceCommits: [String: String?]? = isExternalProxyRunning
+            ? healthSnapshot?.sourceCommits?.mapValues { Optional($0) }
+            : knowledgeRuntime?.current?.sourceCommits
+        if let commits = sourceCommits {
             snapshot.sourceCommits = commits.sorted(by: { $0.key < $1.key }).compactMap { key, value in
                 value.map { "\(key): \($0)" }
             }.joined(separator: "\n")
@@ -176,13 +184,15 @@ final class ProxyManager: NSObject {
         case .failed(let message): snapshot.knowledgeStatus = "Ошибка обновления: \(message)"
         case .upToDate: snapshot.knowledgeStatus = "Установлена актуальная версия знаний"
         }
-        if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning }
-        snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil
-        snapshot.canCheckKnowledge = !knowledgeCommandRunning
-        snapshot.canChangeAgent = agentAuthProcess == nil && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting
+        if isExternalProxyRunning { snapshot.knowledgeStatus = "Пакет отдельного запуска. Обновление выполняется вне миниаппа." }
+        if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning && !isExternalProxyRunning }
+        snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil && !isExternalProxyRunning
+        snapshot.canCheckKnowledge = !knowledgeCommandRunning && !isExternalProxyRunning
+        snapshot.canChangeAgent = agentAuthProcess == nil && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting && !isExternalProxyRunning
         snapshot.cliMissing = agentAuthStatus == .binaryMissing
-        snapshot.canLogin = agentAuthProcess == nil && (claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
-        snapshot.canCheckAccess = agentAuthProcess == nil
+        let canInstall = provider.canInstall(configured: readEnvMap()?[provider.binaryKey] ?? "")
+        snapshot.canLogin = agentAuthProcess == nil && !codexInstaller.isRunning && (canInstall || claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
+        snapshot.canCheckAccess = agentAuthProcess == nil && !codexInstaller.isRunning
         snapshot.loginTitle = claudeLoginTimer != nil ? "Отменить ожидание" : "Войти в \(provider.name)…"
         snapshot.authorizationHelp = provider == .claude
             ? "Вход выполняется в Claude Code через Terminal. Нужен Claude Code 2.1.248 или новее."
@@ -190,7 +200,8 @@ final class ProxyManager: NSObject {
         switch agentAuthStatus {
         case .checking: snapshot.authorization = "Проверяем вход…"
         case .notConfigured: snapshot.authorization = "Локальный AI-агент не настроен"
-        case .binaryMissing: snapshot.authorization = "\(provider.name) CLI не найден. Установите его и проверьте вход."
+        case .binaryMissing: snapshot.authorization = "\(provider.name) CLI не найден"
+        case .installing: snapshot.authorization = "Загружаем и устанавливаем Codex…"
         case .unauthorized: snapshot.authorization = "Войдите в \(provider.name), чтобы использовать агент"
         case .authorizing: snapshot.authorization = "Ожидаем завершения входа в \(provider.name)…"
         case .authorized(let method):
@@ -198,13 +209,21 @@ final class ProxyManager: NSObject {
             snapshot.loginTitle = "Сменить аккаунт…"
         case .error(let message): snapshot.authorization = message
         }
-        authorizeAgentItem.title = "Войти в \(provider.name)…"
+        if canInstall && resolveAgentExecutableURL() == nil {
+            snapshot.loginTitle = "Установить и войти…"
+            snapshot.authorizationHelp = "Apollo установит официальный Codex CLI и откроет вход в браузере. Нужен интернет."
+        } else if snapshot.cliMissing && provider == .codex {
+            snapshot.authorizationHelp = "CLI не найден по указанному пути. Проверьте путь в «Конфигурация…»."
+        }
+        if agentAuthStatus == .installing { snapshot.loginTitle = "Установка…" }
+        snapshot.authorizationBusy = agentAuthStatus == .checking || agentAuthStatus == .installing || agentAuthStatus == .authorizing
+        authorizeAgentItem.title = snapshot.loginTitle
         authorizeAgentItem.isHidden = agentAuthStatus != .unauthorized && agentAuthStatus != .binaryMissing
-        authorizeAgentItem.isEnabled = agentAuthProcess == nil
+        authorizeAgentItem.isEnabled = snapshot.canLogin
         updateKnowledgeItem.isEnabled = snapshot.canUpdate
         updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
         updateKnowledgeItem.title = knowledgeCommandRunning ? snapshot.knowledgeStatus : "Обновить знания"
-        checkKnowledgeItem.isEnabled = !knowledgeCommandRunning
+        checkKnowledgeItem.isEnabled = snapshot.canCheckKnowledge
         switch status {
         case .stopped:
             setStatusItemTitle("AP:Off")
@@ -218,9 +237,9 @@ final class ProxyManager: NSObject {
             startItem.isEnabled = process != nil
         case .running:
             setStatusItemTitle("AP:On")
-            snapshot.status = "Прокси работает · порт \(readPort())"
-            startItem.title = "Остановить прокси"
-            startItem.isEnabled = true
+            snapshot.status = "Прокси работает · порт \(readPort())" + (isExternalProxyRunning ? " · отдельный запуск" : "")
+            startItem.title = isExternalProxyRunning ? "Запущен вне миниаппа" : "Остановить прокси"
+            startItem.isEnabled = !isExternalProxyRunning
         case .error(let message):
             setStatusItemTitle("AP:Err")
             snapshot.status = "Ошибка прокси: \(message)"
@@ -248,6 +267,11 @@ final class ProxyManager: NSObject {
             return
         case .running:
             break
+        }
+        if isExternalProxyRunning {
+            statusIndicator.apply(to: button, mode: healthSnapshot?.knowledgeReady == false ? .error : .active,
+                                  description: healthSnapshot?.knowledgeReady == false ? "Ошибка знаний работающего Proxy." : "Proxy работает. Отдельный запуск.")
+            return
         }
         switch knowledgeUpdateStatus {
         case .idle:
@@ -311,18 +335,12 @@ final class ProxyManager: NSObject {
         }
     }
 
-    private func checkHealth() {
-        guard process != nil else {
-            proxyHasActiveWork = false
-            if case .running = status {
-                status = .stopped
-            }
-            return
-        }
-
+    private func checkHealth(completion: (@MainActor @Sendable (Bool) -> Void)? = nil) {
+        let observedProcess = process
         let port = readPort()
         guard let url = URL(string: "http://127.0.0.1:\(port)/health") else {
             status = .error("Invalid health URL")
+            completion?(false)
             return
         }
 
@@ -332,33 +350,27 @@ final class ProxyManager: NSObject {
         URLSession.shared.dataTask(with: request) { [weak self] data, response, _ in
             Task { @MainActor in
                 guard let self, !self.isQuitting else { return }
-                guard let http = response as? HTTPURLResponse, http.statusCode == 200, let data else {
-                    if case .starting = self.status {
-                        return
-                    }
-                    if case .running = self.status {
-                        self.status = .starting
-                    }
+                guard self.process === observedProcess else { completion?(false); return }
+                guard !self.isStoppingIntentionally else { completion?(false); return }
+                let http = response as? HTTPURLResponse
+                guard let health = ProxyHealthSnapshot.decode(data, statusCode: http?.statusCode) else {
+                    self.healthSnapshot = nil
+                    self.proxyHasActiveWork = false
+                    if self.status == .running { self.status = self.process == nil ? .stopped : .starting }
+                    completion?(false)
                     return
                 }
-
-                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let ok = json["ok"] as? Bool,
-                   ok == true,
-                   self.status != .running {
-                    self.status = .running
+                self.healthSnapshot = health
+                self.proxyHasActiveWork = health.busy
+                if self.status != .running, observedProcess == nil {
+                    self.appendLog("=== \(Date()) Connected to existing Apollo proxy on port \(port); no child started ===\n")
                 }
-                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                    let agent = json["agent"] as? [String: Any]
-                    let codex = json["codex"] as? [String: Any]
-                    let generation = json["generation"] as? [String: Any]
-                    self.proxyHasActiveWork = (json["activeRequests"] as? Int ?? 0) > 0 || agent?["busy"] as? Bool == true || codex?["busy"] as? Bool == true || generation?["busy"] as? Bool == true
-                    self.refreshUI()
-                }
+                self.status = .running
+                self.refreshUI()
+                completion?(true)
                 if self.pendingKnowledgeRestart,
-                   let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let activeRequests = json["activeRequests"] as? Int,
-                   activeRequests == 0,
+                   self.process != nil,
+                   health.activeRequests == 0,
                    !self.proxyHasActiveWork {
                     self.pendingKnowledgeRestart = false
                     self.pendingRestartAfterStop = true
@@ -369,6 +381,14 @@ final class ProxyManager: NSObject {
     }
 
     private func configuredKnowledgeDescriptorURL() -> String? {
+        if FileManager.default.fileExists(atPath: proxyInstallURL.appendingPathComponent("runtime/seed/manifest.json").path) {
+            if let configured = readEnvMap()?["APOLLO_DATA_DESCRIPTOR_URL"], !configured.isEmpty { return configured }
+            let settings = appSupportURL.appendingPathComponent("portable-settings.json")
+            if let bytes = try? Data(contentsOf: settings),
+               let value = try? JSONSerialization.jsonObject(with: bytes) as? [String: Any],
+               let url = value["dataDescriptorUrl"] as? String, !url.isEmpty { return url }
+            return (Bundle.main.object(forInfoDictionaryKey: "ApolloDataDescriptorURL") as? String).flatMap { $0.isEmpty ? nil : $0 }
+        }
         if let configured = readEnvMap()?["APOLLO_KNOWLEDGE_DESCRIPTOR_URL"]?.trimmingCharacters(in: .whitespacesAndNewlines),
            !configured.isEmpty {
             return configured
@@ -385,6 +405,7 @@ final class ProxyManager: NSObject {
         if let token = readEnvMap()?["APOLLO_KNOWLEDGE_TOKEN"], !token.isEmpty {
             environment["APOLLO_KNOWLEDGE_TOKEN"] = token
         }
+        if let token = readEnvMap()?["APOLLO_DATA_TOKEN"], !token.isEmpty { environment["APOLLO_DATA_TOKEN"] = token }
         return environment
     }
 
@@ -392,30 +413,34 @@ final class ProxyManager: NSObject {
         guard let nodeURL = resolveNodeExecutableURL() else {
             throw KnowledgeCommandError.failed("Bundled Node runtime is unavailable.")
         }
+        let releaseSeed = proxyInstallURL.appendingPathComponent("runtime/seed", isDirectory: true)
+        let portable = FileManager.default.fileExists(atPath: releaseSeed.appendingPathComponent("manifest.json").path)
         let cliURL = proxyInstallURL
             .appendingPathComponent("scripts", isDirectory: true)
-            .appendingPathComponent("knowledge-package-cli.js", isDirectory: false)
+            .appendingPathComponent(portable ? "data-release-cli.js" : "knowledge-package-cli.js", isDirectory: false)
         guard FileManager.default.fileExists(atPath: cliURL.path) else {
             throw KnowledgeCommandError.failed("Knowledge updater is missing from embedded proxy.")
         }
-        guard let seedURL = Bundle.main.resourceURL?
+        guard let seedURL = portable ? releaseSeed : Bundle.main.resourceURL?
             .appendingPathComponent("knowledge-seed", isDirectory: true)
             .appendingPathComponent("package", isDirectory: true),
               FileManager.default.fileExists(atPath: seedURL.path) else {
             throw KnowledgeCommandError.failed("Embedded knowledge seed is missing.")
         }
-        return KnowledgeCommandRunner(
+        var runner = KnowledgeCommandRunner(
             nodeURL: nodeURL,
             cliURL: cliURL,
-            storeURL: knowledgeStoreURL,
-            seedURL: seedURL,
+            storeURL: portable ? appSupportURL.appendingPathComponent("data-releases") : knowledgeStoreURL,
+            seedURL: portable ? releaseSeed : seedURL,
             descriptorURL: configuredKnowledgeDescriptorURL(),
             environment: knowledgeCommandEnvironment()
         )
+        if portable { runner.runtimeURL = proxyInstallURL.appendingPathComponent("runtime/apollo") }
+        return runner
     }
 
     private func checkForKnowledgeUpdate() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         guard configuredKnowledgeDescriptorURL() != nil else {
             knowledgeUpdateStatus = .idle
             return
@@ -454,7 +479,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func updateKnowledgeAction() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .downloading
         do {
@@ -487,7 +512,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func rollbackKnowledgeAction() {
-        guard !knowledgeCommandRunning else { return }
+        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .validating
         do {
@@ -702,10 +727,10 @@ final class ProxyManager: NSObject {
             cachedAgentExecutableURL = url
             return url
         }
-        if configured.hasPrefix("/") { return nil }
+        if configured.hasPrefix("/"), provider != .codex || configured != CLIProvider.legacyCodexBinary { return nil }
         let lookup = Process()
         lookup.executableURL = URL(fileURLWithPath: "/usr/bin/which")
-        lookup.arguments = [configured.isEmpty ? provider.rawValue : configured]
+        lookup.arguments = [configured.isEmpty || configured == CLIProvider.legacyCodexBinary ? provider.rawValue : configured]
         lookup.environment = buildAgentEnvironment()
         let output = Pipe()
         lookup.standardOutput = output; lookup.standardError = Pipe()
@@ -721,7 +746,7 @@ final class ProxyManager: NSObject {
 
     private func checkAgentAuthorization(startProxyWhenReady: Bool = false, showResult: Bool = false) {
         if startProxyWhenReady { pendingProxyStartAfterAuthorization = true }
-        guard agentAuthProcess == nil, !isQuitting else { return }
+        guard agentAuthProcess == nil, !codexInstaller.isRunning, !isQuitting else { return }
         do { try ensureProxyInstalled() } catch { agentAuthStatus = .error("Не удалось подготовить прокси."); return }
         guard isAgentConfigured() else { agentAuthStatus = .notConfigured; return }
         guard let binary = resolveAgentExecutableURL() else {
@@ -788,8 +813,13 @@ final class ProxyManager: NSObject {
             agentAuthStatus = .unauthorized
             return
         }
-        guard agentAuthProcess == nil, !isQuitting else { return }
-        guard let binary = resolveAgentExecutableURL() else { agentAuthStatus = .binaryMissing; showProxyDetailsAction(); return }
+        guard agentAuthProcess == nil, !codexInstaller.isRunning, !isQuitting else { return }
+        guard let binary = resolveAgentExecutableURL() else {
+            if selectedProvider.canInstall(configured: readEnvMap()?[selectedProvider.binaryKey] ?? "") {
+                installCodexAndLogin()
+            } else { agentAuthStatus = .binaryMissing; showProxyDetailsAction() }
+            return
+        }
         let provider = selectedProvider
         agentAuthStatus = .authorizing
         if provider == .claude {
@@ -832,6 +862,23 @@ final class ProxyManager: NSObject {
         }
         do { agentAuthProcess = task; try task.run() }
         catch { output.fileHandleForReading.readabilityHandler = nil; agentAuthProcess = nil; agentAuthStatus = .error("Не удалось начать вход в Codex.") }
+    }
+
+    private func installCodexAndLogin() {
+        codexInstaller.install(environment: buildAgentEnvironment()) { [weak self] result in
+            guard let self, !self.isQuitting else { return }
+            self.cachedAgentExecutableURL = nil
+            switch result {
+            case .success:
+                self.agentAuthStatus = .unauthorized
+                self.authorizeAgentAction()
+            case .failure(let error):
+                self.pendingProxyStartAfterAuthorization = false
+                self.agentAuthStatus = .error(error.localizedDescription)
+            }
+        }
+        if codexInstaller.isRunning { agentAuthStatus = .installing }
+        showProxyDetailsAction()
     }
 
     private func readBuildMarker(from directoryURL: URL) -> String? {
@@ -900,7 +947,6 @@ final class ProxyManager: NSObject {
     }
 
     private func installEmbeddedProxy() throws {
-        let fm = FileManager.default
         let embeddedURL = Bundle.main.resourceURL?.appendingPathComponent("embedded-proxy", isDirectory: true)
         guard let embeddedURL else {
             throw NSError(
@@ -910,15 +956,7 @@ final class ProxyManager: NSObject {
             )
         }
 
-        let existingEnvURL = proxyInstallURL.appendingPathComponent(".env", isDirectory: false)
-        let preservedEnv = try? Data(contentsOf: existingEnvURL)
-        if fm.fileExists(atPath: proxyInstallURL.path) {
-            try fm.removeItem(at: proxyInstallURL)
-        }
-        try fm.copyItem(at: embeddedURL, to: proxyInstallURL)
-        if let preservedEnv {
-            try preservedEnv.write(to: existingEnvURL, options: .atomic)
-        }
+        try ProxyRuntimeInstaller.install(source: embeddedURL, destination: proxyInstallURL)
     }
 
     private func appendLog(_ chunk: String) {
@@ -1100,9 +1138,19 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func startProxyAction() {
-        if isQuitting || process != nil {
-            return
+        guard !isQuitting, process == nil, !checkingProxyStart else { return }
+        checkingProxyStart = true
+        status = .starting
+        checkHealth { [weak self] running in
+            guard let self else { return }
+            self.checkingProxyStart = false
+            guard !running, !self.isQuitting, self.process == nil else { return }
+            self.launchManagedProxy()
         }
+    }
+
+    private func launchManagedProxy() {
+        guard !isQuitting, process == nil else { return }
 
         do {
             try ensureProxyInstalled()
@@ -1131,7 +1179,7 @@ final class ProxyManager: NSObject {
         if isAgentConfigured() {
             guard case .authorized = agentAuthStatus else {
                 pendingProxyStartAfterAuthorization = true
-                if agentAuthStatus != .checking && agentAuthStatus != .authorizing { showProxyDetailsAction() }
+                if agentAuthStatus != .checking && agentAuthStatus != .authorizing && agentAuthStatus != .installing { showProxyDetailsAction() }
                 return
             }
         }
@@ -1169,18 +1217,33 @@ final class ProxyManager: NSObject {
         task.standardOutput = pipe
         task.standardError = pipe
         var environment = ProcessInfo.processInfo.environment
+        if let binary = resolveAgentExecutableURL() { environment[selectedProvider.binaryKey] = binary.path }
         if let runtime = knowledgeRuntime,
            let current = runtime.current,
            let designSystemRoot = runtime.designSystemRoot,
            let dsAiHubRoot = runtime.dsAiHubRoot {
             environment["CODEX_DESIGN_SYSTEM"] = designSystemRoot
             environment["CODEX_DS_AI_HUB"] = dsAiHubRoot
-            environment["APOLLO_KNOWLEDGE_CONTENT_VERSION"] = current.contentVersion
+            environment["APOLLO_KNOWLEDGE_CONTENT_VERSION"] = current.knowledgeVersion ?? current.contentVersion
+            if let root = runtime.dataRoot { environment["APOLLO_DATA_ROOT"] = root }
+            if let root = runtime.releaseRoot { environment["APOLLO_RELEASE_ROOT"] = root }
             if let commit = current.sourceCommits?["design-system_ab"] ?? nil {
                 environment["APOLLO_KNOWLEDGE_DESIGN_SYSTEM_COMMIT"] = commit
             }
             if let commit = current.sourceCommits?["ds-ai-hub"] ?? nil {
                 environment["APOLLO_KNOWLEDGE_DS_AI_HUB_COMMIT"] = commit
+            }
+        }
+        let bundledData = proxyInstallURL.appendingPathComponent("runtime/data", isDirectory: true)
+        let bundledProject = proxyInstallURL.appendingPathComponent("runtime/apollo", isDirectory: true)
+        if FileManager.default.fileExists(atPath: bundledData.appendingPathComponent("manifest.json").path),
+           FileManager.default.fileExists(atPath: bundledProject.appendingPathComponent("dist/runtime.cjs").path) {
+            let config = readEnvMap() ?? [:]
+            for (key, fallback) in [("APOLLO_DATA_ROOT", bundledData.path), ("APOLLO_PROJECT_ROOT", bundledProject.path)] {
+                if environment[key]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false,
+                   config[key]?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty != false {
+                    environment[key] = fallback
+                }
             }
         }
         task.environment = environment
@@ -1286,7 +1349,7 @@ final class ProxyManager: NSObject {
 
     private func selectAgent(_ provider: CLIProvider) {
         guard provider != selectedProvider else { return }
-        guard agentAuthProcess == nil, !knowledgeCommandRunning, !proxyHasActiveWork else {
+        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning else {
             refreshUI()
             return
         }
@@ -1427,6 +1490,7 @@ final class ProxyManager: NSObject {
     func prepareForTermination() {
         guard !isQuitting else { return }
         isQuitting = true
+        codexInstaller.cancel()
         healthTimer?.invalidate()
         knowledgeTimer?.invalidate()
         claudeLoginTimer?.invalidate()

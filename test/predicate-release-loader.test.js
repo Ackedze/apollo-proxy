@@ -132,8 +132,25 @@ test('BenefitCard execution policy closes the DS AI Hub rules and exposes execut
     'JSONS/web/components/web-corp-promo/BenefitCard/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  assert.equal(document.manual.rules.length, 30);
+  assert.equal(document.manual.rules.length, 31);
+  const retiredRuleId = 'component:web.benefit-card.vertical-resizing-policy';
+  assert.ok(document.manual.rules.every(rule => rule.ruleId !== retiredRuleId));
+  for (const routes of Object.values(document.manual.executionPolicy).filter(Array.isArray)) {
+    assert.ok(routes.every(route => route.sourceRuleId !== retiredRuleId),
+      'Retired component sizing rule must have no execution route or coverage gap');
+  }
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+  for (const ruleId of [
+    'component:web.benefit-card-bottom-link-size-14-20',
+    'component:web.benefit-card-bottom-link-size-16-24',
+  ]) {
+    const route = document.manual.executionPolicy.contextOnlyRules.find(entry =>
+      entry.sourceRuleId === ruleId);
+    assert.ok(route?.missingFacts.length, `${ruleId} must report its unsupported legacy facts`);
+    assert.ok(document.manual.executionPolicy.coverageGaps.some(entry =>
+      entry.sourceRuleId === ruleId));
+  }
+
 
   const release = loadPredicateRelease(designSystemRoot, [
     '61cba21130d5adfd36b798bb4a41f6ccd148c1aa',
@@ -347,8 +364,22 @@ test('Core IconView execution policy closes the reusable boundary rules exactly 
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
   assert.equal(document.metadata.status, 'ready');
-  assert.equal(document.manual.rules.length, 5);
+  assert.equal(document.manual.rules.length, 10);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
+  for (const ruleId of [
+    'component:web-core.icon-view.border-requires-shape',
+    'component:web-core.icon-view.indicator-excludes-top-addon',
+    'component:web-core.icon-view.shape-false-disables-addons-and-indicator',
+    'component:web-core.icon-view.text-library-style',
+    'component:web-core.icon-view.top-addon-indicator-replacement',
+  ]) {
+    const route = document.manual.executionPolicy.contextOnlyRules.find(entry =>
+      entry.sourceRuleId === ruleId);
+    assert.ok(route?.missingFacts.length, `${ruleId} must report its unsupported legacy facts`);
+    assert.ok(document.manual.executionPolicy.coverageGaps.some(entry =>
+      entry.sourceRuleId === ruleId));
+  }
+
 
   const release = loadPredicateRelease(designSystemRoot, [
     'f188fb1de981b2f32966f4844a4b10cffdb81c35',
@@ -431,7 +462,7 @@ test('BackgroundPlate execution policy closes every real component rule exactly 
     'JSONS/web/components/web-corp/BackgroundPlate/rules.json',
   );
   const document = JSON.parse(fs.readFileSync(rulesPath, 'utf8'));
-  assert.equal(document.manual.rules.length, 30);
+  assert.equal(document.manual.rules.length, 19);
   assert.doesNotThrow(() => validateComponentExecutionPolicy(document, []));
 
   const release = loadPredicateRelease(designSystemRoot, [
@@ -441,14 +472,22 @@ test('BackgroundPlate execution policy closes every real component rule exactly 
   assert.deepEqual(
     release.contourDefinitions
       .filter((definition) => definition.ruleId.startsWith('component:web-corp.background-plate.'))
-      .filter((definition) => ['public-root', 'platform-match'].includes(definition.kind))
-      .map((definition) => definition.ruleId)
-      .sort(),
-    [
-      'component:web-corp.background-plate.platform-version-must-match',
-      'component:web-corp.background-plate.public-roots-only',
-    ],
+      .map((definition) => definition.ruleId).sort(),
+    document.manual.executionPolicy.predicateRules.slice().sort(),
   );
+  assert.deepEqual(
+    document.manual.executionPolicy.contextOnlyRules.find((entry) =>
+      entry.sourceRuleId.endsWith('.blend-mode-is-fixed')).missingFacts,
+    ['appearance.blendMode', 'baseline.effective.appearance.blendMode'],
+  );
+  const falseExecutable = structuredClone(document);
+  falseExecutable.manual.executionPolicy.contextOnlyRules =
+    falseExecutable.manual.executionPolicy.contextOnlyRules.filter((entry) =>
+      !entry.sourceRuleId.endsWith('.blend-mode-is-fixed'));
+  falseExecutable.manual.executionPolicy.predicateRules.push(
+    'component:web-corp.background-plate.blend-mode-is-fixed',
+  );
+  assert.throws(() => validateComponentExecutionPolicy(falseExecutable, []), /not active and executable/);
 
   const incomplete = structuredClone(document);
   incomplete.manual.executionPolicy.contextOnlyRules.pop();
@@ -1476,24 +1515,8 @@ test('predicate release resolves canonical Figma keys and pins source checksums'
   });
   assert.equal(corporateSectionGutterContour.sourceChecksum.length, 64);
 
-  const backgroundPlateUnderlayContour = release.contourDefinitions.find((definition) => (
-    definition.ruleId === 'component:web-corp.background-plate.level-2-requires-level-1'
-  ));
-  assert.equal(backgroundPlateUnderlayContour.kind, 'co-located-underlay');
-  assert.deepEqual(backgroundPlateUnderlayContour.subject, {
-    identity: 'web-corp.background-plate',
-    properties: { Position: 'Level 2 (inner)' },
-    publicRootOnly: true,
-  });
-  assert.deepEqual(backgroundPlateUnderlayContour.underlay, {
-    identity: 'web-corp.background-plate',
-    properties: { Position: 'Level 1 (outer)' },
-    positioning: 'ABSOLUTE',
-  });
-  assert.equal(backgroundPlateUnderlayContour.relationKey, 'level1Underlay');
-  assert.equal(backgroundPlateUnderlayContour.authorityStatus, 'active');
-  assert.equal(backgroundPlateUnderlayContour.revision, 2);
-  assert.equal(backgroundPlateUnderlayContour.sourceChecksum.length, 64);
+  assert.equal(release.contourDefinitions.some((definition) =>
+    definition.ruleId === 'component:web-corp.background-plate.level-2-requires-level-1'), false);
 
   const titleViewPageCountContour = release.contourDefinitions.find((definition) => (
     definition.ruleId === 'rule:components.title-view.single-xlarge'

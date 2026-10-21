@@ -347,7 +347,9 @@ async function cleanupVersions(storeRoot, state) {
 }
 
 function validateArchiveEntries(tarballPath) {
-  const list = spawnSync(TAR_EXECUTABLE, ['-tf', tarballPath], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+  // A GUI launch may inherit the C locale, making bsdtar escape valid UTF-8 names.
+  const options = { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024, env: { ...process.env, LC_ALL: 'C.UTF-8' } };
+  const list = spawnSync(TAR_EXECUTABLE, ['-tf', tarballPath], options);
   if (list.status !== 0) fail(`Cannot list tarball: ${list.stderr || list.stdout}`, 'KNOWLEDGE_ARCHIVE_INVALID');
   const entries = list.stdout.split(/\r?\n/).filter(Boolean);
   if (entries.length === 0) fail('Knowledge tarball is empty.', 'KNOWLEDGE_ARCHIVE_INVALID');
@@ -357,7 +359,7 @@ function validateArchiveEntries(tarballPath) {
       fail(`Unsafe tar entry: ${entry}.`, 'KNOWLEDGE_ARCHIVE_UNSAFE');
     }
   }
-  const verbose = spawnSync(TAR_EXECUTABLE, ['-tvf', tarballPath], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+  const verbose = spawnSync(TAR_EXECUTABLE, ['-tvf', tarballPath], options);
   if (verbose.status !== 0) fail('Cannot inspect tarball entries.', 'KNOWLEDGE_ARCHIVE_INVALID');
   for (const line of verbose.stdout.split(/\r?\n/).filter(Boolean)) {
     if (!['-', 'd'].includes(line[0])) fail('Knowledge tarball may contain only regular files and directories.', 'KNOWLEDGE_ARCHIVE_UNSAFE');
