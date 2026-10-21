@@ -1,5 +1,27 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+
+// Import the real server against test-owned knowledge, never a neighboring checkout.
+const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-dialogue-source-'));
+test.after(() => fs.rmSync(fixture, { recursive: true, force: true }));
+const ds = path.join(fixture, 'design-system_ab'), hub = path.join(fixture, 'ds-ai-hub');
+function write(relative, value) {
+  const file = path.join(fixture, relative);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, value);
+}
+write('design-system_ab/JSONS/apollo/indexes/componentContractIndex.json', '{"schemaVersion":2,"packages":[{"componentKey":"fixture"}]}');
+write('design-system_ab/JSONS/apollo/designPatternRules.json', '{"rules":[]}');
+write('design-system_ab/redpolrules/dictionary.json', '{"rules":[]}');
+write('design-system_ab/patterns/fixture.md', '# Fixture');
+for (const directory of ['products/ab/components', 'core/web/components']) fs.mkdirSync(path.join(hub, directory), { recursive: true });
+write('ds-ai-hub/products/ab/patterns/fixture.md', '# Fixture');
+process.env.CODEX_DESIGN_SYSTEM = ds;
+process.env.CODEX_DS_AI_HUB = hub;
+process.env.APOLLO_PROXY_MANAGED = '0';
 
 const {
   buildCodexDialoguePrompt,
