@@ -1,0 +1,15 @@
+name: Git data updater
+on:
+  push:
+    branches: [main]
+    paths: [scripts/git-data-cli.js, test/git-data-update.test.js, .github/workflows/git-data.yml]
+  pull_request:
+    paths: [scripts/git-data-cli.js, test/git-data-update.test.js, .github/workflows/git-data.yml]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: node --test test/git-data-update.test.js
