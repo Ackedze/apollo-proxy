@@ -45,12 +45,14 @@ git -C services/apollo-proxy switch -c contributor/ask-links
 
 ```bash
 npm ci
-node --test test/dialogue-source.test.js test/dialogue-runtime.test.js test/cli-agent.test.js
+TMPDIR=/private/tmp node --test test/dialogue-source.test.js test/dialogue-runtime.test.js test/cli-agent.test.js
 ```
 
 Тесты создают собственные knowledge/CLI fixtures. Им не нужны личный вход,
 workspace автора, Figma MCP или `arui-private`. CI `Ask regressions` выполняет
 именно этот ограниченный набор; он не подменяет полный интеграционный прогон.
+`TMPDIR=/private/tmp` задаётся на macOS, чтобы realpath и CLI использовали один
+временный путь; на Linux оставить системный temp, как в CI.
 
 ## Полная проверка
 
