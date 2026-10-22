@@ -12,6 +12,11 @@ struct ProxyDetailsSnapshot {
     var canChangeAgent = true
     var cliMissing = false
     var authorizationBusy = false
+    var model = ""
+    var modelChoices: [AgentModelChoice] = []
+    var modelMessage = "Модель применяется к новым запросам."
+    var modelLoading = false
+    var canRefreshModels = false
     var knowledgeSource = "ds-ai-hub"
     var knowledgeStatus = ""
     var knowledgeVersion = ""
@@ -28,9 +33,10 @@ final class ProxyDetailsWindowController: NSWindowController {
         override var isFlipped: Bool { true }
     }
     enum Action: Hashable { case login, checkAccess, installCLI, checkKnowledge, updateKnowledge, rollbackKnowledge,
-                      editURL, resetURL, openConfiguration, openLogs, openFolder }
+                      editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
+    var onModelChange: ((String) -> Void)?
     var onKnowledgeSourceChange: ((String) -> Void)?
 
     private let versionLabel = NSTextField(wrappingLabelWithString: "")
@@ -38,6 +44,9 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let agentPicker = NSSegmentedControl(labels: CLIProvider.allCases.map(\.name), trackingMode: .selectOne, target: nil, action: nil)
     private let cliSettings = NSStackView()
     private let alfaGenSettings = NSStackView()
+    private let modelPicker = NSPopUpButton(frame: .zero, pullsDown: false)
+    private let modelMessage = NSTextField(wrappingLabelWithString: "")
+    private var displayedModels: [AgentModelChoice] = []
     private let authorizationLabel = NSTextField(wrappingLabelWithString: "")
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
@@ -74,6 +83,28 @@ final class ProxyDetailsWindowController: NSWindowController {
         agentPicker.isEnabled = state.canChangeAgent
         cliSettings.isHidden = !state.provider.usesCLI
         alfaGenSettings.isHidden = state.provider.usesCLI
+        var choices = [AgentModelChoice(id: "", name: "По умолчанию (CLI)")] + state.modelChoices
+        if !choices.contains(where: { $0.id == state.model }) {
+            choices.append(AgentModelChoice(id: state.model, name: state.model))
+        }
+        if choices != displayedModels {
+            displayedModels = choices
+            modelPicker.removeAllItems()
+            for choice in choices {
+                let item = NSMenuItem(title: choice.name, action: nil, keyEquivalent: "")
+                item.representedObject = choice.id
+                item.toolTip = choice.id
+                modelPicker.menu?.addItem(item)
+            }
+            modelPicker.menu?.addItem(.separator())
+            modelPicker.addItem(withTitle: "Указать ID модели…")
+        }
+        modelPicker.select(modelPicker.itemArray.first { $0.representedObject as? String == state.model })
+        modelPicker.isEnabled = state.canChangeAgent && !state.modelLoading
+        modelPicker.toolTip = state.model.isEmpty ? "Модель по умолчанию в CLI" : state.model
+        modelMessage.stringValue = state.modelMessage
+        buttons[.refreshModels]?.isHidden = state.provider != .codex
+        buttons[.refreshModels]?.isEnabled = state.canRefreshModels && !state.modelLoading
         authorizationLabel.stringValue = state.authorization
         authorizationHelp.stringValue = state.authorizationHelp
         if state.authorizationBusy { authorizationProgress.startAnimation(nil) }
@@ -154,7 +185,13 @@ final class ProxyDetailsWindowController: NSWindowController {
         authorizationProgress.isDisplayedWhenStopped = false
         authorizationProgress.setAccessibilityLabel("Подготовка AI-агента")
         let authorizationRow = row([authorizationProgress, authorizationLabel])
-        for view in [authorizationRow, authorizationHelp,
+        modelPicker.target = self; modelPicker.action = #selector(modelChanged)
+        modelPicker.setAccessibilityLabel("Модель AI-агента")
+        modelPicker.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        modelPicker.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        style(modelMessage, secondary: true)
+        let modelRow = row([modelPicker, button("Обновить список", .refreshModels)])
+        for view in [heading("Модель"), modelRow, modelMessage, authorizationRow, authorizationHelp,
                      row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])] {
             cliSettings.addArrangedSubview(view)
         }
@@ -174,7 +211,7 @@ final class ProxyDetailsWindowController: NSWindowController {
             group.orientation = .vertical; group.alignment = .leading; group.spacing = 8
         }
         section([heading("AI-агент"), agentPicker, cliSettings, alfaGenSettings])
-        for view in [cliSettings, alfaGenSettings, authorizationHelp, urlField, alfaGenHelp] {
+        for view in [cliSettings, alfaGenSettings, authorizationHelp, urlField, alfaGenHelp, modelRow, modelMessage] {
             view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         }
         authorizationRow.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
@@ -210,6 +247,10 @@ final class ProxyDetailsWindowController: NSWindowController {
     @objc private func providerChanged() {
         guard CLIProvider.allCases.indices.contains(agentPicker.selectedSegment) else { return }
         onProviderChange?(CLIProvider.allCases[agentPicker.selectedSegment])
+    }
+    @objc private func modelChanged() {
+        if let model = modelPicker.selectedItem?.representedObject as? String { onModelChange?(model) }
+        else { onAction?(.editModel) }
     }
     @objc private func knowledgeSourceChanged() { if let value = knowledgePicker.titleOfSelectedItem { onKnowledgeSourceChange?(value) } }
 }

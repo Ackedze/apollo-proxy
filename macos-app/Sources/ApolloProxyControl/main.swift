@@ -101,6 +101,10 @@ final class ProxyManager: NSObject {
     private var checkingProxyStart = false
     private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
+    private var modelCatalogProcess: Process?
+    private var modelCatalogTimer: Timer?
+    private var codexModelChoices: [AgentModelChoice] = []
+    private var modelCatalogError = ""
     private var isStoppingIntentionally = false
     private var pendingRestartAfterStop = false
     private var pendingProxyStartAfterAuthorization = false
@@ -161,6 +165,11 @@ final class ProxyManager: NSObject {
         let provider = selectedProvider
         var snapshot = ProxyDetailsSnapshot()
         snapshot.provider = provider
+        snapshot.model = configuredModel
+        snapshot.modelChoices = provider == .codex ? codexModelChoices : provider.modelChoices
+        snapshot.modelLoading = modelCatalogProcess != nil
+        if snapshot.modelLoading { snapshot.modelMessage = "Загружаем список моделей…" }
+        else if provider == .codex && !modelCatalogError.isEmpty { snapshot.modelMessage = modelCatalogError }
         snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
         snapshot.apolloURL = readConfiguredApolloURL() ?? defaultApolloURL
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
@@ -189,6 +198,7 @@ final class ProxyManager: NSObject {
         snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil && !isExternalProxyRunning
         snapshot.canCheckKnowledge = !knowledgeCommandRunning && !isExternalProxyRunning
         snapshot.canChangeAgent = agentAuthProcess == nil && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && status != .starting && !isExternalProxyRunning
+        if case .authorized = agentAuthStatus { snapshot.canRefreshModels = snapshot.canChangeAgent }
         snapshot.cliMissing = agentAuthStatus == .binaryMissing
         let canInstall = provider.canInstall(configured: readEnvMap()?[provider.binaryKey] ?? "")
         snapshot.canLogin = agentAuthProcess == nil && !codexInstaller.isRunning && (canInstall || claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
@@ -675,6 +685,9 @@ final class ProxyManager: NSObject {
         if let provider = env["APOLLO_CLI_PROVIDER"], CLIProvider(rawValue: provider) == nil {
             return "Укажите codex, claude или alfagen в APOLLO_CLI_PROVIDER либо выберите агент в окне «О прокси»."
         }
+        if selectedProvider.usesCLI && !CLIProvider.validModel(configuredModel) {
+            return "Некорректный ID модели. Выберите модель в окне «О прокси»."
+        }
 
         if selectedProvider == .alfagen {
             return validateApolloURLInput(readConfiguredApolloURL() ?? defaultApolloURL)
@@ -689,6 +702,10 @@ final class ProxyManager: NSObject {
 
     private var selectedProvider: CLIProvider {
         CLIProvider(rawValue: readEnvMap()?["APOLLO_CLI_PROVIDER"] ?? "codex") ?? .codex
+    }
+
+    private var configuredModel: String {
+        selectedProvider.usesCLI ? (readEnvMap()?[selectedProvider.modelKey] ?? "").trimmingCharacters(in: .whitespacesAndNewlines) : ""
     }
 
     private func isAgentConfigured() -> Bool {
@@ -786,6 +803,7 @@ final class ProxyManager: NSObject {
                     self.claudeLoginTimer?.invalidate(); self.claudeLoginTimer = nil
                     self.agentAuthStatus = result
                     self.appendLog("=== \(Date()) \(provider.name) authorization check succeeded ===\n")
+                    if self.detailsController != nil { self.refreshModelCatalog() }
                     if self.pendingProxyStartAfterAuthorization {
                         self.pendingProxyStartAfterAuthorization = false
                         self.startProxyAction()
@@ -818,6 +836,8 @@ final class ProxyManager: NSObject {
 
     @objc private func authorizeAgentAction() {
         guard selectedProvider.usesCLI else { return }
+        cancelModelCatalog()
+        if selectedProvider == .codex { codexModelChoices = [] }
         if let timer = claudeLoginTimer {
             timer.invalidate(); claudeLoginTimer = nil
             pendingProxyStartAfterAuthorization = false
@@ -1225,6 +1245,7 @@ final class ProxyManager: NSObject {
         task.standardOutput = pipe
         task.standardError = pipe
         var environment = ProcessInfo.processInfo.environment
+        for key in ["CODEX_MODEL", "CLAUDE_MODEL"] { environment[key] = readEnvMap()?[key] ?? "" }
         if let binary = resolveAgentExecutableURL() { environment[selectedProvider.binaryKey] = binary.path }
         if let runtime = knowledgeRuntime,
            let current = runtime.current,
@@ -1339,12 +1360,15 @@ final class ProxyManager: NSObject {
                 case .rollbackKnowledge: self.rollbackKnowledgeAction()
                 case .editURL: self.editApolloURLAction()
                 case .resetURL: self.applyAlfaGenURL(defaultApolloURL)
+                case .editModel: self.editModelAction()
+                case .refreshModels: self.refreshModelCatalog()
                 case .openConfiguration: self.openEnvAction()
                 case .openLogs: self.openLogsAction()
                 case .openFolder: self.openProxyFolderAction()
                 }
             }
             controller.onProviderChange = { [weak self] provider in self?.selectAgent(provider) }
+            controller.onModelChange = { [weak self] model in self?.selectModel(model) }
             controller.onKnowledgeSourceChange = { [weak self] source in
                 guard let self, source != self.readConfiguredKnowledgeSource() else { return }
                 self.switchKnowledgeSourceAction()
@@ -1354,6 +1378,98 @@ final class ProxyManager: NSObject {
         }
         refreshUI()
         detailsController?.present()
+        refreshModelCatalog()
+    }
+
+    private func cancelModelCatalog() {
+        modelCatalogTimer?.invalidate(); modelCatalogTimer = nil
+        if let task = modelCatalogProcess, task.isRunning { task.terminate() }
+        modelCatalogProcess = nil
+    }
+
+    private func refreshModelCatalog() {
+        guard selectedProvider == .codex, modelCatalogProcess == nil, !isQuitting,
+              case .authorized = agentAuthStatus else { return }
+        guard let binary = resolveAgentExecutableURL(), let node = resolveNodeExecutableURL() else { return }
+        let task = Process(), output = Pipe(), errors = Pipe(), buffer = LockedDataBuffer()
+        task.executableURL = node
+        task.arguments = [proxyInstallURL.appendingPathComponent("scripts/list-agent-models.js").path, binary.path]
+        task.environment = buildAgentEnvironment()
+        task.standardOutput = output; task.standardError = errors
+        output.fileHandleForReading.readabilityHandler = { buffer.append($0.availableData) }
+        errors.fileHandleForReading.readabilityHandler = { _ = $0.availableData }
+        task.terminationHandler = { [weak self] finished in
+            output.fileHandleForReading.readabilityHandler = nil
+            errors.fileHandleForReading.readabilityHandler = nil
+            buffer.append(output.fileHandleForReading.readDataToEndOfFile())
+            let data = buffer.snapshot()
+            Task { @MainActor in
+                guard let self, self.modelCatalogProcess === finished else { return }
+                self.modelCatalogTimer?.invalidate(); self.modelCatalogTimer = nil
+                self.modelCatalogProcess = nil
+                struct Catalog: Decodable { let models: [AgentModelChoice] }
+                if finished.terminationStatus == 0,
+                   let catalog = try? JSONDecoder().decode(Catalog.self, from: data),
+                   catalog.models.count <= 1000,
+                   catalog.models.allSatisfy({ !$0.id.isEmpty && CLIProvider.validModel($0.id) }) {
+                    self.codexModelChoices = catalog.models
+                    self.modelCatalogError = ""
+                } else {
+                    self.modelCatalogError = "Не удалось обновить список. Повторите попытку или укажите ID модели."
+                }
+                self.refreshUI()
+            }
+        }
+        do {
+            modelCatalogProcess = task; try task.run()
+            modelCatalogTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { [weak task] _ in
+                if let task, task.isRunning { task.terminate() }
+            }
+            refreshUI()
+        } catch {
+            output.fileHandleForReading.readabilityHandler = nil
+            errors.fileHandleForReading.readabilityHandler = nil
+            modelCatalogProcess = nil
+            modelCatalogError = "Не удалось обновить список. Повторите попытку или укажите ID модели."
+            refreshUI()
+        }
+    }
+
+    private func selectModel(_ rawValue: String) {
+        guard selectedProvider.usesCLI else { return }
+        let value = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard CLIProvider.validModel(value) else {
+            showError("Некорректный ID модели", "Укажите ID модели без пробелов и переносов строк.")
+            refreshUI(); return
+        }
+        guard value != configuredModel else { refreshUI(); return }
+        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning,
+              !proxyHasActiveWork, !isExternalProxyRunning, status != .starting else { refreshUI(); return }
+        do {
+            try ensureProxyInstalled()
+            let key = selectedProvider.modelKey
+            try writeEnvValue(value, forKey: key, to: overridesURL)
+            try writeEnvValue(value, forKey: key, to: proxyInstallURL.appendingPathComponent(".env"))
+            if process != nil {
+                pendingRestartAfterStop = true
+                stopProxyAction()
+            }
+            refreshUI()
+        } catch { showError("Не удалось сохранить модель", error.localizedDescription); refreshUI() }
+    }
+
+    private func editModelAction() {
+        guard selectedProvider.usesCLI else { return }
+        let input = PasteFriendlyTextField(frame: NSRect(x: 0, y: 0, width: 420, height: 28))
+        input.stringValue = configuredModel
+        input.placeholderString = "ID модели"
+        let alert = NSAlert()
+        alert.messageText = "Модель для \(selectedProvider.name)"
+        alert.informativeText = "Укажите ID модели из документации провайдера. Пустое поле вернёт настройку по умолчанию. Работающий прокси перезапустится."
+        alert.accessoryView = input
+        alert.addButton(withTitle: "Сохранить"); alert.addButton(withTitle: "Отмена")
+        if alert.runModal() == .alertFirstButtonReturn { selectModel(input.stringValue) }
+        else { refreshUI() }
     }
 
     private func selectAgent(_ provider: CLIProvider) {
@@ -1363,6 +1479,7 @@ final class ProxyManager: NSObject {
             return
         }
         claudeLoginTimer?.invalidate(); claudeLoginTimer = nil
+        cancelModelCatalog()
         pendingProxyStartAfterAuthorization = false
         do {
             try ensureProxyInstalled()
@@ -1494,6 +1611,8 @@ final class ProxyManager: NSObject {
     func prepareForTermination() {
         guard !isQuitting else { return }
         isQuitting = true
+        let modelTask = modelCatalogProcess
+        cancelModelCatalog()
         codexInstaller.cancel()
         healthTimer?.invalidate()
         knowledgeTimer?.invalidate()
@@ -1505,7 +1624,7 @@ final class ProxyManager: NSObject {
         pendingKnowledgeRestart = false
         isStoppingIntentionally = true
         try? lifetimePipe?.fileHandleForWriting.close()
-        let children = [process, agentAuthProcess].compactMap { $0 }
+        let children = [process, agentAuthProcess, modelTask].compactMap { $0 }
         if !ProxyProcessLifecycle.stopAndWait(children) {
             appendLog("=== \(Date()) A child process did not exit after SIGKILL ===\n")
         }

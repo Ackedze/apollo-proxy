@@ -8,7 +8,7 @@ const {
   APOLLO_AGENT_INSECURE_TLS,
   APOLLO_AGENT_MAX_ATTEMPTS,
   CODEX_BIN,
-  CODEX_MODEL,
+  AGENT_MODEL,
   CLI_PROVIDER,
   CLI_AGENT_BIN,
   CODEX_IDLE_TIMEOUT_MS,
@@ -768,7 +768,7 @@ async function callCodexGenerationPlanner(payload) {
     '--output-last-message',
     outputPath,
   ];
-  if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+  if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
   const prompt = buildGenerationAgentPrompt(
     request,
@@ -788,7 +788,7 @@ async function callCodexGenerationPlanner(payload) {
       'reading_design_system',
       {
         mode: 'generation-planning',
-        model: CODEX_MODEL || null,
+        model: AGENT_MODEL || null,
         workingDirectory: runDirectory,
       }
     );
@@ -856,7 +856,7 @@ async function callCodexContractExplanation(
       output,
     ];
     if (requestTelemetry.dataOnly) for (const setting of ['features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','web_search="disabled"','mcp_servers={}']) args.push('-c',setting);
-    if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+    if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
     args.push('-');
     return await runCodexProcess(
       args,
@@ -866,7 +866,7 @@ async function callCodexContractExplanation(
       'analyzing_layout',
       {
         mode: 'contract-v4-explanation',
-        model: CODEX_MODEL || null,
+        model: AGENT_MODEL || null,
         workingDirectory: directory,
         runtimeBudgetMs: requestTelemetry.runtimeBudgetMs,
         signal: requestTelemetry.signal,
@@ -906,7 +906,7 @@ async function callCodexContractExplanation(
           attempt: requestTelemetry.attempt || 1,
           method: requestTelemetry.generationMethod || null,
         });
-      usage.requestedModel = CODEX_MODEL || null;
+      usage.requestedModel = AGENT_MODEL || null;
       usage.provider = CLI_PROVIDER;
       usage.promptSha256 = crypto
         .createHash('sha256')
@@ -991,7 +991,7 @@ async function callCodexDialogue(inputValue) {
     '--output-last-message',
     outputPath,
   ];
-  if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+  if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
   const prompt = buildCodexDialoguePrompt(
     question,
@@ -1009,7 +1009,7 @@ async function callCodexDialogue(inputValue) {
       'reading_design_system',
       {
         mode: 'dialogue',
-        model: CODEX_MODEL || null,
+        model: AGENT_MODEL || null,
         workingDirectory: runDirectory,
       },
       'text'
@@ -1226,7 +1226,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         '--output-last-message',
         outputPath
       );
-      if (CODEX_MODEL) args.push('--model', CODEX_MODEL);
+      if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
       for (const imagePath of prepared.imagePaths) {
         args.push('--image', imagePath);
       }
@@ -1305,7 +1305,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
           runId: debugRunId,
           mode,
           passId,
-          model: CODEX_MODEL || null,
+          model: AGENT_MODEL || null,
           reasoningEffort:
             mode === 'pattern-report'
               ? APOLLO_CODEX_PATTERN_REASONING_EFFORT
@@ -1541,11 +1541,13 @@ app.get('/health', async (req, res) => {
     },
     agent: {
       provider: CLI_PROVIDER,
+      model: AGENT_MODEL || null,
       configured: Boolean(CLI_PROVIDER === 'alfagen' ? APOLLO_AGENT_URL : CLI_AGENT_BIN),
       busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || Boolean(namingRuns?.busy()),
     },
     codex: {
       provider: CLI_PROVIDER,
+      model: AGENT_MODEL || null,
       configured: Boolean(CLI_AGENT_BIN),
       busy: activeCodexRuns > 0 || Boolean(namingRuns?.busy()),
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
@@ -1555,6 +1557,7 @@ app.get('/health', async (req, res) => {
     },
     generation: {
       provider: CLI_PROVIDER,
+      model: AGENT_MODEL || null,
       configured: Boolean(CLI_AGENT_BIN),
       busy: activeGenerationCodexRuns > 0 || asyncGenerationBusy,
       semanticSource: 'ds-ai-hub',
@@ -1580,7 +1583,7 @@ const frontendAgentRuntime = require('./src/generation-agent/agent-runtime').mou
     }),
   provider: CLI_PROVIDER,
   binary: CLI_AGENT_BIN,
-  model: CODEX_MODEL,
+  model: AGENT_MODEL,
   environment: buildCodexEnvironment(),
   evalRoot: process.env.APOLLO_AGENT_EVAL_ROOT || null,
 });
@@ -1594,7 +1597,7 @@ const nativeAgentRuntime = require('./src/generation-agent/agent-figma-runtime')
       }),
     provider: CLI_PROVIDER,
     binary: CLI_AGENT_BIN,
-    model: CODEX_MODEL,
+    model: AGENT_MODEL,
     environment: buildCodexEnvironment(),
   }
 );
@@ -1609,7 +1612,7 @@ const mcpAgentRuntime = require('./src/generation-agent/agent-figma-runtime').mo
       }),
     provider: CLI_PROVIDER,
     binary: CLI_AGENT_BIN,
-    model: CODEX_MODEL,
+    model: AGENT_MODEL,
     environment: buildCodexEnvironment(),
   }
 );
@@ -1852,6 +1855,7 @@ app.post('/analyze', async (req, res) => {
       result,
       source: inputValue.source,
       provider,
+      model: provider === 'alfagen' ? null : AGENT_MODEL || null,
       knowledgeRelease: provider === 'alfagen' ? null : APOLLO_KNOWLEDGE_RELEASE,
     });
   } catch (err) {

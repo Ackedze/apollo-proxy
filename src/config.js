@@ -31,6 +31,8 @@ const CODEX_BIN = resolveCodexBinary(process.env.CODEX_BIN);
 const CODEX_MODEL = process.env.CODEX_MODEL || '';
 
 const CLI_PROVIDER = selectedCliProvider();
+const AGENT_MODEL = CLI_PROVIDER === 'alfagen' ? '' :
+  (CLI_PROVIDER === 'claude' ? process.env.CLAUDE_MODEL || '' : CODEX_MODEL).trim();
 
 const CLI_AGENT_BIN =
   CLI_PROVIDER === 'alfagen' ? '' : CLI_PROVIDER === 'claude'
@@ -304,6 +306,7 @@ module.exports = {
   APOLLO_AGENT_MAX_ATTEMPTS,
   CODEX_BIN,
   CODEX_MODEL,
+  AGENT_MODEL,
   CLI_PROVIDER,
   CLI_AGENT_BIN,
   CODEX_IDLE_TIMEOUT_MS,

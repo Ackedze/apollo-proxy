@@ -140,7 +140,11 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    child.on('close',async code=>{
     if(closed)return;closed=true;clean();consume(buffer);
     if(failure)return reject(await failureError(failure.code,{status:failure.status,stage:'interrupted',exitCode:code,stderr,events}));
-    if(code!==0)return reject(await failureError(/input_too_large|Input exceeds the maximum length/.test(stderr)?'AGENT_CONTEXT_LIMIT':'AGENT_PROCESS_FAILED',{exitCode:code,stderr,events}));
+    if(code!==0){
+     // This launcher also ships standalone, without the parent CLI adapters.
+     const unavailable=/model_not_found|(?:unknown|invalid|unsupported) model|model[^\n]{0,160}(?:does not exist|not found|not available|not supported|do not have access)/i.test(stderr+'\n'+JSON.stringify(events.filter(e=>['error','turn.failed'].includes(e.type))));
+     return reject(await failureError(unavailable?'AGENT_MODEL_UNAVAILABLE':(/input_too_large|Input exceeds the maximum length/.test(stderr)?'AGENT_CONTEXT_LIMIT':'AGENT_PROCESS_FAILED'),{status:unavailable?400:502,exitCode:code,stderr,events}));
+    }
     try{
      if(scopedDirectory(generatedRoot,workspace)!==scope||signal?.aborted)fail('AGENT_CANCELLED');
      const bytes=await fsp.readFile(outputPath);if(bytes.length>1024*1024)fail('AGENT_OUTPUT_LIMIT');

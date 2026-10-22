@@ -1,8 +1,8 @@
 'use strict';
 const crypto=require('node:crypto'),fs=require('node:fs'),fsp=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
 const {spawn}=require('node:child_process');
-const {runClaudeProcess,assertLocalAgent}=require('../cli-agent');
-const {CLI_PROVIDER, CLI_AGENT_BIN, CODEX_IDLE_TIMEOUT_MS, CODEX_MAX_RUNTIME_MS, APOLLO_CODEX_SKILL_ROOT, CODEX_WORKSPACE, CODEX_BIN, CODEX_PROGRESS_STAGES}=require('../config');
+const {runClaudeProcess,assertLocalAgent,modelUnavailableError}=require('../cli-agent');
+const {CLI_PROVIDER, CLI_AGENT_BIN, AGENT_MODEL, CODEX_IDLE_TIMEOUT_MS, CODEX_MAX_RUNTIME_MS, APOLLO_CODEX_SKILL_ROOT, CODEX_WORKSPACE, CODEX_BIN, CODEX_PROGRESS_STAGES}=require('../config');
 
 
 function runCodexProcess(
@@ -23,7 +23,7 @@ function runCodexProcess(
     return runClaudeProcess({ binary: CLI_AGENT_BIN, codexArgs: args, prompt, outputPath,
       outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs, signal,
       onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
-      model: process.env.CLAUDE_MODEL || '', skillRoot: APOLLO_CODEX_SKILL_ROOT });
+      model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT });
   }
   return new Promise((resolve, reject) => {
     const workingDirectory =
@@ -217,6 +217,8 @@ function buildCodexProcessExitError(exitCode, stderr, stdout = '') {
   }
 
   const combinedOutput = `${stderr || ''}\n${stdout || ''}`;
+  const modelError = modelUnavailableError(combinedOutput);
+  if (modelError) return modelError;
   if (combinedOutput.includes('invalid_json_schema')) {
     const err = new Error(
       'Codex rejected the Apollo output schema. Update ApolloProxyControl.'

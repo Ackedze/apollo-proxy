@@ -1,6 +1,6 @@
 import Foundation
 
-private final class LockedDataBuffer: @unchecked Sendable {
+final class LockedDataBuffer: @unchecked Sendable {
     private let lock = NSLock()
     private var storage = Data()
 

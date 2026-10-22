@@ -24,6 +24,7 @@ function fixture(t,behavior='success'){
     child.stdout.write(JSON.stringify({type:'turn.failed',error:{message:'Synthetic provider stopped after tool failure'}})+'\n');child.emit('close',1);return;
    }
    if(behavior==='wait')return;
+   if(behavior==='model-unavailable'){child.stderr.write('The requested model does not exist');child.emit('close',1);return;}
    if(behavior==='failure'||behavior==='input-limit'){child.stderr.write(behavior==='failure'?'Synthetic stderr /private/diagnostic':'Input exceeds the maximum length; input_too_large');child.stdout.write(JSON.stringify({type:'error',message:'Synthetic provider refusal'})+'\n');child.emit('close',1);return;}
    fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'capabilityGap',message:'Synthetic only'}));child.emit('close',0);
   });}});started();return child;
@@ -35,6 +36,10 @@ function fixture(t,behavior='success'){
 test('worker input budget counts the final profile prefix and refuses before spawning',async t=>{
  const f=fixture(t);await assert.rejects(f.run({prompt:'x'.repeat(MAX_PROMPT_CHARS)}),e=>e.code==='AGENT_CONTEXT_LIMIT'&&e.status===413);
  assert.equal(f.calls(),0);const receipt=f.failure();assert.equal(receipt.stage,'input-budget');assert(receipt.promptChars>MAX_PROMPT_CHARS);assert.equal(receipt.maxPromptChars,MAX_PROMPT_CHARS);assert.equal(Object.hasOwn(receipt,'prompt'),false);
+});
+test('an unavailable engineering model preserves the requested ID and fails without fallback',async t=>{
+ const f=fixture(t,'model-unavailable');await assert.rejects(f.run(),e=>e.code==='AGENT_MODEL_UNAVAILABLE'&&e.status===400);
+ assert.equal(f.calls(),1);const args=f.observed().args;assert.equal(args[args.indexOf('--model')+1],'synthetic-model');assert.equal(f.failure().model,'synthetic-model');
 });
 test('failed worker persists bounded private stderr and a correlated public diagnostic without source text',async t=>{
  const f=fixture(t,'failure');let error;await assert.rejects(f.run(),e=>{error=e;return e.code==='AGENT_PROCESS_FAILED';});const receipt=f.failure(),diagnostic=JSON.parse(error.diagnostic);

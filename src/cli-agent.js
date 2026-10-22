@@ -15,6 +15,11 @@ function assertLocalAgent(provider) {
     {status: 503, code: 'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'});
 }
 
+function modelUnavailableError(output) {
+  return /model_not_found|(?:unknown|invalid|unsupported) model|model[^\n]{0,160}(?:does not exist|not found|not available|not supported|do not have access)/i.test(output)
+    ? agentError('Выбранная модель недоступна. Выберите другую модель в «О прокси».', 400, 'AGENT_MODEL_UNAVAILABLE') : null;
+}
+
 function resolveClaudeBinary(configured = '', environment = process.env) {
   if (configured) return configured;
   const candidates = [path.join(environment.HOME || os.homedir(), '.local/bin/claude'),
@@ -50,6 +55,8 @@ function claudeFailure(exitCode, stderr, result) {
   if (/unknown option|unrecognized option|unsupported.*flag/.test(text)) {
     return agentError('Обновите Claude Code до версии 2.1.248 или новее.', 503, 'CLAUDE_CLI_OUTDATED');
   }
+  const modelError = modelUnavailableError(text);
+  if (modelError) return modelError;
   return agentError(`Claude завершил запрос с ошибкой (код ${exitCode}).`, 502, 'CLAUDE_PROCESS_FAILED');
 }
 
@@ -142,5 +149,5 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
   });
 }
 
-module.exports = { selectedCliProvider, assertLocalAgent, resolveClaudeBinary, buildClaudeEnvironment,
+module.exports = { selectedCliProvider, assertLocalAgent, modelUnavailableError, resolveClaudeBinary, buildClaudeEnvironment,
   buildClaudeInvocation, runClaudeProcess, claudeFailure };
