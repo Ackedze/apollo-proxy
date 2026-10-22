@@ -1,7 +1,7 @@
 'use strict';
 const crypto=require('node:crypto'),fs=require('node:fs'),fsp=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
 const {spawn}=require('node:child_process');
-const {runClaudeProcess}=require('../cli-agent');
+const {runClaudeProcess,assertLocalAgent}=require('../cli-agent');
 const {CLI_PROVIDER, CLI_AGENT_BIN, CODEX_IDLE_TIMEOUT_MS, CODEX_MAX_RUNTIME_MS, APOLLO_CODEX_SKILL_ROOT, CODEX_WORKSPACE, CODEX_BIN, CODEX_PROGRESS_STAGES}=require('../config');
 
 
@@ -14,6 +14,7 @@ function runCodexProcess(
   telemetryContext = {},
   outputFormat = 'json'
 ) {
+  assertLocalAgent(CLI_PROVIDER);
   const signal=telemetryContext.signal, budget=telemetryContext.runtimeBudgetMs;
   if (signal?.aborted) return Promise.reject(Object.assign(Error('CLI request cancelled.'),{code:'CLI_CANCELLED',status:499}));
   if (budget!==undefined && (!Number.isSafeInteger(budget) || budget<1)) return Promise.reject(Object.assign(Error('CLI time budget exhausted.'),{code:'CLI_TIME_BUDGET_EXHAUSTED',status:504}));

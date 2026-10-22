@@ -11,7 +11,8 @@ const HOST = process.env.HOST || '127.0.0.1';
 const PORT = process.env.PORT || 3001;
 
 const APOLLO_AGENT_URL =
-  process.env.APOLLO_AGENT_URL || process.env.LANGFLOW_URL;
+  process.env.APOLLO_AGENT_URL || process.env.LANGFLOW_URL ||
+  'https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/673dae00-0e9e-439f-ba4c-106f176af74d';
 
 const APOLLO_AGENT_KEY =
   process.env.APOLLO_AGENT_KEY || process.env.LANGFLOW_KEY;
@@ -32,7 +33,7 @@ const CODEX_MODEL = process.env.CODEX_MODEL || '';
 const CLI_PROVIDER = selectedCliProvider();
 
 const CLI_AGENT_BIN =
-  CLI_PROVIDER === 'claude'
+  CLI_PROVIDER === 'alfagen' ? '' : CLI_PROVIDER === 'claude'
     ? resolveClaudeBinary(process.env.CLAUDE_BIN)
     : CODEX_BIN;
 

@@ -2,7 +2,7 @@ import AppKit
 import Darwin
 import Foundation
 
-private let defaultApolloURL = "https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/f89d7dbf-8602-4495-8735-952e0ac2028b"
+private let defaultApolloURL = CLIProvider.defaultAlfaGenURL
 
 final class PasteFriendlyTextField: NSTextField {
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -162,7 +162,7 @@ final class ProxyManager: NSObject {
         var snapshot = ProxyDetailsSnapshot()
         snapshot.provider = provider
         snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
-        snapshot.apolloURL = readConfiguredApolloURL() ?? ""
+        snapshot.apolloURL = readConfiguredApolloURL() ?? defaultApolloURL
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
         snapshot.knowledgeVersion = (isExternalProxyRunning ? healthSnapshot?.knowledgeVersion : nil)
             ?? knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
@@ -218,7 +218,7 @@ final class ProxyManager: NSObject {
         if agentAuthStatus == .installing { snapshot.loginTitle = "Установка…" }
         snapshot.authorizationBusy = agentAuthStatus == .checking || agentAuthStatus == .installing || agentAuthStatus == .authorizing
         authorizeAgentItem.title = snapshot.loginTitle
-        authorizeAgentItem.isHidden = agentAuthStatus != .unauthorized && agentAuthStatus != .binaryMissing
+        authorizeAgentItem.isHidden = !provider.usesCLI || (agentAuthStatus != .unauthorized && agentAuthStatus != .binaryMissing)
         authorizeAgentItem.isEnabled = snapshot.canLogin
         updateKnowledgeItem.isEnabled = snapshot.canUpdate
         updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
@@ -673,13 +673,15 @@ final class ProxyManager: NSObject {
             return "The proxy configuration file is missing. Open .env and fill it in."
         }
         if let provider = env["APOLLO_CLI_PROVIDER"], CLIProvider(rawValue: provider) == nil {
-            return "Укажите codex или claude в APOLLO_CLI_PROVIDER либо выберите агент в окне «О прокси»."
+            return "Укажите codex, claude или alfagen в APOLLO_CLI_PROVIDER либо выберите агент в окне «О прокси»."
         }
 
-        let apolloURL = env["APOLLO_AGENT_URL"]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if selectedProvider == .alfagen {
+            return validateApolloURLInput(readConfiguredApolloURL() ?? defaultApolloURL)
+        }
         let agentBinary = resolveAgentExecutableURL()
-        if apolloURL.isEmpty && agentBinary == nil {
-            return "Установите выбранный AI-агент или укажите адрес сервера Apollo в окне «О прокси»."
+        if agentBinary == nil && !selectedProvider.canInstall(configured: env[selectedProvider.binaryKey] ?? "") {
+            return "Установите выбранный AI-агент в окне «О прокси»."
         }
 
         return nil
@@ -691,6 +693,7 @@ final class ProxyManager: NSObject {
 
     private func isAgentConfigured() -> Bool {
         let env = readEnvMap() ?? [:]
+        guard selectedProvider.usesCLI else { return false }
         return selectedProvider == .claude || env["APOLLO_CLI_PROVIDER"] != nil || !(env["CODEX_BIN"] ?? "").isEmpty
     }
 
@@ -713,6 +716,7 @@ final class ProxyManager: NSObject {
 
     private func resolveAgentExecutableURL() -> URL? {
         let provider = selectedProvider
+        guard provider.usesCLI else { return nil }
         let configured = readEnvMap()?[provider.binaryKey]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let key = provider.rawValue + ":" + configured
         let fm = FileManager.default
@@ -748,6 +752,12 @@ final class ProxyManager: NSObject {
         if startProxyWhenReady { pendingProxyStartAfterAuthorization = true }
         guard agentAuthProcess == nil, !codexInstaller.isRunning, !isQuitting else { return }
         do { try ensureProxyInstalled() } catch { agentAuthStatus = .error("Не удалось подготовить прокси."); return }
+        if !selectedProvider.usesCLI {
+            pendingProxyStartAfterAuthorization = false
+            agentAuthStatus = .authorized(method: nil)
+            if startProxyWhenReady { startProxyAction() }
+            return
+        }
         guard isAgentConfigured() else { agentAuthStatus = .notConfigured; return }
         guard let binary = resolveAgentExecutableURL() else {
             agentAuthStatus = .binaryMissing
@@ -807,6 +817,7 @@ final class ProxyManager: NSObject {
     @objc private func checkAgentAccessAction() { checkAgentAuthorization(showResult: true) }
 
     @objc private func authorizeAgentAction() {
+        guard selectedProvider.usesCLI else { return }
         if let timer = claudeLoginTimer {
             timer.invalidate(); claudeLoginTimer = nil
             pendingProxyStartAfterAuthorization = false
@@ -940,6 +951,11 @@ final class ProxyManager: NSObject {
         }
 
         try applyUserOverridesIfNeeded()
+        // Replace only the former shipped default; keep every custom address.
+        if readConfiguredApolloURL() == CLIProvider.legacyApolloURL {
+            try writeEnvValue(defaultApolloURL, forKey: "APOLLO_AGENT_URL", to: overridesURL)
+            try writeEnvValue(defaultApolloURL, forKey: "APOLLO_AGENT_URL", to: envURL)
+        }
 
         if !fm.fileExists(atPath: logURL.path) {
             fm.createFile(atPath: logURL.path, contents: Data())
@@ -1001,14 +1017,15 @@ final class ProxyManager: NSObject {
     private func validateApolloURLInput(_ rawValue: String) -> String? {
         let value = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
         if value.isEmpty {
-            return nil
+            return "Укажите полный адрес AlfaGen."
         }
 
         guard let url = URL(string: value),
               let scheme = url.scheme?.lowercased(),
               ["http", "https"].contains(scheme),
-              url.host != nil else {
-            return "Use a full http:// or https:// URL."
+              url.host != nil, url.user == nil, url.password == nil,
+              url.fragment == nil, !value.contains(where: { $0.isWhitespace }) else {
+            return "Укажите полный http:// или https:// адрес без пробелов, логина и пароля."
         }
 
         return nil
@@ -1035,27 +1052,18 @@ final class ProxyManager: NSObject {
         )
     }
 
-    private func promptForRestartIfNeeded() {
-        guard process != nil else {
-            if let url = readConfiguredApolloURL(), !url.isEmpty {
-                showInfo("APOLLO_AGENT_URL saved", "The new URL is saved on this Mac and will be used on the next proxy start.")
-            } else {
-                showInfo("APOLLO_AGENT_URL cleared", "The value was cleared. Configure it again before starting the proxy.")
+    private func applyAlfaGenURL(_ value: String) {
+        guard selectedProvider == .alfagen, !proxyHasActiveWork, !isExternalProxyRunning,
+              agentAuthProcess == nil, !knowledgeCommandRunning, status != .starting else { return }
+        do {
+            try saveApolloURL(value)
+            refreshUI()
+            if process != nil {
+                pendingRestartAfterStop = true
+                stopProxyAction()
             }
-            return
-        }
-
-        let alert = NSAlert()
-        alert.alertStyle = .informational
-        alert.messageText = "Restart proxy now?"
-        alert.informativeText = "The new APOLLO_AGENT_URL is saved. Restart the proxy now to apply it."
-        alert.addButton(withTitle: "Restart Proxy")
-        alert.addButton(withTitle: "Later")
-        NSApp.activate(ignoringOtherApps: true)
-
-        if alert.runModal() == .alertFirstButtonReturn {
-            pendingRestartAfterStop = true
-            stopProxyAction()
+        } catch {
+            showError("Не удалось сохранить адрес AlfaGen", error.localizedDescription)
         }
     }
 
@@ -1330,6 +1338,7 @@ final class ProxyManager: NSObject {
                 case .updateKnowledge: self.updateKnowledgeAction()
                 case .rollbackKnowledge: self.rollbackKnowledgeAction()
                 case .editURL: self.editApolloURLAction()
+                case .resetURL: self.applyAlfaGenURL(defaultApolloURL)
                 case .openConfiguration: self.openEnvAction()
                 case .openLogs: self.openLogsAction()
                 case .openFolder: self.openProxyFolderAction()
@@ -1349,7 +1358,7 @@ final class ProxyManager: NSObject {
 
     private func selectAgent(_ provider: CLIProvider) {
         guard provider != selectedProvider else { return }
-        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning else {
+        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning, status != .starting else {
             refreshUI()
             return
         }
@@ -1373,16 +1382,17 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func editApolloURLAction() {
+        guard selectedProvider == .alfagen, !proxyHasActiveWork, !isExternalProxyRunning else { return }
         do {
             try ensureProxyInstalled()
         } catch {
-            showError("Cannot open APOLLO_AGENT_URL editor", error.localizedDescription)
+            showError("Не удалось открыть настройки AlfaGen", error.localizedDescription)
             return
         }
 
         let currentValue = readConfiguredApolloURL() ?? defaultApolloURL
         let inputField = PasteFriendlyTextField(frame: NSRect(x: 0, y: 0, width: 720, height: 28))
-        inputField.placeholderString = "https://your-apollo-host/api/v1/run/..."
+        inputField.placeholderString = "https://…/api/v1/run/…"
         inputField.stringValue = currentValue
         inputField.usesSingleLineMode = true
         inputField.lineBreakMode = .byTruncatingMiddle
@@ -1395,11 +1405,11 @@ final class ProxyManager: NSObject {
 
         let alert = NSAlert()
         alert.alertStyle = .informational
-        alert.messageText = "Set APOLLO_AGENT_URL"
-        alert.informativeText = "This value is saved locally on this Mac and does not require rebuilding the app."
+        alert.messageText = "Адрес AlfaGen"
+        alert.informativeText = "Адрес сохраняется на этом Mac. Работающий прокси перезапустится, чтобы применить изменение."
         alert.accessoryView = accessoryView
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: "Сохранить")
+        alert.addButton(withTitle: "Отмена")
         NSApp.activate(ignoringOtherApps: true)
 
         guard alert.runModal() == .alertFirstButtonReturn else {
@@ -1408,17 +1418,11 @@ final class ProxyManager: NSObject {
 
         let newValue = inputField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
         if let validationError = validateApolloURLInput(newValue) {
-            showError("Invalid APOLLO_AGENT_URL", validationError)
+            showError("Некорректный адрес AlfaGen", validationError)
             return
         }
 
-        do {
-            try saveApolloURL(newValue)
-            refreshUI()
-            promptForRestartIfNeeded()
-        } catch {
-            showError("Cannot save APOLLO_AGENT_URL", error.localizedDescription)
-        }
+        applyAlfaGenURL(newValue)
     }
 
     @objc private func switchKnowledgeSourceAction() {

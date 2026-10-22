@@ -28,14 +28,16 @@ final class ProxyDetailsWindowController: NSWindowController {
         override var isFlipped: Bool { true }
     }
     enum Action: Hashable { case login, checkAccess, installCLI, checkKnowledge, updateKnowledge, rollbackKnowledge,
-                      editURL, openConfiguration, openLogs, openFolder }
+                      editURL, resetURL, openConfiguration, openLogs, openFolder }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
     var onKnowledgeSourceChange: ((String) -> Void)?
 
     private let versionLabel = NSTextField(wrappingLabelWithString: "")
     private let statusLabel = NSTextField(wrappingLabelWithString: "")
-    private let agentPicker = NSSegmentedControl(labels: ["Codex", "Claude"], trackingMode: .selectOne, target: nil, action: nil)
+    private let agentPicker = NSSegmentedControl(labels: CLIProvider.allCases.map(\.name), trackingMode: .selectOne, target: nil, action: nil)
+    private let cliSettings = NSStackView()
+    private let alfaGenSettings = NSStackView()
     private let authorizationLabel = NSTextField(wrappingLabelWithString: "")
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
@@ -43,7 +45,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let knowledgeLabel = NSTextField(wrappingLabelWithString: "")
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
     private let sourceCommits = NSTextField(wrappingLabelWithString: "")
-    private let urlLabel = NSTextField(wrappingLabelWithString: "")
+    private let urlField = NSTextField(wrappingLabelWithString: "")
     private var buttons: [Action: NSButton] = [:]
 
     init() {
@@ -68,8 +70,10 @@ final class ProxyDetailsWindowController: NSWindowController {
     func update(_ state: ProxyDetailsSnapshot) {
         versionLabel.stringValue = state.version
         statusLabel.stringValue = state.status
-        agentPicker.selectedSegment = state.provider == .codex ? 0 : 1
+        agentPicker.selectedSegment = CLIProvider.allCases.firstIndex(of: state.provider) ?? 0
         agentPicker.isEnabled = state.canChangeAgent
+        cliSettings.isHidden = !state.provider.usesCLI
+        alfaGenSettings.isHidden = state.provider.usesCLI
         authorizationLabel.stringValue = state.authorization
         authorizationHelp.stringValue = state.authorizationHelp
         if state.authorizationBusy { authorizationProgress.startAnimation(nil) }
@@ -87,7 +91,9 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.checkKnowledge]?.isEnabled = state.canCheckKnowledge
         buttons[.updateKnowledge]?.isEnabled = state.canUpdate
         buttons[.rollbackKnowledge]?.isEnabled = state.canRollback
-        urlLabel.stringValue = state.apolloURL.isEmpty ? "Адрес сервера Apollo не задан" : state.apolloURL
+        urlField.stringValue = state.apolloURL
+        buttons[.editURL]?.isEnabled = state.canChangeAgent
+        buttons[.resetURL]?.isEnabled = state.canChangeAgent && state.apolloURL != CLIProvider.defaultAlfaGenURL
     }
 
     private func buildContent() {
@@ -148,8 +154,29 @@ final class ProxyDetailsWindowController: NSWindowController {
         authorizationProgress.isDisplayedWhenStopped = false
         authorizationProgress.setAccessibilityLabel("Подготовка AI-агента")
         let authorizationRow = row([authorizationProgress, authorizationLabel])
-        section([heading("AI-агент"), agentPicker, authorizationRow, authorizationHelp,
-                 row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])])
+        for view in [authorizationRow, authorizationHelp,
+                     row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])] {
+            cliSettings.addArrangedSubview(view)
+        }
+        style(urlField, selectable: true)
+        urlField.isEditable = false
+        urlField.isBezeled = true
+        urlField.drawsBackground = true
+        urlField.backgroundColor = .textBackgroundColor
+        urlField.lineBreakMode = .byCharWrapping
+        urlField.setAccessibilityLabel("Адрес AlfaGen")
+        let alfaGenHelp = NSTextField(wrappingLabelWithString: "Корпоративный агент для «Спросить». Проверка макета и навыки с AI доступны через Codex или Claude.")
+        style(alfaGenHelp, secondary: true)
+        for view in [urlField, row([button("Изменить адрес…", .editURL), button("По умолчанию", .resetURL)]), alfaGenHelp] {
+            alfaGenSettings.addArrangedSubview(view)
+        }
+        for group in [cliSettings, alfaGenSettings] {
+            group.orientation = .vertical; group.alignment = .leading; group.spacing = 8
+        }
+        section([heading("AI-агент"), agentPicker, cliSettings, alfaGenSettings])
+        for view in [cliSettings, alfaGenSettings, authorizationHelp, urlField, alfaGenHelp] {
+            view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        }
         authorizationRow.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         knowledgePicker.addItems(withTitles: ["ds-ai-hub", "design-system_ab"])
         knowledgePicker.target = self; knowledgePicker.action = #selector(knowledgeSourceChanged)
@@ -160,9 +187,6 @@ final class ProxyDetailsWindowController: NSWindowController {
         sourceCommits.lineBreakMode = .byCharWrapping
         section([heading("Знания"), knowledgePicker, knowledgeLabel, knowledgeVersion, sourceCommits,
                  row([button("Проверить обновления", .checkKnowledge), button("Обновить", .updateKnowledge), button("Откатить", .rollbackKnowledge)])])
-        style(urlLabel, secondary: true, selectable: true)
-        urlLabel.lineBreakMode = .byCharWrapping
-        section([heading("Сервер Apollo"), urlLabel, button("Изменить адрес…", .editURL)])
         section([heading("Диагностика"), row([button("Конфигурация…", .openConfiguration), button("Журнал…", .openLogs), button("Папка прокси…", .openFolder)])])
     }
 
@@ -183,6 +207,9 @@ final class ProxyDetailsWindowController: NSWindowController {
     @objc private func performAction(_ sender: NSButton) {
         if let action = buttons.first(where: { $0.value === sender })?.key { onAction?(action) }
     }
-    @objc private func providerChanged() { onProviderChange?(agentPicker.selectedSegment == 0 ? .codex : .claude) }
+    @objc private func providerChanged() {
+        guard CLIProvider.allCases.indices.contains(agentPicker.selectedSegment) else { return }
+        onProviderChange?(CLIProvider.allCases[agentPicker.selectedSegment])
+    }
     @objc private func knowledgeSourceChanged() { if let value = knowledgePicker.titleOfSelectedItem { onKnowledgeSourceChange?(value) } }
 }

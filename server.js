@@ -248,6 +248,7 @@ const {
 } = require('./src/knowledge-root');
 const {
   selectedCliProvider,
+  assertLocalAgent,
   resolveClaudeBinary,
   runClaudeProcess,
 } = require('./src/cli-agent');
@@ -539,6 +540,7 @@ function inspectActiveApolloKnowledge() {
 }
 
 function assertCodexRuntimeReady() {
+  assertLocalAgent(CLI_PROVIDER);
   assertSelectedKnowledgeRoots();
   const requiredDirectories = [
     ['CODEX_WORKSPACE', CODEX_WORKSPACE],
@@ -576,6 +578,7 @@ function assertCodexRuntimeReady() {
 }
 
 function assertGenerationRuntimeReady() {
+  assertLocalAgent(CLI_PROVIDER);
   assertSelectedKnowledgeRoots();
   const requiredDirectories = [
     ['CODEX_WORKSPACE', CODEX_WORKSPACE],
@@ -609,7 +612,7 @@ function assertGenerationRuntimeReady() {
   inspectSemanticIndex(CODEX_DS_AI_HUB);
 }
 
-async function callApolloAgent(payload) {
+async function callApolloAgent(payload, signal) {
   if (!APOLLO_AGENT_URL) {
     const err = new Error(
       'APOLLO_AGENT_URL is not configured. Use /v1/validate/codex or set the Langflow endpoint.'
@@ -650,10 +653,12 @@ async function callApolloAgent(payload) {
       method: 'POST',
       headers,
       body: JSON.stringify(body),
+      signal,
       ...(dispatcher ? { dispatcher } : {}),
     });
   } catch (error) {
-    const err = new Error('Apollo agent fetch failed');
+    if (signal?.aborted) throw Object.assign(new Error('Запрос AlfaGen отменён или превышено время ожидания.'), {status: signal.reason?.name === 'TimeoutError' ? 504 : 499});
+    const err = new Error('Не удалось подключиться к AlfaGen. Проверьте адрес и доступ к корпоративной сети.');
     err.details = {
       message: error?.message || null,
       cause: error?.cause?.message || null,
@@ -673,7 +678,7 @@ async function callApolloAgent(payload) {
       details = { raw: text };
     }
 
-    const err = new Error(`Apollo agent HTTP ${response.status}`);
+    const err = new Error(`AlfaGen HTTP ${response.status}`);
     err.status = response.status;
     err.details = details;
     throw err;
@@ -700,12 +705,15 @@ async function callApolloAgent(payload) {
   return json;
 }
 
-async function callApolloAgentForFinalText(payload) {
+async function callApolloAgentForFinalText(payload, signal) {
   let currentPayload = payload;
   let lastResult = '';
 
   for (let attempt = 1; attempt <= APOLLO_AGENT_MAX_ATTEMPTS; attempt += 1) {
-    const data = await callApolloAgent(currentPayload);
+    const data = await callApolloAgent(currentPayload, signal);
+    if (!collectTextCandidates(data).some(value => value.trim())) {
+      throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
+    }
     const result = extractLangflowText(data);
 
     if (!looksLikeToolCallOnly(result)) {
@@ -808,6 +816,7 @@ async function callCodexContractExplanation(
   schema,
   requestTelemetry = {}
 ) {
+  assertLocalAgent(CLI_PROVIDER);
   if (activeCodexRuns >= 1) {
     const error = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     error.status = 429;
@@ -1532,7 +1541,7 @@ app.get('/health', async (req, res) => {
     },
     agent: {
       provider: CLI_PROVIDER,
-      configured: Boolean(CLI_AGENT_BIN),
+      configured: Boolean(CLI_PROVIDER === 'alfagen' ? APOLLO_AGENT_URL : CLI_AGENT_BIN),
       busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || Boolean(namingRuns?.busy()),
     },
     codex: {
@@ -1816,10 +1825,23 @@ app.post('/analyze', async (req, res) => {
       return;
     }
 
-    const result =
-      inputValue.source === 'codex'
-        ? await callCodexDialogue(inputValue)
-        : await callApolloAgentForFinalText(inputValue);
+    // The historical codex wire alias follows the desktop agent selection.
+    const provider = inputValue.source === 'codex' ? CLI_PROVIDER : 'alfagen';
+    let result;
+    if (provider === 'alfagen') {
+      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429});
+      activeCodexRuns++;
+      const controller = new AbortController();
+      const onClose = () => { if (!res.writableEnded) controller.abort(); };
+      res.once('close', onClose);
+      try { result = await callApolloAgentForFinalText(inputValue, AbortSignal.any([controller.signal, AbortSignal.timeout(CODEX_MAX_RUNTIME_MS)])); }
+      finally { activeCodexRuns--; res.removeListener('close', onClose); }
+    } else {
+      result = await callCodexDialogue(inputValue);
+    }
+    if (typeof result !== 'string' || !result.trim()) {
+      throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
+    }
 
     if (looksLikeHtml(result)) {
       throw buildHtmlResponseError('text/html', result);
@@ -1829,7 +1851,8 @@ app.post('/analyze', async (req, res) => {
       success: true,
       result,
       source: inputValue.source,
-      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+      provider,
+      knowledgeRelease: provider === 'alfagen' ? null : APOLLO_KNOWLEDGE_RELEASE,
     });
   } catch (err) {
     res.status(err.status || 500).json({

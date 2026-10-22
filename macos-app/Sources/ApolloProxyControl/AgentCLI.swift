@@ -3,8 +3,12 @@ import Foundation
 enum CLIProvider: String, CaseIterable {
     case codex
     case claude
+    case alfagen
 
-    var name: String { self == .codex ? "Codex" : "Claude" }
+    var name: String { self == .alfagen ? "AlfaGen" : self == .codex ? "Codex" : "Claude" }
+    var usesCLI: Bool { self != .alfagen }
+    static let defaultAlfaGenURL = "https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/673dae00-0e9e-439f-ba4c-106f176af74d"
+    static let legacyApolloURL = "https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/f89d7dbf-8602-4495-8735-952e0ac2028b"
     var binaryKey: String { self == .codex ? "CODEX_BIN" : "CLAUDE_BIN" }
     var statusArguments: [String] { self == .codex ? ["login", "status"] : ["auth", "status"] }
     var loginArguments: [String] { self == .codex ? ["login"] : ["auth", "login"] }
@@ -19,6 +23,7 @@ enum CLIProvider: String, CaseIterable {
     }
 
     func candidates(configured: String, home: String) -> [String] {
+        guard usesCLI else { return [] }
         // Older app bundles shipped this machine-specific path as the default.
         if configured.hasPrefix("/"), self != .codex || configured != Self.legacyCodexBinary { return [configured] }
         if self == .claude {

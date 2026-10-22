@@ -6,8 +6,13 @@ const { spawn } = require('node:child_process');
 
 function selectedCliProvider(value = process.env.APOLLO_CLI_PROVIDER) {
   if (!value || value === 'codex') return 'codex';
-  if (value === 'claude') return 'claude';
-  throw new Error('APOLLO_CLI_PROVIDER must be codex or claude.');
+  if (value === 'claude' || value === 'alfagen') return value;
+  throw new Error('APOLLO_CLI_PROVIDER must be codex, claude or alfagen.');
+}
+
+function assertLocalAgent(provider) {
+  if (provider === 'alfagen') throw Object.assign(new Error('AlfaGen поддерживает «Спросить». Для проверки макета, навыков и генерации выберите Codex или Claude в «О прокси».'),
+    {status: 503, code: 'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'});
 }
 
 function resolveClaudeBinary(configured = '', environment = process.env) {
@@ -137,5 +142,5 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
   });
 }
 
-module.exports = { selectedCliProvider, resolveClaudeBinary, buildClaudeEnvironment,
+module.exports = { selectedCliProvider, assertLocalAgent, resolveClaudeBinary, buildClaudeEnvironment,
   buildClaudeInvocation, runClaudeProcess, claudeFailure };
