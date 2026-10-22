@@ -4,7 +4,8 @@ const fs = require('node:fs'),
   os = require('node:os');
 const { resolveKnowledgeRoot } = require('./knowledge-root');
 const { selectedCliProvider, resolveClaudeBinary } = require('./cli-agent');
-const proxyRoot = path.resolve(__dirname, '..');
+const proxyRoot = path.resolve(process.env.APOLLO_PROXY_HOME || path.join(__dirname, '..'));
+const codeRoot = path.resolve(__dirname, '..');
 
 const HOST = process.env.HOST || '127.0.0.1';
 
@@ -183,7 +184,7 @@ const CODEX_PATTERN_OUTPUT_SCHEMA = path.join(
 );
 
 const CODEX_GENERATION_OUTPUT_SCHEMA = path.join(
-  proxyRoot,
+  codeRoot,
   'schemas',
   'apollo-generation-semantic-plan.schema.json'
 );

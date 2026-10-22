@@ -1,5 +1,7 @@
 require('dotenv').config();
-require('./src/portable-runtime').configureInstalledEnvironment({ proxyRoot: __dirname });
+// Code-download credentials belong to the launcher, never to agent subprocesses.
+delete process.env.APOLLO_CODE_TOKEN;
+require('./src/portable-runtime').configureInstalledEnvironment({ proxyRoot: process.env.APOLLO_PROXY_HOME || __dirname });
 const {
   HOST,
   PORT,
@@ -295,6 +297,7 @@ if (APOLLO_AGENT_INSECURE_TLS) {
 }
 
 const app = express();
+let activeApiRequests = 0;
 const tokenJournalApi = require('./src/token-journal');
 // An explicit portable state root wins; dev/test journals stay in their own cwd.
 const tokenJournal = tokenJournalApi.createTokenJournal(path.join(process.env.APOLLO_STATE_ROOT || path.join(process.cwd(), '.local'), 'token-journal'));
@@ -306,13 +309,8 @@ app.use((req, res, next) => {
   if (req.url.startsWith('/v4/')) req.url = req.url.slice(3);
   next();
 });
-installStyleTokenCatalogParser(app);
-app.use(express.json({ limit: '30mb', strict: false }));
-app.use(tokenJournal.middleware);
-tokenJournalApi.mountJournalRoutes(app, tokenJournal);
-let activeApiRequests = 0;
 app.use((req, res, next) => {
-  if (req.path === '/health') return next();
+  if (req.path === '/health' || req.path.startsWith('/code-update/')) return next();
   activeApiRequests += 1;
   let released = false;
   const release = () => {
@@ -324,6 +322,17 @@ app.use((req, res, next) => {
   res.once('close', release);
   return next();
 });
+require('./src/code-release/maintenance').createMaintenance({key:process.env.APOLLO_CODE_UPDATE_KEY,
+  launchId:process.env.APOLLO_CODE_RELEASE_ID,
+  busy:async()=>{
+    const generationBusy=(await Promise.all([frontendAgentRuntime,nativeAgentRuntime,mcpAgentRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
+    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || Boolean(namingRuns?.busy());
+  }}).mount(app);
+delete process.env.APOLLO_CODE_UPDATE_KEY;
+installStyleTokenCatalogParser(app);
+app.use(express.json({ limit: '30mb', strict: false }));
+app.use(tokenJournal.middleware);
+tokenJournalApi.mountJournalRoutes(app, tokenJournal);
 
 function assertSelectedKnowledgeRoots() {
   assertCompleteKnowledgeRoot(CODEX_DESIGN_SYSTEM, 'design-system_ab');
@@ -1564,6 +1573,9 @@ app.get('/health', async (req, res) => {
     proxy: {
       name: 'apollo-proxy',
       version: APOLLO_PROXY_VERSION,
+      codeVersion: process.env.APOLLO_CODE_VERSION || null,
+      codeId: process.env.APOLLO_CODE_RELEASE_ID || null,
+      codeSupervisorPid: Number(process.env.APOLLO_CODE_SUPERVISOR_PID) || null,
     },
     agent: {
       provider: CLI_PROVIDER,
@@ -1911,6 +1923,7 @@ app.post('/analyze', async (req, res) => {
 
 function startServer() {
   const server = app.listen(PORT, HOST, () => {
+    if(process.send && process.env.APOLLO_CODE_RELEASE_ID)process.send({type:'apollo-proxy-ready',id:process.env.APOLLO_CODE_RELEASE_ID,port:server.address().port},()=>{});
     console.log(`Apollo proxy running on http://${HOST}:${PORT}`);
     console.log(
       `Apollo Codex knowledge source: ${APOLLO_CODEX_KNOWLEDGE_SOURCE}`
