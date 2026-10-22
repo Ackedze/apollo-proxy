@@ -88,9 +88,26 @@ function buildClaudeInvocation(codexArgs, prompt, outputPath, { model = '', skil
   return { args, prompt: adaptedPrompt, cwd };
 }
 
+function claudeUsage(result) {
+  const valid = n => Number.isSafeInteger(n) && n >= 0;
+  const models = Object.values(result?.modelUsage || {});
+  const values = models.length ? models.map(u => ({ input: u.inputTokens, output: u.outputTokens,
+    read: u.cacheReadInputTokens, created: u.cacheCreationInputTokens })) : result?.usage ? [{
+      input: result.usage.input_tokens, output: result.usage.output_tokens,
+      read: result.usage.cache_read_input_tokens, created: result.usage.cache_creation_input_tokens,
+    }] : [];
+  const sum = keys => {
+    if (!values.length || values.some(u => keys.some(k => !valid(u[k])))) return null;
+    const total = values.reduce((n, u) => n + keys.reduce((m, k) => m + u[k], 0), 0);
+    return valid(total) ? total : null;
+  };
+  // Claude reports cache categories separately; Codex input_tokens includes them.
+  return { input_tokens: sum(['input', 'read', 'created']), output_tokens: sum(['output']), cached_input_tokens: sum(['read']) };
+}
+
 function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat = 'json',
   idleTimeoutMs = 300000, maxRuntimeMs = 900000, onProgress, analysisStage, model, skillRoot,
-  environment = buildClaudeEnvironment(), signal }) {
+  environment = buildClaudeEnvironment(), signal, onEvent }) {
   if (signal?.aborted) return Promise.reject(agentError('CLI request cancelled.',499,'CLI_CANCELLED'));
   if (!Number.isSafeInteger(maxRuntimeMs) || maxRuntimeMs<1) return Promise.reject(agentError('CLI time budget exhausted.',504,'CLI_TIME_BUDGET_EXHAUSTED'));
   const invocation = buildClaudeInvocation(codexArgs, prompt, outputPath, { model, skillRoot });
@@ -132,6 +149,7 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
       closed = true; clearTimeout(idleTimer); clearTimeout(maxTimer); clearTimeout(forceTimer);
       signal?.removeEventListener('abort',onAbort);
       consume(buffer);
+      if (result) onEvent?.({ type: 'turn.completed', usage: claudeUsage(result) });
       if (failure) return reject(failure);
       if (code !== 0 || result?.is_error) return reject(claudeFailure(code, stderr, result));
       try {
@@ -150,4 +168,4 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
 }
 
 module.exports = { selectedCliProvider, assertLocalAgent, modelUnavailableError, resolveClaudeBinary, buildClaudeEnvironment,
-  buildClaudeInvocation, runClaudeProcess, claudeFailure };
+  buildClaudeInvocation, runClaudeProcess, claudeFailure, claudeUsage };

@@ -5,7 +5,18 @@ const {runClaudeProcess,assertLocalAgent,modelUnavailableError}=require('../cli-
 const {CLI_PROVIDER, CLI_AGENT_BIN, AGENT_MODEL, CODEX_IDLE_TIMEOUT_MS, CODEX_MAX_RUNTIME_MS, APOLLO_CODEX_SKILL_ROOT, CODEX_WORKSPACE, CODEX_BIN, CODEX_PROGRESS_STAGES}=require('../config');
 
 
-function runCodexProcess(
+async function runCodexProcess(args, prompt, outputPath, onProgress, analysisStage = 'analyzing_layout', telemetryContext = {}, outputFormat = 'json') {
+  const tracked = require('../token-journal').trackCall({ provider: CLI_PROVIDER, model: AGENT_MODEL || null });
+  let failure;
+  try {
+    return await executeCodexProcess(args, prompt, outputPath, onProgress, analysisStage, { ...telemetryContext,
+      onEvent(event) { tracked?.event(event); telemetryContext.onEvent?.(event); },
+    }, outputFormat);
+  } catch (error) { failure = error; throw error; }
+  finally { tracked?.end(failure); }
+}
+
+function executeCodexProcess(
   args,
   prompt,
   outputPath,
@@ -23,7 +34,7 @@ function runCodexProcess(
     return runClaudeProcess({ binary: CLI_AGENT_BIN, codexArgs: args, prompt, outputPath,
       outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs, signal,
       onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
-      model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT });
+      model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT, onEvent: telemetryContext.onEvent });
   }
   return new Promise((resolve, reject) => {
     const workingDirectory =

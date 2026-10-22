@@ -20,8 +20,8 @@ const fs=require('fs');let prompt='';process.stdin.on('data',v=>prompt+=v);proce
  if(prompt.includes('UNAVAILABLE')){process.stderr.write('The requested model does not exist');process.exitCode=1;return;}
  const structured=a.includes('--output-schema')||a.includes('--json-schema');
  const result=structured?{summary:'fixture'}:'Fixture response';
- if(a.includes('--output-last-message'))fs.writeFileSync(a[a.indexOf('--output-last-message')+1],structured?JSON.stringify(result):result);
- else console.log(JSON.stringify({type:'result',is_error:false,...(structured?{structured_output:result}:{result})}));
+ if(a.includes('--output-last-message')){fs.writeFileSync(a[a.indexOf('--output-last-message')+1],structured?JSON.stringify(result):result);console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:17,output_tokens:5,cached_input_tokens:10}}));}
+ else console.log(JSON.stringify({type:'result',is_error:false,usage:{input_tokens:7,cache_read_input_tokens:10,cache_creation_input_tokens:0,output_tokens:5},...(structured?{structured_output:result}:{result})}));
 });`);fs.chmodSync(binary,0o700);
   const expected=mode==='default'?null:provider+'-model-choice';
   const script=`
@@ -35,7 +35,8 @@ try{
  response=await ask('UNAVAILABLE');body=await response.json();assert.equal(response.status,400,JSON.stringify(body));assert.match(body.error,/модель недоступна/);
  const calls=fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').map(JSON.parse);assert.equal(calls.length,3);
  for(const args of calls){const i=args.indexOf('--model');if(expected===null)assert.equal(i,-1);else assert.equal(args[i+1],expected);}
- assert.equal((await(await fetch(base+'/health')).json()).agent.model,expected);console.log('model routing PASS');
+ assert.equal((await(await fetch(base+'/health')).json()).agent.model,expected);
+ const rows=(await(await fetch(base+'/usage')).json()).records;assert.equal(rows.length,3);assert.equal(rows.filter(r=>r.totalTokens===22).length,2);assert.equal(rows.filter(r=>r.totalTokens===null&&r.status==='failed').length,1);console.log('model routing PASS');
 }finally{s.closeAllConnections();await new Promise(r=>s.close(r));}})().catch(e=>{console.error(e);process.exitCode=1;});`;
   const env=Object.assign({},process.env,{APOLLO_CLI_PROVIDER:provider,CODEX_MODEL:mode==='default'?'':'codex-model-choice',CLAUDE_MODEL:mode==='default'?'':'claude-model-choice',CODEX_BIN:binary,CLAUDE_BIN:binary,CODEX_DESIGN_SYSTEM:ds,CODEX_DS_AI_HUB:hub,APOLLO_CODEX_KNOWLEDGE_SOURCE:'design-system_ab',APOLLO_PROXY_MANAGED:'0',APOLLO_CODEX_DEBUG_ENABLED:'0'});
   assert.match(execFileSync(process.execPath,['-e',script],{cwd:root,env,encoding:'utf8',timeout:18000}),/model routing PASS/);

@@ -295,6 +295,11 @@ if (APOLLO_AGENT_INSECURE_TLS) {
 }
 
 const app = express();
+const tokenJournalApi = require('./src/token-journal');
+// An explicit portable state root wins; dev/test journals stay in their own cwd.
+const tokenJournal = tokenJournalApi.createTokenJournal(path.join(process.env.APOLLO_STATE_ROOT || path.join(process.cwd(), '.local'), 'token-journal'));
+tokenJournalApi.configure(tokenJournal);
+process.once('exit', () => tokenJournal.close());
 app.use(cors());
 // Keep installed clients compatible while new Apollo uses the canonical routes.
 app.use((req, res, next) => {
@@ -303,6 +308,8 @@ app.use((req, res, next) => {
 });
 installStyleTokenCatalogParser(app);
 app.use(express.json({ limit: '30mb', strict: false }));
+app.use(tokenJournal.middleware);
+tokenJournalApi.mountJournalRoutes(app, tokenJournal);
 let activeApiRequests = 0;
 app.use((req, res, next) => {
   if (req.path === '/health') return next();
@@ -1405,7 +1412,7 @@ function createCodexRun(payload) {
   activeCodexRuns += 1;
 
   Promise.resolve()
-    .then(async () => {
+    .then(() => tokenJournal.operation('Проверить · AI', async () => {
       run.status = 'running';
       const validation = await callCodexValidator(
         payload,
@@ -1421,7 +1428,7 @@ function createCodexRun(payload) {
         progress: CODEX_PROGRESS_STAGES.completed.progress,
         message: CODEX_PROGRESS_STAGES.completed.message,
       });
-    })
+    }))
     .catch((error) => {
       run.status = 'failed';
       run.error = {
@@ -1568,7 +1575,15 @@ app.get('/health', async (req, res) => {
 });
 
 mountContractRoutes(app, { explain: callCodexContractExplanation });
-namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{plan:callCodexContractExplanation,maxRuntimeMs:Math.min(CODEX_MAX_RUNTIME_MS,900000),onTrace:event=>console.info('[Apollo][skills]',event)});
+namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
+  plan:(prompt,schema,meta)=>tokenJournal.withinNamed('skill:'+meta.requestId,()=>callCodexContractExplanation(prompt,schema,meta)),
+  maxRuntimeMs:Math.min(CODEX_MAX_RUNTIME_MS,900000),onTrace:event=>{
+    console.info('[Apollo][skills]',event);
+    const key='skill:'+event.requestId;
+    if(event.event==='started')tokenJournal.startNamed(key,'Навык · Переименовать слои');
+    if(['completed','failed','cancelled'].includes(event.event))tokenJournal.finishNamed(key,event.event);
+  },
+});
 require('./src/generation-agent/recipe-catalog').mountRecipeRoutes(app);
 mountGenerationRoutes(app, {
   plan: callCodexContractExplanation,
@@ -1837,8 +1852,11 @@ app.post('/analyze', async (req, res) => {
       const controller = new AbortController();
       const onClose = () => { if (!res.writableEnded) controller.abort(); };
       res.once('close', onClose);
+      const tracked = tokenJournal.call({ provider: 'alfagen' });
+      let failure;
       try { result = await callApolloAgentForFinalText(inputValue, AbortSignal.any([controller.signal, AbortSignal.timeout(CODEX_MAX_RUNTIME_MS)])); }
-      finally { activeCodexRuns--; res.removeListener('close', onClose); }
+      catch (error) { failure = error; throw error; }
+      finally { tracked.end(failure); activeCodexRuns--; res.removeListener('close', onClose); }
     } else {
       result = await callCodexDialogue(inputValue);
     }

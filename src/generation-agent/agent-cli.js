@@ -60,7 +60,7 @@ function profilePrefix(profile){return profile==='figma-mcp'
    : 'Readonly profile: choose one structured next step. No shell/write, credentials or external network operations. A proposed operation is a request, not execution evidence. PluginAPI observations are supplied by the broker; preserve their provenance and UNKNOWN.';}
 
 function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,environment=process.env,
- maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,usageRoot=null}={}){
+ maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,usageRoot=null,trackUsage=()=>null}={}){
  const env=Object.fromEntries(ENV.filter(k=>typeof environment[k]==='string').map(k=>[k,environment[k]]));
  if(!Number.isInteger(maxRuntimeMs)||maxRuntimeMs<1000||maxRuntimeMs>900000)fail('AGENT_PROFILE_INVALID');
  function available(){if(provider!=='codex')fail('AGENT_PROVIDER_CAPABILITY_UNAVAILABLE');}
@@ -75,7 +75,12 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
     mcp:{configured:!!mcpConnection,readiness:'REQUIRED_INIT_AND_TOOLS_NOT_YET_VERIFIED'},frontendWriteScope:'assigned generated project only',figmaAcceptedWriteOperations:[],model:model||'cli-default'};
   }catch{return{provider,available:false,reason:'CLI_OR_AUTH_UNAVAILABLE',acceptedWriteOperations:[]};}
  }
- async function run({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},mcpBudget=null,runtimeBudgetMs=null}){
+ async function run(options){
+  const observed=trackUsage({provider,model:model||null,operation:'Генерация'});let failure;
+  try{return await execute({...options,onEvent:event=>{observed?.event(event);options.onEvent?.(event);}});}
+  catch(error){failure=error;throw error;}finally{observed?.end(failure);}
+ }
+ async function execute({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},mcpBudget=null,runtimeBudgetMs=null}){
   const startedAt=Date.now();
   available();const scope=scopedDirectory(generatedRoot,workspace);
   if(typeof prompt!=='string'||Buffer.byteLength(prompt)>2*1024*1024||!schema||typeof schema!=='object')fail('AGENT_INPUT_INVALID');

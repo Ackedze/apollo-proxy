@@ -69,6 +69,7 @@ function createConfiguredAgentFigmaRuntime({descriptorFile,inputs,cli,traceRoot,
    const createService=evalStore?options=>require('./agent-eval-service').createEvaluatedAgentService({createService:serviceFactory,evalStore,evidenceKind,...options}):serviceFactory;
    service=createService({inputs:wrappedInputs,cli,protocol:p,nativeProtocol:n,hash,resolveNativePolicy,executionEnvironment,
     validatePostconditions:args=>{assertCurrent();const result=checker.validatePostconditions(args);assertCurrent();return result;},traceRoot,readonlyRoot,ledgerFactory:d.apolloRepository?require(path.join(d.apolloRepository,"src/generation/context/ledger.js")).createEvidenceLedger:null,...serviceOptions});
+   service=require('../token-journal').wrapAgentService(service,'Генерация · Figma');
    return service;
   }).catch(error=>{loading=null;throw error;});return loading;
  }
@@ -107,7 +108,7 @@ function createConfiguredAgentFigmaHostRuntime({configFile,providerFactory,provi
    if(mcp){const file=path.join(app,'instructions/agent-generation/figma-mcp.md'),bytes=fs.readFileSync(file);skills={figma:{id:'apollo-figma-mcp-profile',version:'0.2.0',sources:[{path:file,sha256:sha(bytes),bytes:bytes.length,name:'SKILL.md',prompt:true}]}};}
    else{const selected=require(path.join(app,'scripts/agent-generation-skills.cjs')).createGenerationSkills().select('figma',{executionProfile:'figma-owned-root-v1',sourceHash:owned.sourceHash});selected.assertCurrent();skills={figma:{id:selected.metadata.name,version:selected.metadata.version,sources:selected.metadata.files.map(pin=>({...pin,name:path.relative(path.dirname(selected.metadata.files[0].path),pin.path),prompt:true}))}};}
    const evalStore=require('./agent-eval-store').createAgentEvalStore({root:path.join(config.hostRoot,mcp?'mcp-run-evals':'run-evals'),protocol:p,hash:source.hash,skills});
-   const cli=require('./agent-cli').createAgentCli({provider,binary,model,environment,generatedRoot,mcpConnection:mcp,usageRoot:path.join(config.hostRoot,'request-usage')});
+   const cli=require('./agent-cli').createAgentCli({provider,binary,model,environment,generatedRoot,mcpConnection:mcp,usageRoot:path.join(config.hostRoot,'request-usage'),trackUsage:require('../token-journal').trackCall});
    runtime=createConfiguredAgentFigmaRuntime({descriptorFile:config.descriptorFile,inputs,cli,evalStore,evidenceKind:mcp?'mcp-owned-root-experimental':'native-reported',traceRoot:path.join(config.hostRoot,mcp?'mcp-runtime-traces':'runtime-traces'),readonlyRoot:path.join(config.hostRoot,mcp?'mcp-readonly-workspaces':'readonly-workspaces'),serviceFactory:mcp?require('./agent-mcp-service').createAgentMcpService:createAgentFigmaService,serviceOptions:mcp?{mcpConnection:mcp,mcpNamespace:require(path.join(app,"src/generation/agent/figma/target.js")).MCP_NAMESPACE,assertComposition:require(path.join(app,"src/generation/agent/figma/target.js")).assertMcpComposition,usageRoot:path.join(config.hostRoot,'request-usage')}:{usageRoot:path.join(config.hostRoot,'request-usage')}});
    return runtime.loadService();
   }).catch(error=>{loading=null;throw error;});return loading;
@@ -137,7 +138,7 @@ function createDataMcpHost({configFile,providerFactory,provider,binary,model,env
    const inputs=require(path.join(app,'scripts/agent-run-inputs.cjs')).createAgentRunInputs({provider:source,dataReader,protocol:p,hash:source.hash,skillsDirectory:path.join(app,'instructions/agent-generation'),installedSkillsDirectory:require('../portable-runtime').installedSkillsDirectory(app),frontendRoot:config.frontendRoot});
    const file=path.join(app,'instructions/agent-generation/figma-mcp.md'),bytes=read(file),skills={figma:{id:'apollo-figma-mcp-profile',version:'0.2.0',sources:[{path:file,sha256:sha(bytes),bytes:bytes.length,name:'SKILL.md',prompt:true}]}};
    const evalStore=require('./agent-eval-store').createAgentEvalStore({root:path.join(config.hostRoot,'mcp-run-evals'),protocol:p,hash:source.hash,skills});
-   const cli=require('./agent-cli').createAgentCli({provider,binary,model,environment,generatedRoot,mcpConnection:mcp,usageRoot:path.join(config.hostRoot,'request-usage')});
+   const cli=require('./agent-cli').createAgentCli({provider,binary,model,environment,generatedRoot,mcpConnection:mcp,usageRoot:path.join(config.hostRoot,'request-usage'),trackUsage:require('../token-journal').trackCall});
    const resolveNativePolicy=async({identity,packet})=>{
     assertCurrent();const resolved=inputs.resolveAgentRun(identity);resolved.assertCurrent();const view=resolved.readContext();
     const context=require('./agent-figma-service').nativePromptContext(view.context.authoring,{},[],resolved.figmaPolicy,packet.version.spec,source.hash);
@@ -147,6 +148,7 @@ function createDataMcpHost({configFile,providerFactory,provider,binary,model,env
    service=require('./agent-eval-service').createEvaluatedAgentService({createService:require('./agent-mcp-service').createAgentMcpService,evalStore,evidenceKind:'mcp-owned-root-experimental',
     inputs,cli,protocol:p,hash:source.hash,resolveNativePolicy,mcpConnection:mcp,ledgerFactory:require(path.join(app,"src/generation/context/ledger")).createEvidenceLedger,assertComposition:target.assertMcpComposition,mcpNamespace:target.MCP_NAMESPACE,
     traceRoot:path.join(config.hostRoot,'mcp-runtime-traces'),readonlyRoot:path.join(config.hostRoot,'mcp-readonly-workspaces')});
+   service=require('../token-journal').wrapAgentService(service,'Генерация · MCP');
    assertCurrent();return service;
   }).catch(error=>{loading=null;throw error;});return loading;
  }

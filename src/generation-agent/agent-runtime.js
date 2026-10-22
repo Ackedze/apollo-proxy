@@ -28,7 +28,8 @@ function createConfiguredAgentRuntime({configFile,providerFactory,provider='code
    const tools=createFrontendWorkspaceTools({toolchainHome:config.toolchainHome,nodeExecutable:config.nodeExecutable,chromeExecutable:config.chromeExecutable,hash:source.hash,bindingsPath:source.readData?null:path.join(config.mappingDirectory,'bindings.ts')});
    const installedSkillsDirectory=require('../portable-runtime').installedSkillsDirectory(apollo);
    const inputs=createAgentRunInputs({provider:wrappedProvider,dataReader:source.readData,hash:source.hash,protocol,skillsDirectory:path.join(apollo,'instructions/agent-generation'),installedSkillsDirectory,mappingDirectory:config.mappingDirectory,frontendRoot:config.frontendRoot,...tools,laboratory});
-   const cli=createAgentCli({provider,binary,model,environment,generatedRoot});
+   const journal=require('../token-journal');
+   const cli=createAgentCli({provider,binary,model,environment,generatedRoot,trackUsage:journal.trackCall});
    const serviceOptions={inputs,cli,protocol,hash:source.hash,traceRoot:path.join(config.hostRoot,'runtime-traces'),readonlyRoot:path.join(config.hostRoot,'readonly-workspaces')};
    service=createAgentService(serviceOptions);
    if(evalRoot!==null){
@@ -46,6 +47,7 @@ function createConfiguredAgentRuntime({configFile,providerFactory,provider='code
    }
    const currentService=service;
    service=Object.fromEntries(Object.entries(currentService).map(([method,fn])=>[method,async(...args)=>{try{return await fn(...args);}catch(error){if(error.code==='AGENT_SKILLS_STALE')throw Object.assign(Error('AGENT_RUNTIME_INPUTS_STALE'),{code:'AGENT_RUNTIME_INPUTS_STALE',status:error.status||503});throw error;}}]));
+   service=journal.wrapAgentService(service,'Генерация · frontend');
    return service;
   }).catch(error=>{loading=null;throw error;});return loading;
  }

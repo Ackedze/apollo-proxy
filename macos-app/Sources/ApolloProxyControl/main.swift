@@ -65,6 +65,7 @@ final class ProxyManager: NSObject {
     private let startItem = NSMenuItem(title: "Запустить прокси", action: #selector(toggleProxyAction), keyEquivalent: "")
     private let authorizeAgentItem = NSMenuItem(title: "Войти в Codex…", action: #selector(authorizeAgentAction), keyEquivalent: "")
     private let aboutItem = NSMenuItem(title: "О прокси…", action: #selector(showProxyDetailsAction), keyEquivalent: ",")
+    private let tokensItem = NSMenuItem(title: "Токенцы…", action: #selector(showTokenJournalAction), keyEquivalent: "")
     private let checkKnowledgeItem = NSMenuItem(title: "Проверить обновления знаний", action: #selector(checkKnowledgeAction), keyEquivalent: "")
     private let quitItem = NSMenuItem(title: "Завершить", action: #selector(quitAction), keyEquivalent: "q")
 
@@ -101,6 +102,7 @@ final class ProxyManager: NSObject {
     private var startRequest = ProxyStartRequest()
     private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
+    private var tokenJournalController: TokenJournalWindowController?
     private var modelCatalogProcess: Process?
     private var modelCatalogTimer: Timer?
     private var codexModelChoices: [AgentModelChoice] = []
@@ -157,6 +159,8 @@ final class ProxyManager: NSObject {
         menu.addItem(.separator())
         aboutItem.target = self
         menu.addItem(aboutItem)
+        tokensItem.target = self
+        menu.addItem(tokensItem)
         quitItem.target = self
         menu.addItem(quitItem)
     }
@@ -1368,6 +1372,15 @@ final class ProxyManager: NSObject {
 
     @objc private func checkKnowledgeAction() { checkForKnowledgeUpdate() }
 
+    @objc func showTokenJournalAction() {
+        if tokenJournalController == nil {
+            let state = readEnvMap()?["APOLLO_STATE_ROOT"].flatMap { $0.isEmpty ? nil : $0 }
+            let root = state.map { URL(fileURLWithPath: $0) } ?? proxyInstallURL.appendingPathComponent(".local")
+            tokenJournalController = TokenJournalWindowController(root: root.appendingPathComponent("token-journal"))
+        }
+        tokenJournalController?.present()
+    }
+
     @objc func showProxyDetailsAction() {
         if detailsController == nil {
             let controller = ProxyDetailsWindowController()
@@ -1639,6 +1652,7 @@ final class ProxyManager: NSObject {
         claudeLoginTimer?.invalidate()
         authCheckTimer?.invalidate()
         detailsController?.close()
+        tokenJournalController?.close()
         pendingRestartAfterStop = false
         pendingProxyStartAfterAuthorization = false
         pendingKnowledgeRestart = false
@@ -1672,6 +1686,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         self.manager = manager
         if CommandLine.arguments.contains("--show-about") { manager.showProxyDetailsAction() }
+        if CommandLine.arguments.contains("--show-tokens") { manager.showTokenJournalAction() }
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

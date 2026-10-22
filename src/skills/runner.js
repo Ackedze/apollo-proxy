@@ -71,7 +71,7 @@ function createSkillRunner({invoke,maxRuntimeMs=900000,maxSteps=8,now=Date.now,o
     r.timer=setTimeout(()=>stop(r,fail('LAYER_NAMES_DEADLINE',504)),maxRuntimeMs); r.timer.unref?.();
     runs.set(r.id,r);
     trace(r,'started',{candidates:nodes.length});
-    if (!nodes.length) { r.plan={changes:[]};r.status='completed';cleanup(r); }
+    if (!nodes.length) { r.plan={changes:[]};r.status='completed';trace(r,'completed',{changes:0});cleanup(r); }
     else void advance(r);
     return view(r);
   }
