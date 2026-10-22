@@ -40,9 +40,9 @@ function loadSkill(apolloRoot, {releaseRoot,skillsRoot} = {}) {
   return {protocol:require(protocolPath),instructions:bodies[0],version:profile.version,sha256:sha(profileBytes),
     assertCurrent() { for (const pin of pins) if (sha(read(pin.path,pin.max)) !== pin.sha256) fail('LAYER_NAMES_SKILL_STALE'); }};
 }
-function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../../projects/Apollo'),releaseRoot = process.env.APOLLO_RELEASE_ROOT,maxRuntimeMs=900000,onTrace,assertCapability=()=>{}} = {}) {
+function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../../projects/Apollo'),releaseRoot = process.env.APOLLO_RELEASE_ROOT,maxRuntimeMs=900000,onTrace,disposeSession,assertCapability=()=>{}} = {}) {
   let active = false;
-  const runner=require('./runner').createSkillRunner({invoke:plan,maxRuntimeMs,onTrace});
+  const runner=require('./runner').createSkillRunner({invoke:plan,maxRuntimeMs,onTrace,disposeSession});
   function error(res,error) {
     const code=error.code==='AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'||/^LAYER_NAMES_[A-Z_]+$/.test(error.code || '') ? error.code : 'LAYER_NAMES_UNAVAILABLE';
     res.status(error.status || 503).json({success:false,code,error:code});
@@ -52,11 +52,26 @@ function mountLayerNameRoutes(app, {plan,apolloRoot = process.env.APOLLO_PROJECT
     try {
       if(active)fail('LAYER_NAMES_BUSY',409);
       const skill=require('./run-skill').loadRunSkill(apolloRoot,{releaseRoot}),p=skill.protocol,body=req.body;
-      if(!p.exact(body,['schemaVersion','wire','requestId','snapshot']) || body.schemaVersion!==p.RUN_SCHEMA || !p.string(body.requestId,150)
+      const keys=['schemaVersion','wire','requestId','snapshot'];
+      if(body?.context!==undefined)keys.push('context');
+      if(body?.checkSession!==undefined)keys.push('checkSession');
+      if(!p.exact(body,keys) || body.schemaVersion!==p.RUN_SCHEMA || !p.string(body.requestId,150)
         || !p.snapshotValid(body.snapshot) || Buffer.byteLength(JSON.stringify(body))>512*1024)fail('LAYER_NAMES_INPUT_INVALID',400);
       if(!p.exact(body.wire,['version','sha256']) || body.wire.version!==p.WIRE_VERSION || body.wire.sha256!==p.WIRE_SHA256)fail('LAYER_NAMES_WIRE_INCOMPATIBLE',409);
+      if(body.checkSession!==undefined && (!p.exact(body.checkSession,['id','index','count']) || !p.string(body.checkSession.id,150)
+        || !Number.isInteger(body.checkSession.count) || body.checkSession.count<1 || body.checkSession.count>1250
+        || !Number.isInteger(body.checkSession.index) || body.checkSession.index<0 || body.checkSession.index>=body.checkSession.count))fail('LAYER_NAMES_INPUT_INVALID',400);
+      if(body.context!==undefined){
+        const context=body.context;
+        if(!p.exact(context,['snapshotId','nodes']) || context.snapshotId!==body.snapshot.snapshotId || !Array.isArray(context.nodes)
+          || context.nodes.length!==body.snapshot.nodes.length || new Set(context.nodes.map(n=>n?.nodeId)).size!==context.nodes.length)fail('LAYER_NAMES_CONTEXT_INVALID',400);
+        for(let offset=0;offset<context.nodes.length;offset+=p.MAX_CONTEXT_NODES){
+          const nodes=context.nodes.slice(offset,offset+p.MAX_CONTEXT_NODES);
+          if(!p.contextValid({snapshotId:context.snapshotId,nodes},body.snapshot,nodes.map(n=>n?.nodeId)))fail('LAYER_NAMES_CONTEXT_INVALID',400);
+        }
+      }
       assertCapability();
-      reply(res,runner.begin({requestId:body.requestId,snapshot:body.snapshot,skill,protocol:p}),202);
+      reply(res,runner.begin({requestId:body.requestId,snapshot:body.snapshot,context:body.context,checkSession:body.checkSession,skill,protocol:p}),202);
     }catch(e){error(res,e);}
   });
   app.get('/skills/layer-names/runs/:runId',(req,res)=>{

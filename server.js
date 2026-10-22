@@ -839,34 +839,41 @@ async function callCodexContractExplanation(
     originalFailure = null;
   const usageEvents = [],
     usageStartedAt = Date.now();
+  const agentSession=CLI_PROVIDER==='codex'?requestTelemetry.agentSession:null;
   try {
-    directory = await fsp.mkdtemp(
+    directory = agentSession?.directory || await fsp.mkdtemp(
       path.join(os.tmpdir(), 'apollo-contract-v4-')
     );
+    if(agentSession)agentSession.directory=directory;
     const output = path.join(directory, 'explanation.json'),
       schemaPath = path.join(directory, 'schema.json');
+    if(agentSession)await fsp.rm(output,{force:true});
     await fsp.writeFile(schemaPath, JSON.stringify(schema));
     requestTelemetry.onProgress?.({kind:'request-prepared',provider:CLI_PROVIDER,requestedModel:AGENT_MODEL||null,cliRunId:path.basename(directory)});
     const args = [
       'exec',
-      '--json',
-      '--ephemeral',
-      '--ignore-user-config',
-      '--ignore-rules',
       '--sandbox',
       'read-only',
-      '--skip-git-repo-check',
       '--cd',
       directory,
+    ];
+    if(agentSession?.threadId)args.push('resume',agentSession.threadId);
+    else if(!agentSession)args.push('--ephemeral');
+    args.push(
+      '--ignore-user-config',
+      '--ignore-rules',
+      '--skip-git-repo-check',
+      '--json',
       '--output-schema',
       schemaPath,
       '--output-last-message',
       output,
-    ];
+    );
     if (requestTelemetry.dataOnly) for (const setting of ['features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','web_search="disabled"','mcp_servers={}']) args.push('-c',setting);
     if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
     args.push('-');
-    return await runCodexProcess(
+    let threadId=agentSession?.threadId;
+    const result=await runCodexProcess(
       args,
       prompt,
       output,
@@ -879,6 +886,7 @@ async function callCodexContractExplanation(
         runtimeBudgetMs: requestTelemetry.runtimeBudgetMs,
         signal: requestTelemetry.signal,
         onEvent: (event) => {
+          if(event.type==='thread.started' && typeof event.thread_id==='string' && /^[a-f0-9-]{36}$/i.test(event.thread_id))threadId=event.thread_id;
           if (event.type === 'turn.completed') usageEvents.push(event);
           const kind={'thread.started':'thread-started','turn.started':'turn-started','item.completed':'agent-output'}[event.type];
           if(kind)requestTelemetry.onProgress?.({kind});
@@ -888,6 +896,11 @@ async function callCodexContractExplanation(
         },
       }
     );
+    if(agentSession){
+      if(!threadId || agentSession.threadId && agentSession.threadId!==threadId)throw Object.assign(Error('LAYER_NAMES_SESSION_UNAVAILABLE'),{code:'LAYER_NAMES_SESSION_UNAVAILABLE',status:502});
+      agentSession.threadId=threadId;
+    }
+    return result;
   } catch (error) {
     originalFailure = error;
     if (directory)
@@ -905,7 +918,7 @@ async function callCodexContractExplanation(
     throw error;
   } finally {
     activeCodexRuns = Math.max(0, activeCodexRuns - 1);
-    if (directory) await fsp.rm(directory, { recursive: true, force: true });
+    if (directory && !agentSession) await fsp.rm(directory, { recursive: true, force: true });
     if (requestTelemetry.requestId) {
       const usageApi = require('./src/generation-agent/usage'),
         usage = usageApi.measurement({
@@ -1583,6 +1596,9 @@ app.get('/health', async (req, res) => {
 mountContractRoutes(app, { explain: callCodexContractExplanation });
 namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
   assertCapability:()=>assertLocalAgent(CLI_PROVIDER),
+  disposeSession:session=>{
+    if(session?.directory){const directory=session.directory;session.directory=null;void fsp.rm(directory,{recursive:true,force:true}).catch(()=>{});}
+  },
   plan:(prompt,schema,meta)=>tokenJournal.withinNamed('skill:'+meta.requestId,()=>callCodexContractExplanation(prompt,schema,meta)),
   maxRuntimeMs:Math.min(CODEX_MAX_RUNTIME_MS,900000),onTrace:event=>{
     console.info('[Apollo][skills]',event);
