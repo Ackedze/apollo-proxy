@@ -2,7 +2,13 @@
 
 Источник — `https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/data-packages/current.json`. Proxy читает текущий commit ветки, затем индекс и архив ровно из этого commit. При совпадении dataId скачивание архива не выполняется.
 
-`scripts/git-data-cli.js` устанавливается как `scripts/data-release-cli.js` в существующий portable Proxy 1.4.0. Он сохраняет команды ensure/status/check/update/rollback/run и прежний full-release режим для других существующих URL. Современные `src/data-release`, `src/data-packages` и `scripts/build-data-release.js` берутся из принятой установленной поставки; обычный main checkout 1.3.1 пока не содержит эту prerequisite. Полную feature-ветку ради updater не сливаем.
+`scripts/git-data-cli.js` устанавливается как `scripts/data-release-cli.js` в
+совместимую portable-поставку Proxy 1.4.0. Он сохраняет команды
+ensure/status/check/update/rollback/run и прежний full-release режим для других
+существующих URL. При установке готового приложения используйте переданную версию
+с Git updater: наличие скрипта в Git не обновляет уже установленное приложение.
+В исходниках prerequisite — `src/data-release`, `src/data-packages` и
+`scripts/build-data-release.js`; не подменяйте их файлами из другой версии.
 
 Git-индекс имеет schema `apollo.git-data-index.v1`, runtimeId и snapshot с относительным path, bytes, sha256 и dataId. Архив содержит только переносимые контрактные данные. Не помещать knowledge Hub, credentials, SDK или исполняемый код в data snapshot.
 
@@ -12,4 +18,9 @@ Git-индекс имеет schema `apollo.git-data-index.v1`, runtimeId и snap
 
 В installed runtime скрипт использует соседний producer. Для проверки из main checkout можно явно задать `APOLLO_DATA_PRODUCER_ROOT` на принятую portable установку. Все state-changing команды сначала проходят существующую валидацию store/runtime. Настройки, история и авторизация вне пакета данных.
 
-Локальная подготовка архива не означает активацию в работающем сервере. Финальная проверка — actual API/reader после переключения: 12 contracts с PaymentMaskedNumber r1 Draft; rollback — 11; повторное обновление — 12. Engine runtimeId и knowledge hashes должны сохраниться. PMN format gap не закрывается доставкой.
+Локальная подготовка архива не означает активацию в работающем сервере. Финальная
+проверка — actual API/reader после переключения и сохранность runtimeId и knowledge
+hashes. Исторический пилот проверял 12 contracts с PaymentMaskedNumber r1 Draft,
+rollback на 11 и повторное обновление на 12; это не требование к текущей revision
+или числу контрактов. Сверяйте текущий набор с переданной поставкой. PMN format gap
+не закрывается доставкой.

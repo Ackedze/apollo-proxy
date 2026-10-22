@@ -1,5 +1,7 @@
 # apollo-proxy
 
+[Правила контрибьютинга](CONTRIBUTING.md) · [Старт дизайнеру](https://github.com/Ackedze/apollo/blob/main/docs/DESIGNER_START.md) · [Установка приложения](macos-app/DELEGATION.md)
+
 `POST /skills/layer-names/runs` начинает анализ выделения через выбранный
 Codex/Claude. Агент получает компактный обзор и возвращает типизированный
 `read_nodes` (до 24 доступных ID) или `finish` с планом. Плагин опрашивает
