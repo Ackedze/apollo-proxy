@@ -19,11 +19,11 @@ const fs=require('fs');let prompt='';process.stdin.on('data',v=>prompt+=v);proce
  const a=process.argv.slice(2);fs.appendFileSync(${JSON.stringify(record)},JSON.stringify(a)+'\\n');
  if(prompt.includes('UNAVAILABLE')){process.stderr.write('The requested model does not exist');process.exitCode=1;return;}
  const structured=a.includes('--output-schema')||a.includes('--json-schema');
- const result=structured?{summary:'fixture'}:'Fixture response';
+ const result=prompt.includes('OVERVIEW=')?{action:'finish',nodeIds:[],changes:[]}:structured?{summary:'fixture'}:'Fixture response';
  if(a.includes('--output-last-message')){fs.writeFileSync(a[a.indexOf('--output-last-message')+1],structured?JSON.stringify(result):result);console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:17,output_tokens:5,cached_input_tokens:10}}));}
  else console.log(JSON.stringify({type:'result',is_error:false,usage:{input_tokens:7,cache_read_input_tokens:10,cache_creation_input_tokens:0,output_tokens:5},...(structured?{structured_output:result}:{result})}));
 });`);fs.chmodSync(binary,0o700);
-  const expected=mode==='default'?null:provider+'-model-choice';
+  const expected=mode==='default'?null:provider+'-model-choice@latest';
   const script=`
 const assert=require('node:assert/strict'),fs=require('fs');const {app,callCodexContractExplanation}=require(${JSON.stringify(path.resolve(__dirname,'../server'))});
 (async()=>{const s=app.listen(0,'127.0.0.1');await new Promise(r=>s.once('listening',r));const base='http://127.0.0.1:'+s.address().port;
@@ -31,14 +31,27 @@ const ask=text=>fetch(base+'/analyze',{method:'POST',headers:{'Content-Type':'ap
 try{
  const expected=${JSON.stringify(expected)},health=await(await fetch(base+'/health')).json();assert.equal(health.agent.model,expected);
  let response=await ask('fixture'),body=await response.json();assert.equal(response.status,200,JSON.stringify(body));assert.equal(body.model,expected);assert.equal(body.provider,${JSON.stringify(provider)});
- assert.deepEqual(await callCodexContractExplanation('structured fixture',{type:'object',properties:{summary:{type:'string'}}}),{summary:'fixture'});
+ const progress=[];assert.deepEqual(await callCodexContractExplanation('structured fixture',{type:'object',properties:{summary:{type:'string'}}},{onProgress:event=>progress.push(event)}),{summary:'fixture'});
+ assert.ok(progress.some(e=>e.kind==='request-prepared'&&e.provider===${JSON.stringify(provider)}&&e.requestedModel===expected&&/^apollo-contract-v4-[A-Za-z0-9_-]+$/.test(e.cliRunId)));
  response=await ask('UNAVAILABLE');body=await response.json();assert.equal(response.status,400,JSON.stringify(body));assert.match(body.error,/модель недоступна/);
- const calls=fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').map(JSON.parse);assert.equal(calls.length,3);
+ const threeBatches=${JSON.stringify(provider==='codex'&&mode==='selected')};
+ if(threeBatches){
+  const p=require(${JSON.stringify(path.resolve(__dirname,'../src/skills/layer-names/run-protocol'))})(require(require('path').join(process.env.APOLLO_PROJECT_ROOT,'src/skills/layer-names/protocol')));
+  for(let i=0;i<3;i++){
+   const requestId='three-batch-'+i,snapshot={schemaVersion:p.SCHEMA,snapshotId:'batch-'+i,pageId:'page',rootIds:['root'],scopeName:'Owned',observedCount:1,skippedCount:0,nodes:[{nodeId:'root',type:'FRAME',parentId:'page',oldName:'Frame 1',path:'Frame 1',texts:['Owned']}]};
+   response=await fetch(base+'/skills/layer-names/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({schemaVersion:p.RUN_SCHEMA,wire:{version:p.WIRE_VERSION,sha256:p.WIRE_SHA256},requestId,snapshot})});body=await response.json();assert.equal(response.status,202,JSON.stringify(body));let run=body.run;
+   while(run.status==='running'){await new Promise(r=>setTimeout(r,10));body=await(await fetch(base+'/skills/layer-names/runs/'+run.runId+'?requestId='+requestId)).json();run=body.run;}
+   assert.equal(run.status,'completed');assert.equal(body.diagnostics.requestedModel,expected);
+  }
+ }
+ const calls=fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').map(JSON.parse);assert.equal(calls.length,threeBatches?6:3);
  for(const args of calls){const i=args.indexOf('--model');if(expected===null)assert.equal(i,-1);else assert.equal(args[i+1],expected);}
  assert.equal((await(await fetch(base+'/health')).json()).agent.model,expected);
- const rows=(await(await fetch(base+'/usage')).json()).records;assert.equal(rows.length,3);assert.equal(rows.filter(r=>r.totalTokens===22).length,2);assert.equal(rows.filter(r=>r.totalTokens===null&&r.status==='failed').length,1);console.log('model routing PASS');
+ const rows=(await(await fetch(base+'/usage')).json()).records;assert.equal(rows.length,threeBatches?6:3);assert.equal(rows.filter(r=>r.totalTokens===22).length,threeBatches?5:2);assert.equal(rows.filter(r=>r.totalTokens===null&&r.status==='failed').length,1);
+ if(threeBatches){const skills=rows.filter(r=>r.operation==='Навык · Переименовать слои');assert.equal(skills.length,3);assert.ok(skills.every(r=>r.calls===1&&r.totalTokens===22&&r.inputTokens===17&&r.outputTokens===5&&r.cachedInputTokens===10));assert.equal(skills.reduce((n,r)=>n+r.totalTokens,0),66);}
+ console.log('model routing PASS');
 }finally{s.closeAllConnections();await new Promise(r=>s.close(r));}})().catch(e=>{console.error(e);process.exitCode=1;});`;
-  const env=Object.assign({},process.env,{APOLLO_CLI_PROVIDER:provider,CODEX_MODEL:mode==='default'?'':'codex-model-choice',CLAUDE_MODEL:mode==='default'?'':'claude-model-choice',CODEX_BIN:binary,CLAUDE_BIN:binary,CODEX_DESIGN_SYSTEM:ds,CODEX_DS_AI_HUB:hub,APOLLO_CODEX_KNOWLEDGE_SOURCE:'design-system_ab',APOLLO_PROXY_MANAGED:'0',APOLLO_CODEX_DEBUG_ENABLED:'0'});
+  const env=Object.assign({},process.env,{APOLLO_CLI_PROVIDER:provider,CODEX_MODEL:mode==='default'?'':'codex-model-choice@latest',CLAUDE_MODEL:mode==='default'?'':'claude-model-choice@latest',CODEX_BIN:binary,CLAUDE_BIN:binary,CODEX_DESIGN_SYSTEM:ds,CODEX_DS_AI_HUB:hub,APOLLO_CODEX_KNOWLEDGE_SOURCE:'design-system_ab',APOLLO_PROXY_MANAGED:'0',APOLLO_CODEX_DEBUG_ENABLED:'0'});
   assert.match(execFileSync(process.execPath,['-e',script],{cwd:root,env,encoding:'utf8',timeout:18000}),/model routing PASS/);
  });
 }

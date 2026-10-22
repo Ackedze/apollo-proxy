@@ -846,6 +846,7 @@ async function callCodexContractExplanation(
     const output = path.join(directory, 'explanation.json'),
       schemaPath = path.join(directory, 'schema.json');
     await fsp.writeFile(schemaPath, JSON.stringify(schema));
+    requestTelemetry.onProgress?.({kind:'request-prepared',provider:CLI_PROVIDER,requestedModel:AGENT_MODEL||null,cliRunId:path.basename(directory)});
     const args = [
       'exec',
       '--json',
@@ -869,7 +870,7 @@ async function callCodexContractExplanation(
       args,
       prompt,
       output,
-      null,
+      () => requestTelemetry.onProgress?.({kind:'agent-output'}),
       'analyzing_layout',
       {
         mode: 'contract-v4-explanation',
@@ -879,6 +880,11 @@ async function callCodexContractExplanation(
         signal: requestTelemetry.signal,
         onEvent: (event) => {
           if (event.type === 'turn.completed') usageEvents.push(event);
+          const kind={'thread.started':'thread-started','turn.started':'turn-started','item.completed':'agent-output'}[event.type];
+          if(kind)requestTelemetry.onProgress?.({kind});
+          const message=typeof event.message==='string'?event.message:typeof event.error?.message==='string'?event.error.message:'';
+          if(/workspace routing discovery timed out/i.test(message))requestTelemetry.onProgress?.({kind:'retry',code:'WORKSPACE_ROUTING_TIMEOUT'});
+          if(/falling back to HTTPS/i.test(message))requestTelemetry.onProgress?.({kind:'transport-fallback',code:'TRANSPORT_FALLBACK'});
         },
       }
     );
@@ -1576,6 +1582,7 @@ app.get('/health', async (req, res) => {
 
 mountContractRoutes(app, { explain: callCodexContractExplanation });
 namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
+  assertCapability:()=>assertLocalAgent(CLI_PROVIDER),
   plan:(prompt,schema,meta)=>tokenJournal.withinNamed('skill:'+meta.requestId,()=>callCodexContractExplanation(prompt,schema,meta)),
   maxRuntimeMs:Math.min(CODEX_MAX_RUNTIME_MS,900000),onTrace:event=>{
     console.info('[Apollo][skills]',event);

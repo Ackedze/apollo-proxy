@@ -13,13 +13,13 @@ const TARGET_ROOT = path.join(
   'skills',
   SKILL_NAME
 );
+const configuredSource = process.env.APOLLO_SKILL_SOURCE_ROOT;
 const SOURCE_CANDIDATES = [
-  process.env.APOLLO_SKILL_SOURCE_ROOT,
   path.join(REPOSITORY_ROOT, 'projects', 'Apollo', '.agents', 'skills', SKILL_NAME),
   path.join(REPOSITORY_ROOT, 'projects', 'Apollo-v2', '.agents', 'skills', SKILL_NAME),
   TARGET_ROOT,
 ].filter(Boolean);
-const SOURCE_ROOT = SOURCE_CANDIDATES.find((candidate) => (
+const SOURCE_ROOT = configuredSource ? path.resolve(configuredSource) : SOURCE_CANDIDATES.find((candidate) => (
   fs.existsSync(path.join(candidate, 'SKILL.md'))
 )) || SOURCE_CANDIDATES[0];
 
@@ -84,7 +84,9 @@ function validateStructuredOutputSchema(node, location = '#') {
 }
 
 async function main() {
-  if (!fs.existsSync(path.join(SOURCE_ROOT, 'SKILL.md'))) {
+  let valid = false;
+  try { valid = fs.statSync(SOURCE_ROOT).isDirectory() && fs.statSync(path.join(SOURCE_ROOT, 'SKILL.md')).isFile(); } catch {}
+  if (!valid) {
     throw new Error(`Canonical Apollo skill is missing: ${SOURCE_ROOT}`);
   }
 

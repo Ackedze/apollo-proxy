@@ -78,6 +78,46 @@ test('skill drift and observed upstream routing failures are reported separately
  const failed=createSkillRunner({invoke:async()=>{throw Object.assign(Error('exit1'),{code:'CODEX_PROCESS_FAILED',details:{stderr:'workspace routing discovery timed out'}});}}),other=failed.begin(Object.assign({},f,{requestId:'connection'}));
  assert.equal((await settled(failed,other)).error.code,'LAYER_NAMES_CONNECTION_FAILED');
 });
+test('stdout-only routing failures are classified without reclassifying unrelated process errors',async()=>{
+ for(const details of [{stdout:'workspace routing discovery timed out',stderr:'model-list refresh timeout'},{stdout:'other error',stderr:''}]){
+  const f=fixture(),service=createSkillRunner({invoke:async()=>{throw Object.assign(Error('exit1'),{code:'CODEX_PROCESS_FAILED',details});}}),run=service.begin(f);
+  assert.equal((await settled(service,run)).error.code,details.stdout.startsWith('workspace')?'LAYER_NAMES_CONNECTION_FAILED':'CODEX_PROCESS_FAILED');
+ }
+});
+test('bounded results allow over 64 completed batches and never reinvoke evicted or expired request IDs',async()=>{
+ const f=fixture();let time=0,calls=0;const service=createSkillRunner({now:()=>time,invoke:async()=>{calls++;return finish();}}),all=[];
+ for(let i=0;i<70;i++){const args={...f,requestId:'batch-'+i},run=service.begin(args);assert.equal((await settled(service,run)).status,'completed');all.push({args,run});}
+ assert.equal(calls,70);assert.throws(()=>service.read(all[0].run.runId,all[0].args.requestId),e=>e.code==='LAYER_NAMES_RUN_NOT_FOUND');
+ assert.throws(()=>service.begin(all[0].args),e=>e.code==='LAYER_NAMES_RUN_EXPIRED');
+ assert.throws(()=>service.begin({...all[0].args,snapshot:{...f.snapshot,scopeName:'changed'}}),e=>e.code==='LAYER_NAMES_REQUEST_REPLAY');
+ assert.equal(service.begin(all[69].args).runId,all[69].run.runId);time=1800001;
+ assert.throws(()=>service.begin(all[69].args),e=>e.code==='LAYER_NAMES_RUN_EXPIRED');assert.equal(calls,70);
+ const next=service.begin({...f,requestId:'new-after-ttl'});assert.equal((await settled(service,next)).status,'completed');assert.equal(calls,71);
+});
+test('terminal eviction preserves pending context, active admission, cancellation and late callbacks',async()=>{
+ const f=fixture();let release,lateProgress,calls=0;const service=createSkillRunner({invoke:async(a,b,meta)=>{calls++;if(meta.requestId==='cancelled'){lateProgress=meta.onProgress;await new Promise(r=>{release=r;});return finish([f.change]);}if(meta.requestId==='waiting' && meta.attempt===1)return {action:'read_nodes',nodeIds:['form'],changes:[]};return finish();}});
+ const cancelled=service.begin({...f,requestId:'cancelled'});service.cancel(cancelled.runId,'cancelled');
+ for(let i=0;i<70;i++){const r=service.begin({...f,requestId:'completed-'+i});await settled(service,r);}
+ release();lateProgress({kind:'agent-output'});await tick();assert.throws(()=>service.read(cancelled.runId,'cancelled'),e=>e.code==='LAYER_NAMES_RUN_NOT_FOUND');
+ assert.throws(()=>service.begin({...f,requestId:'cancelled'}),e=>e.code==='LAYER_NAMES_RUN_EXPIRED');
+ const run=service.begin({...f,requestId:'waiting'}),waiting=await settled(service,run);assert.equal(waiting.status,'awaiting-context');
+ assert.throws(()=>service.begin({...f,requestId:'competing'}),e=>e.code==='LAYER_NAMES_BUSY');
+ assert.throws(()=>service.observe({runId:cancelled.runId,requestId:'cancelled',callId:'late',context:f.context}),e=>e.code==='LAYER_NAMES_RUN_NOT_FOUND');
+ service.observe({runId:run.runId,requestId:'waiting',callId:waiting.pending.callId,context:f.context});assert.equal((await settled(service,run)).status,'completed');assert.equal(calls,73);
+});
+test('bounded replay ledger fails closed at its capacity and empty scopes emit one completion without model calls',()=>{
+ const f=fixture(),events=[];let calls=0;const service=createSkillRunner({invoke:async()=>{calls++;return finish();},onTrace:e=>events.push(e.event)}),snapshot={...f.snapshot,nodes:[],observedCount:0,skippedCount:0};
+ for(let i=0;i<8192;i++)assert.equal(service.begin({...f,snapshot,requestId:'empty-'+i}).status,'completed');
+ assert.throws(()=>service.begin({...f,snapshot,requestId:'overflow'}),e=>e.code==='LAYER_NAMES_RUN_LIMIT');
+ assert.throws(()=>service.begin({...f,snapshot,requestId:'empty-0'}),e=>e.code==='LAYER_NAMES_RUN_EXPIRED');
+ assert.equal(calls,0);assert.equal(events.filter(e=>e==='started').length,8192);assert.equal(events.filter(e=>e==='completed').length,8192);
+});
+test('optional diagnostics are correlated, bounded, data-free and ignore late progress from prior steps',async()=>{
+ const f=fixture();let callback,step=0,time=0;const service=createSkillRunner({now:()=>time,invoke:async(a,b,meta)=>{if(++step===1){callback=meta.onProgress;meta.onProgress({kind:'request-prepared',provider:'claude',requestedModel:'model@latest',cliRunId:'apollo-contract-v4-fixture',raw:'secret'});for(let i=0;i<30;i++){time++;meta.onProgress({kind:'retry',retry:i+1,code:'WORKSPACE_ROUTING_TIMEOUT'});}return {action:'read_nodes',nodeIds:['form'],changes:[]};}return finish();}}),run=service.begin(f),waiting=await settled(service,run);
+ const d=service.diagnostics(run.runId,f.requestId);assert.equal(d.provider,'claude');assert.equal(d.requestedModel,'model@latest');assert.equal(d.phase,'reading-context');assert.ok(d.events.length<=24);assert.ok(!JSON.stringify(d).includes('secret'));assert.equal(p.runValid(waiting,f.snapshot,f.requestId),true);
+ assert.throws(()=>service.diagnostics(run.runId,'foreign'),e=>e.status===404);callback({kind:'agent-output'});assert.deepEqual(service.diagnostics(run.runId,f.requestId),d);
+ service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context});await settled(service,run);const done=service.diagnostics(run.runId,f.requestId);callback({kind:'retry'});assert.deepEqual(service.diagnostics(run.runId,f.requestId),done);assert.equal(done.phase,'completed');
+});
 test('HTTP lifecycle exposes only a bound readonly callback, blocks competing legacy requests and cancels safely',async t=>{
  const express=require('express'),app=express();app.use(express.json());const f=fixture();let calls=0;
  mountLayerNameRoutes(app,{apolloRoot,plan:async()=>++calls===1?{action:'read_nodes',nodeIds:['form'],changes:[]}:finish([f.change])});
@@ -92,6 +132,16 @@ test('HTTP lifecycle exposes only a bound readonly callback, blocks competing le
  assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:'foreign',context:f.context})).status,409);assert.equal(calls,1);
  assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:waiting.pending.callId,context:f.context})).status,200);
  assert.deepEqual((await get()).run.plan,{changes:[f.change]});assert.equal(calls,2);
+});
+test('HTTP diagnostics stay outside strict run proof and unsupported capability prevents provider invocation',async t=>{
+ const express=require('express'),app=express();app.use(express.json());const f=fixture();let calls=0,allowed=false;
+ mountLayerNameRoutes(app,{apolloRoot,assertCapability:()=>{if(!allowed)throw Object.assign(Error('unsupported'),{code:'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE',status:503});},plan:async(a,b,meta)=>{calls++;meta.onProgress({kind:'request-prepared',provider:'codex',requestedModel:'fixture@latest',cliRunId:'apollo-contract-v4-fixture'});return finish();}});
+ const server=await new Promise(resolve=>{const s=app.listen(0,'127.0.0.1',()=>resolve(s));});t.after(()=>new Promise(resolve=>{server.closeIdleConnections?.();server.close(resolve);}));
+ const base='http://127.0.0.1:'+server.address().port,body={schemaVersion:p.RUN_SCHEMA,wire:{version:p.WIRE_VERSION,sha256:p.WIRE_SHA256},requestId:f.requestId,snapshot:f.snapshot};
+ const post=()=>fetch(base+'/skills/layer-names/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ let response=await post(),value=await response.json();assert.equal(response.status,503);assert.equal(value.code,'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE');assert.equal(calls,0);
+ allowed=true;response=await post();value=await response.json();assert.equal(p.runValid(value.run,f.snapshot,f.requestId),true);assert.equal(value.diagnostics.provider,'codex');assert.equal(value.diagnostics.requestedModel,'fixture@latest');
+ const {readDiagnostics}=require(path.join(apolloRoot,'src/skills/layer-names/diagnostics'));assert.ok(readDiagnostics(value.diagnostics,value.run));assert.equal(p.runValid({...value.run,diagnostics:value.diagnostics},f.snapshot,f.requestId),false);assert.equal(calls,1);
 });
 test('plugin and proxy share the exact code-owned wire; malformed and incompatible responses fail closed',()=>{
  const fs=require('node:fs'),file='src/skills/layer-names/run-protocol.js';
