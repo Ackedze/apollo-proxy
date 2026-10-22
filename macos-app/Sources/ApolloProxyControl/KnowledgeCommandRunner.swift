@@ -118,11 +118,12 @@ struct KnowledgeCommandRunner {
         )
     }
 
+    @discardableResult
     func run(
         _ command: String,
         phase: @escaping @Sendable (String) -> Void,
         completion: @escaping @Sendable (Result<KnowledgeCommandStatus, Error>) -> Void
-    ) throws {
+    ) throws -> Process {
         let (task, stdout, stderr) = process(for: command)
         let stderrBuffer = LockedDataBuffer()
         stderr.fileHandleForReading.readabilityHandler = { handle in
@@ -153,5 +154,6 @@ struct KnowledgeCommandRunner {
             }
         }
         try task.run()
+        return task
     }
 }

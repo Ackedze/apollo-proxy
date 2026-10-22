@@ -98,7 +98,7 @@ final class ProxyManager: NSObject {
     private var authCheckTimer: Timer?
     private var proxyHasActiveWork = false
     private var healthSnapshot: ProxyHealthSnapshot?
-    private var checkingProxyStart = false
+    private var startRequest = ProxyStartRequest()
     private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
     private var modelCatalogProcess: Process?
@@ -244,7 +244,7 @@ final class ProxyManager: NSObject {
             setStatusItemTitle("AP:...")
             snapshot.status = "Прокси запускается…"
             startItem.title = "Остановить прокси"
-            startItem.isEnabled = process != nil
+            startItem.isEnabled = process != nil || startRequest.pending || pendingProxyStartAfterAuthorization
         case .running:
             setStatusItemTitle("AP:On")
             snapshot.status = "Прокси работает · порт \(readPort())" + (isExternalProxyRunning ? " · отдельный запуск" : "")
@@ -383,8 +383,7 @@ final class ProxyManager: NSObject {
                    health.activeRequests == 0,
                    !self.proxyHasActiveWork {
                     self.pendingKnowledgeRestart = false
-                    self.pendingRestartAfterStop = true
-                    self.stopProxyAction()
+                    self.stopManagedProxy(restart: true)
                 }
             }
         }.resume()
@@ -458,10 +457,10 @@ final class ProxyManager: NSObject {
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .checking
         do {
-            try knowledgeCommandRunner().run("check", phase: { _ in }) { [weak self] result in
+            let task = try knowledgeCommandRunner().run("check", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
                     guard let self else { return }
-                    self.knowledgeCommandRunning = false
+                    defer { self.finishKnowledgeCommand("check") }
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
@@ -475,10 +474,18 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            appendLog("=== \(Date()) Knowledge check started (pid \(task.processIdentifier)) ===\n")
         } catch {
-            knowledgeCommandRunning = false
+            defer { finishKnowledgeCommand("check") }
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
+    }
+
+    private func finishKnowledgeCommand(_ command: String) {
+        knowledgeCommandRunning = false
+        appendLog("=== \(Date()) Knowledge \(command) finished ===\n")
+        if startRequest.pending { startProxyAction() }
+        else { refreshUI() }
     }
 
     private func applyUpdatedKnowledgeRuntime() {
@@ -493,7 +500,7 @@ final class ProxyManager: NSObject {
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .downloading
         do {
-            try knowledgeCommandRunner().run("update", phase: { [weak self] phase in
+            let task = try knowledgeCommandRunner().run("update", phase: { [weak self] phase in
                 Task { @MainActor in
                     if phase == "validating" { self?.knowledgeUpdateStatus = .validating }
                     if phase == "downloading" { self?.knowledgeUpdateStatus = .downloading }
@@ -501,7 +508,7 @@ final class ProxyManager: NSObject {
             }) { [weak self] result in
                 Task { @MainActor in
                     guard let self else { return }
-                    self.knowledgeCommandRunning = false
+                    defer { self.finishKnowledgeCommand("update") }
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
@@ -515,8 +522,9 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            appendLog("=== \(Date()) Knowledge update started (pid \(task.processIdentifier)) ===\n")
         } catch {
-            knowledgeCommandRunning = false
+            defer { finishKnowledgeCommand("update") }
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
     }
@@ -526,10 +534,10 @@ final class ProxyManager: NSObject {
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .validating
         do {
-            try knowledgeCommandRunner().run("rollback", phase: { _ in }) { [weak self] result in
+            let task = try knowledgeCommandRunner().run("rollback", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
                     guard let self else { return }
-                    self.knowledgeCommandRunning = false
+                    defer { self.finishKnowledgeCommand("rollback") }
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
@@ -542,8 +550,9 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            appendLog("=== \(Date()) Knowledge rollback started (pid \(task.processIdentifier)) ===\n")
         } catch {
-            knowledgeCommandRunning = false
+            defer { finishKnowledgeCommand("rollback") }
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
     }
@@ -1079,8 +1088,7 @@ final class ProxyManager: NSObject {
             try saveApolloURL(value)
             refreshUI()
             if process != nil {
-                pendingRestartAfterStop = true
-                stopProxyAction()
+                stopManagedProxy(restart: true)
             }
         } catch {
             showError("Не удалось сохранить адрес AlfaGen", error.localizedDescription)
@@ -1166,13 +1174,18 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func startProxyAction() {
-        guard !isQuitting, process == nil, !checkingProxyStart else { return }
-        checkingProxyStart = true
+        guard !isQuitting, process == nil else { return }
+        let alreadyPending = startRequest.pending
+        let token = startRequest.request(knowledgeRunning: knowledgeCommandRunning)
         status = .starting
+        if knowledgeCommandRunning && !alreadyPending {
+            appendLog("=== \(Date()) Proxy start queued until own knowledge operation finishes ===\n")
+        }
+        guard let token else { return }
         checkHealth { [weak self] running in
             guard let self else { return }
-            self.checkingProxyStart = false
-            guard !running, !self.isQuitting, self.process == nil else { return }
+            guard self.startRequest.checked(token, running: running, knowledgeRunning: self.knowledgeCommandRunning),
+                  !self.isQuitting, self.process == nil else { return }
             self.launchManagedProxy()
         }
     }
@@ -1185,6 +1198,7 @@ final class ProxyManager: NSObject {
             knowledgeRuntime = try knowledgeCommandRunner().runSynchronously("ensure")
         } catch {
             status = .error("Setup failed")
+            appendLog("=== \(Date()) Proxy preparation failed: \(error.localizedDescription) ===\n")
             showError("Cannot prepare proxy", error.localizedDescription)
             return
         }
@@ -1322,6 +1336,14 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func stopProxyAction() {
+        stopManagedProxy()
+    }
+
+    private func stopManagedProxy(restart: Bool = false) {
+        startRequest.cancel()
+        pendingRestartAfterStop = restart && process != nil
+        pendingProxyStartAfterAuthorization = false
+        pendingKnowledgeRestart = false
         guard let process else {
             status = .stopped
             return
@@ -1341,7 +1363,7 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func toggleProxyAction() {
-        if process != nil { stopProxyAction() } else { startProxyAction() }
+        if process != nil || status == .starting { stopProxyAction() } else { startProxyAction() }
     }
 
     @objc private func checkKnowledgeAction() { checkForKnowledgeUpdate() }
@@ -1451,8 +1473,7 @@ final class ProxyManager: NSObject {
             try writeEnvValue(value, forKey: key, to: overridesURL)
             try writeEnvValue(value, forKey: key, to: proxyInstallURL.appendingPathComponent(".env"))
             if process != nil {
-                pendingRestartAfterStop = true
-                stopProxyAction()
+                stopManagedProxy(restart: true)
             }
             refreshUI()
         } catch { showError("Не удалось сохранить модель", error.localizedDescription); refreshUI() }
@@ -1491,8 +1512,7 @@ final class ProxyManager: NSObject {
             let wasRunning = process != nil
             checkAgentAuthorization(startProxyWhenReady: wasRunning)
             if wasRunning {
-                pendingRestartAfterStop = true
-                stopProxyAction()
+                stopManagedProxy(restart: true)
             }
             refreshUI()
         } catch { showError("Не удалось сменить агент", error.localizedDescription); refreshUI() }
@@ -1567,8 +1587,7 @@ final class ProxyManager: NSObject {
             try saveKnowledgeSource(next)
             refreshUI()
             if process != nil {
-                pendingRestartAfterStop = true
-                stopProxyAction()
+                stopManagedProxy(restart: true)
             } else {
                 showInfo(
                     "Knowledge source changed",
@@ -1611,6 +1630,7 @@ final class ProxyManager: NSObject {
     func prepareForTermination() {
         guard !isQuitting else { return }
         isQuitting = true
+        startRequest.cancel()
         let modelTask = modelCatalogProcess
         cancelModelCatalog()
         codexInstaller.cancel()

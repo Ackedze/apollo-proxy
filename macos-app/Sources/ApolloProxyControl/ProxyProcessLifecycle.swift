@@ -1,6 +1,33 @@
 import Darwin
 import Foundation
 
+struct ProxyStartRequest {
+    private(set) var pending = false
+    private var healthCheck: UUID?
+
+    mutating func request(knowledgeRunning: Bool) -> UUID? {
+        pending = true
+        guard !knowledgeRunning, healthCheck == nil else { return nil }
+        let token = UUID()
+        healthCheck = token
+        return token
+    }
+
+    mutating func checked(_ token: UUID, running: Bool, knowledgeRunning: Bool) -> Bool {
+        guard healthCheck == token else { return false }
+        healthCheck = nil
+        if running { pending = false }
+        guard pending, !knowledgeRunning else { return false }
+        pending = false
+        return true
+    }
+
+    mutating func cancel() {
+        pending = false
+        healthCheck = nil
+    }
+}
+
 enum ProxyProcessLifecycle {
     static func connectParentLifetime(to child: Process) -> Pipe {
         let lifetime = Pipe()
