@@ -156,6 +156,7 @@ rsync -a --delete \
   --exclude "runtime" \
   "${PROXY_ROOT}/" \
   "${APP_BUNDLE}/Contents/Resources/embedded-proxy/"
+cp "${PROXY_ROOT}/scripts/git-data-cli.js" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/scripts/data-release-cli.js"
 
 KNOWLEDGE_SEED_ROOT="${WORK_DIR}/knowledge-seed"
 mkdir -p "${WORK_DIR}"
@@ -184,6 +185,7 @@ else
     --profile checking-ask-figma-mcp \
     --data "${APOLLO_DATA_ROOT:-${PROXY_ROOT}/runtime/data}" --knowledge "${KNOWLEDGE_PACKAGE}" \
     --runtime "${PORTABLE_RUNTIME_SOURCE}" --output "${WORK_DIR}/data-release" \
+    --skills-root "${DESIGN_SYSTEM_SOURCE}/apollo/skills" \
     --tarball-url "${DATA_ASSET_URL_TEMPLATE}"
   RELEASE_SEED="${WORK_DIR}/data-release/package"
 fi

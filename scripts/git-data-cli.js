@@ -57,7 +57,30 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
       !safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
       !/^[a-f0-9]{64}$/.test(index.snapshot.sha256 || '') || !/^[a-f0-9]{64}$/.test(index.snapshot.dataId || '') ||
       !Number.isSafeInteger(index.snapshot.bytes) || index.snapshot.bytes < 1 || index.snapshot.bytes > 100 * 1024 * 1024) throw Error('Git data index is invalid or incompatible with this runtime.');
+  if(index.skills!==undefined && (!index.skills || Object.keys(index.skills).sort().join(',')!=='bytes,path,sha256' || index.skills.path!=='apollo/skills/manifest.json'
+    || !/^[a-f0-9]{64}$/.test(index.skills.sha256||'') || !Number.isSafeInteger(index.skills.bytes) || index.skills.bytes<1 || index.skills.bytes>65536))throw Error('Git skill catalog reference is invalid.');
   return { source, commit, index };
+}
+
+async function pinnedBytes(selected,pin,token,request){
+  const response=await get(contentUrl(selected.source,selected.commit,pin.path),token,request,true);
+  const parts=[];let length=0;
+  for await(const part of response.body){length+=part.length;if(length>pin.bytes)throw Error('Git asset exceeds its declared size.');parts.push(part);}
+  const bytes=Buffer.concat(parts);if(length!==pin.bytes||sha(bytes)!==pin.sha256)throw Error('Git asset checksum/size mismatch.');
+  return bytes;
+}
+async function downloadSkills(selected,temporary,token,request){
+  const catalog=require('../src/skills/catalog'),root=path.join(temporary,'skill-source'),ref=selected.index.skills;
+  await fs.mkdir(root);
+  const body=await pinnedBytes(selected,ref,token,request),entry=catalog.catalogEntry(body);
+  const prefix=path.posix.dirname(ref.path);
+  const descriptor=await pinnedBytes(selected,{...entry,path:prefix+'/'+entry.path},token,request);
+  const files=catalog.packageFiles(descriptor);
+  async function save(file,bytes){const target=path.join(root,file);await fs.mkdir(path.dirname(target),{recursive:true});await fs.writeFile(target,bytes,{flag:'wx',mode:0o600});}
+  await save('manifest.json',body);await save(entry.path,descriptor);
+  for(const pin of files)await save(catalog.ID+'/'+pin.path,await pinnedBytes(selected,{...pin,path:prefix+'/'+catalog.ID+'/'+pin.path},token,request));
+  const admitted=catalog.readCatalog(root);if(admitted.sha256!==ref.sha256)throw Error('Git skill catalog identity mismatch.');admitted.assertCurrent();
+  return root;
 }
 
 function tar(args) {
@@ -82,24 +105,23 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
   const runtime = releases.readRuntime(settings.runtimeRoot);
   const selected = await readGitIndex(url, runtime.id, token, request);
   const snapshot = selected.index.snapshot;
-  const updateAvailable = snapshot.dataId !== ensured.state.current.dataId;
+  const installed=selected.index.skills ? releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot) : null;
+  const updateAvailable = snapshot.dataId !== ensured.state.current.dataId || Boolean(selected.index.skills && selected.index.skills.sha256!==installed.skillsSourceSha256);
   const extra = { updateAvailable, descriptor: { contentVersion: snapshot.dataId }, sourceCommit: selected.commit };
   if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, extra);
   const temporary = await fs.mkdtemp(path.join(settings.storeRoot, '.git-update-'));
   try {
     console.error(JSON.stringify({ phase: 'downloading' }));
-    const response = await get(contentUrl(selected.source, selected.commit, snapshot.path), token, request, true);
-    const parts = []; let length = 0;
-    for await (const part of response.body) {
-      length += part.length;
-      if (length > snapshot.bytes) throw Error('Git snapshot exceeds its declared size.');
-      parts.push(part);
-    }
-    const bytes = Buffer.concat(parts);
-    if (length !== snapshot.bytes || sha(bytes) !== snapshot.sha256) throw Error('Git snapshot checksum/size mismatch.');
-    const archive = path.join(temporary, 'contracts.tgz'), data = path.join(temporary, 'contracts');
-    await fs.writeFile(archive, bytes, { flag: 'wx' }); await fs.mkdir(data);
-    extractSnapshot(archive, data);
+    let data;
+    if(snapshot.dataId!==ensured.state.current.dataId){
+      const bytes=await pinnedBytes(selected,snapshot,token,request);
+      const archive=path.join(temporary,'contracts.tgz');data=path.join(temporary,'contracts');
+      await fs.writeFile(archive,bytes,{flag:'wx'});await fs.mkdir(data);extractSnapshot(archive,data);
+    }else data=path.join(ensured.state.current.path,'contracts');
+    const currentManifest=installed || releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot);
+    const currentSkills=path.join(ensured.state.current.path,'skills');
+    const skillsRoot=selected.index.skills ? await downloadSkills(selected,temporary,token,request)
+      : await fs.stat(currentSkills).then(s=>s.isDirectory()?currentSkills:undefined).catch(error=>{if(error.code==='ENOENT')return undefined;throw error;});
     console.error(JSON.stringify({ phase: 'validating' }));
     const packages = require(path.join(producerRoot, 'src/data-packages'));
     const checked = packages.readGenerationData({ root: data, apolloRoot: settings.runtimeRoot });
@@ -110,10 +132,12 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
     let built;
     try {
       built = await buildDataRelease({ dataRoot: data, knowledgeRoot: path.join(ensured.state.current.path, 'knowledge'),
+        skillsRoot,skillsSourceSha256:selected.index.skills?.sha256 || currentManifest.skillsSourceSha256,
         runtimeRoot: settings.runtimeRoot, output: path.join(temporary, 'release'), profile: 'checking-ask-figma-mcp',
         tarballUrl: 'https://github.com/' + selected.source.owner + '/' + selected.source.repo + '/tree/' + selected.commit + '/{version}' });
     } finally { if (old === undefined) delete process.env.COPYFILE_DISABLE; else process.env.COPYFILE_DISABLE = old; }
     if (built.manifest.dataId !== snapshot.dataId) throw Error('Local packaging changed the Git data identity.');
+    if(selected.index.skills && built.manifest.skillsSourceSha256!==selected.index.skills.sha256)throw Error('Local packaging changed the Git skill identity.');
     if ((await releases.readState(settings.storeRoot)).current.contentVersion !== ensured.state.current.contentVersion) throw Error('Installed data changed during Git download; check again.');
     const state = await releases.installTarball({ ...settings, tarballPath: built.tarballPath,
       expectedIntegrity: built.descriptor.tarballIntegrity, expectedContentVersion: built.manifest.id });

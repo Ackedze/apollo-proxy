@@ -46,6 +46,15 @@ test('index and archive URLs are pinned to the resolved commit; incompatible run
   await assert.rejects(readGitIndex(sourceUrl, 'e'.repeat(64), undefined, transport().request), /incompatible/);
 });
 
+test('optional skill catalog stays in the same repository commit and invalid references fail closed', async () => {
+  const skills={path:'apollo/skills/manifest.json',sha256:'e'.repeat(64),bytes:500};
+  const network=transport({...index,skills});
+  const selected=await readGitIndex(sourceUrl,runtimeId,undefined,network.request);
+  assert.deepEqual(selected.index.skills,skills);assert.equal(selected.commit,commit);
+  for(const invalid of [null,{...skills,path:'../other.json'},{...skills,path:'apollo/skills/execute.js'},{...skills,bytes:65537},{...skills,sha256:'bad'},{...skills,command:'execute'}])
+    await assert.rejects(readGitIndex(sourceUrl,runtimeId,undefined,transport({...index,skills:invalid}).request),/skill catalog reference/);
+});
+
 test('Git advertisement rejects truncation, duplicate branch and absent branch', () => {
   const entry = pkt(commit + ' refs/heads/main\n');
   assert.equal(advertisedCommit(Buffer.from(entry + '0000'), 'main'), commit);

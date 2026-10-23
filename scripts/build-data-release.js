@@ -41,7 +41,7 @@ async function projectPortableData({ dataRoot, runtimeRoot, output }) {
   return { index, files: data.reader.pins.size };
 }
 
-async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, tarballUrl, profile, skillsRoot }) {
+async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, tarballUrl, profile, skillsRoot, skillsSourceSha256 }) {
   dataRoot = path.resolve(dataRoot); knowledgeRoot = path.resolve(knowledgeRoot); runtimeRoot = path.resolve(runtimeRoot); output = path.resolve(output);
   if (profile !== undefined && profile !== PORTABLE_PROFILE) throw Error('Unknown portable profile.');
   if (new URL(tarballUrl).protocol !== 'https:') throw Error('An immutable HTTPS release asset URL is required.');
@@ -65,7 +65,11 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
   }
   const sourceSkills = path.resolve(skillsRoot || path.join(runtimeRoot, 'skills'));
   const namingFolder = path.join(sourceSkills, 'figma-layer-name-hygiene');
-  const runFolder = path.join(sourceSkills,'figma-layer-name-hygiene-run');
+  const central = require('node:fs').existsSync(path.join(sourceSkills,'manifest.json')) || require('node:fs').existsSync(path.join(namingFolder,'run')) || require('node:fs').existsSync(path.join(namingFolder,'manifest.json'));
+  const catalog = central ? require('../src/skills/catalog').readCatalog(sourceSkills) : null;
+  if(skillsSourceSha256!==undefined && (!/^[a-f0-9]{64}$/.test(skillsSourceSha256) || catalog && skillsSourceSha256!==catalog.sha256))throw Error('SKILL_CATALOG_INVALID');
+  skillsSourceSha256=catalog?.sha256 || skillsSourceSha256;
+  const runFolder = catalog ? path.join(namingFolder,'run') : path.join(sourceSkills,'figma-layer-name-hygiene-run');
   if(skillsRoot!==undefined && !require('node:fs').existsSync(namingFolder) && !require('node:fs').existsSync(runFolder))throw Object.assign(Error('Explicit skill source contains no supported naming profile.'),{code:'LAYER_NAMES_SKILL_UNAVAILABLE'});
   // New instructions can be published against an unchanged, accepted runtime.
   if (require('node:fs').existsSync(namingFolder)) {
@@ -85,6 +89,7 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
     }
     skill.assertCurrent();
   }
+  catalog?.assertCurrent();
   const data = JSON.parse(await fs.readFile(path.join(root, 'contracts/manifest.json'), 'utf8'));
   const files = [];
   for (const file of await knowledge.listPackageFiles(root)) {
@@ -93,6 +98,7 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
   }
   const manifest = { schemaVersion: releases.RELEASE_SCHEMA, generatedAt: new Date().toISOString(),
     dataId: data.id, knowledgeVersion: legacy.contentVersion, sourceCommits: legacy.sourceCommits,
+    ...(skillsSourceSha256 ? {skillsSourceSha256} : {}),
     ...(data.deliveryProfile ? { deliveryProfile: data.deliveryProfile, parentDataId: data.parentDataId, capabilities: data.capabilities } : {}),
     runtimeId: runtime.id, profileVersion: runtime.profileVersion, nativeSourceHash: runtime.nativeSourceHash, files };
   manifest.id = releases.idOf(manifest);
