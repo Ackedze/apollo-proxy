@@ -211,6 +211,7 @@ fi
 printf '%s\n' "${BUILD_STAMP}" > "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.bundle-build-id"
 
 echo "[6/7] Signing bundle..."
+chmod -R u+w "${APP_BUNDLE}"
 xattr -cr "${APP_BUNDLE}"
 sign_target "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 sign_target "${APP_BUNDLE}/Contents/MacOS/${APP_NAME}"
