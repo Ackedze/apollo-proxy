@@ -63,7 +63,7 @@ sign_target() {
 
 create_archive() {
   [[ ! -e "${ARCHIVE_PATH}" ]] || { echo "Archive already exists: ${ARCHIVE_PATH}" >&2; return 1; }
-  ditto -c -k --sequesterRsrc --keepParent "${APP_BUNDLE}" "${ARCHIVE_PATH}"
+  ditto -c -k --norsrc --noextattr --keepParent "${APP_BUNDLE}" "${ARCHIVE_PATH}"
 }
 
 assess_gatekeeper() {
