@@ -6,7 +6,9 @@ const {CLI_PROVIDER, CLI_AGENT_BIN, AGENT_MODEL, CODEX_IDLE_TIMEOUT_MS, CODEX_MA
 
 
 async function runCodexProcess(args, prompt, outputPath, onProgress, analysisStage = 'analyzing_layout', telemetryContext = {}, outputFormat = 'json') {
-  const tracked = require('../token-journal').trackCall({ provider: CLI_PROVIDER, model: AGENT_MODEL || null });
+  const resumeIndex = args.indexOf('resume');
+  const tracked = require('../token-journal').trackCall({ provider: CLI_PROVIDER, model: AGENT_MODEL || null,
+    cumulativeUsage: CLI_PROVIDER === 'codex', resumeSessionId: resumeIndex < 0 ? null : args[resumeIndex + 1] || 'unknown' });
   let failure;
   try {
     return await executeCodexProcess(args, prompt, outputPath, onProgress, analysisStage, { ...telemetryContext,

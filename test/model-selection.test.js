@@ -20,7 +20,7 @@ const fs=require('fs');let prompt='';process.stdin.on('data',v=>prompt+=v);proce
  if(prompt.includes('UNAVAILABLE')){process.stderr.write('The requested model does not exist');process.exitCode=1;return;}
  const structured=a.includes('--output-schema')||a.includes('--json-schema');
  const result=prompt.includes('OVERVIEW=')?{action:'finish',nodeIds:[],changes:[]}:structured?{summary:'fixture'}:'Fixture response';
- if(a.includes('--output-last-message')){fs.writeFileSync(a[a.indexOf('--output-last-message')+1],structured?JSON.stringify(result):result);console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:17,output_tokens:5,cached_input_tokens:10}}));}
+ if(a.includes('--output-last-message')){fs.writeFileSync(a[a.indexOf('--output-last-message')+1],structured?JSON.stringify(result):result);console.log(JSON.stringify({type:'thread.started',thread_id:require('crypto').randomUUID()}));console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:17,output_tokens:5,cached_input_tokens:10}}));}
  else console.log(JSON.stringify({type:'result',is_error:false,usage:{input_tokens:7,cache_read_input_tokens:10,cache_creation_input_tokens:0,output_tokens:5},...(structured?{structured_output:result}:{result})}));
 });`);fs.chmodSync(binary,0o700);
   const expected=mode==='default'?null:provider+'-model-choice@latest';
@@ -55,3 +55,25 @@ try{
   assert.match(execFileSync(process.execPath,['-e',script],{cwd:root,env,encoding:'utf8',timeout:18000}),/model routing PASS/);
  });
 }
+test('real process wrapper accounts resumed cumulative usage without changing CLI arguments', {timeout:20000}, async t=>{
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'token-process-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const binary=path.join(root,'cli'),output=path.join(root,'result.json'),journalRoot=path.join(root,'journal');
+ fs.writeFileSync(binary,'#!'+process.execPath+'\n'+`
+const fs=require('fs');let prompt='';process.stdin.on('data',v=>prompt+=v);process.stdin.on('end',()=>{
+ const args=process.argv.slice(2),i=Number(prompt),id='01a1654b-fc1e-7092-918e-ee798befe820';
+ const counters=[[19869,691,10752],[46573,942,30464],[77992,1042,56960]][i];
+ if((i===0&&args.includes('resume'))||(i>0&&args[args.indexOf('resume')+1]!==id))throw Error('Session flow changed');
+ fs.writeFileSync(${JSON.stringify(output)},'{"ok":true}');console.log(JSON.stringify({type:'thread.started',thread_id:id}));
+ console.log(JSON.stringify({type:'turn.started'}));console.log(JSON.stringify({type:'turn.completed',usage:{input_tokens:counters[0],output_tokens:counters[1],cached_input_tokens:counters[2]}}));
+});`);fs.chmodSync(binary,0o700);
+ const script=`
+const assert=require('node:assert/strict'),api=require(${JSON.stringify(path.resolve(__dirname,'../src/token-journal'))});
+const journal=api.createTokenJournal(${JSON.stringify(journalRoot)});api.configure(journal);
+const {runCodexProcess}=require(${JSON.stringify(path.resolve(__dirname,'../src/reports/process'))});
+(async()=>{for(let i=0;i<3;i++){
+ const args=i?['exec','resume','01a1654b-fc1e-7092-918e-ee798befe820','--json','-']:['exec','--json','-'];
+ assert.deepEqual(await runCodexProcess(args,String(i),${JSON.stringify(output)},null,'analyzing_layout',{workingDirectory:${JSON.stringify(root)}}),{ok:true});
+}assert.deepEqual(journal.read().records.map(r=>r.totalTokens).sort((a,b)=>a-b),[20560,26955,31519]);console.log('session accounting PASS');})().catch(e=>{console.error(e);process.exitCode=1;});`;
+ const env={...process.env,APOLLO_CLI_PROVIDER:'codex',CODEX_BIN:binary,CODEX_MODEL:'fixture',CODEX_WORKSPACE:root};
+ assert.match(execFileSync(process.execPath,['-e',script],{cwd:root,env,encoding:'utf8',timeout:18000}),/session accounting PASS/);
+});

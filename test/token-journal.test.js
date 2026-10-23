@@ -3,6 +3,13 @@ const fs = require('node:fs'), os = require('node:os'), path = require('node:pat
 const { createTokenJournal, configure, wrapAgentService, mountJournalRoutes } = require('../src/token-journal');
 const { claudeUsage } = require('../src/cli-agent');
 const turn = (input = 100, output = 20, cached = 90) => ({ type: 'turn.completed', usage: { input_tokens: input, output_tokens: output, cached_input_tokens: cached } });
+const sessionA = '01a1654b-fc1e-7092-918e-ee798befe820', sessionB = '01a1656f-2d23-72b0-b251-3af6871fe8ed';
+function sessionCall(journal, operation, id = sessionA, resume = false) {
+  const call = journal.call({ provider: 'codex', operation, cumulativeUsage: true, resumeSessionId: resume ? id : null });
+  call.event({ type: 'thread.started', thread_id: id });
+  call.event({ type: 'turn.started' });
+  return call;
+}
 function setup(t) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-tokens-'))), errors = [];
   t.after(() => { configure(null); fs.rmSync(root, { recursive: true, force: true }); });
@@ -85,4 +92,67 @@ test('local check records accept only fixed zero-token telemetry; retries are id
   const response = await (await fetch(base + '/usage')).json();
   assert.equal(response.records.length, 1); assert.equal(response.records[0].totalTokens, 0);
   assert.equal(response.records[0].durationMs, 2345); assert.equal(response.records[0].timeSource, 'plugin');
+});
+test('resumed CLI counters become exact per-call deltas, including cached and reasoning subsets', t => {
+  const { journal } = setup(t);
+  const raw = [[19869,691,10752,212],[46573,942,30464,301],[77992,1042,56960,301]];
+  for (let i = 0; i < raw.length; i++) {
+    const call = sessionCall(journal, 'batch-' + i, sessionA, i > 0), [input,output,cached,reasoning] = raw[i];
+    call.event({ ...turn(input,output,cached), usage: { ...turn(input,output,cached).usage, reasoning_output_tokens: reasoning } });
+    call.end(); call.end(); call.event(turn(999999,999999,0));
+  }
+  const rows = [0,1,2].map(i => journal.read().records.find(r => r.operation === 'batch-' + i));
+  assert.deepEqual(rows.map(r => r.totalTokens), [20560,26955,31519]);
+  assert.deepEqual(rows.map(r => r.inputTokens), [19869,26704,31419]);
+  assert.deepEqual(rows.map(r => r.outputTokens), [691,251,100]);
+  assert.deepEqual(rows.map(r => r.cachedInputTokens), [10752,19712,26496]);
+  assert.deepEqual(rows.map(r => r.reasoningOutputTokens), [212,89,0]);
+  assert.equal(rows.reduce((n,r) => n + r.totalTokens,0),79034);
+  assert(rows.every(r => r.calls === 1));
+});
+test('session checkpoints stay separate and cumulative iterations and event replays count once', t => {
+  const { journal } = setup(t);
+  const a = sessionCall(journal,'A'), b = sessionCall(journal,'B',sessionB);
+  a.event(turn(100,20,50)); b.event(turn(10,2,5));
+  a.event({ type:'turn.started' }); a.event(turn(150,30,60)); a.event(turn(150,30,60));
+  a.end(); b.end();
+  const a2 = sessionCall(journal,'A2',sessionA,true); a2.event(turn(200,40,80)); a2.end();
+  const b2 = sessionCall(journal,'B2',sessionB,true); b2.event(turn(20,4,10)); b2.end();
+  const totals = Object.fromEntries(journal.read().records.map(r => [r.operation,r.totalTokens]));
+  assert.deepEqual(totals,{ A:180,B:12,A2:60,B2:12 });
+});
+test('failed and cancelled usage gaps remain unknown and are not charged to the next batch', t => {
+  const { journal } = setup(t);
+  const first = sessionCall(journal,'first'); first.event(turn(100,20,50)); first.end();
+  const failed = sessionCall(journal,'failed',sessionA,true); failed.event(turn(110,23,55));
+  failed.event({ type:'turn.started' }); failed.event({ type:'turn.failed' }); failed.end(Error('cancelled'));
+  const retry = sessionCall(journal,'retry',sessionA,true); retry.event(turn(200,40,80)); retry.end();
+  const recovered = sessionCall(journal,'recovered',sessionA,true); recovered.event(turn(250,50,100)); recovered.end();
+  const cancelled = sessionCall(journal,'cancelled',sessionA,true); cancelled.end(Error('cancelled'));
+  const rows = Object.fromEntries(journal.read().records.map(r => [r.operation,r]));
+  assert.equal(rows.failed.totalTokens,null); assert.equal(rows.failed.inputTokens + rows.failed.outputTokens,13);
+  assert.equal(rows.retry.totalTokens,null); assert.equal(rows.recovered.totalTokens,60);
+  assert.equal(rows.cancelled.totalTokens,null); assert.equal(rows.cancelled.cachedInputTokens,null);
+});
+test('counter resets, identity mismatches and missing fields never invent zero usage', t => {
+  const { journal } = setup(t);
+  const first = sessionCall(journal,'first'); first.event(turn(100,20,50)); first.end();
+  const reset = sessionCall(journal,'reset',sessionA,true); reset.event(turn(10,2,5)); reset.end();
+  const afterReset = sessionCall(journal,'after-reset',sessionA,true); afterReset.event(turn(30,6,10)); afterReset.end();
+  const missing = sessionCall(journal,'missing',sessionA,true); missing.event({ type:'turn.completed',usage:{ input_tokens:40,output_tokens:8 } }); missing.end();
+  const mismatch = sessionCall(journal,'mismatch',sessionA,true); mismatch.event({ type:'thread.started',thread_id:sessionB }); mismatch.event(turn(1000,200,500)); mismatch.end();
+  const noIdentity = journal.call({ provider:'codex',operation:'no-identity',cumulativeUsage:true }); noIdentity.event(turn()); noIdentity.end();
+  const rows = Object.fromEntries(journal.read().records.map(r => [r.operation,r]));
+  assert.equal(rows.reset.totalTokens,null); assert.equal(rows['after-reset'].totalTokens,24);
+  assert.equal(rows.missing.totalTokens,12); assert.equal(rows.missing.cachedInputTokens,null); assert.equal(rows.missing.reasoningOutputTokens,null);
+  assert.equal(rows.mismatch.totalTokens,null); assert.equal(rows['no-identity'].totalTokens,null);
+});
+test('a restart does not guess a resumed baseline or rewrite completed history', t => {
+  const { journal } = setup(t);
+  const first = sessionCall(journal,'historical'); first.event(turn()); first.end();
+  const historical = journal.read().records[0], file = path.join(journal.root,historical.id + '.json'), bytes = fs.readFileSync(file);
+  const restored = createTokenJournal(journal.root);
+  const resumed = sessionCall(restored,'after-restart',sessionA,true); resumed.event(turn(150,30,100)); resumed.end();
+  assert.equal(restored.read().records.find(r => r.operation === 'after-restart').totalTokens,null);
+  assert.deepEqual(fs.readFileSync(file),bytes);
 });
