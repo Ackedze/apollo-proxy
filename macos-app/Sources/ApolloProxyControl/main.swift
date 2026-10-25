@@ -66,8 +66,7 @@ final class ProxyManager: NSObject {
     private let authorizeAgentItem = NSMenuItem(title: "Войти в Codex…", action: #selector(authorizeAgentAction), keyEquivalent: "")
     private let aboutItem = NSMenuItem(title: "О прокси…", action: #selector(showProxyDetailsAction), keyEquivalent: ",")
     private let tokensItem = NSMenuItem(title: "Токенцы…", action: #selector(showTokenJournalAction), keyEquivalent: "")
-    private let checkKnowledgeItem = NSMenuItem(title: "Проверить обновления знаний", action: #selector(checkKnowledgeAction), keyEquivalent: "")
-    private let codeUpdateItem = NSMenuItem(title: "Обновление кода прокси…", action: #selector(showCodeUpdatesAction), keyEquivalent: "")
+    private let checkUpdatesItem = NSMenuItem(title: "Проверить обновление", action: #selector(checkUpdatesAction), keyEquivalent: "")
     private let quitItem = NSMenuItem(title: "Завершить", action: #selector(quitAction), keyEquivalent: "q")
 
     private var process: Process?
@@ -113,6 +112,9 @@ final class ProxyManager: NSObject {
     private var pendingProxyStartAfterAuthorization = false
     private var knowledgeRuntime: KnowledgeCommandStatus?
     private var knowledgeCommandRunning = false
+    private let updateCheck = ProxyUpdateCheck()
+    private var codeReleaseStatus: CodeReleaseStatus?
+    private var codeCheckError: String?
     private var codeCommandProcess: Process?
     private var codeCommandRunning = false
     private var codeRestartPending = false
@@ -144,7 +146,7 @@ final class ProxyManager: NSObject {
         } catch {
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
-        checkForKnowledgeUpdate()
+        checkForUpdates()
         checkAgentAuthorization(startProxyWhenReady: autoStartProxy)
     }
 
@@ -159,10 +161,8 @@ final class ProxyManager: NSObject {
         menu.addItem(authorizeAgentItem)
         updateKnowledgeItem.target = self
         menu.addItem(updateKnowledgeItem)
-        checkKnowledgeItem.target = self
-        menu.addItem(checkKnowledgeItem)
-        codeUpdateItem.target = self
-        menu.addItem(codeUpdateItem)
+        checkUpdatesItem.target = self
+        menu.addItem(checkUpdatesItem)
         menu.addItem(.separator())
         aboutItem.target = self
         menu.addItem(aboutItem)
@@ -207,11 +207,27 @@ final class ProxyManager: NSObject {
         if isExternalProxyRunning { snapshot.knowledgeStatus = "Пакет отдельного запуска. Обновление выполняется вне миниаппа." }
         if case .updateAvailable = knowledgeUpdateStatus { snapshot.canUpdate = !knowledgeCommandRunning && !isExternalProxyRunning }
         snapshot.canRollback = !knowledgeCommandRunning && knowledgeRuntime?.previous != nil && !isExternalProxyRunning
-        snapshot.canCheckKnowledge = !knowledgeCommandRunning && !isExternalProxyRunning
+        snapshot.canCheckUpdates = !knowledgeCommandRunning && !isExternalProxyRunning
         snapshot.canUpdate = snapshot.canUpdate && !codeCommandRunning && !codeRestartPending
         snapshot.canRollback = snapshot.canRollback && !codeCommandRunning && !codeRestartPending
-        snapshot.canCheckKnowledge = snapshot.canCheckKnowledge && !codeCommandRunning && !codeRestartPending
-        snapshot.canChangeAgent = agentAuthProcess == nil && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && !codeCommandRunning && !codeRestartPending && status != .starting && !isExternalProxyRunning
+        snapshot.canCheckUpdates = snapshot.canCheckUpdates && !codeCommandRunning && !codeRestartPending
+            && !updateCheck.isRunning && !pendingKnowledgeRestart && status != .starting && agentAuthProcess == nil && !codexInstaller.isRunning
+        snapshot.checkingUpdates = updateCheck.isRunning
+        snapshot.codeStatus = codeCheckError ?? codeReleaseStatus.map { CodeReleasePresentation(status: $0).summary }
+            ?? "Проверка ещё не выполнена"
+        if updateCheck.isRunning {
+            snapshot.codeStatus = "Проверяем обновления…"
+            snapshot.knowledgeStatus = "Проверяем обновления…"
+        } else if codeCommandRunning { snapshot.codeStatus = "Обновляем код прокси…" }
+        let canManageUpdates = snapshot.canCheckUpdates && !proxyHasActiveWork && !pendingKnowledgeRestart
+        if let value = codeReleaseStatus, codeCheckError == nil {
+            let actions = CodeReleasePresentation(status: value).actions
+            snapshot.canUpdateCode = canManageUpdates && actions.contains(.update)
+            snapshot.canRollbackCode = canManageUpdates && actions.contains(.rollback)
+        }
+        snapshot.canUpdate = snapshot.canUpdate && canManageUpdates
+        snapshot.canRollback = snapshot.canRollback && canManageUpdates
+        snapshot.canChangeAgent = agentAuthProcess == nil && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && !codeCommandRunning && !updateCheck.isRunning && !codeRestartPending && status != .starting && !isExternalProxyRunning
         if case .authorized = agentAuthStatus { snapshot.canRefreshModels = snapshot.canChangeAgent }
         snapshot.cliMissing = agentAuthStatus == .binaryMissing
         let canInstall = provider.canInstall(configured: readEnvMap()?[provider.binaryKey] ?? "")
@@ -247,9 +263,8 @@ final class ProxyManager: NSObject {
         updateKnowledgeItem.isEnabled = snapshot.canUpdate
         updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
         updateKnowledgeItem.title = knowledgeCommandRunning ? snapshot.knowledgeStatus : "Обновить знания"
-        checkKnowledgeItem.isEnabled = snapshot.canCheckKnowledge
-        codeUpdateItem.title = codeCommandRunning ? "Проверяем код прокси…" : "Обновление кода прокси…"
-        codeUpdateItem.isEnabled = !codeCommandRunning && !codeRestartPending && !knowledgeCommandRunning && agentAuthProcess == nil && !codexInstaller.isRunning && !isExternalProxyRunning && status != .starting
+        checkUpdatesItem.isEnabled = snapshot.canCheckUpdates
+        checkUpdatesItem.title = updateCheck.isRunning ? "Проверяем обновления…" : "Проверить обновление"
         switch status {
         case .stopped:
             setStatusItemTitle("AP:Off")
@@ -273,7 +288,7 @@ final class ProxyManager: NSObject {
             startItem.isEnabled = true
         }
         // The menu stays compact even when a diagnostic contains a long path.
-        if codeCommandRunning { startItem.isEnabled = false }
+        if codeCommandRunning || updateCheck.isRunning { startItem.isEnabled = false }
         if case .error = status { statusLineItem.title = "Ошибка прокси · подробнее в «О прокси»" }
         else { statusLineItem.title = snapshot.status }
         detailsController?.update(snapshot)
@@ -298,6 +313,22 @@ final class ProxyManager: NSObject {
         if isExternalProxyRunning {
             statusIndicator.apply(to: button, mode: healthSnapshot?.knowledgeReady == false ? .error : .active,
                                   description: healthSnapshot?.knowledgeReady == false ? "Ошибка знаний работающего Proxy." : "Proxy работает. Отдельный запуск.")
+            return
+        }
+        if updateCheck.isRunning || codeCommandRunning {
+            statusIndicator.apply(to: button, mode: .busy, description: "Проверка или установка обновления прокси.")
+            return
+        }
+        if codeCheckError != nil || codeReleaseStatus?.checkError != nil {
+            statusIndicator.apply(to: button, mode: .error, description: "Ошибка проверки кода прокси. Подробности в «О прокси».")
+            return
+        }
+        if case .failed = knowledgeUpdateStatus {
+            statusIndicator.apply(to: button, mode: .error, description: "Ошибка обновления знаний. Подробности в «О прокси».")
+            return
+        }
+        if codeReleaseStatus?.updateAvailable == true, codeReleaseStatus?.pending == nil {
+            statusIndicator.apply(to: button, mode: .updateAvailable, description: "Доступно обновление кода прокси. Откройте «О прокси».")
             return
         }
         switch knowledgeUpdateStatus {
@@ -357,7 +388,7 @@ final class ProxyManager: NSObject {
         knowledgeTimer?.invalidate()
         knowledgeTimer = Timer.scheduledTimer(withTimeInterval: 2 * 60 * 60, repeats: true) { [weak self] _ in
             Task { @MainActor in
-                self?.checkForKnowledgeUpdate()
+                self?.checkForUpdates()
             }
         }
     }
@@ -476,10 +507,29 @@ final class ProxyManager: NSObject {
         return runner
     }
 
-    private func checkForKnowledgeUpdate() {
-        guard !knowledgeCommandRunning, !codeCommandRunning, !codeRestartPending, !isExternalProxyRunning else { return }
+    private func checkForUpdates() {
+        guard !knowledgeCommandRunning, !codeCommandRunning, !codeRestartPending,
+              !pendingKnowledgeRestart, !isExternalProxyRunning else { return }
+        updateCheck.run(code: { done in
+            self.codeCheckError = nil
+            self.runCodeCommand("check", onFailure: { error in
+                self.codeCheckError = error.localizedDescription
+                done()
+            }) { _ in done() }
+        }, knowledge: { done in
+            self.checkForKnowledgeUpdate(completion: done)
+        }, completion: {
+            self.refreshUI()
+            if self.startRequest.pending { self.startProxyAction() }
+        })
+        refreshUI()
+    }
+
+    private func checkForKnowledgeUpdate(completion: @escaping @MainActor () -> Void) {
+        guard !knowledgeCommandRunning, !codeCommandRunning, !codeRestartPending, !isExternalProxyRunning else { completion(); return }
         guard configuredKnowledgeDescriptorURL() != nil else {
             knowledgeUpdateStatus = .idle
+            completion()
             return
         }
         knowledgeCommandRunning = true
@@ -488,7 +538,7 @@ final class ProxyManager: NSObject {
             let task = try knowledgeCommandRunner().run("check", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
                     guard let self else { return }
-                    defer { self.finishKnowledgeCommand("check") }
+                    defer { self.finishKnowledgeCommand("check"); completion() }
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
@@ -504,7 +554,7 @@ final class ProxyManager: NSObject {
             }
             appendLog("=== \(Date()) Knowledge check started (pid \(task.processIdentifier)) ===\n")
         } catch {
-            defer { finishKnowledgeCommand("check") }
+            defer { finishKnowledgeCommand("check"); completion() }
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
     }
@@ -512,7 +562,7 @@ final class ProxyManager: NSObject {
     private func finishKnowledgeCommand(_ command: String) {
         knowledgeCommandRunning = false
         appendLog("=== \(Date()) Knowledge \(command) finished ===\n")
-        if startRequest.pending { startProxyAction() }
+        if startRequest.pending && !updateCheck.isRunning { startProxyAction() }
         else { refreshUI() }
     }
 
@@ -524,7 +574,8 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func updateKnowledgeAction() {
-        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
+        guard !knowledgeCommandRunning, !codeCommandRunning, !updateCheck.isRunning, !codeRestartPending,
+              !pendingKnowledgeRestart, !proxyHasActiveWork, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .downloading
         do {
@@ -558,7 +609,8 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func rollbackKnowledgeAction() {
-        guard !knowledgeCommandRunning, !isExternalProxyRunning else { return }
+        guard !knowledgeCommandRunning, !codeCommandRunning, !updateCheck.isRunning, !codeRestartPending,
+              !pendingKnowledgeRestart, !proxyHasActiveWork, !isExternalProxyRunning else { return }
         knowledgeCommandRunning = true
         knowledgeUpdateStatus = .validating
         do {
@@ -1204,7 +1256,7 @@ final class ProxyManager: NSObject {
     @objc private func startProxyAction() {
         guard !isQuitting, process == nil else { return }
         let alreadyPending = startRequest.pending
-        let token = startRequest.request(knowledgeRunning: knowledgeCommandRunning || codeCommandRunning)
+        let token = startRequest.request(knowledgeRunning: knowledgeCommandRunning || codeCommandRunning || updateCheck.isRunning)
         status = .starting
         if knowledgeCommandRunning && !alreadyPending {
             appendLog("=== \(Date()) Proxy start queued until own knowledge operation finishes ===\n")
@@ -1212,7 +1264,7 @@ final class ProxyManager: NSObject {
         guard let token else { return }
         checkHealth { [weak self] running in
             guard let self else { return }
-            guard self.startRequest.checked(token, running: running, knowledgeRunning: self.knowledgeCommandRunning || self.codeCommandRunning),
+            guard self.startRequest.checked(token, running: running, knowledgeRunning: self.knowledgeCommandRunning || self.codeCommandRunning || self.updateCheck.isRunning),
                   !self.isQuitting, self.process == nil else { return }
             self.launchManagedProxy()
         }
@@ -1369,8 +1421,11 @@ final class ProxyManager: NSObject {
         stopManagedProxy()
     }
 
-    private func runCodeCommand(_ command: String, completion: @escaping @MainActor (CodeReleaseStatus) -> Void) {
-        guard !codeCommandRunning, !knowledgeCommandRunning, let node = resolveNodeExecutableURL() else { return }
+    private func runCodeCommand(_ command: String, onFailure: (@MainActor (Error) -> Void)? = nil, completion: @escaping @MainActor (CodeReleaseStatus) -> Void) {
+        guard !codeCommandRunning, !knowledgeCommandRunning, let node = resolveNodeExecutableURL() else {
+            onFailure?(KnowledgeCommandError.failed("Не удалось запустить проверку кода. Повторите позже."))
+            return
+        }
         codeCommandRunning = true
         refreshUI()
         var environment = ProcessInfo.processInfo.environment
@@ -1382,45 +1437,48 @@ final class ProxyManager: NSObject {
                     self.codeCommandProcess = nil; self.codeCommandRunning = false
                     self.refreshUI()
                     switch result {
-                    case .success(let value): completion(value)
-                    case .failure(let error): self.codeRestartPending = false; self.showError("Не удалось обновить код прокси", error.localizedDescription)
+                    case .success(let value):
+                        self.codeReleaseStatus = value
+                        self.codeCheckError = nil
+                        completion(value)
+                    case .failure(let error):
+                        self.codeRestartPending = false
+                        if let onFailure { onFailure(error) }
+                        else { self.showError("Не удалось обновить код прокси", error.localizedDescription) }
                     }
-                    if self.startRequest.pending { self.startProxyAction() }
+                    self.refreshUI()
+                    if self.startRequest.pending && !self.updateCheck.isRunning { self.startProxyAction() }
                 }
             }
         } catch {
             codeCommandRunning = false
             refreshUI()
-            showError("Не удалось обновить код прокси", error.localizedDescription)
+            if let onFailure { onFailure(error) }
+            else { showError("Не удалось обновить код прокси", error.localizedDescription) }
         }
     }
 
-    @objc private func showCodeUpdatesAction() {
-        guard !isExternalProxyRunning, status != .starting, agentAuthProcess == nil, !codexInstaller.isRunning else { return }
-        runCodeCommand("check") { value in
-            let presentation = CodeReleasePresentation(status: value), alert = NSAlert()
-            alert.messageText = presentation.title; alert.informativeText = presentation.message
-            for action in presentation.actions {
-                switch action {
-                case .update: alert.addButton(withTitle: "Обновить")
-                case .rollback: alert.addButton(withTitle: "Откатить")
-                case .dismiss: alert.addButton(withTitle: "Закрыть")
-                }
-            }
-            NSApp.activate(ignoringOtherApps: true)
-            let index = alert.runModal().rawValue - NSApplication.ModalResponse.alertFirstButtonReturn.rawValue
-            guard presentation.actions.indices.contains(index) else { return }
-            let action = presentation.actions[index]
-            guard action != .dismiss else { return }
-            guard !self.proxyHasActiveWork else {
-                self.showError("Прокси занят", codeReleaseMessage("CODE_PROXY_BUSY")); return
-            }
-            self.runCodeCommand(action == .update ? "update" : "rollback") { result in
-                guard result.restartRequired == true else { return }
-                self.codeRestartPending = true; self.expectedCodeReleaseID = result.pending?.id
-                if self.process != nil { self.stopManagedProxy(restart: true) }
-                else { self.startProxyAction() }
-            }
+    private func applyCodeUpdate(_ command: String) {
+        guard !isExternalProxyRunning, status != .starting, agentAuthProcess == nil, !codexInstaller.isRunning,
+              !updateCheck.isRunning, !codeCommandRunning, !knowledgeCommandRunning,
+              !codeRestartPending, !pendingKnowledgeRestart, let value = codeReleaseStatus else { return }
+        let action: CodeReleaseAction = command == "rollback" ? .rollback : .update
+        guard CodeReleasePresentation(status: value).actions.contains(action), codeCheckError == nil else { return }
+        guard !proxyHasActiveWork else {
+            showError("Прокси занят", codeReleaseMessage("CODE_PROXY_BUSY")); return
+        }
+        if action == .rollback {
+            let alert = NSAlert()
+            alert.messageText = "Откатить код прокси?"
+            alert.informativeText = "Прокси вернётся к версии \(value.previous?.label ?? ""). Настройки, история и знания сохранятся."
+            alert.addButton(withTitle: "Откатить"); alert.addButton(withTitle: "Отмена")
+            guard alert.runModal() == .alertFirstButtonReturn else { return }
+        }
+        runCodeCommand(command) { result in
+            guard result.restartRequired == true else { return }
+            self.codeRestartPending = true; self.expectedCodeReleaseID = result.pending?.id
+            if self.process != nil { self.stopManagedProxy(restart: true) }
+            else { self.startProxyAction() }
         }
     }
 
@@ -1451,7 +1509,10 @@ final class ProxyManager: NSObject {
         if process != nil || status == .starting { stopProxyAction() } else { startProxyAction() }
     }
 
-    @objc private func checkKnowledgeAction() { checkForKnowledgeUpdate() }
+    @objc private func checkUpdatesAction() {
+        showProxyDetailsAction()
+        checkForUpdates()
+    }
 
     @objc func showTokenJournalAction() {
         if tokenJournalController == nil {
@@ -1471,7 +1532,9 @@ final class ProxyManager: NSObject {
                 case .login: self.authorizeAgentAction()
                 case .checkAccess: self.checkAgentAccessAction()
                 case .installCLI: NSWorkspace.shared.open(self.selectedProvider.installationURL)
-                case .checkKnowledge: self.checkForKnowledgeUpdate()
+                case .checkUpdates: self.checkForUpdates()
+                case .updateCode: self.applyCodeUpdate("update")
+                case .rollbackCode: self.applyCodeUpdate("rollback")
                 case .updateKnowledge: self.updateKnowledgeAction()
                 case .rollbackKnowledge: self.rollbackKnowledgeAction()
                 case .editURL: self.editApolloURLAction()

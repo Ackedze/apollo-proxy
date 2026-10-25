@@ -23,7 +23,11 @@ struct ProxyDetailsSnapshot {
     var sourceCommits = ""
     var canUpdate = false
     var canRollback = false
-    var canCheckKnowledge = true
+    var canCheckUpdates = true
+    var checkingUpdates = false
+    var codeStatus = "Проверка ещё не выполнена"
+    var canUpdateCode = false
+    var canRollbackCode = false
     var apolloURL = ""
 }
 
@@ -32,7 +36,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private final class DocumentView: NSView {
         override var isFlipped: Bool { true }
     }
-    enum Action: Hashable { case login, checkAccess, installCLI, checkKnowledge, updateKnowledge, rollbackKnowledge,
+    enum Action: Hashable { case login, checkAccess, installCLI, checkUpdates, updateCode, rollbackCode, updateKnowledge, rollbackKnowledge,
                       editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
@@ -51,6 +55,8 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
     private let knowledgePicker = NSPopUpButton(frame: .zero, pullsDown: false)
+    private let updateProgress = NSProgressIndicator()
+    private let codeLabel = NSTextField(wrappingLabelWithString: "")
     private let knowledgeLabel = NSTextField(wrappingLabelWithString: "")
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
     private let sourceCommits = NSTextField(wrappingLabelWithString: "")
@@ -114,12 +120,17 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.checkAccess]?.isEnabled = state.canCheckAccess
         buttons[.installCLI]?.isHidden = !state.cliMissing || state.provider == .codex
         knowledgePicker.selectItem(withTitle: state.knowledgeSource)
-        knowledgePicker.isEnabled = state.canCheckKnowledge && state.canChangeAgent
-        knowledgeLabel.stringValue = state.knowledgeStatus
+        knowledgePicker.isEnabled = state.canCheckUpdates && state.canChangeAgent
+        codeLabel.stringValue = "Код прокси: \(state.codeStatus)"
+        knowledgeLabel.stringValue = "Знания: \(state.knowledgeStatus)"
+        if state.checkingUpdates { updateProgress.startAnimation(nil) }
+        else { updateProgress.stopAnimation(nil) }
         knowledgeVersion.stringValue = "Версия: \(state.knowledgeVersion)"
         sourceCommits.stringValue = state.sourceCommits
         sourceCommits.isHidden = state.sourceCommits.isEmpty
-        buttons[.checkKnowledge]?.isEnabled = state.canCheckKnowledge
+        buttons[.checkUpdates]?.isEnabled = state.canCheckUpdates
+        buttons[.updateCode]?.isEnabled = state.canUpdateCode
+        buttons[.rollbackCode]?.isEnabled = state.canRollbackCode
         buttons[.updateKnowledge]?.isEnabled = state.canUpdate
         buttons[.rollbackKnowledge]?.isEnabled = state.canRollback
         urlField.stringValue = state.apolloURL
@@ -222,8 +233,17 @@ final class ProxyDetailsWindowController: NSWindowController {
         knowledgeVersion.lineBreakMode = .byCharWrapping
         style(sourceCommits, secondary: true, selectable: true)
         sourceCommits.lineBreakMode = .byCharWrapping
-        section([heading("Знания"), knowledgePicker, knowledgeLabel, knowledgeVersion, sourceCommits,
-                 row([button("Проверить обновления", .checkKnowledge), button("Обновить", .updateKnowledge), button("Откатить", .rollbackKnowledge)])])
+        section([heading("Знания"), knowledgePicker, knowledgeVersion, sourceCommits])
+        style(codeLabel)
+        updateProgress.style = .spinning
+        updateProgress.controlSize = .small
+        updateProgress.isDisplayedWhenStopped = false
+        updateProgress.setAccessibilityLabel("Проверяем обновления кода и знаний")
+        let updateHelp = NSTextField(wrappingLabelWithString: "Проверка кода и знаний. Установка — по нажатию «Обновить код» или «Обновить знания».")
+        style(updateHelp, secondary: true)
+        section([heading("Обновления"), row([button("Проверить обновление", .checkUpdates), updateProgress]), updateHelp,
+                 codeLabel, row([button("Обновить код", .updateCode), button("Откатить код…", .rollbackCode)]),
+                 knowledgeLabel, row([button("Обновить знания", .updateKnowledge), button("Откатить знания", .rollbackKnowledge)])])
         section([heading("Диагностика"), row([button("Конфигурация…", .openConfiguration), button("Журнал…", .openLogs), button("Папка прокси…", .openFolder)])])
     }
 

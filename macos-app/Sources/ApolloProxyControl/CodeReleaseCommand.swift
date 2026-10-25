@@ -20,6 +20,14 @@ enum CodeReleaseAction { case update, rollback, dismiss }
 struct CodeReleasePresentation {
     let status: CodeReleaseStatus
     var title: String { status.pending != nil ? "Обновление подготовлено" : status.updateAvailable == true ? "Доступно обновление прокси" : "Обновление кода прокси" }
+    var summary: String {
+        if let pending = status.pending { return "Версия \(pending.label) подготовлена. Запустите прокси для завершения." }
+        if let error = status.checkError { return codeReleaseMessage(error) }
+        if status.updateAvailable == true, let available = status.available {
+            return "Доступна версия \(available.label) (установлена \(status.current.label))."
+        }
+        return "Установлена актуальная версия \(status.current.label)."
+    }
     var message: String {
         var text = "Текущая версия кода: \(status.current.label)."
         if let pending = status.pending { text += "\nВерсия \(pending.label) подготовлена. Запустите прокси, чтобы завершить обновление." }
