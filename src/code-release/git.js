@@ -16,12 +16,15 @@ async function check(profile,{token,request=fetch}={}) {
   const commit=advertisedCommit(refs,source.ref);
   const index=JSON.parse((await bytes(contentUrl(source,commit,source.file),512*1024,token,request)).toString());
   if(index?.schemaVersion!=='apollo.git-code-index.v1')throw Error('CODE_INDEX_INVALID');
-  validateManifest(index.manifest,profile);
-  if(!index.manifest.sourceCommit)throw Error('CODE_COMMIT_REQUIRED');
-  const a=index.archive;
-  if(!a || a.path!=='code-packages/releases/'+index.manifest.id+'.tgz' || !/^[a-f0-9]{64}$/.test(a.sha256 || '')
+  if(index.alternatives!==undefined && (!Array.isArray(index.alternatives) || index.alternatives.length>8))throw Error('CODE_INDEX_INVALID');
+  const selected=[index,...(index.alternatives || [])].find(candidate=>
+    JSON.stringify(candidate?.manifest?.compatibility)===JSON.stringify(profile)) || index;
+  validateManifest(selected.manifest,profile);
+  if(!selected.manifest.sourceCommit)throw Error('CODE_COMMIT_REQUIRED');
+  const a=selected.archive;
+  if(!a || a.path!=='code-packages/releases/'+selected.manifest.id+'.tgz' || !/^[a-f0-9]{64}$/.test(a.sha256 || '')
     || !Number.isSafeInteger(a.bytes) || a.bytes<1 || a.bytes>16*1024*1024)throw Error('CODE_INDEX_INVALID');
-  return {sourceCommit:commit,manifest:index.manifest,archive:a,url:contentUrl(source,commit,a.path)};
+  return {sourceCommit:commit,manifest:selected.manifest,archive:a,url:contentUrl(source,commit,a.path)};
 }
 async function download(selected,options={}) {
   const data=await bytes(selected.url,selected.archive.bytes,options.token,options.request);

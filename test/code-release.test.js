@@ -193,7 +193,13 @@ test('stored code corruption recovers the verified previous version without chan
 });
 test('CLI update joins commit-pinned download with idle admission; local rollback works without Git',async t=>{
   const f=await fixture(t),r=await release(f),data=await fs.readFile(r.archive),commit='f'.repeat(40),key='e'.repeat(64);
-  const index={schemaVersion:'apollo.git-code-index.v1',manifest:r.manifest,archive:{path:'code-packages/releases/'+r.manifest.id+'.tgz',bytes:data.length,sha256:api.sha(data)}};
+  const lock=await fs.readFile(path.join(f.home,'node_modules/.package-lock.json'));
+  await fs.writeFile(path.join(f.home,'node_modules/.package-lock.json'),'{"version":"1.4.2"}');
+  const primary=await release(f),primaryData=await fs.readFile(primary.archive);
+  await fs.writeFile(path.join(f.home,'node_modules/.package-lock.json'),lock);
+  const index={schemaVersion:'apollo.git-code-index.v1',manifest:primary.manifest,
+    archive:{path:'code-packages/releases/'+primary.manifest.id+'.tgz',bytes:primaryData.length,sha256:api.sha(primaryData)},
+    alternatives:[{manifest:r.manifest,archive:{path:'code-packages/releases/'+r.manifest.id+'.tgz',bytes:data.length,sha256:api.sha(data)}}]};
   const line=commit+' refs/heads/main\n',refs=Buffer.from((Buffer.byteLength(line)+4).toString(16).padStart(4,'0')+line+'0000');
   let active=true,downloads=0;
   const app=express();require('../src/code-release/maintenance').createMaintenance({key,busy:async()=>active}).mount(app);
@@ -226,4 +232,48 @@ test('supervisor retains the configured workspace from the unchanged installed e
   const running=launch(f);t.after(()=>running.stop());await running.ready(api.readState(f.store).current.version);
   assert(running.stdout().includes('WORKSPACE '+workspace));await running.stop();
   assert.equal(await fs.readFile(path.join(f.home,'.env'),'utf8'),config);
+});
+
+test('Git selects only an exact compatible alternative; old readers retain the unchanged primary',async t=>{
+  const f=await fixture(t),legacy=await release(f),legacyBytes=await fs.readFile(legacy.archive);
+  const legacyLock=await fs.readFile(path.join(f.home,'node_modules/.package-lock.json'));
+  await fs.writeFile(path.join(f.home,'node_modules/.package-lock.json'),'{"version":"1.4.2"}');
+  const primary=await release(f),primaryBytes=await fs.readFile(primary.archive);
+  await fs.writeFile(path.join(f.home,'node_modules/.package-lock.json'),legacyLock);
+  const entry=(r,data)=>({manifest:r.manifest,archive:{path:'code-packages/releases/'+r.manifest.id+'.tgz',bytes:data.length,sha256:api.sha(data)}});
+  const primaryEntry=entry(primary,primaryBytes),legacyEntry=entry(legacy,legacyBytes);
+  let index={schemaVersion:'apollo.git-code-index.v1',...primaryEntry,alternatives:[legacyEntry]};
+  const commit='b'.repeat(40),line=commit+' refs/heads/main\n';
+  const refs=Buffer.from((Buffer.byteLength(line)+4).toString(16).padStart(4,'0')+line+'0000'),urls=[];
+  const request=async url=>{
+    urls.push(String(url));
+    return new Response(String(url).includes('/info/refs?')?refs:String(url).endsWith('/current.json')?JSON.stringify(index)
+      :String(url).endsWith('/'+legacy.manifest.id+'.tgz')?legacyBytes:primaryBytes);
+  };
+  // The original reader only consumes primary manifest/archive; extra alternatives cannot change it.
+  const oldModule={exports:{}};
+  const oldSource=await fs.readFile(path.join(__dirname,'fixtures/code-release/git-v1.js'),'utf8');
+  const localRequire=require('node:module').createRequire(require.resolve('../src/code-release/git'));
+  new Function('require','module','exports',oldSource)(localRequire,oldModule,oldModule.exports);
+  assert.equal((await oldModule.exports.check(primary.manifest.compatibility,{request})).manifest.id,primary.manifest.id);
+  assert.equal((await git.check(primary.manifest.compatibility,{request})).manifest.id,primary.manifest.id);
+  const selected=await git.check(api.compatibility(f.home),{request});
+  assert.equal(selected.manifest.id,legacy.manifest.id);
+  assert.deepEqual(await git.download(selected,{request}),legacyBytes);
+  assert(urls.filter(url=>!url.includes('/info/refs?')).every(url=>url.startsWith('https://raw.githubusercontent.com/Ackedze/apollo-proxy/'+commit+'/')));
+  for(const [key,value] of Object.entries({launcher:2,node:'0.0.0',platform:'other',dependencies:'0'.repeat(64),lock:'0'.repeat(64),installed:'0'.repeat(64)})) {
+    await assert.rejects(git.check({...api.compatibility(f.home),[key]:value},{request}),/CODE_INCOMPATIBLE/);
+  }
+  await api.installArchive({...f,archive:legacy.archive,manifest:selected.manifest});
+  assert.equal(api.readState(f.store).pending.id,legacy.manifest.id);
+  const pristine=structuredClone(index);
+  index.alternatives[0].archive.path='untrusted.tgz';
+  await assert.rejects(git.check(api.compatibility(f.home),{request}),/CODE_INDEX_INVALID/);
+  index=structuredClone(pristine);index.alternatives[0].manifest.files[0].sha256='0'.repeat(64);
+  await assert.rejects(git.check(api.compatibility(f.home),{request}),/CODE_MANIFEST_INVALID/);
+  index={...pristine,alternatives:{}};
+  await assert.rejects(git.check(api.compatibility(f.home),{request}),/CODE_INDEX_INVALID/);
+  index={...pristine,alternatives:Array(9).fill(legacyEntry)};
+  await assert.rejects(git.check(api.compatibility(f.home),{request}),/CODE_INDEX_INVALID/);
+  await f.preserved();
 });
