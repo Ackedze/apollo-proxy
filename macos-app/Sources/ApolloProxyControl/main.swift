@@ -328,11 +328,11 @@ final class ProxyManager: NSObject {
             return
         }
         if case .failed = appUpdater.state {
-            statusIndicator.apply(to: button, mode: .error, description: "Ошибка проверки кода прокси. Подробности в «О прокси».")
+            statusIndicator.apply(to: button, mode: .updateAvailable, description: "Proxy работает. Не удалось проверить обновления приложения. Подробности в «О прокси».")
             return
         }
         if case .failed = knowledgeUpdateStatus {
-            statusIndicator.apply(to: button, mode: .error, description: "Ошибка обновления знаний. Подробности в «О прокси».")
+            statusIndicator.apply(to: button, mode: .updateAvailable, description: "Proxy работает. Не удалось обновить знания. Подробности в «О прокси».")
             return
         }
         if appUpdater.state.canInstall {
@@ -478,6 +478,10 @@ final class ProxyManager: NSObject {
 
     private func knowledgeCommandEnvironment() -> [String: String] {
         var environment = ProcessInfo.processInfo.environment
+        let config = readEnvMap() ?? [:]
+        for key in ["HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "no_proxy", "SSL_CERT_FILE", "NODE_EXTRA_CA_CERTS"] {
+            if let value = config[key], !value.isEmpty { environment[key] = value }
+        }
         if let token = readEnvMap()?["APOLLO_KNOWLEDGE_TOKEN"], !token.isEmpty {
             environment["APOLLO_KNOWLEDGE_TOKEN"] = token
         }

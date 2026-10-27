@@ -25,6 +25,12 @@ PROXY_VERSION="$(node -p "require('${PROXY_ROOT}/package.json').version")"
 APP_BUILD_NUMBER="${APOLLO_APP_BUILD_NUMBER:-$(date -u +%Y%m%d%H%M%S)}"
 SPARKLE_FEED_URL="${APOLLO_APPCAST_URL:-}"
 SPARKLE_PUBLIC_KEY="${APOLLO_SPARKLE_PUBLIC_KEY:-}"
+if [[ -z "${SPARKLE_PUBLIC_KEY}" ]]; then
+  SPARKLE_PUBLIC_KEY="$(bash "${SCRIPT_DIR}/sparkle-key.sh" public 2>/dev/null || true)"
+fi
+if [[ -n "${SPARKLE_PUBLIC_KEY}" && -z "${SPARKLE_FEED_URL}" ]]; then
+  SPARKLE_FEED_URL="https://github.com/Ackedze/apollo-proxy/releases/latest/download/appcast.xml"
+fi
 SPARKLE_FRAMEWORK="${APP_ROOT}/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"

@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
+const { fetch } = require('../src/http-fetch');
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const safe = file => typeof file === 'string' && file.length > 0 && !path.isAbsolute(file) &&
   !/[\\\x00-\x1f]/.test(file) && file.split('/').every(part => part && part !== '.' && part !== '..');
@@ -205,5 +206,5 @@ async function main(argv) {
   child.on('error', error => { console.error(error.message); process.exitCode = 1; });
   child.on('exit', code => { process.exitCode = code ?? 1; });
 }
-if (require.main === module) main(process.argv.slice(2)).catch(error => { console.log(JSON.stringify({ success: false, code: error.code || 'GIT_DATA_UPDATE_FAILED', error: error.message })); process.exitCode = 1; });
+if (require.main === module) main(process.argv.slice(2)).catch(error => { console.log(JSON.stringify({ success: false, code: error.code || 'GIT_DATA_UPDATE_FAILED', error: error.message + (error.cause?.code ? ' [' + error.cause.code + ']' : '') })); process.exitCode = 1; });
 module.exports = { sourceOf, contentUrl, advertisedCommit, readGitIndex, extractSnapshot, updateFromGit, runCommand };

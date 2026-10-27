@@ -426,7 +426,7 @@ async function fetchJson(url, token) {
   const parsed = new URL(url);
   if (parsed.protocol !== 'https:') fail('Knowledge descriptor must use HTTPS.', 'KNOWLEDGE_HTTPS_REQUIRED');
   parsed.searchParams.set('apolloKnowledgeCheck', `${Date.now()}-${crypto.randomUUID()}`);
-  const response = await fetch(parsed, {
+  const response = await require('../http-fetch').fetch(parsed, {
     headers: {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       'Cache-Control': 'no-cache',
@@ -442,7 +442,7 @@ async function fetchJson(url, token) {
 async function downloadFile(url, targetPath, token) {
   const parsed = new URL(url);
   if (parsed.protocol !== 'https:') fail('Knowledge tarball must use HTTPS.', 'KNOWLEDGE_HTTPS_REQUIRED');
-  const response = await fetch(parsed, {
+  const response = await require('../http-fetch').fetch(parsed, {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     redirect: 'follow',
   });
