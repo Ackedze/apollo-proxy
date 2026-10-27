@@ -26,11 +26,26 @@ async function acquireIdle({home,store,request=fetch}) {
   const lease=crypto.randomUUID(),headers={'x-apollo-code-key':control.key,'x-apollo-code-lease':lease};
   const r=await request(url+'/code-update/prepare',{method:'POST',headers,signal:AbortSignal.timeout(5000)});
   const value=await r.json();if(!r.ok || !value.success)throw Error(value.code || 'CODE_PROXY_BUSY');
-  return async()=>{await request(url+'/code-update/release',{method:'POST',headers,signal:AbortSignal.timeout(5000)}).catch(()=>{});};
+  const release=async()=>{await request(url+'/code-update/release',{method:'POST',headers,signal:AbortSignal.timeout(5000)}).catch(()=>{});};
+  release.lease=lease;return release;
 }
 async function run(command,{home,store,request=fetch,token=process.env.APOLLO_CODE_TOKEN}) {
   const options={home,store};let state=syncFs.existsSync(path.join(store,'state.json'))?api.readState(store):await api.ensureStore(options);
   if(command==='status')return publicStatus(state);
+  if(command==='prepare-app-update') {
+    const release=await acquireIdle({home,store,request});
+    return publicStatus(state,{appUpdatePrepared:true,appUpdateLease:release.lease || null});
+  }
+  if(command==='release-app-update') {
+    const lease=process.env.APOLLO_APP_UPDATE_LEASE;
+    if(!/^[a-f0-9-]{36}$/.test(lease || ''))throw Error('CODE_LEASE_INVALID');
+    const control=JSON.parse(await fs.readFile(path.join(store,'control.json'),'utf8'));
+    const env=require('dotenv').parse(await fs.readFile(path.join(home,'.env'))),port=process.env.PORT || env.PORT || '3001';
+    if(!/^\d{1,5}$/.test(port) || Number(port)>65535 || !/^[a-f0-9]{64}$/.test(control.key || ''))throw Error('CODE_PORT_INVALID');
+    const response=await request('http://127.0.0.1:'+port+'/code-update/release',{method:'POST',headers:{'x-apollo-code-key':control.key,'x-apollo-code-lease':lease},signal:AbortSignal.timeout(5000)});
+    if(!response.ok)throw Error('CODE_LEASE_RELEASE_FAILED');
+    return publicStatus(state);
+  }
   if(command==='check') {
     try {const selected=await git.check(api.compatibility(home),{token,request});
       return publicStatus(state,{updateAvailable:selected.manifest.id!==state.current.id,available:{id:selected.manifest.id,version:selected.manifest.version}});
@@ -55,7 +70,7 @@ async function run(command,{home,store,request=fetch,token=process.env.APOLLO_CO
 async function main(argv) {
   const [command,...args]=argv;let home=path.resolve(__dirname,'..');
   if(args.length){if(args.length!==2 || args[0]!=='--home')throw Error('CODE_ARGUMENT_INVALID');home=path.resolve(args[1]);}
-  if(!['status','check','update','rollback'].includes(command))throw Error('CODE_COMMAND_INVALID');
+  if(!['status','check','update','rollback','prepare-app-update','release-app-update'].includes(command))throw Error('CODE_COMMAND_INVALID');
   const result=await run(command,{home,store:path.join(home,'..','code-releases')});console.log(JSON.stringify(result));
 }
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.log(JSON.stringify({success:false,code:error.code || error.message,error:error.message}));process.exitCode=1;});

@@ -10,6 +10,17 @@ const { ENGINE_VERSION, sha256File } = require('../src/knowledge-package');
 const { readDataIndex } = require('../src/data-packages/artifacts');
 const { parse, runCommand } = require('../scripts/data-release-cli');
 
+test('byte budgets admit the measured 1000-contract projection and reject oversized inventories without allocating payloads', () => {
+  const pin = (i, bytes) => ({file:'contracts/'+i+'.json',sha256:'a'.repeat(64),bytes});
+  assert.ok(release.MAX_ARCHIVE_BYTES > 134000000);
+  assert.ok(release.MAX_RELEASE_BYTES > 1510000000);
+  assert.equal(release.inventorySize(Array.from({length:1001},(_,i)=>pin(i,1500000))),1501500000);
+  const full = Array.from({length:16},(_,i)=>pin(i,128*1024*1024));
+  assert.equal(release.inventorySize(full),release.MAX_RELEASE_BYTES);
+  assert.throws(()=>release.inventorySize([...full,pin(16,1)]),/DATA_RELEASE_TOO_LARGE/);
+  assert.throws(()=>release.inventorySize([pin(0,128*1024*1024+1)]),/DATA_RELEASE_INVENTORY_INVALID/);
+});
+
 function put(root, file, body) {
   const target = path.join(root, file);
   fs.mkdirSync(path.dirname(target), { recursive: true });

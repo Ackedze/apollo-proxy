@@ -94,7 +94,7 @@ function readGenerationData({ root, apolloRoot, index: suppliedIndex = null }) {
       pin: {
         componentId: c.entry.componentId,
         revision: c.entry.revision,
-        archiveSha256: c.entry.archive.sha256,
+        ...(c.entry.archive ? { archiveSha256: c.entry.archive.sha256 } : {}),
         manualSourceHash: c.entry.manualSourceHash,
         compiledHash: c.entry.contractHash,
         sourceStatus: c.contract.status,

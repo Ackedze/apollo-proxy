@@ -46,7 +46,7 @@ function readDataIndex(root, suppliedIndex = null) {
     file = path.join(reader.root, 'manifest.json');
   if (!suppliedIndex) {
     const stat = fs.lstatSync(file);
-    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 1024 * 1024)
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 16 * 1024 * 1024)
       fail('DATA_INDEX_INVALID');
   }
   const index = suppliedIndex || JSON.parse(fs.readFileSync(file)),
@@ -57,8 +57,7 @@ function readDataIndex(root, suppliedIndex = null) {
     index.id !== sha(JSON.stringify(identity)) ||
     index.Ready !== false ||
     !Array.isArray(index.contracts) ||
-    !index.contracts.length ||
-    index.contracts.length > 32
+    !index.contracts.length
   )
     fail('DATA_INDEX_INVALID');
   return { index, reader };

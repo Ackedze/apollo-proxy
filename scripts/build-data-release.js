@@ -8,12 +8,13 @@ const knowledge = require('../src/knowledge-package');
 const PORTABLE_PROFILE = 'checking-ask-figma-mcp';
 const FRONTEND_GAP = 'AGENT_FRONTEND_CAPABILITY_UNAVAILABLE';
 
-async function projectPortableData({ dataRoot, runtimeRoot, output }) {
+async function projectPortableData({ dataRoot, runtimeRoot, output, omitContractArchives = false }) {
   dataRoot = path.resolve(dataRoot); runtimeRoot = path.resolve(runtimeRoot); output = path.resolve(output);
   const packages = require('../src/data-packages');
   const original = await fs.readFile(path.join(dataRoot, 'manifest.json'));
   const parent = packages.readDataIndex(dataRoot).index;
   const index = structuredClone(parent);
+  if (omitContractArchives) for (const entry of index.contracts) delete entry.archive;
   delete index.generation.frontend;
   delete index.generation.bindings;
   index.parentDataId = parent.deliveryProfile === PORTABLE_PROFILE ? parent.parentDataId : parent.id;
@@ -25,7 +26,7 @@ async function projectPortableData({ dataRoot, runtimeRoot, output }) {
   index.id = releases.idOf(index);
   const data = packages.readGenerationData({ root: dataRoot, apolloRoot: runtimeRoot, index });
   // Include declared contract archives as well as files opened by the actual readers.
-  for (const contract of index.contracts) data.reader.read(contract.archive);
+  for (const contract of index.contracts) if (contract.archive) data.reader.read(contract.archive);
   for (const [file, digest] of data.reader.pins) {
     const relative = path.relative(data.reader.root, file), bytes = await fs.readFile(file);
     if (!['.json', '.zip'].includes(path.extname(relative)) || releases.sha(bytes) !== digest) throw Error('PORTABLE_DATA_CLOSURE_INVALID');

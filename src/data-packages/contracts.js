@@ -162,10 +162,11 @@ function readDataContracts({
 
 function findDependencySource(root, pin, runtime) {
   const queue = root.dependencies.slice();
-  let count = 0;
+  const seen = new Set();
   while (queue.length) {
-    if (++count > 32) fail('DATA_DEPENDENCY_MISMATCH');
     const source = queue.shift();
+    if (seen.has(source)) continue;
+    seen.add(source);
     if (sourceMatches(source, pin, runtime)) return source;
     queue.push(...source.dependencies);
   }

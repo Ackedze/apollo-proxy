@@ -136,8 +136,12 @@ async function putVersion(store, staging, manifest, profile) {
 async function ensureStore({home,store}) {
   return withLock(store,async()=>{
     const profile=compatibility(home);
+    const marker = path.join(home,'.bundle-build-id');
+    const bundleBuild = fs.existsSync(marker) ? fs.readFileSync(marker,'utf8').trim() : null;
     if (fs.existsSync(path.join(store,'state.json'))) {
       const state=readState(store);
+      // A complete app replacement must select its own code, never a previous JS overlay.
+      if (!bundleBuild || state.bundleBuild === bundleBuild) {
       try { versionManifest(store,state.current.id,profile); }
       catch(error) {
         if (!state.previous) throw error;
@@ -146,13 +150,14 @@ async function ensureStore({home,store}) {
         state.current=state.previous;state.previous=null;state.pending=null; await writeState(store,state);
       }
       return state;
+      }
     }
     const staging=await fsp.mkdtemp(path.join(store,'.seed-'));
     try {
       const version=json(path.join(home,'package.json')).version+'-bootstrap';
       const manifest=await snapshotCode({sourceRoot:home,destination:staging,version,profile});
       await putVersion(store,staging,manifest,profile);
-      const state={schemaVersion:STORE_SCHEMA,current:record(manifest),previous:null,pending:null};
+      const state={schemaVersion:STORE_SCHEMA,current:record(manifest),previous:null,pending:null,...(bundleBuild ? {bundleBuild} : {})};
       await writeState(store,state); return state;
     } finally { await fsp.rm(staging,{recursive:true,force:true}); }
   });

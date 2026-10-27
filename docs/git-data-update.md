@@ -1,5 +1,47 @@
 # Обновление данных Apollo из Git
 
+## npm-пакет за закреплённым Git-индексом
+
+Новый `apollo.git-data-index.v2` использует тот же Git URL и commit pinning.
+Он содержит `runtimeId` и `npm`: точные `name`, `version`, `tarballUrl`,
+`integrity` (sha512 SRI), `bytes`, `dataId`. `latest` и диапазоны версий не
+принимаются. Необязательный `skills` имеет прежние path/sha256/bytes и читается
+из того же Git-коммита. Публикация индекса и npm registry — отдельные действия.
+
+Подготовка настоящего npm tarball без публикации:
+
+```sh
+node scripts/build-npm-data-package.js --data /accepted/contracts \
+  --runtime /accepted/runtime --output /new/package-output \
+  --name @apollo/contracts --version 1.0.0 \
+  --tarball-url https://registry.example.test/apollo-contracts-1.0.0.tgz
+```
+
+Сборщик вызывает `npm pack --ignore-scripts`. Внутри `package/package.json`
+и `package/data/` — замкнутый набор переносимых manual/facts/compiled cache и
+достижимых generation-ресурсов. Export `entry.archive` ZIP исключены; shared ZIP,
+которые реально читаются generation, сохранены. Draft не становится Ready.
+
+Получатель скачивает точный HTTPS tarball и проверяет размер, sha512, безопасные
+tar entries, package name/version, отсутствие scripts/dependencies/bin, dataId,
+runtime и зависимости actual reader. `npm install` и lifecycle scripts не
+выполняются. Git-токен не передаётся на npm asset origin; отдельная авторизация
+закрытого registry этим локальным профилем не реализована.
+
+Контрактный npm-пакет соединяется с текущими локальными знаниями и skills штатным
+assembler/store. Если индекс закрепляет новый skills catalog, используется он.
+Новая knowledge Hub версия самим этим пакетом не доставляется. Переключение
+указателя и offline rollback остаются согласованными, старые принятые версии
+доступны текущим запросам. Повреждённый пакет оставляет прежний current.
+
+Пределы ресурсов: npm tarball 256 МиБ, release 2 ГиБ суммарно, файл 128 МиБ,
+inventory 20000 файлов, contract index 16 МиБ. Произвольного потолка количества
+контрактов нет. Эти budgets покрывают текущую оценку 1000 контрактов; реальная
+производительность такого набора требует отдельного измерения. Новый лексический
+поиск/RAG здесь не реализуется.
+
+## Совместимость с прежним форматом
+
 Источник — `https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/data-packages/current.json`. Proxy читает текущий commit ветки, затем индекс и архив ровно из этого commit. При совпадении dataId скачивание архива не выполняется.
 
 `scripts/git-data-cli.js` устанавливается как `scripts/data-release-cli.js` в
@@ -10,7 +52,7 @@ ensure/status/check/update/rollback/run и прежний full-release режи�
 В исходниках prerequisite — `src/data-release`, `src/data-packages` и
 `scripts/build-data-release.js`; не подменяйте их файлами из другой версии.
 
-Git-индекс имеет schema `apollo.git-data-index.v1`, runtimeId и snapshot с относительным path, bytes, sha256 и dataId. Архив содержит только переносимые контрактные данные. Не помещать knowledge Hub, credentials, SDK или исполняемый код в data snapshot.
+Прежний Git-индекс `apollo.git-data-index.v1`, runtimeId и snapshot с относительным path, bytes, sha256 и dataId продолжает читаться. Архив содержит только переносимые контрактные данные. Не помещать knowledge Hub, credentials, SDK или исполняемый код в data snapshot.
 
 Клиент проверяет commit identity, размер и SHA архива, safe tar members, отсутствие ссылок, совместимость runtime и actual reader. Затем штатный сборщик соединяет новые contracts с **текущими локальными** knowledge, а штатный installer переключает один pointer. Перед install проверяется, что current не изменился за время скачивания. Архивирование исключает AppleDouble; исходные контрактные bytes сохраняются.
 

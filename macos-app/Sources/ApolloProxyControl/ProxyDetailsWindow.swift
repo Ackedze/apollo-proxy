@@ -121,7 +121,7 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.installCLI]?.isHidden = !state.cliMissing || state.provider == .codex
         knowledgePicker.selectItem(withTitle: state.knowledgeSource)
         knowledgePicker.isEnabled = state.canCheckUpdates && state.canChangeAgent
-        codeLabel.stringValue = "Код прокси: \(state.codeStatus)"
+        codeLabel.stringValue = "Приложение: \(state.codeStatus)"
         knowledgeLabel.stringValue = "Знания: \(state.knowledgeStatus)"
         if state.checkingUpdates { updateProgress.startAnimation(nil) }
         else { updateProgress.stopAnimation(nil) }
@@ -131,6 +131,7 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.checkUpdates]?.isEnabled = state.canCheckUpdates
         buttons[.updateCode]?.isEnabled = state.canUpdateCode
         buttons[.rollbackCode]?.isEnabled = state.canRollbackCode
+        buttons[.rollbackCode]?.isHidden = true
         buttons[.updateKnowledge]?.isEnabled = state.canUpdate
         buttons[.rollbackKnowledge]?.isEnabled = state.canRollback
         urlField.stringValue = state.apolloURL
@@ -239,10 +240,10 @@ final class ProxyDetailsWindowController: NSWindowController {
         updateProgress.controlSize = .small
         updateProgress.isDisplayedWhenStopped = false
         updateProgress.setAccessibilityLabel("Проверяем обновления кода и знаний")
-        let updateHelp = NSTextField(wrappingLabelWithString: "Проверка кода и знаний. Установка — по нажатию «Обновить код» или «Обновить знания».")
+        let updateHelp = NSTextField(wrappingLabelWithString: "Проверка приложения и знаний. Обновления устанавливаются по вашему нажатию. При обновлении приложения прокси перезапустится; настройки и история сохранятся.")
         style(updateHelp, secondary: true)
         section([heading("Обновления"), row([button("Проверить обновление", .checkUpdates), updateProgress]), updateHelp,
-                 codeLabel, row([button("Обновить код", .updateCode), button("Откатить код…", .rollbackCode)]),
+                 codeLabel, row([button("Обновить приложение…", .updateCode), button("Откатить код…", .rollbackCode)]),
                  knowledgeLabel, row([button("Обновить знания", .updateKnowledge), button("Откатить знания", .rollbackKnowledge)])])
         section([heading("Диагностика"), row([button("Конфигурация…", .openConfiguration), button("Журнал…", .openLogs), button("Папка прокси…", .openFolder)])])
     }

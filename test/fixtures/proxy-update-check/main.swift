@@ -44,7 +44,7 @@ for (codeAvailable, knowledgeAvailable) in [(false, false), (true, false), (fals
     state.canUpdate = knowledgeAvailable
     controller.update(state)
     precondition(button("Проверить обновление").isEnabled)
-    precondition(button("Обновить код").isEnabled == codeAvailable)
+    precondition(button("Обновить приложение…").isEnabled == codeAvailable)
     precondition(button("Обновить знания").isEnabled == knowledgeAvailable)
     precondition(invoked.isEmpty) // Rendering/check results never start an installation.
 }
@@ -53,7 +53,7 @@ state.codeStatus = "Нет доступа к релизу в Git. Проверь
 state.knowledgeStatus = "Доступно обновление знаний"
 state.canUpdate = true
 controller.update(state)
-precondition(!button("Обновить код").isEnabled && button("Обновить знания").isEnabled)
+precondition(!button("Обновить приложение…").isEnabled && button("Обновить знания").isEnabled)
 button("Обновить знания").performClick(nil)
 precondition(invoked == [.updateKnowledge])
 state.canUpdate = false; state.canCheckUpdates = false; state.checkingUpdates = true
@@ -68,7 +68,8 @@ for appearance in [NSAppearance.Name.aqua, .darkAqua] {
         controller.window?.contentView?.layoutSubtreeIfNeeded()
         let scroll = controller.window!.contentView!.subviews.first as! NSScrollView
         let document = scroll.documentView!
-        for title in ["Проверить обновление", "Обновить код", "Откатить код…", "Обновить знания", "Откатить знания"] {
+        precondition(button("Откатить код…").isHidden)
+        for title in ["Проверить обновление", "Обновить приложение…", "Обновить знания", "Откатить знания"] {
             let control = button(title)
             let frame = control.convert(control.bounds, to: document)
             precondition(frame.width > 60 && frame.minX >= 0 && frame.maxX <= document.bounds.width + 1)

@@ -12,7 +12,7 @@ APP_NAME="ApolloProxyControl"
 BUNDLE_ID="com.redpol.apollo-proxy-control"
 DIST_DIR="${APOLLO_APP_DIST_DIR:-${APP_ROOT}/dist}"
 BUILD_STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
-WORK_DIR="${APP_ROOT}/build/package-${BUILD_STAMP}"
+WORK_DIR="${APOLLO_APP_WORK_DIR:-${APP_ROOT}/build/package-${BUILD_STAMP}}"
 APP_BUNDLE="${DIST_DIR}/${APP_NAME}.app"
 ARCHIVE_PATH="${DIST_DIR}/${APP_NAME}-macOS-${BUILD_STAMP}.zip"
 ARM64_BUILD_DIR="${APP_ROOT}/.build/arm64-apple-macosx/release"
@@ -22,6 +22,10 @@ X86_64_EXECUTABLE="${X86_64_BUILD_DIR}/${APP_NAME}"
 UNIVERSAL_EXECUTABLE="${DIST_DIR}/${APP_NAME}-universal"
 NODE_EXECUTABLE="${APOLLO_NODE_SOURCE:-$(command -v node || true)}"
 PROXY_VERSION="$(node -p "require('${PROXY_ROOT}/package.json').version")"
+APP_BUILD_NUMBER="${APOLLO_APP_BUILD_NUMBER:-$(date -u +%Y%m%d%H%M%S)}"
+SPARKLE_FEED_URL="${APOLLO_APPCAST_URL:-}"
+SPARKLE_PUBLIC_KEY="${APOLLO_SPARKLE_PUBLIC_KEY:-}"
+SPARKLE_FRAMEWORK="${APP_ROOT}/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
 REQUIRE_NOTARIZATION="${REQUIRE_NOTARIZATION:-0}"
@@ -35,6 +39,17 @@ if [[ -z "${DATA_ASSET_URL_TEMPLATE}" ]]; then
 fi
 DATA_DESCRIPTOR_XML="$(printf '%s' "${DATA_DESCRIPTOR_URL}" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 SOURCE_APP_BUNDLE="${APP_ROOT}/Sources/ApolloProxyControl/${APP_NAME}.app"
+
+if [[ ! "${APP_BUILD_NUMBER}" =~ ^[0-9]+$ ]]; then
+  echo "APOLLO_APP_BUILD_NUMBER must be a monotonically increasing integer." >&2
+  exit 1
+fi
+if [[ -n "${SPARKLE_FEED_URL}" || -n "${SPARKLE_PUBLIC_KEY}" ]]; then
+  node -e 'const u=new URL(process.argv[1]);if(u.protocol!=="https:"||u.username||u.password||u.hash||Buffer.from(process.argv[2],"base64").length!==32)process.exit(1)' "${SPARKLE_FEED_URL}" "${SPARKLE_PUBLIC_KEY}" || {
+    echo "Set a valid HTTPS APOLLO_APPCAST_URL and a 32-byte APOLLO_SPARKLE_PUBLIC_KEY together." >&2; exit 1;
+  }
+fi
+SPARKLE_FEED_XML="$(printf '%s' "${SPARKLE_FEED_URL}" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 
 if [[ -d "${SOURCE_APP_BUNDLE}" ]]; then
   echo "Refusing to build while stale source bundle exists: ${SOURCE_APP_BUNDLE}" >&2
@@ -115,7 +130,19 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
   <key>CFBundleShortVersionString</key>
   <string>${PROXY_VERSION}</string>
   <key>CFBundleVersion</key>
-  <string>1</string>
+  <string>${APP_BUILD_NUMBER}</string>
+  <key>SUFeedURL</key>
+  <string>${SPARKLE_FEED_XML}</string>
+  <key>SUPublicEDKey</key>
+  <string>${SPARKLE_PUBLIC_KEY}</string>
+  <key>SUEnableAutomaticChecks</key>
+  <false/>
+  <key>SUAutomaticallyUpdate</key>
+  <false/>
+  <key>SUAllowsAutomaticUpdates</key>
+  <false/>
+  <key>SUVerifyUpdateBeforeExtraction</key>
+  <true/>
   <key>LSMinimumSystemVersion</key>
   <string>13.0</string>
   <key>LSUIElement</key>
@@ -127,6 +154,9 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
 </dict>
 </plist>
 EOF
+
+mkdir -p "${APP_BUNDLE}/Contents/Frameworks"
+ditto "${SPARKLE_FRAMEWORK}" "${APP_BUNDLE}/Contents/Frameworks/Sparkle.framework"
 
 echo "[5/7] Embedding proxy runtime..."
 if [[ ! -d "${PROXY_ROOT}/node_modules" ]]; then
@@ -209,17 +239,20 @@ if [[ "${EMBED_PROXY_ENV}" == "1" ]]; then
 fi
 
 printf '%s\n' "${BUILD_STAMP}" > "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.bundle-build-id"
+printf '%s\n' "${APP_BUILD_NUMBER}" > "${APP_BUNDLE}/Contents/Resources/embedded-proxy/.app-bundle-version"
 
 echo "[6/7] Signing bundle..."
 chmod -R u+w "${APP_BUNDLE}"
 xattr -cr "${APP_BUNDLE}"
 sign_target "${APP_BUNDLE}/Contents/Resources/runtime/bin/node"
 sign_target "${APP_BUNDLE}/Contents/MacOS/${APP_NAME}"
-if [[ "${SIGN_IDENTITY}" == "-" ]]; then
-  codesign --force --deep --sign "${SIGN_IDENTITY}" --timestamp=none "${APP_BUNDLE}"
-else
-  codesign --force --deep --sign "${SIGN_IDENTITY}" --options runtime --timestamp "${APP_BUNDLE}"
-fi
+SPARKLE_VERSION="${APP_BUNDLE}/Contents/Frameworks/Sparkle.framework/Versions/B"
+sign_target "${SPARKLE_VERSION}/XPCServices/Downloader.xpc"
+sign_target "${SPARKLE_VERSION}/XPCServices/Installer.xpc"
+sign_target "${SPARKLE_VERSION}/Autoupdate"
+sign_target "${SPARKLE_VERSION}/Updater.app"
+sign_target "${APP_BUNDLE}/Contents/Frameworks/Sparkle.framework"
+sign_target "${APP_BUNDLE}"
 codesign --verify --deep --strict --verbose=2 "${APP_BUNDLE}"
 
 echo "[7/7] Packing transfer archive..."

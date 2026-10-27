@@ -15,6 +15,7 @@ struct CodeReleaseStatus: Decodable, Sendable {
     let restartRequired: Bool?
     let checkError: String?
     let lastFailure: CodeReleaseFailure?
+    let appUpdateLease: String?
 }
 enum CodeReleaseAction { case update, rollback, dismiss }
 struct CodeReleasePresentation {

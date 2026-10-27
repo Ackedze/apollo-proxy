@@ -53,8 +53,11 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
   const refs = await get('https://github.com/' + source.owner + '/' + source.repo + '.git/info/refs?service=git-upload-pack', token, request);
   const commit = advertisedCommit(Buffer.from(await refs.arrayBuffer()), source.ref);
   const index = await (await get(contentUrl(source, commit, source.file), token, request, true)).json();
-  if (index.schemaVersion !== 'apollo.git-data-index.v1' || index.runtimeId !== runtimeId ||
-      !safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
+  if (!['apollo.git-data-index.v1', 'apollo.git-data-index.v2'].includes(index.schemaVersion) || index.runtimeId !== runtimeId) throw Error('Git data index is invalid or incompatible with this runtime.');
+  if (index.schemaVersion === 'apollo.git-data-index.v2') {
+    if (index.snapshot !== undefined) throw Error('Ambiguous Git data index.');
+    require('../src/data-packages/npm').validateReference(index.npm);
+  } else if (!safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
       !/^[a-f0-9]{64}$/.test(index.snapshot.sha256 || '') || !/^[a-f0-9]{64}$/.test(index.snapshot.dataId || '') ||
       !Number.isSafeInteger(index.snapshot.bytes) || index.snapshot.bytes < 1 || index.snapshot.bytes > 100 * 1024 * 1024) throw Error('Git data index is invalid or incompatible with this runtime.');
   if(index.skills!==undefined && (!index.skills || Object.keys(index.skills).sort().join(',')!=='bytes,path,sha256' || index.skills.path!=='apollo/skills/manifest.json'
@@ -104,7 +107,7 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const runtime = releases.readRuntime(settings.runtimeRoot);
   const selected = await readGitIndex(url, runtime.id, token, request);
-  const snapshot = selected.index.snapshot;
+  const snapshot = selected.index.npm || selected.index.snapshot;
   const installed=selected.index.skills ? releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot) : null;
   const updateAvailable = snapshot.dataId !== ensured.state.current.dataId || Boolean(selected.index.skills && selected.index.skills.sha256!==installed.skillsSourceSha256);
   const extra = { updateAvailable, descriptor: { contentVersion: snapshot.dataId }, sourceCommit: selected.commit };
@@ -114,9 +117,19 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
     console.error(JSON.stringify({ phase: 'downloading' }));
     let data;
     if(snapshot.dataId!==ensured.state.current.dataId){
-      const bytes=await pinnedBytes(selected,snapshot,token,request);
       const archive=path.join(temporary,'contracts.tgz');data=path.join(temporary,'contracts');
-      await fs.writeFile(archive,bytes,{flag:'wx'});await fs.mkdir(data);extractSnapshot(archive,data);
+      if (selected.index.npm) {
+        const npmData = require('../src/data-packages/npm');
+        await npmData.download(snapshot, archive, request);
+        require('../src/knowledge-package').validateArchiveEntries(archive);
+        const unpacked = path.join(temporary, 'npm');
+        await fs.mkdir(unpacked); extractSnapshot(archive, unpacked);
+        const checked = await npmData.readPackage(path.join(unpacked, 'package'), snapshot, settings.runtimeRoot);
+        data = checked.reader.root;
+      } else {
+        const bytes=await pinnedBytes(selected,snapshot,token,request);
+        await fs.writeFile(archive,bytes,{flag:'wx'});await fs.mkdir(data);extractSnapshot(archive,data);
+      }
     }else data=path.join(ensured.state.current.path,'contracts');
     const currentManifest=installed || releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot);
     const currentSkills=path.join(ensured.state.current.path,'skills');

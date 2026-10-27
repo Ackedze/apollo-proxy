@@ -49,6 +49,20 @@ function launch(f,timeout=1500,env={}) {
   async function stop(){if(child.exitCode!==null)return;child.kill('SIGTERM');await once(child,'exit');}
   return {child,ready,stop,stderr:()=>stderr,stdout:()=>output};
 }
+test('a complete app build replaces the JS overlay and keeps the previous immutable bytes',async t=>{
+  const f=await fixture(t),old=api.readState(f.store).current;
+  const r=await release(f);await api.installArchive({...f,...r});
+  await api.finishLaunch(f,r.manifest.id);
+  await fs.writeFile(path.join(f.home,'.bundle-build-id'),'local-app-build-2\n');
+  await fs.writeFile(path.join(f.home,'server.js'),fakeServer+'\n// new bundled code\n');
+  const next=await api.ensureStore(f);
+  assert.notEqual(next.current.id,r.manifest.id);assert.equal(next.pending,null);assert.equal(next.previous,null);
+  assert.equal(next.bundleBuild,'local-app-build-2');
+  assert.equal((await api.ensureStore(f)).current.id,next.current.id);
+  assert.match(await fs.readFile(path.join(api.versionRoot(f.store,next.current.id),'server.js'),'utf8'),/new bundled code/);
+  assert.ok(await fs.stat(api.versionRoot(f.store,old.id)));assert.ok(await fs.stat(api.versionRoot(f.store,r.manifest.id)));
+  await f.preserved();
+});
 test('immutable code update, launch confirmation and rollback preserve settings, auth/history and journal',async t=>{
   const f=await fixture(t),seed=api.readState(f.store).current;
   const r=await release(f);await api.installArchive({...f,...r});
@@ -116,6 +130,12 @@ test('authenticated idle barrier refuses active work and closes the race with ne
   assert.equal((await fetch(url+'/health')).status,200);
   assert.equal((await fetch(url+'/code-update/release',{method:'POST'})).status,403);
   assert.equal((await fetch(url+'/work')).status,503);await release();assert.equal((await fetch(url+'/work')).status,200);
+  const prepared=await cli.run('prepare-app-update',f);
+  assert.ok(prepared.appUpdateLease);assert.equal((await fetch(url+'/work')).status,503);
+  const oldLease=process.env.APOLLO_APP_UPDATE_LEASE;process.env.APOLLO_APP_UPDATE_LEASE=prepared.appUpdateLease;
+  try {await cli.run('release-app-update',f);}finally{if(oldLease===undefined)delete process.env.APOLLO_APP_UPDATE_LEASE;else process.env.APOLLO_APP_UPDATE_LEASE=oldLease;}
+  assert.equal((await fetch(url+'/work')).status,200);
+  assert.deepEqual(await fs.readFile(path.join(f.store,'state.json')),before);
   await cli.acquireIdle(f);now+=120001;assert.equal((await fetch(url+'/work')).status,200);
 });
 test('publisher reads the pinned commit and excludes env, dependencies and mutable history',async t=>{

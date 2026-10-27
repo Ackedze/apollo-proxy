@@ -83,11 +83,13 @@ async function importDataPackage({
       return copy;
     }
     if (old)
-      for (const entry of old.index.contracts)
+      for (const entry of old.index.contracts) {
+        if (!entry.archive) continue;
         archiveByComponent.set(entry.componentId, {
           file: path.join(root, entry.archive.file),
           pin: entry.archive,
         });
+      }
     for (const file of packages) {
       const bytes = fs.readFileSync(file);
       if (bytes.length > 64 * 1024 * 1024) fail('ARCHIVE_LIMIT');
@@ -112,9 +114,10 @@ async function importDataPackage({
         pin,
       });
     }
-    if (!archiveByComponent.size || archiveByComponent.size > 32)
-      fail('DATA_PACKAGE_LIMIT');
     const records = new Map();
+    if (old)
+      for (const item of readDataContracts({ root, runtimeFile: path.join(app, 'dist/runtime.cjs'), includeUnsupported: true }).contracts)
+        if (!item.entry.archive) records.set(item.entry.componentId, { source: item.source, cache: item.contract });
     for (const [id, archive] of archiveByComponent) {
       const bytes = fs.readFileSync(archive.file);
       if (sha(bytes) !== archive.pin.sha256) fail('DATA_PACKAGE_STALE');
@@ -145,6 +148,7 @@ async function importDataPackage({
         archive: put(bytes, 'zip', componentDirectory(source)),
       });
     }
+    if (!records.size) fail('DATA_PACKAGE_LIMIT');
     const retained = new Map();
     const identity = (pin) =>
       JSON.stringify([
@@ -243,7 +247,7 @@ async function importDataPackage({
         dependencies,
         published: false,
         evaluationMode: 'authoring-preview',
-        archive: record.archive,
+        ...(record.archive ? { archive: record.archive } : {}),
         checkingGap,
       };
     }).sort((a, b) => a.id.localeCompare(b.id));

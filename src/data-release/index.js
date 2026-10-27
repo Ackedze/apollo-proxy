@@ -10,21 +10,33 @@ const RELEASE_SCHEMA = 'apollo.proxy-data-release.v1';
 const CHANNEL_SCHEMA = 'apollo.proxy-data-channel.v1';
 const STORE_SCHEMA = 'apollo.proxy-data-store.v1';
 const RUNTIME_SCHEMA = 'apollo.proxy-portable-runtime.v1';
+const MAX_RELEASE_BYTES = 2 * 1024 * 1024 * 1024;
+const MAX_ARCHIVE_BYTES = 256 * 1024 * 1024;
 const sha = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const idOf = value => { const { id, ...body } = value; return sha(JSON.stringify(body)); };
 const fail = code => { throw Object.assign(Error(code), { code }); };
 const json = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const safe = file => knowledge.isSafeRelativePath(file) && !file.split('/').includes('.');
 
-function verifyFiles(root, files) {
-  root = path.resolve(root);
-  if (fs.realpathSync(root) !== root || !Array.isArray(files) || !files.length || files.length > 20000) fail('DATA_RELEASE_INVENTORY_INVALID');
+function inventorySize(files) {
+  if (!Array.isArray(files) || !files.length || files.length > 20000) fail('DATA_RELEASE_INVENTORY_INVALID');
   const seen = new Set();
   let total = 0;
   for (const pin of files) {
     if (!safe(pin.file) || seen.has(pin.file) || !/^[a-f0-9]{64}$/.test(pin.sha256 || '') || !Number.isSafeInteger(pin.bytes) || pin.bytes < 0 || pin.bytes > 128 * 1024 * 1024) fail('DATA_RELEASE_INVENTORY_INVALID');
     seen.add(pin.file); total += pin.bytes;
-    if (total > 512 * 1024 * 1024) fail('DATA_RELEASE_TOO_LARGE');
+    if (total > MAX_RELEASE_BYTES) fail('DATA_RELEASE_TOO_LARGE');
+  }
+  return total;
+}
+
+function verifyFiles(root, files) {
+  root = path.resolve(root);
+  if (fs.realpathSync(root) !== root) fail('DATA_RELEASE_INVENTORY_INVALID');
+  inventorySize(files);
+  const seen = new Set();
+  for (const pin of files) {
+    seen.add(pin.file);
     const file = path.join(root, pin.file), stat = fs.lstatSync(file);
     if (!stat.isFile() || stat.isSymbolicLink() || fs.realpathSync(file) !== file || stat.size !== pin.bytes || sha(fs.readFileSync(file)) !== pin.sha256) fail('DATA_RELEASE_ARTIFACT_CHANGED');
   }
@@ -219,4 +231,4 @@ function publicStatus(state, update = {}) {
   };
 }
 
-module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, rollbackStore, readState, publicStatus };
+module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, MAX_RELEASE_BYTES, MAX_ARCHIVE_BYTES, inventorySize, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, rollbackStore, readState, publicStatus };
