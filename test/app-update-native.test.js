@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {execFileSync}=require('node:child_process');
-test('complete app bootstrap preserves mutable state while replacing runtime, dependencies and launcher',{skip:process.platform!=='darwin',timeout:30000},t=>{
+test('app update resumes an owned running Proxy once and preserves mutable state',{skip:process.platform!=='darwin',timeout:30000},t=>{
   const root=fs.mkdtempSync(path.join(os.tmpdir(),'app-update-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
   const source=path.resolve(__dirname,'../macos-app/Sources/ApolloProxyControl'),binary=path.join(root,'verify');
   const framework=path.resolve(source,'../../.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64');

@@ -6,13 +6,14 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
     private var controller: SPUStandardUpdaterController?
     private var completion: (() -> Void)?
     private var postponedInstall: (() -> Void)?
+    private var installationCommitted = false
     var onChange: (() -> Void)?
     var canBeginInstallation: () -> Bool = { false }
     var onAbortInstallation: () -> Void = {}
     var prepareInstallation: (@escaping (Bool) -> Void) -> Void = { $0(false) }
     private(set) var state: AppUpdateState = .unconfigured { didSet { onChange?() } }
     var canCheck: Bool { controller?.updater.canCheckForUpdates == true && !state.isBusy }
-    var hasSession: Bool { state == .installing || postponedInstall != nil }
+    var hasSession: Bool { state == .installing || postponedInstall != nil || installationCommitted }
 
     override init() {
         super.init()
@@ -47,9 +48,15 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
             if failure.domain == SUSparkleErrorDomain && failure.code == SUError.noUpdateError.rawValue { state = .current }
             else { state = .failed(error.localizedDescription) }
         }
-        else if state == .checking || state == .installing { state = .idle }
+        else if !installationCommitted && (state == .checking || state == .installing) { state = .idle }
         let done = completion; completion = nil; done?()
-        if updateCheck != .updateInformation { postponedInstall = nil; onAbortInstallation() }
+        if updateCheck != .updateInformation {
+            postponedInstall = nil
+            if error != nil || !installationCommitted {
+                installationCommitted = false
+                onAbortInstallation()
+            }
+        }
     }
     func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
         if updateCheck != .updateInformation && !canBeginInstallation() {
@@ -61,11 +68,19 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
         finishInstallation(installHandler)
         return true
     }
-    private func finishInstallation(_ handler: @escaping () -> Void) {
+    func finishInstallation(_ handler: @escaping () -> Void) {
+        installationCommitted = false
         prepareInstallation { [weak self] permitted in
             guard let self else { return }
-            if permitted { self.postponedInstall = nil; handler() }
-            else { self.state = .available("подготовлена; повторите установку после завершения задачи") }
+            if permitted {
+                self.installationCommitted = true
+                self.state = .installing
+                self.postponedInstall = nil
+                handler()
+            } else {
+                self.onAbortInstallation()
+                self.state = .available("подготовлена; повторите установку после завершения задачи")
+            }
         }
     }
 }

@@ -1,6 +1,21 @@
 import Foundation
 import Sparkle
 
+let defaultsName = "apollo-update-resume-test-" + UUID().uuidString
+let defaults = UserDefaults(suiteName: defaultsName)!
+defer { defaults.removePersistentDomain(forName: defaultsName) }
+let intent = AppUpdateResumeIntent(defaults: defaults)
+precondition(!intent.consume())
+intent.prepare(managedRunning: true)
+precondition(AppUpdateResumeIntent(defaults: defaults).consume())
+precondition(!intent.consume(), "Resume must be one-shot")
+intent.prepare(managedRunning: true)
+intent.prepare(managedRunning: false)
+precondition(!intent.consume(), "Stopped/external Proxy must remain stopped")
+intent.prepare(managedRunning: true)
+intent.cancel()
+precondition(!intent.consume(), "Cancelled update must clear resume")
+
 precondition(!AppUpdateState.unconfigured.canInstall)
 precondition(AppUpdateState.available("2.0").canInstall)
 precondition(AppUpdateState.checking.isBusy)
@@ -18,6 +33,29 @@ updater.onAbortInstallation = { released = true }
 updater.updater(controller.updater,didFinishUpdateCycleFor:.updates,error:NSError(domain:NSURLErrorDomain,code:-1009))
 precondition(released)
 if case .failed = updater.state {} else { preconditionFailure("Genuine error must remain visible") }
+
+let handoff = AppUpdater()
+var installed = false
+released = false
+handoff.onAbortInstallation = { released = true; intent.cancel() }
+handoff.prepareInstallation = { completion in intent.prepare(managedRunning: true); completion(true) }
+handoff.finishInstallation { installed = true }
+handoff.updater(controller.updater, didFinishUpdateCycleFor: .updates, error: nil)
+precondition(installed && !released, "Normal cycle finish after committed install must preserve resume and lease")
+precondition(handoff.hasSession && handoff.state.isBusy, "Committed installation must stay busy until relaunch")
+precondition(intent.consume())
+handoff.finishInstallation {}
+handoff.updater(controller.updater, didFinishUpdateCycleFor: .updates, error: NSError(domain: NSURLErrorDomain, code: -1009))
+precondition(released && !intent.consume(), "Installation error must clear committed resume")
+precondition(!handoff.hasSession && !handoff.state.isBusy)
+released = false
+handoff.prepareInstallation = { completion in intent.prepare(managedRunning: true); completion(false) }
+handoff.finishInstallation { preconditionFailure("Denied preparation must not install") }
+precondition(released && !intent.consume())
+precondition(!handoff.hasSession && !handoff.state.isBusy)
+released = false
+handoff.updater(controller.updater, didFinishUpdateCycleFor: .updates, error: nil)
+precondition(released, "Dismissed update without committed install must abort")
 
 let fm = FileManager.default
 let root = fm.temporaryDirectory.appendingPathComponent(UUID().uuidString)

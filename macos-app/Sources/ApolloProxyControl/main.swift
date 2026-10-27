@@ -114,6 +114,7 @@ final class ProxyManager: NSObject {
     private var knowledgeCommandRunning = false
     private let updateCheck = ProxyUpdateCheck()
     private let appUpdater = AppUpdater()
+    private let appUpdateResumeIntent = AppUpdateResumeIntent()
     private var appUpdateLease: String?
     private var codeReleaseStatus: CodeReleaseStatus?
     private var codeCheckError: String?
@@ -1441,15 +1442,18 @@ final class ProxyManager: NSObject {
     private func prepareAppUpdate(completion: @escaping (Bool) -> Void) {
         guard canInstallAppUpdate else { completion(false); return }
         runCodeCommand("prepare-app-update", onFailure: { error in
+            self.appUpdateResumeIntent.cancel()
             self.showError("Не удалось подготовить обновление", error.localizedDescription)
             completion(false)
         }) { result in
             self.appUpdateLease = result.appUpdateLease
+            self.appUpdateResumeIntent.prepare(managedRunning: self.process?.isRunning == true)
             completion(true)
         }
     }
 
     private func releaseAppUpdateLease() {
+        appUpdateResumeIntent.cancel()
         guard appUpdateLease != nil, !isQuitting else { return }
         runCodeCommand("release-app-update", onFailure: { error in
             self.appendLog("App update lease release failed: \(error.localizedDescription)\n")
@@ -1860,9 +1864,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        let resumeProxy = AppUpdateResumeIntent().consume()
         let manager = ProxyManager()
         manager.setupStatusItem(
-            autoStartProxy: CommandLine.arguments.contains("--start-proxy")
+            autoStartProxy: CommandLine.arguments.contains("--start-proxy") || resumeProxy
         )
         self.manager = manager
         if CommandLine.arguments.contains("--show-about") { manager.showProxyDetailsAction() }

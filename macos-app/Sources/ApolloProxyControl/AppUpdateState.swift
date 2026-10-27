@@ -1,5 +1,24 @@
 import Foundation
 
+struct AppUpdateResumeIntent {
+    private let defaults: UserDefaults
+    private let key = "resumeManagedProxyAfterAppUpdate"
+
+    init(defaults: UserDefaults = .standard) { self.defaults = defaults }
+
+    func prepare(managedRunning: Bool) {
+        defaults.set(managedRunning, forKey: key)
+    }
+
+    func cancel() { defaults.removeObject(forKey: key) }
+
+    func consume() -> Bool {
+        let resume = defaults.bool(forKey: key)
+        cancel()
+        return resume
+    }
+}
+
 enum AppUpdateState: Equatable {
     case unconfigured, idle, checking, current, available(String), installing, failed(String)
     var summary: String {
