@@ -2637,6 +2637,9 @@ async function prepareCodexRequest(
   runtimeManifest,
   onProgress
 ) {
+  if (require('./progressbar-pilot').isProgressBarPilot(payload)) return require('./progressbar-pilot').preparePilotFiles(payload, runDirectory, {
+    designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtimeManifest.knowledge,
+  });
   if (isCodexReportPayload(payload)) {
     const report = JSON.parse(JSON.stringify(payload.report));
     const patternMode = isPatternReportPayload(payload);
@@ -2762,6 +2765,7 @@ function buildCodexPrompt(
   reportStrategy = APOLLO_CODEX_REPORT_STRATEGY,
   requestDocument = null
 ) {
+  if (requestDocument?.transport?.mode === require('./progressbar-pilot').PILOT) return require('./progressbar-pilot').promptForPilot(requestDocument);
   const customizationReportMode = mode === 'customization-report';
   const patternReportMode = mode === 'pattern-report';
   const textReportMode = mode === 'text-report';

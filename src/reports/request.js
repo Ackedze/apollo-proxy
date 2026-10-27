@@ -43,6 +43,7 @@ function validateCodexRequest(payload) {
 
 
 function validateCodexReportRequest(payload) {
+  if (require('./progressbar-pilot').isProgressBarPilot(payload)) return require('./progressbar-pilot').validatePilotRequest(payload);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     return 'Request body must be an object.';
   }

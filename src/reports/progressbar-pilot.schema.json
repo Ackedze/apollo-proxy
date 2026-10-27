@@ -1,0 +1,23 @@
+{
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "reportId", "captureId", "sourcePin", "assessments"],
+  "properties": {
+    "schemaVersion": {"type":"string","const":"apollo.progressbar-assessment.v1"},
+    "reportId": {"type":"string"}, "captureId": {"type":"string"}, "sourcePin": {"type":"string"},
+    "assessments": {"type":"array","items":{
+      "type":"object","additionalProperties":false,
+      "required":["nodeId","outcome","observation","reason","evidenceNodeIds","ruleIds","ruleResults","sourceRefs"],
+      "properties":{
+        "nodeId":{"type":"string"}, "outcome":{"type":"string","enum":["compliant","violation","insufficient-data","not-applicable"]},
+        "observation":{"type":"string"}, "reason":{"type":"string"},
+        "evidenceNodeIds":{"type":"array","items":{"type":"string"}}, "ruleIds":{"type":"array","items":{"type":"string"}},
+        "ruleResults":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["ruleId","outcome","reason"],"properties":{
+          "ruleId":{"type":"string"},"outcome":{"type":"string","enum":["compliant","violation","insufficient-data","not-applicable"]},"reason":{"type":"string"}
+        }}},
+        "sourceRefs":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["sourceId","sha256","ruleId"],"properties":{
+          "sourceId":{"type":"string"},"sha256":{"type":"string"},"ruleId":{"type":"string"}
+        }}}
+      }
+    }}
+  }
+}

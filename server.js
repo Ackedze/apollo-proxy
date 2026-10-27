@@ -299,6 +299,7 @@ if (APOLLO_AGENT_INSECURE_TLS) {
 const app = express();
 let activeApiRequests = 0;
 const tokenJournalApi = require('./src/token-journal');
+const progressBarPilot = require('./src/reports/progressbar-pilot');
 // An explicit portable state root wins; dev/test journals stay in their own cwd.
 const tokenJournal = tokenJournalApi.createTokenJournal(path.join(process.env.APOLLO_STATE_ROOT || path.join(process.cwd(), '.local'), 'token-journal'));
 tokenJournalApi.configure(tokenJournal);
@@ -1135,6 +1136,7 @@ function assertCodexInputWithinBudget(metrics) {
 }
 
 async function callCodexValidator(payload, onProgress, options = {}) {
+  const pilot = progressBarPilot.isProgressBarPilot(payload), pilotUsageEvents = [], pilotStarted = Date.now();
   emitCodexProgress(onProgress, 'checking_skill');
   const runtimeManifest = assertCodexRuntimeReady();
   const skillManifest = runtimeManifest.skill;
@@ -1188,6 +1190,12 @@ async function callCodexValidator(payload, onProgress, options = {}) {
       runtimeManifest,
       onProgress
     );
+    const pilotKnowledge = { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtimeManifest.knowledge };
+    if (pilot && !prepared.requestDocument.subjects.length) {
+      await progressBarPilot.assertSourceCurrent(prepared.requestDocument, pilotKnowledge);
+      return progressBarPilot.validatePilotResponse({ schemaVersion: 'apollo.progressbar-assessment.v1', reportId: payload.report.reportId,
+        captureId: payload.report.capture.captureId, sourcePin: prepared.requestDocument.sourcePin, assessments: [] }, prepared.requestDocument);
+    }
     if (persistDebug) {
       await writeCodexDebugArtifact(
         debugRunId,
@@ -1202,13 +1210,12 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         );
       }
     }
-    const packetMode =
+    const packetMode = pilot || (
       ['customization-report', 'pattern-report', 'text-report'].includes(
         mode
-      ) && APOLLO_CODEX_REPORT_STRATEGY === 'packet';
+      ) && APOLLO_CODEX_REPORT_STRATEGY === 'packet');
     const requestDocuments =
-      mode === 'pattern-report' &&
-      prepared.requestDocument?.transport?.mode === 'semantic-v1'
+      mode === 'pattern-report'
         ? buildPatternAuditPassPackets(prepared.requestDocument)
         : [prepared.requestDocument];
     const passResults = [];
@@ -1234,8 +1241,9 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         'read-only',
         '--skip-git-repo-check',
         '--cd',
-        CODEX_WORKSPACE,
+        pilot ? runDirectory : CODEX_WORKSPACE,
       ];
+      if (pilot && CLI_PROVIDER === 'codex') args.push('--config', 'features.shell_tool=false');
       if (mode === 'pattern-report') {
         args.push(
           '--config',
@@ -1251,7 +1259,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         );
       }
       const outputSchema =
-        mode === 'pattern-report' &&
+        pilot ? path.join(__dirname, 'src/reports/progressbar-pilot.schema.json') : mode === 'pattern-report' &&
         requestDocument?.transport?.mode === 'semantic-v1'
           ? CODEX_PATTERN_OUTPUT_SCHEMA
           : CODEX_OUTPUT_SCHEMA;
@@ -1345,6 +1353,9 @@ async function callCodexValidator(payload, onProgress, options = {}) {
             mode === 'pattern-report'
               ? APOLLO_CODEX_PATTERN_REASONING_EFFORT
               : null,
+          runtimeBudgetMs: pilot ? 120000 : undefined,
+          workingDirectory: pilot ? runDirectory : undefined,
+          onEvent: pilot ? event => { if (pilotUsageEvents.length < 2000) pilotUsageEvents.push(event); } : undefined,
         }
       );
       passResults.push({ pass: requestDocument, result: passResult });
@@ -1384,6 +1395,19 @@ async function callCodexValidator(payload, onProgress, options = {}) {
       );
     }
     emitCodexProgress(onProgress, 'finalizing');
+    if (pilot) {
+      await progressBarPilot.assertSourceCurrent(prepared.requestDocument, pilotKnowledge);
+      const validated = progressBarPilot.validatePilotResponse(result, prepared.requestDocument);
+      const usage = require('./src/generation-agent/usage').usageFromEvents(pilotUsageEvents);
+      if (CLI_PROVIDER === 'codex' && usage.cliTurns > 1) {
+        for (const key of ['actualInputTokens','actualOutputTokens','cachedInputSubsetTokens','reasoningOutputSubsetTokens']) usage[key] = null;
+        usage.actualUsageReason = 'Multiple Codex usage events may be cumulative; raw events retained, totals unknown.';
+      }
+      validated.usage = Object.assign({}, usage, { provider: CLI_PROVIDER, requestedModel: AGENT_MODEL || null,
+        durationMs: Date.now() - pilotStarted, calls: requestDocuments.length });
+      if (persistDebug) await writeCodexDebugArtifact(debugRunId, '04-agent-response.normalized.json', validated);
+      return validated;
+    }
     const normalized = normalizeCodexValidation(
       result,
       payload,
@@ -1841,15 +1865,23 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
     res.status(400).json({ success: false, error: validationError });
     return;
   }
-  if (activeCodexRuns >= 1) {
-    res.status(429).json({
-      success: false,
-      error: 'Codex is already processing another Apollo request.',
-    });
+  function begin() {
+    if (activeCodexRuns >= 1) { res.status(429).json({ success: false, error: 'Codex is already processing another Apollo request.' }); return; }
+    const run = createCodexRun(payload); res.status(202).json({ success: true, run });
+  }
+  if (progressBarPilot.isProgressBarPilot(payload)) {
+    void Promise.resolve().then(async () => {
+      const runtime = assertCodexRuntimeReady();
+      const prepared = await progressBarPilot.preparePilot(payload, { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtime.knowledge });
+      if (payload.report.phase === 'prepare') {
+        res.json({ success: true, preparation: { reportId: prepared.reportId, captureId: prepared.captureId, sourcePin: prepared.sourcePin,
+          knowledge: prepared.knowledge, subjects: prepared.subjects, sources: prepared.sources.map(({ sourceId, path, sha256 }) => ({ sourceId, path, sha256 })) } }); return;
+      }
+      begin();
+    }).catch(error => res.status(error.status || 503).json({ success: false, error: error.message, code: error.code || 'PROGRESSBAR_PREPARATION_FAILED' }));
     return;
   }
-  const run = createCodexRun(payload);
-  res.status(202).json({ success: true, run });
+  begin();
 });
 
 function respondWithCodexRun(req, res) {
