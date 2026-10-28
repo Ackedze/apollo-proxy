@@ -32,13 +32,17 @@ if [[ -n "${SPARKLE_PUBLIC_KEY}" && -z "${SPARKLE_FEED_URL}" ]]; then
   SPARKLE_FEED_URL="https://github.com/Ackedze/apollo-proxy/releases/latest/download/appcast.xml"
 fi
 SPARKLE_FRAMEWORK="${APP_ROOT}/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
-SIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
+SIGN_IDENTITY="${CODESIGN_IDENTITY:-$(swift "${SCRIPT_DIR}/app-signing.swift")}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
 REQUIRE_NOTARIZATION="${REQUIRE_NOTARIZATION:-0}"
 EMBED_PROXY_ENV="${EMBED_PROXY_ENV:-0}"
+EMPTY_DATA_START="${APOLLO_EMPTY_DATA_START:-1}"
+[[ "${EMPTY_DATA_START}" == 0 || "${EMPTY_DATA_START}" == 1 ]] || { echo 'APOLLO_EMPTY_DATA_START must be 0 or 1.' >&2; exit 1; }
+ACTIVATION_REQUIRED_XML=true
+[[ "${EMPTY_DATA_START}" == 1 ]] || ACTIVATION_REQUIRED_XML=false
 KNOWLEDGE_DESCRIPTOR_URL="${KNOWLEDGE_DESCRIPTOR_URL:-https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/knowledge/channels/stable.json}"
 KNOWLEDGE_DESCRIPTOR_XML="$(printf '%s' "${KNOWLEDGE_DESCRIPTOR_URL}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
-DATA_DESCRIPTOR_URL="${APOLLO_DATA_DESCRIPTOR_URL:-}"
+DATA_DESCRIPTOR_URL="${APOLLO_DATA_DESCRIPTOR_URL:-https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/channels/stable/data-packages/current.json}"
 DATA_ASSET_URL_TEMPLATE="${APOLLO_DATA_ASSET_URL:-}"
 if [[ -z "${DATA_ASSET_URL_TEMPLATE}" ]]; then
   DATA_ASSET_URL_TEMPLATE='https://github.com/Ackedze/design-system_ab/releases/download/apollo-data-{version}/apollo-data-{version}.tgz'
@@ -75,7 +79,7 @@ fi
 
 sign_target() {
   local target="$1"
-  if [[ "${SIGN_IDENTITY}" == "-" ]]; then
+  if [[ -z "${NOTARY_KEYCHAIN_PROFILE}" ]]; then
     codesign --force --sign "${SIGN_IDENTITY}" --timestamp=none "${target}"
   else
     codesign --force --sign "${SIGN_IDENTITY}" --options runtime --timestamp "${target}"
@@ -149,12 +153,16 @@ cat > "${APP_BUNDLE}/Contents/Info.plist" <<EOF
   <false/>
   <key>SUVerifyUpdateBeforeExtraction</key>
   <true/>
+  <key>NSAppTransportSecurity</key>
+  <dict><key>NSAllowsLocalNetworking</key><true/></dict>
   <key>LSMinimumSystemVersion</key>
   <string>13.0</string>
   <key>LSUIElement</key>
   <true/>
   <key>ApolloDataDescriptorURL</key>
   <string>${DATA_DESCRIPTOR_XML}</string>
+  <key>ApolloDataActivationRequired</key>
+  <${ACTIVATION_REQUIRED_XML}/>
   <key>ApolloKnowledgeDescriptorURL</key>
   <string>${KNOWLEDGE_DESCRIPTOR_XML}</string>
 </dict>
@@ -206,7 +214,10 @@ fi
 node -e 'require(process.argv[1]).readRuntime(process.argv[2])' "${PROXY_ROOT}/src/data-release" "${PORTABLE_RUNTIME_SOURCE}"
 mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/apollo"
 rsync -a --delete "${PORTABLE_RUNTIME_SOURCE}/" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/apollo/"
-if [[ -n "${APOLLO_DATA_RELEASE_SEED_SOURCE:-}" ]]; then
+if [[ "${EMPTY_DATA_START}" == 1 ]]; then
+  mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed"
+  touch "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed/.activation-required"
+elif [[ -n "${APOLLO_DATA_RELEASE_SEED_SOURCE:-}" ]]; then
   RELEASE_SEED="${APOLLO_DATA_RELEASE_SEED_SOURCE}"
 else
   if [[ -n "${KNOWLEDGE_SEED_SOURCE:-}" ]]; then
@@ -225,10 +236,12 @@ else
     --tarball-url "${DATA_ASSET_URL_TEMPLATE}"
   RELEASE_SEED="${WORK_DIR}/data-release/package"
 fi
+if [[ "${EMPTY_DATA_START}" == 0 ]]; then
 node -e 'require(process.argv[1]).validateRelease(process.argv[2],{runtimeRoot:process.argv[3]}).catch(e=>{console.error(e.message);process.exitCode=1})' \
   "${PROXY_ROOT}/src/data-release" "${RELEASE_SEED}" "${PORTABLE_RUNTIME_SOURCE}"
 mkdir -p "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed"
 rsync -a --delete "${RELEASE_SEED}/" "${APP_BUNDLE}/Contents/Resources/embedded-proxy/runtime/seed/"
+fi
 
 if [[ -z "${NODE_EXECUTABLE}" ]]; then
   echo "Node.js is required on the build machine to create a shareable app bundle." >&2

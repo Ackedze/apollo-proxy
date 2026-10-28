@@ -54,8 +54,8 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
   const refs = await get('https://github.com/' + source.owner + '/' + source.repo + '.git/info/refs?service=git-upload-pack', token, request);
   const commit = advertisedCommit(Buffer.from(await refs.arrayBuffer()), source.ref);
   const index = await (await get(contentUrl(source, commit, source.file), token, request, true)).json();
-  if (!['apollo.git-data-index.v1', 'apollo.git-data-index.v2'].includes(index.schemaVersion) || index.runtimeId !== runtimeId) throw Error('Git data index is invalid or incompatible with this runtime.');
-  if (index.schemaVersion === 'apollo.git-data-index.v2') {
+  if (!['apollo.git-data-index.v1', 'apollo.git-data-index.v2', 'apollo.git-data-index.v3'].includes(index.schemaVersion) || index.runtimeId !== runtimeId) throw Error('Git data index is invalid or incompatible with this runtime.');
+  if (['apollo.git-data-index.v2','apollo.git-data-index.v3'].includes(index.schemaVersion)) {
     if (index.snapshot !== undefined) throw Error('Ambiguous Git data index.');
     require('../src/data-packages/npm').validateReference(index.npm);
   } else if (!safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
@@ -63,6 +63,10 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
       !Number.isSafeInteger(index.snapshot.bytes) || index.snapshot.bytes < 1 || index.snapshot.bytes > 100 * 1024 * 1024) throw Error('Git data index is invalid or incompatible with this runtime.');
   if(index.skills!==undefined && (!index.skills || Object.keys(index.skills).sort().join(',')!=='bytes,path,sha256' || index.skills.path!=='apollo/skills/manifest.json'
     || !/^[a-f0-9]{64}$/.test(index.skills.sha256||'') || !Number.isSafeInteger(index.skills.bytes) || index.skills.bytes<1 || index.skills.bytes>65536))throw Error('Git skill catalog reference is invalid.');
+  if (index.schemaVersion === 'apollo.git-data-index.v3') {
+    require('../src/data-packages/protected').validateActivation(index.activation);
+    if (index.skills !== undefined || index.knowledge !== undefined) throw Error('Protected release must be a complete package.');
+  }
   return { source, commit, index };
 }
 
@@ -104,10 +108,12 @@ function extractSnapshot(archive, destination) {
     ...(process.platform === 'darwin' ? ['--no-mac-metadata'] : [])]);
 }
 
-async function updateFromGit({ settings, ensured, url, token, command, producerRoot, request = fetch }) {
+async function updateFromGit({ settings, ensured, url, token, command, producerRoot, request = fetch, access }) {
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const runtime = releases.readRuntime(settings.runtimeRoot);
   const selected = await readGitIndex(url, runtime.id, token, request);
+  if (selected.index.schemaVersion === 'apollo.git-data-index.v3') return require('../src/data-packages/protected').installProtected({settings,ensured,selected,command,access,request,releases});
+  if (!ensured.state?.current) throw Error('DATA_ACTIVATION_REQUIRED');
   const snapshot = selected.index.npm || selected.index.snapshot;
   const installed=selected.index.skills ? releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot) : null;
   const updateAvailable = snapshot.dataId !== ensured.state.current.dataId || Boolean(selected.index.skills && selected.index.skills.sha256!==installed.skillsSourceSha256);
@@ -163,13 +169,18 @@ async function runCommand(command, options) {
   const producerRoot = path.resolve(process.env.APOLLO_DATA_PRODUCER_ROOT || path.join(__dirname, '..'));
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const settings = { storeRoot: path.resolve(options.store), seedRoot: path.resolve(options.seed), runtimeRoot: path.resolve(options.runtime) };
-  const ensured = await releases.ensureStore(settings);
-  if (['ensure', 'status', 'run'].includes(command)) return releases.publicStatus(ensured.state, { recovered: ensured.recovered });
+  let ensured;
+  try { ensured = await releases.ensureStore(settings); }
+  catch (error) {
+    if (error.code !== 'ENOENT' || require('node:fs').existsSync(path.join(settings.seedRoot,'manifest.json')) || require('node:fs').existsSync(path.join(settings.storeRoot,'state.json'))) throw error;
+    ensured = {state:{current:null,previous:null}};
+  }
+  if (['ensure', 'status', 'run'].includes(command)) return ensured.state.current ? releases.publicStatus(ensured.state, { recovered: ensured.recovered }) : {current:null,previous:null,activationRequired:true};
   if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
   const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require(path.join(producerRoot, 'src/portable-runtime')).readSettings().dataDescriptorUrl;
   if (!url) throw Error('Configure the Git raw URL of the data index.');
   const token = process.env.APOLLO_DATA_TOKEN;
-  if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) return updateFromGit({ settings, ensured, url, token, command, producerRoot });
+  if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) return updateFromGit({ settings, ensured, url, token, command, producerRoot, access:options.access });
   // Preserve the existing full-release updater for previously configured installations.
   const knowledge = require(path.join(producerRoot, 'src/knowledge-package'));
   const descriptor = releases.validateDescriptor(await knowledge.fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));
@@ -187,14 +198,19 @@ async function runCommand(command, options) {
 
 async function main(argv) {
   const [command, ...args] = argv, options = {};
-  if (!['ensure', 'status', 'check', 'update', 'rollback', 'run'].includes(command)) throw Error('Unknown data command.');
+  if (!['ensure', 'status', 'check', 'update', 'activate', 'rollback', 'run'].includes(command)) throw Error('Unknown data command.');
   for (let i = 0; i < args.length; i += 2) {
     if (!['--store', '--seed', '--runtime', '--descriptor', '--engine'].includes(args[i]) || !args[i + 1]) throw Error('Invalid data argument.');
     options[args[i].slice(2)] = args[i + 1];
   }
   for (const key of ['store', 'seed', 'runtime']) if (!options[key]) throw Error('--' + key + ' is required.');
+  if (process.env.APOLLO_DATA_INPUT === '1') {
+    let input=''; for await(const chunk of process.stdin){input+=chunk;if(Buffer.byteLength(input)>4096)throw Error('DATA_ACTIVATION_INPUT_INVALID');}
+    options.access=JSON.parse(input || '{}');
+  }
   const status = await runCommand(command, options);
   if (command !== 'run') { console.log(JSON.stringify(status)); return; }
+  if (!status.current) throw Error('DATA_ACTIVATION_REQUIRED');
   const root = path.resolve(__dirname, '..');
   const env = { ...process.env, APOLLO_PROJECT_ROOT: path.resolve(options.runtime), APOLLO_DATA_ROOT: status.dataRoot,
     APOLLO_RELEASE_ROOT: status.releaseRoot, CODEX_DESIGN_SYSTEM: status.designSystemRoot, CODEX_DS_AI_HUB: status.dsAiHubRoot,

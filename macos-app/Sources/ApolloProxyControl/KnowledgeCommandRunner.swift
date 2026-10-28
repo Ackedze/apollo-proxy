@@ -26,6 +26,9 @@ struct KnowledgeVersionSummary: Decodable {
 }
 
 struct KnowledgeCommandStatus: Decodable {
+    let activationRequired: Bool?
+    let activationKeyID: String?
+    var activationKey: String?
     let current: KnowledgeVersionSummary?
     let previous: KnowledgeVersionSummary?
     let designSystemRoot: String?
@@ -65,6 +68,7 @@ struct KnowledgeCommandRunner {
     let descriptorURL: String?
     let environment: [String: String]
     var runtimeURL: URL? = nil
+    var privateInput = Data("{}".utf8)
 
     private func process(for command: String) -> (Process, Pipe, Pipe) {
         let task = Process()
@@ -79,7 +83,11 @@ struct KnowledgeCommandRunner {
             "--engine", "1.0.1",
         ] + (descriptorURL.map { ["--descriptor", $0] } ?? [])
             + (runtimeURL.map { ["--runtime", $0.path] } ?? [])
-        task.environment = environment
+        task.environment = environment.merging(["APOLLO_DATA_INPUT": "1"], uniquingKeysWith: { _, value in value })
+        let input = Pipe()
+        task.standardInput = input
+        input.fileHandleForWriting.write(privateInput)
+        try? input.fileHandleForWriting.close()
         task.standardOutput = stdout
         task.standardError = stderr
         return (task, stdout, stderr)

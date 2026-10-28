@@ -29,6 +29,8 @@ struct ProxyDetailsSnapshot {
     var canUpdateCode = false
     var canRollbackCode = false
     var apolloURL = ""
+    var activationRequired = false
+    var canActivateData = false
 }
 
 @MainActor
@@ -37,7 +39,7 @@ final class ProxyDetailsWindowController: NSWindowController {
         override var isFlipped: Bool { true }
     }
     enum Action: Hashable { case login, checkAccess, installCLI, checkUpdates, updateCode, rollbackCode, updateKnowledge, rollbackKnowledge,
-                      editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder }
+                      editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder, activateData }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
     var onModelChange: ((String) -> Void)?
@@ -134,6 +136,8 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.rollbackCode]?.isHidden = true
         buttons[.updateKnowledge]?.isEnabled = state.canUpdate
         buttons[.rollbackKnowledge]?.isEnabled = state.canRollback
+        buttons[.activateData]?.isHidden = !state.activationRequired
+        buttons[.activateData]?.isEnabled = state.canActivateData
         urlField.stringValue = state.apolloURL
         buttons[.editURL]?.isEnabled = state.canChangeAgent
         buttons[.resetURL]?.isEnabled = state.canChangeAgent && state.apolloURL != CLIProvider.defaultAlfaGenURL
@@ -234,7 +238,7 @@ final class ProxyDetailsWindowController: NSWindowController {
         knowledgeVersion.lineBreakMode = .byCharWrapping
         style(sourceCommits, secondary: true, selectable: true)
         sourceCommits.lineBreakMode = .byCharWrapping
-        section([heading("Знания"), knowledgePicker, knowledgeVersion, sourceCommits])
+        section([heading("Знания"), knowledgePicker, knowledgeVersion, sourceCommits, button("Активировать Apollo…", .activateData)])
         style(codeLabel)
         updateProgress.style = .spinning
         updateProgress.controlSize = .small

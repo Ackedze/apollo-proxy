@@ -21,18 +21,24 @@ function validateReference(pin) {
 async function download(pin, destination, request = fetch) {
   validateReference(pin);
   // Repository tokens are never forwarded to a separate npm asset origin.
-  const response = await request(pin.tarballUrl, { headers: { Accept: 'application/octet-stream' }, redirect: 'error', signal: AbortSignal.timeout(60000) });
+  let url = new URL(pin.tarballUrl), response;
+  const signal = AbortSignal.timeout(60000);
+  for (let redirects = 0; redirects <= 5; redirects++) {
+    response = await request(url.toString(), { headers: { Accept: 'application/octet-stream' }, redirect: 'manual', signal });
+    if (![301,302,303,307,308].includes(response.status)) break;
+    const next = new URL(response.headers.get('location'), url);
+    await response.body?.cancel();
+    if (redirects === 5 || next.protocol !== 'https:' || next.username || next.password) fail('NPM_DATA_REDIRECT_INVALID');
+    url = next;
+  }
   if (!response.ok) fail('NPM_DATA_HTTP_' + response.status);
-  const hash = crypto.createHash('sha512');
+  let bytes;
+  try { bytes = await require('../http-fetch').readBytes(response, pin.bytes); }
+  catch (error) { if (error.code === 'HTTP_BODY_TOO_LARGE') fail('NPM_DATA_SIZE_INVALID'); throw error; }
+  if (bytes.length !== pin.bytes || 'sha512-' + crypto.createHash('sha512').update(bytes).digest('base64') !== pin.integrity) fail('NPM_DATA_INTEGRITY_INVALID');
   const handle = await fs.open(destination, 'wx', 0o600);
-  let size = 0;
   try {
-    for await (const part of response.body) {
-      size += part.length;
-      if (size > pin.bytes) fail('NPM_DATA_SIZE_INVALID');
-      hash.update(part); await handle.writeFile(part);
-    }
-    if (size !== pin.bytes || 'sha512-' + hash.digest('base64') !== pin.integrity) fail('NPM_DATA_INTEGRITY_INVALID');
+    await handle.writeFile(bytes);
   } finally { await handle.close(); }
 }
 

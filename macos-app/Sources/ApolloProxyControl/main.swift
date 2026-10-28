@@ -111,6 +111,12 @@ final class ProxyManager: NSObject {
     private var pendingRestartAfterStop = false
     private var pendingProxyStartAfterAuthorization = false
     private var knowledgeRuntime: KnowledgeCommandStatus?
+    private var dataAccess = try? DataActivationKeychain.load()
+    private var activationController: DataActivationWindowController?
+    private var dataNeedsActivation: Bool {
+        knowledgeRuntime?.activationRequired == true ||
+            (Bundle.main.object(forInfoDictionaryKey: "ApolloDataActivationRequired") as? Bool == true && dataAccess == nil)
+    }
     private var knowledgeCommandRunning = false
     private let updateCheck = ProxyUpdateCheck()
     private let appUpdater = AppUpdater()
@@ -138,6 +144,16 @@ final class ProxyManager: NSObject {
         appUpdater.canBeginInstallation = { [weak self] in self?.canInstallAppUpdate == true }
         appUpdater.prepareInstallation = { [weak self] completion in self?.prepareAppUpdate(completion: completion) }
         appUpdater.onAbortInstallation = { [weak self] in self?.releaseAppUpdateLease() }
+        appUpdater.configureTransport = { [weak self] in
+            guard let self, let nodeURL = self.resolveNodeExecutableURL(),
+                  let resources = Bundle.main.resourceURL,
+                  let feed = Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") as? String else {
+                throw KnowledgeCommandError.failed("Загрузчик обновлений недоступен.")
+            }
+            return AppUpdateTransport.Configuration(nodeURL: nodeURL,
+                scriptURL: resources.appendingPathComponent("embedded-proxy/scripts/app-update-transport.js"),
+                feedURL: feed, environment: self.knowledgeCommandEnvironment())
+        }
         configureMenu()
         refreshUI()
         startHealthChecks()
@@ -154,6 +170,7 @@ final class ProxyManager: NSObject {
             knowledgeUpdateStatus = .failed(error.localizedDescription)
         }
         checkForUpdates()
+        if dataNeedsActivation { showDataActivation(); return }
         checkAgentAuthorization(startProxyWhenReady: autoStartProxy)
     }
 
@@ -217,6 +234,13 @@ final class ProxyManager: NSObject {
         snapshot.canCheckUpdates = !knowledgeCommandRunning && !isExternalProxyRunning
         snapshot.canUpdate = snapshot.canUpdate && !codeCommandRunning && !codeRestartPending
         snapshot.canRollback = snapshot.canRollback && !codeCommandRunning && !codeRestartPending
+        snapshot.activationRequired = dataNeedsActivation
+        snapshot.canActivateData = dataNeedsActivation && !knowledgeCommandRunning && !isExternalProxyRunning
+        if dataNeedsActivation {
+            snapshot.knowledgeStatus = "Активируйте Apollo корпоративным паролем"
+            snapshot.knowledgeVersion = knowledgeRuntime?.current?.contentVersion ?? "Данные ещё не загружены"
+            snapshot.canUpdate = false; snapshot.canRollback = false
+        }
         snapshot.canCheckUpdates = snapshot.canCheckUpdates && !codeCommandRunning && !codeRestartPending
             && !updateCheck.isRunning && !pendingKnowledgeRestart && status != .starting && agentAuthProcess == nil && !codexInstaller.isRunning
         snapshot.checkingUpdates = updateCheck.isRunning
@@ -457,7 +481,7 @@ final class ProxyManager: NSObject {
     }
 
     private func configuredKnowledgeDescriptorURL() -> String? {
-        if FileManager.default.fileExists(atPath: proxyInstallURL.appendingPathComponent("runtime/seed/manifest.json").path) {
+        if FileManager.default.fileExists(atPath: proxyInstallURL.appendingPathComponent("runtime/apollo/portable-runtime.json").path) {
             if let configured = readEnvMap()?["APOLLO_DATA_DESCRIPTOR_URL"], !configured.isEmpty { return configured }
             let settings = appSupportURL.appendingPathComponent("portable-settings.json")
             if let bytes = try? Data(contentsOf: settings),
@@ -494,7 +518,7 @@ final class ProxyManager: NSObject {
             throw KnowledgeCommandError.failed("Bundled Node runtime is unavailable.")
         }
         let releaseSeed = proxyInstallURL.appendingPathComponent("runtime/seed", isDirectory: true)
-        let portable = FileManager.default.fileExists(atPath: releaseSeed.appendingPathComponent("manifest.json").path)
+        let portable = FileManager.default.fileExists(atPath: proxyInstallURL.appendingPathComponent("runtime/apollo/portable-runtime.json").path)
         let cliURL = proxyInstallURL
             .appendingPathComponent("scripts", isDirectory: true)
             .appendingPathComponent(portable ? "data-release-cli.js" : "knowledge-package-cli.js", isDirectory: false)
@@ -516,7 +540,56 @@ final class ProxyManager: NSObject {
             environment: knowledgeCommandEnvironment()
         )
         if portable { runner.runtimeURL = proxyInstallURL.appendingPathComponent("runtime/apollo") }
+        runner.privateInput = dataAccess ?? Data("{}".utf8)
         return runner
+    }
+
+    private func showDataActivation() {
+        if activationController == nil {
+            let controller = DataActivationWindowController()
+            controller.onActivate = { [weak self] password in self?.activateData(password: password) }
+            activationController = controller
+        }
+        activationController?.present()
+    }
+
+    private func activateData(password: String) {
+        guard !knowledgeCommandRunning, !codeCommandRunning, !isExternalProxyRunning else {
+            activationController?.showError("Дождитесь завершения текущей задачи и повторите активацию."); return
+        }
+        knowledgeCommandRunning = true
+        do {
+            var runner = try knowledgeCommandRunner()
+            runner.privateInput = try JSONSerialization.data(withJSONObject: ["password": password])
+            try runner.run("activate", phase: { _ in }) { [weak self] result in
+                Task { @MainActor in
+                    guard let self else { return }
+                    self.knowledgeCommandRunning = false
+                    switch result {
+                    case .success(var value):
+                        do {
+                            guard let key = value.activationKey, let id = value.activationKeyID else {
+                                throw KnowledgeCommandError.failed("Источник данных не поддерживает активацию.")
+                            }
+                            self.dataAccess = try DataActivationKeychain.save(key: key, keyID: id)
+                            value.activationKey = nil
+                            self.knowledgeRuntime = value
+                            self.knowledgeUpdateStatus = .ready(value.current?.contentVersion ?? "")
+                            self.activationController?.close()
+                            self.checkAgentAuthorization(startProxyWhenReady: true)
+                        } catch { self.activationController?.showError(error.localizedDescription) }
+                    case .failure(let error):
+                        let invalid = error.localizedDescription.contains("DATA_ACTIVATION_PASSWORD_INVALID")
+                        self.activationController?.showError(invalid ? "Неверный пароль. Проверьте его и повторите ввод." : "Не удалось загрузить данные. Проверьте подключение и повторите активацию.")
+                    }
+                    self.refreshUI()
+                }
+            }
+        } catch {
+            knowledgeCommandRunning = false
+            activationController?.showError("Не удалось запустить загрузку данных. Повторите активацию.")
+            refreshUI()
+        }
     }
 
     private func checkForUpdates() {
@@ -1076,6 +1149,12 @@ final class ProxyManager: NSObject {
         }
 
         try applyUserOverridesIfNeeded()
+        if Bundle.main.object(forInfoDictionaryKey: "ApolloDataActivationRequired") as? Bool == true,
+           configuredKnowledgeDescriptorURL() == "https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/data-packages/current.json",
+           let channel = Bundle.main.object(forInfoDictionaryKey: "ApolloDataDescriptorURL") as? String, !channel.isEmpty {
+            try writeEnvValue(channel, forKey: "APOLLO_DATA_DESCRIPTOR_URL", to: overridesURL)
+            try writeEnvValue(channel, forKey: "APOLLO_DATA_DESCRIPTOR_URL", to: envURL)
+        }
         // Replace only the former shipped default; keep every custom address.
         if readConfiguredApolloURL() == CLIProvider.legacyApolloURL {
             try writeEnvValue(defaultApolloURL, forKey: "APOLLO_AGENT_URL", to: overridesURL)
@@ -1271,6 +1350,7 @@ final class ProxyManager: NSObject {
 
     @objc private func startProxyAction() {
         guard !isQuitting, process == nil else { return }
+        if dataNeedsActivation { showDataActivation(); return }
         let alreadyPending = startRequest.pending
         let token = startRequest.request(knowledgeRunning: knowledgeCommandRunning || codeCommandRunning || updateCheck.isRunning)
         status = .starting
@@ -1588,6 +1668,7 @@ final class ProxyManager: NSObject {
                 case .openConfiguration: self.openEnvAction()
                 case .openLogs: self.openLogsAction()
                 case .openFolder: self.openProxyFolderAction()
+                case .activateData: self.showDataActivation()
                 }
             }
             controller.onProviderChange = { [weak self] provider in self?.selectAgent(provider) }

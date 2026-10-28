@@ -9,4 +9,14 @@ function proxyFetch(url, options = {}) {
   return globalThis.fetch(url, { ...options, dispatcher: options.dispatcher || dispatcher });
 }
 
-module.exports = { fetch: proxyFetch };
+async function readBytes(response, maxBytes) {
+  const chunks = []; let size = 0;
+  // Drain before disk/network writes: Undici #5360 can crash on FIN while its parser is paused.
+  for await (const chunk of response.body) {
+    size += chunk.length;
+    if (size > maxBytes) throw Object.assign(Error('HTTP_BODY_TOO_LARGE'), { code: 'HTTP_BODY_TOO_LARGE' });
+    chunks.push(chunk);
+  }
+  return Buffer.concat(chunks, size);
+}
+module.exports = { fetch: proxyFetch, readBytes };

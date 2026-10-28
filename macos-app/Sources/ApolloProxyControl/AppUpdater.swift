@@ -7,6 +7,8 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
     private var completion: (() -> Void)?
     private var postponedInstall: (() -> Void)?
     private var installationCommitted = false
+    private let transport = AppUpdateTransport()
+    var configureTransport: (() throws -> AppUpdateTransport.Configuration)?
     var onChange: (() -> Void)?
     var canBeginInstallation: () -> Bool = { false }
     var onAbortInstallation: () -> Void = {}
@@ -29,15 +31,36 @@ final class AppUpdater: NSObject, SPUUpdaterDelegate {
         guard canCheck, let controller else { completion(); return }
         self.completion = completion
         state = .checking
-        controller.updater.checkForUpdateInformation()
+        withTransport { controller.updater.checkForUpdateInformation() }
     }
     func install() {
         guard canBeginInstallation() else { return }
         if let handler = postponedInstall { finishInstallation(handler); return }
         guard canCheck, state.canInstall else { return }
         state = .installing
-        controller?.checkForUpdates(nil)
+        withTransport { [weak self] in self?.controller?.checkForUpdates(nil) }
     }
+    private func withTransport(_ action: @escaping () -> Void) {
+        do {
+            guard let configureTransport else { throw NSError(domain: "ApolloAppUpdate", code: 2) }
+            transport.start(try configureTransport()) { [weak self] result in
+                switch result {
+                case .success: action()
+                case .failure(let error): self?.transportFailed(error)
+                }
+            }
+        } catch { transportFailed(error) }
+    }
+    private func transportFailed(_ error: Error) {
+        state = .failed(error.localizedDescription)
+        let done = completion; completion = nil; done?()
+        onAbortInstallation()
+    }
+    func feedURLString(for updater: SPUUpdater) -> String? { transport.feedURL }
+    func updater(_ updater: SPUUpdater, willDownloadUpdate item: SUAppcastItem, with request: NSMutableURLRequest) {
+        if let remote = request.url { request.url = transport.archiveURL(for: remote) }
+    }
+    func updater(_ updater: SPUUpdater, shouldDownloadReleaseNotesForUpdate item: SUAppcastItem) -> Bool { false }
     func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         if state != .installing { state = .available(item.displayVersionString) }
     }

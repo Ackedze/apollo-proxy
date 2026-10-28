@@ -52,12 +52,13 @@ async function fixture(t) {
   }
   return {root,runtimeRoot,runtime,knowledgeRoot,data};
 }
-function transport(descriptor, bytes) {
+function transport(descriptor, bytes, knowledgeBytes) {
   const calls=[],packet=s=>(Buffer.byteLength(s)+4).toString(16).padStart(4,'0')+s;
   return {calls,request:async(url,options)=>{
     calls.push({url,options});
     if(url.includes('/info/refs?'))return new Response(packet(commit+' refs/heads/main\n')+'0000');
     if(url===descriptor.npm.tarballUrl)return new Response(bytes);
+    if(url===descriptor.knowledge?.tarballUrl)return new Response(knowledgeBytes);
     assert.ok(url.includes('/'+commit+'/'));return Response.json(descriptor);
   }};
 }
@@ -84,6 +85,20 @@ test('real npm pack installs, checks without download and rolls back through the
   assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')),state);
 });
 
+test('npm redirects preserve HTTPS and never forward repository credentials', async t => {
+  const f = await fixture(t), dataRoot = await f.data('data');
+  const built = await buildNpmDataPackage({ dataRoot, runtimeRoot: f.runtimeRoot, output: path.join(f.root,'npm'),
+    name:'@apollo/contracts',version:'1.0.0',tarballUrl:'https://github.com/example/data/releases/download/v1/contracts.tgz' });
+  const body = await fs.readFile(built.tarballPath), calls = [];
+  await npmData.download(built.descriptor.npm, path.join(f.root, 'downloaded.tgz'), async (url, options) => {
+    calls.push(options);
+    return calls.length === 1 ? new Response(null, { status:302,headers:{location:'https://release-assets.githubusercontent.com/contracts.tgz'} }) : new Response(body);
+  });
+  assert.deepEqual(await fs.readFile(path.join(f.root,'downloaded.tgz')), body);
+  assert.ok(calls.every(c => !c.headers.Authorization));
+  await assert.rejects(npmData.download(built.descriptor.npm, path.join(f.root,'bad.tgz'), async () => new Response(null,{status:302,headers:{location:'http://example.test/data.tgz'}})), /REDIRECT_INVALID/);
+});
+
 test('npm references are exact, identity and executable extras fail closed; v2 retains skill catalog pins',async t=>{
   const f=await fixture(t),dataRoot=await f.data('data');
   const built=await buildNpmDataPackage({dataRoot,runtimeRoot:f.runtimeRoot,output:path.join(f.root,'npm'),name:'@apollo/contracts',version:'1.0.0',tarballUrl:'https://registry.example.test/contracts-1.0.0.tgz'});
@@ -104,4 +119,55 @@ test('1001 small contracts pass actual index/contract readers and archive-free r
   assert.equal(result.contracts.length,1001);
   assert.equal(packages.readGenerationData({root,apolloRoot:f.runtimeRoot}).prompt('desktop').contracts.length,1001);
   assert.equal(sync.statSync(path.join(root,'manifest.json')).size<16*1024*1024,true);
+});
+
+test('empty app activates an encrypted npm release once; wrong password/tampering preserve data, saved key updates and rolls back',async t=>{
+  const f=await fixture(t), protectedData=require('../src/data-packages/protected');
+  const {buildProtectedDataPackage}=require('../scripts/build-protected-data-package');
+  const password='test-only-'+require('node:crypto').randomBytes(24).toString('hex');
+  const activation=protectedData.createActivation(password);
+  assert.throws(()=>protectedData.accessKey(activation,{password:'incorrect'}),/PASSWORD_INVALID/);
+  assert.throws(()=>protectedData.validateActivation({...activation,kdf:{...activation.kdf,N:2**28}}),/DESCRIPTOR_INVALID/);
+  const settings={storeRoot:path.join(f.root,'store'),seedRoot:path.join(f.root,'empty-seed'),runtimeRoot:f.runtimeRoot};
+  await fs.mkdir(settings.storeRoot);
+  const args={settings,url:sourceUrl,producerRoot:path.resolve(__dirname,'..')};
+  let ensured={state:{current:null,previous:null}},access;
+  for(const count of [1,2]) {
+    const data=await f.data('protected-'+count,count,count);
+    const release=await buildDataRelease({dataRoot:data,knowledgeRoot:f.knowledgeRoot,runtimeRoot:f.runtimeRoot,
+      output:path.join(f.root,'release-'+count),profile:'checking-ask-figma-mcp',tarballUrl:'https://example.test/{version}.tgz'});
+    const built=await buildProtectedDataPackage({releaseRoot:release.packageRoot,runtimeRoot:f.runtimeRoot,
+      output:path.join(f.root,'protected-npm-'+count),version:'1.0.'+count,tarballUrl:'https://example.test/data-'+count+'.tgz',activation,password});
+    const members=execFileSync('/usr/bin/tar',['-tzf',built.tarballPath],{encoding:'utf8'}).trim().split('\n').sort();
+    assert.deepEqual(members,['package/encryption.json','package/package.json','package/payload.enc']);
+    const archive=await fs.readFile(built.tarballPath);
+    const checked=await updateFromGit({...args,ensured,command:'check',access,request:transport(built.descriptor,archive).request});
+    assert.equal(checked.activationRequired,count===1);
+    const before=(await fs.readFile(path.join(settings.storeRoot,'state.json')).catch(()=>null));
+    const bad=transport(built.descriptor,archive);
+    await assert.rejects(updateFromGit({...args,ensured,command:'activate',access:{password:'incorrect'},request:bad.request}),/PASSWORD_INVALID/);
+    assert.equal(bad.calls.length,2,'incorrect password must not download data');
+    assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')).catch(()=>null),before);
+    const result=await updateFromGit({...args,ensured,command:count===1?'activate':'update',access:access||{password},request:transport(built.descriptor,archive).request});
+    assert.equal(result.activationRequired,false);
+    assert.equal(packages.readGenerationData({root:result.dataRoot,apolloRoot:f.runtimeRoot}).contracts.length,count);
+    if(count===1)access={key:result.activationKey,keyId:result.activationKeyID};
+    else assert.equal(result.activationKey,undefined,'updates must not return secrets');
+    ensured={state:await releases.readState(settings.storeRoot)};
+    const noOp=transport(built.descriptor,archive);
+    assert.equal((await updateFromGit({...args,ensured,command:'update',access,request:noOp.request})).updateAvailable,false);
+    assert.equal(noOp.calls.length,2);
+    // A publisher-side alteration with a recomputed outer checksum must still fail GCM authentication.
+    const encrypted=path.join(built.packageRoot,'payload.enc'),bytes=await fs.readFile(encrypted);bytes[0]^=1;await fs.writeFile(encrypted,bytes);
+    const corrupt=path.join(f.root,'corrupt-'+count+'.tgz');execFileSync('/usr/bin/tar',['-czf',corrupt,'-C',path.dirname(built.packageRoot),'package'],{env:{...process.env,COPYFILE_DISABLE:'1'}});
+    const body=await fs.readFile(corrupt),index=structuredClone(built.descriptor);
+    index.npm.bytes=body.length;index.npm.integrity='sha512-'+require('node:crypto').createHash('sha512').update(body).digest('base64');
+    const oldState={state:{current:null,previous:null}},saved=await fs.readFile(path.join(settings.storeRoot,'state.json'));
+    await fs.mkdir(path.join(f.root,'corrupt-store-'+count));
+    await assert.rejects(updateFromGit({...args,ensured:oldState,settings:{...settings,storeRoot:path.join(f.root,'corrupt-store-'+count)},command:'update',access,request:transport(index,body).request}),/DECRYPTION_FAILED/);
+    assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')),saved);
+    assert.ok(!(await fs.readdir(settings.storeRoot)).some(n=>n.startsWith('.protected-update-')));
+  }
+  const restored=await releases.rollbackStore(settings);
+  assert.equal(packages.readGenerationData({root:path.join(restored.current.path,'contracts'),apolloRoot:f.runtimeRoot}).contracts.length,1);
 });
