@@ -20,17 +20,19 @@ struct ProxyDetailsSnapshot {
     var knowledgeSource = "ds-ai-hub"
     var knowledgeStatus = ""
     var knowledgeVersion = ""
-    var sourceCommits = ""
     var canUpdate = false
     var canRollback = false
     var canCheckUpdates = true
     var checkingUpdates = false
     var codeStatus = "Проверка ещё не выполнена"
     var canUpdateCode = false
-    var canRollbackCode = false
     var apolloURL = ""
     var activationRequired = false
     var canActivateData = false
+    var displayedKnowledgeVersion: String {
+        knowledgeVersion.count == 64 && knowledgeVersion.allSatisfy(\.isHexDigit)
+            ? String(knowledgeVersion.prefix(12)) : knowledgeVersion
+    }
 }
 
 @MainActor
@@ -38,7 +40,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private final class DocumentView: NSView {
         override var isFlipped: Bool { true }
     }
-    enum Action: Hashable { case login, checkAccess, installCLI, checkUpdates, updateCode, rollbackCode, updateKnowledge, rollbackKnowledge,
+    enum Action: Hashable { case login, checkAccess, installCLI, updates,
                       editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder, activateData }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
@@ -57,11 +59,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
     private let knowledgePicker = NSPopUpButton(frame: .zero, pullsDown: false)
-    private let updateProgress = NSProgressIndicator()
-    private let codeLabel = NSTextField(wrappingLabelWithString: "")
-    private let knowledgeLabel = NSTextField(wrappingLabelWithString: "")
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
-    private let sourceCommits = NSTextField(wrappingLabelWithString: "")
     private let urlField = NSTextField(wrappingLabelWithString: "")
     private var buttons: [Action: NSButton] = [:]
 
@@ -123,19 +121,8 @@ final class ProxyDetailsWindowController: NSWindowController {
         buttons[.installCLI]?.isHidden = !state.cliMissing || state.provider == .codex
         knowledgePicker.selectItem(withTitle: state.knowledgeSource)
         knowledgePicker.isEnabled = state.canCheckUpdates && state.canChangeAgent
-        codeLabel.stringValue = "Приложение: \(state.codeStatus)"
-        knowledgeLabel.stringValue = "Знания: \(state.knowledgeStatus)"
-        if state.checkingUpdates { updateProgress.startAnimation(nil) }
-        else { updateProgress.stopAnimation(nil) }
-        knowledgeVersion.stringValue = "Версия: \(state.knowledgeVersion)"
-        sourceCommits.stringValue = state.sourceCommits
-        sourceCommits.isHidden = state.sourceCommits.isEmpty
-        buttons[.checkUpdates]?.isEnabled = state.canCheckUpdates
-        buttons[.updateCode]?.isEnabled = state.canUpdateCode
-        buttons[.rollbackCode]?.isEnabled = state.canRollbackCode
-        buttons[.rollbackCode]?.isHidden = true
-        buttons[.updateKnowledge]?.isEnabled = state.canUpdate
-        buttons[.rollbackKnowledge]?.isEnabled = state.canRollback
+        knowledgeVersion.stringValue = "Версия: \(state.displayedKnowledgeVersion)"
+        knowledgeVersion.toolTip = state.knowledgeVersion
         buttons[.activateData]?.isHidden = !state.activationRequired
         buttons[.activateData]?.isEnabled = state.canActivateData
         urlField.stringValue = state.apolloURL
@@ -234,21 +221,10 @@ final class ProxyDetailsWindowController: NSWindowController {
         knowledgePicker.addItems(withTitles: ["ds-ai-hub", "design-system_ab"])
         knowledgePicker.target = self; knowledgePicker.action = #selector(knowledgeSourceChanged)
         knowledgePicker.setAccessibilityLabel("Источник знаний")
-        style(knowledgeLabel); style(knowledgeVersion, secondary: true, selectable: true)
+        style(knowledgeVersion, secondary: true, selectable: true)
         knowledgeVersion.lineBreakMode = .byCharWrapping
-        style(sourceCommits, secondary: true, selectable: true)
-        sourceCommits.lineBreakMode = .byCharWrapping
-        section([heading("Знания"), knowledgePicker, knowledgeVersion, sourceCommits, button("Активировать Apollo…", .activateData)])
-        style(codeLabel)
-        updateProgress.style = .spinning
-        updateProgress.controlSize = .small
-        updateProgress.isDisplayedWhenStopped = false
-        updateProgress.setAccessibilityLabel("Проверяем обновления кода и знаний")
-        let updateHelp = NSTextField(wrappingLabelWithString: "Проверка приложения и знаний. Обновления устанавливаются по вашему нажатию. При обновлении приложения прокси перезапустится; настройки и история сохранятся.")
-        style(updateHelp, secondary: true)
-        section([heading("Обновления"), row([button("Проверить обновление", .checkUpdates), updateProgress]), updateHelp,
-                 codeLabel, row([button("Обновить приложение…", .updateCode), button("Откатить код…", .rollbackCode)]),
-                 knowledgeLabel, row([button("Обновить знания", .updateKnowledge), button("Откатить знания", .rollbackKnowledge)])])
+        section([heading("Знания"), knowledgePicker, knowledgeVersion, button("Активировать Apollo…", .activateData)])
+        section([button("Обновления…", .updates)])
         section([heading("Диагностика"), row([button("Конфигурация…", .openConfiguration), button("Журнал…", .openLogs), button("Папка прокси…", .openFolder)])])
     }
 

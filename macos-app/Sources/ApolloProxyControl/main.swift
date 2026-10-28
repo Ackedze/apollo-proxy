@@ -66,7 +66,7 @@ final class ProxyManager: NSObject {
     private let authorizeAgentItem = NSMenuItem(title: "Войти в Codex…", action: #selector(authorizeAgentAction), keyEquivalent: "")
     private let aboutItem = NSMenuItem(title: "О прокси…", action: #selector(showProxyDetailsAction), keyEquivalent: ",")
     private let tokensItem = NSMenuItem(title: "Токенцы…", action: #selector(showTokenJournalAction), keyEquivalent: "")
-    private let checkUpdatesItem = NSMenuItem(title: "Проверить обновление", action: #selector(checkUpdatesAction), keyEquivalent: "")
+    private let checkUpdatesItem = NSMenuItem(title: "Обновления…", action: #selector(checkUpdatesAction), keyEquivalent: "")
     private let quitItem = NSMenuItem(title: "Завершить", action: #selector(quitAction), keyEquivalent: "q")
 
     private var process: Process?
@@ -102,6 +102,7 @@ final class ProxyManager: NSObject {
     private var startRequest = ProxyStartRequest()
     private var isExternalProxyRunning: Bool { process == nil && status == .running }
     private var detailsController: ProxyDetailsWindowController?
+    private var updatesController: ProxyUpdatesWindowController?
     private var tokenJournalController: TokenJournalWindowController?
     private var modelCatalogProcess: Process?
     private var modelCatalogTimer: Timer?
@@ -205,19 +206,11 @@ final class ProxyManager: NSObject {
         snapshot.modelLoading = modelCatalogProcess != nil
         if snapshot.modelLoading { snapshot.modelMessage = "Загружаем список моделей…" }
         else if provider == .codex && !modelCatalogError.isEmpty { snapshot.modelMessage = modelCatalogError }
-        snapshot.version = formattedProxyVersionForMenu().replacingOccurrences(of: "Proxy: ", with: "")
+        snapshot.version = applicationVersion()
         snapshot.apolloURL = readConfiguredApolloURL() ?? defaultApolloURL
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
         snapshot.knowledgeVersion = (isExternalProxyRunning ? healthSnapshot?.knowledgeVersion : nil)
             ?? knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
-        let sourceCommits: [String: String?]? = isExternalProxyRunning
-            ? healthSnapshot?.sourceCommits?.mapValues { Optional($0) }
-            : knowledgeRuntime?.current?.sourceCommits
-        if let commits = sourceCommits {
-            snapshot.sourceCommits = commits.sorted(by: { $0.key < $1.key }).compactMap { key, value in
-                value.map { "\(key): \($0)" }
-            }.joined(separator: "\n")
-        }
         switch knowledgeUpdateStatus {
         case .idle: snapshot.knowledgeStatus = "Проверка обновлений ещё не выполнена"
         case .checking: snapshot.knowledgeStatus = "Проверяем обновления…"
@@ -251,7 +244,6 @@ final class ProxyManager: NSObject {
         } else if codeCommandRunning { snapshot.codeStatus = "Обновляем код прокси…" }
         let canManageUpdates = snapshot.canCheckUpdates && !proxyHasActiveWork && !pendingKnowledgeRestart
         snapshot.canUpdateCode = canManageUpdates && appUpdater.state.canInstall
-        snapshot.canRollbackCode = false
         if appUpdater.hasSession {
             snapshot.canCheckUpdates = false
             snapshot.canUpdate = false
@@ -295,8 +287,7 @@ final class ProxyManager: NSObject {
         updateKnowledgeItem.isEnabled = snapshot.canUpdate
         updateKnowledgeItem.isHidden = !snapshot.canUpdate && !knowledgeCommandRunning
         updateKnowledgeItem.title = knowledgeCommandRunning ? snapshot.knowledgeStatus : "Обновить знания"
-        checkUpdatesItem.isEnabled = snapshot.canCheckUpdates
-        checkUpdatesItem.title = updateCheck.isRunning ? "Проверяем обновления…" : "Проверить обновление"
+        checkUpdatesItem.isEnabled = true
         switch status {
         case .stopped:
             setStatusItemTitle("AP:Off")
@@ -324,6 +315,7 @@ final class ProxyManager: NSObject {
         if case .error = status { statusLineItem.title = "Ошибка прокси · подробнее в «О прокси»" }
         else { statusLineItem.title = snapshot.status }
         detailsController?.update(snapshot)
+        updatesController?.update(snapshot)
     }
 
     private func setStatusItemTitle(_ base: String) {
@@ -395,16 +387,10 @@ final class ProxyManager: NSObject {
         return normalized.isEmpty ? nil : normalized
     }
 
-    private func formattedProxyVersionForMenu() -> String {
-        let embeddedURL = Bundle.main.resourceURL?
-            .appendingPathComponent("embedded-proxy", isDirectory: true)
-        let version = readProxyPackageVersion(from: proxyInstallURL)
-            ?? embeddedURL.flatMap { readProxyPackageVersion(from: $0) }
-            ?? "unknown"
-        let buildMarker = readBuildMarker(from: proxyInstallURL)
-            ?? embeddedURL.flatMap { readBuildMarker(from: $0) }
-            ?? "unknown"
-        return "Proxy: v\(version) · build \(buildMarker)"
+    private func applicationVersion() -> String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            ?? readProxyPackageVersion(from: proxyInstallURL) ?? "unknown"
+        return "v\(version)"
     }
 
     private func startHealthChecks() {
@@ -1652,7 +1638,26 @@ final class ProxyManager: NSObject {
     }
 
     @objc private func checkUpdatesAction() {
-        showProxyDetailsAction()
+        ensureDetailsController()
+        guard let parent = detailsController?.window else { return }
+        detailsController?.present()
+        if updatesController == nil {
+            let controller = ProxyUpdatesWindowController()
+            controller.onAction = { [weak self] action in
+                guard let self else { return }
+                switch action {
+                case .check: self.checkForUpdates()
+                case .updateApp:
+                    self.updatesController?.close()
+                    self.appUpdater.install()
+                case .updateKnowledge: self.updateKnowledgeAction()
+                case .rollbackKnowledge: self.rollbackKnowledgeAction()
+                }
+            }
+            updatesController = controller
+        }
+        refreshUI()
+        updatesController?.present(attachedTo: parent)
         checkForUpdates()
     }
 
@@ -1665,7 +1670,7 @@ final class ProxyManager: NSObject {
         tokenJournalController?.present()
     }
 
-    @objc func showProxyDetailsAction() {
+    private func ensureDetailsController() {
         if detailsController == nil {
             let controller = ProxyDetailsWindowController()
             controller.onAction = { [weak self] action in
@@ -1674,11 +1679,7 @@ final class ProxyManager: NSObject {
                 case .login: self.authorizeAgentAction()
                 case .checkAccess: self.checkAgentAccessAction()
                 case .installCLI: NSWorkspace.shared.open(self.selectedProvider.installationURL)
-                case .checkUpdates: self.checkForUpdates()
-                case .updateCode: self.appUpdater.install()
-                case .rollbackCode: self.applyCodeUpdate("rollback")
-                case .updateKnowledge: self.updateKnowledgeAction()
-                case .rollbackKnowledge: self.rollbackKnowledgeAction()
+                case .updates: self.checkUpdatesAction()
                 case .editURL: self.editApolloURLAction()
                 case .resetURL: self.applyAlfaGenURL(defaultApolloURL)
                 case .editModel: self.editModelAction()
@@ -1698,6 +1699,10 @@ final class ProxyManager: NSObject {
             }
             detailsController = controller
         }
+    }
+
+    @objc func showProxyDetailsAction() {
+        ensureDetailsController()
         refreshUI()
         detailsController?.present()
         refreshModelCatalog()
@@ -1938,6 +1943,7 @@ final class ProxyManager: NSObject {
         knowledgeTimer?.invalidate()
         claudeLoginTimer?.invalidate()
         authCheckTimer?.invalidate()
+        updatesController?.close()
         detailsController?.close()
         tokenJournalController?.close()
         pendingRestartAfterStop = false
