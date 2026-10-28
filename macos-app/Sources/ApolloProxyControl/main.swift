@@ -643,6 +643,10 @@ final class ProxyManager: NSObject {
     private func finishKnowledgeCommand(_ command: String) {
         knowledgeCommandRunning = false
         appendLog("=== \(Date()) Knowledge \(command) finished ===\n")
+        if knowledgeRuntime?.runtimeMigrationRequired == true, case .failed = knowledgeUpdateStatus {
+            startRequest.cancel()
+            status = .error("Не удалось обновить данные")
+        }
         if startRequest.pending && !updateCheck.isRunning { startProxyAction() }
         else { refreshUI() }
     }
@@ -1127,6 +1131,13 @@ final class ProxyManager: NSObject {
         let fm = FileManager.default
         try fm.createDirectory(at: appSupportURL, withIntermediateDirectories: true, attributes: nil)
 
+        let previousRuntime = (try? Data(contentsOf: proxyInstallURL.appendingPathComponent("runtime/apollo/portable-runtime.json")))
+            .flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] }
+        let previousState = (try? Data(contentsOf: appSupportURL.appendingPathComponent("data-releases/state.json")))
+            .flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] }
+        let previousRuntimeIDs = [previousRuntime?["id"] as? String,
+                                  (previousState?["current"] as? [String: Any])?["runtimeId"] as? String].compactMap { $0 }
+
         if shouldInstallEmbeddedProxy() {
             try installEmbeddedProxy()
         }
@@ -1150,8 +1161,9 @@ final class ProxyManager: NSObject {
 
         try applyUserOverridesIfNeeded()
         if Bundle.main.object(forInfoDictionaryKey: "ApolloDataActivationRequired") as? Bool == true,
-           configuredKnowledgeDescriptorURL() == "https://raw.githubusercontent.com/Ackedze/design-system_ab/main/apollo/data-packages/current.json",
-           let channel = Bundle.main.object(forInfoDictionaryKey: "ApolloDataDescriptorURL") as? String, !channel.isEmpty {
+           let channel = DataChannelMigration.replacement(configured: configuredKnowledgeDescriptorURL(),
+                bundled: Bundle.main.object(forInfoDictionaryKey: "ApolloDataDescriptorURL") as? String,
+                previousRuntimeIDs: previousRuntimeIDs) {
             try writeEnvValue(channel, forKey: "APOLLO_DATA_DESCRIPTOR_URL", to: overridesURL)
             try writeEnvValue(channel, forKey: "APOLLO_DATA_DESCRIPTOR_URL", to: envURL)
         }
@@ -1351,6 +1363,12 @@ final class ProxyManager: NSObject {
     @objc private func startProxyAction() {
         guard !isQuitting, process == nil else { return }
         if dataNeedsActivation { showDataActivation(); return }
+        if knowledgeRuntime?.runtimeMigrationRequired == true && !isExternalProxyRunning {
+            _ = startRequest.request(knowledgeRunning: true)
+            status = .starting
+            if !knowledgeCommandRunning && !codeCommandRunning && !updateCheck.isRunning { updateKnowledgeAction() }
+            return
+        }
         let alreadyPending = startRequest.pending
         let token = startRequest.request(knowledgeRunning: knowledgeCommandRunning || codeCommandRunning || updateCheck.isRunning)
         status = .starting

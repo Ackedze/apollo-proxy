@@ -108,10 +108,11 @@ function extractSnapshot(archive, destination) {
     ...(process.platform === 'darwin' ? ['--no-mac-metadata'] : [])]);
 }
 
-async function updateFromGit({ settings, ensured, url, token, command, producerRoot, request = fetch, access }) {
+async function updateFromGit({ settings, ensured, url, token, command, producerRoot, request = fetch, access, runtimeMigration = false }) {
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const runtime = releases.readRuntime(settings.runtimeRoot);
   const selected = await readGitIndex(url, runtime.id, token, request);
+  if (runtimeMigration && selected.index.schemaVersion !== 'apollo.git-data-index.v3') throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
   if (selected.index.schemaVersion === 'apollo.git-data-index.v3') return require('../src/data-packages/protected').installProtected({settings,ensured,selected,command,access,request,releases});
   if (!ensured.state?.current) throw Error('DATA_ACTIVATION_REQUIRED');
   const snapshot = selected.index.npm || selected.index.snapshot;
@@ -165,22 +166,53 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
   } finally { await fs.rm(temporary, { recursive: true, force: true }); }
 }
 
-async function runCommand(command, options) {
+async function incompatibleStore(settings, releases) {
+  try {
+    const state = await releases.readState(settings.storeRoot), current = state?.current;
+    if (!/^[a-f0-9]{64}$/.test(current?.contentVersion || '') || current.path !== path.join(settings.storeRoot, 'versions', current.contentVersion)) return null;
+    const manifest = JSON.parse(await fs.readFile(path.join(current.path, 'manifest.json'), 'utf8'));
+    if (manifest.id !== current.contentVersion || !/^[a-f0-9]{64}$/.test(manifest.runtimeId || '') || manifest.runtimeId === releases.readRuntime(settings.runtimeRoot).id) return null;
+    try { releases.readReleaseFiles(current.path, settings.runtimeRoot); return null; }
+    catch (error) { if (error.code !== 'DATA_RELEASE_RUNTIME_INCOMPATIBLE') throw error; }
+    releases.verifyFiles(current.path, manifest.files);
+    const expected = new Set(['manifest.json', ...manifest.files.map(pin => pin.file)]);
+    const actual = await require('../src/knowledge-package').listPackageFiles(current.path);
+    if (actual.length !== expected.size || actual.some(file => !expected.has(file))) return null;
+    return state;
+  } catch { return null; }
+}
+
+async function runCommand(command, options, request = fetch) {
   const producerRoot = path.resolve(process.env.APOLLO_DATA_PRODUCER_ROOT || path.join(__dirname, '..'));
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const settings = { storeRoot: path.resolve(options.store), seedRoot: path.resolve(options.seed), runtimeRoot: path.resolve(options.runtime) };
-  let ensured;
+  let ensured, runtimeMigration = false;
   try { ensured = await releases.ensureStore(settings); }
   catch (error) {
-    if (error.code !== 'ENOENT' || require('node:fs').existsSync(path.join(settings.seedRoot,'manifest.json')) || require('node:fs').existsSync(path.join(settings.storeRoot,'state.json'))) throw error;
-    ensured = {state:{current:null,previous:null}};
+    if (error.code !== 'ENOENT' || require('node:fs').existsSync(path.join(settings.seedRoot,'manifest.json'))) throw error;
+    if (require('node:fs').existsSync(path.join(settings.storeRoot,'state.json'))) {
+      if (!require('node:fs').existsSync(path.join(settings.seedRoot,'.activation-required'))) throw error;
+      const retained = await incompatibleStore(settings, releases);
+      if (!retained) throw error;
+      ensured = { state: retained }; runtimeMigration = true;
+    } else ensured = {state:{current:null,previous:null}};
   }
-  if (['ensure', 'status', 'run'].includes(command)) return ensured.state.current ? releases.publicStatus(ensured.state, { recovered: ensured.recovered }) : {current:null,previous:null,activationRequired:true};
+  if (['ensure', 'status', 'run'].includes(command)) {
+    if (runtimeMigration) return { current:null, previous:null, runtimeMigrationRequired:true,
+      activationRequired:!(/^[a-f0-9]{64}$/.test(options.access?.key || '') && /^[a-f0-9-]{36}$/.test(options.access?.keyId || '')) };
+    return ensured.state.current ? releases.publicStatus(ensured.state, { recovered: ensured.recovered }) : {current:null,previous:null,activationRequired:true};
+  }
   if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
   const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require(path.join(producerRoot, 'src/portable-runtime')).readSettings().dataDescriptorUrl;
   if (!url) throw Error('Configure the Git raw URL of the data index.');
   const token = process.env.APOLLO_DATA_TOKEN;
-  if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) return updateFromGit({ settings, ensured, url, token, command, producerRoot, access:options.access });
+  if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) {
+    // Checks expose no incompatible roots; installation retains the real old state for CAS/rollback.
+    const view = runtimeMigration && command === 'check' ? { state: { current:null, previous:null } } : ensured;
+    const result = await updateFromGit({ settings, ensured:view, url, token, command, producerRoot, access:options.access, request, runtimeMigration });
+    return runtimeMigration && command === 'check' ? { ...result, runtimeMigrationRequired:true } : result;
+  }
+  if (runtimeMigration) throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
   // Preserve the existing full-release updater for previously configured installations.
   const knowledge = require(path.join(producerRoot, 'src/knowledge-package'));
   const descriptor = releases.validateDescriptor(await knowledge.fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));

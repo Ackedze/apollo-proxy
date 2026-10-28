@@ -299,3 +299,53 @@ test('empty app activates an encrypted npm release once; wrong password/tamperin
   const restored=await releases.rollbackStore(settings);
   assert.equal(packages.readGenerationData({root:path.join(restored.current.path,'contracts'),apolloRoot:f.runtimeRoot}).contracts.length,1);
 });
+
+test('an empty upgraded app migrates an intact old-runtime store with saved access and retains rollback', async t => {
+  const f = await fixture(t), protectedData = require('../src/data-packages/protected');
+  const { runCommand } = require('../scripts/git-data-cli');
+  const dataRoot = await f.data('migration-old');
+  const old = await buildDataRelease({ dataRoot, knowledgeRoot: f.knowledgeRoot, runtimeRoot: f.runtimeRoot,
+    output: path.join(f.root, 'migration-seed'), profile: 'checking-ask-figma-mcp', tarballUrl: 'https://example.test/{version}.tgz' });
+  const storeRoot = path.join(f.root, 'migration-store');
+  const initial = await releases.ensureStore({ storeRoot, seedRoot: old.packageRoot, runtimeRoot: f.runtimeRoot });
+  const stateFile = path.join(storeRoot, 'state.json'), stateBefore = await fs.readFile(stateFile);
+  const runtimeRoot = path.join(f.root, 'migration-runtime'); await fs.cp(f.runtimeRoot, runtimeRoot, { recursive: true });
+  const runtime = { ...f.runtime, nativeSourceHash: 'b'.repeat(64) }; runtime.id = releases.idOf(runtime);
+  await put(runtimeRoot, 'portable-runtime.json', runtime);
+  const seedRoot = path.join(f.root, 'empty-upgraded-seed'); await fs.mkdir(seedRoot);
+  const password = 'migration-fixture-only', activation = protectedData.createActivation(password);
+  const access = { key: protectedData.accessKey(activation, { password }).toString('hex'), keyId: activation.keyId };
+  const options = { store: storeRoot, seed: seedRoot, runtime: runtimeRoot, descriptor: sourceUrl, access };
+  await assert.rejects(runCommand('ensure', options), { code: 'ENOENT' });
+  await put(seedRoot, '.activation-required', '');
+  for (const command of ['ensure', 'status', 'run']) {
+    const pending = await runCommand(command, options);
+    assert.equal(pending.current, null); assert.equal(pending.activationRequired, false); assert.equal(pending.runtimeMigrationRequired, true);
+    assert.equal(pending.dataRoot, undefined);
+  }
+  assert.deepEqual(await fs.readFile(stateFile), stateBefore);
+  const data = await f.data('migration-new', 2);
+  const next = await buildDataRelease({ dataRoot: data, knowledgeRoot: f.knowledgeRoot, runtimeRoot,
+    output: path.join(f.root, 'migration-release'), profile: 'checking-ask-figma-mcp', tarballUrl: 'https://example.test/{version}.tgz' });
+  const built = await require('../scripts/build-protected-data-package').buildProtectedDataPackage({ releaseRoot: next.packageRoot, runtimeRoot,
+    output: path.join(f.root, 'migration-npm'), version: '1.4.4', tarballUrl: 'https://example.test/migration.tgz', activation, password });
+  const archive = await fs.readFile(built.tarballPath);
+  const check = await runCommand('check', options, transport(built.descriptor, archive).request);
+  assert.equal(check.current, null); assert.equal(check.updateAvailable, true); assert.equal(check.activationRequired, false);
+  assert.equal(check.runtimeMigrationRequired, true); assert.equal(check.releaseRoot, undefined);
+  await assert.rejects(runCommand('update', options, transport(built.descriptor, Buffer.from('damaged')).request), /NPM_DATA_(SIZE|INTEGRITY)_INVALID/);
+  assert.deepEqual(await fs.readFile(stateFile), stateBefore);
+  const badStore = path.join(f.root, 'bad-migration-store'); await fs.cp(storeRoot, badStore, { recursive: true });
+  const badState = JSON.parse(stateBefore); badState.current.path = path.join(badStore, 'versions', badState.current.contentVersion);
+  await put(badStore, 'state.json', badState);
+  const oldIndex = JSON.parse(await fs.readFile(path.join(badState.current.path, 'contracts/manifest.json')));
+  await fs.appendFile(path.join(badState.current.path, 'contracts', oldIndex.contracts[0].file), ' ');
+  await assert.rejects(runCommand('ensure', { ...options, store: badStore }), { code: 'ENOENT' });
+  const installed = await runCommand('update', options, transport(built.descriptor, archive).request);
+  assert.equal(installed.current.contentVersion, next.manifest.id); assert.equal(installed.previous.contentVersion, initial.state.current.contentVersion);
+  assert.equal(installed.activationKey, undefined); assert.equal(installed.activationRequired, false);
+  assert.equal((await runCommand('ensure', options)).current.contentVersion, next.manifest.id);
+  await releases.validateRelease(initial.state.current.path, { runtimeRoot: f.runtimeRoot });
+  const rolled = await releases.rollbackStore({ storeRoot, seedRoot, runtimeRoot: f.runtimeRoot });
+  assert.equal(rolled.current.contentVersion, old.manifest.id);
+});

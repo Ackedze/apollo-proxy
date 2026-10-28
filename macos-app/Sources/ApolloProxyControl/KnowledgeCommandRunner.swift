@@ -27,6 +27,7 @@ struct KnowledgeVersionSummary: Decodable {
 
 struct KnowledgeCommandStatus: Decodable {
     let activationRequired: Bool?
+    let runtimeMigrationRequired: Bool?
     let activationKeyID: String?
     var activationKey: String?
     let current: KnowledgeVersionSummary?
