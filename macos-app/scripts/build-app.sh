@@ -3,7 +3,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
-PROXY_ROOT="$(cd "${APP_ROOT}/.." && pwd)"
+PROXY_ROOT="${APOLLO_PROXY_SOURCE_ROOT:-$(cd "${APP_ROOT}/.." && pwd)}"
+PROXY_ROOT="$(cd "${PROXY_ROOT}" && pwd)"
 REPOSITORY_ROOT="$(cd "${PROXY_ROOT}/../.." && pwd)"
 DS_AI_HUB_SOURCE="${DS_AI_HUB_ROOT:-${REPOSITORY_ROOT}/ds-ai-hub}"
 DESIGN_SYSTEM_SOURCE="${DESIGN_SYSTEM_AB_ROOT:-${REPOSITORY_ROOT}/shared/design-system_ab}"
