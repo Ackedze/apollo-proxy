@@ -52,6 +52,76 @@ async function fixture(t) {
   }
   return {root,runtimeRoot,runtime,knowledgeRoot,data};
 }
+
+test('data prepare selects exact contract IDs, keeps platform exclusions visible and rejects ambiguous identity', () => {
+  const { selectContracts } = require('../scripts/prepare-data-package');
+  const base = { contracts: [{ id: 'buttons.desktop', componentId: 'buttons', revision: 60 }] };
+  const desktop = { contractId: 'buttons.desktop', componentId: 'buttons', platform: 'desktop', revision: 60 };
+  const mobile = { contractId: 'buttons.mobile', componentId: 'buttons', platform: 'mobile-web', revision: 3 };
+  const selected = selectContracts(base, [mobile, desktop]);
+  assert.equal(selected.selected[0].entry, desktop);
+  assert.deepEqual(selected.excluded, [mobile]);
+  for (const entries of [[mobile], [desktop, desktop], [{ ...desktop, revision: 59 }], [{ ...desktop, componentId: 'other' }]]) {
+    assert.throws(() => selectContracts(base, entries), /DATA_PREPARE_CONTRACT_(SELECTION|IDENTITY)_INVALID/);
+  }
+  assert.throws(() => selectContracts({ contracts: [...base.contracts, { id: mobile.contractId, componentId: 'buttons', revision: 3 }] }, [desktop, mobile]), /DATA_COMPONENT_CONFLICT/);
+});
+
+test('data prepare makes one protected package, verifies the actual consumer, then reuses bytes without requesting a password', async t => {
+  const { prepareDataPackage } = require('../scripts/prepare-data-package');
+  const f = await fixture(t), dataRoot = await f.data('prepare-data', 2);
+  const seed = await buildDataRelease({ dataRoot, knowledgeRoot: f.knowledgeRoot, runtimeRoot: f.runtimeRoot,
+    output: path.join(f.root, 'prepare-base'), profile: 'checking-ask-figma-mcp', tarballUrl: 'https://example.test/{version}.tgz' });
+  const password = 'only-a-test-password', activationFile = path.join(f.root, 'activation.json');
+  await put(f.root, 'activation.json', require('../src/data-packages/protected').createActivation(password));
+  const activationBefore = await fs.readFile(activationFile);
+  const config = { baseRelease: seed.packageRoot, runtimeRoot: f.runtimeRoot, activationFile,
+    outputRoot: path.join(f.root, 'prepared'), version: '1.0.0', tarballUrl: 'https://example.test/data-{version}.tgz' };
+  const result = await prepareDataPackage(config, { passwordInput: JSON.stringify({ password }) });
+  assert.equal(result.status, 'PREPARED_LOCAL'); assert.equal(result.contracts, 2);
+  assert.equal(result.actualProtectedConsumer, 'PASS'); assert.equal(result.runtimeChanged, false);
+  assert.deepEqual(await fs.readdir(config.outputRoot), ['1.0.0', 'last-build.json']);
+  const tarball = path.join(config.outputRoot, result.artifact.file), before = await fs.readFile(tarball);
+  assert.deepEqual(execFileSync('/usr/bin/tar', ['-tzf', tarball], { encoding: 'utf8' }).trim().split('\n').sort(), ['package/encryption.json', 'package/package.json', 'package/payload.enc']);
+  const repeated = await prepareDataPackage({ ...config, version: '1.0.1', passwordCommand: ['this-command-must-not-run'] });
+  assert.equal(repeated.status, 'UNCHANGED'); assert.equal(repeated.version, '1.0.0');
+  assert.deepEqual(await fs.readFile(tarball), before);
+  assert.deepEqual(await fs.readFile(activationFile), activationBefore);
+  assert.deepEqual(await fs.readdir(config.outputRoot), ['1.0.0', 'last-build.json']);
+  await assert.rejects(prepareDataPackage({ ...config, tarballUrl: 'https://changed.test/{version}.tgz' }), /DATA_PREPARE_VERSION_EXISTS/);
+  await fs.appendFile(tarball, 'corrupt');
+  await assert.rejects(prepareDataPackage(config), /DATA_PREPARE_INPUT_CHANGED/);
+});
+
+test('data prepare refuses missing activation, unsafe output and wrong password without creating a new key or keeping staging', async t => {
+  const { prepareDataPackage } = require('../scripts/prepare-data-package');
+  const f = await fixture(t), dataRoot = await f.data('refusal-data');
+  const seed = await buildDataRelease({ dataRoot, knowledgeRoot: f.knowledgeRoot, runtimeRoot: f.runtimeRoot,
+    output: path.join(f.root, 'refusal-base'), profile: 'checking-ask-figma-mcp', tarballUrl: 'https://example.test/{version}.tgz' });
+  const config = { baseRelease: seed.packageRoot, runtimeRoot: f.runtimeRoot, activationFile: path.join(f.root, 'activation.json'),
+    outputRoot: path.join(f.root, 'refused'), version: '1.0.0', tarballUrl: 'https://example.test/{version}.tgz' };
+  await assert.rejects(prepareDataPackage(config), { code: 'ENOENT' });
+  assert.equal(sync.existsSync(config.activationFile), false);
+  await put(f.root, 'activation.json', require('../src/data-packages/protected').createActivation('correct-password'));
+  await assert.rejects(prepareDataPackage(config, { passwordInput: JSON.stringify({ password: 'wrong-password' }) }), /DATA_ACTIVATION_PASSWORD_INVALID/);
+  assert.deepEqual(await fs.readdir(config.outputRoot), []);
+  await assert.rejects(prepareDataPackage({ ...config, outputRoot: path.join(seed.packageRoot, 'output') }), /DATA_PREPARE_OUTPUT_UNSAFE/);
+  await fs.symlink(seed.packageRoot, path.join(f.root, 'alias'));
+  await assert.rejects(prepareDataPackage({ ...config, outputRoot: path.join(f.root, 'alias', 'output') }), /DATA_PREPARE_OUTPUT_UNSAFE/);
+  assert.equal(sync.existsSync(path.join(seed.packageRoot, 'output')), false);
+});
+
+test('data prepare detects source drift and removes command secrets from errors', async t => {
+  const { assertInputs, passwordFrom } = require('../scripts/prepare-data-package');
+  const f = await fixture(t), file = path.join(f.root, 'pinned.json');
+  await put(f.root, 'pinned.json', 'before');
+  const snapshot = { pins: new Map([[file, { sha256: sha(Buffer.from('before')), bytes: 6 }]]) };
+  await assertInputs(snapshot); await fs.writeFile(file, 'after!');
+  await assert.rejects(assertInputs(snapshot), /DATA_PREPARE_INPUT_CHANGED/);
+  await assert.rejects(passwordFrom(undefined, [process.execPath, '-e', 'console.error("secret-value");process.exit(1)']), error => {
+    assert.equal(error.code, 'DATA_PREPARE_PASSWORD_COMMAND_FAILED'); assert.equal(error.message.includes('secret-value'), false); return true;
+  });
+});
 function transport(descriptor, bytes, knowledgeBytes) {
   const calls=[],packet=s=>(Buffer.byteLength(s)+4).toString(16).padStart(4,'0')+s;
   return {calls,request:async(url,options)=>{
