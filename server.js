@@ -1193,7 +1193,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
     const pilotKnowledge = { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtimeManifest.knowledge };
     if (pilot && !prepared.requestDocument.subjects.length) {
       await progressBarPilot.assertSourceCurrent(prepared.requestDocument, pilotKnowledge);
-      return progressBarPilot.validatePilotResponse({ schemaVersion: 'apollo.progressbar-assessment.v1', reportId: payload.report.reportId,
+      return progressBarPilot.validatePilotResponse({ schemaVersion: progressBarPilot.resultSchemaFor(prepared.requestDocument), reportId: payload.report.reportId,
         captureId: payload.report.capture.captureId, sourcePin: prepared.requestDocument.sourcePin, assessments: [] }, prepared.requestDocument);
     }
     if (persistDebug) {
@@ -1259,7 +1259,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         );
       }
       const outputSchema =
-        pilot ? path.join(__dirname, 'src/reports/progressbar-pilot.schema.json') : mode === 'pattern-report' &&
+        pilot ? path.join(__dirname, 'src/reports', progressBarPilot.schemaFileFor(requestDocument)) : mode === 'pattern-report' &&
         requestDocument?.transport?.mode === 'semantic-v1'
           ? CODEX_PATTERN_OUTPUT_SCHEMA
           : CODEX_OUTPUT_SCHEMA;
@@ -1874,7 +1874,8 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
       const runtime = assertCodexRuntimeReady();
       const prepared = await progressBarPilot.preparePilot(payload, { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtime.knowledge });
       if (payload.report.phase === 'prepare') {
-        res.json({ success: true, preparation: { reportId: prepared.reportId, captureId: prepared.captureId, sourcePin: prepared.sourcePin,
+        res.json({ success: true, preparation: { pilot: prepared.transport.mode, reportId: prepared.reportId, captureId: prepared.captureId, sourcePin: prepared.sourcePin,
+          requestedRuleIds: prepared.requestedRuleIds,
           knowledge: prepared.knowledge, subjects: prepared.subjects, sources: prepared.sources.map(({ sourceId, path, sha256 }) => ({ sourceId, path, sha256 })) } }); return;
       }
       begin();

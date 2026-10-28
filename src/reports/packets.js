@@ -2765,7 +2765,7 @@ function buildCodexPrompt(
   reportStrategy = APOLLO_CODEX_REPORT_STRATEGY,
   requestDocument = null
 ) {
-  if (requestDocument?.transport?.mode === require('./progressbar-pilot').PILOT) return require('./progressbar-pilot').promptForPilot(requestDocument);
+  if (require('./progressbar-pilot').isPilotPacket(requestDocument)) return require('./progressbar-pilot').promptForPilot(requestDocument);
   const customizationReportMode = mode === 'customization-report';
   const patternReportMode = mode === 'pattern-report';
   const textReportMode = mode === 'text-report';
