@@ -3,6 +3,7 @@
 // Local release assembly only: publishing and installed stores are never touched.
 const fs = require('node:fs/promises'), sync = require('node:fs'), path = require('node:path');
 const { execFileSync } = require('node:child_process');
+const execFile = require('node:util').promisify(require('node:child_process').execFile);
 const releases = require('../src/data-release'), knowledge = require('../src/knowledge-package');
 const packages = require('../src/data-packages'), protectedData = require('../src/data-packages/protected');
 const { buildDataRelease, PORTABLE_PROFILE } = require('./build-data-release');
@@ -45,7 +46,7 @@ async function inputSnapshot(config) {
   await pinned(config.baseRelease, 'manifest.json', null, pins);
   const base = await json(path.join(config.baseRelease, 'contracts/manifest.json'));
   if (base.deliveryProfile !== PORTABLE_PROFILE) fail('DATA_PREPARE_PROFILE_INVALID');
-  const inputs = { base: baseManifest.id, runtimeId: runtime.id, tarballUrl: config.tarballUrl }, updates = [], excluded = [];
+  const inputs = { base: baseManifest.id, runtimeId: runtime.id, tarballUrl: config.tarballUrl, bundleRuntime: !!config.bundleRuntime }, updates = [], excluded = [];
   for (const pin of runtime.files) pins.set(path.join(config.runtimeRoot, pin.file), { sha256: pin.sha256, bytes: pin.bytes });
   await pinned(config.runtimeRoot, 'portable-runtime.json', null, pins);
   if (config.baseRuntimeRoot) {
@@ -169,14 +170,19 @@ async function passwordFrom(input, command) {
   } finally { if (Buffer.isBuffer(input)) input.fill(0); }
 }
 
-async function prepareDataPackage(config, { passwordInput } = {}) {
-  const snapshot = await inputSnapshot(config).catch(error => { error.stage = 'inputs'; throw error; });
+async function assertOutput(config) {
   const output = path.resolve(config.outputRoot);
-  // Reject symlink ancestors before even writing a lock inside an input tree.
   let ancestor = output;
   while (!sync.existsSync(ancestor)) ancestor = path.dirname(ancestor);
   if (await fs.realpath(ancestor) !== ancestor) fail('DATA_PREPARE_OUTPUT_UNSAFE');
-  if ([config.baseRelease, config.runtimeRoot, config.baseRuntimeRoot, config.designSystemRoot, config.knowledgeRoot, config.skillsRoot].filter(Boolean).some(root => output === root || output.startsWith(root + path.sep) || root.startsWith(output + path.sep))) fail('DATA_PREPARE_OUTPUT_UNSAFE');
+  if (['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'knowledgeRoot', 'skillsRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot'].map(key => config[key]).filter(Boolean).some(root => output === root || output.startsWith(root + path.sep) || root.startsWith(output + path.sep))) fail('DATA_PREPARE_OUTPUT_UNSAFE');
+  return output;
+}
+
+async function prepareDataPackage(config, { passwordInput, assertSourceInputs = async () => {}, sourceBuild } = {}) {
+  const snapshot = await inputSnapshot(config).catch(error => { error.stage = 'inputs'; throw error; });
+  // Reject symlink ancestors before even writing a lock inside an input tree.
+  const output = await assertOutput(config);
   await fs.mkdir(output, { recursive: true, mode: 0o700 });
   const lock = path.join(output, '.prepare.lock'), fd = await fs.open(lock, 'wx');
   let work, stage = 'cache';
@@ -184,7 +190,11 @@ async function prepareDataPackage(config, { passwordInput } = {}) {
     const last = await json(path.join(output, 'last-build.json')).catch(error => { if (error.code !== 'ENOENT') throw error; return null; });
     if (last?.inputFingerprint === snapshot.fingerprint) {
       for (const pin of [last.artifact, last.descriptor]) await pinned(output, pin.file, pin, new Map());
+      if (last.runtime) {
+        if (!knowledge.isSafeRelativePath(last.runtime.root) || releases.readRuntime(path.join(output, last.runtime.root)).id !== snapshot.runtime.id) fail('DATA_PREPARE_INPUT_CHANGED');
+      }
       await assertInputs(snapshot);
+      await assertSourceInputs();
       return { ...last, status: 'UNCHANGED', excluded: snapshot.excluded };
     }
     const tarballUrl = config.tarballUrl.replaceAll('{version}', config.version);
@@ -213,7 +223,12 @@ async function prepareDataPackage(config, { passwordInput } = {}) {
     if (!result.updated || result.current.contentVersion !== release.manifest.id || 'activationKey' in result) fail('DATA_PREPARE_VERIFICATION_FAILED');
     stage = 'freshness';
     await assertInputs(snapshot);
+    await assertSourceInputs();
     await fs.rm(built.packageRoot, { recursive: true });
+    if (config.bundleRuntime) {
+      await fs.cp(config.runtimeRoot, path.join(work, 'npm/runtime'), { recursive: true });
+      if (releases.readRuntime(path.join(work, 'npm/runtime')).id !== snapshot.runtime.id) fail('DATA_PREPARE_INPUT_CHANGED');
+    }
     const tarball = path.basename(built.tarballPath), descriptorBytes = await fs.readFile(path.join(work, 'npm/current.json'));
     const report = { schemaVersion: 'apollo.data-package-build.v1', status: 'PREPARED_LOCAL', inputFingerprint: snapshot.fingerprint,
       version: config.version, runtimeId: snapshot.runtime.id, runtimeChanged: snapshot.runtime.id !== snapshot.baseManifest.runtimeId,
@@ -221,6 +236,8 @@ async function prepareDataPackage(config, { passwordInput } = {}) {
       updated: snapshot.updates.map(u => ({ contractId: u.entry.contractId, revision: u.entry.revision })), excluded: snapshot.excluded,
       artifact: { file: config.version + '/' + tarball, sha256: releases.sha(archive), bytes: archive.length },
       descriptor: { file: config.version + '/current.json', sha256: releases.sha(descriptorBytes), bytes: descriptorBytes.length },
+      ...(config.bundleRuntime ? { runtime: { root: config.version + '/runtime', id: snapshot.runtime.id } } : {}),
+      ...(sourceBuild ? { sourceBuild } : {}),
       actualProtectedConsumer: 'PASS', Ready: false, published: false, installed: false };
     stage = 'output';
     await write(path.join(work, 'npm/report.json'), report);
@@ -229,6 +246,74 @@ async function prepareDataPackage(config, { passwordInput } = {}) {
     await write(marker, report); await fs.rename(marker, path.join(output, 'last-build.json'));
     return report;
   } catch (error) { error.stage = stage; throw error; }
+  finally {
+    if (work) await fs.rm(work, { recursive: true, force: true });
+    await fd.close(); await fs.unlink(lock);
+  }
+}
+
+async function sourceSnapshot(config) {
+  const builder = require('./build-knowledge-package'), pins = new Map();
+  const apolloFiles = execFileSync('git', ['-C', config.apolloRoot, 'ls-files', '-z', '--cached', '--others', '--exclude-standard', '--',
+    'build.js', 'package.json', 'package-lock.json', 'tsconfig.json', 'src', 'packages', 'scripts', 'instructions', 'skills'], { maxBuffer: 8 * 1024 * 1024 }).toString().split('\0').filter(Boolean)
+    .filter(file => !file.split('/').some(part => part === 'dist' || part === 'node_modules')).sort();
+  const groups = [
+    ['apollo', config.apolloRoot, apolloFiles],
+    ['design-system_ab', config.designSystemRoot, await builder.collectDesignSystemFiles(config.designSystemRoot)],
+    ['ds-ai-hub', config.dsAiHubRoot, await builder.collectDsAiHubFiles(config.dsAiHubRoot)],
+  ];
+  const inputs = { commits: {}, files: [] };
+  for (const [name, root, files] of groups) {
+    inputs.commits[name] = execFileSync('git', ['-C', root, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+    for (const file of files) {
+      const bytes = await pinned(root, file, null, pins);
+      inputs.files.push([name, file, releases.sha(bytes)]);
+    }
+  }
+  if (config.generationSkillsRoot) for (const file of await knowledge.listPackageFiles(config.generationSkillsRoot)) {
+    const bytes = await pinned(config.generationSkillsRoot, file, null, pins);
+    inputs.files.push(['generationSkills', file, releases.sha(bytes)]);
+  }
+  return { fingerprint: releases.idOf(inputs), commits: inputs.commits };
+}
+
+async function prepareFromSources(config, options = {}) {
+  if (!config.apolloRoot || !config.designSystemRoot || !config.dsAiHubRoot || !(config.baseRuntimeRoot || config.runtimeRoot)) fail('DATA_PREPARE_SOURCE_CONFIG_INVALID');
+  if (process.env.APOLLO_AGENT_NATIVE_SCOPE_PATH || ![undefined, '0'].includes(process.env.APOLLO_NATIVE_DIAGNOSTICS)) fail('DATA_PREPARE_BUILD_CONFIGURATION_UNSUPPORTED');
+  const output = await assertOutput(config);
+  await fs.mkdir(output, { recursive: true, mode: 0o700 });
+  const lock = path.join(output, '.source-build.lock'), fd = await fs.open(lock, 'wx');
+  let work, stage = 'source-inputs';
+  try {
+    protectedData.validateActivation(await json(config.activationFile));
+    const source = await sourceSnapshot(config);
+    const assertSourceInputs = async () => {
+      if ((await sourceSnapshot(config)).fingerprint !== source.fingerprint) fail('DATA_PREPARE_SOURCE_CHANGED');
+    };
+    work = await fs.realpath(await fs.mkdtemp(path.join(require('node:os').tmpdir(), 'apollo-data-source-')));
+    stage = 'apollo-build';
+    console.error(JSON.stringify({ phase: stage }));
+    await execFile('npm', ['run', 'build'], { cwd: config.apolloRoot, timeout: 300000, maxBuffer: 4 * 1024 * 1024 });
+    stage = 'runtime';
+    console.error(JSON.stringify({ phase: stage }));
+    const runtimeRoot = path.join(work, 'runtime');
+    require('./build-portable-runtime').buildPortableRuntime({ apolloRoot: config.apolloRoot, output: runtimeRoot, skillsRoot: config.generationSkillsRoot });
+    stage = 'knowledge';
+    console.error(JSON.stringify({ phase: stage }));
+    const knowledgeBuilt = await require('./build-knowledge-package').buildKnowledgePackage({
+      'design-system-root': config.designSystemRoot, 'ds-ai-hub-root': config.dsAiHubRoot,
+      output: path.join(work, 'knowledge'), directoryOnly: true, channel: 'stable',
+      minEngine: knowledge.ENGINE_VERSION, maxEngine: knowledge.ENGINE_VERSION,
+    });
+    require('../src/style-token-catalog/inventory').loadPackageSnapshot(knowledgeBuilt.packageRoot).assertFresh();
+    stage = 'source-freshness';
+    await assertSourceInputs();
+    stage = 'package';
+    return await prepareDataPackage({ ...config, baseRuntimeRoot: config.baseRuntimeRoot || config.runtimeRoot,
+      runtimeRoot, knowledgeRoot: knowledgeBuilt.packageRoot, bundleRuntime: true }, {
+      ...options, assertSourceInputs, sourceBuild: { fingerprint: source.fingerprint, commits: source.commits },
+    });
+  } catch (error) { error.stage ||= stage; throw error; }
   finally {
     if (work) await fs.rm(work, { recursive: true, force: true });
     await fd.close(); await fs.unlink(lock);
@@ -244,11 +329,11 @@ async function main(argv) {
   }
   const configFile = path.resolve(options.config), config = await json(configFile);
   if (config.schemaVersion !== 'apollo.data-package-build.v1') fail('DATA_PREPARE_CONFIG_INVALID');
-  for (const key of ['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'activationFile', 'knowledgeRoot', 'skillsRoot', 'outputRoot']) {
+  for (const key of ['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'activationFile', 'knowledgeRoot', 'skillsRoot', 'outputRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot']) {
     if (config[key] !== undefined) config[key] = path.resolve(path.dirname(configFile), config[key]);
   }
   config.version = options.version || config.version;
-  console.log(JSON.stringify(await prepareDataPackage(config)));
+  console.log(JSON.stringify(await (config.apolloRoot ? prepareFromSources(config) : prepareDataPackage(config))));
 }
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(JSON.stringify({ code: error.code || 'DATA_PREPARE_FAILED', stage: error.stage || 'config' })); process.exitCode = 1; });
-module.exports = { selectContracts, inputSnapshot, assertInputs, overlayContracts, prepareDataPackage, passwordFrom, main };
+module.exports = { selectContracts, inputSnapshot, assertInputs, overlayContracts, prepareDataPackage, prepareFromSources, sourceSnapshot, passwordFrom, main };

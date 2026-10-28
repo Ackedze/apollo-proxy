@@ -122,6 +122,64 @@ test('data prepare detects source drift and removes command secrets from errors'
     assert.equal(error.code, 'DATA_PREPARE_PASSWORD_COMMAND_FAILED'); assert.equal(error.message.includes('secret-value'), false); return true;
   });
 });
+
+test('one source command builds Apollo and knowledge, verifies npm/runtime, reuses npm, and rejects source drift', async t => {
+  const { prepareFromSources } = require('../scripts/prepare-data-package');
+  const f = await fixture(t), apolloRoot = path.join(f.root, 'apollo'), designSystemRoot = path.join(f.root, 'design'), dsAiHubRoot = path.join(f.root, 'hub');
+  await put(f.runtimeRoot, 'packages/component-contract-core/dist/core.cjs', `const crypto=require('node:crypto');exports.stableHash=x=>crypto.createHash('sha256').update(JSON.stringify(x)).digest('hex');exports.compileManualSource=()=>({contract:{package:{}}});`);
+  f.runtime.files = (await pins(f.runtimeRoot)).filter(p => p.file !== 'portable-runtime.json');
+  f.runtime.id = releases.idOf(f.runtime); await put(f.runtimeRoot, 'portable-runtime.json', f.runtime);
+  const dataRoot = await f.data('source-data');
+  const seed = await buildDataRelease({ dataRoot, knowledgeRoot: f.knowledgeRoot, runtimeRoot: f.runtimeRoot,
+    output: path.join(f.root, 'source-seed'), profile: 'checking-ask-figma-mcp', tarballUrl: 'https://example.test/{version}.tgz' });
+  await fs.cp(path.join(f.knowledgeRoot, 'data/design-system_ab'), designSystemRoot, { recursive: true });
+  await fs.cp(path.join(f.knowledgeRoot, 'data/ds-ai-hub'), dsAiHubRoot, { recursive: true });
+  await put(designSystemRoot, 'JSONS/apollo/indexes/componentContractIndex.json', { schemaVersion: 2, packages: [{ componentKey: 'fixture', packagePath: 'fixture', artifacts: {} }] });
+  const old = JSON.parse(await fs.readFile(path.join(dataRoot, 'manifest.json'))).contracts[0];
+  const source = JSON.parse(await fs.readFile(path.join(dataRoot, old.file)));
+  await put(designSystemRoot, 'JSONS/web/components/fixture/contract.manual.json', source.manual);
+  await put(designSystemRoot, 'JSONS/web/components/fixture/variant-evidence.json', {});
+  await put(designSystemRoot, 'JSONS/web/components/fixture/packages/fixture.zip', 'unused unchanged archive');
+  const sourcePins = await pins(designSystemRoot), get = name => { const p = sourcePins.find(p => p.file === name); return { path: name, sha256: p.sha256, bytes: p.bytes }; };
+  const archive = get('JSONS/web/components/fixture/packages/fixture.zip');
+  const index = { schemaVersion: 'apollo.component-contract-sources.v1', pathBase: 'design-system_ab', entries: [{ contractId: old.id, componentId: old.componentId,
+    platform: 'desktop', revision: 1, manualSourceHash: old.manualSourceHash, archiveSha256: archive.sha256,
+    manual: get('JSONS/web/components/fixture/contract.manual.json'), facts: get('JSONS/web/components/fixture/variant-evidence.json') }] };
+  await put(designSystemRoot, 'JSONS/indexes/component-contracts.index.json', index);
+  const indexBytes = await fs.readFile(path.join(designSystemRoot, 'JSONS/indexes/component-contracts.index.json'));
+  await put(designSystemRoot, 'experiments/current-contract-packages/manifest.json', { schemaVersion: 'component-contract-package-collection.v1', archivePathBase: 'design-system_ab',
+    authoringIndex: { file: '../../JSONS/indexes/component-contracts.index.json', sha256: sha(indexBytes), bytes: indexBytes.length },
+    packages: [{ contractId: old.id, componentId: old.componentId, revision: 1, manualSourceHash: old.manualSourceHash, file: archive.path, zipSha256: archive.sha256, bytes: archive.bytes }] });
+  await put(apolloRoot, 'package.json', { scripts: { build: 'node build.js' } });
+  await put(apolloRoot, 'build.js', `const fs=require('node:fs');fs.mkdirSync('dist',{recursive:true});fs.writeFileSync('dist/built','ok');`);
+  for (const root of [apolloRoot, designSystemRoot, dsAiHubRoot]) {
+    execFileSync('git', ['init', '-q', '-b', 'main', root]);
+    for (const [name, value] of [['user.name', 'Fixture'], ['user.email', 'fixture@example.test']]) execFileSync('git', ['-C', root, 'config', name, value]);
+    execFileSync('git', ['-C', root, 'add', '.']); execFileSync('git', ['-C', root, 'commit', '-qm', 'fixture']);
+  }
+  let drift = false; const workRoots = [];
+  // Only the portable copier is synthetic; subprocess build, knowledge/npm and consumer are real.
+  t.mock.method(require('../scripts/build-portable-runtime'), 'buildPortableRuntime', ({ output }) => {
+    workRoots.push(path.dirname(output)); sync.cpSync(f.runtimeRoot, output, { recursive: true });
+    if (drift) sync.appendFileSync(path.join(dsAiHubRoot, 'core/web/components/fixture/meta.json'), ' ');
+    return releases.readRuntime(output);
+  });
+  const password = 'source-fixture-password';
+  await put(f.root, 'activation.json', require('../src/data-packages/protected').createActivation(password));
+  const config = { apolloRoot, designSystemRoot, dsAiHubRoot, baseRelease: seed.packageRoot, baseRuntimeRoot: f.runtimeRoot,
+    activationFile: path.join(f.root, 'activation.json'), outputRoot: path.join(f.root, 'source-output'), version: '1.0.0', tarballUrl: 'https://example.test/{version}.tgz' };
+  const first = await prepareFromSources(config, { passwordInput: JSON.stringify({ password }) });
+  assert.equal(first.status, 'PREPARED_LOCAL'); assert.equal(first.actualProtectedConsumer, 'PASS');
+  assert.equal(releases.readRuntime(path.join(config.outputRoot, first.runtime.root)).id, f.runtime.id);
+  assert.equal(first.sourceBuild.commits.apollo.length, 40); assert.equal(await fs.readFile(path.join(apolloRoot, 'dist/built'), 'utf8'), 'ok');
+  assert.equal((await prepareFromSources({ ...config, version: '1.0.1', passwordCommand: ['must-not-run'] })).status, 'UNCHANGED');
+  const before = await fs.readFile(path.join(config.outputRoot, first.artifact.file));
+  drift = true;
+  await assert.rejects(prepareFromSources({ ...config, version: '1.0.1', passwordCommand: ['must-not-run'] }), { code: 'DATA_PREPARE_SOURCE_CHANGED' });
+  assert.deepEqual(await fs.readFile(path.join(config.outputRoot, first.artifact.file)), before);
+  assert.deepEqual((await fs.readdir(config.outputRoot)).sort(), ['1.0.0', 'last-build.json']);
+  for (const root of workRoots) await assert.rejects(fs.access(root), { code: 'ENOENT' });
+});
 function transport(descriptor, bytes, knowledgeBytes) {
   const calls=[],packet=s=>(Buffer.byteLength(s)+4).toString(16).padStart(4,'0')+s;
   return {calls,request:async(url,options)=>{

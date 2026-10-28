@@ -428,7 +428,12 @@ async function writeCatalogProvenance(designRoot,packageRoot,sourceCommit){
     sourcePins.push({sourceId,kind:entry.path.startsWith('tokens/')?'tokens':'styles',deliveryFileName:entry.fileName,
       sourceCommit,packagedPath,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),size:bytes.length});
   }
-  if(sourcePins.filter(s=>s.kind==='tokens').length!==23 || sourcePins.filter(s=>s.kind==='styles').length!==9)throw new Error('Reference manifest must provide23 token and9 style catalogs.');
+  const shipped = await walkFiles(path.join(packageRoot,'data/design-system_ab/JSONS'), file => /^(tokens|styles)\/[^/]+\.json$/.test(file));
+  const declared = new Set(sourcePins.map(pin => pin.packagedPath));
+  if (!sourcePins.some(pin => pin.kind === 'tokens') || !sourcePins.some(pin => pin.kind === 'styles')
+    || shipped.length !== sourcePins.length || shipped.some(file => !declared.has('data/design-system_ab/JSONS/' + file))) {
+    throw Object.assign(new Error('Packaged token/style catalogs must exactly match the reference manifest.'), { code: 'KNOWLEDGE_CATALOG_REFERENCE_MISMATCH' });
+  }
   const file=path.join(packageRoot,'data/design-system_ab/apollo/style-token-catalog-provenance.json');
   await fsp.mkdir(path.dirname(file),{recursive:true});
   await fsp.rm(file,{force:true});

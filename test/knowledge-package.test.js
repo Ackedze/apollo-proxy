@@ -551,6 +551,38 @@ test('ABM pattern commits and bytes update the validated knowledge package', asy
   assert.notEqual(edited.manifest.checksum.value, updated.manifest.checksum.value);
 });
 
+test('knowledge provenance follows the declared catalog set as it grows and rejects unlisted/duplicate/missing files', async t => {
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-growing-catalogs-'));
+  t.after(() => fsp.rm(root, { recursive: true, force: true }));
+  const base = await createPackage(root, 'base'), designRoot = path.join(root, 'design'), hubRoot = path.join(root, 'hub');
+  await fsp.cp(path.join(base, 'data/design-system_ab'), designRoot, { recursive: true });
+  await fsp.cp(path.join(base, 'data/ds-ai-hub'), hubRoot, { recursive: true });
+  const write = async (relative, value) => { const file = path.join(designRoot, relative); await fsp.mkdir(path.dirname(file), { recursive: true }); await fsp.writeFile(file, JSON.stringify(value)); };
+  await write('JSONS/apollo/indexes/componentContractIndex.json', { schemaVersion: 2, packages: [{ packagePath: 'fixture', artifacts: {} }] });
+  const catalogs = Array.from({ length: 24 }, (_, i) => ({ path: `tokens/token-${i}.json`, fileName: `Token ${i}` }));
+  catalogs.push({ path: 'styles/style.json', fileName: 'Style' });
+  for (const entry of catalogs) await write('JSONS/' + entry.path, { meta: { library: 'Fixture', fileName: entry.fileName }, ...(entry.path.startsWith('tokens/') ? { collections: [] } : { styles: [] }) });
+  await write('JSONS/referenceSourcesMVP.json', { catalogs });
+  const options = { 'design-system-root': designRoot, 'ds-ai-hub-root': hubRoot,
+    'design-system-commit': SOURCE_COMMITS['design-system_ab'], 'ds-ai-hub-commit': SOURCE_COMMITS['ds-ai-hub'],
+    'generated-at': '2026-10-28T00:00:00Z', output: path.join(root, 'output'), channel: 'stable',
+    minEngine: ENGINE_VERSION, maxEngine: ENGINE_VERSION, directoryOnly: true };
+  const built = await buildKnowledgePackage(options);
+  await validatePackageDirectory(built.packageRoot);
+  const provenance = JSON.parse(await fsp.readFile(path.join(built.packageRoot, 'data/design-system_ab/apollo/style-token-catalog-provenance.json')));
+  assert.equal(provenance.sourcePins.length, 25);
+  const loaded = require('../src/style-token-catalog/inventory').loadPackageSnapshot(built.packageRoot);
+  assert.equal(loaded.rawCatalogs.size, 25); loaded.assertFresh();
+  await write('JSONS/tokens/extra.json', { meta: {}, collections: [] });
+  await assert.rejects(buildKnowledgePackage(options), { code: 'KNOWLEDGE_CATALOG_REFERENCE_MISMATCH' });
+  await fsp.unlink(path.join(designRoot, 'JSONS/tokens/extra.json'));
+  await write('JSONS/referenceSourcesMVP.json', { catalogs: [...catalogs, catalogs[0]] });
+  await assert.rejects(buildKnowledgePackage(options), /Duplicate catalog/);
+  await write('JSONS/referenceSourcesMVP.json', { catalogs });
+  await fsp.unlink(path.join(designRoot, 'JSONS/' + catalogs[0].path));
+  await assert.rejects(buildKnowledgePackage(options), { code: 'ENOENT' });
+});
+
 const {
   resolveKnowledgeRoot,
   assertCompleteKnowledgeRoot,

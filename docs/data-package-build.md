@@ -1,9 +1,9 @@
 # Сборка npm-пакета данных
 
-`data:prepare` — локальная утилита сборки, без агента и обращения к Figma.
-Она объединяет существующие import/release/protected npm producers и проверяет
-результат штатным загрузчиком. Приложение, установленный Proxy, Git-канал и
-публикация при этом не меняются.
+`data:prepare` — одна локальная команда для сборки Apollo runtime, знаний и
+защищённого npm-пакета. Агент и Figma в процессе не участвуют. Она использует
+существующие сборщики и проверяет результат штатным загрузчиком.
+Установленные приложение и Proxy, Git-канал и публикация не меняются.
 
 ## Один раз настроить входы
 
@@ -14,8 +14,10 @@
 {
   "schemaVersion": "apollo.data-package-build.v1",
   "baseRelease": "./accepted/seed",
-  "runtimeRoot": "./accepted/runtime",
+  "baseRuntimeRoot": "./accepted/runtime",
+  "apolloRoot": "../apollo",
   "designSystemRoot": "../design-system_ab",
+  "dsAiHubRoot": "../ds-ai-hub",
   "activationFile": "./publisher/activation.json",
   "outputRoot": "./prepared",
   "tarballUrl": "https://github.com/OWNER/REPO/releases/download/DATA_TAG/apollo-data-{version}.tgz",
@@ -26,10 +28,23 @@
 `baseRelease` — принятый полный снимок данных с `manifest.json`, `contracts`,
 `knowledge` и, если объявлены, `skills`. Он может быть извлечён из прежнего
 принятого артефакта; работающий Proxy для этого не нужен.
-`runtimeRoot` — проверенная переносимая сборка Apollo, а не произвольный checkout.
-Если runtime меняется, укажите также `baseRuntimeRoot` для проверки старого
-снимка. Утилита укажет `runtimeChanged: true`: перед доставкой такого пакета
-потребуется совместимое обновление приложения/runtime.
+`baseRuntimeRoot` — совместимый runtime для проверки старого снимка.
+`apolloRoot`, `designSystemRoot`, `dsAiHubRoot` — собственные Git checkout.
+Зависимости Apollo и Proxy устанавливаются один раз через `npm ci` в каждом
+из двух репозиториев; Git, Node/npm и прежний secret store должны быть доступны.
+В обычном случае generation skills берутся из `apolloRoot/skills`; отдельный
+принятый источник можно указать в `generationSkillsRoot`.
+
+Команда запускает существующий `npm run build` внутри `apolloRoot`. Он обновляет
+локальные `dist` Apollo и его пакетов: этот checkout должен иметь одного writer,
+без параллельной сборки или зависящего от него прогона. Установленный плагин от
+этого не обновляется. Изменение исходников во время сборки останавливает выдачу
+пакета. Режимы native diagnostics и специального native scope для этой обычной
+сборки не используются; при их наличии в окружении команда явно отказывает.
+
+Если runtime изменился относительно baseline, отчёт укажет `runtimeChanged: true`: перед доставкой
+данных потребуется совместимое обновление приложения/runtime. Собранный runtime
+сохраняется рядом с npm-архивом, но установленное приложение не подменяется.
 
 `activationFile` содержит публичные параметры **существующей** активации.
 Отсутствующий файл вызывает ошибку; новый ключ не создаётся. Команда
@@ -47,25 +62,28 @@ npm run data:prepare -- --config /path/to/private-build.json --version 1.4.3-dat
 
 Утилита:
 
-1. Проверяет baseline, runtime, canonical index, manual/facts и закреплённые ZIP.
-2. Выбирает прежний состав по `contractId`; сопоставляет platform/component
+1. Собирает Apollo из исходников через `npm run build` и готовит переносимый runtime.
+2. Собирает знания из `design-system_ab` и `ds-ai-hub` существующим knowledge
+   producer. Точные Git refs и fingerprint исходников записываются в отчёт.
+3. Проверяет baseline, runtime, canonical index, manual/facts и закреплённые ZIP.
+   Выбирает прежний состав по `contractId`; сопоставляет platform/component
    identity, обновляет изменившиеся контракты через существующий importer.
    Остальные записи, зависимости и mapping сохраняются. Устаревший mapping
    отклоняется штатным reader, автоматически не переписывается.
-3. Собирает full release: контракты, знания и правила навыков. По умолчанию
-   knowledge/skills берутся из baseline. Для их принятого обновления задаются
-   `knowledgeRoot`/`skillsRoot`; знания предварительно готовятся существующим
-   `knowledge:build`, runtime — `runtime:build-portable`. Нормы/факты утилита
-   не придумывает; authoring и проверка контрактов остаются отдельной работой.
-4. Шифрует данные прежним ключом, запускает настоящий `npm pack --ignore-scripts`
+4. Собирает full release: контракты, новые знания и правила навыков. Skills данных
+   сохраняются из baseline, если не задан другой принятый `skillsRoot`.
+   Authoring норм/фактов и проверка макетов остаются отдельной работой.
+5. Шифрует данные прежним ключом, запускает настоящий `npm pack --ignore-scripts`
    и загружает архив штатным protected consumer в удаляемый временный store.
-5. Оставляет только `.tgz`, кандидат `current.json` и `report.json` в папке
-   `outputRoot/<version>`. Plaintext staging и дубли шифрованных файлов удаляются.
+6. Оставляет `.tgz`, каталог `runtime`, кандидат `current.json` и `report.json`
+   в папке `outputRoot/<version>`. Временные открытые знания, store проверки
+   и дубли шифрованных файлов удаляются, в том числе при ошибке.
 
 Повтор с теми же входами возвращает `UNCHANGED`, прежнюю версию и прежние байты;
-пароль не запрашивается, новый архив не создаётся. Для изменённых данных нужна
-новая явная npm-версия. Одновременные сборки в одном output блокируются lock-файлом.
-Не удаляйте lock, пока сборщик работает.
+пароль не запрашивается, новый npm-архив не создаётся. Компиляция Apollo и
+проекция знаний выполняются, чтобы не упаковать устаревший `dist`.
+Для изменённых данных нужна новая явная npm-версия. Одновременные сборки в одном
+output блокируются lock-файлами. Не удаляйте lock, пока сборщик работает.
 
 В отчёте доступны contentVersion, runtimeId, обновлённые контракты и `excluded` —
 позиции canonical index, ещё не входящие в baseline. Новые компоненты не
@@ -75,9 +93,17 @@ desktop и mobile ButtonsGroup пока нельзя включать однов
 и PromoCard также не входят в текущую поставку; причина их прежнего исключения
 не установлена. Добавление в поставку требует отдельного изменения состава.
 
-`designSystemRoot` можно опустить для упаковки уже принятого полного снимка без
-обновления контрактов. Данные frontend/SDK в профиль `checking-ask-figma-mcp`
-не включаются. arui-private не читается и не упаковывается.
+Данные frontend/SDK в профиль `checking-ask-figma-mcp` не включаются.
+arui-private не читается и не упаковывается.
+
+## Упаковка уже готовых входов
+
+Прежний режим сохранён: опустите `apolloRoot` и `dsAiHubRoot`, задайте
+`runtimeRoot` и при необходимости `knowledgeRoot`. Тогда source build не
+запускается: runtime и знания берутся из готовых принятых каталогов, по умолчанию
+knowledge — из baseline. `baseRuntimeRoot` нужен, если старый снимок требует
+другого runtime. Можно опустить и `designSystemRoot`, чтобы переупаковать
+принятый снимок без обновления контрактов. Команда остаётся той же.
 
 ## После сборки
 
