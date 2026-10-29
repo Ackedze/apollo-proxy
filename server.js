@@ -334,6 +334,9 @@ installStyleTokenCatalogParser(app);
 app.use(express.json({ limit: '30mb', strict: false }));
 app.use(tokenJournal.middleware);
 tokenJournalApi.mountJournalRoutes(app, tokenJournal);
+const auditStatistics=require('./src/audit-statistics/delivery').createStatisticsDelivery(path.join(process.env.APOLLO_STATE_ROOT || path.join(process.cwd(), '.local'),'audit-statistics'));
+auditStatistics.mount(app);
+process.once('exit',()=>auditStatistics.close());
 
 function assertSelectedKnowledgeRoots() {
   assertCompleteKnowledgeRoot(CODEX_DESIGN_SYSTEM, 'design-system_ab');
