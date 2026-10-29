@@ -26,12 +26,6 @@ PROXY_VERSION="$(node -p "require('${PROXY_ROOT}/package.json').version")"
 APP_BUILD_NUMBER="${APOLLO_APP_BUILD_NUMBER:-$(date -u +%Y%m%d%H%M%S)}"
 SPARKLE_FEED_URL="${APOLLO_APPCAST_URL:-}"
 SPARKLE_PUBLIC_KEY="${APOLLO_SPARKLE_PUBLIC_KEY:-}"
-if [[ -z "${SPARKLE_PUBLIC_KEY}" ]]; then
-  SPARKLE_PUBLIC_KEY="$(bash "${SCRIPT_DIR}/sparkle-key.sh" public 2>/dev/null || true)"
-fi
-if [[ -n "${SPARKLE_PUBLIC_KEY}" && -z "${SPARKLE_FEED_URL}" ]]; then
-  SPARKLE_FEED_URL="https://github.com/Ackedze/apollo-proxy/releases/latest/download/appcast.xml"
-fi
 SPARKLE_FRAMEWORK="${APP_ROOT}/.build/artifacts/sparkle/Sparkle/Sparkle.xcframework/macos-arm64_x86_64/Sparkle.framework"
 SIGN_IDENTITY="${CODESIGN_IDENTITY:-$(swift "${SCRIPT_DIR}/app-signing.swift")}"
 NOTARY_KEYCHAIN_PROFILE="${NOTARY_KEYCHAIN_PROFILE:-}"
@@ -55,12 +49,6 @@ if [[ ! "${APP_BUILD_NUMBER}" =~ ^[0-9]+$ ]]; then
   echo "APOLLO_APP_BUILD_NUMBER must be a monotonically increasing integer." >&2
   exit 1
 fi
-if [[ -n "${SPARKLE_FEED_URL}" || -n "${SPARKLE_PUBLIC_KEY}" ]]; then
-  node -e 'const u=new URL(process.argv[1]);if(u.protocol!=="https:"||u.username||u.password||u.hash||Buffer.from(process.argv[2],"base64").length!==32)process.exit(1)' "${SPARKLE_FEED_URL}" "${SPARKLE_PUBLIC_KEY}" || {
-    echo "Set a valid HTTPS APOLLO_APPCAST_URL and a 32-byte APOLLO_SPARKLE_PUBLIC_KEY together." >&2; exit 1;
-  }
-fi
-SPARKLE_FEED_XML="$(printf '%s' "${SPARKLE_FEED_URL}" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 
 if [[ -d "${SOURCE_APP_BUNDLE}" ]]; then
   echo "Refusing to build while stale source bundle exists: ${SOURCE_APP_BUNDLE}" >&2
@@ -107,6 +95,19 @@ swift build --package-path "${APP_ROOT}" -c release --product "${APP_NAME}" --ar
 
 echo "[2/7] Building Swift binary (x86_64)..."
 swift build --package-path "${APP_ROOT}" -c release --product "${APP_NAME}" --arch x86_64
+
+if [[ -z "${SPARKLE_PUBLIC_KEY}" ]]; then
+  SPARKLE_PUBLIC_KEY="$(bash "${SCRIPT_DIR}/sparkle-key.sh" public)" || {
+    echo "Cannot read the existing Sparkle key. Refusing to build an app without updates." >&2; exit 1;
+  }
+fi
+if [[ -z "${SPARKLE_FEED_URL}" ]]; then
+  SPARKLE_FEED_URL="https://github.com/Ackedze/apollo-proxy/releases/latest/download/appcast.xml"
+fi
+node -e 'const u=new URL(process.argv[1]);if(u.protocol!=="https:"||u.username||u.password||u.hash||Buffer.from(process.argv[2],"base64").length!==32)process.exit(1)' "${SPARKLE_FEED_URL}" "${SPARKLE_PUBLIC_KEY}" || {
+  echo "Set a valid HTTPS APOLLO_APPCAST_URL and a 32-byte APOLLO_SPARKLE_PUBLIC_KEY together." >&2; exit 1;
+}
+SPARKLE_FEED_XML="$(printf '%s' "${SPARKLE_FEED_URL}" | sed 's/\&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g')"
 
 echo "[3/7] Creating universal launcher..."
 mkdir -p "${DIST_DIR}"
