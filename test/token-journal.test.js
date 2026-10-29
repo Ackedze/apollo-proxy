@@ -156,3 +156,26 @@ test('a restart does not guess a resumed baseline or rewrite completed history',
   assert.equal(restored.read().records.find(r => r.operation === 'after-restart').totalTokens,null);
   assert.deepEqual(fs.readFileSync(file),bytes);
 });
+
+test('local operation lifecycle retains start, strict receipts, separate unknown usage and all terminal outcomes', t => {
+ const {journal}=setup(t),routes=new Map();mountJournalRoutes({get(){},post:(name,fn)=>routes.set(name,fn)},journal);
+ const post=body=>{const response={code:200,status(code){this.code=code;return this;},json(value){this.body=value;return this;}};routes.get('/usage/local')({body},response);return response;};
+ const base={id:'operation-1',operation:'reglyph-scan',startedAt:'2026-10-29T10:00:00.000Z',durationMs:null,status:'running',usageMode:'none'};
+ assert.deepEqual(post(base).body,{success:true,id:base.id,status:'running'});assert.equal(journal.read().records[0].status,'running');
+ const done={...base,status:'completed',durationMs:25};assert.deepEqual(post(done).body,{success:true,id:base.id,status:'completed'});assert.equal(post(done).code,200);assert.equal(journal.read().records.length,1);assert.equal(post({...done,status:'failed'}).code,409);assert.equal(post(base).code,409);
+ for(const [i,operation]of ['check','recheck','reglyph-replace','layer-names-apply','layer-names-undo'].entries()){
+  assert.equal(post({...done,id:'local-'+i,operation,status:i%2?'cancelled':'failed'}).code,200);
+ }
+ for(const operation of ['layer-names-run','pattern-check']){
+  const start={...base,id:operation,operation};post(start);post({...start,usageMode:'separate'});assert.equal(post({...start,usageMode:'separate',status:'failed',durationMs:50}).code,200);
+ }
+ const records=journal.read().records;assert.ok(records.filter(r=>r.usageMode==='separate').every(r=>r.totalTokens===null));assert.ok(records.filter(r=>r.usageMode!=='separate').every(r=>r.totalTokens===0));assert.ok(records.some(r=>r.status==='cancelled'));
+ for(const bad of [{...done,operation:'ask'},{...done,usageMode:'separate'},{...done,inputTokens:500},{...done,id:'../other'},{...done,status:'passed'}])assert.equal(post(bad).code,400);
+});
+test('local interrupted start can finish after Proxy restart without rewriting terminal history', t => {
+ const {journal}=setup(t);let handler;const mount=j=>mountJournalRoutes({get(){},post:(name,fn)=>{handler=fn;}},j);
+ const post=body=>{const response={code:200,status(code){this.code=code;return this;},json(value){this.body=value;}};handler({body},response);return response;};mount(journal);
+ const base={id:'restart',operation:'reglyph-replace',startedAt:'2026-10-29T10:00:00.000Z',durationMs:null,status:'running',usageMode:'none'};post(base);
+ const restored=createTokenJournal(journal.root);assert.equal(restored.read().records[0].status,'running');assert.equal(restored.read().records[0].durationMs,null);assert.equal(restored.read().records[0].totalTokens,0);mount(restored);
+ assert.equal(post({...base,status:'completed',durationMs:30}).code,200);assert.equal(restored.read().records[0].status,'completed');
+});

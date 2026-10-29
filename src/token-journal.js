@@ -121,7 +121,7 @@ function createTokenJournal(root, { now = Date.now, onError = error => console.w
   }
   function recover() {
     const previous = safe(read);
-    for (const value of previous?.records || []) if (value.status === 'running') {
+    for (const value of previous?.records || []) if (value.status === 'running' && value.timeSource !== 'plugin') {
       value.status = 'interrupted'; value.durationMs = null; value.totalTokens = null;
       write({ value });
     }
@@ -163,32 +163,49 @@ function mountJournalRoutes(app, journal) {
     } catch { res.status(503).json({ success: false, code: 'TOKEN_JOURNAL_UNAVAILABLE' }); }
   });
   app.post('/usage/local', (req, res) => {
-    const b = req.body;
-    if (!b || Object.keys(b).sort().join(',') !== 'durationMs,id,operation,startedAt,status' || b.operation !== 'check'
-      || typeof b.id !== 'string' || !b.id.length || b.id.length > 150 || typeof b.startedAt !== 'string'
-      || !Number.isFinite(Date.parse(b.startedAt)) || !count(b.durationMs) || b.durationMs > 86400000
-      || !['completed', 'failed', 'cancelled'].includes(b.status)) {
+    const labels = {check:'Проверить',recheck:'Перепроверить область','reglyph-scan':'Навык · Обновить иконки · проверка',
+      'reglyph-replace':'Навык · Обновить иконки · замена','layer-names-run':'Навык · Переименовать слои · итог запуска',
+      'layer-names-apply':'Навык · Переименовать слои · применение','layer-names-undo':'Навык · Переименовать слои · отмена замен',
+      'pattern-check':'Проверка паттернов · итог запуска'};
+    const b = req.body, keys = b && Object.keys(b).sort().join(','), mode = b?.usageMode === undefined ? 'none' : b.usageMode;
+    if (!b || !['durationMs,id,operation,startedAt,status','durationMs,id,operation,startedAt,status,usageMode'].includes(keys)
+      || !Object.hasOwn(labels,b.operation) || typeof b.id !== 'string' || !/^[a-zA-Z0-9:_-]{1,150}$/.test(b.id)
+      || typeof b.startedAt !== 'string' || b.startedAt.length>40 || !Number.isFinite(Date.parse(b.startedAt))
+      || !['running','completed','failed','cancelled','interrupted'].includes(b.status)
+      || (b.durationMs===null ? !['running','interrupted'].includes(b.status) : !count(b.durationMs) || b.durationMs>86400000)
+      || !(mode==='none' || mode==='separate' && ['layer-names-run','pattern-check'].includes(b.operation))) {
       res.status(400).json({ success: false, code: 'TOKEN_LOCAL_RECORD_INVALID' }); return;
     }
-    const hash = crypto.createHash('sha256').update('local-check:' + b.id).digest('hex');
+    const hash = crypto.createHash('sha256').update((b.operation==='check'?'local-check:':'local-'+b.operation+':')+b.id).digest('hex');
     const id = [hash.slice(0,8),hash.slice(8,12),hash.slice(12,16),hash.slice(16,20),hash.slice(20,32)].join('-');
-    const value = { schemaVersion: SCHEMA, id, operation: 'Проверить', startedAt: new Date(b.startedAt).toISOString(),
-      durationMs: b.durationMs, status: b.status, provider: null, model: null, timeSource: 'plugin',
-      inputTokens: 0, outputTokens: 0, cachedInputTokens: 0, totalTokens: 0, calls: 0 };
+    const value = {schemaVersion:SCHEMA,id,operation:labels[b.operation],startedAt:new Date(b.startedAt).toISOString(),durationMs:b.durationMs,
+      status:b.status,provider:null,model:null,timeSource:'plugin',inputTokens:0,outputTokens:0,cachedInputTokens:0,totalTokens:mode==='separate'?null:0,calls:0};
+    // Preserve the old check record bytes for compatible, idempotent retries.
+    if (mode==='separate') value.usageMode=mode;
     try {
-      fs.mkdirSync(journal.root, { recursive: true, mode: 0o700 });
-      if (fs.realpathSync(journal.root) !== journal.root) throw Error('Unsafe token journal');
-      const file = path.join(journal.root, id + '.json'), bytes = JSON.stringify(value) + '\n', temp = file + '.' + crypto.randomUUID() + '.tmp';
-      try { fs.writeFileSync(temp, bytes, { flag: 'wx', mode: 0o600 }); fs.linkSync(temp, file); }
-      catch (error) {
-        if (error.code !== 'EEXIST') throw error;
-        const stat = fs.lstatSync(file);
-        if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 16384 || fs.readFileSync(file, 'utf8') !== bytes) {
-          res.status(409).json({ success: false, code: 'TOKEN_LOCAL_RECORD_REPLAY' }); return;
+      fs.mkdirSync(journal.root,{recursive:true,mode:0o700});
+      if(fs.realpathSync(journal.root)!==journal.root)throw Error('Unsafe token journal');
+      const file=path.join(journal.root,id+'.json'),bytes=JSON.stringify(value)+'\n',temp=file+'.'+crypto.randomUUID()+'.tmp';
+      let existing=null;
+      try {
+        const stat=fs.lstatSync(file);
+        if(!stat.isFile() || stat.isSymbolicLink() || stat.size>16384)throw Error('Unsafe token record');
+        existing=fs.readFileSync(file,'utf8');
+      }catch(error){if(error.code!=='ENOENT')throw error;}
+      if(existing && existing!==bytes){
+        const old=JSON.parse(existing);
+        if(old.schemaVersion!==SCHEMA || old.id!==id || old.operation!==value.operation || old.startedAt!==value.startedAt || old.timeSource!=='plugin'
+          || old.provider!==null || old.model!==null || old.inputTokens!==0 || old.outputTokens!==0 || old.calls!==0
+          || !['running','interrupted'].includes(old.status) || old.usageMode==='separate' && mode!=='separate') {
+          res.status(409).json({success:false,code:'TOKEN_LOCAL_RECORD_REPLAY'});return;
         }
-      } finally { fs.rmSync(temp, { force: true }); }
-      res.json({ success: true });
-    } catch { res.status(503).json({ success: false, code: 'TOKEN_JOURNAL_UNAVAILABLE' }); }
+      }
+      if(existing!==bytes){
+        try{fs.writeFileSync(temp,bytes,{flag:'wx',mode:0o600});if(existing)fs.renameSync(temp,file);else fs.linkSync(temp,file);}
+        finally{fs.rmSync(temp,{force:true});}
+      }
+      res.json({success:true,id:b.id,status:b.status});
+    }catch{res.status(503).json({success:false,code:'TOKEN_JOURNAL_UNAVAILABLE'});}
   });
 }
 

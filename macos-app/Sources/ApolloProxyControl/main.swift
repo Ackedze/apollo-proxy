@@ -65,7 +65,7 @@ final class ProxyManager: NSObject {
     private let startItem = NSMenuItem(title: "Запустить прокси", action: #selector(toggleProxyAction), keyEquivalent: "")
     private let authorizeAgentItem = NSMenuItem(title: "Войти в Codex…", action: #selector(authorizeAgentAction), keyEquivalent: "")
     private let aboutItem = NSMenuItem(title: "О прокси…", action: #selector(showProxyDetailsAction), keyEquivalent: ",")
-    private let tokensItem = NSMenuItem(title: "Токенцы…", action: #selector(showTokenJournalAction), keyEquivalent: "")
+    private let tokensItem = NSMenuItem(title: "Статистика…", action: #selector(showTokenJournalAction), keyEquivalent: "")
     private let checkUpdatesItem = NSMenuItem(title: "Обновления…", action: #selector(checkUpdatesAction), keyEquivalent: "")
     private let quitItem = NSMenuItem(title: "Завершить", action: #selector(quitAction), keyEquivalent: "q")
 

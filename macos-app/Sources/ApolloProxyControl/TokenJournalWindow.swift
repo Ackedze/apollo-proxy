@@ -10,6 +10,7 @@ struct TokenJournalRecord: Decodable, Sendable {
     let provider: String?
     let model: String?
     let timeSource: String?
+    let usageMode: String?
     let inputTokens: Int64
     let outputTokens: Int64
     let totalTokens: Int64?
@@ -18,6 +19,7 @@ struct TokenJournalRecord: Decodable, Sendable {
     var valid: Bool {
         schemaVersion == "apollo.token-operation.v1" && UUID(uuidString: id) != nil && !operation.isEmpty && operation.count <= 120
             && ["running", "completed", "failed", "cancelled", "interrupted"].contains(status)
+            && (usageMode == nil || ["none", "separate"].contains(usageMode!))
             && inputTokens >= 0 && outputTokens >= 0 && !inputTokens.addingReportingOverflow(outputTokens).overflow
             && (totalTokens == nil || totalTokens == knownTokens) && (durationMs == nil || durationMs! >= 0)
     }
@@ -74,7 +76,7 @@ final class TokenJournalWindowController: NSWindowController, NSTableViewDataSou
         self.root = root
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 900, height: 540),
                               styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
-        window.title = "Токенцы"
+        window.title = "Статистика"
         window.minSize = NSSize(width: 760, height: 380)
         window.isReleasedWhenClosed = false
         window.contentView = ContentView(frame: NSRect(x: 0, y: 0, width: 900, height: 540))
@@ -162,7 +164,7 @@ final class TokenJournalWindowController: NSWindowController, NSTableViewDataSou
         total.stringValue = overflow ? "Расход превышает предел счётчика" : "Учтено \(number(sum)) токенов"
         let missing = records.filter { $0.totalTokens == nil && $0.status != "running" }.count
         let running = records.filter { $0.status == "running" }.count
-        summary.stringValue = snapshot.error ?? "Операций: \(records.count) · Без полных данных: \(missing) · Выполняется: \(running). Кеш учтён один раз."
+        summary.stringValue = snapshot.error ?? "Операций: \(records.count) · Без полных данных: \(missing) · Без завершения: \(running). Кеш учтён один раз."
         if snapshot.unreadable > 0 { summary.stringValue += " Не удалось прочитать записей: \(snapshot.unreadable)." }
         empty.isHidden = !records.isEmpty
         empty.stringValue = snapshot.error == nil ? "Здесь появятся новые операции: вопросы, проверки и навыки." : "Журнал сейчас недоступен."
@@ -175,14 +177,15 @@ final class TokenJournalWindowController: NSWindowController, NSTableViewDataSou
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard records.indices.contains(row), let id = tableColumn?.identifier.rawValue else { return nil }
         let record = records[row]
+        let status = ["running": record.timeSource == "plugin" ? "Завершение не подтверждено" : "Выполняется", "completed": "Завершено", "failed": "Ошибка", "cancelled": "Отменено", "interrupted": "Прервано"][record.status] ?? record.status
         let text: String
         switch id {
-        case "operation": text = record.operation
+        case "operation": text = record.status == "completed" ? record.operation : "\(status) · \(record.operation)"
         case "started": text = iso.date(from: record.startedAt).map { date.string(from: $0) } ?? record.startedAt
         case "duration":
-            let ms = record.durationMs ?? (record.status == "running" ? iso.date(from: record.startedAt).map { Int64(max(0, Date().timeIntervalSince($0) * 1000)) } : nil)
+            let ms = record.durationMs ?? (record.status == "running" && record.timeSource != "plugin" ? iso.date(from: record.startedAt).map { Int64(max(0, Date().timeIntervalSince($0) * 1000)) } : nil)
             text = ms.map { $0 < 1000 ? "\($0) мс" : $0 < 60000 ? "\($0 / 1000) с" : "\($0 / 60000) мин \($0 / 1000 % 60) с" } ?? "—"
-        default: text = record.totalTokens.map(number) ?? (record.knownTokens > 0 ? "≥ \(number(record.knownTokens))" : record.status == "running" ? "Выполняется…" : "Нет данных")
+        default: text = record.totalTokens.map(number) ?? (record.knownTokens > 0 ? "≥ \(number(record.knownTokens))" : record.status == "running" ? (record.timeSource == "plugin" ? "Не подтверждено" : "Выполняется…") : "Нет данных")
         }
         let cell = NSTableCellView()
         let label = NSTextField(labelWithString: text)
@@ -192,8 +195,9 @@ final class TokenJournalWindowController: NSWindowController, NSTableViewDataSou
         label.translatesAutoresizingMaskIntoConstraints = false
         cell.addSubview(label); cell.textField = label
         NSLayoutConstraint.activate([label.centerYAnchor.constraint(equalTo: cell.centerYAnchor), label.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 5), label.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -5)])
-        let status = ["running": "Выполняется", "completed": "Завершено", "failed": "Ошибка", "cancelled": "Отменено", "interrupted": "Прервано"][record.status] ?? record.status
-        cell.toolTip = "\(record.operation) · \(status)\n\(record.provider ?? "Локально") · \(record.model ?? "Модель по умолчанию")\nВходные: \(number(record.inputTokens)), выходные: \(number(record.outputTokens))\(record.timeSource == "plugin" ? "\nДлительность измерена в плагине; агент не вызывается." : "")\(record.totalTokens == nil ? "\nСтатистика неполная; учтены только переданные агентом значения." : "")"
+        let origin = record.timeSource == "plugin" ? (record.usageMode == "separate" ? "Итог запуска" : "Локально · без модели") : "\(record.provider ?? "Неизвестный агент") · \(record.model ?? "Модель по умолчанию")"
+        let usage = record.usageMode == "separate" ? "Токены учтены в отдельных запросах агента; эта итоговая строка не добавляет расход повторно." : "Входные: \(number(record.inputTokens)), выходные: \(number(record.outputTokens))"
+        cell.toolTip = "\(record.operation) · \(status)\n\(origin)\n\(usage)\(record.timeSource == "plugin" ? "\nДлительность измерена в плагине." : "")\(record.totalTokens == nil && record.usageMode != "separate" ? "\nСтатистика неполная; учтены только переданные агентом значения." : "")"
         return cell
     }
 }
