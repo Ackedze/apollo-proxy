@@ -42,12 +42,32 @@ async function startTransport({ feedURL, request = fetch }) {
         url = next;
       }
       if (!response.ok || !response.body) { await response.body?.cancel(); res.writeHead(response.status).end(); return; }
-      const body = await readBytes(response, local.pathname.endsWith('/feed') ? 4 * 1024 * 1024 : 512 * 1024 * 1024);
-      const headers = { 'Content-Type': isFeed ? 'application/xml' : 'application/zip', 'Content-Length': body.length, 'Cache-Control': 'no-store' };
+      const headers = { 'Content-Type': isFeed ? 'application/xml' : 'application/zip', 'Cache-Control': 'no-store' };
       // Sparkle chooses its unarchiver from the downloaded filename, not the appcast URL.
       if (filename) headers['Content-Disposition'] = 'attachment; filename="' + filename + '"';
-      res.writeHead(200, headers);
-      res.end(body);
+      if (isFeed) {
+        const body = await readBytes(response, 4 * 1024 * 1024);
+        res.writeHead(200, { ...headers, 'Content-Length': body.length });
+        res.end(body);
+      } else {
+        const limit = 512 * 1024 * 1024;
+        const length = response.headers.has('content-encoding') ? null : response.headers.get('content-length');
+        if (length !== null && (!/^\d+$/.test(length) || !Number.isSafeInteger(Number(length)) || Number(length) > limit)) {
+          await response.body.cancel();
+          throw Error('APP_UPDATE_ARCHIVE_SIZE_INVALID');
+        }
+        if (length !== null) headers['Content-Length'] = length;
+        res.writeHead(200, headers);
+        let size = 0;
+        for await (const chunk of response.body) {
+          size += chunk.length;
+          if (size > limit) throw Error('HTTP_BODY_TOO_LARGE');
+          // Drain the capped upstream continuously; pausing Undici on FIN can crash it (#5360).
+          res.write(chunk);
+        }
+        if (length !== null && size !== Number(length)) throw Error('APP_UPDATE_ARCHIVE_SIZE_INVALID');
+        res.end();
+      }
     } catch (error) {
       if (!res.headersSent) res.writeHead(502, { 'Content-Type': 'text/plain' }).end(error.cause?.code || 'APP_UPDATE_TRANSPORT_FAILED');
       else res.destroy();

@@ -40,3 +40,70 @@ test('Sparkle relay refuses unsafe feeds, redirects and archives', async t => {
   t.after(() => relay.close());
   assert.equal((await fetch(relay.baseURL + '/feed')).status, 404);
 });
+
+test('Sparkle receives ZIP bytes while the upstream download is still in progress', async t => {
+  let finish;
+  const remainder = new Promise(resolve => { finish = resolve; });
+  const archive = Buffer.from([1,2,3,4,5,6,7,8]);
+  let finished = false;
+  const relay = await startTransport({ feedURL, request: async () => new Response(new ReadableStream({
+    async start(controller) {
+      controller.enqueue(archive.subarray(0,4));
+      await remainder;
+      finished = true;
+      controller.enqueue(archive.subarray(4));
+      controller.close();
+    }
+  }), { headers: { 'Content-Length': String(archive.length) } }) });
+  t.after(() => { finish(); relay.close(); });
+  const response = await fetch(relay.baseURL + '/archive?url=' + encodeURIComponent(archiveURL), {
+    signal: AbortSignal.timeout(1000)
+  });
+  assert.equal(response.headers.get('content-length'), String(archive.length));
+  const reader = response.body.getReader();
+  const first = await reader.read();
+  assert.deepEqual(Buffer.from(first.value), archive.subarray(0,4));
+  assert.equal(finished, false);
+  finish();
+  const chunks = [first.value];
+  for (;;) { const item = await reader.read(); if (item.done) break; chunks.push(item.value); }
+  assert.deepEqual(Buffer.concat(chunks), archive);
+});
+
+test('Sparkle relay rejects an oversized declared archive before forwarding its body', async t => {
+  const relay = await startTransport({ feedURL, request: async () => new Response('too large', {
+    headers: { 'Content-Length': String(512 * 1024 * 1024 + 1) }
+  }) });
+  t.after(() => relay.close());
+  assert.equal((await fetch(relay.baseURL + '/archive?url=' + encodeURIComponent(archiveURL))).status, 502);
+});
+
+test('Sparkle relay does not complete a truncated archive as a successful download', async t => {
+  const relay = await startTransport({ feedURL, request: async () => new Response('part', {
+    headers: { 'Content-Length': '8' }
+  }) });
+  t.after(() => relay.close());
+  await assert.rejects(async () => {
+    const response = await fetch(relay.baseURL + '/archive?url=' + encodeURIComponent(archiveURL));
+    await response.arrayBuffer();
+  });
+});
+
+test('cancelling the Sparkle download aborts the upstream request', async t => {
+  let aborted;
+  const upstreamAborted = new Promise(resolve => { aborted = resolve; });
+  const relay = await startTransport({ feedURL, request: async (url, { signal }) => new Response(new ReadableStream({
+    start(controller) {
+      controller.enqueue(Buffer.from('first'));
+      signal.addEventListener('abort', () => { controller.error(signal.reason); aborted(); }, { once: true });
+    }
+  })) });
+  t.after(() => relay.close());
+  const response = await fetch(relay.baseURL + '/archive?url=' + encodeURIComponent(archiveURL), {
+    signal: AbortSignal.timeout(1000)
+  });
+  const reader = response.body.getReader();
+  assert.equal(Buffer.from((await reader.read()).value).toString(), 'first');
+  await reader.cancel();
+  await upstreamAborted;
+});
