@@ -1,6 +1,49 @@
 # apollo-proxy
 
-[Правила контрибьютинга](CONTRIBUTING.md) · [Старт дизайнеру](https://github.com/Ackedze/apollo/blob/main/docs/DESIGNER_START.md) · [Установка приложения](macos-app/DELEGATION.md)
+[Общий старт агента](https://github.com/Ackedze/apollo/blob/main/docs/AGENT_START_PROMPT.md) · [Карта проекта](docs/PROJECT_GUIDE.md) · [Контрибьютинг](CONTRIBUTING.md) · [Установка приложения](macos-app/DELEGATION.md)
+
+Apollo Proxy — локальный HTTP-сервис для Figma-плагина Apollo. Он поставляет
+контрактные данные, запускает выбранного агента, обслуживает генерацию и навыки,
+хранит состояние запросов и управляет обновлениями данных. macOS miniapp
+управляет установкой, входом, настройками и жизненным циклом сервера.
+
+## С чего начать
+
+1. Для подключения к разработке прочитайте [общий промпт](https://github.com/Ackedze/apollo/blob/main/docs/AGENT_START_PROMPT.md).
+2. Для поиска функции/API используйте [карту модулей](docs/PROJECT_GUIDE.md).
+3. Для готовой установки — [DELEGATION.md](macos-app/DELEGATION.md), для Git-данных — [git-data-update.md](docs/git-data-update.md).
+4. Дальнейшие разделы README содержат технические детали и исторические пилоты;
+   текущие возможности сверяйте с активными runtime/data и service-модулями.
+
+## Возможности и ограничения
+
+| Область | Что делает Proxy |
+| --- | --- |
+| Проверка | Отдаёт контракты локальному runtime; обычная проверка не вызывает модель |
+| Данные Apollo | Возвращает metadata index без агента и сборки planning context |
+| Диалог и AI-анализ | Направляет запрос поддержанному провайдеру, сохраняет источник и ошибки |
+| Генерация | Готовит контекст ScreenSpec/mapping, обслуживает принятые исполнители |
+| Навыки | Управляет ограниченным циклом анализа и callbacks плагина |
+| Обновления | Проверяет совместимость данных, сохраняет предыдущий пакет и переключает текущий |
+
+Codex и Claude используют собственные CLI-входы пользователя; AlfaGen — HTTP.
+AlfaGen пока поддержан для диалога, а не структурированных проверок, навыков
+и генерации. MCP-генерация требует отдельного Codex/Figma-профиля и OAuth;
+она сохраняет Draft без DS-проверки. Переносимость frontend с собственным SDK —
+отдельный этап. Подключение manual не включает все адаптеры автоматически.
+
+## Быстрый старт исходников
+
+```bash
+npm ci
+```
+
+Для запуска нужны собственная конфигурация и совместимые runtime/данные:
+[dev-запуск и проверки](docs/PROJECT_GUIDE.md#dev-запуск). `npm start` сам их
+не устанавливает. Checkout и установленный miniapp не обновляют друг друга
+автоматически. Клиент по умолчанию ожидает localhost:3001.
+
+## Навык «Переназвать слои»
 
 `POST /skills/layer-names/runs` начинает анализ выделения через выбранный
 Codex/Claude. Агент получает компактный обзор и возвращает типизированный
@@ -28,7 +71,8 @@ Wire 0.2.0 реализован code-owned адаптерами в плагин�
 
 Контракты и mapping можно подключать отдельно от runtime через `npm run data:import`.
 `APOLLO_DATA_ROOT` включает атомарный индекс и обновление без перезапуска proxy.
-Процесс, ограничения адаптеров и миграция: [пакеты данных](../../docs/APOLLO_DATA_PACKAGES.md).
+Текущая доставка и границы данных: [Git-обновление](docs/git-data-update.md)
+и [карта проекта](docs/PROJECT_GUIDE.md#код-runtime-данные-и-знания).
 
 ## Установленная версия и удалённые данные
 
@@ -275,7 +319,7 @@ npm start
 ```env
 HOST=127.0.0.1
 PORT=3001
-APOLLO_AGENT_URL=https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/f89d7dbf-8602-4495-8735-952e0ac2028b
+APOLLO_AGENT_URL=https://aiflowteam3.aiflow-test.moscow.alfaintra.net/api/v1/run/673dae00-0e9e-439f-ba4c-106f176af74d
 APOLLO_AGENT_KEY=
 APOLLO_AGENT_INSECURE_TLS=1
 
@@ -283,6 +327,7 @@ APOLLO_CLI_PROVIDER=codex
 CODEX_BIN=
 CODEX_MODEL=
 CLAUDE_BIN=
+CLAUDE_MODEL=
 APOLLO_CODEX_REPORT_STRATEGY=packet
 APOLLO_CODEX_KNOWLEDGE_SOURCE=ds-ai-hub
 APOLLO_DATA_DESCRIPTOR_URL=
@@ -664,13 +709,13 @@ REQUIRE_NOTARIZATION=1 \
 внутреннего режима это можно явно включить переменной `EMBED_PROXY_ENV=1`, но
 такой архив может содержать секреты и не предназначен для раздачи дизайнерам.
 
-Apollo Generation frontend использует отдельные `/v4/generation/frontend/execute`, `/cancel` и `/artifacts/:id/*` routes. Fixed DTO, server-owned accepted profile/bank, private tmp output, actual TS/Vite/Chrome checks, cancel/TTL cleanup; default profile port unavailable. Details: [Apollo frontend handoff](../../projects/Apollo/docs/GENERATION_FRONTEND_HOST.md). Current local runtime updated only in isolated Generation service files.
+Apollo Generation frontend использует отдельные `/v4/generation/frontend/execute`, `/cancel` и `/artifacts/:id/*` routes. Fixed DTO, server-owned accepted profile/bank, private tmp output, actual TS/Vite/Chrome checks, cancel/TTL cleanup; default profile port unavailable. Details: [Apollo frontend handoff](https://github.com/Ackedze/apollo/blob/main/docs/GENERATION_FRONTEND_HOST.md). Current local runtime updated only in isolated Generation service files.
 
 06.10.2026 isolated Generation service поддерживает current producer registry 1.1.0
 с полным lock/currentInputs/full five-package closure. Actual current BG request
 доходит до SOURCE_COMPILE; CC source/API Ready сохраняет Code profile/native block.
 No normative artifact; legacy release/knowledge routing не менялось.
-[Fresh consumer handoff и pins](../../projects/Apollo/docs/GENERATION_CURRENT_INPUTS.md).
+[Fresh consumer handoff и pins](https://github.com/Ackedze/apollo/blob/main/docs/GENERATION_CURRENT_INPUTS.md).
 
 ## Apollo static source / producer review
 
@@ -685,7 +730,7 @@ import/preview/writer or installed app/process lifecycle operation is called.
 Synthetic HTTP16/context+frontend7 and panel browser440/360 passed. Full suite:
 391 passed/7 legacy catalog/crosswalk failures, reproduced with pre-stage service;
 knowledge check passed. Installed-runtime deployment and a fully green Proxy gate
-are not claimed. [Detailed evidence](../../projects/Apollo/docs/GENERATION_STATIC_REVIEW_ROUTE.md).
+are not claimed. [Detailed evidence](https://github.com/Ackedze/apollo/blob/main/docs/GENERATION_STATIC_REVIEW_ROUTE.md).
 
 ### Local knowledge roots
 
@@ -899,8 +944,8 @@ and loss of connection.
 ### Рецепты композиции
 
 `recipes/catalog.json` хранит данные рецептов и отдельную готовность адаптеров.
-`GET /v4/recipes?target=figma` возвращает короткий индекс без запуска агента;
-`GET /v4/recipes/:id` — описание выбранного рецепта. Frontend-индекс содержит
+`GET /recipes?target=figma` возвращает короткий индекс без запуска агента;
+`GET /recipes/:id` — описание выбранного рецепта. Frontend-индекс содержит
 только рецепты, проверенные для фронта. Изменение каталога требует проверки
 и перезапуска proxy: текущий запуск закрепляет точные bytes каталога.
 
@@ -920,7 +965,51 @@ Planner получает только индекс. MCP получает пол�
 сохраняются. Проверка через обычный proxy отдельно от прямых authoring-проб.
 
 
-Mobile Web CorporateContent r8 подключён через отдельный Figma mapping и подтверждённый responsive frontend API CorporateContent/children. Проверка Apollo использует набор из девяти компонентов: сохранены прежние семь, добавлены CorporateContent Mobile Web r8 и BackgroundPlate r6. Desktop/mobile выбираются по platform замороженного ScreenSpec; неподходящая платформа отклоняется. Native Body сохраняет библиотечные margins; заменяется только подтверждённый default payload нового экземпляра. Generation-only и сохранение незавершённых макетов действуют; подключение не является полной нормативной или live-приёмкой.
+Исторический пилот подключал CorporateContent Mobile Web r8 и BackgroundPlate r6
+к прежнему набору проверки. Это не текущий список revision или количества
+компонентов: смотрите `/v2/contracts` и `/v2/contracts/data-overview` своей
+поставки. Платформа выбирается по замороженному ScreenSpec; неподходящая
+отклоняется. Подключение mapping не означает полную нормативную или live-приёмку.
+
+
+### Пачки навыка названий и безопасная диагностика
+
+Каждая пачка использует прежний строгий snapshot v1 / run 0.2. Дополнительная
+диагностика возвращается отдельно от run: стадия, elapsed/idle/remaining,
+provider, запрошенная модель, коррелированный CLI ID и до 24 событий.
+Модель берётся из фактически подготовленного запроса выбранного provider,
+включая поддержанные идентификаторы с @; это настройка, не доказательство
+фактически исполненной модели. Сырые stdout/stderr остаются в прежнем
+закрытом debug evidence и не попадают в HTTP-диагностику. Routing timeout
+распознаётся также в stdout; это классификация ошибки, а не исправление сети.
+AlfaGen отклоняется до запуска агента с
+AGENT_PROVIDER_CAPABILITY_UNAVAILABLE; автоматического fallback нет.
+
+Runner хранит до 64 полных результатов, освобождая старые завершённые при
+новой заявке или спустя 30 минут от старта. Активный запуск не вытесняется.
+Отдельный ограниченный реестр до 8192 request ID на процесс сохраняет
+SHA-256 снимка и run ID после вытеснения. Повтор того же ID возвращает
+сохранённый run либо LAYER_NAMES_RUN_EXPIRED (410); изменённый снимок —
+LAYER_NAMES_REQUEST_REPLAY. Ни один из них не вызывает модель повторно.
+После заполнения реестра новые запуски получают LAYER_NAMES_RUN_LIMIT;
+нужен обычный перезапуск Proxy. Реестр и результаты не сохраняются после
+перезапуска. Отменённые и поздние callbacks не возрождают завершённые runs.
+
+Учёт токенов использует существующие started/completed/failed/cancelled
+события и callbacks CLI. Пустая область завершает операцию без вызова модели;
+диагностика не создаёт дополнительных model calls или начислений.
+
+Перед полным `npm test` задайте отдельный `APOLLO_SKILL_SOURCE_ROOT` для legacy
+validator. `APOLLO_PROJECT_ROOT` этот путь не определяет. Для текущей поставки
+используется собственный tracked `codex-workspace/.agents/skills/apollo-design-validator`
+с 11 файлами и checksum `be22fd658b471e75932dd704a497886525d62ab41c9968587840fb0df6a878b5`.
+Явный missing/invalid source прерывает sync до изменения target; автоматический
+поиск сохранён только при отсутствии override. Это независимый legacy input,
+его содержимое текущая доработка не меняет.
+
+В текущем журнале один run (одна пачка) даёт одну строку «Навык · Переименовать
+слои». Несколько CLI-проходов внутри run суммируются в этой строке. Три пачки
+дают три строки; общий идентификатор всей очереди этот протокол не добавляет.
 
 
 ## Агентский пилот компонентных паттернов

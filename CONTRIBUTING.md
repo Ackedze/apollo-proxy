@@ -1,6 +1,6 @@
 # Разработка Apollo Proxy
 
-Работа над «Спросить» ведётся в своей ветке и локальной сборке. Владелец проекта
+Работа над Apollo Proxy ведётся в своей ветке и локальной сборке. Владелец проекта
 @Ackedze выполняет окончательное ревью и публикацию. Доступ к исходникам не даёт
 права менять рабочие данные, чужую авторизацию или опубликованный релиз.
 
@@ -8,7 +8,8 @@
 доступы, установка, данные, локальная разработка и поручение своему агенту.
 
 Основная инструкция агенту-разработчику находится в репозитории Apollo:
-[`docs/AGENT_START_ASK.md`](https://github.com/Ackedze/apollo/blob/main/docs/AGENT_START_ASK.md).
+[`docs/AGENT_START_PROMPT.md`](https://github.com/Ackedze/apollo/blob/main/docs/AGENT_START_PROMPT.md).
+Функции, модули, API и проверки Proxy: [docs/PROJECT_GUIDE.md](docs/PROJECT_GUIDE.md).
 Установка готового приложения описана отдельно в
 [`macos-app/DELEGATION.md`](macos-app/DELEGATION.md).
 
@@ -31,13 +32,18 @@
 Из новой рабочей папки с доступом на запись:
 
 ```bash
+mkdir -p projects services shared
 git clone https://github.com/Ackedze/apollo.git projects/Apollo
 git clone https://github.com/Ackedze/apollo-proxy.git services/apollo-proxy
-git -C services/apollo-proxy switch -c contributor/ask-links
+git clone https://github.com/Ackedze/design-system_ab.git shared/design-system_ab
+git clone https://github.com/Ackedze/design-system_abm.git shared/design-system_abm
+git -C services/apollo-proxy switch -c contributor/first-task
 ```
 
 Выберите своё имя ветки; если меняется Apollo, создайте ветку и в нём.
 Для fork замените URL нужного репозитория и добавьте оригинал как `upstream`.
+Данные меняются только в рамках поручения. Сам clone не активирует их в Proxy.
+Выбирайте тесты по затронутому модулю; ниже приведён ограниченный пример для диалога.
 
 ## Изолированная проверка чата
 
@@ -63,7 +69,8 @@ workspace автора, Figma MCP или `arui-private`. CI `Ask regressions` в
 произвольный новый каталог ради прохождения теста.
 
 Для текущих cross-repository тестов используйте структуру внутри любой своей
-папки: `projects/Apollo`, `services/apollo-proxy`, `shared/design-system_ab`.
+папки: `projects/Apollo`, `services/apollo-proxy`, `shared/design-system_ab` и
+`shared/design-system_abm` для ABM-каталогов.
 Путь к knowledge `ds-ai-hub` задаётся `DS_AI_HUB_ROOT`; для запущенного сервера
 корни знаний задаются `CODEX_DESIGN_SYSTEM` и `CODEX_DS_AI_HUB`. Эти имена
 окружения для тестов и сервера различаются. Полный набор входов и проверки
@@ -114,4 +121,5 @@ stable channel остаются у владельца. Не коммитьте `
 или установленного skill автора. Готовая поставка получает данные через Proxy;
 собственный dev-сервер использует явно настроенные принятые корни. Аккаунты агента
 и Figma MCP принадлежат участнику и настраиваются им. `arui-private` запрещено
-push-ить, копировать в публичный Git, архивы или fixtures; текущий чат его не требует.
+push-ить, копировать в публичный Git, архивы или fixtures; переносимая поставка
+его не содержит.
