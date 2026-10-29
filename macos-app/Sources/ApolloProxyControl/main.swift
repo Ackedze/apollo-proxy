@@ -1973,6 +1973,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        AppEditingMenu.install()
         let resumeProxy = AppUpdateResumeIntent().consume()
         let manager = ProxyManager()
         manager.setupStatusItem(
