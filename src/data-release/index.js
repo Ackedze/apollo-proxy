@@ -185,7 +185,13 @@ async function pruneVersions(root, state, protectedVersions = []) {
     try { ownedVersion(root, name); remove.push(name); }
     catch { skipped.push(name); } // Foreign, incomplete or linked directories are never cleanup targets.
   }
-  for (const id of remove) await fsp.rm(path.join(versions, id), { recursive: true });
+  for (const id of remove) {
+    const directory = path.join(versions, id);
+    // Keep the ownership manifest until payload removal finishes so an interrupted cleanup can resume.
+    for (const name of await fsp.readdir(directory)) if (name !== 'manifest.json') await fsp.rm(path.join(directory, name), { recursive: true, force: true });
+    await fsp.unlink(path.join(directory, 'manifest.json'));
+    await fsp.rmdir(directory);
+  }
   for (const file of dead) await fsp.unlink(file);
   return { removed: remove, retained: [...keep], skipped };
 }

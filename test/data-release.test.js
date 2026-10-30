@@ -174,6 +174,8 @@ test('retention skips foreign or linked versions and preserves explicitly protec
   const f = fixture(t); await release.ensureStore(f.options);
   const legacy = f.make('legacy-reader'), orphan = f.make('orphan');
   for (const value of [legacy, orphan]) fs.cpSync(value.packageRoot, path.join(f.storeRoot, 'versions', value.manifest.id), { recursive: true });
+  // A partial prior cleanup still has its ownership manifest and must remain collectable.
+  fs.rmSync(path.join(f.storeRoot, 'versions', orphan.manifest.id, 'contracts'), { recursive: true });
   const outside = path.join(f.root, 'outside'); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'keep'), 'user data');
   fs.symlinkSync(outside, path.join(f.storeRoot, 'versions', 'f'.repeat(64)));
   put(f.storeRoot, 'versions/unrelated/keep', 'user data');
