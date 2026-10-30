@@ -121,6 +121,71 @@ async function namingEndpoint(t, f, releaseRoot) {
   } };
 }
 
+test('retention keeps current, rollback and a live reader across updates, then removes the released version', async t => {
+  const f = fixture(t), initial = await release.ensureStore(f.options);
+  const close = await release.retainRelease(initial.state.current.path);
+  t.after(close);
+  const second = f.make('retention-second'), third = f.make('retention-third');
+  await release.installTarball({ ...f.options, ...await f.archive(second) });
+  await release.installTarball({ ...f.options, ...await f.archive(third) });
+  const versions = path.join(f.storeRoot, 'versions');
+  assert.deepEqual(fs.readdirSync(versions).sort(), [f.seed.manifest.id, second.manifest.id, third.manifest.id].sort());
+  assert.equal(JSON.parse(fs.readFileSync(path.join(initial.state.current.path, 'manifest.json'))).id, f.seed.manifest.id);
+  close();
+  const cleaned = await release.pruneStore(f.options);
+  assert.deepEqual(cleaned.removed, [f.seed.manifest.id]);
+  assert.deepEqual(fs.readdirSync(versions).sort(), [second.manifest.id, third.manifest.id].sort());
+  const rollback = await release.rollbackStore(f.options);
+  assert.equal(rollback.current.contentVersion, second.manifest.id);
+  assert.equal(rollback.previous.contentVersion, third.manifest.id);
+});
+
+test('retention removes a crashed reader only after its real process exits', async t => {
+  const { spawn } = require('node:child_process'), { once } = require('node:events');
+  const f = fixture(t), initial = await release.ensureStore(f.options);
+  const child = spawn(process.execPath, ['-e', `require(${JSON.stringify(require.resolve('../src/data-release'))}).retainRelease(${JSON.stringify(initial.state.current.path)}).then(()=>{process.send('pinned');setInterval(()=>{},1000)}).catch(()=>process.exit(1));`], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'] });
+  t.after(() => { if (child.exitCode === null && child.signalCode === null) child.kill('SIGKILL'); });
+  assert.deepEqual(await once(child, 'message'), ['pinned', undefined]);
+  const second = f.make('reader-second'), third = f.make('reader-third');
+  await release.installTarball({ ...f.options, ...await f.archive(second) });
+  await release.installTarball({ ...f.options, ...await f.archive(third) });
+  assert.ok(fs.existsSync(initial.state.current.path));
+  const exited = once(child, 'exit'); child.kill('SIGKILL'); await exited;
+  const cleaned = await release.pruneStore(f.options);
+  assert.deepEqual(cleaned.removed, [f.seed.manifest.id]);
+  assert.deepEqual(fs.readdirSync(path.join(f.storeRoot, '.readers')), []);
+});
+
+test('retention refuses corrupt pointers and reader records before deleting anything', async t => {
+  const f = fixture(t), initial = await release.ensureStore(f.options);
+  const extra = f.make('keep-on-unsafe');
+  fs.cpSync(extra.packageRoot, path.join(f.storeRoot, 'versions', extra.manifest.id), { recursive: true });
+  const stateFile = path.join(f.storeRoot, 'state.json'), saved = fs.readFileSync(stateFile);
+  put(f.storeRoot, 'state.json', { ...initial.state, current: { ...initial.state.current, path: f.root } });
+  await assert.rejects(release.pruneStore(f.options), { code: 'DATA_RELEASE_CLEANUP_UNSAFE' });
+  fs.writeFileSync(stateFile, saved);
+  put(f.storeRoot, '.readers/bad.json', { pid: process.pid, contentVersion: f.seed.manifest.id });
+  await assert.rejects(release.pruneStore(f.options), { code: 'DATA_RELEASE_CLEANUP_UNSAFE' });
+  assert.ok(fs.existsSync(path.join(f.storeRoot, 'versions', extra.manifest.id)));
+  assert.deepEqual(fs.readFileSync(stateFile), saved);
+});
+
+test('retention skips foreign or linked versions and preserves explicitly protected legacy readers', async t => {
+  const f = fixture(t); await release.ensureStore(f.options);
+  const legacy = f.make('legacy-reader'), orphan = f.make('orphan');
+  for (const value of [legacy, orphan]) fs.cpSync(value.packageRoot, path.join(f.storeRoot, 'versions', value.manifest.id), { recursive: true });
+  const outside = path.join(f.root, 'outside'); fs.mkdirSync(outside); fs.writeFileSync(path.join(outside, 'keep'), 'user data');
+  fs.symlinkSync(outside, path.join(f.storeRoot, 'versions', 'f'.repeat(64)));
+  put(f.storeRoot, 'versions/unrelated/keep', 'user data');
+  const before = fs.readFileSync(path.join(f.storeRoot, 'state.json'));
+  const cleaned = await release.pruneStore({ ...f.options, protectedVersions: [legacy.manifest.id] });
+  assert.deepEqual(cleaned.removed, [orphan.manifest.id]);
+  assert.ok(cleaned.skipped.includes('f'.repeat(64)) && cleaned.skipped.includes('unrelated'));
+  assert.equal(fs.readFileSync(path.join(outside, 'keep'), 'utf8'), 'user data');
+  assert.ok(fs.existsSync(path.join(f.storeRoot, 'versions', legacy.manifest.id)));
+  assert.deepEqual(fs.readFileSync(path.join(f.storeRoot, 'state.json')), before);
+});
+
 test('one pointer updates knowledge and installed contracts together, preserves admitted bytes and rolls back', async t => {
   const f = fixture(t), first = await release.ensureStore(f.options);
   assert.equal(first.state.current.contentVersion, f.seed.manifest.id);

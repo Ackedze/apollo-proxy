@@ -21,22 +21,25 @@ function parse(argv) {
 async function runCommand(command, options) {
   const settings = { storeRoot: path.resolve(options.store), seedRoot: path.resolve(options.seed), runtimeRoot: path.resolve(options.runtime) };
   const ensured = await releases.ensureStore(settings);
-  if (['ensure', 'status', 'run'].includes(command)) return releases.publicStatus(ensured.state, { recovered: ensured.recovered });
-  if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
-  const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require('../src/portable-runtime').readSettings().dataDescriptorUrl;
-  if (!url) throw Error('Configure APOLLO_DATA_DESCRIPTOR_URL for remote data updates.');
-  const token = process.env.APOLLO_DATA_TOKEN;
-  const descriptor = releases.validateDescriptor(await fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));
-  const updateAvailable = descriptor.contentVersion !== ensured.state.current.contentVersion;
-  if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, { updateAvailable, descriptor });
-  const temporary = path.join(settings.storeRoot, '.download-' + crypto.randomUUID() + '.tgz');
+  const releaseReader = await require('../src/data-release').retainRelease(ensured.state?.current?.path);
   try {
-    console.error(JSON.stringify({ phase: 'downloading' }));
-    await downloadFile(descriptor.tarballUrl, temporary, token);
-    console.error(JSON.stringify({ phase: 'validating' }));
-    const state = await releases.installTarball({ ...settings, tarballPath: temporary, expectedIntegrity: descriptor.tarballIntegrity, expectedContentVersion: descriptor.contentVersion });
-    return releases.publicStatus(state, { updateAvailable: false, updated: true, descriptor });
-  } finally { await fs.rm(temporary, { force: true }); }
+    if (['ensure', 'status', 'run'].includes(command)) return releases.publicStatus(ensured.state, { recovered: ensured.recovered });
+    if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
+    const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require('../src/portable-runtime').readSettings().dataDescriptorUrl;
+    if (!url) throw Error('Configure APOLLO_DATA_DESCRIPTOR_URL for remote data updates.');
+    const token = process.env.APOLLO_DATA_TOKEN;
+    const descriptor = releases.validateDescriptor(await fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));
+    const updateAvailable = descriptor.contentVersion !== ensured.state.current.contentVersion;
+    if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, { updateAvailable, descriptor });
+    const temporary = path.join(settings.storeRoot, '.download-' + crypto.randomUUID() + '.tgz');
+    try {
+      console.error(JSON.stringify({ phase: 'downloading' }));
+      await downloadFile(descriptor.tarballUrl, temporary, token);
+      console.error(JSON.stringify({ phase: 'validating' }));
+      const state = await releases.installTarball({ ...settings, tarballPath: temporary, expectedIntegrity: descriptor.tarballIntegrity, expectedContentVersion: descriptor.contentVersion });
+      return releases.publicStatus(state, { updateAvailable: false, updated: true, descriptor });
+    } finally { await fs.rm(temporary, { force: true }); }
+  } finally { releaseReader(); }
 }
 
 async function main(argv) {

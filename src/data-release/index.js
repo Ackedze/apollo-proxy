@@ -144,6 +144,81 @@ function record(manifest, root, kind = 'downloaded') {
   return { contentVersion: manifest.id, path: path.resolve(root), kind, dataId: manifest.dataId, knowledgeVersion: manifest.knowledgeVersion, sourceCommits: manifest.sourceCommits, generatedAt: manifest.generatedAt, runtimeId: manifest.runtimeId };
 }
 
+function ownedVersion(root, id) {
+  if (!/^[a-f0-9]{64}$/.test(id || '')) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  const directory = path.join(root, 'versions', id);
+  if (!fs.lstatSync(directory).isDirectory() || fs.realpathSync(directory) !== directory) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  const file = path.join(directory, 'manifest.json');
+  if (!fs.lstatSync(file).isFile() || fs.realpathSync(file) !== file) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  const manifest = json(file);
+  if (manifest.schemaVersion !== RELEASE_SCHEMA || manifest.id !== id || idOf(manifest) !== id) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  return directory;
+}
+
+async function pruneVersions(root, state, protectedVersions = []) {
+  root = path.resolve(root);
+  const versions = path.join(root, 'versions'), readers = path.join(root, '.readers');
+  const keep = new Set(protectedVersions), dead = [], remove = [], skipped = [];
+  if (!state?.current || !Array.isArray(protectedVersions)) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  if (fs.realpathSync(versions) !== versions) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+  for (const entry of [state.current, state.previous].filter(Boolean)) {
+    if (entry.path !== ownedVersion(root, entry.contentVersion)) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+    keep.add(entry.contentVersion);
+  }
+  for (const id of keep) ownedVersion(root, id);
+  if (fs.existsSync(readers)) {
+    if (fs.realpathSync(readers) !== readers) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+    for (const name of await fsp.readdir(readers)) {
+      const file = path.join(readers, name), stat = await fsp.lstat(file);
+      if (!stat.isFile() || stat.isSymbolicLink() || stat.size > 1024 || !/^[0-9]+-[a-f0-9-]{36}\.json$/.test(name)) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+      const reader = json(file);
+      if (!Number.isInteger(reader.pid) || reader.pid <= 0 || reader.pid > 2147483647 || !name.startsWith(reader.pid + '-') || !/^[a-f0-9]{64}$/.test(reader.contentVersion || '')) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+      try { process.kill(reader.pid, 0); keep.add(reader.contentVersion); }
+      catch (error) {
+        if (error.code === 'ESRCH') dead.push(file);
+        else keep.add(reader.contentVersion); // Unknown process liveness must retain its data.
+      }
+    }
+  }
+  for (const name of await fsp.readdir(versions)) {
+    if (keep.has(name)) continue;
+    try { ownedVersion(root, name); remove.push(name); }
+    catch { skipped.push(name); } // Foreign, incomplete or linked directories are never cleanup targets.
+  }
+  for (const id of remove) await fsp.rm(path.join(versions, id), { recursive: true });
+  for (const file of dead) await fsp.unlink(file);
+  return { removed: remove, retained: [...keep], skipped };
+}
+
+async function pruneStore({ storeRoot, protectedVersions = [] }) {
+  return withLock(storeRoot, async () => pruneVersions(storeRoot, await readState(storeRoot), protectedVersions));
+}
+
+async function pruneSafely(root, state) {
+  try { return await pruneVersions(root, state); }
+  catch (error) { console.error('[Apollo data] Cleanup deferred: ' + (error.code || 'DATA_RELEASE_CLEANUP_UNSAFE')); }
+}
+
+async function retainRelease(releaseRoot) {
+  if (!releaseRoot) return () => {};
+  const directory = path.resolve(releaseRoot), versions = path.dirname(directory), root = path.dirname(versions), id = path.basename(directory);
+  if (path.basename(versions) !== 'versions' || !/^[a-f0-9]{64}$/.test(id)) return () => {};
+  return withLock(root, async () => {
+    ownedVersion(root, id);
+    const readers = path.join(root, '.readers');
+    await fsp.mkdir(readers, { recursive: true });
+    if (fs.realpathSync(readers) !== readers) fail('DATA_RELEASE_CLEANUP_UNSAFE');
+    const file = path.join(readers, process.pid + '-' + crypto.randomUUID() + '.json');
+    await fsp.writeFile(file, JSON.stringify({ pid: process.pid, contentVersion: id }), { mode: 0o600, flag: 'wx' });
+    const release = () => {
+      try { fs.unlinkSync(file); } catch {}
+      process.removeListener('exit', release);
+    };
+    process.once('exit', release);
+    return release;
+  });
+}
+
 async function validRecord(value, storeRoot, seedRoot, options) {
   if (!value || !/^[a-f0-9]{64}$/.test(value.contentVersion || '') || !path.isAbsolute(value.path || '') || value.path !== path.resolve(seedRoot) && value.path !== path.join(path.resolve(storeRoot), 'versions', value.contentVersion)) return null;
   try {
@@ -157,7 +232,10 @@ async function ensureStore({ storeRoot, seedRoot, ...options }) {
   return withLock(storeRoot, async () => {
     const state = await readState(storeRoot);
     const current = await validRecord(state?.current, storeRoot, seedRoot, options);
-    if (current) return { state: { ...state, current }, recovered: false };
+    if (current) {
+      await pruneSafely(storeRoot, state);
+      return { state: { ...state, current }, recovered: false };
+    }
     const previous = await validRecord(state?.previous, storeRoot, seedRoot, options);
     let fallback = previous;
     if (!fallback) {
@@ -177,6 +255,7 @@ async function ensureStore({ storeRoot, seedRoot, ...options }) {
     }
     const next = { schemaVersion: STORE_SCHEMA, current: fallback, previous: state?.current || null };
     await writeState(storeRoot, next);
+    await pruneSafely(storeRoot, next);
     return { state: next, recovered: true };
   });
 }
@@ -203,7 +282,7 @@ async function installTarball({ storeRoot, seedRoot, tarballPath, expectedIntegr
       const current = record(manifest, destination);
       const next = { schemaVersion: STORE_SCHEMA, current, previous: old?.current?.contentVersion === current.contentVersion ? old.previous || null : old?.current || null };
       await writeState(storeRoot, next);
-      // Immutable versions remain available to already-admitted runs and offline rollback.
+      await pruneSafely(storeRoot, next);
       return next;
     } finally { await fsp.rm(staging, { recursive: true, force: true }); }
   });
@@ -216,6 +295,7 @@ async function rollbackStore({ storeRoot, seedRoot, ...options }) {
     if (!previous) fail('DATA_RELEASE_ROLLBACK_UNAVAILABLE');
     const next = { schemaVersion: STORE_SCHEMA, current: previous, previous: state?.current || null };
     await writeState(storeRoot, next);
+    await pruneSafely(storeRoot, next);
     return next;
   });
 }
@@ -231,4 +311,4 @@ function publicStatus(state, update = {}) {
   };
 }
 
-module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, MAX_RELEASE_BYTES, MAX_ARCHIVE_BYTES, inventorySize, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, rollbackStore, readState, publicStatus };
+module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, MAX_RELEASE_BYTES, MAX_ARCHIVE_BYTES, inventorySize, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, rollbackStore, readState, publicStatus, pruneStore, retainRelease };

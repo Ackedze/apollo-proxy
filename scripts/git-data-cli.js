@@ -197,35 +197,38 @@ async function runCommand(command, options, request = fetch) {
       ensured = { state: retained }; runtimeMigration = true;
     } else ensured = {state:{current:null,previous:null}};
   }
-  if (['ensure', 'status', 'run'].includes(command)) {
-    if (runtimeMigration) return { current:null, previous:null, runtimeMigrationRequired:true,
-      activationRequired:!(/^[a-f0-9]{64}$/.test(options.access?.key || '') && /^[a-f0-9-]{36}$/.test(options.access?.keyId || '')) };
-    return ensured.state.current ? releases.publicStatus(ensured.state, { recovered: ensured.recovered }) : {current:null,previous:null,activationRequired:true};
-  }
-  if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
-  const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require(path.join(producerRoot, 'src/portable-runtime')).readSettings().dataDescriptorUrl;
-  if (!url) throw Error('Configure the Git raw URL of the data index.');
-  const token = process.env.APOLLO_DATA_TOKEN;
-  if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) {
-    // Checks expose no incompatible roots; installation retains the real old state for CAS/rollback.
-    const view = runtimeMigration && command === 'check' ? { state: { current:null, previous:null } } : ensured;
-    const result = await updateFromGit({ settings, ensured:view, url, token, command, producerRoot, access:options.access, request, runtimeMigration });
-    return runtimeMigration && command === 'check' ? { ...result, runtimeMigrationRequired:true } : result;
-  }
-  if (runtimeMigration) throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
-  // Preserve the existing full-release updater for previously configured installations.
-  const knowledge = require(path.join(producerRoot, 'src/knowledge-package'));
-  const descriptor = releases.validateDescriptor(await knowledge.fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));
-  const updateAvailable = descriptor.contentVersion !== ensured.state.current.contentVersion;
-  if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, { updateAvailable, descriptor });
-  const temporary = path.join(settings.storeRoot, '.download-' + crypto.randomUUID() + '.tgz');
+  const releaseReader = await require('../src/data-release').retainRelease(ensured.state?.current?.path);
   try {
-    console.error(JSON.stringify({ phase: 'downloading' }));
-    await knowledge.downloadFile(descriptor.tarballUrl, temporary, token);
-    console.error(JSON.stringify({ phase: 'validating' }));
-    const state = await releases.installTarball({ ...settings, tarballPath: temporary, expectedIntegrity: descriptor.tarballIntegrity, expectedContentVersion: descriptor.contentVersion });
-    return releases.publicStatus(state, { updateAvailable: false, updated: true, descriptor });
-  } finally { await fs.rm(temporary, { force: true }); }
+    if (['ensure', 'status', 'run'].includes(command)) {
+      if (runtimeMigration) return { current:null, previous:null, runtimeMigrationRequired:true,
+        activationRequired:!(/^[a-f0-9]{64}$/.test(options.access?.key || '') && /^[a-f0-9-]{36}$/.test(options.access?.keyId || '')) };
+      return ensured.state.current ? releases.publicStatus(ensured.state, { recovered: ensured.recovered }) : {current:null,previous:null,activationRequired:true};
+    }
+    if (command === 'rollback') return releases.publicStatus(await releases.rollbackStore(settings), { rolledBack: true });
+    const url = options.descriptor || process.env.APOLLO_DATA_DESCRIPTOR_URL || require(path.join(producerRoot, 'src/portable-runtime')).readSettings().dataDescriptorUrl;
+    if (!url) throw Error('Configure the Git raw URL of the data index.');
+    const token = process.env.APOLLO_DATA_TOKEN;
+    if (new URL(url).hostname === 'raw.githubusercontent.com' && new URL(url).pathname.endsWith('/data-packages/current.json')) {
+      // Checks expose no incompatible roots; installation retains the real old state for CAS/rollback.
+      const view = runtimeMigration && command === 'check' ? { state: { current:null, previous:null } } : ensured;
+      const result = await updateFromGit({ settings, ensured:view, url, token, command, producerRoot, access:options.access, request, runtimeMigration });
+      return runtimeMigration && command === 'check' ? { ...result, runtimeMigrationRequired:true } : result;
+    }
+    if (runtimeMigration) throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
+    // Preserve the existing full-release updater for previously configured installations.
+    const knowledge = require(path.join(producerRoot, 'src/knowledge-package'));
+    const descriptor = releases.validateDescriptor(await knowledge.fetchJson(url, token), releases.readRuntime(settings.runtimeRoot));
+    const updateAvailable = descriptor.contentVersion !== ensured.state.current.contentVersion;
+    if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, { updateAvailable, descriptor });
+    const temporary = path.join(settings.storeRoot, '.download-' + crypto.randomUUID() + '.tgz');
+    try {
+      console.error(JSON.stringify({ phase: 'downloading' }));
+      await knowledge.downloadFile(descriptor.tarballUrl, temporary, token);
+      console.error(JSON.stringify({ phase: 'validating' }));
+      const state = await releases.installTarball({ ...settings, tarballPath: temporary, expectedIntegrity: descriptor.tarballIntegrity, expectedContentVersion: descriptor.contentVersion });
+      return releases.publicStatus(state, { updateAvailable: false, updated: true, descriptor });
+    } finally { await fs.rm(temporary, { force: true }); }
+  } finally { releaseReader(); }
 }
 
 async function main(argv) {

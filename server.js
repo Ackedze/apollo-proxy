@@ -2005,10 +2005,13 @@ function startServer() {
 }
 
 if (require.main === module) {
-  const server = startServer();
-  if (process.env.APOLLO_PROXY_MANAGED === '1') {
-    bindManagedProxyLifetime(server);
-  }
+  require('./src/data-release').retainRelease(process.env.APOLLO_RELEASE_ROOT).then(() => {
+    const server = startServer();
+    if (process.env.APOLLO_PROXY_MANAGED === '1') bindManagedProxyLifetime(server);
+  }).catch(error => {
+    console.error('[Apollo data] ' + (error.code || error.message));
+    process.exit(1);
+  });
 }
 
 module.exports = {
