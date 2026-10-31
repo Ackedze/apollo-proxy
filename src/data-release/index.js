@@ -59,6 +59,7 @@ function readReleaseFiles(root, runtimeRoot) {
   if (manifest.runtimeId !== runtime.id || manifest.profileVersion !== runtime.profileVersion || manifest.nativeSourceHash !== runtime.nativeSourceHash) fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
   for (const pin of manifest.files || []) {
     const extension = path.extname(pin.file || '').toLowerCase();
+    if (['manifest.json',...require('../skills/catalog').LANDING_FILES].some(file=>pin.file==='skills/'+require('../skills/catalog').LANDING_ID+'/'+file)) continue;
     if (['skills/figma-layer-name-hygiene/SKILL.md', 'skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene-run/SKILL.md', 'skills/figma-layer-name-hygiene-run/profile.json'].includes(pin.file)) continue;
     if (!/^(knowledge|contracts)\//.test(pin.file || '') || !['.json', '.md', '.yaml', '.yml', '.txt', '.zip', '.ts'].includes(extension) || extension === '.ts' && !/^contracts\/generation\/[a-f0-9]{64}\.ts$/.test(pin.file)) fail('DATA_RELEASE_EXECUTABLE_FORBIDDEN');
   }
@@ -83,6 +84,7 @@ async function validateRelease(root, { runtimeRoot, validateData = validateInsta
   if (manifest.files.some(pin => pin.file.startsWith('skills/figma-layer-name-hygiene-run/'))) {
     require('../skills/run-skill').loadRunSkill(runtimeRoot,{releaseRoot:root}).assertCurrent();
   }
+  if(manifest.files.some(pin=>pin.file.startsWith('skills/ab-generate-custom-landing/')))require('../landing/knowledge').readLandingSkill(root).assertCurrent();
   return manifest;
 }
 

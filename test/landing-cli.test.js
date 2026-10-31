@@ -18,7 +18,7 @@ function fixture(t,behavior='success'){
     const item={id:'mcp:call-one',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'in_progress',arguments:{fileKey:'syntheticFile',code:'const node = await figma.getNodeByIdAsync("root:known"); return {id: node.id};',description:'Synthetic read'}};
     if(behavior==='mcp-argument-guard')item.arguments.code='x'.repeat(20000);if(behavior==='mcp-many-events')for(let i=0;i<40;i++)child.stdout.write(JSON.stringify({type:'item.updated',item})+'\n');observed.mcpArguments=item.arguments;child.stdout.write(JSON.stringify({type:'item.started',item})+'\n');
     if(['mcp-timeout','mcp-argument-guard'].includes(behavior))return;
-    const completed={...item,status:'failed',result:behavior==='mcp-tool-guard'?{content:[{type:'text',text:'x'.repeat(70000)}]}:null,error:{message:behavior==='mcp-transport-timeout'?'tool call error: tool call failed for `apollo_figma_mcp/use_figma`\n\nCaused by:\n    timed out awaiting tools/call after 15s':'Synthetic actual tool getter failed'}};
+    const completed={...item,status:'failed',result:behavior==='mcp-tool-guard'?{content:[{type:'text',text:'x'.repeat(8*1024*1024+1)}]}:null,error:{message:behavior==='mcp-transport-timeout'?'tool call error: tool call failed for `apollo_figma_mcp/use_figma`\n\nCaused by:\n    timed out awaiting tools/call after 15s':'Synthetic actual tool getter failed'}};
     child.stdout.write(JSON.stringify({type:'item.completed',item:completed})+'\n');
     if(behavior==='mcp-tool-guard')return;
     child.stdout.write(JSON.stringify({type:'turn.failed',error:{message:'Synthetic provider stopped after tool failure'}})+'\n');child.emit('close',1);return;
@@ -29,7 +29,7 @@ function fixture(t,behavior='success'){
    fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'capabilityGap',message:'Synthetic only'}));child.emit('close',0);
   });}});started();return child;
  }});
- const run=(overrides={})=>cli.run({workspace:root+'/workspace',profile:'figma-engineering',prompt:'Synthetic prompt',schema:{type:'object'},traceDirectory:root+'/trace',...overrides});
+ const run=(overrides={})=>cli.run({workspace:root+'/workspace',profile:'landing-plan',prompt:'Synthetic prompt',schema:{type:'object'},traceDirectory:root+'/trace',...overrides});
  const failure=()=>JSON.parse(fs.readFileSync(root+'/trace/'+fs.readdirSync(root+'/trace').find(n=>n.endsWith('.failure.json'))));
  return{root,run,failure,calls:()=>calls,observed:()=>observed,spawned,kills};
 }
@@ -53,31 +53,25 @@ test('cancel and timeout retain failure diagnostics and the original terminal co
  const timed=fixture(t,'wait');await assert.rejects(timed.run(),e=>e.code==='AGENT_TIMEOUT'&&e.status===504);assert.equal(timed.failure().code,'AGENT_TIMEOUT');
 });
 test('successful worker profiles preserve sandbox arguments, isolated environment and ordinary trace receipt',async t=>{
- for(const profile of ['figma-engineering','frontend-engineering']){const f=fixture(t),out=await f.run({profile}),seen=f.observed();assert.equal(out.result.kind,'capabilityGap');assert.equal(seen.args[seen.args.indexOf('--sandbox')+1],profile==='frontend-engineering'?'workspace-write':'read-only');assert.equal(seen.options.env.APOLLO_AGENT_KEY,undefined);assert(seen.args.includes('sandbox_workspace_write.network_access=false'));assert.equal(fs.readdirSync(f.root+'/trace').some(n=>n.endsWith('.failure.json')),false);}
+ for(const profile of ['landing-plan','landing-figma']){const f=fixture(t),out=await f.run({profile}),seen=f.observed();assert.equal(out.result.kind,'capabilityGap');assert.equal(seen.args[seen.args.indexOf('--sandbox')+1],'read-only');assert.equal(seen.options.env.APOLLO_AGENT_KEY,undefined);assert(seen.args.includes('sandbox_workspace_write.network_access=false'));assert.equal(fs.readdirSync(f.root+'/trace').some(n=>n.endsWith('.failure.json')),false);}
 });
-test('actual MCP CLI stdin permits proven default SLOT replacement while preserving roots and interrupted work',async t=>{
- const f=fixture(t),prefix=require('../src/generation-agent/agent-cli').profilePrefix('figma-mcp'),profile=fs.readFileSync(path.resolve(__dirname,'../../../projects/Apollo/instructions/agent-generation/figma-mcp.md'),'utf8');
- await f.run({profile:'figma-mcp',prompt:profile});const actual=f.observed().input;assert.equal(actual,prefix+'\n'+profile);
- assert(!/source\/library edits or deletion/.test(actual),'A blanket deletion ban prevents legitimate slot replacement');
- assert(!actual.includes('If any proof or mutation outcome is unknown'),'Full-norm UNKNOWN must not become a blanket prewrite veto');
- assert(prefix.includes('DS/norm/default-style checking and automatic compliance repair are disabled'));
- assert(prefix.includes('no quality certification, Ready=false'));
- for(const text of ['Only during normal assembly','untouched default placeholder payload','fresh instance created in this run','root ownership','exact mapped SLOT reference','pristine source correspondence of the entire default payload','frozen ScreenSpec','append and verify replacement content before removing only that proven default payload','return removed IDs','Keep the native SLOT and its parent instance','Never delete roots, other generated content, user content, outside nodes or library definitions','failure, timeout, cancellation or unknown write','capabilityGap without deleting anything'])assert(prefix.includes(text),text);
- assert(profile.includes('Never delete roots'));assert(profile.includes('Stop and preserve partial work'));assert(f.observed().args.includes('features.shell_tool=false'));
+test('landing MCP stdin enables norms and only the owned file, without a frontend or unchecked profile',async t=>{
+ const f=fixture(t),module=require('../src/generation-agent/agent-cli'),prefix=module.profilePrefix('landing-figma');await f.run({profile:'landing-figma'});const actual=f.observed().input;
+ assert(actual.startsWith(prefix));assert(prefix.includes('DS norms and technical/visual checks are enabled'));assert(prefix.includes('uncertain write outcome')&&prefix.includes('canvas before'));assert(prefix.includes('owner, active lease and parent page'));assert(!prefix.includes('checking and automatic compliance repair are disabled'));assert(f.observed().args.includes('features.shell_tool=false'));
+ assert.throws(()=>module.invocation({workspace:f.root+'/workspace',profile:'frontend-engineering',schemaPath:'schema',outputPath:'out'}),{code:'AGENT_PROFILE_UNAVAILABLE'});
 });
 test('recorded MCP failure sequence can finish six calls within its admitted run budget',async t=>{
- const f=fixture(t,'mcp-budget-replay'),out=await f.run({profile:'figma-mcp',mcpBudget:{maxToolCalls:6}});assert.equal(out.result.kind,'finish');assert.equal(out.receipt.mcp.toolCalls,6);assert.equal(out.receipt.mcp.maxToolCalls,6);assert.deepEqual(f.kills,[]);assert.deepEqual(out.receipt.mcp.nativeFailures.map(f=>f.code),['FIGMA_MCP_API_PROPERTY_UNSUPPORTED','FIGMA_MCP_RESULT_LIMIT']);assert.equal(out.receipt.mcp.nativeFailures[0].property,'slotProperty');assert.equal(out.receipt.mcp.nativeFailures[1].limitBytes,20480);
+ const f=fixture(t,'mcp-budget-replay'),out=await f.run({profile:'landing-figma',mcpBudget:{maxToolCalls:6}});assert.equal(out.result.kind,'finish');assert.equal(out.receipt.mcp.toolCalls,6);assert.equal(out.receipt.mcp.maxToolCalls,6);assert.deepEqual(f.kills,[]);assert.deepEqual(out.receipt.mcp.nativeFailures.map(f=>f.code),['FIGMA_MCP_API_PROPERTY_UNSUPPORTED','FIGMA_MCP_RESULT_LIMIT']);assert.equal(out.receipt.mcp.nativeFailures[0].property,'slotProperty');assert.equal(out.receipt.mcp.nativeFailures[1].limitBytes,20480);
 });
-test('MCP connection and host share the standard60s deadline without reducing call allowance',async t=>{
- const f=fixture(t);await f.run({profile:'figma-mcp'});const {MCP_TOOL_TIMEOUT_MS}=require('../src/generation-agent/agent-cli'),{LIMITS}=require('../src/generation-agent/agent-mcp-service');
- assert.equal(MCP_TOOL_TIMEOUT_MS,60000);assert.equal(LIMITS.toolMs,MCP_TOOL_TIMEOUT_MS);assert(f.observed().args.some(s=>s.includes('tool_timeout_sec=60')));assert.equal(LIMITS.execMs,300000);assert.equal(LIMITS.runMs,900000);
+test('MCP calls retain the standard60s timeout and exact file/tool allowlist',async t=>{
+ const f=fixture(t);await f.run({profile:'landing-figma'});const {MCP_TOOL_TIMEOUT_MS}=require('../src/generation-agent/agent-cli');assert.equal(MCP_TOOL_TIMEOUT_MS,60000);assert(f.observed().args.some(s=>s.includes('tool_timeout_sec=60')));assert(f.observed().args.some(s=>s.includes('enabled_tools=["use_figma","get_screenshot"]')));
 });
 test('recorded client timeout has a distinct code and observed call timing with unknown remote outcome',async t=>{
- const f=fixture(t,'mcp-transport-timeout');let error;await assert.rejects(f.run({profile:'figma-mcp'}),e=>{error=e;return e.code==='AGENT_PROCESS_FAILED';});
+ const f=fixture(t,'mcp-transport-timeout');let error;await assert.rejects(f.run({profile:'landing-figma'}),e=>{error=e;return e.code==='AGENT_PROCESS_FAILED';});
  const receipt=f.failure(),native=error.nativeFailures[0];assert.equal(native.code,'FIGMA_MCP_TRANSPORT_TIMEOUT');assert.equal(native.callId,'mcp:call-one');assert.equal(native.timeoutMs,15000);assert.equal(native.safeToRetryWithoutCanvasRead,null);assert(Number.isFinite(native.observedDurationMs));assert(native.observedDurationMs>=0);assert.equal(receipt.mcpToolTimings.length,1);assert.equal(receipt.mcpToolTimings[0].callId,native.callId);assert.equal(receipt.mcpToolTimings[0].status,'failed');assert.equal(receipt.mcpToolTimings[0].durationMs,native.observedDurationMs);assert.equal(JSON.parse(error.diagnostic).code,'AGENT_PROCESS_FAILED');
 });
 test('MCP total budget still stops at24 and retains the first native causes separately from interruption',async t=>{
- const f=fixture(t,'mcp-global-limit');let error;await assert.rejects(f.run({profile:'figma-mcp',mcpBudget:{maxToolCalls:999}}),e=>{error=e;return e.code==='AGENT_MCP_TOOL_LIMIT';});assert.equal(f.observed().firstKillAt,25);assert.equal(f.failure().nativeFailures[0].callId,'mcp:call-1');assert.equal(error.nativeFailures[1].actualBytes,33651);assert.equal(error.nativeFailures[0].safeToRetryWithoutCanvasRead,true);assert.equal(JSON.parse(error.diagnostic).code,'AGENT_MCP_TOOL_LIMIT');
+ const f=fixture(t,'mcp-global-limit');let error;await assert.rejects(f.run({profile:'landing-figma',mcpBudget:{maxToolCalls:999}}),e=>{error=e;return e.code==='AGENT_MCP_TOOL_LIMIT';});assert.equal(f.observed().firstKillAt,25);assert.equal(f.failure().nativeFailures[0].callId,'mcp:call-1');assert.equal(error.nativeFailures[1].actualBytes,33651);assert.equal(error.nativeFailures[0].safeToRetryWithoutCanvasRead,true);assert.equal(JSON.parse(error.diagnostic).code,'AGENT_MCP_TOOL_LIMIT');
 });
 test('CLI diagnostic carries run and step into the private receipt and public message',async t=>{
  const f=fixture(t,'failure');let error;await assert.rejects(f.run({diagnosticContext:{phase:'model',runId:'run:test',modelStep:3,revision:1,nodeId:null}}),e=>{error=e;return true;});
@@ -90,7 +84,7 @@ test('proxy diagnostic module is shipped locally and the CLI loads without an au
 });
 
 for(const [behavior,code]of [['mcp-nonzero','AGENT_PROCESS_FAILED'],['mcp-timeout','AGENT_TIMEOUT'],['mcp-tool-guard','AGENT_MCP_TOOL_OUTPUT_LIMIT'],['mcp-argument-guard','AGENT_MCP_TOOL_ARGUMENT_LIMIT'],['mcp-many-events','AGENT_PROCESS_FAILED']])test('failed MCP item events remain bounded and correlated in physical trace: '+behavior,async t=>{
- const f=fixture(t,behavior);let error;await assert.rejects(f.run({profile:'figma-mcp',diagnosticContext:{runId:'run:mcp',rootNodeId:'root:known',nodeId:null,modelStep:2}}),e=>{error=e;return e.code===code;});
+ const f=fixture(t,behavior);let error;await assert.rejects(f.run({profile:'landing-figma',diagnosticContext:{runId:'run:mcp',rootNodeId:'root:known',nodeId:null,modelStep:2}}),e=>{error=e;return e.code===code;});
  const receipt=f.failure(),publicFailure=JSON.parse(error.diagnostic),events=receipt.mcpToolEvents;
  assert(events&&events.observedEventCount>=1);assert(events.events.length>=1&&events.events.length<=32);const last=events.events.at(-1);assert.equal(last.id,'mcp:call-one');assert.equal(last.server,'apollo_figma_mcp');assert.equal(last.tool,'use_figma');assert.equal(last.status,['mcp-timeout','mcp-argument-guard'].includes(behavior)?'in_progress':'failed');assert.equal(last.arguments.sha256,require('node:crypto').createHash('sha256').update(JSON.stringify(f.observed().mcpArguments)).digest('hex'));
  assert(last.arguments.bytes>0);assert.equal(publicFailure.callId,'mcp:call-one');assert.equal(publicFailure.operation,'mcp.use_figma');assert.equal(publicFailure.rootNodeId,'root:known');assert.equal(publicFailure.nodeId,null);assert.equal(publicFailure.nodeStatus,'unresolved');assert.equal(receipt.traceId,publicFailure.traceId);assert.equal(receipt.errorId,publicFailure.errorId);assert.equal(publicFailure.traceRecorded,true);assert.equal(publicFailure.mcpToolEvents,undefined);

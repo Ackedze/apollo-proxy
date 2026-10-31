@@ -28,3 +28,7 @@ test('catalog source cannot redirect a pinned instruction through a symlink',t=>
   f.put('other.md',bytes);fs.unlinkSync(file);fs.symlinkSync('../other.md',file);
   assert.throws(()=>catalog.readCatalog(f.root),{code:'SKILL_CATALOG_INVALID'});
 });
+test('one catalog admits the known landing executor alongside naming and rejects executable/unknown substitutions',t=>{
+ const f=fixture(t),landing={schemaVersion:'apollo.skill-package.v1',id:catalog.LANDING_ID,version:'0.3.0',name:'Landing',description:'Synthetic landing',executorId:'apollo.landing',files:catalog.LANDING_FILES.map(file=>{const bytes=Buffer.from('fixture:'+file);f.put(catalog.LANDING_ID+'/'+file,bytes);return {path:file,sha256:catalog.sha(bytes),bytes:bytes.length};})},bytes=Buffer.from(JSON.stringify(landing));f.put(catalog.LANDING_ID+'/manifest.json',bytes);
+ const manifest=JSON.parse(fs.readFileSync(path.join(f.root,'manifest.json')));manifest.skills.push({id:catalog.LANDING_ID,path:catalog.LANDING_ID+'/manifest.json',sha256:catalog.sha(bytes),bytes:bytes.length});f.put('manifest.json',JSON.stringify(manifest));const result=catalog.readCatalog(f.root);assert.equal(result.entries.length,2);result.assertCurrent();assert.throws(()=>catalog.packageFiles(Buffer.from(JSON.stringify({...landing,executorId:'arbitrary.shell'})),catalog.LANDING_ID),/INVALID/);f.put(catalog.LANDING_ID+'/references/proxy.md','drift');assert.throws(()=>result.assertCurrent(),/INVALID/);
+});

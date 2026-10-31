@@ -26,21 +26,21 @@ test('installed runtime creates own settings/outputs without a checkout, author 
   assert.equal(environment.CODEX_HOME, path.join(root, 'own-auth'));
   assert.equal(environment.APOLLO_DATA_ROOT, path.join(seed, 'contracts'));
   assert.equal(environment.APOLLO_PROJECT_ROOT, code);
-  const figma = JSON.parse(fs.readFileSync(environment.APOLLO_AGENT_FIGMA_CONFIG));
-  assert.equal(figma.schemaVersion, 'apollo.data-mcp-host-config.v1');
-  assert.equal(Object.hasOwn(figma, 'currentConsumerFile'), false); assert.equal(Object.hasOwn(figma, 'descriptorFile'), false);
-  assert.equal(JSON.parse(fs.readFileSync(environment.APOLLO_AGENT_MCP_CONFIG)).fileKey, 'OwnFile123');
+  assert.equal(environment.APOLLO_AGENT_FIGMA_CONFIG, undefined);
+  assert.equal(environment.APOLLO_AGENT_MCP_CONFIG, undefined);
+  assert.equal(result.landingConfigured, false);
+  assert(result.gaps.includes('LANDING_SKILL_DATA_REQUIRED'));
   assert.equal(fs.readFileSync(path.join(state, 'history/keep.json'), 'utf8'), '{"owned":true}');
   assert.equal(environment.APOLLO_AGENT_MVP_CONFIG, undefined);
   assert.equal(fs.existsSync(path.join(root, 'own-auth')), false);
-  assert.doesNotMatch(JSON.stringify({ environment, figma }), /alexkukhta|Desktop\/workplace|arui-private/);
+  assert.doesNotMatch(JSON.stringify(environment), /alexkukhta|Desktop\/workplace|arui-private/);
   manifest.capabilities = { checking: true, ask: true, figmaMcp: true, frontend: false };
   manifest.id = idOf(manifest); put(path.join(seed, 'manifest.json'), manifest);
   const disabled = { ...environment, APOLLO_AGENT_MVP_CONFIG: '/own/old-frontend.json', APOLLO_FRONTEND_TOOLCHAIN_ROOT: '/own/sdk', APOLLO_CHROME_BIN: '/own/chrome' };
   const firstProfile = configureInstalledEnvironment({ proxyRoot, environment: disabled });
   assert.equal(firstProfile.frontendConfigured, false);
   assert.equal(disabled.APOLLO_AGENT_MVP_CONFIG, undefined);
-  assert(firstProfile.gaps.includes('AGENT_FRONTEND_CAPABILITY_UNAVAILABLE'));
+  assert(firstProfile.gaps.includes('LANDING_SKILL_DATA_REQUIRED'));
   assert.equal(disabled.CODEX_HOME, environment.CODEX_HOME);
 });
 

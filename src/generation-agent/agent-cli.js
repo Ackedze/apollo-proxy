@@ -8,6 +8,7 @@ const ENV=['PATH','HOME','USER','LOGNAME','SHELL','TMPDIR','LANG','LC_ALL','CODE
 const MAX_PROMPT_CHARS=900000;
 const MCP_MAX_TOOL_CALLS=24;
 const MCP_TOOL_TIMEOUT_MS=60000;
+const isMcp=profile=>profile==='landing-figma';
 const fail=code=>{throw Object.assign(new Error(code),{code,status:503});};
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 function mcpNativeFailures(events,timings=[]){
@@ -38,26 +39,26 @@ function scopedDirectory(root,directory){
  return actual;
 }
 function invocation({workspace,profile,schemaPath,outputPath,model='',mcpConnection=null}){
- if(!['frontend-engineering','figma-readonly','figma-engineering','figma-mcp'].includes(profile))fail('AGENT_PROFILE_UNAVAILABLE');
- if(profile==='figma-mcp'&&(!mcpConnection||mcpConnection.name!=='apollo_figma_mcp'||mcpConnection.url!=='https://mcp.figma.com/mcp'||!Array.isArray(mcpConnection.tools)||!mcpConnection.tools.includes('use_figma')||mcpConnection.tools.some(t=>!['use_figma','get_screenshot'].includes(t))))fail('AGENT_MCP_UNAVAILABLE');
+ if(!['landing-plan','landing-figma'].includes(profile))fail('AGENT_PROFILE_UNAVAILABLE');
+ if(isMcp(profile)&&(!mcpConnection||mcpConnection.name!=='apollo_figma_mcp'||mcpConnection.url!=='https://mcp.figma.com/mcp'||!Array.isArray(mcpConnection.tools)||!mcpConnection.tools.includes('use_figma')||mcpConnection.tools.some(t=>!['use_figma','get_screenshot'].includes(t))))fail('AGENT_MCP_UNAVAILABLE');
  const args=['-a','never','exec','--json','--ephemeral','--ignore-user-config','--ignore-rules',
-  '--sandbox',profile==='frontend-engineering'?'workspace-write':'read-only','--skip-git-repo-check','--cd',workspace,
+  '--sandbox','read-only','--skip-git-repo-check','--cd',workspace,
   '-c','sandbox_workspace_write.writable_roots=[]','-c','sandbox_workspace_write.network_access=false',
   '-c','sandbox_workspace_write.exclude_tmpdir_env_var=true','-c','sandbox_workspace_write.exclude_slash_tmp=true',
   '--output-schema',schemaPath,'--output-last-message',outputPath];
- if(profile==='figma-mcp'){
+ if(isMcp(profile)){
   const connection='mcp_servers={apollo_figma_mcp={url="https://mcp.figma.com/mcp",enabled=true,required=true,enabled_tools='+JSON.stringify(mcpConnection.tools)+',default_tools_approval_mode="approve",tool_timeout_sec='+MCP_TOOL_TIMEOUT_MS/1000+'}}';
   for(const setting of ['features.shell_tool=false','project_doc_max_bytes=0','projects.'+JSON.stringify(workspace)+'.trust_level="untrusted"','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','web_search="disabled"',connection])args.push('-c',setting);
  }
+ if(profile==='landing-plan')for(const setting of ['features.shell_tool=false','project_doc_max_bytes=0','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','web_search="disabled"','mcp_servers={}'])args.push('-c',setting);
  if(model)args.push('--model',model);args.push('-');return args;
 }
-function profilePrefix(profile){return profile==='figma-mcp'
-   ? 'Owner-selected generation-only MCP profile: use only named tools, configured file and admitted owned root. DS/norm/default-style checking and automatic compliance repair are disabled; no quality certification, Ready=false. Full workflow files are supplied inline by the proxy; read those bodies instead of attempting unavailable local SKILL.md access. Existing nodes outside the owned root are protected. No shell, file, credentials, external requests or source/library edits. Only during normal assembly, replacing an untouched default placeholder payload inside a fresh instance created in this run is allowed: verify root ownership, the exact mapped SLOT reference and pristine source correspondence of the entire default payload; require the frozen ScreenSpec to supply replacement slot content; append and verify replacement content before removing only that proven default payload, and return removed IDs with created/mutated IDs. Keep the native SLOT and its parent instance. Never delete roots, other generated content, user content, outside nodes or library definitions. This allowance does not authorize cleanup or rollback after failure, timeout, cancellation or unknown write; stop mutations and preserve the root. If root ownership, source/typed-port correspondence required for the intended mutation, SLOT/default-payload replacement proof or mutation outcome is unknown, stop with a capabilityGap without deleting anything. A root preservation receipt proves existence only, not ScreenSpec/DS conformance.'
-   : profile==='frontend-engineering'
-   ? 'Engineering profile: edit only the assigned generated project. Use existing project tools/dependencies. Do not install packages, edit source contracts/shared libraries, read credentials, access unrelated files, use network or modify acceptance gates. Build/check your files and report actual failures honestly.'
-   : profile==='figma-engineering'
-   ? 'Native engineering profile: choose only schema-valid low-level operations for the trusted broker. No shell/write, credentials or network operations. Only correlated broker facts/readback are execution evidence; preserve gaps, partial writes and UNKNOWN. Never claim native execution or rollback from model intent.'
-   : 'Readonly profile: choose one structured next step. No shell/write, credentials or external network operations. A proposed operation is a request, not execution evidence. PluginAPI observations are supplied by the broker; preserve their provenance and UNKNOWN.';}
+function profilePrefix(profile){
+ if(profile==='landing-plan')return 'Landing dialogue planner. Read the supplied canonical skill and pinned knowledge. No tools, shell, files or external access. Ask only material questions and preserve confirmed facts. Return one structured step; no Figma write has happened.';
+ if(profile==='landing-figma')return 'Landing execution through the supplied canonical skill and pinned knowledge. DS norms and technical/visual checks are enabled. Use only the named Figma MCP tools and exact target file. Before every mutation verify the root owner, active lease and parent page. Never edit outside the owned root or library/global definitions. Load fonts before text/variant mutations, use confirmed component keys and public props/slots. Preserve user content and other sections. On an uncertain write outcome read the canvas before any further mutation; never blindly repeat or delete for cleanup. Return actual node IDs and honest PASS/FAIL/UNKNOWN with provenance. A root receipt is not design conformance; Ready=false. No shell, arbitrary local files, credentials, network requests or SDK. Workflow bodies are supplied inline or by the pinned resource reader.';
+ fail('AGENT_PROFILE_UNAVAILABLE');
+}
+
 
 function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,environment=process.env,
  maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,usageRoot=null,trackUsage=()=>null}={}){
@@ -71,8 +72,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    const auth=await run(binary,['login','status'],{env,timeout:10000,maxBuffer:65536});
    const authenticated=/Logged in using/.test(auth.stdout+'\n'+auth.stderr);
    return{provider,available:authenticated,cliVersion:version.stdout.trim(),authentication:authenticated?'OFFICIAL_CLI_LOGGED_IN':'AUTH_REQUIRED',
-    profiles:['frontend-engineering','figma-readonly','figma-engineering'].concat(mcpConnection?['figma-mcp']:[]),
-    mcp:{configured:!!mcpConnection,readiness:'REQUIRED_INIT_AND_TOOLS_NOT_YET_VERIFIED'},frontendWriteScope:'assigned generated project only',figmaAcceptedWriteOperations:[],model:model||'cli-default'};
+    profiles:['landing-plan'].concat(mcpConnection?['landing-figma']:[]),
+    mcp:{configured:!!mcpConnection,readiness:'REQUIRED_INIT_AND_TOOLS_NOT_YET_VERIFIED'},figmaAcceptedWriteOperations:[],model:model||'cli-default'};
   }catch{return{provider,available:false,reason:'CLI_OR_AUTH_UNAVAILABLE',acceptedWriteOperations:[]};}
  }
  async function run(options){
@@ -95,21 +96,21 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   const input=prefix+'\n'+prompt;
   const toolTimings=new Map(),timingView=()=>Array.from(toolTimings.values(),({monotonicStart,...value})=>value);
   async function failureError(code,{status=502,exitCode=null,stage='process',stderr='',events=[]}={}){
-   const mcpToolEvents=profile==='figma-mcp'?mcpFailureEvents(events):null,lastTool=mcpToolEvents?.events.at(-1),safe=value=>typeof value==='string'&&/^[a-zA-Z0-9._:-]{1,120}$/.test(value)?value:null;
-   const nativeFailures=profile==='figma-mcp'?mcpNativeFailures(events,timingView()):[];
+   const mcpToolEvents=isMcp(profile)?mcpFailureEvents(events):null,lastTool=mcpToolEvents?.events.at(-1),safe=value=>typeof value==='string'&&/^[a-zA-Z0-9._:-]{1,120}$/.test(value)?value:null;
+   const nativeFailures=isMcp(profile)?mcpNativeFailures(events,timingView()):[];
    const callContext=lastTool?{callId:safe(lastTool.id),operation:safe('mcp.'+lastTool.tool)}:{};
    const diagnostic={...failureDiagnostic(code,{...diagnosticContext,...callContext,stage,traceId:id},'err:'+id),exitCode,promptChars:input.length,promptBytes:Buffer.byteLength(input),maxPromptChars:MAX_PROMPT_CHARS};
-   const usage=measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:profile==='figma-mcp'?'mcp':profile==='figma-engineering'?'built-in':null});
+   const usage=measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':'landing-plan'});
    let traceRecorded=true;
    try{await fsp.writeFile(path.join(trace,id+'.failure.json'),JSON.stringify({...diagnostic,provider,profile,model:model||'cli-default',promptSha256:sha(Buffer.from(input)),schemaSha256:sha(Buffer.from(JSON.stringify(schema))),stderr,usage,usageEvents:events.filter(e=>e.type==='turn.completed'),errorEvents:events.filter(e=>['error','turn.failed'].includes(e.type)).slice(-16),...(mcpToolEvents?{mcpToolEvents,nativeFailures,mcpToolTimings:timingView()}:{})},null,2)+'\n',{flag:'wx',mode:0o600});}catch{traceRecorded=false;}
    try{persistMeasurement(usageRoot,usage,events.filter(e=>e.type==='turn.completed'));}catch{usage.persistence='FAILED';}
    return Object.assign(Error(code),{code,status,usage,nativeFailures,diagnostic:JSON.stringify({...diagnostic,traceRecorded})});
   }
-  try{budget({prompt,schema,prefix:prefix+'\n',outputReserveChars:profile==='figma-mcp'?163840:16384});}catch{throw await failureError('AGENT_CONTEXT_LIMIT',{status:413,stage:'input-budget'});}
-  if(profile==='figma-mcp'&&(!Number.isSafeInteger(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)||(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)<1))throw await failureError('AGENT_MCP_BUDGET_INVALID',{status:400,stage:'input-budget'});
+  try{budget({prompt,schema,prefix:prefix+'\n',outputReserveChars:isMcp(profile)?163840:16384});}catch{throw await failureError('AGENT_CONTEXT_LIMIT',{status:413,stage:'input-budget'});}
+  if(isMcp(profile)&&(!Number.isSafeInteger(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)||(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)<1))throw await failureError('AGENT_MCP_BUDGET_INVALID',{status:400,stage:'input-budget'});
   return new Promise((resolve,reject)=>{
    let child,closed=false,failure,forceTimer,buffer='',stdoutBytes=0,stderr='',events=[];
-   const toolCalls=new Set(),toolResults=new Set(),maxToolCalls=Math.min(MCP_MAX_TOOL_CALLS,mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS),maxToolOutputBytes=65536,maxTotalToolOutputBytes=Math.min(65536,mcpBudget?.maxTotalToolOutputBytes??65536);let totalToolOutputBytes=0;
+   const toolCalls=new Set(),toolResults=new Set(),maxToolCalls=Math.min(MCP_MAX_TOOL_CALLS,mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS),maxToolOutputBytes=profile==='landing-figma'?8*1024*1024:65536,maxTotalToolOutputBytes=Math.min(profile==='landing-figma'?16*1024*1024:65536,mcpBudget?.maxTotalToolOutputBytes??65536);let totalToolOutputBytes=0;
    const stop=code=>{
     if(failure||closed)return;failure=Object.assign(new Error(code),{code,status:code==='AGENT_TIMEOUT'?504:503});
     const kill=signalName=>{try{if(child?.pid&&process.platform!=='win32')process.kill(-child.pid,signalName);else child?.kill(signalName);}catch{child?.kill(signalName);}};
@@ -120,7 +121,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    const clean=()=>{clearTimeout(timer);clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);};
    const consume=line=>{if(!line.trim())return;let event;try{event=JSON.parse(line);}catch{return;}
     events.push(event);
-    if(profile==='figma-mcp'&&event.item?.type==='mcp_tool_call'){
+    if(profile==='landing-plan'&&['mcp_tool_call','command_execution','file_change'].includes(event.item?.type)){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
+    if(isMcp(profile)&&event.item?.type==='mcp_tool_call'){
      const item=event.item,server=item.server||item.server_name;
      if(server!=='apollo_figma_mcp'||!mcpConnection.tools.includes(item.tool)||typeof item.id!=='string'){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
      let toolArguments=item.arguments;try{if(typeof toolArguments==='string')toolArguments=JSON.parse(toolArguments);}catch{stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
@@ -136,7 +138,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    try{child=spawnProcess(binary,args,{cwd:scope,env,shell:false,detached:process.platform!=='win32',stdio:['pipe','pipe','pipe']});}
    catch{clean();failureError('AGENT_CLI_UNAVAILABLE',{status:503,stage:'spawn'}).then(reject);return;}
    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
-   child.stdout.on('data',chunk=>{stdoutBytes+=chunk.length;if(stdoutBytes>4*1024*1024){stop('AGENT_OUTPUT_LIMIT');return;}
+   child.stdout.on('data',chunk=>{stdoutBytes+=chunk.length;if(stdoutBytes>(profile==='landing-figma'?32:4)*1024*1024){stop('AGENT_OUTPUT_LIMIT');return;}
     buffer+=chunk.toString('utf8');const lines=buffer.split(/\r?\n/);buffer=lines.pop();lines.forEach(consume);
    });
    child.stderr.on('data',chunk=>{stderr=(stderr+chunk.toString('utf8')).slice(-65536);});
@@ -156,8 +158,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
      const result=JSON.parse(bytes);if(!result||typeof result!=='object'||Array.isArray(result))fail('AGENT_OUTPUT_INVALID');
      const receipt={provider,profile,model:model||'cli-default',workspace:scope,args,promptSha256:sha(Buffer.from(input)),schemaSha256:sha(Buffer.from(JSON.stringify(schema))),outputSha256:sha(bytes),
       cliModel:stderr.match(/^model:\s*(.+)$/m)?.[1]||null,events,
-      usage:measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:profile==='figma-mcp'?'mcp':profile==='figma-engineering'?'built-in':null}),
-      mcp:profile==='figma-mcp'?{connection:'apollo_figma_mcp',targetFileKey:mcpConnection.fileKey,argumentScopeValidated:true,endpoint:'https://mcp.figma.com/mcp',toolCalls:toolCalls.size,maxToolCalls,maxToolOutputBytes,totalToolOutputBytes,maxTotalToolOutputBytes,toolArgumentBytesLimit:16384,hiddenToolSchemaChars:null,nativeFailures:mcpNativeFailures(events,timingView()),toolTimings:timingView(),toolTimeoutMs:MCP_TOOL_TIMEOUT_MS,guaranteeProfile:'experimental-owned-root-post-readback',internalProviderModelAttempts:null,toolAdmission:'CLI allowlist; event budget termination can follow a remote mutation, so interrupted roots require independent readback and are retained.'}:null};
+      usage:measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':'landing-plan'}),
+      mcp:isMcp(profile)?{connection:'apollo_figma_mcp',targetFileKey:mcpConnection.fileKey,argumentScopeValidated:true,endpoint:'https://mcp.figma.com/mcp',toolCalls:toolCalls.size,maxToolCalls,maxToolOutputBytes,totalToolOutputBytes,maxTotalToolOutputBytes,toolArgumentBytesLimit:16384,hiddenToolSchemaChars:null,nativeFailures:mcpNativeFailures(events,timingView()),toolTimings:timingView(),toolTimeoutMs:MCP_TOOL_TIMEOUT_MS,guaranteeProfile:profile==='landing-figma'?'landing-owned-root-independent-readback':'experimental-owned-root-post-readback',internalProviderModelAttempts:null,toolAdmission:'CLI allowlist; event budget termination can follow a remote mutation, so interrupted roots require independent readback and are retained.'}:null};
      persistMeasurement(usageRoot,receipt.usage,events.filter(e=>e.type==='turn.completed'));
      await fsp.writeFile(path.join(trace,id+'.trace.json'),JSON.stringify(receipt,null,2)+'\n',{flag:'wx',mode:0o600});
      resolve({result,receipt,outputPath});

@@ -12,23 +12,23 @@ test('sparse portable code copies literal module closure and rejects external/au
   const source = path.join(root, 'code');
   const put = (name, body) => { const f = path.join(source, name); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, body); };
   put('src/start.cjs', 'module.exports=require("./helper.cjs")'); put('src/helper.cjs', 'module.exports="fixture"');
-  const skill = 'Repo-pinned fixture instruction';
-  put('skills/fixture/SKILL.md', skill);
-  put('instructions/agent-generation/skill-profile.json', JSON.stringify({ targets: { frontend: { name: 'fixture',
-    files: [{ path: 'SKILL.md', bytes: Buffer.byteLength(skill), sha256: require('../src/data-release').sha(Buffer.from(skill)) }] } } }));
+  const workflow = '# Loaded workflow file: figma-use/SKILL.md\nSynthetic pinned workflow';
+  put('instructions/landing/figma-workflow.md',workflow);
   put('dist/build-inputs.json', JSON.stringify({ profileVersion: '0.4.1' }));
   put('dist/agent-figma-provider-descriptor.json', JSON.stringify({ sourceHash: 'a'.repeat(64) }));
   const choice = { id: 'fixture', key: 'published-key', bodyProperty: 'Body', slotSourceId: '1:2', defaultSourceIds: [],
     references: [{ path: '/Users/author/private-report.json' }], defaultPayloadEvidence: { source: { path: '/Users/author/receipt.json' } } };
   put('src/generation/agent/figma/source.json', JSON.stringify({ choices: [choice], capabilityPlatform: 'desktop',
     policyInputs: [{ path: '/Users/author/old-seal.json' }], genericMapping: { historical: true } }));
-  const options = { apolloRoot: source, output: path.join(root, 'installed'), entries: ['src/start.cjs', 'dist/agent-figma-provider-descriptor.json', 'src/generation/agent/figma/source.json'] };
+  const options = { apolloRoot: source, output: path.join(root, 'installed'), entries: ['instructions/landing/figma-workflow.md', 'src/start.cjs', 'dist/agent-figma-provider-descriptor.json', 'src/generation/agent/figma/source.json'] };
   const result = buildPortableRuntime(options);
   assert.equal(result.id, readRuntime(options.output).id);
   assert.ok(result.files.some(f => f.file === 'src/helper.cjs'));
   assert.ok(result.files.every(f => !path.isAbsolute(f.file)));
   assert.equal(fs.existsSync(path.join(options.output, '.git')), false);
-  assert.equal(fs.readFileSync(path.join(options.output, 'skills/fixture/SKILL.md'), 'utf8'), skill);
+  assert.equal(fs.readFileSync(path.join(options.output, 'instructions/landing/figma-workflow.md'), 'utf8'), workflow);
+  assert.equal(fs.existsSync(path.join(options.output,'skills/fixture')),false);
+  assert.equal(result.capabilities.frontend,false);
   const projected = JSON.parse(fs.readFileSync(path.join(options.output, 'src/generation/agent/figma/source.json')));
   const { references, defaultPayloadEvidence, ...runtimeChoice } = choice;
   assert.deepEqual(projected, { choices: [runtimeChoice], capabilityPlatform: 'desktop' });
@@ -52,7 +52,6 @@ test('packed naming skill and protocol run without the source checkout; missing/
   const put = (name,body) => { const file=path.join(source,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,body); };
   const naming = ['skills/figma-layer-name-hygiene/profile.json','skills/figma-layer-name-hygiene/SKILL.md','src/skills/layer-names/protocol.js'];
   for (const file of naming) put(file,fs.readFileSync(path.join(actual,file)));
-  put('instructions/agent-generation/skill-profile.json',JSON.stringify({targets:{}}));
   put('dist/build-inputs.json',JSON.stringify({profileVersion:'0.4.1'}));
   put('dist/agent-figma-provider-descriptor.json',JSON.stringify({sourceHash:'a'.repeat(64)}));
   const options={apolloRoot:source,output:path.join(root,'installed'),entries:naming.concat('dist/agent-figma-provider-descriptor.json')};

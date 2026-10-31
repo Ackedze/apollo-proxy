@@ -80,13 +80,15 @@ async function pinnedBytes(selected,pin,token,request){
 async function downloadSkills(selected,temporary,token,request){
   const catalog=require('../src/skills/catalog'),root=path.join(temporary,'skill-source'),ref=selected.index.skills;
   await fs.mkdir(root);
-  const body=await pinnedBytes(selected,ref,token,request),entry=catalog.catalogEntry(body);
+  const body=await pinnedBytes(selected,ref,token,request),entries=catalog.catalogEntries(body);
   const prefix=path.posix.dirname(ref.path);
-  const descriptor=await pinnedBytes(selected,{...entry,path:prefix+'/'+entry.path},token,request);
-  const files=catalog.packageFiles(descriptor);
   async function save(file,bytes){const target=path.join(root,file);await fs.mkdir(path.dirname(target),{recursive:true});await fs.writeFile(target,bytes,{flag:'wx',mode:0o600});}
-  await save('manifest.json',body);await save(entry.path,descriptor);
-  for(const pin of files)await save(catalog.ID+'/'+pin.path,await pinnedBytes(selected,{...pin,path:prefix+'/'+catalog.ID+'/'+pin.path},token,request));
+  await save('manifest.json',body);
+  for(const entry of entries){
+    const descriptor=await pinnedBytes(selected,{...entry,path:prefix+'/'+entry.path},token,request),files=catalog.packageFiles(descriptor,entry.id);
+    await save(entry.path,descriptor);
+    for(const pin of files)await save(entry.id+'/'+pin.path,await pinnedBytes(selected,{...pin,path:prefix+'/'+entry.id+'/'+pin.path},token,request));
+  }
   const admitted=catalog.readCatalog(root);if(admitted.sha256!==ref.sha256)throw Error('Git skill catalog identity mismatch.');admitted.assertCurrent();
   return root;
 }

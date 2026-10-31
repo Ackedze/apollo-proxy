@@ -14,16 +14,20 @@ function build({sourceRoot,runtimeRoot,indexPath}){
   if(path.relative(repoRoot,sourceRoot).split(path.sep).join('/')!=='apollo/skills')throw Error('SKILL_SOURCE_PATH_INVALID');
   const legacy=require('../src/skills/layer-names').loadSkill(runtimeRoot,{skillsRoot:sourceRoot});
   const run=require('../src/skills/run-skill').readRunProfile(path.join(sourceRoot,catalog.ID,'run'));
-  const packagePath=path.join(sourceRoot,catalog.ID,'manifest.json');
+  const entries=[];
+  for(const id of [catalog.ID,catalog.LANDING_ID].filter(id=>fs.existsSync(path.join(sourceRoot,id,'manifest.json')))){
+  const packagePath=path.join(sourceRoot,id,'manifest.json');
   const descriptor=JSON.parse(fs.readFileSync(packagePath));
-  descriptor.files=catalog.FILES.map(file=>{
-    const target=path.join(sourceRoot,catalog.ID,file),stat=fs.lstatSync(target);
+  descriptor.files=(id===catalog.ID?catalog.FILES:catalog.LANDING_FILES).map(file=>{
+    const target=path.join(sourceRoot,id,file),stat=fs.lstatSync(target);
     if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(target)!==target||stat.size>65536)throw Error('SKILL_CATALOG_INVALID');
     const bytes=fs.readFileSync(target);return{path:file,sha256:catalog.sha(bytes),bytes:bytes.length};
   });
-  const packageBytes=Buffer.from(JSON.stringify(descriptor,null,2)+'\n');catalog.packageFiles(packageBytes);
+  const packageBytes=Buffer.from(JSON.stringify(descriptor,null,2)+'\n');catalog.packageFiles(packageBytes,id);
   write(packagePath,descriptor);
-  write(path.join(sourceRoot,'manifest.json'),{schemaVersion:'apollo.skill-catalog.v1',skills:[{id:catalog.ID,path:catalog.ID+'/manifest.json',sha256:catalog.sha(packageBytes),bytes:packageBytes.length}]});
+  entries.push({id,path:id+'/manifest.json',sha256:catalog.sha(packageBytes),bytes:packageBytes.length});
+  }
+  write(path.join(sourceRoot,'manifest.json'),{schemaVersion:'apollo.skill-catalog.v1',skills:entries});
   const admitted=catalog.readCatalog(sourceRoot),bytes=fs.readFileSync(path.join(sourceRoot,'manifest.json'));
   legacy.assertCurrent();run.assertCurrent();admitted.assertCurrent();
   if(!fs.readFileSync(indexPath).equals(indexBytes))throw Error('GIT_DATA_INDEX_CHANGED');

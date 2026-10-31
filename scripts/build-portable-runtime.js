@@ -8,12 +8,10 @@ const { RUNTIME_SCHEMA, sha, idOf } = require('../src/data-release');
 const ENTRIES = [
   'dist/runtime.cjs', 'dist/agent-protocol.cjs', 'dist/agent-figma-protocol.cjs',
   'dist/agent-figma-provider-descriptor.json',
-  'packages/generation-core/dist/planning.cjs', 'packages/component-contract-core/dist/core.cjs',
+  'packages/component-contract-core/dist/core.cjs',
   'src/generation/agent/figma/source.json', 'src/generation/agent/figma/target.js',
   'src/generation/agent/figma/mapping.js', 'src/generation/agent/figma/projection.js', 'src/generation/agent/figma/api.js',
-  'src/generation/context/resources.js', 'src/generation/context/ledger.js',
-  'scripts/agent-run-inputs.cjs', 'scripts/agent-generation-skills.cjs',
-  'scripts/agent-frontend-workspace.cjs', 'scripts/agent-page-background.cjs',
+  'instructions/landing/figma-workflow.md', 'instructions/agent-generation/figma-owned-mapping.json',
   'src/skills/layer-names/protocol.js',
   'skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene/SKILL.md',
 ];
@@ -59,21 +57,11 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
   const namingSkill = entries.includes('src/skills/layer-names/protocol.js')
     ? require('../src/skills/layer-names').loadSkill(apolloRoot) : null;
   namingSkill?.assertCurrent();
-  tree('instructions/agent-generation');
-  const profile = JSON.parse(fs.readFileSync(path.join(apolloRoot, 'instructions/agent-generation/skill-profile.json')));
-  for (const target of Object.values(profile.targets)) {
-    for (const pin of target.files) {
-      if (!/^[a-zA-Z0-9_-]+$/.test(target.name) || pin.path.split('/').some(p => p === '..' || !p)) throw Error('Unsafe skill profile');
-      const file = path.resolve(skillsRoot, target.name, pin.path), bytes = fs.readFileSync(file);
-      if (fs.realpathSync(file) !== file || bytes.length !== pin.bytes || sha(bytes) !== pin.sha256) throw Error('Installed generation skill does not match accepted profile: ' + target.name);
-      files.set('skills/' + target.name + '/' + pin.path, { bytes, sourceBytes: bytes, source: file });
-    }
-  }
   const build = JSON.parse(fs.readFileSync(path.join(apolloRoot, 'dist/build-inputs.json')));
   const descriptor = JSON.parse(files.get('dist/agent-figma-provider-descriptor.json').bytes);
   const manifest = { schemaVersion: RUNTIME_SCHEMA, profileVersion: build.profileVersion, nativeSourceHash: descriptor.sourceHash,
     ...(sourceProjection ? { sourceProjection } : {}),
-    capabilities: { checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: 'requires-installed-sdk-toolchain-and-browser', builtInFigma: 'not-admitted-by-data-runtime' },
+    capabilities: { checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime' },
     files: Array.from(files, ([file, value]) => ({ file: file.split(path.sep).join('/'), sha256: sha(value.bytes), bytes: value.bytes.length })).sort((a, b) => a.file.localeCompare(b.file)) };
   manifest.id = idOf(manifest);
   for (const [relative, value] of files) {

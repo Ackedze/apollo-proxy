@@ -530,10 +530,7 @@ async function importDataPackage({
     }
     if (accepted.frontend)
       for (const platform of ['desktop', 'mobile-web'])
-        require(path.join(
-          app,
-          'scripts/agent-run-inputs.cjs'
-        )).projectFrontendAuthoring(
+        require('./frontend-authoring').projectFrontendAuthoring(
           accepted.prompt(platform),
           accepted.frontend,
           { hash: runtime.contractHash }

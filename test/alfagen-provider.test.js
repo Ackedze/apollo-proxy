@@ -46,7 +46,7 @@ async function listen(server){server.listen(0,'127.0.0.1');await new Promise(r=>
  res.end(JSON.stringify(mode==='empty'?{}:mode==='error'?{error:'fixture failure'}:{outputs:[{outputs:[{results:{message:{text:'fixture AlfaGen answer'}}}]}]}));});
  remote.on('connection',s=>{sockets.add(s);s.on('close',()=>sockets.delete(s));});
  process.env.APOLLO_AGENT_URL=await listen(remote)+'/api/v1/run/fixture';process.env.APOLLO_AGENT_KEY='fixture-remote-key';
- const {app,callCodexContractExplanation,assertGenerationRuntimeReady}=require(${JSON.stringify(path.resolve(__dirname, '../server'))});
+ const {app,callCodexContractExplanation}=require(${JSON.stringify(path.resolve(__dirname, '../server'))});
  const proxy=http.createServer(app),base=await listen(proxy),provider=process.env.APOLLO_CLI_PROVIDER;
  const ask=(source='codex',question='fixture question',signal)=>fetch(base+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},signal,body:JSON.stringify({source,text:question,session_id:'owned-session',dialogue:[]})});
  const localCalls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').length:0;
@@ -56,7 +56,7 @@ async function listen(server){server.listen(0,'127.0.0.1');await new Promise(r=>
   assert.equal(body.result,provider==='alfagen'?'fixture AlfaGen answer':'fixture CLI answer');assert.equal(localCalls(),provider==='alfagen'?0:1);assert.equal(remoteCalls,provider==='alfagen'?1:0);
   if(provider==='alfagen'){
    assert.equal(body.knowledgeRelease,null);assert.equal(received.body.session_id,'owned-session');assert.equal(received.body.input_value,'fixture question');assert.equal(received.headers['x-api-key'],'fixture-remote-key');
-   await assert.rejects(()=>callCodexContractExplanation('fixture',{}),{code:'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'});assert.throws(()=>assertGenerationRuntimeReady(),{code:'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'});
+   await assert.rejects(()=>callCodexContractExplanation('fixture',{}),{code:'AGENT_PROVIDER_CAPABILITY_UNAVAILABLE'});const retired=await fetch(base+'/generation/status');assert.equal(retired.status,410);assert.equal((await retired.json()).code,'GENERATION_RETIRED');
    mode='error';response=await ask();assert.equal(response.status,503);assert.match((await response.json()).error,/AlfaGen HTTP/);
    mode='empty';response=await ask();assert.equal(response.status,502);assert.match((await response.json()).error,/пустой/);
    mode='hang';const cancel=new AbortController(),pending=ask('codex','cancel fixture',cancel.signal);

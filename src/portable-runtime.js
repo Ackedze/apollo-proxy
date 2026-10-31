@@ -42,36 +42,10 @@ function configureInstalledEnvironment({ proxyRoot, environment = process.env })
   set('APOLLO_KNOWLEDGE_CONTENT_VERSION', release.knowledgeVersion);
   set('APOLLO_CODEX_DEBUG_ROOT', path.join(state, 'history/validation'));
   set('APOLLO_DATA_DESCRIPTOR_URL', settings.dataDescriptorUrl || '');
-  const generated = path.join(state, 'generation'), configRoot = path.join(state, 'config');
-  fs.mkdirSync(configRoot, { recursive: true });
-  const write = (name, value) => {
-    const file = path.join(configRoot, name + '.json'), bytes = JSON.stringify(value, null, 2) + '\n';
-    if (!fs.existsSync(file) || fs.readFileSync(file, 'utf8') !== bytes) {
-      fs.writeFileSync(file + '.tmp', bytes, { mode: 0o600 }); fs.renameSync(file + '.tmp', file);
-    }
-    return file;
-  };
-  const figmaFileKey = environment.APOLLO_FIGMA_FILE_KEY || settings.figmaFileKey;
-  if (figmaFileKey) {
-    validateSettings({ figmaFileKey });
-    set('APOLLO_AGENT_FIGMA_CONFIG', write('figma', { schemaVersion: 'apollo.data-mcp-host-config.v1', apolloRoot: code,
-      frontendRoot: path.join(generated, 'figma-output'), hostRoot: path.join(generated, 'figma-host') }));
-    set('APOLLO_AGENT_MCP_CONFIG', write('mcp', { schemaVersion: 'apollo.mcp-worker-config.v1', name: 'apollo_figma_mcp',
-      url: 'https://mcp.figma.com/mcp', fileKey: figmaFileKey, tools: ['use_figma', 'get_screenshot'] }));
-  }
-  const toolchain = environment.APOLLO_FRONTEND_TOOLCHAIN_ROOT || settings.frontendToolchainHome;
-  const chrome = environment.APOLLO_CHROME_BIN || settings.chromeExecutable;
-  const frontendAvailable = release.capabilities?.frontend !== false;
-  if (!frontendAvailable) delete environment.APOLLO_AGENT_MVP_CONFIG;
-  if (frontendAvailable && toolchain && chrome) {
-    validateSettings({ frontendToolchainHome: toolchain, chromeExecutable: chrome });
-    set('APOLLO_AGENT_MVP_CONFIG', write('frontend', { schemaVersion: 'apollo.agent-runtime-config.v1', apolloRoot: code,
-      mappingDirectory: path.join(snapshot, 'contracts/generation'), frontendRoot: path.join(generated, 'frontend-output'),
-      hostRoot: path.join(generated, 'frontend-host'), toolchainHome: toolchain, nodeExecutable: process.execPath,
-      chromeExecutable: chrome, laboratoryFile: null }));
-  }
-  return { portable: true, releaseId: release.id, dataId: release.dataId,
-    figmaMcpConfigured: Boolean(figmaFileKey), frontendConfigured: Boolean(frontendAvailable && toolchain && chrome),
-    gaps: [!figmaFileKey && 'OWN_FIGMA_MCP_CONNECTION_AND_FILE_REQUIRED', !frontendAvailable ? 'AGENT_FRONTEND_CAPABILITY_UNAVAILABLE' : !(toolchain && chrome) && 'FRONTEND_SDK_TOOLCHAIN_AND_BROWSER_REQUIRED'].filter(Boolean) };
+  // Legacy settings/history stay on disk, but never configure a retired executor.
+  for(const name of ['APOLLO_AGENT_MVP_CONFIG','APOLLO_AGENT_FIGMA_CONFIG','APOLLO_AGENT_MCP_CONFIG'])delete environment[name];
+  const landingConfigured=release.files.some(pin=>pin.file==='skills/ab-generate-custom-landing/manifest.json');
+  return {portable:true,releaseId:release.id,dataId:release.dataId,figmaMcpConfigured:Boolean(settings.figmaFileKey),frontendConfigured:false,landingConfigured,
+    gaps:landingConfigured?[]:['LANDING_SKILL_DATA_REQUIRED']};
 }
 module.exports = { stateRoot, readSettings, validateSettings, installedSkillsDirectory, configureInstalledEnvironment };

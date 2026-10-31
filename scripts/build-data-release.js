@@ -91,6 +91,14 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
     skill.assertCurrent();
   }
   catalog?.assertCurrent();
+  const landing=catalog?.entries.find(entry=>entry.id===require('../src/skills/catalog').LANDING_ID);
+  if(landing){
+    for(const file of ['manifest.json',...landing.files.map(pin=>pin.path)]){
+      const target=path.join(root,'skills',landing.id,file);
+      await fs.mkdir(path.dirname(target),{recursive:true});await fs.copyFile(path.join(sourceSkills,landing.id,file),target);
+    }
+    catalog.assertCurrent();
+  }
   const data = JSON.parse(await fs.readFile(path.join(root, 'contracts/manifest.json'), 'utf8'));
   const files = [];
   for (const file of await knowledge.listPackageFiles(root)) {

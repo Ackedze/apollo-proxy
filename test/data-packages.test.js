@@ -52,7 +52,7 @@ test('arbitrary modules in data cannot select an executable runtime',async t=>{
  assert.equal(readDataContracts({root,runtimeFile}).runtime.RUNTIME_VERSION,runtime.RUNTIME_VERSION);
 });
 test('planning selection retains complete normative dependency closure and rejects unknown IDs',()=>{
- const {selectPlanningContext,mappingSelectionPrompt}=require('../src/generation-agent/prompt-service');
+ const {selectPlanningContext,mappingSelectionPrompt}=require('../src/data-packages/planning-context');
  const packet={contracts:[{pin:{componentId:'parent'},manual:{component:{family:'Parent'},semantics:{purpose:'Host'},componentDependencies:[{componentId:'child'}],rules:[{id:'all',conditions:['visible'],exceptions:['hidden']}] }},{pin:{componentId:'child'},manual:{component:{family:'Child'},rules:[{id:'child-rule'}]}},{pin:{componentId:'unused'},manual:{component:{family:'Unused'},rules:[]}}],mappings:[{id:'parent-map',componentId:'parent'},{id:'other',componentId:'unused'}],targetContext:{origin:'server-data-index',targetMapping:{bindings:[]}}};
  const before=JSON.stringify(packet),focused=selectPlanningContext(packet,['parent-map']);
  assert.deepEqual(focused.contracts.map(c=>c.pin.componentId),['parent','child']);assert.deepEqual(focused.contracts[0].manual,packet.contracts[0].manual);assert.deepEqual(focused.mappings,[packet.mappings[0]]);assert.equal(JSON.stringify(packet),before);
@@ -102,7 +102,7 @@ test('component data stays under its component revision and frozen reads reject 
 });
 
 test('planning keeps a historical manual only when the selected parent pins that version',()=>{
- const select=require('../src/generation-agent/prompt-service').selectPlanningContext;
+ const select=require('../src/data-packages/planning-context').selectPlanningContext;
  const packet={contracts:[{pin:{componentId:'parent',revision:1},manual:{component:{componentId:'parent'},componentDependencies:[{componentId:'child',revision:1,manualSourceHash:'old'}]}},{pin:{componentId:'child',revision:2,manualSourceHash:'new'},manual:{component:{componentId:'child'}}}],mappings:[{id:'parent-map',componentId:'parent'},{id:'child-map',componentId:'child'}],figmaMappingRecords:{semantic:{mappings:[]},typed:{bindings:[]},profiles:{choices:[],sourceDependencies:[{componentId:'child',revision:1,manualSemanticHash:'old'},{componentId:'child',revision:2,manualSemanticHash:'new'}]},manuals:[{manualReference:{componentId:'child',manualSourceHash:'new'}},{manual:{component:{componentId:'child'},metadata:{revision:1}}}]}};
  const child=select(packet,['child-map']);assert.equal(child.figmaMappingRecords.manuals.length,1);assert.deepEqual(child.figmaMappingRecords.profiles.sourceDependencies.map(d=>d.revision),[2]);
  const parent=select(packet,['parent-map']);assert.equal(parent.figmaMappingRecords.manuals.length,2);assert.deepEqual(parent.figmaMappingRecords.profiles.sourceDependencies.map(d=>d.revision),[1,2]);
@@ -142,13 +142,6 @@ test('first portable profile preserves normal checking/MCP readers and exact clo
  const files=[];function walk(folder){for(const item of fs.readdirSync(folder,{withFileTypes:true})){const file=path.join(folder,item.name);item.isDirectory()?walk(file):files.push(file);}}walk(output);
  assert.deepEqual(files.sort(),[path.join(output,'manifest.json'),...data.reader.pins.keys()].sort());
  assert(files.every(file=>['.json','.zip'].includes(path.extname(file))));assert.equal(files.some(file=>fs.readFileSync(file).equals(sdkBytes)),false);
- const previous=process.env.APOLLO_DATA_ROOT;process.env.APOLLO_DATA_ROOT=output;
- try{
-  const read=require('../src/generation-agent/prompt-target-context').createPromptTargetReader({loadProvider:()=>({apolloRoot,hash:runtime.contractHash,readPromptContext:async input=>({data,packet:data.prompt(input.platform),assertCurrent:data.assertCurrent})})});
-  await assert.rejects(read({platform:'desktop'},'frontend'),{code:'AGENT_FRONTEND_CAPABILITY_UNAVAILABLE'});
-  const host=require('../src/generation-agent/agent-runtime').createConfiguredAgentRuntime({environment:{},providerFactory(){throw Error('SDK must not load');}});
-  await assert.rejects(host.loadService(),{code:'AGENT_FRONTEND_CAPABILITY_UNAVAILABLE'});
- }finally{if(previous===undefined)delete process.env.APOLLO_DATA_ROOT;else process.env.APOLLO_DATA_ROOT=previous;}
  assert.deepEqual(fs.readFileSync(path.join(root,'manifest.json')),before);
 });
 test('explicit mapping upgrades prune only unreferenced versions and keep old pinned children',async t=>{

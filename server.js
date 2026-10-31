@@ -256,7 +256,6 @@ const {
 } = require('./src/cli-agent');
 const { version: APOLLO_PROXY_VERSION } = require('./package.json');
 const { mountContractRoutes } = require('./src/contracts/service');
-const { mountGenerationRoutes } = require('./src/generation-agent/service');
 const {
   mountStyleTokenCatalogRoutes,
   installStyleTokenCatalogParser,
@@ -265,15 +264,6 @@ const {
   evaluatePredicateReleaseRequest,
 } = require('./src/predicate-engine/release-service');
 const {
-  createGenerationPlan,
-  inspectGenerationComponentAvailability,
-} = require('./src/generation/planner');
-const {
-  buildGenerationAgentPrompt,
-  normalizeGenerationRequest,
-} = require('./src/generation/semantic-planner');
-const {
-  buildGenerationContextPacket,
   buildSemanticIndex,
   inspectSemanticIndex,
 } = require('./src/generation/semantic-index');
@@ -326,7 +316,7 @@ app.use((req, res, next) => {
 require('./src/code-release/maintenance').createMaintenance({key:process.env.APOLLO_CODE_UPDATE_KEY,
   launchId:process.env.APOLLO_CODE_RELEASE_ID,
   busy:async()=>{
-    const generationBusy=(await Promise.all([frontendAgentRuntime,nativeAgentRuntime,mcpAgentRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
+    const generationBusy=(await Promise.all([landingRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
     return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || Boolean(namingRuns?.busy());
   }}).mount(app);
 delete process.env.APOLLO_CODE_UPDATE_KEY;
@@ -597,41 +587,6 @@ function assertCodexRuntimeReady() {
   };
 }
 
-function assertGenerationRuntimeReady() {
-  assertLocalAgent(CLI_PROVIDER);
-  assertSelectedKnowledgeRoots();
-  const requiredDirectories = [
-    ['CODEX_WORKSPACE', CODEX_WORKSPACE],
-    ['CODEX_DS_AI_HUB', CODEX_DS_AI_HUB],
-    ['CODEX_DESIGN_SYSTEM', CODEX_DESIGN_SYSTEM],
-  ];
-  for (const [name, directory] of requiredDirectories) {
-    if (!fs.existsSync(directory) || !fs.statSync(directory).isDirectory()) {
-      const error = new Error(`${name} directory does not exist: ${directory}`);
-      error.status = 503;
-      error.code = 'GENERATION_RUNTIME_NOT_READY';
-      throw error;
-    }
-  }
-  if (!fs.existsSync(CODEX_GENERATION_OUTPUT_SCHEMA)) {
-    const error = new Error(
-      `Generation output schema is missing: ${CODEX_GENERATION_OUTPUT_SCHEMA}`
-    );
-    error.status = 503;
-    error.code = 'GENERATION_RUNTIME_NOT_READY';
-    throw error;
-  }
-  if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
-    const error = new Error(
-      `${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`
-    );
-    error.status = 503;
-    error.code = 'GENERATION_RUNTIME_NOT_READY';
-    throw error;
-  }
-  inspectSemanticIndex(CODEX_DS_AI_HUB);
-}
-
 async function callApolloAgent(payload, signal) {
   if (!APOLLO_AGENT_URL) {
     const err = new Error(
@@ -747,88 +702,6 @@ async function callApolloAgentForFinalText(payload, signal) {
   }
 
   throw buildToolCallResponseError(lastResult, APOLLO_AGENT_MAX_ATTEMPTS);
-}
-
-async function callCodexGenerationPlanner(payload) {
-  const request = normalizeGenerationRequest(payload);
-  if (activeGenerationCodexRuns >= 1) {
-    const error = new Error('Apollo уже планирует другой макет.');
-    error.status = 429;
-    error.code = 'GENERATION_AGENT_BUSY';
-    throw error;
-  }
-  assertGenerationRuntimeReady();
-  const runDirectory = await fsp.mkdtemp(
-    path.join(os.tmpdir(), 'apollo-codex-generation-')
-  );
-  const outputPath = path.join(runDirectory, 'semantic-plan.json');
-  const contextPath = path.join(runDirectory, 'context-packet.json');
-  const semanticIndex = buildSemanticIndex(CODEX_DS_AI_HUB);
-  const technicalAvailability = inspectGenerationComponentAvailability(
-    CODEX_DESIGN_SYSTEM,
-    semanticIndex.components.map((component) => component.id)
-  );
-  const context = buildGenerationContextPacket(request, CODEX_DS_AI_HUB, {
-    technicalAvailability,
-  });
-  await fsp.writeFile(contextPath, context.serialized, 'utf8');
-  const args = [
-    'exec',
-    '--json',
-    '--ephemeral',
-    '--ignore-user-config',
-    '--ignore-rules',
-    '--sandbox',
-    'read-only',
-    '--skip-git-repo-check',
-    '--cd',
-    runDirectory,
-    '--output-schema',
-    CODEX_GENERATION_OUTPUT_SCHEMA,
-    '--output-last-message',
-    outputPath,
-  ];
-  if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
-  args.push('-');
-  const prompt = buildGenerationAgentPrompt(
-    request,
-    path.basename(contextPath),
-    context.trace
-  );
-
-  console.info('[Apollo][generation] context packet prepared', context.trace);
-
-  activeGenerationCodexRuns += 1;
-  try {
-    const result = await runCodexProcess(
-      args,
-      prompt,
-      outputPath,
-      null,
-      'reading_design_system',
-      {
-        mode: 'generation-planning',
-        model: AGENT_MODEL || null,
-        workingDirectory: runDirectory,
-      }
-    );
-    console.info('[Apollo][generation] semantic plan prepared', {
-      status: result?.status || null,
-      kind: result?.kind || null,
-      patternId: result?.primaryPattern?.id || null,
-      platform: result?.platform || null,
-      sourceCount: Array.isArray(result?.sources) ? result.sources.length : 0,
-      nodeCount: Array.isArray(result?.nodes) ? result.nodes.length : 0,
-    });
-    return {
-      semanticPlan: result,
-      contextTrace: context.trace,
-      allowedSourcePaths: context.allowedSourcePaths,
-    };
-  } finally {
-    activeGenerationCodexRuns = Math.max(0, activeGenerationCodexRuns - 1);
-    await fsp.rm(runDirectory, { recursive: true, force: true });
-  }
 }
 
 async function callCodexContractExplanation(
@@ -1561,7 +1434,7 @@ function publicCodexRun(run) {
 }
 
 app.get('/health', async (req, res) => {
-  const asyncGenerationBusy = (await Promise.all([frontendAgentRuntime, nativeAgentRuntime, mcpAgentRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
+  const asyncGenerationBusy = (await Promise.all([landingRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
   let skill;
   let knowledge;
   try {
@@ -1646,53 +1519,8 @@ namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
     if(['completed','failed','cancelled'].includes(event.event))tokenJournal.finishNamed(key,event.event);
   },
 });
-require('./src/generation-agent/recipe-catalog').mountRecipeRoutes(app);
-mountGenerationRoutes(app, {
-  plan: callCodexContractExplanation,
-  promptTargetConfigFile: process.env.APOLLO_AGENT_MVP_CONFIG,
-  promptNativeConfigFile: process.env.APOLLO_AGENT_FIGMA_CONFIG,
-});
-const frontendAgentRuntime = require('./src/generation-agent/agent-runtime').mountConfiguredAgentRoutes(app, {
-  configFile: process.env.APOLLO_AGENT_MVP_CONFIG,
-  providerFactory: (config) =>
-    require('./src/generation-agent/service').loadProvider({
-      apolloRoot: config.apolloRoot,
-    }),
-  provider: CLI_PROVIDER,
-  binary: CLI_AGENT_BIN,
-  model: AGENT_MODEL,
-  environment: buildCodexEnvironment(),
-  evalRoot: process.env.APOLLO_AGENT_EVAL_ROOT || null,
-});
-const nativeAgentRuntime = require('./src/generation-agent/agent-figma-runtime').mountConfiguredAgentFigmaHostRoutes(
-  app,
-  {
-    configFile: process.env.APOLLO_AGENT_FIGMA_CONFIG,
-    providerFactory: (config) =>
-      require('./src/generation-agent/service').loadProvider({
-        apolloRoot: config.apolloRoot,
-      }),
-    provider: CLI_PROVIDER,
-    binary: CLI_AGENT_BIN,
-    model: AGENT_MODEL,
-    environment: buildCodexEnvironment(),
-  }
-);
-const mcpAgentRuntime = require('./src/generation-agent/agent-figma-runtime').mountConfiguredAgentMcpRoutes(
-  app,
-  {
-    configFile: process.env.APOLLO_AGENT_FIGMA_CONFIG,
-    mcpConfigFile: process.env.APOLLO_AGENT_MCP_CONFIG,
-    providerFactory: (config) =>
-      require('./src/generation-agent/service').loadProvider({
-        apolloRoot: config.apolloRoot,
-      }),
-    provider: CLI_PROVIDER,
-    binary: CLI_AGENT_BIN,
-    model: AGENT_MODEL,
-    environment: buildCodexEnvironment(),
-  }
-);
+require('./src/landing/retired').mountRetiredGenerationRoutes(app);
+const landingRuntime=require('./src/landing/runtime').mountConfiguredLandingRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT});
 mountStyleTokenCatalogRoutes(app, {
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
@@ -1728,77 +1556,6 @@ app.post('/v1/validate/predicates', (req, res) => {
       success: false,
       error: error.message || 'Predicate validation error',
       code: error.code || 'PREDICATE_VALIDATION_FAILED',
-      details: error.details || null,
-    });
-  }
-});
-
-app.post('/v1/generation/plan', async (req, res) => {
-  try {
-    const generation = await callCodexGenerationPlanner(req.body ?? {});
-    const outcome = createGenerationPlan(
-      req.body ?? {},
-      generation.semanticPlan,
-      {
-        dsAiHubRoot: CODEX_DS_AI_HUB,
-        designSystemRoot: CODEX_DESIGN_SYSTEM,
-        contextTrace: generation.contextTrace,
-        allowedSourcePaths: generation.allowedSourcePaths,
-      }
-    );
-    if (outcome.status === 'clarification_required') {
-      console.log('[Apollo][generation] clarification requested', {
-        question: outcome.clarification.question,
-        sourceCount: outcome.knowledge.sources.length,
-      });
-      res.json({
-        success: true,
-        status: 'clarification_required',
-        clarification: outcome.clarification,
-        knowledge: outcome.knowledge,
-      });
-      return;
-    }
-    if (outcome.status === 'blocked') {
-      console.log('[Apollo][generation] generation blocked', {
-        code: outcome.blocked.code,
-        missingCapabilities: outcome.blocked.missingCapabilities,
-        sourceCount: outcome.knowledge.sources.length,
-      });
-      res.json({
-        success: true,
-        status: 'blocked',
-        blocked: outcome.blocked,
-        knowledge: outcome.knowledge,
-      });
-      return;
-    }
-    const plan = outcome;
-    console.log('[Apollo][generation] plan prepared', {
-      kind: plan.kind,
-      recipe: plan.recipe,
-      patternId: plan.pattern?.id || null,
-      platform: plan.platform,
-      componentCount: plan.knowledge.componentCount,
-      warningCount: plan.warnings.length,
-      preflightCheckCount: plan.preflight.checks.length,
-    });
-    res.json({
-      success: true,
-      status: 'ready',
-      plan,
-      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
-    });
-  } catch (error) {
-    console.error('[Apollo][generation] planning failed', {
-      code: error.code || 'GENERATION_PLANNING_FAILED',
-      message: error.message || 'Generation planning error',
-      details: error.details || null,
-    });
-    res.status(error.status || 500).json({
-      success: false,
-      error: error.message || 'Generation planning error',
-      code: error.code || 'GENERATION_PLANNING_FAILED',
       details: error.details || null,
     });
   }
@@ -2042,11 +1799,7 @@ module.exports = {
   compactApolloCustomizationReport,
   collectApolloReportComponentKeys,
   evaluatePredicateReleaseRequest,
-  createGenerationPlan,
-  callCodexGenerationPlanner,
   callCodexContractExplanation,
-  assertGenerationRuntimeReady,
-  buildGenerationAgentPrompt,
   buildCodexPrompt,
   buildCodexInputMetrics,
   assertCodexInputWithinBudget,

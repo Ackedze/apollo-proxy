@@ -345,10 +345,8 @@ function mountContractRoutes(app, options = {}) {
     const source={status:'connected',reason:'Установленный индекс пакетов. Обновляется без агента и перезапуска proxy.'};
     return{schemaVersion:'apollo.contract-data.v1',dataId:index.id,rows:index.catalog,sources:{checking:source,figma:source,frontend:source}};
   }:createContractDataOverview({readChecking:()=>readRelease(root),
-    nativeConfigured:Boolean(options.promptNativeConfigFile||process.env.APOLLO_AGENT_FIGMA_CONFIG),
-    readTargetContext:options.readTargetContext||require('../generation-agent/prompt-target-context').createPromptTargetReader({
-      configFile:options.promptTargetConfigFile||process.env.APOLLO_AGENT_MVP_CONFIG,nativeConfigFile:options.promptNativeConfigFile||process.env.APOLLO_AGENT_FIGMA_CONFIG,
-      loadProvider:require('../generation-agent/service').loadProvider})});
+    nativeConfigured:Boolean(options.readTargetContext),
+    readTargetContext:options.readTargetContext||async function(){throw Error('GENERATION_RETIRED');}});
   app.get('/v2/contracts/data-overview', async (req,res)=>{
     res.setHeader('Cache-Control','no-store');
     if(Object.keys(req.query||{}).length)return res.status(400).json({success:false,code:'CONTRACT_DATA_REQUEST_INVALID'});

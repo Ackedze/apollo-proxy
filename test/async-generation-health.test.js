@@ -11,12 +11,9 @@ test('health keeps asynchronous generation busy between HTTP callbacks and relea
   const proxy = path.resolve(__dirname, '..');
   const script = `
 const assert=require('node:assert/strict');
-const proxy=${JSON.stringify(proxy)},active={frontend:false,native:false,mcp:false};
+const proxy=${JSON.stringify(proxy)},active={landing:false};
 require(proxy+'/src/generation/semantic-index').inspectSemanticIndex=()=>({ready:false,reason:'unit-test-no-model'});
-for(const [file,methods] of [['agent-runtime',{mountConfiguredAgentRoutes:'frontend'}],['agent-figma-runtime',{mountConfiguredAgentFigmaHostRoutes:'native',mountConfiguredAgentMcpRoutes:'mcp'}]]){
- const name=proxy+'/src/generation-agent/'+file,module=require(name);
- for(const [method,key] of Object.entries(methods))module[method]=()=>({isBusy:async()=>active[key]});
-}
+require(proxy+'/src/landing/runtime').mountConfiguredLandingRoutes=()=>({isBusy:async()=>active.landing});
 const {app}=require(proxy+'/server');
 const handler=app._router.stack.find(layer=>layer.route?.path==='/health').route.stack[0].handle;
 const read=()=>new Promise((resolve,reject)=>Promise.resolve(handler({}, {json:resolve})).catch(reject));
