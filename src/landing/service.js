@@ -48,7 +48,7 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
  function assertJob(r,job){if(jobs.get(r.id)!==job||job.controller.signal.aborted||r.status==='cancelled')fail('LANDING_CANCELLED');job.source.assertCurrent();}
  function stopped(r,job,error){
   if(error.usage)r.usage.push(error.usage);if(jobs.get(r.id)!==job){if(error.usage)save(r);return;}
-  r.status=error.code==='LANDING_CANCELLED'||error.code==='AGENT_CANCELLED'?'cancelled':'interrupted';r.error=r.error||{code:error.code||'LANDING_EXECUTION_FAILED',diagnostic:error.diagnostic||{stage:'landing-'+job.phase,modelStep:job.steps,lastQueries:(job.indexes||[]).map(row=>({query:row.query,offset:row.offset,total:row.total}))}};r.failures=r.failures||[];r.failures.push({revision:r.revision,at:new Date(readNow()).toISOString(),error:copy(r.error)});r.message=r.status==='cancelled'?'Остановлено. История и созданный макет сохранены.':r.target?'Продолжение остановлено. История и созданная область сохранены.':'Подготовка прервана. История сохранена; макет ещё не создавался.';save(r);jobs.delete(r.id);
+  r.status=error.code==='LANDING_CANCELLED'||error.code==='AGENT_CANCELLED'?'cancelled':'interrupted';r.error=r.error||{code:error.code||'LANDING_EXECUTION_FAILED',diagnostic:error.diagnostic||{stage:'landing-'+job.phase,modelStep:job.steps,lastQueries:(job.indexes||[]).map(row=>({query:row.query,offset:row.offset,total:row.total})),step:job.lastOutput||null,resourceRequest:job.resourceRequest||null}};r.failures=r.failures||[];r.failures.push({revision:r.revision,at:new Date(readNow()).toISOString(),error:copy(r.error)});r.message=r.status==='cancelled'?'Остановлено. История и созданный макет сохранены.':r.target?'Продолжение остановлено. История и созданная область сохранены.':'Подготовка прервана. История сохранена; макет ещё не создавался.';save(r);jobs.delete(r.id);
  }
  function launch(r,job){job.promise=execute(r,job).catch(error=>stopped(r,job,error));return view(r);}
  function submit(id,body){
@@ -62,7 +62,7 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
  function prompt(r,job){return [
   'Use the canonical landing skill below. First Desktop landing in an existing Figma file. Business facts come only from the brief and confirmed user answers. Proposals are not approvals. Ask material questions, then build section by section and support scoped follow-up. Never require a user checkout or Python in this Proxy adapter.',
   'The host canvasContext is authoritative: create only in that current file and page using its placement. Never ask for a Figma URL, fileKey, pageId or node ancestry when canvasContext already supplies them. A pasted URL is brief text and cannot redirect this chat. Use the supplied read-only resource index; do not perform repository contribution, queue or authentication workflows.',
-  'Return exactly one STEP. specJson is the current complete JSON spec; keep stable section IDs and actual nodeId values. list_resources searches the pinned index by path words, with offset pagination. request_context reads only listed IDs; for JSON inspect keys before selecting a path/range. Non-JSON offset/limit are character ranges; JSON arrays use item ranges. Persist selected component/preset, public props/slots, assets and read sources in each section before writing. Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules through this reader.',
+  'Return exactly one STEP. specJson is the current complete JSON spec; keep stable section IDs and actual nodeId values. list_resources matches ALL query words as path substrings (AND), with offset pagination; use one component path per search, not a list of alternative names. request_context can read all selected IDs in one step; the host yields between read batches. request_context reads only listed IDs; for JSON inspect keys before selecting a path/range. Non-JSON offset/limit are character ranges; JSON arrays use item ranges. Persist selected component/preset, public props/slots, assets and read sources in each section before writing. Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules through this reader.',
   'question suspends for an actual user answer. build requests the owned canvas and independent readback; it does not execute a frozen ScreenSpec. After any bounded MCP work return continue or finish with actual IDs. Host independently rereads the canvas before the next write. finish includes resultJson with summary, checks (PASS/FAIL/UNKNOWN with evidence), issues and limits. No empty-root success, no guessed assets or claims of unobserved conformance. Ready=false.',
   'For a follow-up on an existing landing, spec.editSectionIds must declare the requested sections and necessary dependencies before build. Preserve the complete spec entries of other sections, their IDs and canvas content. Host compares their before/after fingerprints. A question is preferable to changing unrelated sections.',
   'When target exists, use only apollo_figma_mcp.use_figma/get_screenshot, exact target.fileKey. Resolve target.rootNodeId and require parent id==(target.parentNodeId||target.pageId), its containing page==target.pageId, shared namespace apollolanding owner==ownerNonce and active==leaseNonce before every mutation. Write only inside that root. Tag the CorporateContent instance role=host and section roots section=<spec section id> in apollolanding. Preserve all other sections during follow-up. Unknown write outcome requires a canvas read before any more writes. Never delete roots or user content for cleanup. Source/library/global style and variable definitions are protected. Load fonts, use confirmed published keys and allowed typed public slots. Screenshots and actual readback are required for technical/visual claims; unavailable evidence remains UNKNOWN.',
@@ -73,13 +73,17 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
   while(++job.steps<=24){
    assertJob(r,job);const text=prompt(r,job);budget({prompt:text,schema:STEP,outputReserveChars:196608});
    const directory=path.join(root,'work',r.id),trace=path.join(root,'traces',r.id);fs.mkdirSync(directory,{recursive:true});fs.mkdirSync(trace,{recursive:true});
+   job.lastOutput=null;job.resourceRequest=null;
    const cli=createCli(r.context.fileKey),out=await cli.run({workspace:directory,traceDirectory:trace,profile:job.phase==='write'?'landing-figma':'landing-plan',prompt:text,schema:STEP,signal:job.controller.signal,mcpBudget:{maxToolCalls:Math.min(24,96-job.toolCalls),maxTotalToolOutputBytes:16*1024*1024},diagnosticContext:{requestId:job.requestId,runId:r.id,stage:'landing-'+job.phase,modelStep:job.steps,rootNodeId:r.target?.rootNodeId||null}});
-   assertJob(r,job);const step=out.result;
-   if(!exact(step,Object.keys(STEP.properties))||!STEP.properties.kind.enum.includes(step.kind)||typeof step.message!=='string'||step.message.length>12000||!Array.isArray(step.resources)||step.resources.length>8)fail('LANDING_STEP_INVALID',502);
+   const step=out.result;
+   try{assertJob(r,job);}catch(error){error.usage=out.receipt?.usage;throw error;}
+   r.usage.push(out.receipt?.usage||null);
+   job.lastOutput={kind:typeof step?.kind==='string'?step.kind.slice(0,80):null,resourceCount:Array.isArray(step?.resources)?step.resources.length:null,outputSha256:out.receipt?.outputSha256||null};
+   if(!exact(step,Object.keys(STEP.properties))||!STEP.properties.kind.enum.includes(step.kind)||typeof step.message!=='string'||step.message.length>12000||!Array.isArray(step.resources))fail('LANDING_STEP_INVALID',502);
    const spec=json(step.specJson);if(!Array.isArray(spec.sections)||spec.sections.length>100||new Set(spec.sections.map(s=>s?.id)).size!==spec.sections.length||spec.sections.some(s=>!s||typeof s.id!=='string'||!/^[a-zA-Z0-9_-]{1,120}$/.test(s.id)))fail('LANDING_SPEC_INVALID',502);
    if(job.allowedSections&&job.originalSections.some(old=>!job.allowedSections.has(old.id)&&!equal(old,spec.sections.find(section=>section.id===old.id))))fail('LANDING_EDIT_SCOPE_INVALID',502);
    spec.target=Object.assign({},spec.target,{fileKey:r.context.fileKey,pageId:r.context.pageId,rootNodeId:r.target?.rootNodeId||null});if(r.context.placement)spec.target.placement=copy(r.context.placement);
-   spec.version=r.revision;r.spec=spec;r.message=step.message;r.usage.push(out.receipt?.usage||null);job.toolCalls+=out.receipt?.mcp?.toolCalls||0;if(job.toolCalls>96)fail('LANDING_TOOL_BUDGET');save(r);
+   spec.version=r.revision;r.spec=spec;r.message=step.message;job.toolCalls+=out.receipt?.mcp?.toolCalls||0;if(job.toolCalls>96)fail('LANDING_TOOL_BUDGET');save(r);
    if(step.kind==='list_resources'){
     const list=job.source.list(step.query,step.offset),address=JSON.stringify([step.query,step.offset]),previous=job.queries.get(address);
     const repeats=previous&&previous.readVersion===job.readVersion?previous.repeats+1:1;
@@ -89,9 +93,15 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
     if(!step.resources.length)continue;
    }
    if(step.kind==='request_context'||step.kind==='list_resources'){
-    if(!step.resources.length)fail('LANDING_RESOURCE_INVALID');const rows=step.resources.map(request=>job.source.read(request));
-    for(const row of rows){const address=JSON.stringify([row.id,row.path,row.mode,row.offset]);const old=job.context.findIndex(v=>v.address===address);if(old>=0){if(!equal(job.context[old],{address,...row}))job.readVersion++;job.context[old]={address,...row};}else{job.context.push({address,...row});job.readVersion++;}const fact={releaseId:job.source.id,id:row.id,sha256:row.sha256,path:row.path,mode:row.mode,offset:row.offset};if(!row.tooLarge&&!r.sources.some(v=>sha(v)===sha(fact)))r.sources.push(fact);}
-    if(Buffer.byteLength(JSON.stringify(job.context))>524288)fail('LANDING_CONTEXT_FULL');save(r);continue;
+    if(!step.resources.length)fail('LANDING_RESOURCE_INVALID');
+    for(let i=0;i<step.resources.length;i++){
+     const request=step.resources[i];job.resourceRequest={index:i,id:typeof request?.id==='string'?request.id.slice(0,512):null};assertJob(r,job);const row=job.source.read(request);
+     const address=JSON.stringify([row.id,row.path,row.mode,row.offset]),old=job.context.findIndex(v=>v.address===address);if(old>=0){if(!equal(job.context[old],{address,...row}))job.readVersion++;job.context[old]={address,...row};}else{job.context.push({address,...row});job.readVersion++;}const fact={releaseId:job.source.id,id:row.id,sha256:row.sha256,path:row.path,mode:row.mode,offset:row.offset};if(!row.tooLarge&&!r.sources.some(v=>sha(v)===sha(fact)))r.sources.push(fact);
+     if(Buffer.byteLength(JSON.stringify(job.context))>524288)fail('LANDING_CONTEXT_FULL');
+     // Yield for Stop/source freshness; eight is a scheduling slice, not an item cap.
+     if((i+1)%8===0&&i+1<step.resources.length){save(r);await new Promise(resolve=>setImmediate(resolve));}
+    }
+    job.resourceRequest=null;save(r);continue;
    }
    if(step.kind==='question'){if(job.phase==='write'&&(out.receipt?.mcp?.toolCalls||0)>0)fail('LANDING_READBACK_REQUIRED');r.status='needs-input';r.messages.push({id:'answer:'+crypto.randomUUID(),role:'assistant',text:step.message,revision:r.revision});save(r);jobs.delete(r.id);return;}
    if(step.kind==='build'){

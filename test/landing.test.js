@@ -28,7 +28,7 @@ test('restart marks interrupted work honestly; no automatic duplicate root or mo
  const restarted=h.make().poll(r.id);assert.equal(restarted.status,'interrupted');assert.equal(restarted.target,null);assert.equal(restarted.messages.length,1);assert.equal(h.calls.length,1);
 });
 test('cancel aborts pending CLI and late reply cannot restore running or create a result',async t=>{
- let release;const h=harness(t,[()=>new Promise(resolve=>release=resolve)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));const settled=s.whenSettled(r.id);r=s.cancel(r.id);assert.equal(h.calls[0].signal.aborted,true);release(step('build'));await settled;r=s.poll(r.id);assert.equal(r.status,'cancelled');assert.equal(r.result,null);assert.equal(r.target,null);
+ let release;const h=harness(t,[()=>new Promise(resolve=>release=resolve)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));const settled=s.whenSettled(r.id);r=s.cancel(r.id);assert.equal(h.calls[0].signal.aborted,true);release(step('build'));await settled;r=s.poll(r.id);assert.equal(r.status,'cancelled');assert.equal(r.result,null);assert.equal(r.target,null);assert.equal(r.usage.length,1,'a measured late reply is retained without applying its result');
 });
 test('pinned source drift stops before the next worker and keeps the spec and first diagnostic',async t=>{
  const h=harness(t,[step('build')]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);h.stale();assert.throws(()=>s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()}),/STALE/);assert.equal(h.calls.length,1);assert.equal(s.poll(r.id).spec.sections.length,1);assert.equal(s.poll(r.id).status,'interrupted');assert.equal(s.isBusy(),false);
@@ -61,4 +61,25 @@ test('alternating resource searches keep both index results and stop with precis
 test('a list step can also read its requested pinned resources, avoiding another model round',async t=>{
  const h=harness(t,[{...step('list_resources'),query:'doc',resources:[{id:'doc',mode:'read',path:[],offset:0,limit:1000}]},options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));assert.equal(state.resources[0].text,'synthetic source');return step('build');}]);
  const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);assert.equal(h.service.poll(r.id).status,'awaiting-canvas');assert.equal(h.calls.length,2);
+});
+
+const batchResources=()=>Array.from({length:20},(_,i)=>({id:'doc-'+i,mode:'read',path:[],offset:0,limit:1000}));
+test('all twenty requested documents reach the next planner step without an undeclared batch cap',async t=>{
+ const h=harness(t,[{...step('request_context'),resources:batchResources()},options=>{
+  const state=JSON.parse(options.prompt.split('\n').at(-1));assert.equal(state.resources.length,20);assert.equal(new Set(state.resources.map(row=>row.id)).size,20);assert.match(options.prompt,/matches ALL query words/);return step('build');
+ }]);
+ const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const final=h.service.poll(r.id);
+ assert.equal(final.status,'awaiting-canvas');assert.equal(final.sources.length,20);assert.equal(final.usage.length,2);assert.equal(h.calls.length,2);assert.equal(final.error,null);h.service.cancel(r.id);
+});
+test('Stop interrupts a resource batch before the next slice, preserving measured usage and late-result rejection',async t=>{
+ let r;const h=harness(t,[()=>{setImmediate(()=>h.service.cancel(r.id));return {...step('request_context'),resources:batchResources()};}]);r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);r=h.service.poll(r.id);
+ assert.equal(r.status,'cancelled');assert.equal(r.sources.length,8);assert.equal(r.usage.length,1);assert.equal(r.target,null);assert.equal(h.calls.length,1);assert.equal(h.service.isBusy(),false);
+});
+test('source drift is still rejected between resource slices with the exact request and usage retained',async t=>{
+ const h=harness(t,[()=>{setImmediate(h.stale);return {...step('request_context'),resources:batchResources()};}]);const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const final=h.service.poll(r.id);
+ assert.equal(final.status,'interrupted');assert.equal(final.error.code,'LANDING_DATA_STALE');assert.equal(final.error.diagnostic.step.resourceCount,20);assert.deepEqual(final.error.diagnostic.resourceRequest,{index:8,id:'doc-8'});assert.equal(final.sources.length,8);assert.equal(final.usage.length,1);assert.equal(h.calls.length,1);
+});
+test('an invalid model step retains its measured usage and observed step shape in the first failure',async t=>{
+ const h=harness(t,[step('not-a-step')]),r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const final=h.service.poll(r.id);
+ assert.equal(final.status,'interrupted');assert.equal(final.error.code,'LANDING_STEP_INVALID');assert.equal(final.error.diagnostic.step.kind,'not-a-step');assert.equal(final.error.diagnostic.step.resourceCount,0);assert.equal(final.usage.length,1);assert.equal(final.usage[0].actualInputTokens,1);assert.equal(final.failures[0].error.code,'LANDING_STEP_INVALID');assert.equal(final.target,null);
 });
