@@ -100,3 +100,37 @@ test('unmanaged text from a different card cannot prove the purpose of this Link
  result.assessments[0].ruleResults[0].evidenceNodeIds.push('1:201');updateEvidence(result.assessments[0]);
  assert.throws(()=>base.validatePilotResponse(result,packet),/FOREIGN_CONTEXT/);
 });
+
+
+test('V3 resolves all eight Link rules and refuses unresolved standalone or nested Link identities', async t => {
+  const f = await fixture(t, pilot.LINK_PILOT);
+  assert.equal((await prepare(f)).subjects[0].ruleIds.length, 8);
+  for (const entries of [[{contract:'link.universal'}],[{contract:'button.desktop'},{contract:'link.universal',parent:'1:10'}]]) {
+    const input = payload(f.capture(entries), pilot.LINK_PILOT);
+    const node = input.report.capture.nodes.find(node => node.component?.name === 'link');
+    node.component.setKey = 'f'.repeat(40);
+    delete input.report.capture.fingerprint; input.report.capture.fingerprint = base.sha(base.stable(input.report.capture));
+    await assert.rejects(base.preparePilot(input, f.options), /PATTERN_IDENTITY_UNRESOLVED/);
+  }
+});
+
+test('V3 prompt and validator allow only the captured ancestor host exception, rejecting sibling and other-Link evidence', async t => {
+  const f = await fixture(t, pilot.LINK_PILOT), packet = await prepare(f, [
+    {contract:'button.desktop'}, {contract:'link.universal',parent:'1:10'},
+    {contract:'button.desktop'}, {contract:'link.universal'},
+  ]);
+  const prompt = base.promptForPilot(packet);
+  assert.match(prompt, /Исключение Link:/);
+  assert.match(prompt, /ancestor-host/);
+  assert.match(prompt, /subject.contextNodeIds/);
+  assert.match(prompt, /sibling-subject и другой Link/);
+  assert.doesNotMatch(prompt, /единственное исключение — другие Amount/);
+  const valid = answer(packet), item = valid.assessments.find(item => item.nodeId === '1:20');
+  item.ruleResults[0].evidenceNodeIds.push('1:10','1:11'); updateEvidence(item);
+  assert.doesNotThrow(() => base.validatePilotResponse(valid, packet));
+  for (const foreign of ['1:30','1:31','1:40','1:41']) {
+    const wrong = clone(valid), current = wrong.assessments.find(item => item.nodeId === '1:20');
+    current.ruleResults[0].evidenceNodeIds.push(foreign); updateEvidence(current);
+    assert.throws(() => base.validatePilotResponse(wrong, packet), /PATTERN_RESPONSE_FOREIGN_CONTEXT/);
+  }
+});

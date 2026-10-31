@@ -157,3 +157,26 @@ test('actual packet caller routes v1 and v2 through the fixed pilot prompt and k
   const invalid = payload(f.capture(mixed)); invalid.report.pilot = 'unaccepted-pilot';
   assert.notEqual(base.validatePilotRequest(invalid), null);
 });
+
+
+test('V2 ignores unsupported Link in mixed and Link-only captures without suppressing a supported Button', async t => {
+  const f = await fixture(t, pilot.LINK_PILOT);
+  const mixed = await base.preparePilot(payload(f.capture([{contract:'button.desktop'},{contract:'link.universal'}])), f.options);
+  assert.deepEqual(mixed.subjects.map(subject => subject.family), ['button']);
+  assert.deepEqual(mixed.requestedRuleIds, pilot.RULES.filter(rule => rule.family === 'button').map(rule => rule.id));
+  const onlyLink = await base.preparePilot(payload(f.capture([{contract:'link.universal'}])), f.options);
+  assert.deepEqual(onlyLink.subjects, []); assert.deepEqual(onlyLink.requestedRuleIds, []);
+});
+
+test('V2 still rejects an unresolved supported Button while skipping unsupported Link identities', async t => {
+  const f = await fixture(t, pilot.LINK_PILOT), capture = f.capture([{contract:'button.desktop'}]);
+  capture.nodes[2].component.setKey = 'e'.repeat(40);
+  await assert.rejects(base.preparePilot(payload(rehash(capture)), f.options), /PATTERN_IDENTITY_UNRESOLVED/);
+});
+
+test('V2 retains the Amount-only cross-subject evidence prompt policy', async t => {
+  const f = await fixture(t), packet = await base.preparePilot(payload(f.capture([{contract:'button.desktop'}])), f.options);
+  const prompt = base.promptForPilot(packet);
+  assert.match(prompt, /единственное исключение — другие Amount/);
+  assert.doesNotMatch(prompt, /Исключение Link:/);
+});

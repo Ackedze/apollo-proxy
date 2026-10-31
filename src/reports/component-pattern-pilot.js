@@ -64,14 +64,16 @@ async function readIdentities(options, mode = PILOT) {
 }
 function resolveSubjects(capture, registry) {
   const subjects = [], byNode = new Map(), parents = new Map(capture.nodes.map(node => [node.id, node.parentId]));
+  const linkSupported = registry.contracts.some(item => item.family === 'link');
   for (const node of capture.nodes) {
     let ancestor = node.parentId, governed = false;
     while (ancestor) { if (byNode.has(ancestor)) { governed = true; break; } ancestor = parents.get(ancestor); }
     if (!node.component) continue;
     const c = node.component, identity = registry.contracts.find(item => item.contract.componentKey === (c.setKey || c.key));
-    if (governed && identity?.family !== 'link') continue;
+    const looksLikeLink = linkSupported && /(?:^|\]\s*)Link\b/i.test(c.name);
+    if (governed && identity?.family !== 'link' && !looksLikeLink) continue;
     if (!identity) {
-      if (/(?:^|\]\s*)(?:ProgressBar\s*::\s*(?:Goal|Limit)|Amount|Button|IconButton|Link)\b/i.test(c.name)) fail('PATTERN_IDENTITY_UNRESOLVED');
+      if (/(?:^|\]\s*)(?:ProgressBar\s*::\s*(?:Goal|Limit)|Amount|Button|IconButton)\b/i.test(c.name) || looksLikeLink) fail('PATTERN_IDENTITY_UNRESOLVED');
       continue;
     }
     const { contract, family, profile } = identity, variants = contract.figma.variants.variantKeys;
@@ -179,7 +181,9 @@ function promptForPilot(packet) {
     'Button: подпись должна называть действие, а не объект или процесс. Не проверяй реальную программную обработку клика. Если вариант SingleIcon=True и видимой текстовой подписи не предусмотрено, правило подписи not-applicable.',
     'IconButton: оцени понятность действия по видимому контексту. Явно одинокая непонятная иконка в наблюдаемом блоке — нарушение; если выбран только IconButton и внешнего контекста нет в capture, это insufficient-data. Не выдумывай скрытые tooltip, действия и подписи.',
     ...(packet.transport.mode === LINK_PILOT ? [link.INSTRUCTIONS] : []),
-    'Для каждого subject верни ровно один assessment, ruleIds ровно subject.ruleIds, ruleResults ровно по каждому из этих правил. Каждый ruleResult.evidenceNodeIds обязан содержать subject.nodeId и только реальные IDs из capture. Чужие subjects и их внутренние тексты не являются доказательством; единственное исключение — другие Amount в той же наблюдаемой колонке для правила table-currency-not-duplicated. Не используй это исключение для денежного назначения Amount или правил Goal/Limit.',
+    packet.transport.mode === LINK_PILOT
+      ? 'Для каждого subject верни ровно один assessment, ruleIds ровно subject.ruleIds, ruleResults ровно по каждому из этих правил. Каждый ruleResult.evidenceNodeIds обязан содержать subject.nodeId и только реальные IDs из capture. Чужие subjects и их внутренние тексты не являются доказательством. Исключение Amount: другие Amount в той же наблюдаемой колонке для правила table-currency-not-duplicated; не используй это исключение для денежного назначения Amount или правил Goal/Limit. Исключение Link: захваченный ancestor-host subject другого семейства и его допустимые узлы могут быть доказательством для вложенного Link только внутри subject.contextNodeIds. sibling-subject и другой Link, включая их внутренние тексты, запрещены.'
+      : 'Для каждого subject верни ровно один assessment, ruleIds ровно subject.ruleIds, ruleResults ровно по каждому из этих правил. Каждый ruleResult.evidenceNodeIds обязан содержать subject.nodeId и только реальные IDs из capture. Чужие subjects и их внутренние тексты не являются доказательством; единственное исключение — другие Amount в той же наблюдаемой колонке для правила table-currency-not-duplicated. Не используй это исключение для денежного назначения Amount или правил Goal/Limit.',
     'assessment.evidenceNodeIds — точное объединение evidenceNodeIds его ruleResults. sourceRefs — по одной ссылке на canonical-<profile> с точным полным sha256 файла для каждого ruleId. Не выдумывай RuleID, цитаты, узлы, источники или уверенность.',
     'outcome: violation при любом нарушенном правиле, иначе insufficient-data при нехватке данных, иначе compliant при соответствии применимому правилу, иначе not-applicable. Для каждого вывода дай короткие observation и reason по фактам. Не проверяй стили, геометрию, математику, состояния и детерминированные правила.',
     'Сохрани reportId, captureId и sourcePin. Верни только JSON по схеме.',
