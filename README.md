@@ -1,5 +1,14 @@
 # apollo-proxy
 
+Пакет знаний автоматически включает `apollo/deprecated-styles.index.json`,
+собранный из `apollo/deprecated-style-policy.json` и упакованных style-каталогов
+`design-system_ab`. Индекс содержит версию/дату политики, ключи и типы стилей,
+pins источников и собственный hash. `GET /v1/style-token-catalog/deprecated-styles`
+отдаёт только индекс выбранного установленного пакета после сверки его pins и
+повторного вычисления. Отсутствующий/повреждённый индекс не подменяется данными
+checkout и не считается пустым успешным результатом. Существующие catalog
+reader pins и права автоматических замен не меняются.
+
 [Общий старт агента](https://github.com/Ackedze/apollo/blob/main/docs/AGENT_START_PROMPT.md) · [Карта проекта](docs/PROJECT_GUIDE.md) · [Контрибьютинг](CONTRIBUTING.md) · [Установка приложения](macos-app/DELEGATION.md)
 
 Apollo Proxy — локальный HTTP-сервис для Figma-плагина Apollo. Он поставляет

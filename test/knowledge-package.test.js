@@ -563,6 +563,8 @@ test('knowledge provenance follows the declared catalog set as it grows and reje
   catalogs.push({ path: 'styles/style.json', fileName: 'Style' });
   for (const entry of catalogs) await write('JSONS/' + entry.path, { meta: { library: 'Fixture', fileName: entry.fileName }, ...(entry.path.startsWith('tokens/') ? { collections: [] } : { styles: [] }) });
   await write('JSONS/referenceSourcesMVP.json', { catalogs });
+  await write('apollo/deprecated-style-policy.json', { schemaVersion:'apollo.deprecated-style-policy.v1',version:1,createdAt:'2026-10-31T00:00:00Z',deprecatedSources:['JSONS/styles/style.json'] });
+  await write('JSONS/styles/style.json', {meta:{library:'Synthetic styles',fileName:'Style'},styles:[{key:'a'.repeat(40),type:'paint',name:'Synthetic obsolete style'}]});
   const options = { 'design-system-root': designRoot, 'ds-ai-hub-root': hubRoot,
     'design-system-commit': SOURCE_COMMITS['design-system_ab'], 'ds-ai-hub-commit': SOURCE_COMMITS['ds-ai-hub'],
     'generated-at': '2026-10-28T00:00:00Z', output: path.join(root, 'output'), channel: 'stable',
@@ -573,6 +575,17 @@ test('knowledge provenance follows the declared catalog set as it grows and reje
   assert.equal(provenance.sourcePins.length, 25);
   const loaded = require('../src/style-token-catalog/inventory').loadPackageSnapshot(built.packageRoot);
   assert.equal(loaded.rawCatalogs.size, 25); loaded.assertFresh();
+  const lifecycle=require('../src/style-token-catalog/deprecated-styles');
+  const index=lifecycle.readPackagedIndex(built.packageRoot,loaded);
+  assert.equal(index.styles[0].key,'a'.repeat(40));assert.equal(index.styles[0].status,'deprecated');
+  assert.ok(built.manifest.artifacts.some(a=>a.path===lifecycle.INDEX));
+  let handler;lifecycle.mountDeprecatedStyleRoutes({get:(route,fn)=>{assert.equal(route,lifecycle.ROUTE);handler=fn;}},{designSystemRoot:path.join(built.packageRoot,'data/design-system_ab'),getSnapshot:()=>loaded});
+  let response;const res={set:()=>res,status:n=>{response={status:n};return res;},json:body=>{response=Object.assign({status:200},response,{body});}};
+  handler({query:{}},res);assert.equal(response.status,200);assert.equal(response.body.indexId,index.indexId);
+  const indexFile=path.join(built.packageRoot,lifecycle.INDEX),before=await fsp.readFile(indexFile);
+  await fsp.writeFile(indexFile,JSON.stringify(Object.assign({},index,{styles:[]})));
+  handler({query:{}},res);assert.equal(response.status,409);assert.equal(response.body.error,'SOURCE_DRIFT');
+  await fsp.writeFile(indexFile,before);
   await write('JSONS/tokens/extra.json', { meta: {}, collections: [] });
   await assert.rejects(buildKnowledgePackage(options), { code: 'KNOWLEDGE_CATALOG_REFERENCE_MISMATCH' });
   await fsp.unlink(path.join(designRoot, 'JSONS/tokens/extra.json'));

@@ -1521,9 +1521,13 @@ namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
 });
 require('./src/landing/retired').mountRetiredGenerationRoutes(app);
 const landingRuntime=require('./src/landing/runtime').mountConfiguredLandingRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT});
-mountStyleTokenCatalogRoutes(app, {
+const styleTokenCatalogProvider=mountStyleTokenCatalogRoutes(app, {
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+});
+require('./src/style-token-catalog/deprecated-styles').mountDeprecatedStyleRoutes(app, {
+  designSystemRoot: CODEX_DESIGN_SYSTEM,
+  getSnapshot: () => styleTokenCatalogProvider().snapshot,
 });
 
 app.post('/v1/validate/predicates', (req, res) => {

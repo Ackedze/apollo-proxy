@@ -413,6 +413,7 @@ async function extendPackageWithCatalogs(options) {
 }
 
 async function writeCatalogProvenance(designRoot,packageRoot,sourceCommit){
+  require('../src/style-token-catalog/deprecated-styles').writePackagedIndex(packageRoot);
   const referencePath=path.join(designRoot,'JSONS/referenceSourcesMVP.json');
   if(!(await fsp.stat(referencePath).catch(()=>null))?.isFile())return;
   const referenceBytes=await fsp.readFile(referencePath);
