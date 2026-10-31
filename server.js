@@ -1639,7 +1639,7 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
       const prepared = await progressBarPilot.preparePilot(payload, { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtime.knowledge });
       if (payload.report.phase === 'prepare') {
         res.json({ success: true, preparation: { pilot: prepared.transport.mode, reportId: prepared.reportId, captureId: prepared.captureId, sourcePin: prepared.sourcePin,
-          requestedRuleIds: prepared.requestedRuleIds,
+          requestedRuleIds: prepared.requestedRuleIds, declaredContext: prepared.declaredContext || null,
           knowledge: prepared.knowledge, subjects: prepared.subjects, sources: prepared.sources.map(({ sourceId, path, sha256 }) => ({ sourceId, path, sha256 })) } }); return;
       }
       begin();

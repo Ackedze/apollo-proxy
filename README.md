@@ -1084,3 +1084,32 @@ Pending-очередь ограничена 32 MiB; при заполнении 
 В логах различаются локальное принятие и ошибки окончательной доставки.
 Рабочий UI не требует retry/export или обслуживания статистики пользователем.
 Новая функция не заменяет существующий журнал токенов `/usage`.
+
+
+### Контекстные правила Link
+
+`component-patterns-v3` добавляет все восемь контекстных правил Link из
+`patterns/p_link.md`: supported-actions, pseudo-link, no-underline-exception,
+context-color, cards-actions, component-context, self-contained-text, punctuation.
+Каждый опубликованный `link.universal` получает восемь отдельных результатов.
+Проверка распространяется на библиотечные Link, включая вложенные публичные
+экземпляры. Произвольные гиперссылки внутри TEXT не объявляются экземплярами Link.
+
+Для нового запроса обязателен `report.context` с `basis: audit-settings`,
+`channel: ab | other | null`, `platform: desktop | mobile-web | ios | android | null`.
+Это объявленная область проверки, а не факт о платформе макета. Неизвестная
+применимость даёт insufficient-data; подтверждённая область вне AB desktop —
+not-applicable для Link. Контекст включён в sourcePin и возвращается prepare/run.
+
+Нормативный источник Link — целый canonical MD из принятого knowledge snapshot.
+Hub-копия не объявляется эквивалентной. Маршрут всех 15 RuleID зафиксирован в
+`src/reports/link-pattern-context.js`; смена состава требует пересмотра покрытия.
+Точные стили/токены, размеры и фактическая навигация не входят в агентский verdict;
+это contextual scope, не полный аудит компонента или исходного смешанного RuleID.
+Соседняя Link не может служить доказательством назначения текущего экземпляра.
+Недостаточный контекст и конфликты не превращаются в нарушение или PASS.
+
+V1/V2 сохранены. Для нового UI нужен Proxy с V3; данные не обновляют код.
+Нормативные источники, контракты и установленная программа этим изменением не меняются.
+Автоматические проверки: `node --test test/component-pattern-pilot.test.js
+ test/link-pattern-context.test.js test/link-pattern-http.test.js` (одной командой).
