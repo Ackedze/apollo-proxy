@@ -54,7 +54,9 @@ function openKnowledge({releaseRoot,runtimeRoot}){
  for(const id of required.concat(['README.md'].map(file=>base+file).filter(id=>resources.has(id)))){
   let offset=0;do{const row=read({id,offset,limit:16000});if(row.tooLarge)fail('LANDING_REQUIRED_KNOWLEDGE_MISSING');norms.push(row);offset=row.next;}while(offset!==null);
  }
+ const assetSources={};
+ for(const [role,match] of Object.entries({glyph26Metadata:id=>id==='knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json',glyph26Index:id=>id==='knowledge/data/design-system_ab/JSONS/indexes/icons/Icons -- glyph-26.index.json',corpImageCatalogs:id=>id.startsWith('knowledge/data/design-system_ab/JSONS/images/'),corpImageIndexes:id=>id.startsWith('knowledge/data/design-system_ab/JSONS/indexes/images/')})){const ids=[...resources.keys()].filter(match).sort();assetSources[role]={available:ids.length>0,ids};}
  return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,assertCurrent,read,list,
-  initial:{skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions:skill.bodies,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list('products/ab/patterns/')}};
+  initial:{assetSources,skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions:skill.bodies,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list('products/ab/patterns/')}};
 }
 module.exports={readLandingSkill,openKnowledge};

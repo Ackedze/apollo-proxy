@@ -15,7 +15,16 @@ const {
 
 const TEXT_DATA_EXTENSIONS = new Set(['.json', '.md', '.yaml', '.yml', '.txt']);
 const DESIGN_RUNTIME_ARTIFACT_ROLES = new Set(['rules', 'composition', 'generatedContract']);
+const DESIGN_ASSET_FILES = [
+  'JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json',
+  'JSONS/images/Сorp _ Image Library -- Вспомогательные имиджи.json',
+  'JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json',
+  'JSONS/indexes/images/Сorp _ Image Library -- Вспомогательные имиджи.index.json',
+  'JSONS/indexes/icons/Icons -- glyph-26.index.json',
+];
+const HUB_ASSET_FILES = ['core/web/assets/assets_glyph-26.json'];
 const DESIGN_GIT_INPUT_PATHS = [
+  ...DESIGN_ASSET_FILES,
   'JSONS/apollo',
   'JSONS/tokens',
   'JSONS/styles',
@@ -38,6 +47,7 @@ const HUB_DATA_ROOTS = [
   'core/web/components',
 ];
 const HUB_GIT_INPUT_PATHS = [
+  ...HUB_ASSET_FILES,
   ...HUB_DATA_ROOTS,
   'AGENTS.md',
   'README.md',
@@ -106,7 +116,7 @@ async function collectDesignSystemFiles(root) {
   await addTree('apollo', TEXT_DATA_EXTENSIONS, (item) => !item.startsWith('knowledge/channels/'));
   await addTree('patterns', TEXT_DATA_EXTENSIONS);
   await addTree('redpolrules', TEXT_DATA_EXTENSIONS);
-  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md']) {
+  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md', ...DESIGN_ASSET_FILES]) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   const indexPath = path.join(root, 'JSONS/apollo/indexes/componentContractIndex.json');
@@ -197,7 +207,7 @@ async function collectDsAiHubFiles(root) {
       result.add(path.posix.join(relativeRoot, relative));
     }
   }
-  for (const fileName of ['AGENTS.md', 'README.md', 'CONTRACT.md']) {
+  for (const fileName of ['AGENTS.md', 'README.md', 'CONTRACT.md', ...HUB_ASSET_FILES]) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   return [...result].sort();

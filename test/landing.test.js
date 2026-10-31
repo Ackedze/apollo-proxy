@@ -83,3 +83,49 @@ test('an invalid model step retains its measured usage and observed step shape i
  const h=harness(t,[step('not-a-step')]),r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const final=h.service.poll(r.id);
  assert.equal(final.status,'interrupted');assert.equal(final.error.code,'LANDING_STEP_INVALID');assert.equal(final.error.diagnostic.step.kind,'not-a-step');assert.equal(final.error.diagnostic.step.resourceCount,0);assert.equal(final.usage.length,1);assert.equal(final.usage[0].actualInputTokens,1);assert.equal(final.failures[0].error.code,'LANDING_STEP_INVALID');assert.equal(final.target,null);
 });
+
+test('initial assembly with prior planning sections: repeat build reads same root, not follow-up scope',async t=>{
+ const built=spec(['hero','details']);built.editSectionIds=[];const final=copyForTest(built);final.sections.forEach((s,i)=>s.nodeId=`2:${i+1}`);
+ const h=harness(t,[step('question',built),step('build',built),step('build',built),step('finish',final)]),s=h.service;
+ let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
+ s.submit(r.id,message(r,'Confirmed'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');
+ s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);
+ assert.equal(r.status,'awaiting-readback',JSON.stringify(r.error));assert.equal(r.result,null);assert.equal(r.target.rootNodeId,'1:1');assert.equal(r.error,null);
+ s.observation(r.id,{revision:r.revision,readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');
+ r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),[section('hero','2:1'),section('details','2:2')])});assert.equal(r.status,'completed');assert.equal(r.result.Ready,false);
+});
+function copyForTest(v){return JSON.parse(JSON.stringify(v));}
+
+test('repeat build cannot reset outsideHash baseline or bypass independent readback',async t=>{
+ const h=harness(t,[step('build'),step('build')]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
+ s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');
+ assert.throws(()=>s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()}),/STALE/);
+ assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:{...canvasRead(),outsideHash:'e'.repeat(64)}}),/UNREQUESTED/);assert.equal(s.poll(r.id).error.code,'LANDING_UNREQUESTED_CONTENT_CHANGED');
+});
+
+test('a later user request still requires explicit edit IDs, including existing empty owned roots',async t=>{
+ const h=harness(t,[step('build'),step('question'),step('build')]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
+ // Preserve an interrupted owned root as a real later request, without native calls.
+ s.cancel(r.id);r=s.poll(r.id);const persisted=JSON.parse(fs.readFileSync(path.join(h.root,r.id+'.json')));persisted.target=target();persisted.readback=canvasRead();fs.writeFileSync(path.join(h.root,r.id+'.json'),JSON.stringify(persisted));
+ const restarted=h.make();restarted.submit(r.id,message(r,'Resume'));await restarted.whenSettled(r.id);r=restarted.poll(r.id); // question
+ restarted.submit(r.id,message(r,'Proceed'));await restarted.whenSettled(r.id);r=restarted.poll(r.id);assert.equal(r.error.code,'LANDING_EDIT_SCOPE_INVALID');assert.equal(r.target.rootNodeId,'1:1');
+});
+
+test('repeated follow-up build cannot expand the accepted edit scope',async t=>{
+ const built=spec(['hero','details']);built.sections[0].nodeId='2:1';built.sections[1].nodeId='2:2';const follow=copyForTest(built);follow.editSectionIds=['hero'];const broad=copyForTest(follow);broad.editSectionIds=['hero','details'];
+ const h=harness(t,[step('build',built),step('finish',built),step('build',follow),step('build',broad)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);const rows=[section('hero','2:1'),section('details','2:2')];r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),rows)});
+ s.submit(r.id,message(r,'Hero only'));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead(target(),rows)});await s.whenSettled(r.id);assert.equal(s.poll(r.id).error.code,'LANDING_EDIT_SCOPE_INVALID');
+});
+
+test('repeat build at step24 keeps budget and usage, no false edit-scope error',async t=>{
+ const actual=[step('build'),step('build')];
+ const fill=Array.from({length:22},(_,i)=>({...step('request_context'),resources:[{id:'doc'+i,mode:'read',path:[],offset:0,limit:100}]}));const h=harness(t,[...fill,...actual]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback',JSON.stringify(r.error));assert.equal(r.usage.length,24);s.observation(r.id,{revision:r.revision,readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.error.code,'LANDING_STEP_BUDGET');assert.equal(r.result,null);assert.equal(h.calls.length,24);
+});
+
+test('asset projection includes exact glyph metadata and source image/key indexes without raw glyph29MB',async t=>{
+ const builder=require('../scripts/build-knowledge-package');const temp=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'landing-asset-')));t.after(()=>fs.rmSync(temp,{recursive:true,force:true}));
+ const put=(p,v)=>{fs.mkdirSync(path.dirname(path.join(temp,p)),{recursive:true});fs.writeFileSync(path.join(temp,p),JSON.stringify(v));};
+ put('JSONS/apollo/indexes/componentContractIndex.json',{schemaVersion:2,packages:[]});
+ const assets=['JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json','JSONS/images/Сorp _ Image Library -- Вспомогательные имиджи.json','JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json','JSONS/indexes/images/Сorp _ Image Library -- Вспомогательные имиджи.index.json','JSONS/indexes/icons/Icons -- glyph-26.index.json'];for(const p of assets)put(p,{});put('JSONS/icons/Icons -- glyph-26.json',{});put('core/web/assets/assets_glyph-26.json',{synthetic:{size:24}});
+ const ds=await builder.collectDesignSystemFiles(temp),hub=await builder.collectDsAiHubFiles(temp);for(const p of assets)assert(ds.includes(p),p);assert(!ds.includes('JSONS/icons/Icons -- glyph-26.json'));assert(hub.includes('core/web/assets/assets_glyph-26.json'));assert(ds.includes('JSONS/apollo/indexes/componentContractIndex.json'));
+});

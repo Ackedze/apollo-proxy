@@ -27,3 +27,38 @@ test('retired generation endpoints return 410 without invoking a model or touchi
 test('missing mandatory hub instructions is reported before model execution',t=>{
  const f=fixture(t);f.manifest.files=f.manifest.files.filter(p=>p.file!=='knowledge/data/ds-ai-hub/AGENTS.md');f.manifest.id=releases.idOf(f.manifest);f.put(f.releaseRoot,'manifest.json',f.manifest);assert.throws(()=>f.source(),{code:'LANDING_REQUIRED_KNOWLEDGE_MISSING'});
 });
+
+test('asset roles expose absence explicitly and exact pinned Unicode IDs when published',t=>{
+ const f=fixture(t);let source=f.source();for(const role of ['glyph26Metadata','glyph26Index','corpImageCatalogs','corpImageIndexes'])assert.deepEqual(source.initial.assetSources[role],{available:false,ids:[]});
+ const files=['knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json','knowledge/data/design-system_ab/JSONS/indexes/icons/Icons -- glyph-26.index.json','knowledge/data/design-system_ab/JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json','knowledge/data/design-system_ab/JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json'];
+ for(const file of files)f.manifest.files.push(f.put(f.releaseRoot,file,{synthetic:'fixture'}));f.manifest.id=releases.idOf(f.manifest);f.put(f.releaseRoot,'manifest.json',f.manifest);source=f.source();for(const role of Object.keys(source.initial.assetSources))assert.equal(source.initial.assetSources[role].available,true);
+ assert.equal(source.list('Corp Image Library').total,0,'ASCII Corp must not be assumed to match Cyrillic Сorp');const id=source.initial.assetSources.corpImageCatalogs.ids[0];assert.equal(JSON.parse(source.read({id,mode:'keys'}).text)[0],'synthetic');assert.throws(()=>source.read({id:'../../private'}),/INVALID/);
+});
+
+
+test('landing assets survive knowledge packaging and addressed release reads with integrity guards',async t=>{
+ const f=fixture(t),builder=require('../scripts/build-knowledge-package');
+ const parent=path.dirname(f.releaseRoot),ds=path.join(parent,'ds'),hub=path.join(parent,'hub');
+ const putSource=(root,file,body)=>f.put(root,file,body);
+ putSource(ds,'JSONS/apollo/indexes/componentContractIndex.json',{schemaVersion:2,packages:[{componentKey:'fixture',packagePath:'web/components/fixture',artifacts:{}}]});
+ putSource(ds,'JSONS/apollo/designPatternRules.json',{rules:[]});putSource(ds,'redpolrules/dictionary.json',{rules:[]});
+ putSource(hub,'AGENTS.md','Synthetic instructions');putSource(hub,'products/ab/manifest.json',{});
+ for(const name of ['landing-pages','business-segment-styles','draft-layout'])putSource(hub,`products/ab/patterns/${name}.md`,'Synthetic rules');
+ putSource(hub,'products/ab/components/fixture/meta.json',{});putSource(hub,'core/web/components/fixture/meta.json',{});
+ const glyph='core/web/assets/assets_glyph-26.json';putSource(hub,glyph,{SyntheticIcon:{size:24,figma:'synthetic'}});
+ const catalogs=['JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json','JSONS/images/Сorp _ Image Library -- Вспомогательные имиджи.json','JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json','JSONS/indexes/images/Сorp _ Image Library -- Вспомогательные имиджи.index.json','JSONS/indexes/icons/Icons -- glyph-26.index.json'];
+ for(const name of catalogs)putSource(ds,name,{components:[{key:'synthetic-key'}]});
+ const built=await builder.buildKnowledgePackage({'design-system-root':ds,'ds-ai-hub-root':hub,output:path.join(parent,'package-output'),'design-system-commit':'1'.repeat(40),'ds-ai-hub-commit':'2'.repeat(40),'generated-at':'2026-10-31T00:00:00Z',directoryOnly:true,channel:'stable',minEngine:'1.0.1',maxEngine:'1.0.1'});
+ const expected=['data/ds-ai-hub/'+glyph,...catalogs.map(p=>'data/design-system_ab/'+p)];
+ for(const file of expected){const artifact=built.manifest.artifacts.find(a=>a.path===file);assert(artifact,file);assert.equal(artifact.sha256,catalog.sha(fs.readFileSync(path.join(built.packageRoot,file))))}
+ // Package the exact built bytes under the release knowledge/ prefix; preserve fixture skill pins.
+ fs.rmSync(path.join(f.releaseRoot,'knowledge'),{recursive:true});fs.cpSync(built.packageRoot,path.join(f.releaseRoot,'knowledge'),{recursive:true});
+ f.manifest.files=f.manifest.files.filter(p=>!p.file.startsWith('knowledge/'));
+ function collect(dir){for(const entry of fs.readdirSync(dir,{withFileTypes:true})){const file=path.join(dir,entry.name);if(entry.isDirectory())collect(file);else{const bytes=fs.readFileSync(file);f.manifest.files.push({file:path.relative(f.releaseRoot,file).split(path.sep).join('/'),sha256:catalog.sha(bytes),bytes:bytes.length})}}}
+ collect(path.join(f.releaseRoot,'knowledge'));f.manifest.id=releases.idOf(f.manifest);f.put(f.releaseRoot,'manifest.json',f.manifest);
+ const source=f.source();assert.equal(source.initial.assetSources.corpImageCatalogs.ids.length,2);assert.equal(source.initial.assetSources.corpImageIndexes.ids.length,2);assert.equal(source.initial.assetSources.glyph26Index.ids.length,1);
+ const id=source.initial.assetSources.glyph26Metadata.ids[0];assert.equal(JSON.parse(source.read({id,mode:'keys'}).text)[0],'SyntheticIcon');assert.equal(JSON.parse(source.read({id,path:['SyntheticIcon'],mode:'read'}).text).size,24);
+ const imageId=source.initial.assetSources.corpImageCatalogs.ids[0];assert.equal(JSON.parse(source.read({id:imageId,path:['components'],mode:'read',offset:0,limit:1}).text)[0].key,'synthetic-key');
+ assert.throws(()=>source.read({id:'knowledge/data/ds-ai-hub/core/web/assets/../../secret.json'}),/INVALID/);
+ fs.appendFileSync(path.join(f.releaseRoot,id),' ');assert.throws(()=>source.assertCurrent(),/STALE/);
+});
