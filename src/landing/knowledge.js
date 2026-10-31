@@ -48,10 +48,10 @@ function openKnowledge({releaseRoot,runtimeRoot}){
   const words=query.toLowerCase().split(/\s+/).filter(Boolean),rows=Array.from(resources.values()).filter(pin=>words.every(word=>pin.file.toLowerCase().includes(word))).sort((a,b)=>a.file.localeCompare(b.file));
   return {query,offset,total:rows.length,next:offset+64<rows.length?offset+64:null,resources:rows.slice(offset,offset+64).map(({file,bytes,sha256})=>({id:file,bytes,sha256}))};
  }
- const base='knowledge/data/ds-ai-hub/',required=['products/ab/manifest.json','products/ab/patterns/landing-pages.md','products/ab/patterns/business-segment-styles.md','products/ab/patterns/draft-layout.md'].map(file=>base+file);
+ const base='knowledge/data/ds-ai-hub/',required=['AGENTS.md','products/ab/manifest.json','products/ab/patterns/landing-pages.md','products/ab/patterns/business-segment-styles.md','products/ab/patterns/draft-layout.md'].map(file=>base+file);
  if(required.some(id=>!resources.has(id)))fail('LANDING_REQUIRED_KNOWLEDGE_MISSING');
  const norms=[];
- for(const id of required.concat(['AGENTS.md','README.md'].map(file=>base+file).filter(id=>resources.has(id)))){
+ for(const id of required.concat(['README.md'].map(file=>base+file).filter(id=>resources.has(id)))){
   let offset=0;do{const row=read({id,offset,limit:16000});if(row.tooLarge)fail('LANDING_REQUIRED_KNOWLEDGE_MISSING');norms.push(row);offset=row.next;}while(offset!==null);
  }
  return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,assertCurrent,read,list,

@@ -57,7 +57,7 @@ test('successful worker profiles preserve sandbox arguments, isolated environmen
 });
 test('landing MCP stdin enables norms and only the owned file, without a frontend or unchecked profile',async t=>{
  const f=fixture(t),module=require('../src/generation-agent/agent-cli'),prefix=module.profilePrefix('landing-figma');await f.run({profile:'landing-figma'});const actual=f.observed().input;
- assert(actual.startsWith(prefix));assert(prefix.includes('DS norms and technical/visual checks are enabled'));assert(prefix.includes('uncertain write outcome')&&prefix.includes('canvas before'));assert(prefix.includes('owner, active lease and parent page'));assert(!prefix.includes('checking and automatic compliance repair are disabled'));assert(f.observed().args.includes('features.shell_tool=false'));
+ assert(actual.startsWith(prefix));assert(prefix.includes('DS norms and technical/visual checks are enabled'));assert(prefix.includes('uncertain write outcome')&&prefix.includes('canvas before'));assert(prefix.includes('root owner, active lease')&&prefix.includes('target.parentNodeId')&&prefix.includes('containing page'));assert(!prefix.includes('checking and automatic compliance repair are disabled'));assert(f.observed().args.includes('features.shell_tool=false'));
  assert.throws(()=>module.invocation({workspace:f.root+'/workspace',profile:'frontend-engineering',schemaPath:'schema',outputPath:'out'}),{code:'AGENT_PROFILE_UNAVAILABLE'});
 });
 test('recorded MCP failure sequence can finish six calls within its admitted run budget',async t=>{

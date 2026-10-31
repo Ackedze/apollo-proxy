@@ -9,7 +9,7 @@ function canvasRead(t=target(),sections=[]){const v=readback(t,sections);delete 
 const section=(id,nodeId,fingerprint='d'.repeat(64))=>({id:nodeId,sectionId:id,fingerprint});
 function harness(t,steps){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-landing-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const calls=[];let stale=false;
- const knowledge=()=>({id:'data1',knowledgeVersion:'knowledge1',skill:{version:'0.3.0',sha256:'s1'},assertCurrent:()=>{if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});},initial:{instructions:{'SKILL.md':'Synthetic canonical skill'},norms:[],workflow:[],resources:{resources:[]}},list:query=>({query,resources:[{id:'doc'}]}),read:r=>({id:r.id,sha256:'pin',text:'synthetic source',path:[],mode:'read',offset:0})});
+ const knowledge=()=>({id:'data1',knowledgeVersion:'knowledge1',skill:{version:'0.3.0',sha256:'s1'},assertCurrent:()=>{if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});},initial:{instructions:{'SKILL.md':'Synthetic canonical skill'},norms:[],workflow:[],resources:{resources:[]}},list:(query,offset=0)=>({query,offset,total:1,resources:[{id:'doc'}]}),read:r=>({id:r.id,sha256:'pin',text:'synthetic source',path:[],mode:'read',offset:0})});
  const createCli=()=>({run:async options=>{calls.push(options);const next=steps.shift();if(!next)throw Error('Unexpected CLI invocation');const value=typeof next==='function'?await next(options):next;return{result:value,receipt:{usage:{measurementId:crypto.randomUUID(),actualInputTokens:1,actualOutputTokens:1},mcp:options.profile==='landing-figma'?{toolCalls:1}:null}};}});
  const make=()=>createLandingService({root,knowledge,createCli});return {root,calls,make,service:make(),stale:()=>{stale=true;}};
 }
@@ -43,4 +43,22 @@ test('follow-up declares changed sections and rejects mutations of other section
  const h=harness(t,[step('build',built),step('finish',built),step('build',follow),step('finish',follow)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);const rows=[section('hero','2:1'),section('details','2:2')];r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),rows)});
  s.submit(r.id,message(r,'Change hero only'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');assert.equal(r.result.rootNodeId,'1:1');const lease={...target(),leaseNonce:'c'.repeat(64)};s.canvas(r.id,{revision:r.revision,target:lease,readback:canvasRead(lease,rows)});await s.whenSettled(r.id);r=s.poll(r.id);
  assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead(lease,[section('hero','2:1','e'.repeat(64)),section('details','2:2','f'.repeat(64))])}),/UNREQUESTED/);r=s.poll(r.id);assert.equal(r.status,'interrupted');assert.equal(r.result.rootNodeId,'1:1');assert.equal(r.error.code,'LANDING_UNREQUESTED_CONTENT_CHANGED');
+});
+
+test('planner receives immutable native file/page/section context without asking for a URL',async t=>{
+ const placement={mode:'section',sectionId:'7:1'},h=harness(t,[options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));assert.deepEqual(state.canvasContext,{pageId:'0:1',fileKey:'FileKey123',placement});assert.match(options.prompt,/Never ask for a Figma URL/);return step('build');}]);
+ assert.throws(()=>h.service.create({pageId:'0:1',fileKey:'FileKey123',placement:null}),{code:'LANDING_CHAT_INVALID'});
+ let r=h.service.create({pageId:'0:1',fileKey:'FileKey123',placement});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);r=h.service.poll(r.id);assert.equal(r.status,'awaiting-canvas');assert.equal(r.spec.target.pageId,'0:1');assert.equal(r.spec.target.fileKey,'FileKey123');assert.deepEqual(r.spec.target.placement,placement);
+ assert.throws(()=>h.service.canvas(r.id,{revision:r.revision,target:{...target(),parentNodeId:'7:2'},readback:canvasRead()}),{code:'LANDING_CANVAS_INVALID'});
+ h.service.cancel(r.id);
+});
+test('alternating resource searches keep both index results and stop with precise diagnostics before exhausting 24 model steps',async t=>{
+ const queries=['corporate-content','AGENTS.md','corporate-content','AGENTS.md','corporate-content'];
+ const h=harness(t,queries.map((query,i)=>options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));if(i===2)assert.deepEqual(state.indexes.map(row=>row.query),queries.slice(0,2));return {...step('list_resources'),query};}));
+ let r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);r=h.service.poll(r.id);
+ assert.equal(h.calls.length,5);assert.equal(r.status,'interrupted');assert.equal(r.error.code,'LANDING_NO_PROGRESS');assert.equal(r.error.diagnostic.query,'corporate-content');assert.equal(r.error.diagnostic.repeatedQueries,3);assert.equal(r.target,null);assert.equal(r.failures.length,1);
+});
+test('a list step can also read its requested pinned resources, avoiding another model round',async t=>{
+ const h=harness(t,[{...step('list_resources'),query:'doc',resources:[{id:'doc',mode:'read',path:[],offset:0,limit:1000}]},options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));assert.equal(state.resources[0].text,'synthetic source');return step('build');}]);
+ const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);assert.equal(h.service.poll(r.id).status,'awaiting-canvas');assert.equal(h.calls.length,2);
 });

@@ -440,6 +440,7 @@ test('hub projection includes ABM pattern data recursively and keeps other ABM f
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-abm-projection-test-'));
   t.after(() => fsp.rm(root, { recursive: true, force: true }));
   const included = [
+    'AGENTS.md',
     'README.md',
     'CONTRACT.md',
     'products/ab/patterns/desktop.md',

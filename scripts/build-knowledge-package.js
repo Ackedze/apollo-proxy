@@ -39,6 +39,7 @@ const HUB_DATA_ROOTS = [
 ];
 const HUB_GIT_INPUT_PATHS = [
   ...HUB_DATA_ROOTS,
+  'AGENTS.md',
   'README.md',
   'CONTRACT.md',
 ];
@@ -196,7 +197,7 @@ async function collectDsAiHubFiles(root) {
       result.add(path.posix.join(relativeRoot, relative));
     }
   }
-  for (const fileName of ['README.md', 'CONTRACT.md']) {
+  for (const fileName of ['AGENTS.md', 'README.md', 'CONTRACT.md']) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   return [...result].sort();

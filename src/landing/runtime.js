@@ -11,7 +11,7 @@ function mountConfiguredLandingRoutes(app,{environment=process.env,provider='cod
   return service;
  }
  function status(){
-  try{const current=knowledge();return {available:provider==='codex',skillVersion:current.skill.version,skillHash:current.skill.sha256,knowledgeVersion:current.knowledgeVersion,releaseId:current.id,platforms:['desktop'],provider:'codex',mcpAuthentication:'VERIFIED_ON_EXECUTION'};}
+  try{const current=knowledge();return {available:provider==='codex',skillVersion:current.skill.version,skillHash:current.skill.sha256,knowledgeVersion:current.knowledgeVersion,releaseId:current.id,platforms:['desktop'],placementModes:['new-section','section'],provider:'codex',mcpAuthentication:'VERIFIED_ON_EXECUTION'};}
   catch(e){return {available:false,code:e.code||'LANDING_DATA_REQUIRED',platforms:['desktop'],provider:'codex'};}
  }
  mountLandingRoutes(app,{loadService,status});
