@@ -68,6 +68,7 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
   const namingFolder = path.join(sourceSkills, 'figma-layer-name-hygiene');
   const central = require('node:fs').existsSync(path.join(sourceSkills,'manifest.json')) || require('node:fs').existsSync(path.join(namingFolder,'run')) || require('node:fs').existsSync(path.join(namingFolder,'manifest.json'));
   const catalog = central ? require('../src/skills/catalog').readCatalog(sourceSkills) : null;
+  if(catalog?.entries.some(entry=>entry.descriptor.schemaVersion==='apollo.skill-package.v2')&&runtime.capabilities?.generationSkills!==require('../src/skills/catalog').GENERATION_CAPABILITY)throw Error('SKILL_RUNTIME_INCOMPATIBLE');
   if(skillsSourceSha256!==undefined && (!/^[a-f0-9]{64}$/.test(skillsSourceSha256) || catalog && skillsSourceSha256!==catalog.sha256))throw Error('SKILL_CATALOG_INVALID');
   skillsSourceSha256=catalog?.sha256 || skillsSourceSha256;
   const runFolder = catalog ? path.join(namingFolder,'run') : path.join(sourceSkills,'figma-layer-name-hygiene-run');
@@ -91,11 +92,10 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
     skill.assertCurrent();
   }
   catalog?.assertCurrent();
-  const landing=catalog?.entries.find(entry=>entry.id===require('../src/skills/catalog').LANDING_ID);
-  if(landing){
-    for(const file of ['manifest.json',...landing.files.map(pin=>pin.path)]){
-      const target=path.join(root,'skills',landing.id,file);
-      await fs.mkdir(path.dirname(target),{recursive:true});await fs.copyFile(path.join(sourceSkills,landing.id,file),target);
+  for(const entry of catalog?.entries.filter(entry=>entry.id!==require('../src/skills/catalog').ID)||[]){
+    for(const file of ['manifest.json',...entry.files.map(pin=>pin.path)]){
+      const target=path.join(root,'skills',entry.id,file);
+      await fs.mkdir(path.dirname(target),{recursive:true});await fs.copyFile(path.join(sourceSkills,entry.id,file),target);
     }
     catalog.assertCurrent();
   }

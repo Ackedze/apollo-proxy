@@ -39,3 +39,49 @@ DS: непроверенные визуальные/нормативные св�
  test/portable-runtime.test.js test/portable-bundle.test.js test/data-packages.test.js
  test/frontend-authoring.test.js test/async-generation-health.test.js` (одной строкой).
 Synthetic CLI и native bridge не заменяют ручную приёмку владельца.
+
+## Чтение каталогов и продолжение
+
+Ответ адресного reader ограничен 32768 байтами всего сериализованного UTF-8 envelope.
+Для массивов `returned` — фактическое число элементов, `next` — точный следующий
+offset, `total` — полный размер. Следовать нужно `next`, а не `offset + limit`.
+Один слишком большой элемент остаётся непрочитанным: `tooLarge`, `returned: 0`
+и `availablePath` позволяют запросить его ключи/поля. Такое чтение не считается
+доказательством источника. Markdown делится без разрыва UTF-16 surrogate pair.
+
+`mode: summary` доступен только для `components` технического `component-index`
+из `JSONS/indexes`. Он возвращает имена, категории, статусы и `fullPath`;
+component/variant keys и полные объекты не заменяются обзором. До выбора ключа
+агент читает нужный объект по `fullPath` в режиме `read`. Нормы не проецируются.
+
+Повторы неизменных запросов используют ответ текущего запуска. Три раунда без
+новых данных сохраняют `LANDING_NO_PROGRESS` до исчерпания 24 шагов. Уменьшение
+уже прочитанного диапазона не считается прогрессом. Сохранённый reader state
+содержит адреса и хеши, а не копии payload на каждую revision. При продолжении
+они перечитываются и сверяются; при смене release/workflow/skill pins старый
+контекст не переносится. История и spec сохраняются. Target/lease и readback
+всегда подтверждаются заново перед записью.
+
+## Подключаемые навыки Figma
+
+Существующий landing v1 поддерживается для совместимости. Новые навыки одного
+исполнителя используют `apollo.skill-package.v2`, `executorId: apollo.figma-mcp`
+и декларативное `generation`: `platforms`, `requiredResources`, `initialQueries`,
+`initialFiles`, `hostInstructions`. Формат и порядок добавления —
+[design-system_ab/apollo/skills/README.md](https://github.com/Ackedze/design-system_ab/blob/main/apollo/skills/README.md).
+
+`GET /landing/status` возвращает `skills` и `defaultSkillId` из установленного
+пакета. Необязательный `skillId` в `POST /landing/chats` закрепляет навык за чатом;
+его нельзя подменить существующему chat ID. Старые клиенты без `skillId`
+продолжают использовать landing. Историческое имя `/landing` сохранено как API
+совместимости, нового параллельного контроллера нет. Будущий навык меняет инструкции
+и источники; CLI, reader, история, Stop, lease/ownership и независимый readback общие.
+Полный `SKILL.md` и заявленные initial files поступают сразу, остальные references
+доступны адресно через `skills/<id>/…`. Универсальные права не расширяются профилем.
+
+Первой поставке v2 нужен runtime с `capabilities.generationSkills` равным
+`figma-mcp-skills-v1`. Он получает отдельный runtime ID/канал при обычной сборке.
+Reader и сборщик отвергают v2 на старом runtime; новый профиль нельзя направлять
+в существующий канал401 для старых приложений. После этой первоначальной совместимой
+поставки добавление навыков/инструкций выполняется пакетом данных без пересборки Proxy.
+Новая платформа, исполнитель или native-возможность по-прежнему требуют кода.

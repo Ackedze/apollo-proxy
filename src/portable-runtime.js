@@ -44,7 +44,7 @@ function configureInstalledEnvironment({ proxyRoot, environment = process.env })
   set('APOLLO_DATA_DESCRIPTOR_URL', settings.dataDescriptorUrl || '');
   // Legacy settings/history stay on disk, but never configure a retired executor.
   for(const name of ['APOLLO_AGENT_MVP_CONFIG','APOLLO_AGENT_FIGMA_CONFIG','APOLLO_AGENT_MCP_CONFIG'])delete environment[name];
-  const landingConfigured=release.files.some(pin=>pin.file==='skills/ab-generate-custom-landing/manifest.json');
+  const landingConfigured=release.files.some(pin=>/^skills\/[a-z0-9][a-z0-9-]{0,79}\/manifest\.json$/.test(pin.file)&&pin.file!=='skills/figma-layer-name-hygiene/manifest.json');
   return {portable:true,releaseId:release.id,dataId:release.dataId,figmaMcpConfigured:Boolean(settings.figmaFileKey),frontendConfigured:false,landingConfigured,
     gaps:landingConfigured?[]:['LANDING_SKILL_DATA_REQUIRED']};
 }

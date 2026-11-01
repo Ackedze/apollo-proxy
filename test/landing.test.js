@@ -7,11 +7,11 @@ const target=()=>({fileKey:'FileKey123',pageId:'0:1',rootNodeId:'1:1',ownerNonce
 const readback=(t=target(),sections=[])=>({...t,fileKey:undefined,rootNodeId:t.rootNodeId,pageId:t.pageId,ownerNonce:t.ownerNonce,leaseNonce:t.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:sections.length+2,instanceCount:sections.length,sections,text:'Synthetic',coverage:'tagged-sections-and-text'});
 function canvasRead(t=target(),sections=[]){const v=readback(t,sections);delete v.fileKey;return v;}
 const section=(id,nodeId,fingerprint='d'.repeat(64))=>({id:nodeId,sectionId:id,fingerprint});
-function harness(t,steps){
- const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-landing-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const calls=[];let stale=false;
- const knowledge=()=>({id:'data1',knowledgeVersion:'knowledge1',skill:{version:'0.3.0',sha256:'s1'},assertCurrent:()=>{if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});},initial:{instructions:{'SKILL.md':'Synthetic canonical skill'},norms:[],workflow:[],resources:{resources:[]}},list:(query,offset=0)=>({query,offset,total:1,resources:[{id:'doc'}]}),read:r=>({id:r.id,sha256:'pin',text:'synthetic source',path:[],mode:'read',offset:0})});
+function harness(t,steps,readResource){
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-landing-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const calls=[],reads=[];let stale=false,version=1;
+ const knowledge=()=>({id:'data'+version,knowledgeVersion:'knowledge1',skill:{version:'0.3.0',sha256:'s1'},assertCurrent:()=>{if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});},initial:{instructions:{'SKILL.md':'Synthetic canonical skill'},norms:[],workflow:[],resources:{resources:[]}},list:(query,offset=0)=>({query,offset,total:1,resources:[{id:'doc'}]}),read:r=>{reads.push(r);return readResource?readResource(r):{id:r.id,sha256:'pin',text:'synthetic source',path:[],mode:'read',offset:0};}});
  const createCli=()=>({run:async options=>{calls.push(options);const next=steps.shift();if(!next)throw Error('Unexpected CLI invocation');const value=typeof next==='function'?await next(options):next;return{result:value,receipt:{usage:{measurementId:crypto.randomUUID(),actualInputTokens:1,actualOutputTokens:1},mcp:options.profile==='landing-figma'?{toolCalls:1}:null}};}});
- const make=()=>createLandingService({root,knowledge,createCli});return {root,calls,make,service:make(),stale:()=>{stale=true;}};
+ const make=()=>createLandingService({root,knowledge,createCli});return {root,calls,reads,make,service:make(),stale:()=>{stale=true;},changeSource:()=>version++};
 }
 const message=(r,text='Brief')=>({requestId:crypto.randomUUID(),revision:r.revision,text});
 test('brief, question, answer, scoped Figma sections and final readback persist one chat/root',async t=>{
@@ -61,6 +61,22 @@ test('alternating resource searches keep both index results and stop with precis
 test('a list step can also read its requested pinned resources, avoiding another model round',async t=>{
  const h=harness(t,[{...step('list_resources'),query:'doc',resources:[{id:'doc',mode:'read',path:[],offset:0,limit:1000}]},options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));assert.equal(state.resources[0].text,'synthetic source');return step('build');}]);
  const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);assert.equal(h.service.poll(r.id).status,'awaiting-canvas');assert.equal(h.calls.length,2);
+});
+
+for(const restart of [false,true])test('confirmed reader context resumes after answer/restart; canvas authority is always fresh: '+restart,async t=>{
+ const read={...step('request_context'),resources:[{id:'doc',mode:'read',path:[],offset:0,limit:1000}]},h=harness(t,[read,step('question'),options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));assert.equal(state.resources[0].text,'synthetic source');assert.equal(state.resourceFeedback.code,'RESTORED_CONFIRMED_CONTEXT');assert.equal(state.target,null);assert.equal(state.readback,null);return step('build');}]);
+ let s=h.service,r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);if(restart)s=h.make();s.submit(r.id,message(r,'Answer'));await s.whenSettled(r.id);assert.equal(s.poll(r.id).status,'awaiting-canvas');assert.equal(h.calls.length,3);assert.equal(h.reads.length,2,'restoration revalidates source bytes instead of trusting stored text');
+ const saved=JSON.parse(fs.readFileSync(path.join(h.root,r.id+'.json')));assert(saved.readerState.reads[0].rowHash);assert.equal(JSON.stringify(saved.readerState).includes('synthetic source'),false);
+});
+test('new source pins discard cached context and tampered saved read receipts are refused',async t=>{
+ for(const change of ['source','receipt']){
+  const h=harness(t,[{...step('request_context'),resources:[{id:'doc'}]},step('question'),options=>{assert.equal(JSON.parse(options.prompt.split('\n').at(-1)).resources.length,0);return step('question');}]);let r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);r=h.service.poll(r.id);
+  if(change==='source'){h.changeSource();h.service.submit(r.id,message(r,'Continue'));await h.service.whenSettled(r.id);assert.equal(h.calls.length,3);}
+  else{const file=path.join(h.root,r.id+'.json'),saved=JSON.parse(fs.readFileSync(file));saved.readerState.reads[0].rowHash='tampered';fs.writeFileSync(file,JSON.stringify(saved));assert.throws(()=>h.make().submit(r.id,message(r,'Continue')),/LANDING_READER_STATE_INVALID/);assert.equal(h.calls.length,2);}
+ }
+});
+test('unchanged repeated context reads use one physical read and stop before24 paid steps',async t=>{
+ const read={...step('request_context'),resources:[{id:'doc',mode:'read',path:[],offset:0,limit:1000}]},h=harness(t,[read,read,read,read]);const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const result=h.service.poll(r.id);assert.equal(h.reads.length,1);assert.equal(h.calls.length,4);assert.equal(result.error.code,'LANDING_NO_PROGRESS');assert.equal(result.error.diagnostic.repeatedRequests,3);assert.equal(result.target,null);assert.equal(result.failures.length,1);
 });
 
 const batchResources=()=>Array.from({length:20},(_,i)=>({id:'doc-'+i,mode:'read',path:[],offset:0,limit:1000}));
@@ -128,4 +144,10 @@ test('asset projection includes exact glyph metadata and source image/key indexe
  put('JSONS/apollo/indexes/componentContractIndex.json',{schemaVersion:2,packages:[]});
  const assets=['JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json','JSONS/images/Сorp _ Image Library -- Вспомогательные имиджи.json','JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json','JSONS/indexes/images/Сorp _ Image Library -- Вспомогательные имиджи.index.json','JSONS/indexes/icons/Icons -- glyph-26.index.json'];for(const p of assets)put(p,{});put('JSONS/icons/Icons -- glyph-26.json',{});put('core/web/assets/assets_glyph-26.json',{synthetic:{size:24}});
  const ds=await builder.collectDesignSystemFiles(temp),hub=await builder.collectDsAiHubFiles(temp);for(const p of assets)assert(ds.includes(p),p);assert(!ds.includes('JSONS/icons/Icons -- glyph-26.json'));assert(hub.includes('core/web/assets/assets_glyph-26.json'));assert(ds.includes('JSONS/apollo/indexes/componentContractIndex.json'));
+});
+
+test('smaller or repeated slices cannot erase confirmed context or manufacture progress',async t=>{
+ const read=limit=>({...step('request_context'),resources:[{id:'doc',mode:'read',path:[],offset:0,limit}]}),steps=[1000,10,1000,5].map(limit=>options=>{const state=JSON.parse(options.prompt.split('\n').at(-1));if(limit!==1000||state.resources.length)assert.equal(state.resources[0].text.length,1000);return read(limit);});
+ const h=harness(t,steps,r=>({id:r.id,sha256:'pin',text:'x'.repeat(r.limit),path:[],mode:r.mode,offset:r.offset}));const r=h.service.create({pageId:'0:1',fileKey:'FileKey123'});h.service.submit(r.id,message(r));await h.service.whenSettled(r.id);const result=h.service.poll(r.id);
+ assert.equal(result.error.code,'LANDING_NO_PROGRESS');assert.equal(h.calls.length,4);assert.equal(h.reads.length,3);assert.equal(result.target,null);
 });

@@ -15,10 +15,11 @@ function build({sourceRoot,runtimeRoot,indexPath}){
   const legacy=require('../src/skills/layer-names').loadSkill(runtimeRoot,{skillsRoot:sourceRoot});
   const run=require('../src/skills/run-skill').readRunProfile(path.join(sourceRoot,catalog.ID,'run'));
   const entries=[];
-  for(const id of [catalog.ID,catalog.LANDING_ID].filter(id=>fs.existsSync(path.join(sourceRoot,id,'manifest.json')))){
+  for(const id of fs.readdirSync(sourceRoot,{withFileTypes:true}).filter(entry=>entry.isDirectory()&&fs.existsSync(path.join(sourceRoot,entry.name,'manifest.json'))).map(entry=>entry.name).sort()){
   const packagePath=path.join(sourceRoot,id,'manifest.json');
   const descriptor=JSON.parse(fs.readFileSync(packagePath));
-  descriptor.files=(id===catalog.ID?catalog.FILES:catalog.LANDING_FILES).map(file=>{
+  const declared=catalog.packageFiles(Buffer.from(JSON.stringify(descriptor)),id);
+  descriptor.files=declared.map(({path:file})=>{
     const target=path.join(sourceRoot,id,file),stat=fs.lstatSync(target);
     if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(target)!==target||stat.size>65536)throw Error('SKILL_CATALOG_INVALID');
     const bytes=fs.readFileSync(target);return{path:file,sha256:catalog.sha(bytes),bytes:bytes.length};
