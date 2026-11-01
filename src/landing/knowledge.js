@@ -30,12 +30,12 @@ function openKnowledge({releaseRoot,runtimeRoot}){
  }
  function read(request){
   const pin=resources.get(request?.id),mode=request?.mode||'read',offset=request?.offset??0,limit=request?.limit??12000,keys=request?.path||[];
-  if(!pin||!['read','keys'].includes(mode)||!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>16000||!Array.isArray(keys)||keys.length>24||keys.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))fail('LANDING_RESOURCE_INVALID');
+  if(!pin||!['read','keys'].includes(mode)||!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>16000||!Array.isArray(keys)||keys.length>24||keys.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)||(typeof k==='string'&&/(^|[\\/])\.\.($|[\\/])/.test(k))))fail('LANDING_RESOURCE_INVALID');
   assertCurrent();let text=pin.text;
   if(text===undefined){const file=path.join(releaseRoot,pin.file),stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(file)!==file)fail('LANDING_RESOURCE_INVALID');const bytes=fs.readFileSync(file);if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail('LANDING_DATA_STALE');used.set(file,pin.sha256);text=bytes.toString('utf8');}
   let value,next=null,total;
   if(pin.file.endsWith('.json')){
-   value=JSON.parse(text);for(const key of keys){if(!value||!Object.prototype.hasOwnProperty.call(value,key))fail('LANDING_RESOURCE_PATH_INVALID');value=value[key];}
+   value=JSON.parse(text);for(let i=0;i<keys.length;i++){const key=keys[i];if(value===null||typeof value!=='object'||!Object.prototype.hasOwnProperty.call(value,key))return {id:pin.file,sha256:pin.sha256,path:keys,mode,offset,error:{code:'LANDING_RESOURCE_PATH_INVALID',availablePath:keys.slice(0,i),hint:'Read keys at availablePath, then select an observed key. This read failed; no asset was selected.'}};value=value[key];}
    if(mode==='keys')value=Array.isArray(value)?value.map((_,i)=>i):value&&typeof value==='object'?Object.keys(value):[];
    if(Array.isArray(value)){total=value.length;const count=Math.min(limit,100);value=value.slice(offset,offset+count);next=offset+count<total?offset+count:null;}
    else if(offset!==0)fail('LANDING_RESOURCE_PATH_INVALID');

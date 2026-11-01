@@ -62,3 +62,46 @@ test('landing assets survive knowledge packaging and addressed release reads wit
  assert.throws(()=>source.read({id:'knowledge/data/ds-ai-hub/core/web/assets/../../secret.json'}),/INVALID/);
  fs.appendFileSync(path.join(f.releaseRoot,id),' ');assert.throws(()=>source.assertCurrent(),/STALE/);
 });
+
+// Exact addressed requests from failed raw output b4812fa4; fixture content is synthetic.
+const failedAssetBatch=[{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/instructions.md","mode":"read","path":[],"offset":0,"limit":12000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/adapter.figma.md","mode":"read","path":[],"offset":0,"limit":8000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/cookbook/02-select-root-and-layout.md","mode":"read","path":[],"offset":0,"limit":4000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/cookbook/03-compose-content.md","mode":"read","path":[],"offset":0,"limit":4000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/cookbook/04-graphic-and-surface.md","mode":"read","path":[],"offset":0,"limit":4000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/cookbook/06-verify.md","mode":"read","path":[],"offset":0,"limit":5000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/benefit-card/figma-keys.json","mode":"read","path":["components"],"offset":0,"limit":100},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/instructions.md","mode":"read","path":[],"offset":0,"limit":9000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/adapter.figma.md","mode":"read","path":[],"offset":0,"limit":7000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/cookbook/02-select-family.md","mode":"read","path":[],"offset":0,"limit":3000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/cookbook/03-compose.md","mode":"read","path":[],"offset":0,"limit":4000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/cookbook/04-content-and-states.md","mode":"read","path":[],"offset":0,"limit":4000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/cookbook/05-verify.md","mode":"read","path":[],"offset":0,"limit":5000},{"id":"knowledge/data/ds-ai-hub/products/ab/components/faq/figma-keys.json","mode":"read","path":["components"],"offset":0,"limit":100},{"id":"knowledge/data/design-system_ab/JSONS/indexes/images/Сorp _ Image Library -- Продуктовые имиджи.index.json","mode":"read","path":["components"],"offset":0,"limit":100},{"id":"knowledge/data/design-system_ab/JSONS/indexes/images/Сorp _ Image Library -- Вспомогательные имиджи.index.json","mode":"read","path":["components"],"offset":0,"limit":100},{"id":"knowledge/data/design-system_ab/JSONS/indexes/icons/Icons -- glyph-26.index.json","mode":"keys","path":[],"offset":0,"limit":100},{"id":"knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json","mode":"read","path":["CardLine24Icon"],"offset":0,"limit":10},{"id":"knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json","mode":"read","path":["ShoppingCartLine24Icon"],"offset":0,"limit":10},{"id":"knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json","mode":"read","path":["ChartLine24Icon"],"offset":0,"limit":10},{"id":"knowledge/data/ds-ai-hub/core/web/assets/assets_glyph-26.json","mode":"read","path":["WalletLine24Icon"],"offset":0,"limit":10}];
+test('exact 21-resource batch preserves good reads and recovers missing glyph keys in the same job',async t=>{
+ const f=fixture(t),glyph=failedAssetBatch[17].id;
+ for(const id of new Set(failedAssetBatch.map(r=>r.id)))f.manifest.files.push(f.put(f.releaseRoot,id,id===glyph?{ActualFixtureIcon:{size:24}}:id.endsWith('.json')?{components:[{key:'fixture'}]}:'Fixture document'));
+ f.manifest.id=releases.idOf(f.manifest);f.put(f.releaseRoot,'manifest.json',f.manifest);
+ const source=f.source();let calls=0;const steps=[];
+ const spec={sections:[{id:'hero',nodeId:'2:1'}]},make=(kind,resources=[])=>({kind,message:kind,specJson:JSON.stringify(spec),resources,query:'',offset:0,resultJson:JSON.stringify({summary:'Fixture',checks:[],issues:[],limits:[]})});
+ const service=require('../src/landing/service').createLandingService({root:path.join(path.dirname(f.releaseRoot),'jobs'),knowledge:()=>source,createCli:()=>({run:async options=>{
+  const state=JSON.parse(options.prompt.split('\n').at(-1));steps.push(state);calls++;
+  let result;
+  if(calls===1)result=make('request_context',failedAssetBatch);
+  else if(calls===2){assert.equal(state.resources.length,21);assert.equal(state.resources.filter(r=>r.error).length,4);assert(state.resources.slice(0,17).every(r=>r.text&&!r.error));assert.equal(state.resources[17].error.code,'LANDING_RESOURCE_PATH_INVALID');assert.equal(state.resources[17].text,undefined);result=make('request_context',[{id:glyph,mode:'keys',path:[],offset:0,limit:100}]);}
+  else if(calls===3){assert.deepEqual(JSON.parse(state.resources.at(-1).text),['ActualFixtureIcon']);result=make('request_context',[{id:glyph,mode:'read',path:['ActualFixtureIcon'],offset:0,limit:10}]);}
+  else if(calls===4){assert.equal(JSON.parse(state.resources.at(-1).text).size,24);result=make('build');}
+  else {assert.equal(calls,5);result=make('finish');}
+  return {result,receipt:{usage:{measurementId:'fixture-'+calls,actualInputTokens:1,actualOutputTokens:1},mcp:{toolCalls:0}}};
+ }})});
+ let run=service.create({fileKey:'FileKey123',pageId:'0:1'});service.submit(run.id,{requestId:'77beb5e6-78e2-431f-8020-54e860094f4f',revision:run.revision,text:'Fixture'});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'awaiting-canvas',JSON.stringify(run.error));assert.equal(calls,4);assert.equal(run.usage.length,4);assert.equal(run.sources.filter(r=>r.id===glyph).length,2,'failed paths are not successful source evidence');
+ const target={fileKey:'FileKey123',pageId:'0:1',rootNodeId:'1:1',ownerNonce:'a'.repeat(64),leaseNonce:'b'.repeat(64)};
+ const observation={rootNodeId:'1:1',pageId:'0:1',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:3,instanceCount:1,sections:[{id:'2:1',sectionId:'hero',fingerprint:'d'.repeat(64)}],text:'Fixture',coverage:'tagged-sections-and-text'};
+ service.canvas(run.id,{revision:run.revision,target,readback:observation});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'awaiting-readback');run=service.observation(run.id,{revision:run.revision,readback:observation});assert.equal(run.status,'completed');assert.equal(run.usage.length,5);assert.equal(run.messages.filter(m=>m.role==='user').length,1);
+});
+test('missing JSON path is a visible failed read; unsafe/unlisted and stale inputs still throw',t=>{
+ const f=fixture(t),source=f.source(),id='knowledge/data/design-system_ab/JSONS/doc.json';
+ const miss=source.read({id,path:['CardLine24Icon']});assert.equal(miss.error.code,'LANDING_RESOURCE_PATH_INVALID');assert.equal(miss.text,undefined);assert.deepEqual(miss.error.availablePath,[]);assert.deepEqual(JSON.parse(source.read({id,mode:'keys',path:miss.error.availablePath}).text),['small','large']);
+ assert.deepEqual(JSON.parse(source.read({id,path:['small'],offset:0,limit:1}).text),[1]);
+ for(const key of ['__proto__','constructor','prototype','../secret'])assert.throws(()=>source.read({id,path:[key]}),/INVALID/);
+ assert.throws(()=>source.read({id:'../../private'}),/INVALID/);
+ fs.appendFileSync(path.join(f.releaseRoot,id),' ');assert.throws(()=>source.read({id,path:['missing']}),/STALE/);
+});
+
+for(const [name,request,code,count] of [
+ ['missing retry budget',{path:['missing']},'LANDING_STEP_BUDGET',24],
+ ['unlisted id',{id:'../../private'},'LANDING_RESOURCE_INVALID',1],
+ ['prototype key',{path:['__proto__']},'LANDING_RESOURCE_INVALID',1],
+ ['traversal key',{path:['../secret']},'LANDING_RESOURCE_INVALID',1],
+])test('reader recovery retains fatal guard: '+name,async t=>{
+ const f=fixture(t),source=f.source();let calls=0;
+ const service=require('../src/landing/service').createLandingService({root:path.join(path.dirname(f.releaseRoot),'jobs'),knowledge:()=>source,createCli:()=>({run:async()=>{calls++;return {result:{kind:'request_context',message:'Read',specJson:'{"sections":[]}',resources:[{id:'knowledge/data/design-system_ab/JSONS/doc.json',mode:'read',path:[],offset:0,limit:100,...request}],query:'',offset:0,resultJson:'{}'},receipt:{usage:{measurementId:'guard-'+calls},mcp:{toolCalls:0}}};}})});
+ let run=service.create({fileKey:'FileKey123',pageId:'0:1'});service.submit(run.id,{requestId:'77beb5e6-78e2-431f-8020-54e860094f4f',revision:run.revision,text:'Fixture'});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'interrupted');assert.equal(run.error.code,code);assert.equal(calls,count);assert.equal(run.usage.length,count);assert.equal(run.target,null);
+});

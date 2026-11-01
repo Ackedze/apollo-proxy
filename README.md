@@ -1117,3 +1117,7 @@ V1/V2 сохранены. Для нового UI нужен Proxy с V3; дан�
 Нормативные источники, контракты и установленная программа этим изменением не меняются.
 Автоматические проверки: `node --test test/component-pattern-pilot.test.js
  test/link-pattern-context.test.js test/link-pattern-http.test.js` (одной командой).
+
+### Landing: отсутствующий JSON-ключ
+
+Обычный отсутствующий ключ в адресованном JSON возвращается агенту как строка чтения с `error.code=LANDING_RESOURCE_PATH_INVALID`, `error.availablePath` и подсказкой. Строка не содержит успешного `text` и не попадает в evidence `sources`; успешные чтения того же batch сохраняются. Агент читает `mode=keys` по последнему существующему пути и выбирает наблюдаемый ключ либо сообщает ограничение. Подстановка предполагаемого asset запрещена. Некорректные/unlisted ID, prototype/traversal пути и нарушения hash/source freshness остаются фатальными; Stop, scope, ownership, lease, readback и лимиты шагов/контекста/инструментов сохраняются.
