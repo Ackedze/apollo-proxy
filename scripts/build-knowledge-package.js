@@ -348,6 +348,48 @@ async function buildKnowledgePackage(options) {
   }
 }
 
+// Extend a frozen catalog package without recopying unrelated authoring files.
+async function extendPackagedAuditPolicy(options,base,baseRoot,designRoot,target){
+  const {loadPackageSnapshot}=require('../src/style-token-catalog/inventory');
+  const {readPackagedPolicy}=require('../src/style-token-catalog/audit-policy');
+  const snapshot=loadPackageSnapshot(baseRoot),pins=[];
+  const read=async relative=>{
+    if(!/^JSONS\/(?:referenceSourcesMVP\.json|apollo\/[^/]+\.json|indexes\/(?:icons|logotypes)\/[^/]+\.index\.json)$/.test(relative))throw Error('Invalid audit policy source path.');
+    const file=assertInside(designRoot,path.join(designRoot,relative));
+    if(await fsp.realpath(file)!==file||!(await fsp.lstat(file)).isFile())throw Error('Unsafe audit policy source.');
+    const bytes=await fsp.readFile(file),tracked=spawnSync('git',['-C',designRoot,'show',base.sourceCommits['design-system_ab']+':'+relative],{maxBuffer:16*1024*1024});
+    if(tracked.status!==0||!tracked.stdout.equals(bytes))throw Error('Audit policy differs from pinned source commit: '+relative);
+    const sha256=crypto.createHash('sha256').update(bytes).digest('hex'),old=base.artifacts.find(a=>a.path==='data/design-system_ab/'+relative);
+    if(old&&(old.sha256!==sha256||old.size!==bytes.length))throw Error('Audit policy differs from base package: '+relative);
+    pins.push({path:relative,sha256,size:bytes.length,bytes});return JSON.parse(bytes);
+  };
+  const reference=await read('JSONS/referenceSourcesMVP.json');
+  const declared=[...(reference.catalogs||[]),...(reference.libraries||[]).flatMap(l=>l.catalogs||[])]
+    .filter(c=>typeof c.path==='string'&&/^(tokens|styles)\/[^/]+\.json$/.test(c.path)).map(c=>'design-system_ab/JSONS/'+c.path).sort();
+  if(new Set(declared).size!==declared.length||declared.some(id=>snapshot.sources.get(id)?.availability!=='available'))throw Error('Frozen catalog inventory does not cover the pinned reference.');
+  await read('JSONS/'+reference.apollo?.auditPolicyConfigPath);
+  for(const lib of (reference.libraries||[]).filter(l=>['Icons','Logotypes'].includes(l.name)))
+    for(const c of lib.catalogs||[])if(c.source?.kind==='components')await read('JSONS/'+c.source.indexPath);
+  const additions=pins.filter(pin=>!base.artifacts.some(a=>a.path==='data/design-system_ab/'+pin.path));
+  await fsp.mkdir(path.dirname(target),{recursive:true});await fsp.mkdir(target);
+  try{
+    for(const artifact of base.artifacts){const file=path.join(target,artifact.path);await fsp.mkdir(path.dirname(file),{recursive:true});await fsp.link(path.join(baseRoot,artifact.path),file);}
+    for(const pin of additions){const file=path.join(target,'data/design-system_ab',pin.path);await fsp.mkdir(path.dirname(file),{recursive:true});await fsp.writeFile(file,pin.bytes,{flag:'wx'});}
+    const artifacts=await artifactManifest(target),checksum=manifestChecksum(artifacts);
+    const manifest=additions.length?Object.assign({},base,{contentVersion:`ds-${base.sourceCommits['design-system_ab'].slice(0,12)}.hub-${base.sourceCommits['ds-ai-hub'].slice(0,12)}.${checksum.value.slice(0,12)}`,
+      projection:Object.assign({},base.projection,{catalogAuditPolicy:{baseManifestSha256:await sha256File(path.join(baseRoot,'manifest.json')),sources:pins.map(({path,sha256,size})=>({path,sha256,size}))}}),
+      artifacts,artifactCount:artifacts.length,totalBytes:artifacts.reduce((n,a)=>n+a.size,0),checksum}):base;
+    await fsp.writeFile(path.join(target,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
+    const metadata=JSON.parse(await fsp.readFile(path.join(baseRoot,'package.json'),'utf8'));metadata.version='0.0.0-'+checksum.value.slice(0,12);
+    await fsp.writeFile(path.join(target,'package.json'),JSON.stringify(metadata,null,2)+'\n');
+    await validatePackageDirectory(target,options.minEngine||ENGINE_VERSION);
+    readPackagedPolicy(target,loadPackageSnapshot(target));
+    snapshot.assertFresh();
+    for(const pin of pins)if(await sha256File(path.join(designRoot,pin.path))!==pin.sha256)throw Error('Audit policy changed during packaging.');
+    return{manifest,packageRoot:target,tarball:null,descriptor:null};
+  }catch(error){await fsp.rm(target,{recursive:true,force:true});throw error;}
+}
+
 // A local catalog extension reuses immutable base bytes; it never packages a dirty authoring tree.
 async function extendPackageWithCatalogs(options) {
   if (!options.directoryOnly) throw new Error('--base-package requires --directory-only; local extension cannot publish.');
@@ -356,6 +398,8 @@ async function extendPackageWithCatalogs(options) {
   const target = path.resolve(options.output, 'package');
   if (target === baseRoot || target.startsWith(baseRoot + path.sep)) throw new Error('Local output must not modify the base package.');
   const base = await validatePackageDirectory(baseRoot, options.minEngine || ENGINE_VERSION);
+  if(base.artifacts.some(a=>/^data\/design-system_ab\/JSONS\/styles\/[^/]+\.json$/.test(a.path)))
+    return extendPackagedAuditPolicy(options,base,baseRoot,designRoot,target);
   const styles = (await walkFiles(path.join(designRoot, 'JSONS/styles'), p => p.endsWith('.json')))
     .map(p => 'JSONS/styles/' + p);
   if (styles.length !== 9) throw new Error('Local V3 extension requires exactly the nine canonical style catalogs.');

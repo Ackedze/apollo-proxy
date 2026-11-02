@@ -95,7 +95,7 @@ async function inputSnapshot(config) {
   inputs.activation = activation;
   // Detect relevant builder changes without timestamps, random encryption IVs or output metadata.
   inputs.producer = [];
-  for (const directory of ['scripts', 'src/data-packages', 'src/data-release', 'src/knowledge-package', 'src/skills']) {
+  for (const directory of ['scripts', 'src/data-packages', 'src/data-release', 'src/knowledge-package', 'src/style-token-catalog', 'src/skills']) {
     for (const file of await knowledge.listPackageFiles(path.join(__dirname, '..', directory))) {
       const relative = directory + '/' + file;
       const bytes = await pinned(path.resolve(__dirname, '..'), relative, null, pins);
