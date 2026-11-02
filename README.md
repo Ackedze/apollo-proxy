@@ -1,5 +1,18 @@
 # apollo-proxy
 
+`GET /health` дополнительно возвращает `compatibility.protocolVersion=1` и
+метаданные установленного пакета (`data.state`, content hash `version`,
+`schemaVersion`, `profileVersion`, `deliveryProfile`, `generatedAt`). Читаются
+фактически выбранные release/runtime/contracts roots; их metadata identities
+должны совпасть. Пустая установка сообщает `missing`, смешанные или повреждённые
+метаданные — `invalid`; локальные пути и секреты не передаются. Полная проверка
+файлов, source pins и контрактов остаётся в существующих readers.
+Старые клиенты игнорируют добавочное поле. Новые сравнивают диапазон версий Proxy
+и требования к данным, показывают конкретное обновление и повторяют проверку
+перед новым действием. Совместимый API не требует равенства номеров плагина и
+Proxy. Несовместимый протокол получает новую версию handshake; новый минимум
+фиксируется в требованиях Apollo.
+
 Пакет знаний автоматически включает `apollo/deprecated-styles.index.json`,
 собранный из `apollo/deprecated-style-policy.json` и упакованных style-каталогов
 `design-system_ab`. Индекс содержит версию/дату политики, ключи и типы стилей,

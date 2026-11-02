@@ -1469,6 +1469,7 @@ app.get('/health', async (req, res) => {
   res.json({
     ok: true,
     activeRequests: activeApiRequests,
+    compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     proxy: {
       name: 'apollo-proxy',

@@ -5,10 +5,11 @@ test('actual health stays busy between CLI calls and clears after a completed or
  const executable=path.join(root,'owned-agent');
  fs.writeFileSync(executable,'#!/usr/bin/env node\n'+`
 const fs=require('node:fs'),args=process.argv.slice(2);let input='';process.stdin.on('data',s=>input+=s);process.stdin.on('end',()=>{
-const result=input.includes('NODE_CONTEXT=[]')?{action:'read_nodes',nodeIds:['form'],changes:[]}:{action:'finish',nodeIds:[],changes:[]};
+const marker='\\nOVERVIEW=',overview=JSON.parse(input.slice(input.lastIndexOf(marker)+marker.length));
+const result=overview.nodes.every(node=>Array.isArray(node.geometry))?{action:'finish',nodeIds:[],changes:[]}:{action:'read_nodes',nodeIds:['form'],changes:[]};
 fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify(result));
 });\n`,{mode:0o700});
- process.env.CODEX_BIN=executable;process.env.APOLLO_CODEX_DEBUG_ENABLED='0';process.env.APOLLO_RELEASE_ROOT='';
+ process.env.CODEX_BIN=executable;process.env.APOLLO_CODEX_DEBUG_ENABLED='0';process.env.APOLLO_RELEASE_ROOT='';process.env.APOLLO_STATE_ROOT=root;
  const {app}=require('../server'),apolloRoot=process.env.APOLLO_PROJECT_ROOT || path.resolve(__dirname,'../../../projects/Apollo');
  const p=require('../src/skills/layer-names/run-protocol')(require(path.join(apolloRoot,'src/skills/layer-names/protocol')));
  const snapshot={schemaVersion:p.SCHEMA,snapshotId:'health-snapshot',pageId:'page',rootIds:['form'],scopeName:'Owned',observedCount:1,skippedCount:0,nodes:[{nodeId:'form',type:'FRAME',parentId:'page',oldName:'Frame 1',path:'Frame 1',texts:['Delivery']}]};

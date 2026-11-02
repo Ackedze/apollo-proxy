@@ -20,7 +20,7 @@ const read=()=>new Promise((resolve,reject)=>Promise.resolve(handler({}, {json:r
 (async()=>{
  for(const key of Object.keys(active)){
   active[key]=true;
-  const health=await read();assert.equal(health.activeRequests,0);assert.equal(health.agent.busy,true,key);assert.equal(health.generation.busy,true,key);
+  const health=await read();assert.equal(health.compatibility.protocolVersion,1);assert.equal(health.compatibility.data.state,'missing');assert.equal(health.activeRequests,0);assert.equal(health.agent.busy,true,key);assert.equal(health.generation.busy,true,key);
   active[key]=false;
   const idle=await read();assert.equal(idle.agent.busy,false,key);assert.equal(idle.generation.busy,false,key);
  }
