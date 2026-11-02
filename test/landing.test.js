@@ -7,10 +7,16 @@ const target=()=>({fileKey:'FileKey123',pageId:'0:1',rootNodeId:'1:1',ownerNonce
 const readback=(t=target(),sections=[])=>({...t,fileKey:undefined,rootNodeId:t.rootNodeId,pageId:t.pageId,ownerNonce:t.ownerNonce,leaseNonce:t.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:sections.length+2,instanceCount:sections.length,sections,text:'Synthetic',coverage:'tagged-sections-and-text'});
 function canvasRead(t=target(),sections=[]){const v=readback(t,sections);delete v.fileKey;return v;}
 const section=(id,nodeId,fingerprint='d'.repeat(64))=>({id:nodeId,sectionId:id,fingerprint});
+function asWriteDelta(value,options){
+ if(options.profile!=='landing-figma'||Object.hasOwn(value,'sectionPatch'))return value;
+ const {specJson,...step}=value,state=JSON.parse(options.prompt.split('\n').at(-1)),id=state.execution.activeSectionId;
+ const section=JSON.parse(specJson).sections.find(s=>s.id===id);
+ return {...step,sectionPatch:step.kind==='continue'&&id&&section?.nodeId?{sectionId:id,nodeId:section.nodeId}:null};
+}
 function harness(t,steps,readResource){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-landing-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const calls=[],reads=[];let stale=false,version=1;
  const knowledge=()=>({id:'data'+version,knowledgeVersion:'knowledge1',skill:{version:'0.3.0',sha256:'s1'},assertCurrent:()=>{if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});},initial:{instructions:{'SKILL.md':'Synthetic canonical skill'},norms:[],workflow:[],resources:{resources:[]}},list:(query,offset=0)=>({query,offset,total:1,resources:[{id:'doc'}]}),read:r=>{reads.push(r);return readResource?readResource(r):{id:r.id,sha256:'pin',text:'synthetic source',path:[],mode:'read',offset:0};}});
- const createCli=()=>({run:async options=>{calls.push(options);const next=steps.shift();if(!next)throw Error('Unexpected CLI invocation');const value=typeof next==='function'?await next(options):next;return{result:value,receipt:{usage:{measurementId:crypto.randomUUID(),actualInputTokens:1,actualOutputTokens:1},mcp:options.profile==='landing-figma'?{toolCalls:1}:null}};}});
+ const createCli=()=>({run:async options=>{calls.push(options);const next=steps.shift();if(!next)throw Error('Unexpected CLI invocation');const value=typeof next==='function'?await next(options):next;return{result:asWriteDelta(value,options),receipt:{usage:{measurementId:crypto.randomUUID(),actualInputTokens:1,actualOutputTokens:1},mcp:options.profile==='landing-figma'?{toolCalls:1}:null}};}});
  const make=()=>createLandingService({root,knowledge,createCli});return {root,calls,reads,make,service:make(),stale:()=>{stale=true;},changeSource:()=>version++};
 }
 const message=(r,text='Brief')=>({requestId:crypto.randomUUID(),revision:r.revision,text});
@@ -48,7 +54,7 @@ test('empty frames do not complete; foreign page/root and stale revision are ref
  const built=spec();built.sections[0].nodeId='2:1';const h=harness(t,assemblySteps(built)),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
  assert.throws(()=>s.canvas(r.id,{revision:r.revision,target:{...target(),pageId:'0:2'},readback:canvasRead()}),/INVALID/);
  s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);s.observation(r.id,{revision:r.revision,readback:canvasRead()});await s.whenSettled(r.id);
- assert.throws(()=>s.observation(r.id,{revision:r.revision-1,readback:canvasRead()}),/STALE/);assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead()}),/INCOMPLETE/);assert.equal(s.poll(r.id).result,null);
+ assert.throws(()=>s.observation(r.id,{revision:r.revision-1,readback:canvasRead()}),/STALE/);assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead()}),{code:'LANDING_SECTION_PATCH_UNCONFIRMED'});assert.equal(s.poll(r.id).result,null);
 });
 test('follow-up declares changed sections and rejects mutations of other sections',async t=>{
  const built=spec(['hero','details']);built.sections[0].nodeId='2:1';built.sections[1].nodeId='2:2';const follow=JSON.parse(JSON.stringify(built));follow.editSectionIds=['hero'];follow.sections[0].content='Updated';
@@ -138,8 +144,8 @@ test('a later user request still requires explicit edit IDs, including existing 
 
 test('repeated follow-up build cannot expand the accepted edit scope',async t=>{
  const built=spec(['hero','details']);built.sections[0].nodeId='2:1';built.sections[1].nodeId='2:2';const follow=copyForTest(built);follow.editSectionIds=['hero'];const broad=copyForTest(follow);broad.editSectionIds=['hero','details'];
- const h=harness(t,[...assemblySteps(built),step('build',follow),step('build',broad)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});const rows=[section('hero','2:1'),section('details','2:2')];r=await drainAssembly(s,r.id,rows);
- s.submit(r.id,message(r,'Hero only'));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead(target(),rows)});await s.whenSettled(r.id);assert.equal(s.poll(r.id).error.code,'LANDING_EDIT_SCOPE_INVALID');
+ const h=harness(t,[...assemblySteps(built),step('build',follow),options=>{const value=checkpointStep(broad,'details');delete value.specJson;return {...value,sectionPatch:{sectionId:'details',nodeId:'2:2'}};}]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});const rows=[section('hero','2:1'),section('details','2:2')];r=await drainAssembly(s,r.id,rows);
+ s.submit(r.id,message(r,'Hero only'));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead(target(),rows)});await s.whenSettled(r.id);assert.equal(s.poll(r.id).error.code,'LANDING_SECTION_PATCH_INVALID');
 });
 
 test('repeat build at step24 keeps budget and usage, no false edit-scope error',async t=>{

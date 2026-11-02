@@ -19,6 +19,16 @@ function protect(state,before,after){
 function specScope(state,before,after){
  if(!equal(before.map(s=>s.id),after.map(s=>s.id))||before.some(old=>old.id!==state.activeSectionId&&!equal(old,after.find(s=>s.id===old.id))))fail('LANDING_SECTION_SCOPE_CHANGED');
 }
+function sectionPatch(state,kind,patch){
+ if(patch===null)return null;
+ if(kind!=='continue'||state.stage!=='section'||!patch||typeof patch!=='object'||Array.isArray(patch)||!equal(Object.keys(patch).sort(),['sectionId','nodeId'].sort())||patch.sectionId!==state.activeSectionId||typeof patch.nodeId!=='string'||!/^[a-zA-Z0-9:;_-]{1,512}$/.test(patch.nodeId))fail('LANDING_SECTION_PATCH_INVALID');
+ return {sectionId:patch.sectionId,nodeId:patch.nodeId};
+}
+function confirmPatch(spec,patch,readback){
+ if(!patch)return spec;
+ if(!readback.sections.some(row=>row.sectionId===patch.sectionId&&row.id===patch.nodeId))fail('LANDING_SECTION_PATCH_UNCONFIRMED');
+ return {...spec,sections:spec.sections.map(section=>section.id===patch.sectionId?{...section,nodeId:patch.nodeId}:section)};
+}
 function checkpoint(state,step,result){
  if(step==='finish'){if(state.stage!=='verify')fail('LANDING_CHECKPOINT_REQUIRED');return null;}
  const point=result.checkpoint;
@@ -43,4 +53,4 @@ function observed(state,before,after,point,spec,now){
  state.lastCheckpoint={...unit,atUtc:new Date(now).toISOString(),readbackHash:sha(after),sectionIds:after.sections.map(s=>s.sectionId),complete:point?.status==='complete'};state.status='ready';state.operation=null;state.callId=null;
  return state;
 }
-module.exports={SCHEMA,start,protect,specScope,checkpoint,observed};
+module.exports={SCHEMA,start,protect,specScope,sectionPatch,confirmPatch,checkpoint,observed};

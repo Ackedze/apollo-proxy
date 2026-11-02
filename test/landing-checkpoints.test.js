@@ -6,16 +6,23 @@ const target={fileKey:'FileKey123',pageId:'0:1',rootNodeId:'1:1',ownerNonce:'a'.
 const row=id=>({id:id==='hero'?'2:1':'2:2',sectionId:id,fingerprint:'d'.repeat(64)});
 const readback=(rows=[])=>({rootNodeId:'1:1',pageId:'0:1',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:rows.length+1,instanceCount:rows.length,sections:rows,text:'Fixture',coverage:'tagged-sections-and-text'});
 const make=(kind,spec,point)=>({kind,message:kind,specJson:JSON.stringify(spec),query:'',offset:0,resources:[],resultJson:JSON.stringify(point?{checkpoint:point}:{summary:'Fixture',checks:[{verdict:'UNKNOWN'}]})});
+
+function asWriteDelta(value,options){
+ if(options.profile!=='landing-figma'||Object.hasOwn(value,'sectionPatch'))return value;
+ const {specJson,...step}=value,state=JSON.parse(options.prompt.split('\n').at(-1)),id=state.execution.activeSectionId;
+ const section=JSON.parse(specJson).sections.find(s=>s.id===id);
+ return {...step,sectionPatch:step.kind==='continue'&&id&&section?.nodeId?{sectionId:id,nodeId:section.nodeId}:null};
+}
 function fixture(t,intercept=()=>null){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'landing-checkpoint-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));let stale=false;
  const source={id:'data1',knowledgeVersion:'k1',skill:{version:'0.3.0',sha256:'s1'},initial:{instructions:{},norms:[],resources:[]},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
  const calls=[];const makeService=()=>createLandingService({root,knowledge:()=>source,createCli:()=>({run:async options=>{
-  const state=JSON.parse(options.prompt.split('\n').at(-1));calls.push(options);const n=calls.length;const custom=await intercept(state,options,n);if(custom)return custom;
+  const state=JSON.parse(options.prompt.split('\n').at(-1));calls.push(options);const n=calls.length;const custom=await intercept(state,options,n);if(custom)return {...custom,result:asWriteDelta(custom.result,options)};
   const spec=copy(state.spec.sections.length?state.spec:{sections:[{id:'hero',nodeId:null},{id:'details',nodeId:null}]});let result;
   if(!state.execution)result=make('build',spec);
   else if(state.execution.stage==='verify')result=make('finish',spec);
   else {const id=state.execution.activeSectionId;if(id)spec.sections.find(s=>s.id===id).nodeId=row(id).id;result=make('continue',spec,{sectionId:id,status:'complete',nextAction:'Next work unit'});}
-  return {result,receipt:{usage:{measurementId:'measurement-'+n},mcp:{toolCalls:0}}};
+  return {result:asWriteDelta(result,options),receipt:{usage:{measurementId:'measurement-'+n},mcp:{toolCalls:0}}};
  }})});
  const service=makeService();
  const chat=service.create({fileKey:'FileKey123',pageId:'0:1'}),request={requestId:crypto.randomUUID(),revision:chat.revision,text:'Fixture'};
@@ -71,9 +78,10 @@ test('finish before verify and spec edits to another section are refused',async 
   const h=fixture(t,state=>{
    if(state.execution?.activeSectionId==='hero'){
     const spec=copy(state.spec);if(attack==='other-spec')spec.sections[1].text='Unrequested';
-    return {result:make(attack==='finish'?'finish':'continue',spec,{sectionId:'hero',status:'complete',nextAction:'Next'}),receipt:{usage:{measurementId:'attempted-write'},mcp:{toolCalls:1}}};
+    const result=make(attack==='finish'?'finish':'continue',spec,{sectionId:'hero',status:'complete',nextAction:'Next'});if(attack==='other-spec'){delete result.specJson;result.sectionPatch={sectionId:'details',nodeId:'2:2'};}
+    return {result,receipt:{usage:{measurementId:'attempted-write'},mcp:{toolCalls:1}}};
    }
-  });await begin(h);const r=await h.observe([]);assert.equal(r.status,'interrupted');assert.equal(r.error.code,attack==='finish'?'LANDING_CHECKPOINT_REQUIRED':'LANDING_SECTION_SCOPE_CHANGED');assert.equal(r.result,null);assert.equal(r.usage.filter(x=>x.measurementId==='attempted-write').length,1);
+  });await begin(h);const r=await h.observe([]);assert.equal(r.status,'interrupted');assert.equal(r.error.code,attack==='finish'?'LANDING_CHECKPOINT_REQUIRED':'LANDING_SECTION_PATCH_INVALID');assert.equal(r.result,null);assert.equal(r.usage.filter(x=>x.measurementId==='attempted-write').length,1);
  }
 });
 test('restart resumes only exact confirmed section checkpoints after reopening the same root',async t=>{

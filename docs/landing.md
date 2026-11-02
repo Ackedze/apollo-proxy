@@ -141,3 +141,34 @@ source, root owner, queue, section spec and actual fingerprint match. A changed
 source or root requires rebuilding the checkpoint state from current reads.
 No automatic cleanup, root recreation, provider fallback, installation or Figma
 manual acceptance is implied by these checkpoints.
+
+### Host-owned plan and write deltas
+
+The planner alone returns the complete `specJson`. After `build`, the accepted
+plan stays in Proxy storage and is supplied to workers as read-only context.
+The write profile uses a separate strict schema: `specJson` is absent and
+replacement full-plan payloads are rejected. This overrides generic skill
+transport wording about returning a complete specification; normative rules and
+business facts are unchanged.
+
+Every write response contains `sectionPatch`, either `null` or exactly:
+
+```json
+{"sectionId":"hero","nodeId":"actual-section-root-id"}
+```
+
+Only `continue` in the active section accepts that patch. Bootstrap, resource
+reads, questions, repeat-build readback and final verification require `null`.
+`resultJson.checkpoint` still declares partial/complete and the next action.
+Properties, content, assets, rules, facts, decisions, section order and other
+section bindings cannot be replaced by a write worker. Changing the plan belongs
+to an explicitly scoped planning request.
+
+The proposed binding is pending until independent host observation matches both
+section ID and actual node ID. A mismatched binding fails without changing the
+stored plan. Successful observations update only that binding; all other plan
+fields remain intact. No missing-field merge, implicit deletion or permissive
+fullspec compatibility fallback is used. Existing scope/readback/Stop/freshness
+and global budgets are retained. Historical fullspec failure replays must state
+when an old response is projected into the new wire schema; that is not a new
+model execution or a claim that the old invalid wire response is now accepted.
