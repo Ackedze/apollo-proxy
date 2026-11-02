@@ -96,3 +96,48 @@ Reader и сборщик отвергают v2 на старом runtime; нов
 в существующий канал401 для старых приложений. После этой первоначальной совместимой
 поставки добавление навыков/инструкций выполняется пакетом данных без пересборки Proxy.
 Новая платформа, исполнитель или native-возможность по-прежнему требуют кода.
+
+## Section checkpoints
+
+The host schedules one work unit at a time: `bootstrap` (host/layout only), each
+requested section in spec order, then read-only `verify` with the final screenshot.
+`execution.activeSectionId` and `execution.stage` are host-owned. Workers return
+`continue` with `resultJson` containing:
+
+```json
+{"checkpoint":{"sectionId":"hero","status":"complete","nextAction":"Inspect the next section"}}
+```
+
+Use `sectionId: null` for bootstrap; use `status: "partial"` to keep the same
+section active. The host advances only after independent observation confirms the
+actual section node ID. Tagged other sections must preserve IDs/fingerprints; a
+new later section is rejected. `finish` is admitted only in the verification unit,
+after the requested section checkpoints. This does not establish DS conformance:
+checks remain agent-reported, unknown visual/sizing evidence remains UNKNOWN and
+`Ready=false` is retained.
+
+A worker should make at most two small MCP calls per turn. The launcher requests
+a controlled checkpoint after three completed calls, at the 90-second soft limit
+between calls, or after an observed native tool error. The existing 300-second
+hard limit and global 24 model steps / 96 MCP calls remain. The 60-second MCP
+transport deadline is unchanged. An in-flight call is not declared finished when
+the soft limit expires. A hard timeout after observed MCP work also requires
+independent readback before another worker can continue. Three recovery cycles
+without observed progress stop with `LANDING_NO_PROGRESS`.
+
+CLI item events are **post-dispatch**: stopping the worker does not revoke a
+remote write and is not a pre-mutation section sandbox. Controlled yields and
+partial failures therefore retain the root and require a fresh host observation;
+critical file/tool/output/argument guards and Stop outrank a controlled yield.
+Scripts still verify owner, parent/page and active lease before mutations. Scope
+comparison covers the host reader's tagged section fingerprints; arbitrary JS
+and untagged content are not newly claimed as isolated or proven safe.
+
+`execution` is additive chat/export diagnostics: active unit, last operation and
+call ID, elapsed pass time, tool count, pending action, last issue, completed
+section fingerprints and last independent readback hash. The existing UI notice
+shows the active unit and elapsed time. A retained checkpoint is reused only when
+source, root owner, queue, section spec and actual fingerprint match. A changed
+source or root requires rebuilding the checkpoint state from current reads.
+No automatic cleanup, root recreation, provider fallback, installation or Figma
+manual acceptance is implied by these checkpoints.

@@ -81,11 +81,12 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   try{return await execute({...options,onEvent:event=>{observed?.event(event);options.onEvent?.(event);}});}
   catch(error){failure=error;throw error;}finally{observed?.end(failure);}
  }
- async function execute({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},mcpBudget=null,runtimeBudgetMs=null}){
+ async function execute({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},mcpBudget=null,runtimeBudgetMs=null,checkpointBudget=null}){
   const startedAt=Date.now();
   available();const scope=scopedDirectory(generatedRoot,workspace);
   if(typeof prompt!=='string'||Buffer.byteLength(prompt)>2*1024*1024||!schema||typeof schema!=='object')fail('AGENT_INPUT_INVALID');
   if(signal?.aborted)fail('AGENT_CANCELLED');
+  if(checkpointBudget&&(!isMcp(profile)||!Number.isSafeInteger(checkpointBudget.maxCompletedCalls)||checkpointBudget.maxCompletedCalls<1||checkpointBudget.maxCompletedCalls>24||!Number.isSafeInteger(checkpointBudget.softRuntimeMs)||checkpointBudget.softRuntimeMs<1||checkpointBudget.softRuntimeMs>300000))fail('AGENT_MCP_BUDGET_INVALID');
   // Host-owned CLI output lives outside the agent writable directory.
   const trace=scopedDirectory(generatedRoot,traceDirectory);
   if(trace===scope||trace.startsWith(scope+path.sep)||scope.startsWith(trace+path.sep))fail('AGENT_TRACE_SCOPE_INVALID');
@@ -98,13 +99,17 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   async function failureError(code,{status=502,exitCode=null,stage='process',stderr='',events=[]}={}){
    const mcpToolEvents=isMcp(profile)?mcpFailureEvents(events):null,lastTool=mcpToolEvents?.events.at(-1),safe=value=>typeof value==='string'&&/^[a-zA-Z0-9._:-]{1,120}$/.test(value)?value:null;
    const nativeFailures=isMcp(profile)?mcpNativeFailures(events,timingView()):[];
+   const failedTool=events.filter(event=>isMcp(profile)&&mcpNativeFailures([event]).length).at(-1)?.item;
+   const nativeMessage=failedTool?.result?.structured_content?.error?.message||failedTool?.result?.structuredContent?.error?.message||failedTool?.error?.message||failedTool?.result?.content?.find(c=>c.type==='text')?.text;
+   const nativeFailure=failedTool?{callId:safe(failedTool.id),message:typeof nativeMessage==='string'?nativeMessage.slice(0,2000):null}:null;
    const callContext=lastTool?{callId:safe(lastTool.id),operation:safe('mcp.'+lastTool.tool)}:{};
    const diagnostic={...failureDiagnostic(code,{...diagnosticContext,...callContext,stage,traceId:id},'err:'+id),exitCode,promptChars:input.length,promptBytes:Buffer.byteLength(input),maxPromptChars:MAX_PROMPT_CHARS};
+   if(isMcp(profile))Object.assign(diagnostic,{sectionId:safe(diagnosticContext.sectionId),executionStage:safe(diagnosticContext.executionStage),elapsedMs:Math.max(0,Date.now()-startedAt)});
    const usage=measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':'landing-plan'});
    let traceRecorded=true;
    try{await fsp.writeFile(path.join(trace,id+'.failure.json'),JSON.stringify({...diagnostic,provider,profile,model:model||'cli-default',promptSha256:sha(Buffer.from(input)),schemaSha256:sha(Buffer.from(JSON.stringify(schema))),stderr,usage,usageEvents:events.filter(e=>e.type==='turn.completed'),errorEvents:events.filter(e=>['error','turn.failed'].includes(e.type)).slice(-16),...(mcpToolEvents?{mcpToolEvents,nativeFailures,mcpToolTimings:timingView()}:{})},null,2)+'\n',{flag:'wx',mode:0o600});}catch{traceRecorded=false;}
    try{persistMeasurement(usageRoot,usage,events.filter(e=>e.type==='turn.completed'));}catch{usage.persistence='FAILED';}
-   return Object.assign(Error(code),{code,status,usage,nativeFailures,diagnostic:JSON.stringify({...diagnostic,traceRecorded})});
+   return Object.assign(Error(code),{code,status,usage,nativeFailures,nativeFailure,diagnostic:JSON.stringify({...diagnostic,traceRecorded})});
   }
   try{budget({prompt,schema,prefix:prefix+'\n',outputReserveChars:isMcp(profile)?163840:16384});}catch{throw await failureError('AGENT_CONTEXT_LIMIT',{status:413,stage:'input-budget'});}
   if(isMcp(profile)&&(!Number.isSafeInteger(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)||(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)<1))throw await failureError('AGENT_MCP_BUDGET_INVALID',{status:400,stage:'input-budget'});
@@ -112,13 +117,16 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    let child,closed=false,failure,forceTimer,buffer='',stdoutBytes=0,stderr='',events=[];
    const toolCalls=new Set(),toolResults=new Set(),maxToolCalls=Math.min(MCP_MAX_TOOL_CALLS,mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS),maxToolOutputBytes=profile==='landing-figma'?8*1024*1024:65536,maxTotalToolOutputBytes=Math.min(profile==='landing-figma'?16*1024*1024:65536,mcpBudget?.maxTotalToolOutputBytes??65536);let totalToolOutputBytes=0;
    const stop=code=>{
-    if(failure||closed)return;failure=Object.assign(new Error(code),{code,status:code==='AGENT_TIMEOUT'?504:503});
+    if(closed||failure&&failure.code!=='AGENT_CHECKPOINT_REQUIRED'||failure&&code==='AGENT_CHECKPOINT_REQUIRED')return;failure=Object.assign(new Error(code),{code,status:code==='AGENT_TIMEOUT'?504:503});
     const kill=signalName=>{try{if(child?.pid&&process.platform!=='win32')process.kill(-child.pid,signalName);else child?.kill(signalName);}catch{child?.kill(signalName);}};
-    kill('SIGTERM');forceTimer=setTimeout(()=>kill('SIGKILL'),3000);forceTimer.unref();
+    kill('SIGTERM');clearTimeout(forceTimer);forceTimer=setTimeout(()=>kill('SIGKILL'),3000);forceTimer.unref();
    };
    const allowedRuntime=runtimeBudgetMs===null?maxRuntimeMs:Math.min(maxRuntimeMs,runtimeBudgetMs);if(!Number.isInteger(allowedRuntime)||allowedRuntime<1){reject(Object.assign(Error('AGENT_EXECUTION_TIME_BUDGET'),{code:'AGENT_EXECUTION_TIME_BUDGET'}));return;}
    const abort=()=>stop('AGENT_CANCELLED'),timer=setTimeout(()=>stop('AGENT_TIMEOUT'),allowedRuntime);
-   const clean=()=>{clearTimeout(timer);clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);};
+   let completedCalls=0;const inFlight=new Set();
+   const shouldYield=()=>checkpointBudget&&!inFlight.size&&(completedCalls>=checkpointBudget.maxCompletedCalls||Date.now()-startedAt>=checkpointBudget.softRuntimeMs);
+   const softTimer=checkpointBudget?setTimeout(()=>{if(shouldYield())stop('AGENT_CHECKPOINT_REQUIRED');},checkpointBudget.softRuntimeMs):null;
+   const clean=()=>{clearTimeout(timer);clearTimeout(softTimer);clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);};
    const consume=line=>{if(!line.trim())return;let event;try{event=JSON.parse(line);}catch{return;}
     events.push(event);
     if(profile==='landing-plan'&&['mcp_tool_call','command_execution','file_change'].includes(event.item?.type)){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
@@ -132,6 +140,10 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
      const timing=toolTimings.get(item.id);if(event.type==='item.completed'&&timing&&timing.completedAtUtc===null)Object.assign(timing,{completedAtUtc:new Date().toISOString(),durationMs:Math.max(0,Math.round(performance.now()-timing.monotonicStart)),status:item.status});
      if(Buffer.byteLength(JSON.stringify(item.arguments||{}))>16384){stop('AGENT_MCP_TOOL_ARGUMENT_LIMIT');return;}
      if(item.result){const size=Buffer.byteLength(JSON.stringify(item.result));if(size>maxToolOutputBytes){stop('AGENT_MCP_TOOL_OUTPUT_LIMIT');return;}if(event.type==='item.completed'&&!toolResults.has(item.id)){toolResults.add(item.id);totalToolOutputBytes+=size;if(totalToolOutputBytes>maxTotalToolOutputBytes){stop('AGENT_MCP_TOOL_OUTPUT_LIMIT');return;}}}
+     if(event.type==='item.started')inFlight.add(item.id);
+     if(event.type==='item.completed'&&inFlight.delete(item.id))completedCalls++;
+     // CLI events are post-dispatch observations. Every yield requires host readback.
+     if(checkpointBudget&&event.type==='item.completed'&&(shouldYield()||mcpNativeFailures([event]).length))stop('AGENT_CHECKPOINT_REQUIRED');
     }
     try{onEvent(event);}catch{stop('AGENT_PROGRESS_FAILED');}
    };
@@ -145,7 +157,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    child.stdin.on('error',()=>{});
    child.on('error',()=>{closed=true;clean();failureError('AGENT_CLI_UNAVAILABLE',{status:503,stage:'spawn',stderr,events}).then(reject);});
    child.on('close',async code=>{
-    if(closed)return;closed=true;clean();consume(buffer);
+    if(closed)return;consume(buffer);closed=true;clean();
     if(failure)return reject(await failureError(failure.code,{status:failure.status,stage:'interrupted',exitCode:code,stderr,events}));
     const providerError=events.filter(e=>['error','turn.failed','turn.completed'].includes(e.type)).at(-1);
     const detail=providerError?.type==='turn.failed'?providerError.error:providerError?.type==='error'?providerError:null;

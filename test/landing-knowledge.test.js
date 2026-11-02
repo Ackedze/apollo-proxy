@@ -78,13 +78,14 @@ test('exact 21-resource batch preserves good reads and recovers missing glyph ke
   else if(calls===2){assert.equal(state.resources.length,21);assert.equal(state.resources.filter(r=>r.error).length,4);assert(state.resources.slice(0,17).every(r=>r.text&&!r.error));assert.equal(state.resources[17].error.code,'LANDING_RESOURCE_PATH_INVALID');assert.equal(state.resources[17].text,undefined);result=make('request_context',[{id:glyph,mode:'keys',path:[],offset:0,limit:100}]);}
   else if(calls===3){assert.deepEqual(JSON.parse(state.resources.at(-1).text),['ActualFixtureIcon']);result=make('request_context',[{id:glyph,mode:'read',path:['ActualFixtureIcon'],offset:0,limit:10}]);}
   else if(calls===4){assert.equal(JSON.parse(state.resources.at(-1).text).size,24);result=make('build');}
-  else {assert.equal(calls,5);result=make('finish');}
+  else if(calls===5||calls===6){result={...make('continue'),resultJson:JSON.stringify({checkpoint:{sectionId:calls===5?null:'hero',status:'complete',nextAction:'Next work unit'}})};}
+  else {assert.equal(calls,7);result=make('finish');}
   return {result,receipt:{usage:{measurementId:'fixture-'+calls,actualInputTokens:1,actualOutputTokens:1},mcp:{toolCalls:0}}};
  }})});
  let run=service.create({fileKey:'FileKey123',pageId:'0:1'});service.submit(run.id,{requestId:'77beb5e6-78e2-431f-8020-54e860094f4f',revision:run.revision,text:'Fixture'});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'awaiting-canvas',JSON.stringify(run.error));assert.equal(calls,4);assert.equal(run.usage.length,4);assert.equal(run.sources.filter(r=>r.id===glyph).length,2,'failed paths are not successful source evidence');
  const target={fileKey:'FileKey123',pageId:'0:1',rootNodeId:'1:1',ownerNonce:'a'.repeat(64),leaseNonce:'b'.repeat(64)};
  const observation={rootNodeId:'1:1',pageId:'0:1',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:3,instanceCount:1,sections:[{id:'2:1',sectionId:'hero',fingerprint:'d'.repeat(64)}],text:'Fixture',coverage:'tagged-sections-and-text'};
- service.canvas(run.id,{revision:run.revision,target,readback:observation});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'awaiting-readback');run=service.observation(run.id,{revision:run.revision,readback:observation});assert.equal(run.status,'completed');assert.equal(run.usage.length,5);assert.equal(run.messages.filter(m=>m.role==='user').length,1);
+ const empty={...observation,sections:[],nodeCount:1,instanceCount:0};service.canvas(run.id,{revision:run.revision,target,readback:empty});await service.whenSettled(run.id);run=service.poll(run.id);assert.equal(run.status,'awaiting-readback');service.observation(run.id,{revision:run.revision,readback:empty});await service.whenSettled(run.id);service.observation(run.id,{revision:run.revision,readback:observation});await service.whenSettled(run.id);run=service.observation(run.id,{revision:run.revision,readback:observation});assert.equal(run.status,'completed');assert.equal(run.usage.length,7);assert.equal(run.messages.filter(m=>m.role==='user').length,1);
 });
 test('missing JSON path is a visible failed read; unsafe/unlisted and stale inputs still throw',t=>{
  const f=fixture(t),source=f.source(),id='knowledge/data/design-system_ab/JSONS/doc.json';

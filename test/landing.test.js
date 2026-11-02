@@ -14,13 +14,24 @@ function harness(t,steps,readResource){
  const make=()=>createLandingService({root,knowledge,createCli});return {root,calls,reads,make,service:make(),stale:()=>{stale=true;},changeSource:()=>version++};
 }
 const message=(r,text='Brief')=>({requestId:crypto.randomUUID(),revision:r.revision,text});
+function checkpointStep(s,sectionId=null,status='complete'){return {...step('continue',s),resultJson:JSON.stringify({checkpoint:{sectionId,status,nextAction:'Next work unit'}})};}
+function assemblySteps(s){return [step('build',s),checkpointStep(s),...s.sections.map(section=>checkpointStep(s,section.id)),step('finish',s)];}
+async function drainAssembly(s,id,rows){
+ for(let count=0;count<10;count++){
+  await s.whenSettled(id);const r=s.poll(id);if(r.status==='completed')return r;assert.equal(r.status,'awaiting-readback',JSON.stringify(r.error));
+  const active=r.execution.activeSectionId,index=active?rows.findIndex(row=>row.sectionId===active):-1;
+  const visible=r.execution.stage==='bootstrap'?[]:r.execution.stage==='verify'?rows:rows.slice(0,index+1);
+  s.observation(id,{revision:r.revision,readback:canvasRead(r.target,visible)});
+ }
+ throw Error('Fixture assembly did not finish');
+}
+
 test('brief, question, answer, scoped Figma sections and final readback persist one chat/root',async t=>{
- const built=spec();built.sections[0].nodeId='2:1';const h=harness(t,[step('question'),step('build'),step('continue',built),step('finish',built)]),s=h.service;
- let r=s.create({pageId:'0:1',fileKey:null}),request=message(r);r=s.submit(r.id,request);await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'needs-input');assert.equal(r.target,null);assert.equal(s.submit(r.id,request).sequence,r.sequence);assert.equal(h.calls.length,1);
- r=s.submit(r.id,message(r,'Confirmed answer'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');
- const owned=target();r=s.canvas(r.id,{revision:r.revision,target:owned,readback:canvasRead(owned)});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');assert.equal(h.calls[2].profile,'landing-figma');
- r=s.observation(r.id,{revision:r.revision,readback:canvasRead(owned,[section('hero','2:1')])});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');
- r=s.observation(r.id,{revision:r.revision,readback:canvasRead(owned,[section('hero','2:1')])});assert.equal(r.status,'completed');assert.equal(r.target.rootNodeId,'1:1');assert.equal(r.messages.filter(m=>m.role==='user').length,2);assert.equal(r.result.Ready,false);assert.equal(r.result.checks[0].origin,'agent-report');assert.equal(r.usage.length,4);assert.match(r.result.figmaUrl,/node-id=1%3A1/);
+ const built=spec();built.sections[0].nodeId='2:1';const h=harness(t,[step('question'),...assemblySteps(built)]),s=h.service;
+ let r=s.create({pageId:'0:1',fileKey:null}),request=message(r);s.submit(r.id,request);await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'needs-input');assert.equal(r.target,null);assert.equal(s.submit(r.id,request).sequence,r.sequence);assert.equal(h.calls.length,1);
+ s.submit(r.id,message(r,'Confirmed answer'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');
+ s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});r=await drainAssembly(s,r.id,[section('hero','2:1')]);
+ assert.equal(r.target.rootNodeId,'1:1');assert.equal(r.messages.filter(m=>m.role==='user').length,2);assert.equal(r.result.Ready,false);assert.equal(r.result.checks[0].origin,'agent-report');assert.equal(r.usage.length,5);assert.match(r.result.figmaUrl,/node-id=1%3A1/);
  const restart=h.make().poll(r.id);assert.equal(restart.status,'completed');assert.deepEqual(restart.spec,r.spec);assert.deepEqual(restart.target,r.target);
 });
 test('restart marks interrupted work honestly; no automatic duplicate root or model invocation',async t=>{
@@ -34,14 +45,15 @@ test('pinned source drift stops before the next worker and keeps the spec and fi
  const h=harness(t,[step('build')]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);h.stale();assert.throws(()=>s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()}),/STALE/);assert.equal(h.calls.length,1);assert.equal(s.poll(r.id).spec.sections.length,1);assert.equal(s.poll(r.id).status,'interrupted');assert.equal(s.isBusy(),false);
 });
 test('empty frames do not complete; foreign page/root and stale revision are refused',async t=>{
- const built=spec();built.sections[0].nodeId='2:1';const h=harness(t,[step('build'),step('finish',built)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
+ const built=spec();built.sections[0].nodeId='2:1';const h=harness(t,assemblySteps(built)),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
  assert.throws(()=>s.canvas(r.id,{revision:r.revision,target:{...target(),pageId:'0:2'},readback:canvasRead()}),/INVALID/);
- s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.throws(()=>s.observation(r.id,{revision:r.revision-1,readback:canvasRead()}),/STALE/);assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead()}),/INCOMPLETE/);assert.equal(s.poll(r.id).result,null);
+ s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);s.observation(r.id,{revision:r.revision,readback:canvasRead()});await s.whenSettled(r.id);
+ assert.throws(()=>s.observation(r.id,{revision:r.revision-1,readback:canvasRead()}),/STALE/);assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead()}),/INCOMPLETE/);assert.equal(s.poll(r.id).result,null);
 });
 test('follow-up declares changed sections and rejects mutations of other sections',async t=>{
  const built=spec(['hero','details']);built.sections[0].nodeId='2:1';built.sections[1].nodeId='2:2';const follow=JSON.parse(JSON.stringify(built));follow.editSectionIds=['hero'];follow.sections[0].content='Updated';
- const h=harness(t,[step('build',built),step('finish',built),step('build',follow),step('finish',follow)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);const rows=[section('hero','2:1'),section('details','2:2')];r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),rows)});
- s.submit(r.id,message(r,'Change hero only'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');assert.equal(r.result.rootNodeId,'1:1');const lease={...target(),leaseNonce:'c'.repeat(64)};s.canvas(r.id,{revision:r.revision,target:lease,readback:canvasRead(lease,rows)});await s.whenSettled(r.id);r=s.poll(r.id);
+ const h=harness(t,[...assemblySteps(built),step('build',follow),checkpointStep(follow),checkpointStep(follow,'hero')]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});const rows=[section('hero','2:1'),section('details','2:2')];r=await drainAssembly(s,r.id,rows);
+ s.submit(r.id,message(r,'Change hero only'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');assert.equal(r.result.rootNodeId,'1:1');const lease={...target(),leaseNonce:'c'.repeat(64)};s.canvas(r.id,{revision:r.revision,target:lease,readback:canvasRead(lease,rows)});await s.whenSettled(r.id);s.observation(r.id,{revision:r.revision,readback:canvasRead(lease,rows)});await s.whenSettled(r.id);
  assert.throws(()=>s.observation(r.id,{revision:r.revision,readback:canvasRead(lease,[section('hero','2:1','e'.repeat(64)),section('details','2:2','f'.repeat(64))])}),/UNREQUESTED/);r=s.poll(r.id);assert.equal(r.status,'interrupted');assert.equal(r.result.rootNodeId,'1:1');assert.equal(r.error.code,'LANDING_UNREQUESTED_CONTENT_CHANGED');
 });
 
@@ -101,14 +113,11 @@ test('an invalid model step retains its measured usage and observed step shape i
 });
 
 test('initial assembly with prior planning sections: repeat build reads same root, not follow-up scope',async t=>{
- const built=spec(['hero','details']);built.editSectionIds=[];const final=copyForTest(built);final.sections.forEach((s,i)=>s.nodeId=`2:${i+1}`);
- const h=harness(t,[step('question',built),step('build',built),step('build',built),step('finish',final)]),s=h.service;
- let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);
- s.submit(r.id,message(r,'Confirmed'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');
- s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);
- assert.equal(r.status,'awaiting-readback',JSON.stringify(r.error));assert.equal(r.result,null);assert.equal(r.target.rootNodeId,'1:1');assert.equal(r.error,null);
- s.observation(r.id,{revision:r.revision,readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');
- r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),[section('hero','2:1'),section('details','2:2')])});assert.equal(r.status,'completed');assert.equal(r.result.Ready,false);
+ const built=spec(['hero','details']);built.editSectionIds=[];built.sections.forEach((s,i)=>s.nodeId=`2:${i+1}`);
+ const h=harness(t,[step('question',built),step('build',built),step('build',built),checkpointStep(built),checkpointStep(built,'hero'),checkpointStep(built,'details'),step('finish',built)]),s=h.service;
+ let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.submit(r.id,message(r,'Confirmed'));await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-canvas');
+ s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);assert.equal(r.status,'awaiting-readback');assert.equal(r.result,null);assert.equal(r.error,null);
+ r=await drainAssembly(s,r.id,[section('hero','2:1'),section('details','2:2')]);assert.equal(r.status,'completed');assert.equal(r.target.rootNodeId,'1:1');assert.equal(r.result.Ready,false);
 });
 function copyForTest(v){return JSON.parse(JSON.stringify(v));}
 
@@ -129,7 +138,7 @@ test('a later user request still requires explicit edit IDs, including existing 
 
 test('repeated follow-up build cannot expand the accepted edit scope',async t=>{
  const built=spec(['hero','details']);built.sections[0].nodeId='2:1';built.sections[1].nodeId='2:2';const follow=copyForTest(built);follow.editSectionIds=['hero'];const broad=copyForTest(follow);broad.editSectionIds=['hero','details'];
- const h=harness(t,[step('build',built),step('finish',built),step('build',follow),step('build',broad)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});await s.whenSettled(r.id);r=s.poll(r.id);const rows=[section('hero','2:1'),section('details','2:2')];r=s.observation(r.id,{revision:r.revision,readback:canvasRead(target(),rows)});
+ const h=harness(t,[...assemblySteps(built),step('build',follow),step('build',broad)]),s=h.service;let r=s.create({pageId:'0:1',fileKey:'FileKey123'});s.submit(r.id,message(r));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead()});const rows=[section('hero','2:1'),section('details','2:2')];r=await drainAssembly(s,r.id,rows);
  s.submit(r.id,message(r,'Hero only'));await s.whenSettled(r.id);r=s.poll(r.id);s.canvas(r.id,{revision:r.revision,target:target(),readback:canvasRead(target(),rows)});await s.whenSettled(r.id);assert.equal(s.poll(r.id).error.code,'LANDING_EDIT_SCOPE_INVALID');
 });
 

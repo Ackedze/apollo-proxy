@@ -7,9 +7,11 @@ function fixture(t,behavior='success'){
   calls++;observed={binary,args,options};if(behavior==='spawn-error')throw Error('/private/binary');
  const child=new EventEmitter();child.stdout=new PassThrough();child.stderr=new PassThrough();child.kill=signal=>{kills.push(signal);observed.firstKillAt??=observed.nativeToolStarts;queueMicrotask(()=>child.emit('close',null));};
   child.stdin=new Writable({write(chunk,encoding,done){observed.input=(observed.input||'')+chunk.toString();done();},final(done){done();queueMicrotask(()=>{
-   if(['mcp-budget-replay','mcp-global-limit'].includes(behavior)){
+   if(['mcp-budget-replay','mcp-global-limit','mcp-checkpoint-yield','mcp-checkpoint-critical','mcp-checkpoint-critical-tail'].includes(behavior)){
     for(let i=0;i<(behavior==='mcp-global-limit'?25:6);i++){
-     observed.nativeToolStarts=i+1;const item={id:'mcp:call-'+i,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'in_progress',arguments:{fileKey:'syntheticFile',code:'return {read: true};'}},message=i===1?"TypeError: node.slotProperty: no such property 'slotProperty' on COMPONENT node":i===2?'Return value exceeds the 20480-byte limit (33651 bytes). Canvas edits from this run were not committed.':null;
+     observed.nativeToolStarts=i+1;const item={id:'mcp:call-'+i,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'in_progress',arguments:{fileKey:'syntheticFile',code:'return {read: true};'}},message=behavior.startsWith('mcp-checkpoint-')?null:i===1?"TypeError: node.slotProperty: no such property 'slotProperty' on COMPONENT node":i===2?'Return value exceeds the 20480-byte limit (33651 bytes). Canvas edits from this run were not committed.':null;
+     if(behavior.startsWith('mcp-checkpoint-critical')&&i===3)item.arguments.fileKey='foreignFile';
+     if(behavior==='mcp-checkpoint-critical-tail'&&i===3){child.stdout.write(JSON.stringify({type:'item.started',item}));child.emit('close',0);return;}
      child.stdout.write(JSON.stringify({type:'item.started',item})+'\n');child.stdout.write(JSON.stringify({type:'item.completed',item:{...item,status:message?'failed':'completed',result:message?{structured_content:{error:{message},safeToRetryWithoutCanvasRead:true}}:{content:[{type:'text',text:'{}'}]}}})+'\n');
     }
     fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'finish',message:'Synthetic complete',resourceIds:[]}));child.emit('close',0);return;
@@ -116,4 +118,23 @@ for(const [behavior,code]of [['mcp-nonzero','AGENT_PROCESS_FAILED'],['mcp-timeou
  if(behavior==='mcp-argument-guard'){assert(last.arguments.truncated);assert(last.arguments.bytes>16384);assert(Buffer.byteLength(last.arguments.preview)<=4096);}
  if(behavior==='mcp-many-events'){assert(events.observedEventCount>32);assert.equal(events.events.length,32);assert.equal(events.truncated,true);}
  const file=f.root+'/trace/'+receipt.traceId+'.failure.json';assert(fs.statSync(file).size<262144);assert.equal(fs.statSync(file).mode&0o777,0o600);
+});
+
+test('completed-call checkpoint yields with correlated section diagnostics and retained measurements',async t=>{
+ const f=fixture(t,'mcp-checkpoint-yield');let error;await assert.rejects(f.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:90000},diagnosticContext:{sectionId:'hero',executionStage:'section',rootNodeId:'1:1'}}),e=>{error=e;return e.code==='AGENT_CHECKPOINT_REQUIRED';});
+ assert.equal(f.observed().firstKillAt,3);assert.equal(JSON.parse(error.diagnostic).sectionId,'hero');assert.equal(f.failure().executionStage,'section');assert.equal(f.failure().rootNodeId,'1:1');assert(Number.isFinite(f.failure().elapsedMs));assert.equal(error.usage.toolCalls,6,'post-dispatch late observations are retained, never erased');
+});
+test('native failure yields for independent readback before another model turn',async t=>{
+ const f=fixture(t,'mcp-budget-replay');let error;await assert.rejects(f.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:90000}}),e=>{error=e;return e.code==='AGENT_CHECKPOINT_REQUIRED';});assert.equal(f.observed().firstKillAt,2);assert.equal(error.nativeFailures[0].code,'FIGMA_MCP_API_PROPERTY_UNSUPPORTED');assert.match(error.nativeFailure.message,/Return value exceeds/);
+});
+test('a critical file guard outranks an earlier controlled checkpoint yield',async t=>{
+ const f=fixture(t,'mcp-checkpoint-critical');await assert.rejects(f.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:90000}}),{code:'AGENT_MCP_FILE_SCOPE_MISMATCH'});assert.equal(f.observed().firstKillAt,3);
+});
+test('soft checkpoint yields between calls; an in-flight call keeps unknown outcome until hard timeout',async t=>{
+ const f=fixture(t,'wait');await assert.rejects(f.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:1}}),{code:'AGENT_CHECKPOINT_REQUIRED'});
+ const pending=fixture(t,'mcp-timeout');await assert.rejects(pending.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:1}}),{code:'AGENT_TIMEOUT'});assert.equal(pending.failure().mcpToolTimings[0].status,'in_progress');
+});
+
+test('a critical final unterminated event still outranks checkpoint recovery',async t=>{
+ const f=fixture(t,'mcp-checkpoint-critical-tail');await assert.rejects(f.run({profile:'landing-figma',checkpointBudget:{maxCompletedCalls:3,softRuntimeMs:90000}}),{code:'AGENT_MCP_FILE_SCOPE_MISMATCH'});
 });
