@@ -162,3 +162,5 @@ legacy `apollo-design-validator`, а `APOLLO_PROJECT_ROOT` его не зада�
 обновления. Политика ревью: [CONTRIBUTING.md](../CONTRIBUTING.md).
 Техническая справка и исторические пилоты остаются в [README](../README.md);
 их фиксированные revision/числа не являются текущим каталогом возможностей.
+
+Открытый блокер поставки каталожных правил: [AP-CATALOG-AUDIT-POLICY-404-01](../../../projects/Apollo/docs/ARCHITECTURE_BACKLOG.md). Единая задача содержит причину audit-policy404, недостающие15входов данных и приёмку фактической пары Proxy/пакет; не создавать отдельный дубль.
