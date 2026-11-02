@@ -1529,6 +1529,7 @@ require('./src/style-token-catalog/deprecated-styles').mountDeprecatedStyleRoute
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   getSnapshot: () => styleTokenCatalogProvider().snapshot,
 });
+require('./src/style-token-catalog/audit-policy').mountAuditPolicyRoute(app,{designSystemRoot:CODEX_DESIGN_SYSTEM,getSnapshot:()=>styleTokenCatalogProvider().snapshot});
 
 app.post('/v1/validate/predicates', (req, res) => {
   try {

@@ -1130,3 +1130,9 @@ V1/V2 сохранены. Для нового UI нужен Proxy с V3; дан�
 ### Landing: отсутствующий JSON-ключ
 
 Обычный отсутствующий ключ в адресованном JSON возвращается агенту как строка чтения с `error.code=LANDING_RESOURCE_PATH_INVALID`, `error.availablePath` и подсказкой. Строка не содержит успешного `text` и не попадает в evidence `sources`; успешные чтения того же batch сохраняются. Агент читает `mode=keys` по последнему существующему пути и выбирает наблюдаемый ключ либо сообщает ограничение. Подстановка предполагаемого asset запрещена. Некорректные/unlisted ID, prototype/traversal пути и нарушения hash/source freshness остаются фатальными; Stop, scope, ownership, lease, readback и лимиты шагов/контекста/инструментов сохраняются.
+
+### Каталожные правила V3 для native audit
+
+`GET /v1/style-token-catalog/audit-policy` выдаёт компактный индекс ключей стилей/токенов и контекстных исключений V3. Он строится только из manifest-pinned каталожных источников установленного пакета, `JSONS/apollo/auditPolicies.json`, reference manifest и объявленных индексов Icons/Logotypes. Нет fallback к рабочему checkout. Отсутствие источника, несовпадение SHA или неверная схема дают явный отказ; native freshness Apollo проверяется отдельно.
+
+Обычная сборка знаний включает reference manifest и компактные индексы Icons/Logotypes. Полные icon/logotype catalogs для этой проверки не нужны. Изменение требует совместимого Proxy и нового пакета данных; Git push сам по себе не обновляет установленное приложение.

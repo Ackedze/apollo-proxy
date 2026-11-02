@@ -28,6 +28,8 @@ const DESIGN_GIT_INPUT_PATHS = [
   'JSONS/apollo',
   'JSONS/tokens',
   'JSONS/styles',
+  'JSONS/indexes/icons',
+  'JSONS/indexes/logotypes',
   'JSONS/referenceSourcesMVP.json',
   ':(glob)JSONS/web/components/**/rules.json',
   ':(glob)JSONS/web/components/**/composition-contract.json',
@@ -113,10 +115,12 @@ async function collectDesignSystemFiles(root) {
   await addTree('JSONS/apollo', TEXT_DATA_EXTENSIONS);
   await addTree('JSONS/tokens', TEXT_DATA_EXTENSIONS);
   await addTree('JSONS/styles', new Set(['.json']));
+  await addTree('JSONS/indexes/icons', new Set(['.json']));
+  await addTree('JSONS/indexes/logotypes', new Set(['.json']));
   await addTree('apollo', TEXT_DATA_EXTENSIONS, (item) => !item.startsWith('knowledge/channels/'));
   await addTree('patterns', TEXT_DATA_EXTENSIONS);
   await addTree('redpolrules', TEXT_DATA_EXTENSIONS);
-  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md', ...DESIGN_ASSET_FILES]) {
+  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md', 'JSONS/referenceSourcesMVP.json', ...DESIGN_ASSET_FILES]) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   const indexPath = path.join(root, 'JSONS/apollo/indexes/componentContractIndex.json');
