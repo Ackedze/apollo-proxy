@@ -21,9 +21,16 @@ function fixture(t,behavior='success'){
     const completed={...item,status:'failed',result:behavior==='mcp-tool-guard'?{content:[{type:'text',text:'x'.repeat(8*1024*1024+1)}]}:null,error:{message:behavior==='mcp-transport-timeout'?'tool call error: tool call failed for `apollo_figma_mcp/use_figma`\n\nCaused by:\n    timed out awaiting tools/call after 15s':'Synthetic actual tool getter failed'}};
     child.stdout.write(JSON.stringify({type:'item.completed',item:completed})+'\n');
     if(behavior==='mcp-tool-guard')return;
-    child.stdout.write(JSON.stringify({type:'turn.failed',error:{message:'Synthetic provider stopped after tool failure'}})+'\n');child.emit('close',1);return;
+    child.stdout.write(JSON.stringify({type:'turn.failed',error:{message:behavior==='mcp-capacity'?'Selected model is at capacity. Please try a different model.':'Synthetic provider stopped after tool failure'}})+'\n');child.emit('close',1);return;
    }
    if(behavior==='wait')return;
+   if(behavior.startsWith('capacity')){
+    if(behavior==='capacity-tls')child.stderr.write('websocket: tls handshake eof');
+    child.stdout.write(JSON.stringify({type:'error',message:'Selected model is at capacity. Please try a different model.'})+'\n');
+    child.stdout.write(JSON.stringify({type:'turn.failed',error:behavior==='capacity-code'?{code:'server_is_overloaded'}:{message:behavior==='capacity-then-auth'?'Authentication failed':'Selected model is at capacity. Please try a different model.'}})+'\n');
+    if(behavior==='capacity-recovered'){child.stdout.write(JSON.stringify({type:'turn.completed',usage:{input_tokens:1,output_tokens:1}})+'\n');fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'question'}));child.emit('close',0);return;}
+    child.emit('close',1);return;
+   }
    if(behavior==='model-unavailable'){child.stderr.write('The requested model does not exist');child.emit('close',1);return;}
    if(behavior==='failure'||behavior==='input-limit'){child.stderr.write(behavior==='failure'?'Synthetic stderr /private/diagnostic':'Input exceeds the maximum length; input_too_large');child.stdout.write(JSON.stringify({type:'error',message:'Synthetic provider refusal'})+'\n');child.emit('close',1);return;}
    fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'capabilityGap',message:'Synthetic only'}));child.emit('close',0);
@@ -41,12 +48,28 @@ test('an unavailable engineering model preserves the requested ID and fails with
  const f=fixture(t,'model-unavailable');await assert.rejects(f.run(),e=>e.code==='AGENT_MODEL_UNAVAILABLE'&&e.status===400);
  assert.equal(f.calls(),1);const args=f.observed().args;assert.equal(args[args.indexOf('--model')+1],'synthetic-model');assert.equal(f.failure().model,'synthetic-model');
 });
+test('provider capacity is explicit with or without TLS stderr, without model substitution or CLI replay',async t=>{
+ for(const behavior of ['capacity','capacity-tls','capacity-code']){
+  const f=fixture(t,behavior);let error;
+  await assert.rejects(f.run(),e=>{error=e;return e.code==='AGENT_MODEL_CAPACITY'&&e.status===503;});
+  assert.equal(f.calls(),1);assert.equal(f.observed().args[f.observed().args.indexOf('--model')+1],'synthetic-model');
+  assert.equal(f.failure().errorEvents[0].message,'Selected model is at capacity. Please try a different model.');
+  assert.equal(JSON.parse(error.diagnostic).code,'AGENT_MODEL_CAPACITY');assert.equal(error.usage.actualInputTokens,null);
+ }
+ const f=fixture(t,'capacity-then-auth');await assert.rejects(f.run(),{code:'AGENT_PROCESS_FAILED'});
+ const recovered=fixture(t,'capacity-recovered');assert.equal((await recovered.run()).result.kind,'question');assert.equal(recovered.calls(),1);
+});
 test('failed worker persists bounded private stderr and a correlated public diagnostic without source text',async t=>{
  const f=fixture(t,'failure');let error;await assert.rejects(f.run(),e=>{error=e;return e.code==='AGENT_PROCESS_FAILED';});const receipt=f.failure(),diagnostic=JSON.parse(error.diagnostic);
  assert.equal(receipt.stderr,'Synthetic stderr /private/diagnostic');assert.equal(receipt.exitCode,1);assert.equal(receipt.errorEvents[0].type,'error');assert.equal(diagnostic.traceId,receipt.traceId);assert.equal(diagnostic.traceRecorded,true);assert.equal(error.diagnostic.includes('/private'),false);
  const file=f.root+'/trace/'+receipt.traceId+'.failure.json';assert.equal(fs.statSync(file).mode&0o777,0o600);assert.equal(Object.hasOwn(receipt,'environment'),false);
 });
 test('a provider input-size refusal has a specific code and retained failure receipt',async t=>{const f=fixture(t,'input-limit');await assert.rejects(f.run(),e=>e.code==='AGENT_CONTEXT_LIMIT');assert(f.failure().stderr.includes('input_too_large'));});
+test('capacity after MCP activity retains tool failure evidence for independent readback',async t=>{
+ const f=fixture(t,'mcp-capacity');let error;await assert.rejects(f.run({profile:'landing-figma'}),e=>{error=e;return e.code==='AGENT_MODEL_CAPACITY';});
+ assert.equal(f.calls(),1);assert.equal(f.failure().mcpToolEvents.observedEventCount,2);assert.equal(error.nativeFailures[0].callId,'mcp:call-one');
+ assert.equal(error.nativeFailures[0].code,'FIGMA_MCP_TOOL_ERROR');assert.equal(JSON.parse(error.diagnostic).operation,'mcp.use_figma');
+});
 test('spawn failures keep a diagnostic receipt without exposing the executable path',async t=>{const f=fixture(t,'spawn-error');await assert.rejects(f.run(),e=>e.code==='AGENT_CLI_UNAVAILABLE'&&!e.diagnostic.includes('/private'));assert.equal(f.failure().stage,'spawn');});
 test('cancel and timeout retain failure diagnostics and the original terminal codes',async t=>{
  const cancelled=fixture(t,'wait'),controller=new AbortController(),pending=cancelled.run({signal:controller.signal});await cancelled.spawned;controller.abort();await assert.rejects(pending,e=>e.code==='AGENT_CANCELLED');assert.deepEqual(cancelled.kills,['SIGTERM']);assert.equal(cancelled.failure().stage,'interrupted');

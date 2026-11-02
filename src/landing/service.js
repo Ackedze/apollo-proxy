@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const {setTimeout:delay}=require('node:timers/promises');
 const {budget}=require('../generation-agent/usage');
 const {openKnowledge}=require('./knowledge');
 const {LANDING_ID,skillId:validSkillId}=require('../skills/catalog');
@@ -22,7 +23,7 @@ const RESOURCE={type:'object',properties:{id:{type:'string'},mode:{type:'string'
 const STEP={type:'object',properties:{kind:{type:'string',enum:['list_resources','request_context','question','build','continue','finish']},message:{type:'string'},specJson:{type:'string'},query:{type:'string'},offset:{type:'integer'},resources:{type:'array',items:RESOURCE},resultJson:{type:'string'}},required:['kind','message','specJson','query','offset','resources','resultJson'],additionalProperties:false};
 const WORKING=new Set(['running','awaiting-canvas','awaiting-readback']);
 const READER_STATE='apollo.generation-reader.v1';
-function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT}),createCli,readNow=Date.now}={}){
+function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT}),createCli,readNow=Date.now,waitForRetry=(ms,signal)=>delay(ms,undefined,{signal})}={}){
  if(!path.isAbsolute(root||'')||typeof createCli!=='function')fail('LANDING_CONFIGURATION_INVALID',503);
  fs.mkdirSync(root,{recursive:true,mode:0o700});if(fs.realpathSync(root)!==root)fail('LANDING_STORAGE_UNSAFE',503);
  const records=new Map(),jobs=new Map();
@@ -70,7 +71,7 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
  function assertJob(r,job){if(jobs.get(r.id)!==job||job.controller.signal.aborted||r.status==='cancelled')fail('LANDING_CANCELLED');job.source.assertCurrent();}
  function stopped(r,job,error){
   if(error.usage)r.usage.push(error.usage);if(jobs.get(r.id)!==job){if(error.usage)save(r);return;}
-  r.status=error.code==='LANDING_CANCELLED'||error.code==='AGENT_CANCELLED'?'cancelled':'interrupted';r.error=r.error||{code:error.code||'LANDING_EXECUTION_FAILED',diagnostic:error.diagnostic||{stage:'landing-'+job.phase,modelStep:job.steps,lastQueries:(job.indexes||[]).map(row=>({query:row.query,offset:row.offset,total:row.total})),step:job.lastOutput||null,resourceRequest:job.resourceRequest||null}};r.failures=r.failures||[];r.failures.push({revision:r.revision,at:new Date(readNow()).toISOString(),error:copy(r.error)});r.message=r.status==='cancelled'?'Остановлено. История и созданный макет сохранены.':r.target?'Продолжение остановлено. История и созданная область сохранены.':'Подготовка прервана. История сохранена; макет ещё не создавался.';save(r);jobs.delete(r.id);
+  r.status=error.code==='LANDING_CANCELLED'||error.code==='AGENT_CANCELLED'?'cancelled':'interrupted';r.error=r.error||{code:error.code||'LANDING_EXECUTION_FAILED',diagnostic:error.diagnostic||{stage:'landing-'+job.phase,modelStep:job.steps,lastQueries:(job.indexes||[]).map(row=>({query:row.query,offset:row.offset,total:row.total})),step:job.lastOutput||null,resourceRequest:job.resourceRequest||null}};r.failures=r.failures||[];r.failures.push({revision:r.revision,at:new Date(readNow()).toISOString(),error:copy(r.error)});r.message=r.status==='cancelled'?'Остановлено. История и созданный макет сохранены.':r.error.code==='AGENT_MODEL_CAPACITY'?'Модель временно перегружена. Выполненные шаги сохранены. Продолжите позже в этом чате.':r.target?'Продолжение остановлено. История и созданная область сохранены.':'Подготовка прервана. История сохранена; макет ещё не создавался.';save(r);jobs.delete(r.id);
  }
  function launch(r,job){job.promise=execute(r,job).catch(error=>stopped(r,job,error));return view(r);}
  function submit(id,body){
@@ -99,10 +100,25 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
  ].join('\n');}
  async function execute(r,job){
   while(++job.steps<=24){
-   assertJob(r,job);const text=prompt(r,job);budget({prompt:text,schema:STEP,outputReserveChars:196608});
+   assertJob(r,job);
    const directory=path.join(root,'work',r.id),trace=path.join(root,'traces',r.id);fs.mkdirSync(directory,{recursive:true});fs.mkdirSync(trace,{recursive:true});
    job.lastOutput=null;job.resourceRequest=null;
-   const cli=createCli(r.context.fileKey),out=await cli.run({workspace:directory,traceDirectory:trace,profile:job.phase==='write'?'landing-figma':'landing-plan',prompt:text,schema:STEP,signal:job.controller.signal,mcpBudget:{maxToolCalls:Math.min(24,96-job.toolCalls),maxTotalToolOutputBytes:16*1024*1024},diagnosticContext:{requestId:job.requestId,runId:r.id,stage:'landing-'+job.phase,modelStep:job.steps,rootNodeId:r.target?.rootNodeId||null}});
+   const cli=createCli(r.context.fileKey);let out;
+   for(let retry=0;;retry++){
+    assertJob(r,job);const text=prompt(r,job);budget({prompt:text,schema:STEP,outputReserveChars:196608});
+    try{
+     out=await cli.run({workspace:directory,traceDirectory:trace,profile:job.phase==='write'?'landing-figma':'landing-plan',prompt:text,schema:STEP,signal:job.controller.signal,mcpBudget:{maxToolCalls:Math.min(24,96-job.toolCalls),maxTotalToolOutputBytes:16*1024*1024},diagnosticContext:{requestId:job.requestId,runId:r.id,stage:'landing-'+job.phase,modelStep:job.steps,rootNodeId:r.target?.rootNodeId||null}});break;
+    }catch(error){
+     // Only the tool-free planner can be replayed without a fresh canvas read.
+     if(error.code!=='AGENT_MODEL_CAPACITY'||job.phase!=='plan'||retry>=2||job.steps>=24||job.controller.signal.aborted||jobs.get(r.id)!==job)throw error;
+     if(error.usage)r.usage.push(error.usage);
+     r.failures=r.failures||[];r.failures.push({revision:r.revision,at:new Date(readNow()).toISOString(),error:{code:error.code,diagnostic:error.diagnostic||null}});
+     assertJob(r,job);const ms=[5000,15000][retry];
+     r.message=`Модель временно перегружена. Повторим запрос через ${ms/1000} с (повтор ${retry+1} из 2).`;save(r);
+     await waitForRetry(ms,job.controller.signal);assertJob(r,job);
+     job.steps++;r.message='Повторяем запрос к модели. Прочитанные данные сохранены…';save(r);
+    }
+   }
    const step=out.result;
    try{assertJob(r,job);}catch(error){error.usage=out.receipt?.usage;throw error;}
    r.usage.push(out.receipt?.usage||null);

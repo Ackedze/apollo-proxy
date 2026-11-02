@@ -147,10 +147,13 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    child.on('close',async code=>{
     if(closed)return;closed=true;clean();consume(buffer);
     if(failure)return reject(await failureError(failure.code,{status:failure.status,stage:'interrupted',exitCode:code,stderr,events}));
-    if(code!==0){
+    const providerError=events.filter(e=>['error','turn.failed','turn.completed'].includes(e.type)).at(-1);
+    const detail=providerError?.type==='turn.failed'?providerError.error:providerError?.type==='error'?providerError:null;
+    const capacity=['server_is_overloaded','server_overloaded'].includes(detail?.code)||/^Selected model is at capacity\.(?: Please try a different model\.)?$/.test(detail?.message||'');
+    if(code!==0||capacity){
      // This launcher also ships standalone, without the parent CLI adapters.
      const unavailable=/model_not_found|(?:unknown|invalid|unsupported) model|model[^\n]{0,160}(?:does not exist|not found|not available|not supported|do not have access)/i.test(stderr+'\n'+JSON.stringify(events.filter(e=>['error','turn.failed'].includes(e.type))));
-     return reject(await failureError(unavailable?'AGENT_MODEL_UNAVAILABLE':(/input_too_large|Input exceeds the maximum length/.test(stderr)?'AGENT_CONTEXT_LIMIT':'AGENT_PROCESS_FAILED'),{status:unavailable?400:502,exitCode:code,stderr,events}));
+     return reject(await failureError(capacity?'AGENT_MODEL_CAPACITY':unavailable?'AGENT_MODEL_UNAVAILABLE':(/input_too_large|Input exceeds the maximum length/.test(stderr)?'AGENT_CONTEXT_LIMIT':'AGENT_PROCESS_FAILED'),{status:capacity?503:unavailable?400:502,exitCode:code,stderr,events}));
     }
     try{
      if(scopedDirectory(generatedRoot,workspace)!==scope||signal?.aborted)fail('AGENT_CANCELLED');
