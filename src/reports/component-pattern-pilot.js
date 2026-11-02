@@ -1,6 +1,7 @@
 'use strict';
 const base = require('./progressbar-pilot');
 const link = require('./link-pattern-context');
+const contextEvidence = require('./link-context-evidence');
 const LINK_PILOT = 'component-patterns-v3', LINK_RESULT_SCHEMA = 'apollo.component-pattern-assessment.v3';
 const PILOT = 'component-patterns-v2', RESULT_SCHEMA = 'apollo.component-pattern-assessment.v2';
 const PREFIX = 'rule:components.progress-bar.';
@@ -42,7 +43,7 @@ function familyFor(contract) {
   if (['icon-button', 'icon-button-inverted'].includes(name)) return 'icon-button';
   fail('PATTERN_IDENTITIES_INCOMPLETE');
 }
-async function readIdentities(options, mode = PILOT) {
+async function readIdentities(options, mode = PILOT, capture = null) {
   const sources = [], contracts = [], seen = new Set();
   for (const profile of profilesFor(mode)) for (const identity of profile.identities) {
     const source = await base.readSource(options.designSystemRoot, identity.path, 'identities-' + identity.ids[0].split('.')[0]);
@@ -60,7 +61,10 @@ async function readIdentities(options, mode = PILOT) {
       contracts.push({ contract: c, profile: profile.id, family: familyFor(c) });
     }
   }
-  return { sources, contracts, rules: rulesFor(mode) };
+  const hasLink = capture?.nodes.some(node => node.component && contracts.some(item => item.family === 'link' && item.contract.componentKey === (node.component.setKey || node.component.key)));
+  const context = mode === LINK_PILOT && capture?.schemaVersion === 'apollo.progressbar-capture.v2' && hasLink ? await contextEvidence.loadSources(options, base.readSource, capture) : null;
+  if (context) sources.push(...context.sources);
+  return { sources, contracts, rules: rulesFor(mode), context };
 }
 function resolveSubjects(capture, registry) {
   const subjects = [], byNode = new Map(), parents = new Map(capture.nodes.map(node => [node.id, node.parentId]));
@@ -94,6 +98,9 @@ function resolveSubjects(capture, registry) {
     const own = nodeId => { while (nodeId) { if (nodeId === subject.nodeId) return true; nodeId = parents.get(nodeId); } return false; };
     subject.contextNodeIds = capture.nodes.filter(node => ancestors.has(node.id) || own(node.id)
       || node.type === 'TEXT' && ancestors.has(node.parentId)).map(node => node.id);
+  }
+  if (registry.context) for (const subject of subjects.filter(item => item.family === 'link')) {
+    subject.linkContext = contextEvidence.contextFor(subject, capture, registry.context.hosts);
   }
   return subjects;
 }
@@ -156,7 +163,7 @@ async function preparePilot(payload, options) {
   if (![PILOT, LINK_PILOT].includes(payload?.report?.pilot)) fail('PATTERN_REQUEST_INVALID');
   const invalid = base.validatePilotRequest(payload, options.now?.() ?? Date.now()); if (invalid) fail(invalid);
   const mode = payload.report.pilot, declaredContext = mode === LINK_PILOT ? payload.report.context : null;
-  const capture = payload.report.capture, registry = await readIdentities(options, mode), subjects = resolveSubjects(capture, registry);
+  const capture = payload.report.capture, registry = await readIdentities(options, mode, capture), subjects = resolveSubjects(capture, registry);
   if (subjects.reduce((sum, subject) => sum + subject.ruleIds.length, 0) > 64) fail('PATTERN_CONTEXT_LIMIT');
   const requestedRuleIds = rulesFor(mode).filter(rule => subjects.some(subject => subject.ruleIds.includes(rule.id))).map(rule => rule.id);
   const resolved = await loadNorms(options, registry, requestedRuleIds, mode, declaredContext);
@@ -167,7 +174,7 @@ async function preparePilot(payload, options) {
     capture: Object.assign({}, capture, { screenshot: { nodeId: capture.rootId, mimeType: 'image/png', sha256: base.decodeImage(capture.screenshot).sha256 } }) };
 }
 async function assertSourceCurrent(packet, options) {
-  const current = await loadNorms(options, await readIdentities(options, packet.transport.mode), packet.requestedRuleIds, packet.transport.mode, packet.declaredContext || null);
+  const current = await loadNorms(options, await readIdentities(options, packet.transport.mode, packet.capture), packet.requestedRuleIds, packet.transport.mode, packet.declaredContext || null);
   if (current.sourcePin !== packet.sourcePin) fail('PATTERN_SOURCE_STALE');
 }
 function promptForPilot(packet) {
@@ -185,7 +192,9 @@ function promptForPilot(packet) {
       ? 'Для каждого subject верни ровно один assessment, ruleIds ровно subject.ruleIds, ruleResults ровно по каждому из этих правил. Каждый ruleResult.evidenceNodeIds обязан содержать subject.nodeId и только реальные IDs из capture. Чужие subjects и их внутренние тексты не являются доказательством. Исключение Amount: другие Amount в той же наблюдаемой колонке для правила table-currency-not-duplicated; не используй это исключение для денежного назначения Amount или правил Goal/Limit. Исключение Link: захваченный ancestor-host subject другого семейства и его допустимые узлы могут быть доказательством для вложенного Link только внутри subject.contextNodeIds. sibling-subject и другой Link, включая их внутренние тексты, запрещены.'
       : 'Для каждого subject верни ровно один assessment, ruleIds ровно subject.ruleIds, ruleResults ровно по каждому из этих правил. Каждый ruleResult.evidenceNodeIds обязан содержать subject.nodeId и только реальные IDs из capture. Чужие subjects и их внутренние тексты не являются доказательством; единственное исключение — другие Amount в той же наблюдаемой колонке для правила table-currency-not-duplicated. Не используй это исключение для денежного назначения Amount или правил Goal/Limit.',
     'assessment.evidenceNodeIds — точное объединение evidenceNodeIds его ruleResults. sourceRefs — по одной ссылке на canonical-<profile> с точным полным sha256 файла для каждого ruleId. Не выдумывай RuleID, цитаты, узлы, источники или уверенность.',
-    'outcome: violation при любом нарушенном правиле, иначе insufficient-data при нехватке данных, иначе compliant при соответствии применимому правилу, иначе not-applicable. Для каждого вывода дай короткие observation и reason по фактам. Не проверяй стили, геометрию, математику, состояния и детерминированные правила.',
+    'outcome: violation при любом нарушенном правиле, иначе insufficient-data при нехватке данных, иначе compliant при соответствии применимому правилу, иначе not-applicable. Для каждого вывода дай короткие observation и reason по фактам. ' + (packet.transport.mode === LINK_PILOT
+      ? 'Не повторяй контрактный аудит геометрии, математики и состояний. Для контекстных правил Link используй переданные цветовые привязки и slot evidence.'
+      : 'Не проверяй стили, геометрию, математику, состояния и детерминированные правила.'),
     'Сохрани reportId, captureId и sourcePin. Верни только JSON по схеме.',
     '<untrustedComponentPatternData>', JSON.stringify(packet), '</untrustedComponentPatternData>',
   ].join('\n');

@@ -63,8 +63,9 @@ function decodeImage(image) {
 }
 
 function validateCapture(capture, now = Date.now()) {
-  if (!exact(capture, 'schemaVersion,captureId,capturedAt,pageId,rootId,fileKey,complete,excludedHidden,nodes,screenshot,fingerprint')
-    || capture.schemaVersion !== 'apollo.progressbar-capture.v1' || !text(capture.captureId, 160) || !capture.captureId
+  const enriched = capture?.schemaVersion === 'apollo.progressbar-capture.v2';
+  if (!exact(capture, 'schemaVersion,captureId,capturedAt,pageId,rootId,fileKey,complete,excludedHidden,nodes,screenshot,fingerprint' + (enriched ? ',contextEvidence' : ''))
+    || !['apollo.progressbar-capture.v1', 'apollo.progressbar-capture.v2'].includes(capture.schemaVersion) || !text(capture.captureId, 160) || !capture.captureId
     || !NODE_ID.test(capture.pageId) || !NODE_ID.test(capture.rootId) || (capture.fileKey !== null && !/^[A-Za-z0-9_-]{1,128}$/.test(capture.fileKey))
     || capture.complete !== true || !Number.isSafeInteger(capture.excludedHidden) || capture.excludedHidden < 0
     || !Array.isArray(capture.nodes) || !capture.nodes.length || capture.nodes.length > 300 || !SHA.test(capture.fingerprint)) fail('PROGRESSBAR_CAPTURE_INCOMPLETE');
@@ -86,6 +87,7 @@ function validateCapture(capture, now = Date.now()) {
     }
   }
   if (totalText > 24000 || instances > 32 || capture.screenshot.nodeId !== capture.rootId) fail('PROGRESSBAR_CAPTURE_INCOMPLETE');
+  if (enriched && !require('./link-context-evidence').validateEvidence(capture.contextEvidence, capture.nodes)) fail('PATTERN_CONTEXT_EVIDENCE_INVALID');
   return decodeImage(capture.screenshot);
 }
 function validatePilotRequest(payload, now = Date.now()) {
@@ -99,13 +101,14 @@ function validatePilotRequest(payload, now = Date.now()) {
   } catch (error) { return error.code || 'PROGRESSBAR_REQUEST_INVALID'; }
 }
 
-async function readSource(root, relative, sourceId) {
+async function readSource(root, relative, sourceId, maxBytes = 2097152) {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1 || maxBytes > 8 * 1024 * 1024) fail('PROGRESSBAR_SOURCE_INVALID', 503);
   const resolved = await fs.realpath(root);
   if (await fs.stat(path.join(resolved, '.git')).then(() => true, () => false)) fail('PROGRESSBAR_CHECKOUT_KNOWLEDGE_FORBIDDEN', 503);
   if (!/^[a-zA-Z0-9_ .:/-]+\.md$|^[a-zA-Z0-9_ .:/-]+\.json$/.test(relative) || relative.split('/').some(part => !part || part === '..' || part === '.')) fail('PROGRESSBAR_SOURCE_INVALID', 503);
   let file = resolved;
   for (const part of relative.split('/')) { file = path.join(file, part); if ((await fs.lstat(file)).isSymbolicLink()) fail('PROGRESSBAR_SOURCE_INVALID', 503); }
-  const stat = await fs.stat(file); if (!stat.isFile() || stat.size > 2097152) fail('PROGRESSBAR_SOURCE_INVALID', 503);
+  const stat = await fs.stat(file); if (!stat.isFile() || stat.size > maxBytes) fail('PROGRESSBAR_SOURCE_INVALID', 503);
   const bytes = await fs.readFile(file), document = bytes.toString('utf8');
   if (!Buffer.from(document).equals(bytes)) fail('PROGRESSBAR_SOURCE_INVALID', 503);
   return { sourceId, path: relative, sha256: sha(bytes), document };

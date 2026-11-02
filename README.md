@@ -1117,10 +1117,33 @@ not-applicable для Link. Контекст включён в sourcePin и во
 Нормативный источник Link — целый canonical MD из принятого knowledge snapshot.
 Hub-копия не объявляется эквивалентной. Маршрут всех 15 RuleID зафиксирован в
 `src/reports/link-pattern-context.js`; смена состава требует пересмотра покрытия.
-Точные стили/токены, размеры и фактическая навигация не входят в агентский verdict;
-это contextual scope, не полный аудит компонента или исходного смешанного RuleID.
+Размеры и фактическая навигация frontend не входят в агентский verdict;
+цветовые bindings и структурные слоты используются для контекстного вывода.
+Это contextual scope, не полный контрактный аудит компонента или смешанного RuleID.
 Соседняя Link не может служить доказательством назначения текущего экземпляра.
 Недостаточный контекст и конфликты не превращаются в нарушение или PASS.
+
+Capture v2 принимает строго проверенный `contextEvidence` с actual fills,
+полными сегментами текста, variable key/collection key, alias chains и режимами,
+public properties/references, reactions и annotations. V1 остаётся совместимым.
+Из pinned knowledge читаются один каталог Interface Dynamic и восемь каталогов
+host-компонентов (Notification, Plate, Tooltip, Checkbox, TitleView, IsleBlock,
+FAQ, BackgroundPlate/BackgroundPlateSlot). В пакет агента входят только четыре canonical цветовых identity и
+структурная проекция hosts; исходные SHA включены в sourcePin и перечитываются
+при run/post-call. Полные каталоги, baseline и новые нормы агенту не подставляются.
+Для component-context также подключаются закреплённые выдержки существующих
+`p_islands.md`, `p_faq.md`, `p_tooltip_hint.md`: Footer/псевдоссылки островка,
+размещение в ответе FAQ и допустимое содержание Tooltip/Hint. Их RuleID не
+добавляются в восемь результатов Link; конфликт источников не скрывается.
+
+`subject.linkContext` показывает проверенный по каталогу host, путь вложения и
+владельцев property references. Текст host через обычные обёртки допустим как
+evidence; содержимое соседнего INSTANCE/Link не заимствуется. Имя слоя не задаёт
+семантику слота, совпавшее имя переменной не подтверждает canonical цвет.
+Prototype/hyperlink и прямая annotation помогают проверить design intent и
+объявление псевдоссылки; отсутствие работающего callback не требует UNKNOWN
+для каждой обычной или телефонной ссылки. Неизвестные prototype, нормативные
+исключения и неснятый внешний контекст сохраняют честный insufficient-data.
 
 V1/V2 сохранены. Для нового UI нужен Proxy с V3; данные не обновляют код.
 Нормативные источники, контракты и установленная программа этим изменением не меняются.
