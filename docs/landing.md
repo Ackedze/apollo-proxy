@@ -276,3 +276,28 @@ UNKNOWN; реальный delivery/font/image route проверяет влад�
 Эти source changes не обновляют установленные runtime/data или плагин. Нужен отдельный
 совместимый выпуск и его ручная установка владельцем. Synthetic tests не являются
 успешным лендингом в Figma; полный прогон и затем follow-up/Stop остаются отдельной приёмкой.
+
+## Recipe-bound initial slot content
+
+Skill generation.recipeOperations=slot-content-replacement-v1 requires the same
+portable-runtime capability. Older clients retain their old channels.
+The component recipe owns the apollo-slot-content-replacement declaration: exact
+owner key, native SLOT and finite full default subtree shape. prepare-foundation
+selects the recipe ID from an actually read cited range. Proxy parses that source;
+worker text alone never grants deletion.
+
+Only a fresh owned root with an empty initial canvas can bind the default native
+payload after foundation confirmation. The host retains all payload node IDs and
+native fields before the first structure write. It permits complete removal of
+that unchanged subtree only when the first accepted active block appears directly
+in that same slot. No exception is based on a component or placeholder name in
+generic code. Root/slot/other blocks and foreign or modified content stay protected.
+The allowance is consumed once after independent readback; a recovered or resumed
+write reuses the created block. Existing source pins, Stop,48/96limits and90s soft
+checkpoint behavior remain unchanged.
+
+The retained c93f7a8d before snapshot reproduces the old scope rejection. Automated
+coverage includes a real-shape payload, wrong/missing destination, foreign keys,
+changed/extra user nodes, one-time consumption and five-block recovery. These
+checks are synthetic model/native integration; installation and Figma field
+acceptance remain owner-only.

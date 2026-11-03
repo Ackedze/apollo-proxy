@@ -7,17 +7,19 @@ const cite=row=>({id:row.id,sha256:row.sha256,path:row.path,offset:row.offset,ob
 const foundation={container:{role:'surface',type:'INSTANCE',componentKey:key},mount:{role:'main',type:'SLOT',componentKey:null},layout:{spacingToken:'fixture-token'}};
 const outline={facts:[{id:'offer',value:'Confirmed fixture offer'}],sections:['hero','benefits','steps','faq','cta'].map(id=>({id,role:id,contentShape:{items:1,textFields:1},sourceIds:[],nodeId:null}))};
 const target={fileKey:'FixtureFile',pageId:'page',rootNodeId:'root',ownerNonce:'a'.repeat(64),leaseNonce:'b'.repeat(64)};
-function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlineRead=false,outlineOverride=null}={}){
+function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlineRead=false,outlineOverride=null,payload=false,checkpointYield=false}={}){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'landing-staged-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
- const virtual={foundation:false,sections:[],texts:{},partial:false},calls=[],reads=[],mutations=[];
+ const recipe={schemaVersion:'apollo.slot-content-replacement.v1',id:'Fixture.main.default',containerKey:key,slot:{type:'SLOT',name:'Source mount'},defaultChildren:[{type:'FRAME',name:'Fixture placeholder',children:[{type:'TEXT',name:'Fixture label',characters:'Fixture default',children:[]}]}]},foundationGuide=payload?{...guide,text:guide.text+'\n```apollo-slot-content-replacement\n'+JSON.stringify(recipe)+'\n```'}:guide,foundationDecision=payload?{...foundation,slotContentReplacement:recipe.id}:foundation;
+ const virtual={foundation:false,sections:[],texts:{},partial:false,payload:false,created:0,yielded:false},calls=[],reads=[],mutations=[];
  const snapshot=()=>{
   const nodes=[{id:'root',parentId:'page',type:'FRAME',name:'Root',role:'',sectionId:null}];
   if(virtual.foundation)nodes.push({id:'surface',parentId:'root',type:'INSTANCE',name:'Source foundation',role:'surface',sectionId:null,componentKey:key},{id:'main',parentId:'surface',type:'SLOT',name:'Source mount',role:'main',sectionId:null});
+  if(virtual.payload)nodes.push({id:'default-frame',parentId:'main',type:'FRAME',name:'Fixture placeholder',role:'',sectionId:null},{id:'default-text',parentId:'default-frame',type:'TEXT',name:'Fixture label',characters:'Fixture default',role:'',sectionId:null});
   const sections=virtual.sections.map(id=>({id:'node-'+id,sectionId:id,fingerprint:sha([id,virtual.texts[id]||'Placeholder',wrongKey?'wrong':key])}));
   for(const row of sections)nodes.push({id:row.id,parentId:'main',type:'INSTANCE',name:row.sectionId,role:'',sectionId:row.sectionId,componentKey:wrongKey?'c'.repeat(40):key,componentProperties:{View:{type:'VARIANT',value:'Fixture'}}},{id:'text-'+row.sectionId,parentId:row.id,type:'TEXT',name:'Title',role:'',sectionId:row.sectionId,characters:virtual.texts[row.sectionId]||'Placeholder',fontName:{family:'Fixture',style:'Regular'},hasMissingFont:false});
   return {rootNodeId:'root',pageId:'page',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:nodes.length,instanceCount:virtual.foundation?1+sections.length:0,sections,text:Object.values(virtual.texts).join('\n'),coverage:'tagged-sections-and-text',native:{schemaVersion:'apollo.landing-native.v1',nodes}};
  };
- const source={id:'fixture',knowledgeVersion:'fixture',resumePin:'fixture-pin',skill:{id:'ab-generate-custom-landing',generation:{workflow},version:'0.4.0',sha256:'fixture'},assertCurrent(){},initial:{norms:[guide],instructions:{},workflow:[],resources:[]},list(query,offset){return {query,offset,total:1,next:null,resources:[{id:'knowledge/data/ds-ai-hub/'+query+'instructions.md'}]};},read(req){reads.push(req.id);return {...req,sha256:guide.sha256,text:'Documented component fixture published key '+key,next:null,total:68};}};
+ const source={id:'fixture',knowledgeVersion:'fixture',resumePin:'fixture-pin',skill:{id:'ab-generate-custom-landing',generation:{workflow,...(payload?{recipeOperations:'slot-content-replacement-v1'}:{})},version:payload?'0.4.1':'0.4.0',sha256:'fixture'},assertCurrent(){},initial:{norms:[foundationGuide],instructions:{},workflow:[],resources:[]},list(query,offset){return {query,offset,total:1,next:null,resources:[{id:'knowledge/data/ds-ai-hub/'+query+'instructions.md'}]};},read(req){reads.push(req.id);return {...req,sha256:guide.sha256,text:'Documented component fixture published key '+key,next:null,total:68};}};
  const service=createLandingService({root,knowledge:()=>source,createCli:()=>({run:async options=>{
   const ctx=JSON.parse(options.prompt.split('\n').at(-1));calls.push(ctx);let kind='continue',resources=[],sectionPatch=null,result={};const stage=ctx.execution?.stage,id=ctx.execution?.activeSectionId;
   if(!ctx.execution){kind=outlineRead&&calls.length===1?'list_resources':'build';result={};}
@@ -26,14 +28,15 @@ function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlin
    if(stall)result.partial=true;
    else if(stage==='prepare-structure'&&!ctx.resources.some(r=>r.id===componentId)||repeat){kind='list_resources';resources=[];}
    else{
-    const row=stage==='prepare-structure'?ctx.resources.find(r=>r.id===componentId):guide;
-    const decision=stage==='prepare-foundation'?foundation:stage==='prepare-structure'?{root:{type:'INSTANCE',componentKey:key},props:{View:'Fixture'},slots:['Title'],layout:{}}:{texts:[{target:'Title',value:'Text-'+id,factIds:['offer']}],assets:[]};
+    const row=stage==='prepare-structure'?ctx.resources.find(r=>r.id===componentId):foundationGuide;
+    const decision=stage==='prepare-foundation'?foundationDecision:stage==='prepare-structure'?{root:{type:'INSTANCE',componentKey:key},props:{View:'Fixture'},slots:['Title'],layout:{}}:{texts:[{target:'Title',value:'Text-'+id,factIds:['offer']}],assets:[]};
     result.preparationPatch={stage,sectionId:id,baseRevision:0,sources:[cite(row)],decision};
    }
-  }else if(stage==='foundation'){virtual.foundation=true;mutations.push(stage);}
+  }else if(stage==='foundation'){virtual.foundation=true;virtual.payload=payload;mutations.push(stage);}
   else if(stage==='structure'){
-   if(partial&&id==='hero'&&!virtual.partial){virtual.partial=true;result.partial=true;}else{if(!virtual.sections.includes(id))virtual.sections.push(id);sectionPatch={sectionId:id,nodeId:'node-'+id};}
+   if(partial&&id==='hero'&&!virtual.partial){virtual.partial=true;result.partial=true;}else{if(!virtual.sections.includes(id)){virtual.sections.push(id);virtual.created++;}if(id==='hero')virtual.payload=false;sectionPatch={sectionId:id,nodeId:'node-'+id};}
    assert.deepEqual(Object.keys(virtual.texts),[]);mutations.push(stage+':'+id);
+   if(checkpointYield&&id==='hero'&&!virtual.yielded){virtual.yielded=true;throw Object.assign(Error('AGENT_CHECKPOINT_REQUIRED'),{code:'AGENT_CHECKPOINT_REQUIRED',usage:{toolCalls:1}});}
   }else if(stage==='content'){
    assert.equal(virtual.sections.length,5);virtual.texts[id]='Text-'+id;mutations.push(stage+':'+id);
   }else if(stage==='verify'){
@@ -72,6 +75,11 @@ test('Stop and an explicit continuation preserve the root and resume the unfinis
  assert.equal(current.execution.stage,'content');assert.equal(current.execution.activeSectionId,'benefits');assert.deepEqual(current.spec.sections,before);assert.equal(h.virtual.sections.length,5);
  for(let n=0;n<24&&current.status==='awaiting-readback';n++)current=await h.observe();
  assert.equal(current.status,'completed',JSON.stringify(current.error));assert.equal(current.execution.completed.length,5);
+});
+test('a recipe-owned default subtree is consumed once and five blocks complete after an interrupted native write',async t=>{
+ const h=fixture(t,{payload:true,checkpointYield:true}),start=await h.submit();h.service.canvas(h.chat.id,{revision:start.revision,target,readback:h.snapshot()});await h.service.whenSettled(h.chat.id);let current=h.service.poll(h.chat.id),consumedSeen=false;
+ for(let n=0;n<48&&current.status==='awaiting-readback';n++){current=await h.observe();if(current.execution.slotContentReplacement?.consumed)consumedSeen=true;}
+ assert.equal(current.status,'completed',JSON.stringify(current.error));assert(consumedSeen);assert.equal(current.execution.slotContentReplacement.blockId,'node-hero');assert.equal(current.execution.structures.length,5);assert.equal(current.execution.completed.length,5);assert.equal(h.virtual.created,5);assert.equal(h.virtual.payload,false);assert.equal(current.failures[0].error.code,'AGENT_CHECKPOINT_REQUIRED');assert(h.calls.length<=48);
 });
 test('a prepared delta remains pending until unchanged readback and cannot affect a neighbor',async t=>{
  const h=fixture(t),start=await h.submit();h.service.canvas(h.chat.id,{revision:1,target,readback:h.snapshot()});await h.service.whenSettled(h.chat.id);

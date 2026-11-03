@@ -61,7 +61,7 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
   const descriptor = JSON.parse(files.get('dist/agent-figma-provider-descriptor.json').bytes);
   const manifest = { schemaVersion: RUNTIME_SCHEMA, profileVersion: build.profileVersion, nativeSourceHash: descriptor.sourceHash,
     ...(sourceProjection ? { sourceProjection } : {}),
-    capabilities: { checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').STAGED_WORKFLOW}:{}) },
+    capabilities: { checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').STAGED_WORKFLOW,recipeOperations:require('../src/skills/catalog').SLOT_CONTENT_REPLACEMENT}:{}) },
     files: Array.from(files, ([file, value]) => ({ file: file.split(path.sep).join('/'), sha256: sha(value.bytes), bytes: value.bytes.length })).sort((a, b) => a.file.localeCompare(b.file)) };
   manifest.id = idOf(manifest);
   for (const [relative, value] of files) {

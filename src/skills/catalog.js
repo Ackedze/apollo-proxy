@@ -7,6 +7,7 @@ const LANDING_FILES=['SKILL.md','references/figma-workflow.md','references/run-c
 const GENERATION_EXECUTOR='apollo.figma-mcp';
 const GENERATION_CAPABILITY='figma-mcp-skills-v1';
 const STAGED_WORKFLOW='staged-content-v1';
+const SLOT_CONTENT_REPLACEMENT='slot-content-replacement-v1';
 const skillId=value=>typeof value==='string'&&/^[a-z0-9][a-z0-9-]{0,79}$/.test(value);
 const instructionPath=value=>typeof value==='string'&&(value==='SKILL.md'||/^references\/[A-Za-z0-9_.\/-]+\.(md|json)$/.test(value))&&!value.split('/').some(part=>!part||part==='.'||part==='..');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
@@ -27,7 +28,7 @@ function packageFiles(bytes,expectedId=ID){
     const profile=value.generation;
     if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','generation'])||!skillId(expectedId)||expectedId===ID||value.id!==expectedId||value.executorId!==GENERATION_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
       ||!Array.isArray(value.files)||!value.files.length||!value.files.some(p=>p.path==='SKILL.md')||new Set(value.files.map(p=>p?.path)).size!==value.files.length||value.files.some(p=>!pin(p)||!instructionPath(p.path))
-      ||!exact(profile,['platforms','requiredResources','initialQueries','initialFiles','hostInstructions'].concat(Object.hasOwn(profile||{},'workflow')?['workflow']:[]))||Object.hasOwn(profile||{},'workflow')&&profile.workflow!==STAGED_WORKFLOW||!Array.isArray(profile.platforms)||profile.platforms.length!==1||profile.platforms[0]!=='desktop'
+      ||!exact(profile,['platforms','requiredResources','initialQueries','initialFiles','hostInstructions'].concat(Object.hasOwn(profile||{},'workflow')?['workflow']:[]).concat(Object.hasOwn(profile||{},'recipeOperations')?['recipeOperations']:[]))||Object.hasOwn(profile||{},'workflow')&&profile.workflow!==STAGED_WORKFLOW||Object.hasOwn(profile||{},'recipeOperations')&&(profile.recipeOperations!==SLOT_CONTENT_REPLACEMENT||profile.workflow!==STAGED_WORKFLOW)||!Array.isArray(profile.platforms)||profile.platforms.length!==1||profile.platforms[0]!=='desktop'
       ||!Array.isArray(profile.requiredResources)||!profile.requiredResources.length||new Set(profile.requiredResources).size!==profile.requiredResources.length||profile.requiredResources.some(id=>typeof id!=='string'||!/^knowledge\/data\/(ds-ai-hub|design-system_ab)\/.+\.(md|json|yaml|yml|txt)$/.test(id)||id.split('/').some(p=>!p||p==='.'||p==='..'))
       ||!Array.isArray(profile.initialQueries)||profile.initialQueries.some(q=>typeof q!=='string'||q.length>256)||!Array.isArray(profile.initialFiles)||!profile.initialFiles.includes('SKILL.md')||new Set(profile.initialFiles).size!==profile.initialFiles.length||profile.initialFiles.some(file=>!value.files.some(pin=>pin.path===file))||typeof profile.hostInstructions!=='string'||profile.hostInstructions.length>12000)fail();
     return value.files;
@@ -60,4 +61,4 @@ function generationPackages(root,manifest){
   return{id,descriptor,files:descriptor.files};
  });
 }
-module.exports={ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};
+module.exports={ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};

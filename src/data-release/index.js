@@ -64,6 +64,7 @@ function readReleaseFiles(root, runtimeRoot) {
   for(const entry of catalog.generationPackages(root,manifest)){
     if(entry.descriptor.schemaVersion==='apollo.skill-package.v2'&&runtime.capabilities?.generationSkills!==catalog.GENERATION_CAPABILITY)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.generation?.workflow&&runtime.capabilities?.generationWorkflow!==entry.descriptor.generation.workflow)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
+    if(entry.descriptor.generation?.recipeOperations&&runtime.capabilities?.recipeOperations!==entry.descriptor.generation.recipeOperations)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     for(const file of ['manifest.json',...entry.files.map(pin=>pin.path)])skillFiles.add('skills/'+entry.id+'/'+file);
   }
   for (const pin of manifest.files || []) {
