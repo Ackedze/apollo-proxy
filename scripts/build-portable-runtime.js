@@ -12,7 +12,7 @@ const ENTRIES = [
   'src/generation/agent/figma/source.json', 'src/generation/agent/figma/target.js',
   'src/generation/agent/figma/mapping.js', 'src/generation/agent/figma/projection.js', 'src/generation/agent/figma/api.js',
   'instructions/landing/figma-workflow.md', 'instructions/agent-generation/figma-owned-mapping.json',
-  'src/skills/layer-names/protocol.js',
+  'src/skills/layer-names/protocol.js', 'src/figma-audit/protocol.js',
   'skills/figma-layer-name-hygiene/profile.json', 'skills/figma-layer-name-hygiene/SKILL.md',
 ];
 function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIES }) {
@@ -61,7 +61,7 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
   const descriptor = JSON.parse(files.get('dist/agent-figma-provider-descriptor.json').bytes);
   const manifest = { schemaVersion: RUNTIME_SCHEMA, profileVersion: build.profileVersion, nativeSourceHash: descriptor.sourceHash,
     ...(sourceProjection ? { sourceProjection } : {}),
-    capabilities: { checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').STAGED_WORKFLOW,recipeOperations:require('../src/skills/catalog').SLOT_CONTENT_REPLACEMENT}:{}) },
+    capabilities: { ...(entries.includes('src/figma-audit/protocol.js')?{figmaAudit:require('../src/skills/catalog').AUDIT_CAPABILITY}:{}), checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').STAGED_WORKFLOW,recipeOperations:require('../src/skills/catalog').SLOT_CONTENT_REPLACEMENT}:{}) },
     files: Array.from(files, ([file, value]) => ({ file: file.split(path.sep).join('/'), sha256: sha(value.bytes), bytes: value.bytes.length })).sort((a, b) => a.file.localeCompare(b.file)) };
   manifest.id = idOf(manifest);
   for (const [relative, value] of files) {

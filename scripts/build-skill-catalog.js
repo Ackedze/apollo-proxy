@@ -14,6 +14,15 @@ function build({sourceRoot,runtimeRoot,indexPath}){
   if(path.relative(repoRoot,sourceRoot).split(path.sep).join('/')!=='apollo/skills')throw Error('SKILL_SOURCE_PATH_INVALID');
   const legacy=require('../src/skills/layer-names').loadSkill(runtimeRoot,{skillsRoot:sourceRoot});
   const run=require('../src/skills/run-skill').readRunProfile(path.join(sourceRoot,catalog.ID,'run'));
+  refreshCatalog(sourceRoot);
+  const admitted=catalog.readCatalog(sourceRoot),bytes=fs.readFileSync(path.join(sourceRoot,'manifest.json'));
+  legacy.assertCurrent();run.assertCurrent();admitted.assertCurrent();
+  if(!fs.readFileSync(indexPath).equals(indexBytes))throw Error('GIT_DATA_INDEX_CHANGED');
+  write(indexPath,{...index,skills:{path:'apollo/skills/manifest.json',sha256:admitted.sha256,bytes:bytes.length}});
+  return{skillsSourceSha256:admitted.sha256,index:indexPath};
+}
+function refreshCatalog(sourceRoot){
+  sourceRoot=path.resolve(sourceRoot);
   const entries=[];
   for(const id of fs.readdirSync(sourceRoot,{withFileTypes:true}).filter(entry=>entry.isDirectory()&&fs.existsSync(path.join(sourceRoot,entry.name,'manifest.json'))).map(entry=>entry.name).sort()){
   const packagePath=path.join(sourceRoot,id,'manifest.json');
@@ -29,11 +38,7 @@ function build({sourceRoot,runtimeRoot,indexPath}){
   entries.push({id,path:id+'/manifest.json',sha256:catalog.sha(packageBytes),bytes:packageBytes.length});
   }
   write(path.join(sourceRoot,'manifest.json'),{schemaVersion:'apollo.skill-catalog.v1',skills:entries});
-  const admitted=catalog.readCatalog(sourceRoot),bytes=fs.readFileSync(path.join(sourceRoot,'manifest.json'));
-  legacy.assertCurrent();run.assertCurrent();admitted.assertCurrent();
-  if(!fs.readFileSync(indexPath).equals(indexBytes))throw Error('GIT_DATA_INDEX_CHANGED');
-  write(indexPath,{...index,skills:{path:'apollo/skills/manifest.json',sha256:admitted.sha256,bytes:bytes.length}});
-  return{skillsSourceSha256:admitted.sha256,index:indexPath};
+  return catalog.readCatalog(sourceRoot);
 }
 if(require.main===module){
   const args=process.argv.slice(2),options={};
@@ -41,4 +46,4 @@ if(require.main===module){
   for(const key of ['sourceRoot','runtimeRoot','indexPath'])if(!options[key])throw Error('Missing '+key);
   try{console.log(JSON.stringify(build(options)));}catch(error){console.error(error.code||error.message);process.exitCode=1;}
 }
-module.exports={build};
+module.exports={build,refreshCatalog};

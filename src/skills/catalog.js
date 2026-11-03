@@ -6,6 +6,8 @@ const LANDING_ID='ab-generate-custom-landing';
 const LANDING_FILES=['SKILL.md','references/figma-workflow.md','references/run-contract.md','references/proxy.md'];
 const GENERATION_EXECUTOR='apollo.figma-mcp';
 const GENERATION_CAPABILITY='figma-mcp-skills-v1';
+const AUDIT_EXECUTOR='apollo.figma-audit';
+const AUDIT_CAPABILITY='figma-audit-v1';
 const STAGED_WORKFLOW='staged-content-v1';
 const SLOT_CONTENT_REPLACEMENT='slot-content-replacement-v1';
 const skillId=value=>typeof value==='string'&&/^[a-z0-9][a-z0-9-]{0,79}$/.test(value);
@@ -24,6 +26,14 @@ function catalogEntries(bytes){
 function catalogEntry(bytes){return catalogEntries(bytes).find(e=>e.id===ID);}
 function packageFiles(bytes,expectedId=ID){
   const value=parse(bytes);
+  if(value.schemaVersion==='apollo.skill-package.v3'){
+    const profile=value.audit;
+    if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','audit'])||expectedId!=='ab-audit-figma'||value.id!==expectedId||value.executorId!==AUDIT_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||!skillId(value.id)||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
+      ||!Array.isArray(value.files)||!value.files.length||!value.files.some(p=>p.path==='SKILL.md')||new Set(value.files.map(p=>p?.path)).size!==value.files.length||value.files.some(p=>!pin(p)||!instructionPath(p.path))
+      ||!exact(profile,['requiredResources','initialFiles','hostInstructions'])||!Array.isArray(profile.requiredResources)||!profile.requiredResources.length||new Set(profile.requiredResources).size!==profile.requiredResources.length||profile.requiredResources.some(id=>typeof id!=='string'||!/^knowledge\/data\/ds-ai-hub\/.+\.(md|json|yaml|yml|txt)$/.test(id)||id.split('/').some(p=>!p||p==='.'||p==='..'))
+      ||!Array.isArray(profile.initialFiles)||!profile.initialFiles.includes('SKILL.md')||new Set(profile.initialFiles).size!==profile.initialFiles.length||profile.initialFiles.some(file=>!value.files.some(pin=>pin.path===file))||typeof profile.hostInstructions!=='string'||!profile.hostInstructions.length||profile.hostInstructions.length>12000)fail();
+    return value.files;
+  }
   if(value.schemaVersion==='apollo.skill-package.v2'){
     const profile=value.generation;
     if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','generation'])||!skillId(expectedId)||expectedId===ID||value.id!==expectedId||value.executorId!==GENERATION_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
@@ -53,12 +63,14 @@ function readCatalog(root){
   });
   return {sha256:sha(body),entries,assertCurrent(){for(const pin of pins)if(sha(read(root,pin.file))!==pin.sha256)fail();}};
 }
-function generationPackages(root,manifest){
+function skillPackages(root,manifest){
  return manifest.files.filter(pin=>/^skills\/[a-z0-9][a-z0-9-]{0,79}\/manifest\.json$/.test(pin.file)).map(pin=>{
   const id=pin.file.split('/')[1],bytes=fs.readFileSync(path.join(root,pin.file)),descriptor=parse(bytes);
   if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail();
-  packageFiles(bytes,id);if(id!==LANDING_ID&&descriptor.executorId!==GENERATION_EXECUTOR)fail();
+  packageFiles(bytes,id);if(id!==LANDING_ID&&![GENERATION_EXECUTOR,AUDIT_EXECUTOR].includes(descriptor.executorId))fail();
   return{id,descriptor,files:descriptor.files};
  });
 }
-module.exports={ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};
+function generationPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId!==AUDIT_EXECUTOR);}
+function auditPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId===AUDIT_EXECUTOR);}
+module.exports={AUDIT_EXECUTOR,AUDIT_CAPABILITY,skillPackages,auditPackages,ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};

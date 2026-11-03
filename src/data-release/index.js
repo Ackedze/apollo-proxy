@@ -61,7 +61,8 @@ function readReleaseFiles(root, runtimeRoot) {
   verifyFiles(root, manifest.files);
   const skillFiles=new Set();
   const catalog=require('../skills/catalog');
-  for(const entry of catalog.generationPackages(root,manifest)){
+  for(const entry of catalog.skillPackages(root,manifest)){
+    if(entry.descriptor.executorId===catalog.AUDIT_EXECUTOR&&runtime.capabilities?.figmaAudit!==catalog.AUDIT_CAPABILITY)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.schemaVersion==='apollo.skill-package.v2'&&runtime.capabilities?.generationSkills!==catalog.GENERATION_CAPABILITY)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.generation?.workflow&&runtime.capabilities?.generationWorkflow!==entry.descriptor.generation.workflow)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.generation?.recipeOperations&&runtime.capabilities?.recipeOperations!==entry.descriptor.generation.recipeOperations)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
@@ -93,7 +94,7 @@ async function validateRelease(root, { runtimeRoot, validateData = validateInsta
   if (manifest.files.some(pin => pin.file.startsWith('skills/figma-layer-name-hygiene-run/'))) {
     require('../skills/run-skill').loadRunSkill(runtimeRoot,{releaseRoot:root}).assertCurrent();
   }
-  for(const entry of require('../skills/catalog').generationPackages(root,manifest))require('../landing/knowledge').readLandingSkill(root,entry.id,manifest).assertCurrent();
+  for(const entry of require('../skills/catalog').skillPackages(root,manifest))require('../landing/knowledge').readLandingSkill(root,entry.id,manifest).assertCurrent();
   return manifest;
 }
 
