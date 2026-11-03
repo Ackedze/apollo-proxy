@@ -53,6 +53,21 @@ async function fixture(t) {
   return {root,runtimeRoot,runtime,knowledgeRoot,data};
 }
 
+test('npm catalogue closure admits only declared hash-checked raw JSON', async t => {
+  const f=await fixture(t),dataRoot=await f.data('catalogue-data'),bytes=Buffer.from(JSON.stringify({components:[]}));
+  const rawFile='catalogs/'+sha(bytes)+'.json';await put(dataRoot,rawFile,bytes);
+  const index=JSON.parse(await fs.readFile(path.join(dataRoot,'manifest.json')));delete index.id;
+  index.rawCatalogs=[{contractId:index.contracts[0].id,catalog:{file:rawFile,sha256:sha(bytes),bytes:bytes.length}}];
+  index.id=releases.idOf(index);await put(dataRoot,'manifest.json',index);
+  const built=await buildNpmDataPackage({dataRoot,runtimeRoot:f.runtimeRoot,output:path.join(f.root,'catalogue-npm'),name:'@apollo/data',version:'1.0.0',tarballUrl:'https://example.test/catalogue.tgz'});
+  const accepted=await npmData.readPackage(built.packageRoot,built.descriptor.npm,f.runtimeRoot);accepted.assertCurrent();
+  assert.deepEqual(await fs.readFile(path.join(built.packageRoot,'data',rawFile)),bytes);
+  await put(built.packageRoot,'data/unselected.json',{});
+  await assert.rejects(npmData.readPackage(built.packageRoot,built.descriptor.npm,f.runtimeRoot),/NPM_DATA_EXTRA_FILE/);
+  await fs.rm(path.join(built.packageRoot,'data/unselected.json'));
+  await fs.appendFile(path.join(built.packageRoot,'data',rawFile),' ');
+  await assert.rejects(npmData.readPackage(built.packageRoot,built.descriptor.npm,f.runtimeRoot),/DATA_PACKAGE_STALE/);
+});
 test('data prepare selects exact contract IDs, keeps platform exclusions visible and rejects ambiguous identity', () => {
   const { selectContracts } = require('../scripts/prepare-data-package');
   const base = { contracts: [{ id: 'buttons.desktop', componentId: 'buttons', revision: 60 }] };

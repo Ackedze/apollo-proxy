@@ -144,6 +144,20 @@ test('first portable profile preserves normal checking/MCP readers and exact clo
  assert(files.every(file=>['.json','.zip'].includes(path.extname(file))));assert.equal(files.some(file=>fs.readFileSync(file).equals(sdkBytes)),false);
  assert.deepEqual(fs.readFileSync(path.join(root,'manifest.json')),before);
 });
+test('portable data includes lazy catalogue artifacts and refuses changed raw pins',async t=>{
+ const {projectPortableData}=require('../scripts/build-data-release');
+ const {dir,root}=setup(t),source=fixture.source(),genericMapping=mapping([profile(source,runtime.loadAuthoringSource(source).contract)]);
+ await importDataPackage({root,apolloRoot,packages:[zip(dir,source)],seed:{native:{mappings:[],sourceHash:require(path.join(app,'dist/agent-figma-postconditions.cjs')).SOURCE_HASH,genericMapping},semantic:genericMapping.semantic}});
+ const bytes=Buffer.from(JSON.stringify({components:[{key:'catalog-pilot',structure:[]}]})),file='catalogs/'+sha(bytes)+'.json';
+ fs.mkdirSync(path.join(root,'catalogs'));fs.writeFileSync(path.join(root,file),bytes);
+ replaceIndex(root,index=>{index.rawCatalogs=[{contractId:index.contracts[0].id,catalog:{file,sha256:sha(bytes),bytes:bytes.length}}];});
+ const before=fs.readFileSync(path.join(root,'manifest.json')),output=path.join(dir,'portable');
+ const result=await projectPortableData({dataRoot:root,runtimeRoot:apolloRoot,output});
+ assert.deepEqual(fs.readFileSync(path.join(output,file)),bytes);assert.equal(result.index.rawCatalogs[0].catalog.sha256,sha(bytes));
+ assert.deepEqual(fs.readFileSync(path.join(root,'manifest.json')),before);
+ fs.appendFileSync(path.join(root,file),' ');
+ await assert.rejects(projectPortableData({dataRoot:root,runtimeRoot:apolloRoot,output:path.join(dir,'corrupt')}),e=>e.code==='DATA_PACKAGE_STALE');
+});
 test('explicit mapping upgrades prune only unreferenced versions and keep old pinned children',async t=>{
  const dir=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-mapping-upgrade-'))),root=path.join(dir,'data');t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
  const n=fixture.nested(),oldHost=profile(n.source,n.host),oldChild=profile(n.childSource,n.child),genericMapping=mapping([oldHost,oldChild]);

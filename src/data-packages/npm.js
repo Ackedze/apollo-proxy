@@ -52,6 +52,11 @@ async function readPackage(root, pin, runtimeRoot) {
       ['scripts', 'dependencies', 'optionalDependencies', 'peerDependencies', 'bundledDependencies', 'bundleDependencies', 'bin'].some(key => pkg[key] !== undefined)) fail('NPM_DATA_PACKAGE_INVALID');
   const data = require('./generation').readGenerationData({ root: path.join(root, 'data'), apolloRoot: runtimeRoot });
   if (data.index.id !== pin.dataId || data.index.deliveryProfile !== 'checking-ask-figma-mcp') fail('NPM_DATA_IDENTITY_INVALID');
+  if (data.index.rawCatalogs !== undefined && !Array.isArray(data.index.rawCatalogs)) fail('NPM_DATA_PACKAGE_INVALID');
+  for (const descriptor of data.index.rawCatalogs || []) {
+    if (typeof descriptor?.catalog?.file !== 'string' || !descriptor.catalog.file.endsWith('.json')) fail('NPM_DATA_PACKAGE_INVALID');
+    data.reader.read(descriptor.catalog);
+  }
   const allowed = new Set(['package.json', 'data/manifest.json', ...Array.from(data.reader.pins.keys(), file => path.relative(root, file))]);
   const files = await knowledge.listPackageFiles(root);
   if (files.length !== allowed.size || files.some(file => !allowed.has(file))) fail('NPM_DATA_EXTRA_FILE');

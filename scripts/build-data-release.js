@@ -27,6 +27,10 @@ async function projectPortableData({ dataRoot, runtimeRoot, output, omitContract
   const data = packages.readGenerationData({ root: dataRoot, apolloRoot: runtimeRoot, index });
   // Include declared contract archives as well as files opened by the actual readers.
   for (const contract of index.contracts) if (contract.archive) data.reader.read(contract.archive);
+  // The optional audit reader consumes raw catalogues lazily. Keep their exact
+  // declared artifacts in the portable closure even before the first audit.
+  if (index.rawCatalogs !== undefined && !Array.isArray(index.rawCatalogs)) throw Error('PORTABLE_CATALOG_INDEX_INVALID');
+  for (const descriptor of index.rawCatalogs || []) data.reader.read(descriptor.catalog);
   for (const [file, digest] of data.reader.pins) {
     const relative = path.relative(data.reader.root, file), bytes = await fs.readFile(file);
     if (!['.json', '.zip'].includes(path.extname(relative)) || releases.sha(bytes) !== digest) throw Error('PORTABLE_DATA_CLOSURE_INVALID');

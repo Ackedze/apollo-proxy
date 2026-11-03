@@ -364,6 +364,11 @@ function mountContractRoutes(app, options = {}) {
     try { res.json(resolveContracts(req.body, root)); }
     catch (error) { respondError(res, error); }
   });
+  app.post('/v2/contracts/catalog-resolve', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
+    try { res.json(require('./catalog').readCatalogReference(req.body, options.releaseRoot || process.env.APOLLO_DATA_ROOT)); }
+    catch (error) { respondError(res, error); }
+  });
   app.post('/v2/contracts/explain', async (req, res) => {
     try {
       const packet = buildExplanationPacket(req.body || {}, root);
