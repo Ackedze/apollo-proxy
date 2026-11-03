@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),crypto=require('node:crypto');
-const {componentRequests,promptContext}=require('../src/landing/context'),{createLandingService}=require('../src/landing/service');
+const {componentRequests,promptContext,isIndexPrefix}=require('../src/landing/context'),{createLandingService}=require('../src/landing/service');
 const base='knowledge/data/ds-ai-hub/products/ab/components/fixture/';
 test('only one exact observed component package is batched; unrelated/code sources are not substituted',()=>{
  const list={query:'products/ab/components/fixture/',offset:0,next:null,resources:['instructions.md','adapter.figma.md','figma-keys.json','cookbook/01-overview.md','adapter.code.md','bridge.md'].map(file=>({id:base+file}))};
@@ -28,4 +28,38 @@ test('repeated deferred workflow requests retain the no-progress guard and never
  const source={id:'fixture',knowledgeVersion:'fixture',skill:{generation:{},version:'0.3.2',sha256:'fixture'},assertCurrent(){},read(){reads++;throw Error('Unexpected read');},initial:{norms:[],workflow:[],instructions:{},resources:[]}};
  const service=createLandingService({root,knowledge:()=>source,createCli:()=>({run:async()=>{calls++;return {result:{kind:'request_context',message:'Fixture',specJson:JSON.stringify({sections:[{id:'hero'}]}),query:'',offset:0,resources:[{id:'workflow/api',mode:'read',path:[],offset:0,limit:16000}],resultJson:'{}'},receipt:{mcp:{toolCalls:0}}};}})});
  const chat=service.create({pageId:'page',fileKey:'FixtureFile'});service.submit(chat.id,{requestId:crypto.randomUUID(),revision:0,text:'Fixture'});await service.whenSettled(chat.id);assert.equal(service.poll(chat.id).error.code,'LANDING_NO_PROGRESS');assert.equal(calls,3);assert.equal(reads,0);
+});
+
+test('only an exact Hub component search prefix can be returned as unread index feedback',()=>{
+ const list={query:'products/ab/components/',offset:0,total:400,next:64,resources:[{id:base+'instructions.md'}]},request={id:'knowledge/data/ds-ai-hub/products/ab/components/',mode:'summary',path:[],offset:0,limit:100};
+ assert.equal(isIndexPrefix(list,request),true);
+ for(const change of [{id:'../../private'},{id:base},{id:base+'instructions.md'},{id:'/Users/example/components/'},{path:['components']},{offset:1},{limit:0},{mode:'unknown'}])assert.equal(isIndexPrefix(list,{...request,...change}),false);
+ assert.equal(isIndexPrefix({...list,query:'components'},request),false);assert.equal(isIndexPrefix({...list,query:'products/ab/components/../../'},request),false);
+ assert.equal(isIndexPrefix({...list,resources:[{id:'other'}]},request),false);
+ assert.equal(isIndexPrefix({...list,query:request.id},request),true);
+});
+
+function prefixFixture(t,{repeat=false,extra=[],generation=true}={}){
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'landing-prefix-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const prefix='knowledge/data/ds-ai-hub/products/ab/components/',resource=base+'instructions.md',reads=[],prompts=[];let calls=0;
+ const source={id:'fixture',knowledgeVersion:'fixture',skill:{version:'0.3.2',sha256:'fixture',...(generation?{generation:{}}:{})},assertCurrent(){},initial:{norms:[],instructions:{},resources:[]},list(query,offset){return {query,offset,total:400,next:64,resources:[{id:resource}]};},read(request){reads.push(request.id);if(request.id!==resource)throw Object.assign(Error('LANDING_RESOURCE_INVALID'),{code:'LANDING_RESOURCE_INVALID'});return {...request,sha256:'a'.repeat(64),text:'Actual document',next:null,total:15};}};
+ const service=createLandingService({root,knowledge:()=>source,createCli:()=>({run:async options=>{
+  calls++;const state=JSON.parse(options.prompt.split('\n').at(-1));prompts.push(state);
+  const kind=calls===1||repeat?'list_resources':calls===2&&!extra.length?'request_context':'question';
+  return {result:{kind,message:'Fixture',specJson:JSON.stringify({sections:['hero','benefits','steps','faq','cta'].map(id=>({id}))}),query:'products/ab/components/',offset:0,resources:kind==='list_resources'?[{id:prefix,mode:'summary',path:[],offset:0,limit:100},...extra]:kind==='request_context'?[{id:resource,mode:'read',path:[],offset:0,limit:100}]:[],resultJson:'{}'},receipt:{mcp:{toolCalls:0}}};
+ }})});
+ return {root,service,source,reads,prompts,get calls(){return calls;},async run(){const chat=service.create({fileKey:'FixtureFile',pageId:'0:1'});service.submit(chat.id,{requestId:crypto.randomUUID(),revision:0,text:'Fixture'});await service.whenSettled(chat.id);return service.poll(chat.id);}};
+}
+test('owner directory-summary shape recovers to an exact listed file without reading or citing the prefix',async t=>{
+ const h=prefixFixture(t),result=await h.run();assert.equal(result.status,'needs-input',JSON.stringify(result.error));assert.equal(h.calls,3);assert.deepEqual(h.reads,[base+'instructions.md']);
+ const state=h.prompts[1];assert.equal(state.resourceFeedback.code,'INDEX_PREFIX_NOT_RESOURCE');assert.deepEqual(state.resourceFeedback.unreadIds,['knowledge/data/ds-ai-hub/products/ab/components/']);assert.equal(state.index.next,64);assert.equal(state.resources.length,0);
+ assert.deepEqual(result.sources.map(s=>s.id),h.reads);const stored=JSON.parse(fs.readFileSync(path.join(h.root,result.id+'.json')));assert.equal(stored.readerState.reads.length,1);assert.equal(result.target,null);
+});
+test('a valid file in the same list batch is retained alongside unread prefix feedback',async t=>{
+ const h=prefixFixture(t,{extra:[{id:base+'instructions.md',mode:'read',path:[],offset:0,limit:100}]}),result=await h.run();assert.equal(result.status,'needs-input');assert.deepEqual(h.reads,[base+'instructions.md']);assert.equal(h.prompts[1].resourceFeedback.indexPrefixes.code,'INDEX_PREFIX_NOT_RESOURCE');assert.equal(h.prompts[1].resources[0].text,'Actual document');assert.deepEqual(result.sources.map(s=>s.id),h.reads);
+});
+test('repeating a prefix is still bounded by no-progress and arbitrary IDs remain fatal',async t=>{
+ const repeated=prefixFixture(t,{repeat:true}),result=await repeated.run();assert.equal(result.error.code,'LANDING_NO_PROGRESS');assert.equal(repeated.calls,3);assert.equal(repeated.reads.length,0);assert.equal(result.sources.length,0);
+ const invalid=prefixFixture(t,{extra:[{id:'../../private',mode:'read',path:[],offset:0,limit:100}]}),failed=await invalid.run();assert.equal(failed.error.code,'LANDING_RESOURCE_INVALID');assert.deepEqual(invalid.reads,['../../private']);
+ const legacy=prefixFixture(t,{generation:false}),unchanged=await legacy.run();assert.equal(unchanged.error.code,'LANDING_RESOURCE_INVALID');assert.equal(legacy.calls,1);
 });

@@ -6,7 +6,7 @@ const {openKnowledge}=require('./knowledge');
 const {LANDING_ID,skillId:validSkillId}=require('../skills/catalog');
 const checkpoints=require('./checkpoints');
 const evidence=require('./evidence');
-const {componentRequests,promptContext}=require('./context');
+const {componentRequests,promptContext,isIndexPrefix}=require('./context');
 const constructionRecipes=Object.values(require('./figma-recipes')).map(fn=>fn.toString()).join('\n');
 const equal=require('node:util').isDeepStrictEqual;
 const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
@@ -113,7 +113,7 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
   'execution is host-owned: bootstrap creates/configures only the required host and page layout, with no section content; section permits only activeSectionId; verify is read-only and performs final structural/visual checks and screenshot. Work in small scripts, at most 2 MCP calls per turn, then return continue with resultJson={"checkpoint":{"sectionId":null or activeSectionId,"status":"partial" or "complete","nextAction":"specific remaining action"}}. A section can span multiple partial checkpoints. Do not create a later section or change confirmed other sections. Complete only with actual section nodeId; the host advances after independent readback. finish is allowed only in verify. Unknown outcomes and execution.lastIssue require inspecting existing nodes rather than replaying writes. Snapshot/sizing gaps remain FAIL/UNKNOWN, not success. Global budgets do not reset at checkpoints.',
   'Resource pages are bounded by serialized UTF-8 bytes. Follow the returned next offset, never requested offset+limit: a page may contain fewer items. next=null is end only for a successful read. For a single oversized item, read keys at availablePath and choose observed child fields. Already supplied resources/indexes are confirmed context: do not request them again. Use resourceFeedback and cached next cursors to make progress.',
   'When limits.preparation is provided, it reserves build, bootstrap, each declared section, final verification and two partial/recovery turns within the same24 model calls. Batch planning reads before its limit. A preparation boundary preserves the plan, confirmed reads and unresolved gap; it never authorizes a build with missing required sources or capabilities.',
-  'For design-system JSONS/indexes component arrays, use mode=summary and path=["components"] to choose candidate names/categories first. This selection-only projection omits component keys and variant details: read a chosen entry in mode=read at its fullPath before selecting its published component/variant key. Summary is not available for normative documents and never replaces their full reading.',
+  'For design-system JSONS/indexes component arrays, use mode=summary and path=["components"] to choose candidate names/categories first. This selection-only projection omits component keys and variant details: read a chosen entry in mode=read at its fullPath before selecting its published component/variant key. Summary is not available for normative documents and never replaces their full reading. A list_resources query may be a folder prefix, but a folder is never a readable resource. Copy exact file IDs from index.resources[].id and follow index.next for further search results; do not put the query prefix in resources. INDEX_PREFIX_NOT_RESOURCE feedback means that prefix was not read and supplies no source evidence.',
   'For a generation-profile plan, record sourceIds (exact read resource IDs) on each section. Proxy retains all reads; during section execution only these bodies and workflow reads are repeated. availableReads lists retained addresses; request_context can expose any needed read again. Historical indexes are metadata only; list_resources can reopen an exact index. Listing one exact Hub component folder automatically reads its Figma instructions, adapter, keys and cookbook in the same host step; other searches remain discovery only. Technical workflow bodies are deferred until execution.',
   'For a follow-up on an existing landing, spec.editSectionIds must declare the requested sections and necessary dependencies before build. Preserve the complete spec entries of other sections, their IDs and canvas content. Host compares their before/after fingerprints. A question is preferable to changing unrelated sections.',
   'When target exists, use only apollo_figma_mcp.use_figma/get_screenshot, exact target.fileKey. Resolve target.rootNodeId and require parent id==(target.parentNodeId||target.pageId), its containing page==target.pageId, shared namespace apollolanding owner==ownerNonce and active==leaseNonce before every mutation. Write only inside that root. Tag section roots section=<spec section id> in apollolanding. Preserve all other sections during follow-up. Unknown write outcome requires a canvas read before any more writes. Never delete roots or user content for cleanup. Source/library/global style and variable definitions are protected. Load fonts, use confirmed published keys and allowed typed public slots. Screenshots and actual readback are required for technical/visual claims; unavailable evidence remains UNKNOWN.',
@@ -166,13 +166,18 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
    spec.target=Object.assign({},spec.target,{fileKey:r.context.fileKey,pageId:r.context.pageId,rootNodeId:r.target?.rootNodeId||null});if(r.context.placement)spec.target.placement=copy(r.context.placement);
    spec.version=r.revision;r.spec=spec;r.message=step.message;job.toolCalls+=out.receipt?.mcp?.toolCalls||0;if(job.toolCalls>96)fail('LANDING_TOOL_BUDGET');save(r);
    if(job.phase==='write'&&!['continue','finish','build'].includes(step.kind)&&(out.receipt?.mcp?.toolCalls||0)>0)fail('LANDING_READBACK_REQUIRED');
+   let indexPrefixFeedback=null;
    if(step.kind==='list_resources'){
     const list=job.source.list(step.query,step.offset),address=JSON.stringify([step.query,step.offset]),previous=job.queries.get(address);
     const repeats=previous&&previous.readVersion===job.readVersion?previous.repeats+1:1;
     job.queries.set(address,{readVersion:job.readVersion,repeats});job.lastList=list;
     const at=job.indexes.findIndex(row=>row.query===step.query&&row.offset===step.offset);if(at<0)job.indexes.push(list);else job.indexes[at]=list;
     if(repeats>=3)throw Object.assign(Error('LANDING_NO_PROGRESS'),{code:'LANDING_NO_PROGRESS',diagnostic:{stage:'landing-'+job.phase,query:step.query,offset:step.offset,total:list.total,repeatedQueries:repeats}});
-    if(job.source.skill.generation)step.resources=step.resources.concat(componentRequests(list));
+    if(job.source.skill.generation){
+     const unread=step.resources.filter(request=>isIndexPrefix(list,request));
+     if(unread.length){indexPrefixFeedback={code:'INDEX_PREFIX_NOT_RESOURCE',unreadIds:[...new Set(unread.map(request=>request.id))],hint:'The search prefix is not a file and was not read. Select exact IDs from index.resources[].id; use index.next to list the next page.'};job.resourceFeedback=indexPrefixFeedback;}
+     step.resources=step.resources.filter(request=>!isIndexPrefix(list,request)).concat(componentRequests(list));
+    }
     if(!step.resources.length){readerState(r,job);save(r);planningProgress(r,job);continue;}
    }
    if(step.kind==='request_context'||step.kind==='list_resources'){
@@ -189,6 +194,7 @@ function createLandingService({root,knowledge=()=>openKnowledge({releaseRoot:pro
     }
     job.noProgressReads=job.readVersion===before&&!exposed?job.noProgressReads+1:0;
     job.resourceFeedback={code:job.readVersion===before?'ALREADY_READ_OR_FAILED':'CONTEXT_UPDATED',cached,deferredToExecution:deferred,consecutiveNoProgress:job.noProgressReads};
+    if(indexPrefixFeedback)job.resourceFeedback.indexPrefixes=indexPrefixFeedback;
     job.resourceRequest=null;readerState(r,job);save(r);
     if(job.noProgressReads>=3)throw Object.assign(Error('LANDING_NO_PROGRESS'),{code:'LANDING_NO_PROGRESS',diagnostic:{stage:'landing-'+job.phase,repeatedRequests:job.noProgressReads,resourceFeedback:job.resourceFeedback,lastOutput:job.lastOutput}});
     planningProgress(r,job);
