@@ -106,6 +106,26 @@ test('outline plans cannot forge host admission and chosen keys require actual s
 for(const [label,outlineOverride,code]of [['unresolved brief',{questions:[{id:'q',status:'open'}]},'LANDING_BRIEF_UNRESOLVED'],['missing shape',{sections:[{id:'hero',role:'offer'}]},'LANDING_SPEC_INVALID'],['missing fact IDs',{facts:['unsupported shape']},'LANDING_SPEC_INVALID']])test('outline refuses '+label+' before canvas creation',async t=>{
  const h=fixture(t,{outlineOverride}),result=await h.submit();assert.equal(result.error.code,code);assert.equal(result.target,null);assert.deepEqual(h.mutations,[]);
 });
+test('content text values are verified at their independently bound targets, including equal values',()=>{
+ const readback={native:{nodes:[{id:'title',name:'Title',type:'TEXT',sectionId:'hero',characters:'Business card'},{id:'cta',name:'CTA',type:'TEXT',sectionId:'hero',characters:'Apply'}]}},decision={texts:[{target:'Title',value:'Business card',factIds:[]},{target:'CTA',value:'Apply',factIds:[]}],assets:[]},plan={decision,targets:cp.bindContentTargets(decision,'hero',readback)};
+ assert.equal(cp.contentConfirmed(plan,'hero',readback),true);
+ const swapped=copy(readback);[swapped.native.nodes[0].characters,swapped.native.nodes[1].characters]=[swapped.native.nodes[1].characters,swapped.native.nodes[0].characters];assert.equal(cp.contentConfirmed(plan,'hero',swapped),false);
+ const renamed=copy(readback);renamed.native.nodes[0].id='replacement';renamed.native.nodes[1].name='Title';assert.equal(cp.contentConfirmed(plan,'hero',renamed),false);
+ const duplicate={texts:[{target:'title',value:'Same',factIds:[]},{target:'Title',value:'Same',factIds:[]}],assets:[]};assert.throws(()=>cp.bindContentTargets(duplicate,'hero',readback),{code:'LANDING_CONTENT_TARGET_INVALID'});
+ const equalDecision={texts:decision.texts.map(t=>({...t,value:'Same'})),assets:[]},equalReadback=copy(readback);equalReadback.native.nodes.forEach(n=>n.characters='Same');assert.equal(cp.contentConfirmed({decision:equalDecision,targets:cp.bindContentTargets(equalDecision,'hero',readback)},'hero',equalReadback),true);
+});
+test('asset identities are bound to separate slots, not found elsewhere in the section',()=>{
+ const a='a'.repeat(40),b='b'.repeat(40),before={native:{nodes:[{id:'left',name:'LeftImage',type:'SLOT',sectionId:'hero'},{id:'right',name:'RightImage',type:'SLOT',sectionId:'hero'}]}},decision={texts:[],assets:[{target:'LeftImage',kind:'component',key:a,resourceId:guide.id,path:[]},{target:'RightImage',kind:'component',key:b,resourceId:guide.id,path:[]}]},plan={decision,targets:cp.bindContentTargets(decision,'hero',before)},after=copy(before);
+ after.native.nodes.push({id:'left-asset',parentId:'left',type:'INSTANCE',sectionId:'hero',componentKey:a},{id:'right-asset',parentId:'right',type:'INSTANCE',sectionId:'hero',componentKey:b});assert.equal(cp.contentConfirmed(plan,'hero',after),true);
+ const swapped=copy(after);[swapped.native.nodes[2].componentKey,swapped.native.nodes[3].componentKey]=[b,a];assert.equal(cp.contentConfirmed(plan,'hero',swapped),false);
+ const foreign=copy(after);foreign.native.nodes[2].parentId='right';assert.equal(cp.contentConfirmed(plan,'hero',foreign),false);
+ const imageDecision={texts:[],assets:decision.assets.map(v=>({...v,kind:'image'}))},images=copy(before);images.native.nodes.push({id:'paint-left',parentId:'left',type:'RECTANGLE',sectionId:'hero',imageHashes:[{imageHash:a,visible:true}]},{id:'paint-right',parentId:'right',type:'RECTANGLE',sectionId:'hero',imageHashes:[{imageHash:b,visible:true}]});const imagePlan={decision:imageDecision,targets:cp.bindContentTargets(imageDecision,'hero',before)};assert.equal(cp.contentConfirmed(imagePlan,'hero',images),true);images.native.nodes[2].imageHashes[0].imageHash=b;images.native.nodes[3].imageHashes[0].imageHash=a;assert.equal(cp.contentConfirmed(imagePlan,'hero',images),false);
+});
+test('ambiguous, foreign and nested duplicate targets cannot share a content witness',()=>{
+ const nodes=[{id:'left',name:'Image',type:'SLOT',sectionId:'hero'},{id:'right',name:'Image',type:'SLOT',sectionId:'hero'},{id:'foreign',name:'OtherImage',type:'SLOT',sectionId:'other'}],asset=target=>({target,kind:'component',key,resourceId:guide.id,path:[]});
+ for(const target of ['Image','foreign','missing'])assert.throws(()=>cp.bindContentTargets({texts:[],assets:[asset(target)]},'hero',{native:{nodes}}),{code:'LANDING_CONTENT_TARGET_INVALID'});
+ const nested={native:{nodes:[{id:'outer',name:'Outer',type:'FRAME',sectionId:'hero'},{id:'inner',parentId:'outer',name:'Inner',type:'SLOT',sectionId:'hero'},{id:'asset',parentId:'inner',type:'INSTANCE',componentKey:key,sectionId:'hero'}]}},decision={texts:[],assets:[asset('outer'),asset('inner')]};assert.equal(cp.contentConfirmed({decision,targets:cp.bindContentTargets(decision,'hero',nested)},'hero',nested),false);
+});
 test('wrong component identity cannot complete a structural unit',async t=>{
  const h=fixture(t,{wrongKey:true}),start=await h.submit();h.service.canvas(h.chat.id,{revision:start.revision,target,readback:h.snapshot()});await h.service.whenSettled(h.chat.id);let current=h.service.poll(h.chat.id);
  for(let n=0;n<12&&current.status==='awaiting-readback';n++){try{current=await h.observe();}catch{current=h.service.poll(h.chat.id);}}

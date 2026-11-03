@@ -124,7 +124,12 @@ Preparation без MCP сохраняет узкую preparationPatch с stage/s
 baseRevision, реально прочитанными источниками и decision. Только неизменный
 независимый readback допускает план и перевод к записи. Foundation.plan хранит
 container/mount type/key/role и layout; structurePlan — root, props, slots/layout;
-contentPlan — texts с factIds и точные assets с источниками. В outline нельзя
+contentPlan — texts с factIds и точные assets с источниками. Target каждого поля
+разрешается по наблюдаемому nodeId или уникальному native name только внутри
+активной секции. Host сохраняет targets с конкретными IDs/types до записи. Текст
+проверяется на этом TEXT, asset — внутри этого slot/container; отдельным полям
+нельзя разделять один target или один совпавший witness. Перестановка между
+заголовком/CTA или двумя image slots не считается завершением. В outline нельзя
 подделать готовность: host хранит admission hash текущего плана в execution.
 
 Structure подтверждает реальный root/type/key/props/containment и сохраняет
