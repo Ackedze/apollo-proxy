@@ -33,6 +33,12 @@ function fixture(t,behavior='success'){
     if(behavior==='capacity-recovered'){child.stdout.write(JSON.stringify({type:'turn.completed',usage:{input_tokens:1,output_tokens:1}})+'\n');fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'question'}));child.emit('close',0);return;}
     child.emit('close',1);return;
    }
+   if(behavior.startsWith('routing-')){
+    child.stdout.write(JSON.stringify({type:'error',message:'Reconnecting... 2/5 (workspace routing discovery timed out)'})+'\n');
+    child.stdout.write(JSON.stringify({type:'turn.failed',error:{message:behavior==='routing-then-auth'?'Authentication failed':'workspace routing discovery timed out'}})+'\n');
+    if(behavior==='routing-recovered'){child.stdout.write(JSON.stringify({type:'turn.completed',usage:{input_tokens:2,output_tokens:1}})+'\n');fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'question'}));child.emit('close',0);return;}
+    child.emit('close',1);return;
+   }
    if(behavior==='model-unavailable'){child.stderr.write('The requested model does not exist');child.emit('close',1);return;}
    if(behavior==='failure'||behavior==='input-limit'){child.stderr.write(behavior==='failure'?'Synthetic stderr /private/diagnostic':'Input exceeds the maximum length; input_too_large');child.stdout.write(JSON.stringify({type:'error',message:'Synthetic provider refusal'})+'\n');child.emit('close',1);return;}
    fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({kind:'capabilityGap',message:'Synthetic only'}));child.emit('close',0);
@@ -60,6 +66,12 @@ test('provider capacity is explicit with or without TLS stderr, without model su
  }
  const f=fixture(t,'capacity-then-auth');await assert.rejects(f.run(),{code:'AGENT_PROCESS_FAILED'});
  const recovered=fixture(t,'capacity-recovered');assert.equal((await recovered.run()).result.kind,'question');assert.equal(recovered.calls(),1);
+});
+test('terminal workspace routing timeout is specific, correlated and never replayed by the launcher',async t=>{
+ const f=fixture(t,'routing-timeout');let error;await assert.rejects(f.run(),e=>{error=e;return e.code==='AGENT_ROUTING_TIMEOUT'&&e.status===503;});
+ assert.equal(f.calls(),1);const receipt=f.failure();assert.equal(receipt.stage,'connection');assert.equal(receipt.exitCode,1);assert.equal(receipt.errorEvents.at(-1).error.message,'workspace routing discovery timed out');assert.equal(JSON.parse(error.diagnostic).traceId,receipt.traceId);assert.equal(error.usage.actualInputTokens,null);
+ const auth=fixture(t,'routing-then-auth');await assert.rejects(auth.run(),{code:'AGENT_PROCESS_FAILED'});assert.equal(auth.calls(),1);
+ const recovered=fixture(t,'routing-recovered');assert.equal((await recovered.run()).result.kind,'question');assert.equal(recovered.calls(),1);
 });
 test('failed worker persists bounded private stderr and a correlated public diagnostic without source text',async t=>{
  const f=fixture(t,'failure');let error;await assert.rejects(f.run(),e=>{error=e;return e.code==='AGENT_PROCESS_FAILED';});const receipt=f.failure(),diagnostic=JSON.parse(error.diagnostic);

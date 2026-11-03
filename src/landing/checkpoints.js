@@ -3,6 +3,11 @@ const crypto=require('node:crypto'),equal=require('node:util').isDeepStrictEqual
 const SCHEMA='apollo.landing-checkpoints.v1';
 const sha=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const fail=code=>{throw Object.assign(Error(code),{code,status:409});};
+function preparationBudget(sections){
+ if(!sections.length)return null;
+ const recoverySteps=2,reservedSteps=sections.length+3+recoverySteps;
+ return {sectionCount:sections.length,recoverySteps,reservedSteps,limit:Math.max(0,24-reservedSteps)};
+}
 function start(record,sourcePin,allowedSections){
  const queue=record.spec.sections.filter(s=>!allowedSections||allowedSections.has(s.id)).map(s=>s.id);
  const previous=record.execution,compatible=previous?.schemaVersion===SCHEMA&&previous.status!=='completed'&&previous.sourcePin===sourcePin&&previous.rootNodeId===record.target.rootNodeId&&previous.ownerNonce===record.target.ownerNonce&&equal(previous.queue,queue);
@@ -10,10 +15,14 @@ function start(record,sourcePin,allowedSections){
  // A resumed incomplete root is inspected by the worker; it is never recreated.
  const stage=compatible&&previous.stage!=='bootstrap'?'section':'bootstrap';
  const activeSectionId=stage==='section'?queue.find(id=>!completed.some(row=>row.sectionId===id))||null:null;
- return {schemaVersion:SCHEMA,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,queue,completed,stage:stage==='section'&&!activeSectionId?'verify':stage,activeSectionId,status:'ready',lastCheckpoint:compatible?previous.lastCheckpoint:null,operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Inspect the current root and resume only the assigned work unit.'};
+ return {schemaVersion:SCHEMA,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,queue,completed,stage:stage==='section'&&!activeSectionId?'verify':stage,activeSectionId,status:'ready',lastCheckpoint:compatible?previous.lastCheckpoint:null,apiObservations:compatible?previous.apiObservations||[]:[],screenshots:compatible?previous.screenshots||[]:[],operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Inspect the current root and resume only the assigned work unit.'};
 }
 function protect(state,before,after){
  const active=state.stage==='section'?state.activeSectionId:null;
+ if(state.stage!=='bootstrap'&&before.native&&after.native){
+  const stable=row=>{const value={...row};for(const key of ['x','y','width','height'])delete value[key];return value;};
+  if(before.native.nodes.some(old=>old.sectionId!==active&&!after.native.nodes.some(row=>row.id===old.id&&equal(stable(old),stable(row))))||after.native.nodes.some(row=>!before.native.nodes.some(old=>old.id===row.id)&&row.sectionId!==active))fail('LANDING_SECTION_SCOPE_CHANGED');
+ }
  if(before.sections.some(old=>old.sectionId!==active&&!after.sections.some(row=>row.sectionId===old.sectionId&&row.id===old.id&&row.fingerprint===old.fingerprint))||after.sections.some(row=>!before.sections.some(old=>old.sectionId===row.sectionId)&&row.sectionId!==active))fail('LANDING_SECTION_SCOPE_CHANGED');
 }
 function specScope(state,before,after){
@@ -28,6 +37,29 @@ function confirmPatch(spec,patch,readback){
  if(!patch)return spec;
  if(!readback.sections.some(row=>row.sectionId===patch.sectionId&&row.id===patch.nodeId))fail('LANDING_SECTION_PATCH_UNCONFIRMED');
  return {...spec,sections:spec.sections.map(section=>section.id===patch.sectionId?{...section,nodeId:patch.nodeId}:section)};
+}
+function refinement(state,result,point,patch,reads,toolCalls){
+ const value=result.technicalPatch;
+ if(value===undefined)return null;
+ const active=state.stage==='section'&&state.activeSectionId;
+ if(!active||patch||point?.status!=='partial'||toolCalls||!value||!equal(Object.keys(value).sort(),['sectionId','baseRevision','sources','decision'].sort())||value.sectionId!==active||!Number.isSafeInteger(value.baseRevision)||value.baseRevision<0||typeof value.decision!=='string'||!value.decision.trim()||value.decision.length>2000||!Array.isArray(value.sources)||!value.sources.length||value.sources.length>8)fail('LANDING_TECHNICAL_PATCH_INVALID');
+ for(const source of value.sources){
+  if(!source||!equal(Object.keys(source).sort(),['id','sha256','path','offset','observation'].sort())||typeof source.observation!=='string'||!source.observation.trim()||source.observation.length>1500||!reads.some(row=>!row.error&&!row.tooLarge&&row.mode==='read'&&typeof row.text==='string'&&row.id===source.id&&row.sha256===source.sha256&&equal(row.path,source.path)&&row.offset===source.offset))fail('LANDING_TECHNICAL_SOURCE_UNCONFIRMED');
+ }
+ return value;
+}
+function refine(spec,state,patch,before,after){
+ if(sha(before)!==sha(after))fail('LANDING_TECHNICAL_CANVAS_CHANGED');
+ const section=spec.sections.find(s=>s.id===state.activeSectionId),revision=section.technicalDecisions?.length||0;
+ if(patch.baseRevision!==revision)fail('LANDING_TECHNICAL_REVISION_STALE');
+ // This append-only technical decision cannot replace story, slots, facts or another section.
+ return {...spec,sections:spec.sections.map(s=>s.id!==section.id?s:{...s,technicalDecisions:(s.technicalDecisions||[]).concat({revision:revision+1,sourcePin:state.sourcePin,readbackHash:sha(after),origin:'agent-source-interpretation',decision:patch.decision,sources:patch.sources})})};
+}
+function apiObservations(result){
+ const rows=result.apiObservations;
+ if(rows===undefined)return [];
+ if(!Array.isArray(rows)||rows.length>8||rows.some(row=>typeof row!=='string'||!row.trim()||row.length>1500))fail('LANDING_API_OBSERVATIONS_INVALID');
+ return rows;
 }
 function checkpoint(state,step,result){
  if(step==='finish'){if(state.stage!=='verify')fail('LANDING_CHECKPOINT_REQUIRED');return null;}
@@ -53,4 +85,4 @@ function observed(state,before,after,point,spec,now){
  state.lastCheckpoint={...unit,atUtc:new Date(now).toISOString(),readbackHash:sha(after),sectionIds:after.sections.map(s=>s.sectionId),complete:point?.status==='complete'};state.status='ready';state.operation=null;state.callId=null;
  return state;
 }
-module.exports={SCHEMA,start,protect,specScope,sectionPatch,confirmPatch,checkpoint,observed};
+module.exports={SCHEMA,start,protect,specScope,sectionPatch,confirmPatch,checkpoint,observed,preparationBudget,refinement,refine,apiObservations};

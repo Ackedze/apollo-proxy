@@ -1,6 +1,6 @@
 # Лендинги в Apollo Proxy
 
-Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.3.0.
+Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.3.2.
 Proxy читает его из совместимого установленного пакета данных; личный checkout или Python
 не нужны. Официальный Figma workflow входит в portable runtime. Это отдельные входы:
 новый код сам не добавляет навык в старый пакет. `GET /landing/status` сообщает версию и gaps.
@@ -172,3 +172,52 @@ fullspec compatibility fallback is used. Existing scope/readback/Stop/freshness
 and global budgets are retained. Historical fullspec failure replays must state
 when an old response is projected into the new wire schema; that is not a new
 model execution or a claim that the old invalid wire response is now accepted.
+
+
+## Контекст, уточнение и доказательства (0.3.2)
+
+Новый generation profile хранит полный pinned read ledger на Proxy. Exact list одной
+компонентной папки читает Figma инструкции/adapter/keys/cookbook за один host step;
+технические workflow откладываются до записи. В prompt идут metadata старых поисков
+и sourceIds активной секции; availableReads возвращает адреса удержанных материалов.
+Успешное повторное открытие скрытого чтения допускается один раз, а неизменные видимые
+повторы по-прежнему останавливает no-progress guard. Legacy v1 сохраняет прежний профиль.
+
+Лимиты24model /96MCP не увеличены. Подготовка резервирует N+5model calls для Nсекций:
+bootstrap, Nсекций, verify, два recovery. Для пяти секций подготовке отведены14вызовов,
+включая build. Нехватка источников — LANDING_PREPARATION_BUDGET с openSelections и
+сохранёнными чтениями. AGENT_ROUTING_TIMEOUT отличает наблюдаемый routing timeout
+от общего process failure, но не исправляет неизвестную причину сети/CLI и не включает
+слепой replay.
+
+Tool-free continue может нести resultJson.technicalPatch: sectionId, baseRevision,
+sources [{id,sha256,path,offset,observation}], decision. Только активная секция,
+checkpoint.partial, sectionPatch:null, фактически прочитанные ranges и неизменный
+независимый readback. Это append-only technicalDecisions, а не замена полного плана,
+props, текстов или бизнес-фактов. Общую историю/CTA перепланируют отдельно.
+resultJson.apiObservations сохраняет до8кратких findings с origin=agent-report.
+
+Для профиля лендинга source.nativeEvidenceVersion=1 включает согласованный open.evidenceVersion=1.
+Новый Proxy принимает legacy readback для старых навыков; новый профиль требует
+совместимый native-плагин до начала MCP. Readback.native содержит полное bounded дерево
+с parents, roles, keys/set keys, props, modes, bindings, image hashes и fonts.
+После bootstrap неизменность нетронутых native узлов проверяется дополнительно к
+section fingerprints, исключая автоматическую геометрию контейнеров.
+
+Для structural finish нужны подтверждённый CorporateContent key из spec.host, один
+role=host instance, один role=body SLOT и все секции в нём в порядке spec. Это проверка
+заявленной identity/containment, а не полная сертификация CorporateContent. Все keys
+и вложенные значения остаются evidence для проверки по источникам.
+
+Успешный get_screenshot без image payload не доказывает доставку изображения.
+execution.screenshots хранит call/modelStep, nodeId, image digest и fingerprint;
+бинарные изображения остаются в MCP trace. finish.visualReviews связывает просмотр
+каждой секции и root с этими deliveries. При отсутствии совпадающего изображения,
+critical UNKNOWN/FAIL или missing font сохраняются result и needs-verification.
+Ready=false, ownerAcceptance=PENDING. Host-native структура, agent-report норм и
+agent-visual-report показываются раздельно. Unsupported CLI image envelope остаётся
+UNKNOWN; реальный delivery/font/image route проверяет владелец в пилоте.
+
+Эти source changes не обновляют установленные runtime/data или плагин. Нужен отдельный
+совместимый выпуск и его ручная установка владельцем. Synthetic tests не являются
+успешным лендингом в Figma; полный прогон и затем follow-up/Stop остаются отдельной приёмкой.
