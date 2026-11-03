@@ -25,9 +25,10 @@ function assess(record,result){
  const nodes=record.readback.native?.nodes;if(!nodes)fail('LANDING_NATIVE_EVIDENCE_REQUIRED');
  const byId=new Map(nodes.map(n=>[n.id,n])),hosts=nodes.filter(n=>n.role==='host'),bodies=nodes.filter(n=>n.role==='body');
  const descendant=(child,ancestor)=>{for(let n=child;n;n=byId.get(n.parentId)){if(n.id===ancestor.id)return true;}return false;};
- const host=hosts[0],body=bodies[0],expected=record.spec.host?.componentKey;
- const hostValid=hosts.length===1&&host.type==='INSTANCE'&&typeof expected==='string'&&expected.length>0&&(host.componentKey===expected||host.componentSetKey===expected);
- const contained=hostValid&&bodies.length===1&&body.type==='SLOT'&&descendant(body,host)&&record.spec.sections.every(s=>descendant(byId.get(s.nodeId),body));
+ const staged=record.source?.workflow===require('./checkpoints').WORKFLOW,foundation=staged?require('./checkpoints').foundationNodes(record.spec,record.readback):null;
+ const host=staged?foundation?.container:hosts[0],body=staged?foundation?.mount:bodies[0],expected=record.spec.host?.componentKey;
+ const hostValid=staged?!!foundation:hosts.length===1&&host.type==='INSTANCE'&&typeof expected==='string'&&expected.length>0&&(host.componentKey===expected||host.componentSetKey===expected);
+ const contained=hostValid&&(staged||bodies.length===1&&body.type==='SLOT')&&descendant(body,host)&&record.spec.sections.every(s=>descendant(byId.get(s.nodeId),body));
  const order=nodes.filter(n=>record.spec.sections.some(s=>s.nodeId===n.id)).map(n=>n.id),expectedOrder=record.spec.sections.map(s=>s.nodeId);
  if(!contained||JSON.stringify(order)!==JSON.stringify(expectedOrder))fail('LANDING_RESULT_INCOMPLETE');
  const screenshots=record.execution.screenshots||[],reviews=Array.isArray(result.visualReviews)?result.visualReviews:[];

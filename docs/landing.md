@@ -1,6 +1,6 @@
 # Лендинги в Apollo Proxy
 
-Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.3.2.
+Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.4.0.
 Proxy читает его из совместимого установленного пакета данных; личный checkout или Python
 не нужны. Официальный Figma workflow входит в portable runtime. Это отдельные входы:
 новый код сам не добавляет навык в старый пакет. `GET /landing/status` сообщает версию и gaps.
@@ -104,7 +104,50 @@ Reader и сборщик отвергают v2 на старом runtime; нов
 поставки добавление навыков/инструкций выполняется пакетом данных без пересборки Proxy.
 Новая платформа, исполнитель или native-возможность по-прежнему требуют кода.
 
-## Section checkpoints
+## Поэтапная сборка и последующее наполнение (0.4.0)
+
+Новый descriptor явно выбирает generation.workflow=staged-content-v1. Он требует
+runtime capability generationWorkflow=staged-content-v1; совпадение строки версии
+Proxy не заменяет эту проверку. Несовместимый пакет отклоняется до активации.
+Прежние v1/v2 без workflow используют прежний путь и лимиты.
+
+Порядок нового профиля: существенные вопросы → короткий общий outline → native
+section/root → подготовка/сборка основы → подготовка/сборка каркасов по одному →
+подготовка/заполнение контентом по одному → read-only verify. Общий план содержит
+факты, роли и contentShape. Компоненты/mount, сетка и отступы выбираются навыком
+по паттернам; generic Proxy не содержит DS defaults. Чтение будущих component
+packages/точных ассетов не задерживает создание области и предыдущих блоков.
+
+Host выдаёт prepare-foundation/foundation, prepare-structure/structure для каждого
+sectionId, затем prepare-content/content для каждого sectionId и verify.
+Preparation без MCP сохраняет узкую preparationPatch с stage/sectionId,
+baseRevision, реально прочитанными источниками и decision. Только неизменный
+независимый readback допускает план и перевод к записи. Foundation.plan хранит
+container/mount type/key/role и layout; structurePlan — root, props, slots/layout;
+contentPlan — texts с factIds и точные assets с источниками. В outline нельзя
+подделать готовность: host хранит admission hash текущего плана в execution.
+
+Structure подтверждает реальный root/type/key/props/containment и сохраняет
+placeholder источника. Content заполняет только существующий блок; host сверяет
+заявленный текст и asset identities, агент проверяет нормы, crop/fonts/layout.
+Соседние секции и foundation защищены. Полный spec не возвращается при записи;
+sectionPatch node binding допускается только в structure, остальное — null.
+Все каркасы завершаются до первого content unit. Финальные screenshots относятся
+к наполненному состоянию. Missing evidence сохраняет needs-verification/Ready=false.
+
+Фиксированные48 model/96MCP только у этого валидированного workflow, outline<=6.
+Legacy24/96 сохранён. Автоматические переходы/retry не обнуляют счётчики; прежние
+per-turn/deadline/Stop/no-progress/source/readback guards действуют. Явное
+продолжение неизменного плана с теми же source/root pins возобновляет активную
+единицу после нового независимого чтения; неопределённый outcome не переигрывается
+вслепую. Остальные follow-up требуют явного editSectionIds.
+
+Новый skilldata/runtime публикуются отдельным совместимым каналом. Старые
+runtime/data pointers не перепривязываются; установку и manual Figma делает владелец.
+Автоматический пятиблочный сценарий со скриншотами является synthetic проверкой,
+а не подтверждением полного реального лендинга.
+
+## Section checkpoints (legacy workflow)
 
 The host schedules one work unit at a time: `bootstrap` (host/layout only), each
 requested section in spec order, then read-only `verify` with the final screenshot.

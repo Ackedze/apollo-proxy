@@ -11,7 +11,7 @@ function isIndexPrefix(list,request){
 }
 function promptContext(record,job){
  if(!job.source.skill.generation)return {resources:job.context,indexes:job.indexes};
- const section=record.spec.sections.find(row=>row.id===record.execution?.activeSectionId),selected=Array.isArray(section?.sourceIds)?new Set(section.sourceIds):null;
+ const section=record.execution?.workflow==='staged-content-v1'&&!record.execution.activeSectionId?record.spec.foundation:record.spec.sections.find(row=>row.id===record.execution?.activeSectionId),selected=Array.isArray(section?.sourceIds)?new Set(section.sourceIds):null;
  const resources=job.context.filter(row=>job.phase==='plan'?!row.id.startsWith('workflow/'):!selected||selected.has(row.id)||row.id.startsWith('workflow/'));
  return {resources,indexes:job.indexes.map(row=>({query:row.query,offset:row.offset,total:row.total,next:row.next})),availableReads:job.context.filter(row=>!resources.includes(row)).map(({id,sha256,path,mode,offset,next,total})=>({id,sha256,path,mode,offset,next,total}))};
 }

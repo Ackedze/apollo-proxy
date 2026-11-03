@@ -1,0 +1,18 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),catalog=require('../src/skills/catalog'),releases=require('../src/data-release');
+const body=Buffer.from('---\nname: fixture\ndescription: fixture\nversion: "0.4.0"\n---\nSource-bound fixture instructions.\n');
+const descriptor=()=>({schemaVersion:'apollo.skill-package.v2',id:'fixture-staged',version:'0.4.0',name:'Fixture',description:'Fixture',executorId:catalog.GENERATION_EXECUTOR,files:[{path:'SKILL.md',bytes:body.length,sha256:catalog.sha(body)}],generation:{workflow:catalog.STAGED_WORKFLOW,platforms:['desktop'],requiredResources:['knowledge/data/ds-ai-hub/AGENTS.md'],initialQueries:[],initialFiles:['SKILL.md'],hostInstructions:'Read applicable pattern sources.'}});
+test('only the explicit supported workflow is admitted; legacy v2 stays compatible',()=>{
+ const value=descriptor();assert.equal(catalog.packageFiles(Buffer.from(JSON.stringify(value)),value.id).length,1);
+ for(const workflow of ['future','',null,{},['staged-content-v1']])assert.throws(()=>catalog.packageFiles(Buffer.from(JSON.stringify({...value,generation:{...value.generation,workflow}})),value.id),{code:'SKILL_CATALOG_INVALID'});
+ delete value.generation.workflow;assert.equal(catalog.packageFiles(Buffer.from(JSON.stringify(value)),value.id).length,1);
+ assert.throws(()=>catalog.packageFiles(Buffer.from(JSON.stringify({...value,generation:{...value.generation,maxModelSteps:1000}})),value.id),{code:'SKILL_CATALOG_INVALID'});
+});
+for(const workflowCapability of [undefined,'unsupported',{},'staged-content-v1'])test('release capability is checked before staged source activation: '+JSON.stringify(workflowCapability),t=>{
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'staged-capability-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const runtimeRoot=path.join(root,'runtime'),releaseRoot=path.join(root,'release');fs.mkdirSync(runtimeRoot);fs.mkdirSync(releaseRoot);
+ const text=Buffer.from('fixture runtime'),runtime={schemaVersion:releases.RUNTIME_SCHEMA,profileVersion:'0.4.1',nativeSourceHash:'a'.repeat(64),capabilities:{generationSkills:catalog.GENERATION_CAPABILITY,...(workflowCapability===undefined?{}:{generationWorkflow:workflowCapability})},files:[{file:'runtime.txt',bytes:text.length,sha256:releases.sha(text)}]};runtime.id=releases.idOf(runtime);fs.writeFileSync(path.join(runtimeRoot,'runtime.txt'),text);fs.writeFileSync(path.join(runtimeRoot,'portable-runtime.json'),JSON.stringify(runtime));
+ const value=descriptor(),files=[['skills/'+value.id+'/manifest.json',Buffer.from(JSON.stringify(value))],['skills/'+value.id+'/SKILL.md',body],['knowledge/data/ds-ai-hub/AGENTS.md',Buffer.from('Fixture norms')]];
+ for(const [name,bytes]of files){const f=path.join(releaseRoot,name);fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,bytes);}
+ const manifest={schemaVersion:releases.RELEASE_SCHEMA,profileVersion:'0.4.1',nativeSourceHash:runtime.nativeSourceHash,runtimeId:runtime.id,generatedAt:new Date(0).toISOString(),knowledgeVersion:'fixture',dataId:'b'.repeat(64),files:files.map(([file,bytes])=>({file,bytes:bytes.length,sha256:releases.sha(bytes)}))};manifest.id=releases.idOf(manifest);fs.writeFileSync(path.join(releaseRoot,'manifest.json'),JSON.stringify(manifest));
+ if(workflowCapability===catalog.STAGED_WORKFLOW)assert.equal(releases.readReleaseFiles(releaseRoot,runtimeRoot).id,manifest.id);else assert.throws(()=>releases.readReleaseFiles(releaseRoot,runtimeRoot),{code:'DATA_RELEASE_RUNTIME_INCOMPATIBLE'});
+});
