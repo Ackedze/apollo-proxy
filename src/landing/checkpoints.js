@@ -20,7 +20,7 @@ function start(record,sourcePin,allowedSections){
  // A resumed incomplete root is inspected by the worker; it is never recreated.
  const stage=compatible&&previous.stage!=='bootstrap'?'section':'bootstrap';
  const activeSectionId=stage==='section'?queue.find(id=>!completed.some(row=>row.sectionId===id))||null:null;
- return {schemaVersion:SCHEMA,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,queue,completed,stage:stage==='section'&&!activeSectionId?'verify':stage,activeSectionId,status:'ready',lastCheckpoint:compatible?previous.lastCheckpoint:null,apiObservations:compatible?previous.apiObservations||[]:[],screenshots:compatible?previous.screenshots||[]:[],operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Inspect the current root and resume only the assigned work unit.'};
+ return {schemaVersion:SCHEMA,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,queue,completed,stage:stage==='section'&&!activeSectionId?'verify':stage,activeSectionId,status:'ready',lastCheckpoint:compatible?previous.lastCheckpoint:null,apiObservations:compatible?previous.apiObservations||[]:[],mcpObservations:compatible?previous.mcpObservations||[]:[],observedResults:compatible?previous.observedResults||[]:[],observationVersion:compatible?previous.observationVersion||0:0,screenshots:compatible?previous.screenshots||[]:[],operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Inspect the current root and resume only the assigned work unit.'};
 }
 function protect(state,before,after,spec){
  if(staged(state))return stagedProtect(state,before,after,spec);
@@ -39,10 +39,33 @@ function sectionPatch(state,kind,patch){
  if(kind!=='continue'||state.stage!==(staged(state)?'structure':'section')||!patch||typeof patch!=='object'||Array.isArray(patch)||!equal(Object.keys(patch).sort(),['sectionId','nodeId'].sort())||patch.sectionId!==state.activeSectionId||typeof patch.nodeId!=='string'||!/^[a-zA-Z0-9:;_-]{1,512}$/.test(patch.nodeId))fail('LANDING_SECTION_PATCH_INVALID');
  return {sectionId:patch.sectionId,nodeId:patch.nodeId};
 }
-function confirmPatch(spec,patch,readback){
+function confirmPatch(spec,patch,readback,state=null){
  if(!patch)return spec;
  if(!readback.sections.some(row=>row.sectionId===patch.sectionId&&row.id===patch.nodeId))fail('LANDING_SECTION_PATCH_UNCONFIRMED');
- return {...spec,sections:spec.sections.map(section=>section.id===patch.sectionId?{...section,nodeId:patch.nodeId}:section)};
+ return {...spec,sections:spec.sections.map(section=>{
+  if(section.id!==patch.sectionId)return section;
+  let plan=section.structurePlan;
+  if(state&&staged(state)&&state.stage==='structure'&&state.activeSectionId===section.id){
+   const native=readback.native?.nodes.find(row=>row.id===patch.nodeId),binding=plan?.sourcePin===state.sourcePin&&Number.isSafeInteger(plan.revision)&&matchesNode(native,plan?.decision.root)&&bindPreparedProps(plan.decision.props,native.componentProperties);
+   if(binding&&!equal(binding.props,plan.decision.props)){
+    plan={...plan,revision:plan.revision+1,decision:{...plan.decision,props:binding.props},apiBinding:{origin:'host-native-api-binding',sourcePin:state.sourcePin,readbackHash:sha(readback),fromRevision:plan.revision,mappings:binding.mappings}};
+    state.activePlanHash=sha(plan);
+   }
+  }
+  return {...section,nodeId:patch.nodeId,...(plan?{structurePlan:plan}:{})};
+ })};
+}
+function bindPreparedProps(expected,actual){
+ if(!expected||!actual)return null;
+ const props={},mappings=[],used=new Set();
+ for(const [name,value]of Object.entries(expected)){
+  const names=Object.hasOwn(actual,name)?[name]:Object.keys(actual).filter(key=>key.split('#')[0]===name),key=names.length===1?names[0]:null,property=key&&actual[key];
+  if(!key||used.has(key)||!property||!['VARIANT','BOOLEAN','INSTANCE_SWAP'].includes(property.type))return null;
+  const typed=property.type==='VARIANT'&&typeof value==='boolean'&&typeof property.value==='string'&&property.value.toLowerCase()===String(value)?property.value:value;
+  if(!equal(property.value,typed))return null;
+  used.add(key);props[key]=typed;mappings.push({from:name,to:key,type:property.type,value:typed});
+ }
+ return {props,mappings};
 }
 function refinement(state,result,point,patch,reads,toolCalls){
  const value=result.technicalPatch;
@@ -73,12 +96,12 @@ function checkpoint(state,step,result){
  if(!point||!equal(Object.keys(point).sort(),['sectionId','status','nextAction'].sort())||point.sectionId!==(staged(state)?state.activeSectionId:state.stage==='section'?state.activeSectionId:null)||!['partial','complete'].includes(point.status)||typeof point.nextAction!=='string'||point.nextAction.length>1000)fail('LANDING_CHECKPOINT_INVALID');
  return point;
 }
-function observed(state,before,after,point,spec,now){
- if(staged(state))return stagedObserved(state,before,after,point,spec,now);
+function observed(state,before,after,point,spec,now,technicalProgress=false){
+ if(staged(state))return stagedObserved(state,before,after,point,spec,now,technicalProgress);
  const unit={stage:state.stage,sectionId:state.activeSectionId,operation:state.operation,elapsedMs:state.elapsedMs,toolCalls:state.toolCalls};
  protect(state,before,after);
  const progressed=sha(before)!==sha(after);
- if(!point){state.recoveriesWithoutProgress=progressed?0:state.recoveriesWithoutProgress+1;if(state.recoveriesWithoutProgress>=3)fail('LANDING_NO_PROGRESS');}
+ if(!point){state.recoveriesWithoutProgress=progressed||technicalProgress?0:state.recoveriesWithoutProgress+1;if(state.recoveriesWithoutProgress>=3)fail('LANDING_NO_PROGRESS');}
  else{
   state.recoveriesWithoutProgress=0;state.nextAction=point.nextAction;
   if(point.status==='complete'){
@@ -146,7 +169,7 @@ function stagedStart(record,sourcePin,allowedSections){
  if(compatible&&((old.completed||[]).length!==completed.length||(old.structures||[]).length!==structures.length))fail('LANDING_CHECKPOINT_STALE');
  if(compatible&&old.slotContentReplacement&&(old.slotContentReplacement.foundationPlanHash!==sha(record.spec.foundation?.plan)||!slotContent.retained(old.slotContentReplacement,record.readback,foundationNodes(record.spec,record.readback))))fail('LANDING_CHECKPOINT_STALE');
  const kept=compatible&&(old.stage.startsWith('prepare-')||['foundation','structure','content'].includes(old.stage)||old.stage==='verify'&&completed.length===queue.length&&structures.length===queue.length&&foundationNodes(record.spec,record.readback));
- return {schemaVersion:STAGED_SCHEMA,workflow:WORKFLOW,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,recipeOperations:record.source.recipeOperations||null,freshFoundation:compatible?old.freshFoundation===true:record.readback.native?.nodes?.length===1&&record.readback.native.nodes[0].id===record.target.rootNodeId&&!record.readback.sections.length,slotContentReplacement:compatible?old.slotContentReplacement||null:null,queue,structures,completed,stage:kept?old.stage:'prepare-foundation',activeSectionId:kept?old.activeSectionId:null,prepared:null,activePlanHash:kept?old.activePlanHash||null:null,status:'ready',lastCheckpoint:compatible?old.lastCheckpoint:null,apiObservations:compatible?old.apiObservations||[]:[],screenshots:compatible?old.screenshots||[]:[],operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Prepare only the assigned unit from the selected skill and its sources; inspect and preserve retained work.'};
+ return {schemaVersion:STAGED_SCHEMA,workflow:WORKFLOW,sourcePin,rootNodeId:record.target.rootNodeId,ownerNonce:record.target.ownerNonce,recipeOperations:record.source.recipeOperations||null,freshFoundation:compatible?old.freshFoundation===true:record.readback.native?.nodes?.length===1&&record.readback.native.nodes[0].id===record.target.rootNodeId&&!record.readback.sections.length,slotContentReplacement:compatible?old.slotContentReplacement||null:null,queue,structures,completed,stage:kept?old.stage:'prepare-foundation',activeSectionId:kept?old.activeSectionId:null,prepared:null,activePlanHash:kept?old.activePlanHash||null:null,status:'ready',lastCheckpoint:compatible?old.lastCheckpoint:null,apiObservations:compatible?old.apiObservations||[]:[],mcpObservations:compatible?old.mcpObservations||[]:[],observedResults:compatible?old.observedResults||[]:[],observationVersion:compatible?old.observationVersion||0:0,screenshots:compatible?old.screenshots||[]:[],operation:null,callId:null,elapsedMs:0,toolCalls:0,recoveriesWithoutProgress:0,nextAction:'Prepare only the assigned unit from the selected skill and its sources; inspect and preserve retained work.'};
 }
 function stagedProtect(state,before,after,spec){
  const active=['structure','content'].includes(state.stage)?state.activeSectionId:null;
@@ -162,9 +185,9 @@ function stagedProtect(state,before,after,spec){
  if(before.sections.some(old=>old.sectionId!==active&&!after.sections.some(row=>row.sectionId===old.sectionId&&row.id===old.id&&row.fingerprint===old.fingerprint))||after.sections.some(row=>!before.sections.some(old=>old.sectionId===row.sectionId)&&row.sectionId!==active))fail('LANDING_SECTION_SCOPE_CHANGED');
  return replacement;
 }
-function stagedObserved(state,before,after,point,spec,now){
+function stagedObserved(state,before,after,point,spec,now,technicalProgress=false){
  const replacement=stagedProtect(state,before,after,spec),unit={stage:state.stage,sectionId:state.activeSectionId,operation:state.operation,elapsedMs:state.elapsedMs,toolCalls:state.toolCalls};
- if(!point){state.recoveriesWithoutProgress=sha(before)===sha(after)?state.recoveriesWithoutProgress+1:0;if(state.recoveriesWithoutProgress>=3)fail('LANDING_NO_PROGRESS');}
+ if(!point){state.recoveriesWithoutProgress=sha(before)===sha(after)&&!technicalProgress?state.recoveriesWithoutProgress+1:0;if(state.recoveriesWithoutProgress>=3)fail('LANDING_NO_PROGRESS');}
  else{
   state.recoveriesWithoutProgress=0;state.nextAction=point.nextAction;
   if(point.status==='complete'){

@@ -23,6 +23,14 @@ function mcpNativeFailures(events,timings=[]){
  }
  return result;
 }
+function mcpObservation(event){
+ const item=event.item;
+ if(event.type!=='item.completed'||item?.type!=='mcp_tool_call'||item.tool!=='use_figma'||item.status!=='completed'||mcpNativeFailures([event]).length)return null;
+ const parts=(item.result?.content||[]).filter(row=>row.type==='text'&&typeof row.text==='string').map(row=>row.text),structured=item.result?.structured_content||item.result?.structuredContent;
+ const raw=(parts.length?parts.join('\n'):structured?JSON.stringify(structured):'').replace(/(?:^|\n)Figma Debug UUID: [\w-]+(?=\n|$)/g,'').trim();
+ if(!raw||raw==='{}')return null;
+ return {callId:typeof item.id==='string'?item.id.slice(0,120):null,tool:item.tool,origin:'mcp-delivery',resultHash:sha(Buffer.from(raw)),resultBytes:Buffer.byteLength(raw),text:raw.slice(0,3072),truncated:raw.length>3072};
+}
 // Failure traces keep bounded observed tool facts. They do not prove remote
 // completion or identify a failing child node from model/tool text.
 function mcpFailureEvents(events){
@@ -87,7 +95,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   available();const scope=scopedDirectory(generatedRoot,workspace);
   if(typeof prompt!=='string'||Buffer.byteLength(prompt)>2*1024*1024||!schema||typeof schema!=='object')fail('AGENT_INPUT_INVALID');
   if(signal?.aborted)fail('AGENT_CANCELLED');
-  if(checkpointBudget&&(!isMcp(profile)||!Number.isSafeInteger(checkpointBudget.maxCompletedCalls)||checkpointBudget.maxCompletedCalls<1||checkpointBudget.maxCompletedCalls>24||!Number.isSafeInteger(checkpointBudget.softRuntimeMs)||checkpointBudget.softRuntimeMs<1||checkpointBudget.softRuntimeMs>300000))fail('AGENT_MCP_BUDGET_INVALID');
+  if(checkpointBudget&&(!isMcp(profile)||!Number.isSafeInteger(checkpointBudget.maxCompletedCalls)||checkpointBudget.maxCompletedCalls<1||checkpointBudget.maxCompletedCalls>24||!Number.isSafeInteger(checkpointBudget.softRuntimeMs)||checkpointBudget.softRuntimeMs<1||checkpointBudget.softRuntimeMs>300000||!Number.isSafeInteger(checkpointBudget.responseGraceMs??0)||(checkpointBudget.responseGraceMs??0)<0||(checkpointBudget.responseGraceMs??0)>15000))fail('AGENT_MCP_BUDGET_INVALID');
   // Host-owned CLI output lives outside the agent writable directory.
   const trace=scopedDirectory(generatedRoot,traceDirectory);
   if(trace===scope||trace.startsWith(scope+path.sep)||scope.startsWith(trace+path.sep))fail('AGENT_TRACE_SCOPE_INVALID');
@@ -115,7 +123,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   try{budget({prompt,schema,prefix:prefix+'\n',outputReserveChars:isMcp(profile)?163840:16384});}catch{throw await failureError('AGENT_CONTEXT_LIMIT',{status:413,stage:'input-budget'});}
   if(isMcp(profile)&&(!Number.isSafeInteger(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)||(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)<1))throw await failureError('AGENT_MCP_BUDGET_INVALID',{status:400,stage:'input-budget'});
   return new Promise((resolve,reject)=>{
-   let child,closed=false,failure,forceTimer,buffer='',stdoutBytes=0,stderr='',events=[];
+   let child,closed=false,failure,forceTimer,responseTimer,yieldRequested=false,buffer='',stdoutBytes=0,stderr='',events=[];
    const toolCalls=new Set(),toolResults=new Set(),maxToolCalls=Math.min(MCP_MAX_TOOL_CALLS,mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS),maxToolOutputBytes=profile==='landing-figma'?8*1024*1024:65536,maxTotalToolOutputBytes=Math.min(profile==='landing-figma'?16*1024*1024:65536,mcpBudget?.maxTotalToolOutputBytes??65536);let totalToolOutputBytes=0;
    const stop=code=>{
     if(closed||failure&&failure.code!=='AGENT_CHECKPOINT_REQUIRED'||failure&&code==='AGENT_CHECKPOINT_REQUIRED')return;failure=Object.assign(new Error(code),{code,status:code==='AGENT_TIMEOUT'?504:503});
@@ -126,8 +134,9 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    const abort=()=>stop('AGENT_CANCELLED'),timer=setTimeout(()=>stop('AGENT_TIMEOUT'),allowedRuntime);
    let completedCalls=0;const inFlight=new Set();
    const shouldYield=()=>checkpointBudget&&!inFlight.size&&(completedCalls>=checkpointBudget.maxCompletedCalls||Date.now()-startedAt>=checkpointBudget.softRuntimeMs);
-   const softTimer=checkpointBudget?setTimeout(()=>{if(shouldYield())stop('AGENT_CHECKPOINT_REQUIRED');},checkpointBudget.softRuntimeMs):null;
-   const clean=()=>{clearTimeout(timer);clearTimeout(softTimer);clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);};
+   const requestCheckpoint=()=>{if(yieldRequested)return;yieldRequested=true;const grace=checkpointBudget.responseGraceMs??0;if(grace)responseTimer=setTimeout(()=>stop('AGENT_CHECKPOINT_REQUIRED'),grace);else stop('AGENT_CHECKPOINT_REQUIRED');};
+   const softTimer=checkpointBudget?setTimeout(()=>{if(shouldYield())requestCheckpoint();},checkpointBudget.softRuntimeMs):null;
+   const clean=()=>{clearTimeout(timer);clearTimeout(softTimer);clearTimeout(responseTimer);clearTimeout(forceTimer);signal?.removeEventListener('abort',abort);};
    const consume=line=>{if(!line.trim())return;let event;try{event=JSON.parse(line);}catch{return;}
     events.push(event);
     if(!isMcp(profile)&&['mcp_tool_call','command_execution','file_change'].includes(event.item?.type)){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
@@ -144,7 +153,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
      if(event.type==='item.started')inFlight.add(item.id);
      if(event.type==='item.completed'&&inFlight.delete(item.id))completedCalls++;
      // CLI events are post-dispatch observations. Every yield requires host readback.
-     if(checkpointBudget&&event.type==='item.completed'&&(shouldYield()||mcpNativeFailures([event]).length))stop('AGENT_CHECKPOINT_REQUIRED');
+     if(checkpointBudget&&event.type==='item.started'&&yieldRequested)stop('AGENT_CHECKPOINT_REQUIRED');
+     if(checkpointBudget&&event.type==='item.completed'){if(mcpNativeFailures([event]).length)stop('AGENT_CHECKPOINT_REQUIRED');else if(shouldYield())requestCheckpoint();}
     }
     try{onEvent(event);}catch{stop('AGENT_PROGRESS_FAILED');}
    };
@@ -187,4 +197,4 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
  }
  return{probe,run};
 }
-module.exports={createAgentCli,invocation,scopedDirectory,MAX_PROMPT_CHARS,MCP_MAX_TOOL_CALLS,MCP_TOOL_TIMEOUT_MS,profilePrefix};
+module.exports={createAgentCli,invocation,scopedDirectory,MAX_PROMPT_CHARS,MCP_MAX_TOOL_CALLS,MCP_TOOL_TIMEOUT_MS,profilePrefix,mcpObservation};

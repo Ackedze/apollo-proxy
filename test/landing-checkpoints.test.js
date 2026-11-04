@@ -31,6 +31,30 @@ function fixture(t,intercept=()=>null){
  return {root,service,chat,request,calls,settle,observe,makeService,stale:()=>stale=true};
 }
 async function begin(h){h.service.submit(h.chat.id,h.request);let r=await h.settle();assert.equal(r.status,'awaiting-canvas');h.service.canvas(r.id,{revision:r.revision,target,readback:readback()});return h.settle();}
+test('canvas and observation operation IDs survive lost responses, duplicates and restart without a second model dispatch',async t=>{
+ const h=fixture(t);h.service.submit(h.chat.id,h.request);await h.settle();
+ assert.throws(()=>h.service.canvas(h.chat.id,{revision:1,target,readback:readback(),operationId:[crypto.randomUUID()]}),{code:'LANDING_CALLBACK_INVALID'});
+ const canvasBody={revision:1,target,readback:readback(),operationId:crypto.randomUUID()};h.service.canvas(h.chat.id,canvasBody);const afterOpen=h.calls.length;
+ assert.equal(h.service.canvas(h.chat.id,canvasBody).canvasTransport.lastOperationId,canvasBody.operationId);assert.equal(h.calls.length,afterOpen);await h.settle();
+ const observationBody={revision:1,readback:readback(),operationId:crypto.randomUUID()};h.service.observation(h.chat.id,observationBody);const afterObserve=h.calls.length;
+ assert.equal(h.service.observation(h.chat.id,observationBody).canvasTransport.lastOperationId,observationBody.operationId);assert.equal(h.calls.length,afterObserve);await h.settle();
+ assert.throws(()=>h.service.observation(h.chat.id,{...observationBody,readback:{...observationBody.readback,text:'Changed'}}),{code:'LANDING_REQUEST_CONFLICT'});assert.throws(()=>h.service.canvas(h.chat.id,{...canvasBody,operationId:observationBody.operationId}),{code:'LANDING_REQUEST_CONFLICT'});
+ const restarted=h.makeService(),retained=restarted.observation(h.chat.id,observationBody);assert.equal(retained.status,'interrupted');assert.equal(retained.canvasTransport.lastOperationId,observationBody.operationId);assert.equal(h.calls.length,afterObserve);
+});
+test('new bounded delivered API observations survive checkpoint interruption and count as knowledge progress',async t=>{
+ const h=fixture(t,(_state,options,n)=>{
+  if(n<2||n>4)return null;
+  options.onEvent({type:'item.completed',item:{id:'api-'+n,type:'mcp_tool_call',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({publicProperty:'Observed'+n})}]}}});
+  throw Object.assign(Error('AGENT_CHECKPOINT_REQUIRED'),{code:'AGENT_CHECKPOINT_REQUIRED',usage:{toolCalls:1}});
+ });await begin(h);
+ for(let i=0;i<3;i++){const r=await h.observe([]);assert.equal(r.status,'awaiting-readback');assert.equal(r.execution.recoveriesWithoutProgress,0);}
+ const r=h.service.poll(h.chat.id);assert.equal(r.execution.mcpObservations.length,3);assert(r.execution.mcpObservations.every(v=>v.origin==='mcp-delivery'&&v.readbackHash));
+ const prompt=JSON.parse(h.calls.at(-1).prompt.split('\n').at(-1));assert.equal(prompt.execution.mcpObservations.length,3);assert.equal(r.execution.completed.length,0);
+});
+test('identical delivered API observations cannot indefinitely reset no-progress protection',async t=>{
+ const h=fixture(t,(_state,options,n)=>{if(n===1)return null;options.onEvent({type:'item.completed',item:{id:'same-'+n,type:'mcp_tool_call',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:'{"publicProperty":"same"}'}]}}});throw Object.assign(Error('AGENT_CHECKPOINT_REQUIRED'),{code:'AGENT_CHECKPOINT_REQUIRED',usage:{toolCalls:1}});});
+ await begin(h);for(let i=0;i<3;i++)await h.observe([]);await assert.rejects(h.observe([]),{code:'LANDING_NO_PROGRESS'});assert.equal(h.service.poll(h.chat.id).execution.mcpObservations.length,1);
+});
 test('host cursor advances bootstrap/hero/details/verify only after independent observations',async t=>{
  const h=fixture(t);let r=await begin(h);assert.equal(r.execution.stage,'bootstrap');assert.equal(h.calls.length,2);
  r=await h.observe([]);assert.equal(r.execution.activeSectionId,'hero');assert.equal(r.execution.completed.length,0);

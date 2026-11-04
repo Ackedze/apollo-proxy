@@ -46,26 +46,28 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
   assertCurrent();let text=pin.text;
   if(text===undefined){const file=path.join(releaseRoot,pin.file),stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(file)!==file)fail('LANDING_RESOURCE_INVALID');const bytes=fs.readFileSync(file);if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail('LANDING_DATA_STALE');used.set(file,pin.sha256);text=bytes.toString('utf8');}
   const base={id:pin.file,sha256:pin.sha256,path:keys,mode,offset};if(Buffer.byteLength(JSON.stringify(base))>MAX_READ_BYTES-1024)fail('LANDING_RESOURCE_INVALID');let value;
+  const invalid=(code,availablePath,allowedModes,hint)=>({...base,error:{code,availablePath,allowedModes,hint}});
   if(pin.file.endsWith('.json')){
    value=JSON.parse(text);const document=value;for(let i=0;i<keys.length;i++){const key=keys[i];if(value===null||typeof value!=='object'||!Object.prototype.hasOwnProperty.call(value,key))return {id:pin.file,sha256:pin.sha256,path:keys,mode,offset,error:{code:'LANDING_RESOURCE_PATH_INVALID',availablePath:keys.slice(0,i),hint:'Read keys at availablePath, then select an observed key. This read failed; no asset was selected.'}};value=value[key];}
    if(mode==='summary'){
-    if(!pin.file.startsWith('knowledge/data/design-system_ab/JSONS/indexes/')||document.kind!=='component-index'||keys.length!==1||keys[0]!=='components'||!Array.isArray(document.components)||value!==document.components)fail('LANDING_RESOURCE_INVALID');
+    const summary=pin.file.startsWith('knowledge/data/design-system_ab/JSONS/indexes/')&&document.kind==='component-index'&&Array.isArray(document.components);
+    if(!summary||keys.length!==1||keys[0]!=='components'||value!==document.components)return invalid('LANDING_RESOURCE_MODE_INVALID',summary?['components']:[],summary?['read','keys','summary']:['read','keys'],summary?'Summary requires path=["components"]. It supplies selection metadata only; use read for the selected entry.':'This JSON supports read and keys. Read keys at availablePath, then read the observed child. No source body was read.');
     value=value.map((entry,index)=>{const row={index,fullPath:['components',String(index)]};for(const field of ['name','role','status','platform','category','hidden','published','deprecated'])if(entry&&Object.hasOwn(entry,field)&&(['string','number','boolean'].includes(typeof entry[field])||Array.isArray(entry[field])&&entry[field].every(v=>typeof v==='string')))row[field]=entry[field];return row;});
     base.projection={kind:'component-index-selection-only',fullReadRequired:true,componentKeysIncluded:false};
    }
    if(mode==='keys')value=Array.isArray(value)?value.map((_,i)=>i):value&&typeof value==='object'?Object.keys(value):[];
    if(Array.isArray(value))return pageResult(base,value,offset,limit);
-   if(offset!==0)fail('LANDING_RESOURCE_PATH_INVALID');
+   if(offset!==0)return invalid('LANDING_RESOURCE_RANGE_INVALID',keys,['read','keys'],'This JSON value is not an array. Read it with offset=0, or select an observed array child.');
    const result=Object.assign({},base,{next:null,total:null,text:JSON.stringify(value)});
    if(Buffer.byteLength(JSON.stringify(result))>MAX_READ_BYTES)return Object.assign({},base,{tooLarge:true,returned:0,next:null,total:null,availablePath:keys,hint:'Read keys at availablePath and select needed fields. No value was read.'});
    return result;
   }
-  if(keys.length||mode!=='read')fail('LANDING_RESOURCE_PATH_INVALID');return pageResult(base,text,offset,limit);
+  if(keys.length||mode!=='read')return invalid(mode!=='read'?'LANDING_RESOURCE_MODE_INVALID':'LANDING_RESOURCE_PATH_INVALID',[],['read'],'Read this text document with mode=read and path=[]. offset/limit are character ranges; follow next. No source body was read.');return pageResult(base,text,offset,limit);
  }
  function list(query='',offset=0){
   if(typeof query!=='string'||query.length>256||!Number.isSafeInteger(offset)||offset<0)fail('LANDING_RESOURCE_INVALID');
   const words=query.toLowerCase().split(/\s+/).filter(Boolean),rows=Array.from(resources.values()).filter(pin=>words.every(word=>pin.file.toLowerCase().includes(word))).sort((a,b)=>a.file.localeCompare(b.file));
-  return {query,offset,total:rows.length,next:offset+64<rows.length?offset+64:null,resources:rows.slice(offset,offset+64).map(({file,bytes,sha256})=>({id:file,bytes,sha256}))};
+  return {query,offset,total:rows.length,next:offset+64<rows.length?offset+64:null,resources:rows.slice(offset,offset+64).map(({file,bytes,sha256})=>({id:file,bytes,sha256,capabilities:{modes:file.endsWith('.json')?['read','keys']:['read'],pathItems:'string',...(file.startsWith('knowledge/data/design-system_ab/JSONS/indexes/')&&file.endsWith('.json')?{summary:{mode:'summary',path:['components'],documentKind:'component-index',selectionOnly:true}}:{})}}))};
  }
  const base='knowledge/data/ds-ai-hub/',legacyRequired=['AGENTS.md','products/ab/manifest.json','products/ab/patterns/landing-pages.md','products/ab/patterns/business-segment-styles.md','products/ab/patterns/draft-layout.md'].map(file=>base+file);
  const required=skill.generation?[...new Set([base+'AGENTS.md',...skill.generation.requiredResources])]:legacyRequired;

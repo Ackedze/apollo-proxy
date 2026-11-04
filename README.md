@@ -1,5 +1,11 @@
 # apollo-proxy
 
+Генерация сообщает доступные операции reader и возвращает исправимые ошибки
+запроса агенту. Подтверждения canvas/observation поддерживают идемпотентный
+operationId; технические результаты MCP сохраняются до финального ответа
+агента. Native-привязка props сохраняет исходный смысл подготовленного плана.
+Подробности и ограничения: [протокол лендингов](docs/landing.md).
+
 `GET /health` дополнительно возвращает `compatibility.protocolVersion=1` и
 метаданные установленного пакета (`data.state`, content hash `version`,
 `schemaVersion`, `profileVersion`, `deliveryProfile`, `generatedAt`). Читаются

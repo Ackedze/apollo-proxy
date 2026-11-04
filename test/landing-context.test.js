@@ -6,6 +6,13 @@ test('only one exact observed component package is batched; unrelated/code sourc
  const list={query:'products/ab/components/fixture/',offset:0,next:null,resources:['instructions.md','adapter.figma.md','figma-keys.json','cookbook/01-overview.md','adapter.code.md','bridge.md'].map(file=>({id:base+file}))};
  assert.deepEqual(componentRequests(list).map(row=>row.id),list.resources.slice(0,4).map(row=>row.id));for(const query of ['fixture','products/ab/components/fixture/ other','products/ab/components/'])assert.deepEqual(componentRequests({...list,query}),[]);assert.deepEqual(componentRequests({...list,next:64}),[]);
 });
+test('exact folder autoload is identical with or without slash and never reads a neighbouring component',()=>{
+ const resources=['instructions.md','adapter.figma.md','figma-keys.json','cookbook/01-overview.md'].map(file=>({id:base+file})).concat({id:base.replace('/fixture/','/fixture-other/')+'instructions.md'});
+ for(const prefix of ['products/ab/components/fixture','knowledge/data/ds-ai-hub/products/ab/components/fixture']){
+  const a=componentRequests({query:prefix,offset:0,next:null,resources}),b=componentRequests({query:prefix+'/',offset:0,next:null,resources});
+  assert.deepEqual(a,b);assert.equal(a.length,4);assert(a.every(r=>r.id.startsWith(base)));
+ }
+});
 test('phase projection preserves complete pinned ledger, exposes cached addresses and leaves legacy behavior intact',()=>{
  const context=[{id:base+'instructions.md',text:'norm',address:'norm'},{id:'other',text:'other',address:'other'},{id:'workflow/api',text:'signature',address:'api'}],indexes=[{query:'fixture',offset:0,total:1,next:null,resources:[{id:'fixture',large:'x'.repeat(1000)}]}];
  const job={source:{skill:{generation:{}}},context,indexes,phase:'plan'},record={spec:{sections:[{id:'hero',sourceIds:[context[0].id]}]},execution:{activeSectionId:'hero'}};

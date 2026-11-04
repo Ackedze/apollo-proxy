@@ -1,6 +1,6 @@
 # Лендинги в Apollo Proxy
 
-Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.4.0.
+Канонический навык: `design-system_ab/apollo/skills/ab-generate-custom-landing` 0.4.1.
 Proxy читает его из совместимого установленного пакета данных; личный checkout или Python
 не нужны. Официальный Figma workflow входит в portable runtime. Это отдельные входы:
 новый код сам не добавляет навык в старый пакет. `GET /landing/status` сообщает версию и gaps.
@@ -301,3 +301,39 @@ coverage includes a real-shape payload, wrong/missing destination, foreign keys,
 changed/extra user nodes, one-time consumption and five-block recovery. These
 checks are synthetic model/native integration; installation and Figma field
 acceptance remain owner-only.
+
+## Agent/Proxy recovery protocol
+
+Listed resources declare `capabilities.modes`; an optional `summary` declaration
+is conditional on its exact document kind and path. Hub keys and normative text
+do not support summary. Unsupported operations on a known safe resource return
+`error.allowedModes/availablePath/hint` to the agent without source admission.
+Unknown IDs, unsafe paths and stale pinned bytes still stop the run. Existing
+read/index ledgers remain restorable; indexVersion2 adds capabilities without
+changing the historical resource identities/hashes. An exact component folder
+autoloads the same Figma package with or without a terminal slash and excludes
+neighbouring folder names.
+
+After independent section binding, the host can bind prepared semantic props to
+an unambiguous native public property name (including its native `#` suffix) and
+canonical VARIANT boolean spelling. Every value must agree with the observed
+typed API; TEXT, ambiguous aliases, different values/keys/source pins remain
+unconfirmed. `structurePlan.apiBinding` records native provenance and a new
+revision; facts, component choice, slots and layout are preserved.
+
+The90-second soft checkpoint allows10seconds for the structured final response
+after a successful tool. A new call during that grace or a native failure yields
+for independent readback; hard time/tool/run limits and Stop still apply.
+Host-owned `execution.mcpObservations` retain at most8bounded text deliveries
+before final model output. They are observed data, never normative instructions.
+New result hashes/screenshot deliveries count as technical progress; repeated
+identical results cannot reset the no-progress guard. A readback hash records
+the subsequent canvas check, not independent verification of every API claim.
+
+Chat views expose `canvasTransport:{version:2,lastOperationId}`. Canvas and
+observation POSTs accept an optional UUID `operationId`. Retrying exactly the
+same acknowledged operation returns the current chat without another dispatch;
+reusing an ID for different contents/kind is a conflict. Acknowledgements persist
+with the state; a restart still interrupts active work rather than relaunching it.
+Legacy callback bodies remain supported. No data/skill update is needed solely
+for these additive host/UI protocol changes.
