@@ -1,10 +1,10 @@
 'use strict';
 const crypto=require('node:crypto'),equal=require('node:util').isDeepStrictEqual;
 const {SLOT_CONTENT_REPLACEMENT}=require('../skills/catalog');
+const {sameNode}=require('./native-state');
 const sha=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const fail=()=>{throw Object.assign(Error('LANDING_SLOT_REPLACEMENT_UNCONFIRMED'),{code:'LANDING_SLOT_REPLACEMENT_UNCONFIRMED',status:409});};
 const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&equal(Object.keys(v).sort(),keys.slice().sort());
-const stable=node=>{const value={...node};for(const key of ['x','y','width','height'])delete value[key];return value;};
 function validate(recipe){
  if(!exact(recipe,['schemaVersion','id','containerKey','slot','defaultChildren'])||recipe.schemaVersion!=='apollo.slot-content-replacement.v1'||typeof recipe.id!=='string'||!/^[-.\w]{1,128}$/.test(recipe.id)||!/^[a-f0-9]{40}$/.test(recipe.containerKey||'')||!exact(recipe.slot,['type','name'])||recipe.slot.type!=='SLOT'||typeof recipe.slot.name!=='string'||!recipe.slot.name||recipe.slot.name.length>400)fail();
  let count=0;
@@ -41,7 +41,7 @@ function bind(plan,base,readback,fresh){
  const nodes=subtree(readback.native.nodes,base.mount.id);
  const shape=parent=>nodes.filter(n=>n.parentId===parent).map(n=>({type:n.type,name:n.name,...(n.type==='TEXT'?{characters:n.characters}:{}),children:shape(n.id)}));
  if(nodes.some(n=>n.sectionId!==null)||!equal(shape(base.mount.id),recipe.defaultChildren))fail();
- return {sourcePin:plan.sourcePin,foundationPlanHash:sha(plan),rootNodeId:readback.rootNodeId,containerId:base.container.id,mountId:base.mount.id,nodes:JSON.parse(JSON.stringify(nodes)),consumed:false};
+ return {sourcePin:plan.sourcePin,foundationPlanHash:sha(plan),rootNodeId:readback.rootNodeId,containerId:base.container.id,mountId:base.mount.id,nodes:JSON.parse(JSON.stringify(nodes)),...(readback.native.modeDefaults?{modeDefaults:readback.native.modeDefaults}:{}),consumed:false};
 }
 function removals(spec,state,before,after,base){
  const binding=state.slotContentReplacement;
@@ -51,7 +51,7 @@ function removals(spec,state,before,after,base){
  const plan=spec?.foundation?.plan,active=state.activeSectionId,section=spec?.sections.find(s=>s.id===active),rows=after.sections.filter(s=>s.sectionId===active),node=base?.byId.get(rows[0]?.id),root=section?.structurePlan?.decision.root;
  if(!state.freshFoundation||state.recipeOperations!==SLOT_CONTENT_REPLACEMENT||state.stage!=='structure'||active!==state.queue[0]||state.structures.length||state.completed.length||before.sections.some(s=>s.sectionId!==active)||!plan||binding.sourcePin!==state.sourcePin||binding.foundationPlanHash!==sha(plan)||binding.rootNodeId!==before.rootNodeId||binding.rootNodeId!==after.rootNodeId||!base||base.container.id!==binding.containerId||base.mount.id!==binding.mountId||missing.length!==ids.size||rows.length!==1||!node||node.sectionId!==active||node.parentId!==binding.mountId||node.type!==root?.type||root.type==='INSTANCE'&&node.componentKey!==root.componentKey&&node.componentSetKey!==root.componentKey)fail();
  const actual=subtree(before.native.nodes,binding.mountId).filter(n=>n.sectionId!==active);
- if(actual.length!==ids.size||actual.some(n=>!binding.nodes.some(old=>n.id===old.id&&equal(stable(n),stable(old)))))fail();
+ if(actual.length!==ids.size||actual.some(n=>!binding.nodes.some(old=>n.id===old.id&&sameNode(old,n,{schemaVersion:binding.modeDefaults?'apollo.landing-native.v2':'apollo.landing-native.v1',modeDefaults:binding.modeDefaults},before.native))))fail();
  if(before.native.nodes.some(n=>n.parentId===binding.mountId&&!ids.has(n.id)&&n.sectionId!==active))fail();
  return {ids,blockId:node.id};
 }
@@ -60,6 +60,6 @@ function retained(binding,readback,base){
  if(!base||!readback.native?.nodes||base.container.id!==binding.containerId||base.mount.id!==binding.mountId||readback.rootNodeId!==binding.rootNodeId)return false;
  if(binding.consumed)return !readback.native.nodes.some(n=>binding.nodes.some(old=>old.id===n.id))&&readback.sections.some(s=>s.id===binding.blockId)&&base.byId.get(binding.blockId)?.parentId===binding.mountId;
  const actual=subtree(readback.native.nodes,binding.mountId).filter(n=>n.sectionId===null);
- return actual.length===binding.nodes.length&&actual.every(n=>binding.nodes.some(old=>n.id===old.id&&equal(stable(n),stable(old))));
+ return actual.length===binding.nodes.length&&actual.every(n=>binding.nodes.some(old=>n.id===old.id&&sameNode(old,n,{schemaVersion:binding.modeDefaults?'apollo.landing-native.v2':'apollo.landing-native.v1',modeDefaults:binding.modeDefaults},readback.native)));
 }
 module.exports={fromReads,bind,removals,retained};

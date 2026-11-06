@@ -19,6 +19,7 @@ final class LockedDataBuffer: @unchecked Sendable {
 
 struct KnowledgeVersionSummary: Decodable {
     let contentVersion: String
+    let packageVersion: String?
     let kind: String
     let path: String?
     let sourceCommits: [String: String?]?
@@ -45,6 +46,7 @@ struct KnowledgeCommandStatus: Decodable {
 
 struct KnowledgeDescriptorSummary: Decodable {
     let contentVersion: String
+    let packageVersion: String?
 }
 
 enum KnowledgeCommandError: LocalizedError {

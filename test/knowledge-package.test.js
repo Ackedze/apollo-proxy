@@ -702,16 +702,18 @@ test('selected root readiness detects drift after selection without mixing roots
 
 
 for (const corrupt of [false, true]) {
-  test(`legacy readiness blocks selected ${corrupt ? 'malformed' : 'missing'} release while v4 module remains loadable`, async t => {
+  test(`health reports selected ${corrupt ? 'malformed' : 'missing'} legacy knowledge as unavailable while Proxy remains loadable`, async t => {
     const selected = await syntheticRoot(t, 'design-system_ab');
     const hub = await syntheticRoot(t, 'ds-ai-hub');
+    await fsp.writeFile(path.join(hub, 'core/web/components/synthetic/meta.json'), '{"id":"Synthetic"}');
     if (corrupt) await fsp.writeFile(path.join(selected, 'JSONS/apollo/designPatternRules.json'), '{broken');
     const configured = corrupt ? selected : path.join(selected, 'missing-release');
     const script = `
       const server = require(${JSON.stringify(path.resolve(__dirname, '../server.js'))});
       if (typeof server.callCodexContractExplanation !== 'function') process.exit(2);
-      try { server.assertGenerationRuntimeReady(); process.exit(3); }
-      catch (error) { process.stdout.write(JSON.stringify({ code: error.code, status: error.status, message: error.message })); }
+      const health = server.app._router.stack.find(layer => layer.route?.path === '/health').route.stack[0].handle;
+      Promise.resolve(health({}, { json: body => process.stdout.write(JSON.stringify(body.codex.knowledge)) }))
+        .catch(error => { process.stderr.write(error.stack); process.exitCode = 1; });
     `;
     const result = spawnSync(process.execPath, ['-e', script], {
       cwd: selected,
@@ -719,10 +721,10 @@ for (const corrupt of [false, true]) {
       encoding: 'utf8', timeout: 10000,
     });
     assert.equal(result.status, 0, result.stderr);
-    const error = JSON.parse(result.stdout);
-    assert.equal(error.code, 'CODEX_KNOWLEDGE_INCOMPLETE');
-    assert.equal(error.status, 503);
-    assert.equal(error.message.includes(configured), false);
+    const readiness = JSON.parse(result.stdout);
+    assert.equal(readiness.ready, false);
+    assert.equal(readiness.error, 'CODEX_KNOWLEDGE_INCOMPLETE');
+    assert.equal(JSON.stringify(readiness).includes(configured), false);
   });
 }
 
@@ -737,3 +739,82 @@ for (const kind of ['design-system_ab', 'ds-ai-hub']) {
       error => error.code === 'CODEX_KNOWLEDGE_INCOMPLETE' && error.status === 503);
   });
 }
+
+test('Hub foundations, registry and lifecycle metadata survive packaging and participate in source versions', async t => {
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-foundations-package-'));
+  t.after(() => fsp.rm(root, { recursive: true, force: true }));
+  const designRoot = path.join(root, 'design'), hubRoot = path.join(root, 'hub');
+  const write = async (sourceRoot, relative, value) => {
+    const file = path.join(sourceRoot, relative); await fsp.mkdir(path.dirname(file), { recursive: true });
+    await fsp.writeFile(file, value); return file;
+  };
+  const lifecyclePaths = ['deprecated', 'scheduled', 'parts'].map(name => `JSONS/indexes/lifecycle/${name}.index.json`);
+  const hubFiles = {
+    'registry/index.json': '{"units":[]}\r\n',
+    'core/common/tokens/colors/brand.md': '# Brand\r\nSynthetic common color rule.\r\n',
+    'core/web/tokens/colors/figma-libraries.json': '{"libraries":[]}\n',
+    'core/web/tokens/typography/adapter.figma.md': '# Typography\nUse the connected library.\n',
+    'core/web/tokens/shadows/figma-libraries.json': '{"libraries":[]}\n',
+    'core/web/tokens/dimensions/source-pins.json': '{"sources":[]}\n',
+    'core/web/assets/figma-libraries.json': '{"libraries":[]}\r\n',
+    'core/web/assets/adapter.figma.md': '# Assets\nRead bridge.md before resolving an asset.\n',
+    'core/web/assets/bridge.md': '# Bridge\nSynthetic asset navigation.\n',
+    'core/web/assets/assets_flag.json': '{"assets":[]}\n',
+    'core/web/assets/assets_logo.json': '{"assets":[]}\n',
+  };
+  const designFiles = {
+    'JSONS/apollo/indexes/componentContractIndex.json': JSON.stringify({ schemaVersion: 2, packages: [{ packagePath: 'web/components/example', artifacts: { rules: 'rules.json' } }] }),
+    'JSONS/apollo/designPatternRules.json': '{"rules":[]}',
+    'JSONS/web/components/example/rules.json': '{"rules":[]}',
+    'redpolrules/dictionary.json': '{"rules":[]}',
+  };
+  for (const relative of lifecyclePaths) designFiles[relative] = JSON.stringify({ entries: [{ key: 'synthetic', sources: ['catalog-a', 'catalog-b'] }], warnings: [{ code: 'SOURCE_CONFLICT', message: 'Source has no confirmed date.' }] }) + '\r\n';
+  for (const [relative, value] of Object.entries(designFiles)) await write(designRoot, relative, value);
+  for (const [relative, value] of Object.entries(hubFiles)) await write(hubRoot, relative, value);
+  await write(hubRoot, 'products/ab/components/example/figma-keys.json', '{}');
+  await write(hubRoot, 'core/web/components/example/figma-keys.json', '{}');
+  const excluded = ['core/web/assets/runtime.js', 'core/web/tokens/private-sdk.ts', 'core/common/tokens/preview.png', 'products/other/secret.json'];
+  for (const relative of excluded) await write(hubRoot, relative, 'Excluded fixture.');
+  const git = (sourceRoot, ...args) => {
+    const result = spawnSync('git', ['-C', sourceRoot, ...args], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr); return result.stdout.trim();
+  };
+  const commit = (sourceRoot, name) => { git(sourceRoot, 'add', '.'); git(sourceRoot, 'commit', '-qm', name); return git(sourceRoot, 'rev-parse', 'HEAD'); };
+  for (const sourceRoot of [designRoot, hubRoot]) {
+    git(sourceRoot, 'init', '-q'); git(sourceRoot, 'config', 'user.name', 'Apollo Test'); git(sourceRoot, 'config', 'user.email', 'apollo-test@example.invalid'); commit(sourceRoot, 'base');
+  }
+  const options = { 'design-system-root': designRoot, 'ds-ai-hub-root': hubRoot, 'generated-at': '2026-11-04T00:00:00Z', output: path.join(root, 'output'), channel: 'stable', minEngine: ENGINE_VERSION, maxEngine: ENGINE_VERSION, directoryOnly: true };
+  let built = await buildKnowledgePackage(options);
+  const verifyFile = async (build, repo, relative, sourceRoot) => {
+    const location = `data/${repo}/${relative}`, artifact = build.manifest.artifacts.find(row => row.path === location);
+    assert.ok(artifact, location); const source = await fsp.readFile(path.join(sourceRoot, relative));
+    assert.deepEqual(await fsp.readFile(path.join(build.packageRoot, location)), source);
+    assert.equal(artifact.sha256, await sha256File(path.join(sourceRoot, relative))); assert.equal(artifact.size, source.length);
+  };
+  for (const relative of lifecyclePaths) await verifyFile(built, 'design-system_ab', relative, designRoot);
+  for (const relative of Object.keys(hubFiles)) await verifyFile(built, 'ds-ai-hub', relative, hubRoot);
+  for (const relative of excluded) assert(!built.manifest.artifacts.some(row => row.path === `data/ds-ai-hub/${relative}`));
+  await validatePackageDirectory(built.packageRoot);
+  for (const [sourceRoot, repo, relative] of [
+    ...lifecyclePaths.map(relative => [designRoot, 'design-system_ab', relative]),
+    ...['registry/index.json', 'core/common/tokens/colors/brand.md', 'core/web/tokens/colors/figma-libraries.json', 'core/web/assets/figma-libraries.json'].map(relative => [hubRoot, 'ds-ai-hub', relative]),
+  ]) {
+    const previous = built.manifest; await fsp.appendFile(path.join(sourceRoot, relative), '\n');
+    const head = commit(sourceRoot, 'metadata update'); built = await buildKnowledgePackage(options);
+    assert.equal(built.manifest.sourceCommits[repo], head); assert.notEqual(built.manifest.contentVersion, previous.contentVersion);
+    assert.notEqual(built.manifest.checksum.value, previous.checksum.value); await verifyFile(built, repo, relative, sourceRoot);
+  }
+  const beforeUnrelated = built.manifest;
+  await write(hubRoot, 'products/other/unrelated.json', '{}'); commit(hubRoot, 'unrelated'); built = await buildKnowledgePackage(options);
+  assert.equal(built.manifest.contentVersion, beforeUnrelated.contentVersion);
+  assert.equal(built.manifest.sourceCommits['ds-ai-hub'], beforeUnrelated.sourceCommits['ds-ai-hub']);
+  const missing = lifecyclePaths[1]; await fsp.unlink(path.join(designRoot, missing));
+  built = await buildKnowledgePackage(options);
+  assert(!built.manifest.artifacts.some(row => row.path === `data/design-system_ab/${missing}`), 'missing source is not replaced by an invented lifecycle entry');
+  for (const [sourceRoot, relative] of [[designRoot, lifecyclePaths[0]], [hubRoot, 'registry/index.json']]) {
+    const file = path.join(sourceRoot, relative), original = await fsp.readFile(file), outside = await write(root, 'outside.json', '{"unrelated":true}');
+    await fsp.unlink(file); await fsp.symlink(outside, file);
+    await assert.rejects(buildKnowledgePackage(options), /symlinks/);
+    await fsp.unlink(file); await fsp.writeFile(file, original);
+  }
+});

@@ -53,3 +53,39 @@ test('portable setup leaves developer configurations untouched and rejects crede
   assert.throws(() => validateSettings({ frontendToolchainHome: 'relative/author-root' }));
   assert.throws(() => validateSettings({ figmaFileKey: '../author' }));
 });
+
+test('portable runtime carries the pure V3 preparation code with exact pins while older code has no audit capability', t => {
+  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-v3-portable-')));
+  t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+  const apolloRoot=path.join(root,'apollo');
+  function put(file,value){const target=path.join(apolloRoot,file);fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,typeof value==='string'?value:JSON.stringify(value));}
+  put('dist/runtime.cjs','module.exports={};');
+  put('dist/build-inputs.json',{profileVersion:'0.4.8'});
+  put('dist/agent-figma-provider-descriptor.json',{sourceHash:'a'.repeat(64)});
+  const {buildPortableRuntime}=require('../scripts/build-portable-runtime'),entries=['dist/runtime.cjs','dist/agent-figma-provider-descriptor.json'];
+  const old=buildPortableRuntime({apolloRoot,output:path.join(root,'old'),entries});assert.equal(old.capabilities.auditDataPreparation,undefined);
+  const file='dist/v3-audit-preparation.cjs',body='exports.VERSION="apollo.v3-audit-preparation.v1";';put(file,body);
+  const output=path.join(root,'new'),current=buildPortableRuntime({apolloRoot,output,entries});
+  assert.equal(current.capabilities.auditDataPreparation,require('../src/audit-data/protocol').SCHEMA);
+  assert.deepEqual(current.files.find(row=>row.file===file),{file,sha256:sha(Buffer.from(body)),bytes:Buffer.byteLength(body)});
+  assert.equal(fs.readFileSync(path.join(output,file),'utf8'),body);
+  assert.equal(require('../src/audit-data/builder').preparationFromRuntime(output).VERSION,'apollo.v3-audit-preparation.v1');
+});
+
+test('actual portable producer declares direct workflow; unchanged reader accepts direct package and refuses staged data',t=>{
+ const catalog=require('../src/skills/catalog'),releases=require('../src/data-release'),{buildPortableRuntime}=require('../scripts/build-portable-runtime');
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'direct-portable-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));const apolloRoot=path.join(root,'apollo'),runtimeRoot=path.join(root,'built');
+ const put=(base,name,body)=>{const bytes=Buffer.from(typeof body==='string'?body:JSON.stringify(body)),file=path.join(base,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,bytes);return {file:name,bytes:bytes.length,sha256:sha(bytes)};};
+ put(apolloRoot,'dist/runtime.cjs','module.exports={};');put(apolloRoot,'dist/build-inputs.json',{profileVersion:'0.4.16'});put(apolloRoot,'dist/agent-figma-provider-descriptor.json',{sourceHash:'a'.repeat(64)});put(apolloRoot,'instructions/landing/figma-workflow.md','# Loaded workflow file: figma-use/SKILL.md\nFixture\n# Loaded workflow file: figma-generate-design/SKILL.md\nFixture');
+ const runtime=buildPortableRuntime({apolloRoot,output:runtimeRoot,entries:['dist/runtime.cjs','dist/agent-figma-provider-descriptor.json','instructions/landing/figma-workflow.md']});assert.equal(runtime.capabilities.generationWorkflow,catalog.DIRECT_WORKFLOW);assert.equal(runtime.capabilities.recipeOperations,undefined);
+ const skillRoot=path.resolve(__dirname,'../../../shared/design-system_ab/apollo/skills/ab-generate-custom-landing'),descriptor=JSON.parse(fs.readFileSync(path.join(skillRoot,'manifest.json')));
+ function data(name,workflow){
+  const target=path.join(root,name),profile=JSON.parse(JSON.stringify(descriptor));profile.generation.workflow=workflow;const files=[];
+  for(const pin of profile.files)files.push(put(target,'skills/'+profile.id+'/'+pin.path,fs.readFileSync(path.join(skillRoot,pin.path),'utf8')));
+  files.push(put(target,'skills/'+profile.id+'/manifest.json',profile));files.push(put(target,'knowledge/data/ds-ai-hub/AGENTS.md','Fixture rules'));
+  for(const id of profile.generation.requiredResources)files.push(put(target,id,id.endsWith('.json')?'{}':'Fixture rules'));
+  const manifest={schemaVersion:RELEASE_SCHEMA,generatedAt:'2026-11-06T00:00:00Z',dataId:'b'.repeat(64),knowledgeVersion:'fixture',runtimeId:runtime.id,profileVersion:runtime.profileVersion,nativeSourceHash:runtime.nativeSourceHash,files};manifest.id=idOf(manifest);put(target,'manifest.json',manifest);return target;
+ }
+ const direct=data('direct',catalog.DIRECT_WORKFLOW);assert.equal(releases.readReleaseFiles(direct,runtimeRoot).runtimeId,runtime.id);assert.equal(require('../src/landing/knowledge').openKnowledge({releaseRoot:direct,runtimeRoot}).skill.version,'0.6.0');
+ const staged=data('staged',catalog.STAGED_WORKFLOW);assert.throws(()=>releases.readReleaseFiles(staged,runtimeRoot),{code:'DATA_RELEASE_RUNTIME_INCOMPATIBLE'});
+});

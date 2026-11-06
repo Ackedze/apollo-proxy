@@ -54,14 +54,23 @@ function buildPortableRuntime({ apolloRoot, output, skillsRoot, entries = ENTRIE
     }
   }
   for (const entry of entries) include(path.join(apolloRoot, entry));
+  const auditPreparation='dist/v3-audit-preparation.cjs';
+  if(fs.existsSync(path.join(apolloRoot,auditPreparation)))include(path.join(apolloRoot,auditPreparation));
   const namingSkill = entries.includes('src/skills/layer-names/protocol.js')
     ? require('../src/skills/layer-names').loadSkill(apolloRoot) : null;
   namingSkill?.assertCurrent();
   const build = JSON.parse(fs.readFileSync(path.join(apolloRoot, 'dist/build-inputs.json')));
   const descriptor = JSON.parse(files.get('dist/agent-figma-provider-descriptor.json').bytes);
+  let auditCapability;
+  if(files.has('src/figma-audit/protocol.js')){
+    // Evaluate the already captured package bytes, never a cached/mutable host import.
+    const protocolModule={exports:{}};
+    require('node:vm').runInNewContext(files.get('src/figma-audit/protocol.js').bytes.toString('utf8'),{module:protocolModule},{timeout:1000});
+    auditCapability=require('../src/skills/catalog').auditCapabilityForWire(protocolModule.exports.VERSION);
+  }
   const manifest = { schemaVersion: RUNTIME_SCHEMA, profileVersion: build.profileVersion, nativeSourceHash: descriptor.sourceHash,
     ...(sourceProjection ? { sourceProjection } : {}),
-    capabilities: { ...(entries.includes('src/figma-audit/protocol.js')?{figmaAudit:require('../src/skills/catalog').AUDIT_CAPABILITY}:{}), checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').STAGED_WORKFLOW,recipeOperations:require('../src/skills/catalog').SLOT_CONTENT_REPLACEMENT}:{}) },
+    capabilities: { ...(files.has(auditPreparation)?{auditDataPreparation:require('../src/audit-data/protocol').SCHEMA}:{}), ...(auditCapability?{figmaAudit:auditCapability}:{}), checking: true, ask: true, figmaMcp: 'requires-own-connection-and-file', frontend: false, landing: 'requires-compatible-data-and-own-figma-connection', builtInFigma: 'not-admitted-by-data-runtime', ...(entries.includes('instructions/landing/figma-workflow.md')?{generationSkills:require('../src/skills/catalog').GENERATION_CAPABILITY,generationWorkflow:require('../src/skills/catalog').DIRECT_WORKFLOW}:{}) },
     files: Array.from(files, ([file, value]) => ({ file: file.split(path.sep).join('/'), sha256: sha(value.bytes), bytes: value.bytes.length })).sort((a, b) => a.file.localeCompare(b.file)) };
   manifest.id = idOf(manifest);
   for (const [relative, value] of files) {

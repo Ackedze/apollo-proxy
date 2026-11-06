@@ -211,6 +211,9 @@ final class ProxyManager: NSObject {
         snapshot.knowledgeSource = readConfiguredKnowledgeSource()
         snapshot.knowledgeVersion = (isExternalProxyRunning ? healthSnapshot?.knowledgeVersion : nil)
             ?? knowledgeRuntime?.current?.contentVersion ?? "Встроенный пакет"
+        if snapshot.knowledgeVersion == knowledgeRuntime?.current?.contentVersion {
+            snapshot.knowledgePackageVersion = knowledgeRuntime?.current?.packageVersion ?? ""
+        }
         switch knowledgeUpdateStatus {
         case .idle: snapshot.knowledgeStatus = "Проверка обновлений ещё не выполнена"
         case .checking: snapshot.knowledgeStatus = "Проверяем обновления…"
@@ -560,7 +563,7 @@ final class ProxyManager: NSObject {
                             self.dataAccess = try DataActivationKeychain.save(key: key, keyID: id)
                             value.activationKey = nil
                             self.knowledgeRuntime = value
-                            self.knowledgeUpdateStatus = .ready(value.current?.contentVersion ?? "")
+                            self.knowledgeUpdateStatus = .ready(value.current?.packageVersion ?? value.current?.contentVersion ?? "")
                             self.activationController?.close()
                             self.checkAgentAuthorization(startProxyWhenReady: true)
                         } catch { self.activationController?.showError(error.localizedDescription) }
@@ -609,7 +612,7 @@ final class ProxyManager: NSObject {
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
-                        let version = value.descriptor?.contentVersion ?? "unknown"
+                        let version = value.descriptor?.packageVersion ?? value.descriptor?.contentVersion ?? "unknown"
                         self.knowledgeUpdateStatus = value.updateAvailable == true
                             ? .updateAvailable(version)
                             : .upToDate(version)
@@ -662,7 +665,7 @@ final class ProxyManager: NSObject {
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
-                        let version = value.current?.contentVersion ?? "unknown"
+                        let version = value.current?.packageVersion ?? value.current?.contentVersion ?? "unknown"
                         self.knowledgeUpdateStatus = .ready(version)
                         self.appendLog("=== \(Date()) Knowledge \(version) validated and activated ===\n")
                         self.applyUpdatedKnowledgeRuntime()
@@ -692,7 +695,7 @@ final class ProxyManager: NSObject {
                     switch result {
                     case .success(let value):
                         self.knowledgeRuntime = value
-                        let version = value.current?.contentVersion ?? "unknown"
+                        let version = value.current?.packageVersion ?? value.current?.contentVersion ?? "unknown"
                         self.knowledgeUpdateStatus = .ready(version)
                         self.appendLog("=== \(Date()) Knowledge rolled back to \(version) ===\n")
                         self.applyUpdatedKnowledgeRuntime()

@@ -20,6 +20,7 @@ struct ProxyDetailsSnapshot {
     var knowledgeSource = "ds-ai-hub"
     var knowledgeStatus = ""
     var knowledgeVersion = ""
+    var knowledgePackageVersion = ""
     var canUpdate = false
     var canRollback = false
     var canCheckUpdates = true
@@ -30,8 +31,9 @@ struct ProxyDetailsSnapshot {
     var activationRequired = false
     var canActivateData = false
     var displayedKnowledgeVersion: String {
-        knowledgeVersion.count == 64 && knowledgeVersion.allSatisfy(\.isHexDigit)
-            ? String(knowledgeVersion.prefix(12)) : knowledgeVersion
+        if !knowledgePackageVersion.isEmpty { return knowledgePackageVersion }
+        return knowledgeVersion.count == 64 && knowledgeVersion.allSatisfy(\.isHexDigit)
+            ? "Не определена" : knowledgeVersion
     }
 }
 

@@ -74,7 +74,7 @@ async function buildDataRelease({ dataRoot, knowledgeRoot, runtimeRoot, output, 
   const catalog = central ? require('../src/skills/catalog').readCatalog(sourceSkills) : null;
   if(catalog?.entries.some(entry=>entry.descriptor.schemaVersion==='apollo.skill-package.v2')&&runtime.capabilities?.generationSkills!==require('../src/skills/catalog').GENERATION_CAPABILITY)throw Error('SKILL_RUNTIME_INCOMPATIBLE');
   if(skillsSourceSha256!==undefined && (!/^[a-f0-9]{64}$/.test(skillsSourceSha256) || catalog && skillsSourceSha256!==catalog.sha256))throw Error('SKILL_CATALOG_INVALID');
-  if(catalog?.entries.some(entry=>entry.descriptor.executorId===require('../src/skills/catalog').AUDIT_EXECUTOR)&&runtime.capabilities?.figmaAudit!==require('../src/skills/catalog').AUDIT_CAPABILITY)throw Error('SKILL_RUNTIME_INCOMPATIBLE');
+  if(catalog?.entries.some(entry=>entry.descriptor.executorId===require('../src/skills/catalog').AUDIT_EXECUTOR&&!require('../src/skills/catalog').auditSupportsRuntime(entry.descriptor,runtime)))throw Error('SKILL_RUNTIME_INCOMPATIBLE');
   skillsSourceSha256=catalog?.sha256 || skillsSourceSha256;
   const runFolder = catalog ? path.join(namingFolder,'run') : path.join(sourceSkills,'figma-layer-name-hygiene-run');
   if(skillsRoot!==undefined && !require('node:fs').existsSync(namingFolder) && !require('node:fs').existsSync(runFolder))throw Object.assign(Error('Explicit skill source contains no supported naming profile.'),{code:'LAYER_NAMES_SKILL_UNAVAILABLE'});

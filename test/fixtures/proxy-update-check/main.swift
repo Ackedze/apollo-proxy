@@ -64,8 +64,17 @@ var state = ProxyDetailsSnapshot()
 state.version = "v1.4.4"
 state.knowledgeVersion = String(repeating: "9ba5f193", count: 8)
 settings.update(state)
-precondition(state.displayedKnowledgeVersion == "9ba5f1939ba5")
-precondition(labels(settings.window!.contentView!).contains { $0.stringValue == "Версия: 9ba5f1939ba5" && $0.toolTip == state.knowledgeVersion })
+precondition(state.displayedKnowledgeVersion == "Не определена")
+let packaged = try JSONDecoder().decode(KnowledgeCommandStatus.self, from: Data("""
+{"current":{"contentVersion":"\(state.knowledgeVersion)","kind":"downloaded","packageVersion":"1.4.22-data.20261104.1"},"descriptor":{"contentVersion":"next-hash","packageVersion":"1.4.23-data.20261105.1"}}
+""".utf8))
+state.knowledgePackageVersion = packaged.current?.packageVersion ?? ""
+settings.update(state)
+precondition(state.displayedKnowledgeVersion == "1.4.22-data.20261104.1")
+precondition(labels(settings.window!.contentView!).contains { $0.stringValue == "Версия: 1.4.22-data.20261104.1" && $0.toolTip == state.knowledgeVersion })
+controller.update(state)
+precondition(labels(controller.window!.contentView!).contains { $0.stringValue == "Версия: 1.4.22-data.20261104.1" && $0.toolTip == state.knowledgeVersion })
+state.knowledgePackageVersion = ""
 state.knowledgeVersion = "Данные ещё не загружены"
 precondition(state.displayedKnowledgeVersion == state.knowledgeVersion)
 state.knowledgeVersion = "9ba5f1939ba5"

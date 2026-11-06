@@ -56,13 +56,19 @@ function accessKey(activation, access = {}) {
 async function installProtected({ settings, ensured, selected, command, access, request, releases }) {
   const { index } = selected, current = ensured.state?.current || null;
   const updateAvailable = index.npm.dataId !== current?.contentVersion;
-  const extra = { updateAvailable, descriptor:{contentVersion:index.npm.dataId},sourceCommit:selected.commit,activationKeyID:index.activation.keyId };
+  const extra = { updateAvailable, descriptor:{contentVersion:index.npm.dataId,packageVersion:index.npm.version},sourceCommit:selected.commit,activationKeyID:index.activation.keyId };
   const keyPresent = access?.keyId === index.activation.keyId && /^[a-f0-9]{64}$/.test(access.key || '');
   const status = state => state?.current ? releases.publicStatus(state) : {current:null,previous:null};
-  if (command === 'check') return {...status(ensured.state),...extra,activationRequired:!keyPresent};
-  const key = accessKey(index.activation,access);
+  const key = command === 'check' ? null : accessKey(index.activation,access);
+  const state = !updateAvailable && !current.packageVersion
+    ? await releases.rememberPackageVersion(settings, current.contentVersion, index.npm.version) : ensured.state;
+  if (command === 'check') return {...status(state),...extra,activationRequired:!keyPresent};
   const activated = command === 'activate' ? {activationKey:key.toString('hex')} : {};
-  if (!updateAvailable) return {...status(ensured.state),...extra,activationRequired:false,...activated};
+  if (!updateAvailable) return {...status(state),...extra,activationRequired:false,...activated};
+  if (index.incremental && current) {
+    const result = await require('./incremental').install({settings,current,index,key,request,releaseApi:releases});
+    return {...status(result.state),...extra,updateAvailable:false,updated:true,activationRequired:false,...activated,transfer:result.transfer};
+  }
   const temporary = await fs.mkdtemp(path.join(settings.storeRoot,'.protected-update-'));
   try {
     console.error(JSON.stringify({phase:'downloading'}));
@@ -84,9 +90,9 @@ async function installProtected({ settings, ensured, selected, command, access, 
     await fs.writeFile(archive,payload,{flag:'wx',mode:0o600});
     console.error(JSON.stringify({phase:'validating'}));
     if ((await releases.readState(settings.storeRoot))?.current?.contentVersion !== current?.contentVersion) fail('DATA_RELEASE_STATE_CHANGED');
-    const state = await releases.installTarball({...settings,tarballPath:archive,
-      expectedIntegrity:'sha256-'+crypto.createHash('sha256').update(payload).digest('base64'),expectedContentVersion:index.npm.dataId});
+    const state = await releases.installTarball({...settings,tarballPath:archive,packageVersion:index.npm.version,
+      expectedIntegrity:'sha256-'+crypto.createHash('sha256').update(payload).digest('base64'),expectedContentVersion:index.npm.dataId,expectedCurrentVersion:current?.contentVersion || null});
     return {...status(state),...extra,updateAvailable:false,updated:true,activationRequired:false,...activated};
   } finally { await fs.rm(temporary,{recursive:true,force:true}); }
 }
-module.exports = { KEY_SCHEMA,PACKAGE_SCHEMA,validateActivation,createActivation,accessKey,encrypt,installProtected };
+module.exports = { KEY_SCHEMA,PACKAGE_SCHEMA,validateActivation,createActivation,accessKey,encrypt,decrypt,installProtected };

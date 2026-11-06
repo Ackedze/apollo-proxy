@@ -7,7 +7,15 @@ const cite=row=>({id:row.id,sha256:row.sha256,path:row.path,offset:row.offset,ob
 const foundation={container:{role:'surface',type:'INSTANCE',componentKey:key},mount:{role:'main',type:'SLOT',componentKey:null},layout:{spacingToken:'fixture-token'}};
 const outline={facts:[{id:'offer',value:'Confirmed fixture offer'}],sections:['hero','benefits','steps','faq','cta'].map(id=>({id,role:id,contentShape:{items:1,textFields:1},sourceIds:[],nodeId:null}))};
 const target={fileKey:'FixtureFile',pageId:'page',rootNodeId:'root',ownerNonce:'a'.repeat(64),leaseNonce:'b'.repeat(64)};
-function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlineRead=false,outlineOverride=null,payload=false,checkpointYield=false}={}){
+const wireValue=v=>Array.isArray(v)?v.map(wireValue):v!==null&&typeof v==='object'?{entries:Object.entries(v).map(([key,value])=>({key,value:wireValue(value)}))}:v;
+function wirePayload(result,kind){
+ if(!['continue','finish'].includes(kind))return null;
+ const preparation=result.preparationPatch?copy(result.preparationPatch):null;
+ if(preparation){const d=preparation.decision;if(d.layout)d.layout=wireValue(d.layout);if(d.props)d.props=wireValue(d.props);if(preparation.stage==='prepare-foundation'&&!Object.hasOwn(d,'slotContentReplacement'))d.slotContentReplacement=null;}
+ const report=kind==='finish'?{summary:result.summary,checks:result.checks.map((c,i)=>Object.assign({name:'Fixture check '+i},c)),visualReviews:result.visualReviews,issues:[],limits:[]}:null;
+ return {checkpoint:result.checkpoint||null,preparationPatch:preparation,technicalPatch:result.technicalPatch||null,apiObservations:result.apiObservations||[],report};
+}
+function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlineRead=false,outlineOverride=null,payload=false,checkpointYield=false,versionedReceipt=false}={}){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'landing-staged-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  const recipe={schemaVersion:'apollo.slot-content-replacement.v1',id:'Fixture.main.default',containerKey:key,slot:{type:'SLOT',name:'Source mount'},defaultChildren:[{type:'FRAME',name:'Fixture placeholder',children:[{type:'TEXT',name:'Fixture label',characters:'Fixture default',children:[]}]}]},foundationGuide=payload?{...guide,text:guide.text+'\n```apollo-slot-content-replacement\n'+JSON.stringify(recipe)+'\n```'}:guide,foundationDecision=payload?{...foundation,slotContentReplacement:recipe.id}:foundation;
  const virtual={foundation:false,sections:[],texts:{},partial:false,payload:false,created:0,yielded:false},calls=[],reads=[],mutations=[];
@@ -17,7 +25,7 @@ function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlin
   if(virtual.payload)nodes.push({id:'default-frame',parentId:'main',type:'FRAME',name:'Fixture placeholder',role:'',sectionId:null},{id:'default-text',parentId:'default-frame',type:'TEXT',name:'Fixture label',characters:'Fixture default',role:'',sectionId:null});
   const sections=virtual.sections.map(id=>({id:'node-'+id,sectionId:id,fingerprint:sha([id,virtual.texts[id]||'Placeholder',wrongKey?'wrong':key])}));
   for(const row of sections)nodes.push({id:row.id,parentId:'main',type:'INSTANCE',name:row.sectionId,role:'',sectionId:row.sectionId,componentKey:wrongKey?'c'.repeat(40):key,componentProperties:{View:{type:'VARIANT',value:'Fixture'}}},{id:'text-'+row.sectionId,parentId:row.id,type:'TEXT',name:'Title',role:'',sectionId:row.sectionId,characters:virtual.texts[row.sectionId]||'Placeholder',fontName:{family:'Fixture',style:'Regular'},hasMissingFont:false});
-  return {rootNodeId:'root',pageId:'page',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:nodes.length,instanceCount:virtual.foundation?1+sections.length:0,sections,text:Object.values(virtual.texts).join('\n'),coverage:'tagged-sections-and-text',native:{schemaVersion:'apollo.landing-native.v1',nodes}};
+  return {rootNodeId:'root',pageId:'page',ownerNonce:target.ownerNonce,leaseNonce:target.leaseNonce,outsideHash:'c'.repeat(64),nodeCount:nodes.length,instanceCount:virtual.foundation?1+sections.length:0,sections,text:Object.values(virtual.texts).join('\n'),coverage:'tagged-sections-and-text',native:{schemaVersion:'apollo.landing-native.v2',modeDefaults:{},nodes}};
  };
  const source={id:'fixture',knowledgeVersion:'fixture',resumePin:'fixture-pin',skill:{id:'ab-generate-custom-landing',generation:{workflow,...(payload?{recipeOperations:'slot-content-replacement-v1'}:{})},version:payload?'0.4.1':'0.4.0',sha256:'fixture'},assertCurrent(){},initial:{norms:[foundationGuide],instructions:{},workflow:[],resources:[]},list(query,offset){return {query,offset,total:1,next:null,resources:[{id:'knowledge/data/ds-ai-hub/'+query+'instructions.md'}]};},read(req){reads.push(req.id);return {...req,sha256:guide.sha256,text:'Documented component fixture published key '+key,next:null,total:68};}};
  const service=createLandingService({root,knowledge:()=>source,createCli:()=>({run:async options=>{
@@ -34,8 +42,14 @@ function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlin
    }
   }else if(stage==='foundation'){virtual.foundation=true;virtual.payload=payload;mutations.push(stage);}
   else if(stage==='structure'){
+   const existed=virtual.sections.includes(id);
    if(partial&&id==='hero'&&!virtual.partial){virtual.partial=true;result.partial=true;}else{if(!virtual.sections.includes(id)){virtual.sections.push(id);virtual.created++;}if(id==='hero')virtual.payload=false;sectionPatch={sectionId:id,nodeId:'node-'+id};}
    assert.deepEqual(Object.keys(virtual.texts),[]);mutations.push(stage+':'+id);
+   if(versionedReceipt&&sectionPatch&&!existed){
+    const context=ctx.execution.writeContext;assert.equal(context.schemaVersion,'apollo.mcp-write-result.v1');assert.equal(context.stage,stage);assert.equal(context.sectionId,id);assert.equal(context.target.ownerNonce,target.ownerNonce);
+    sectionPatch.nodeId='reported-'+id;const receipt={schemaVersion:context.schemaVersion,operationId:context.operationId,sourcePin:context.sourcePin,stage,sectionId:id,ownership:{rootId:'root',parentId:'page',pageId:'page',owner:target.ownerNonce,active:target.leaseNonce},createdNodeIds:[sectionPatch.nodeId],mutatedNodeIds:['main'],section:{id:sectionPatch.nodeId,parentId:'main',type:'INSTANCE',sectionId:id}};
+    options.onEvent({type:'item.completed',item:{id:'create-'+id,type:'mcp_tool_call',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify(receipt)}]}}});
+   }
    if(checkpointYield&&id==='hero'&&!virtual.yielded){virtual.yielded=true;throw Object.assign(Error('AGENT_CHECKPOINT_REQUIRED'),{code:'AGENT_CHECKPOINT_REQUIRED',usage:{toolCalls:1}});}
   }else if(stage==='content'){
    assert.equal(virtual.sections.length,5);virtual.texts[id]='Text-'+id;mutations.push(stage+':'+id);
@@ -48,7 +62,7 @@ function fixture(t,{partial=false,repeat=false,wrongKey=false,stall=false,outlin
   if(kind==='continue')result.checkpoint={sectionId:id,status:result.partial?'partial':'complete',nextAction:'Next assigned unit'};
   delete result.partial;
   const output={kind,message:stage||'Outline ready',query:kind==='list_resources'?'products/ab/components/'+(id||'fixture')+'/':'',offset:0,resources,resultJson:JSON.stringify(result)};
-  if(!ctx.execution)output.specJson=JSON.stringify(ctx.spec.foundation?.plan||ctx.spec.sections.some(s=>s.nodeId)?ctx.spec:{...outline,...outlineOverride});else output.sectionPatch=sectionPatch;
+  if(!ctx.execution)output.specJson=JSON.stringify(ctx.spec.foundation?.plan||ctx.spec.sections.some(s=>s.nodeId)?ctx.spec:{...outline,...outlineOverride});else{output.sectionPatch=sectionPatch;output.payload=wirePayload(result,kind);delete output.resultJson;}
   return {result:output,receipt:{mcp:{toolCalls:stage&&['foundation','structure','content'].includes(stage)?1:0}}};
  }})});
  const chat=service.create({fileKey:target.fileKey,pageId:target.pageId});
@@ -147,4 +161,11 @@ test('wrong component identity cannot complete a structural unit',async t=>{
 test('prepare delta rejects unread sources, changed business facts and writes before readback',()=>{
  const state={workflow,stage:'prepare-foundation',activeSectionId:null},point={sectionId:null,status:'complete',nextAction:'Assemble'},patch={stage:'prepare-foundation',sectionId:null,baseRevision:0,sources:[cite(guide)],decision:foundation};
  for(const [value,reads,tools]of [[patch,[],0],[{...patch,facts:['changed']},[guide],0],[patch,[guide],1]])assert.throws(()=>cp.preparationPatch(state,{preparationPatch:value},point,null,reads,tools),/LANDING_/);
+});
+for(const checkpointYield of [false,true])test('versioned write receipts complete the existing five-block flow after canonical IDs'+(checkpointYield?' and unknown-outcome recovery':''),async t=>{
+ const h=fixture(t,{payload:true,versionedReceipt:true,checkpointYield}),start=await h.submit();h.service.canvas(h.chat.id,{revision:start.revision,target,readback:h.snapshot()});await h.service.whenSettled(h.chat.id);let current=h.service.poll(h.chat.id),turns=0;
+ while(current.status==='awaiting-readback'){current=await h.observe();assert(++turns<48);}
+ assert.equal(current.status,'completed',JSON.stringify(current.error));assert.equal(h.virtual.created,5);assert.equal(current.execution.structures.length,5);assert.equal(current.execution.completed.length,5);assert.equal(h.virtual.payload,false);
+ const receipts=current.execution.mcpObservations.filter(row=>JSON.parse(row.text).schemaVersion==='apollo.mcp-write-result.v1');assert.equal(receipts.length,5);assert(receipts.every(row=>row.operationId===JSON.parse(row.text).operationId&&row.executionStage==='structure'&&row.readbackHash));
+ const contexts=h.calls.filter(c=>c.execution?.writeContext).map(c=>c.execution.writeContext.operationId);assert.equal(new Set(contexts).size,contexts.length);if(checkpointYield)assert.equal(current.failures[0].error.code,'AGENT_CHECKPOINT_REQUIRED');
 });

@@ -89,6 +89,122 @@ test('installed raw reference returns selected V3 variant and pins without claim
   assert.equal(result.referenceHash.length, 64);
 });
 
+test('nested request returns only exact needed variants from pinned raw and changes request identity', t => {
+  const f=fixture(t);
+  f.raw.components[0].structure[1].componentInstance={componentKey:'old-service'};
+  f.raw.components.push({key:'service-set',name:'Service',structure:[
+    {id:10,parentId:null,type:'COMPONENT',name:'Type=Old',path:'Type=Old',layout:{width:20}},
+    {id:11,parentId:10,type:'TEXT',name:'Label',path:'Type=Old / Label',text:{fontSize:12}},
+  ],variants:[{key:'old-service',name:'Type=Old'},{key:'new-service',name:'Type=New'}],
+    variantStructures:{'old-service':[],'new-service':[{op:'update',id:11,value:{text:{fontSize:16}}}]}});
+  Object.assign(f.rawPin,f.put(f.rawPin.file,f.raw));f.save();f.body.releaseId=f.index.id;
+  const legacy=readCatalogReference(f.body,f.root);
+  f.body.selection.hostContext={nestedComponentKeys:['new-service']};
+  const result=readCatalogReference(f.body,f.root);
+  assert.deepEqual(result.nestedReferences.map(r=>r.componentKey),['new-service','old-service']);
+  const selected=result.nestedReferences.find(r=>r.componentKey==='new-service');
+  assert.equal(selected.structure[1].text.fontSize,16);
+  assert.equal(selected.catalog.sha256,f.rawPin.sha256);
+  assert.notEqual(result.referenceHash,legacy.referenceHash);
+  assert.equal(JSON.stringify(result.nestedReferences).includes('unselected-set'),false);
+  assert.equal(legacy.nestedReferences,undefined);
+  assert.equal(result.completeness.configuredReference,false);
+  for(const count of [129,256]) {
+    f.body.selection.hostContext={nestedComponentKeys:['new-service',...Array.from({length:count-1},(_,i)=>i.toString(16).padStart(40,'0'))]};
+    const batch=readCatalogReference(f.body,f.root);
+    assert.equal(batch.selection.hostContext.nestedComponentKeys.length,count);
+    assert(batch.nestedReferences.some(r=>r.componentKey==='new-service'),'known requested variant survives the complete batch');
+  }
+  f.raw.components.find(c=>c.key==='service-set').variantStructures['new-service'].push({op:'update',id:999,value:{opacity:0}});
+  Object.assign(f.rawPin,f.put(f.rawPin.file,f.raw));f.save();f.body.releaseId=f.index.id;
+  const incomplete=readCatalogReference(f.body,f.root);
+  assert.equal(incomplete.nestedReferences.some(r=>r.componentKey==='new-service'),false);
+  assert(incomplete.nestedReferenceIssues.some(i=>i.code==='CATALOG_NESTED_PATCH_UNAVAILABLE'&&i.componentKey==='new-service'));
+  assert(incomplete.nestedReferences.some(r=>r.componentKey==='old-service'),'one unsupported variant does not erase other evidence');
+  for(const invalid of [['new-service','new-service'],['bad key'],null]) {
+    f.body.selection.hostContext={nestedComponentKeys:invalid};
+    assert.throws(()=>readCatalogReference(f.body,f.root),e=>e.code==='CATALOG_REQUEST_INVALID');
+  }
+});
+
+test('raw stroke ambiguity comes from inherited variant provenance, not from the tested instance',()=>{
+ const component={defaultVariant:'base',structure:[{id:1,parentId:null,name:'Type=Base',path:'Type=Base',strokeWeight:1}],
+  variants:[{key:'base',name:'Type=Base'},{key:'next',name:'Type=Next'},{key:'explicit',name:'Type=Explicit'},{key:'clear',name:'Type=Clear'}],
+  variantStructures:{base:[],next:[{op:'update',id:1,value:{name:'Type=Next'}}],
+   explicit:[{op:'update',id:1,value:{strokeWeight:2}}],clear:[{op:'update',id:1,value:{strokeWeight:null}}]}};
+ const before=JSON.stringify(component);
+ assert.equal(resolveStructure(component,'base')[0].catalogStrokeWeightUncertainty,undefined);
+ const inherited=resolveStructure(component,'next')[0];
+ assert.equal(inherited.strokeWeight,1);
+ assert.deepEqual(inherited.catalogStrokeWeightUncertainty,{reason:'inherited-scalar-may-have-lost-undefined-clear',baseVariantKey:'base',selectedVariantKey:'next'});
+ const explicit=resolveStructure(component,'explicit')[0];
+ assert.equal(explicit.strokeWeight,2);assert.equal(explicit.catalogStrokeWeightUncertainty,undefined);
+ assert.equal(resolveStructure(component,'clear')[0].strokeWeight,null);
+ assert.equal(JSON.stringify(component),before);
+ const fallback=structuredClone(component);fallback.structure[0].name='Type=Next';fallback.structure[0].path='Type=Next';
+ assert.equal(resolveStructure(fallback,'base')[0].catalogStrokeWeightUncertainty.baseVariantKey,'next');
+ assert.equal(resolveStructure(fallback,'next')[0].catalogStrokeWeightUncertainty,undefined,'captured fallback base remains a known uniform source');
+ const slash=structuredClone(component);slash.variants[0].name='Type=Error / Risk';
+ slash.structure[0].name=slash.structure[0].path='Type=Error / Risk';
+ assert.equal(resolveStructure(slash,'base')[0].catalogStrokeWeightUncertainty,undefined,'a slash inside the source variant value is not an ancestry separator');
+});
+
+test('family metadata includes used registered families and their other variants without duplicating trees', t => {
+  const f = fixture(t);
+  f.raw.components[0].structure[1].componentInstance = { componentKey: 'spinner-old' };
+  Object.assign(f.rawPin, f.put(f.rawPin.file, f.raw));
+  const spinner = f.put('catalogs/spinner.json', { components: [
+    { key: 'spinner-set', variants: [{ key: 'spinner-old' }, { key: 'spinner-new' }], structure: [{ name: 'SECOND_TREE_MUST_NOT_BE_SENT' }] },
+    { key: 'foreign-set', variants: [{ key: 'foreign-variant' }] },
+  ] });
+  f.index.rawCatalogs.push({ contractId: 'core.web.spinner', componentId: 'core.web.spinner', revision: 8,
+    representationIds: ['spinner.figma'], catalog: spinner });
+  f.save(); delete f.body.releaseId;
+  const result = readCatalogReference(f.body, f.root);
+  assert.deepEqual({ ...result.componentFamilies }, { 'button-set': 'button-set', 'default-variant': 'button-set',
+    size64: 'button-set', 'spinner-set': 'spinner-set', 'spinner-new': 'spinner-set', 'spinner-old': 'spinner-set' });
+  assert.equal(result.componentFamilies['foreign-variant'], undefined);
+  assert.equal(JSON.stringify(result).includes('SECOND_TREE_MUST_NOT_BE_SENT'), false);
+  assert.deepEqual(result.provenance.familyCatalogs, [f.rawPin, spinner]);
+  const unsigned = { ...result }; delete unsigned.referenceHash;
+  assert.equal(result.referenceHash, sha(Buffer.from(JSON.stringify(unsigned))));
+});
+
+test('standalone family metadata never invents a component set or includes unrelated standalone components', t => {
+  const f = fixture(t);
+  f.raw.components[0].structure[1].componentInstance = { componentKey: 'standalone' };
+  f.raw.components.push({ key: 'standalone', variants: [{ key: 'standalone' }], structure: [{ id: 99 }] });
+  Object.assign(f.rawPin, f.put(f.rawPin.file, f.raw)); f.save(); delete f.body.releaseId;
+  const result = readCatalogReference(f.body, f.root);
+  assert.equal(result.componentFamilies.standalone, '');
+  assert.equal(result.componentFamilies['unselected-set'], undefined);
+});
+
+test('a published variant belonging to two registered families stays unknown without discarding the selected tree', t => {
+  const f = fixture(t);
+  const foreign = f.put('catalogs/conflict.json', { components: [
+    { key: 'foreign-set', variants: [{ key: 'size64' }] },
+  ] });
+  f.index.rawCatalogs.push({ contractId: 'foreign', catalog: foreign });
+  f.save(); delete f.body.releaseId;
+  const result = readCatalogReference(f.body, f.root);
+  assert.equal(result.componentFamilies.size64, undefined);
+  assert.equal(result.componentFamilies['default-variant'], 'button-set');
+  assert.deepEqual(result.componentFamilyIssues, [{code:'CATALOG_COMPONENT_FAMILY_AMBIGUOUS',componentKey:'size64'}]);
+  assert.equal(result.structure[0].layout.width, 64);
+  assert.equal(result.completeness.structure, 'assembled');
+});
+
+test('family metadata verifies every registered raw pin and rejects conflicting pins for one path', t => {
+  const f = fixture(t), pin = f.put('catalogs/second.json', { components: [{ key: 'other' }] });
+  f.index.rawCatalogs.push({ contractId: 'other', catalog: pin }); f.save(); delete f.body.releaseId;
+  fs.appendFileSync(path.join(f.root, pin.file), ' ');
+  assert.throws(() => readCatalogReference(f.body, f.root), { code: 'DATA_PACKAGE_STALE' });
+  Object.assign(pin, f.put(pin.file, { components: [{ key: 'other' }] }));
+  f.index.rawCatalogs.push({ contractId: 'conflicting-pin', catalog: { ...f.rawPin, sha256: 'a'.repeat(64) } }); f.save();
+  assert.throws(() => readCatalogReference(f.body, f.root), { code: 'CATALOG_RESOURCE_IDENTITY_MISMATCH' });
+});
+
 test('actual variant identity is accepted but an unspecified/default or foreign variant never falls back', t => {
   const f = fixture(t);
   delete f.body.selection.variantKey;

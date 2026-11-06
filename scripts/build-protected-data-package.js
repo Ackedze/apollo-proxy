@@ -4,7 +4,7 @@ const fs = require('node:fs/promises'), path = require('node:path'), crypto = re
 const { execFileSync } = require('node:child_process');
 const releases = require('../src/data-release'), protectedData = require('../src/data-packages/protected');
 
-async function buildProtectedDataPackage({releaseRoot,runtimeRoot,output,name='@apollo/data',version,tarballUrl,activation,password}) {
+async function buildProtectedDataPackage({releaseRoot,runtimeRoot,output,name='@apollo/data',version,tarballUrl,activation,password,incremental}) {
   const manifest = await releases.validateRelease(releaseRoot,{runtimeRoot});
   const key = protectedData.accessKey(activation,{password});
   output = path.resolve(output); await fs.mkdir(output);
@@ -28,8 +28,13 @@ async function buildProtectedDataPackage({releaseRoot,runtimeRoot,output,name='@
     require('../src/data-packages/npm').validateReference(npm);
     if (npm.integrity !== packed.integrity) throw Error('NPM_DATA_INTEGRITY_INVALID');
     const descriptor = {schemaVersion:'apollo.git-data-index.v3',runtimeId:manifest.runtimeId,activation,npm};
+    let incrementalStats;
+    if (incremental) {
+      const built = await require('./build-incremental-data').buildIncrementalData({releaseRoot,runtimeRoot,output,descriptor,key,objectsUrl:incremental.objectsUrl,packUrl:incremental.packUrl?.replaceAll('{version}',version),previousRoot:incremental.previousRoot});
+      descriptor.schemaVersion = 'apollo.git-data-index.v4'; descriptor.incremental = built.transport; incrementalStats = built.stats;
+    }
     await fs.writeFile(path.join(output,'current.json'),JSON.stringify(descriptor,null,2)+'\n',{flag:'wx'});
-    return {descriptor,tarballPath,packageRoot:root};
+    return {descriptor,tarballPath,packageRoot:root,...(incrementalStats ? {incrementalStats} : {})};
   } finally { await fs.rm(staging,{recursive:true,force:true}); }
 }
 if (require.main === module) {

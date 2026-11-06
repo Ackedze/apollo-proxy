@@ -8,12 +8,24 @@ const GENERATION_EXECUTOR='apollo.figma-mcp';
 const GENERATION_CAPABILITY='figma-mcp-skills-v1';
 const AUDIT_EXECUTOR='apollo.figma-audit';
 const AUDIT_CAPABILITY='figma-audit-v1';
+const AUDIT_CONTEXT_CAPABILITY='figma-audit-v2';
+const AUDIT_WIRE_VERSION='apollo.figma-audit.v2';
+const AUDIT_CUSTOMIZATION_WIRE='apollo.figma-audit.v3',AUDIT_CUSTOMIZATION_CAPABILITY='figma-audit-v3',CUSTOMIZATION_FACTS='component-customizations-v1';
 const STAGED_WORKFLOW='staged-content-v1';
+const DIRECT_WORKFLOW='direct-cli-mcp-v1';
 const SLOT_CONTENT_REPLACEMENT='slot-content-replacement-v1';
 const skillId=value=>typeof value==='string'&&/^[a-z0-9][a-z0-9-]{0,79}$/.test(value);
 const instructionPath=value=>typeof value==='string'&&(value==='SKILL.md'||/^references\/[A-Za-z0-9_.\/-]+\.(md|json)$/.test(value))&&!value.split('/').some(part=>!part||part==='.'||part==='..');
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const fail=()=>{throw Object.assign(Error('SKILL_CATALOG_INVALID'),{code:'SKILL_CATALOG_INVALID'});};
+function auditCapabilityForWire(wire){if(wire==='apollo.figma-audit.v1')return AUDIT_CAPABILITY;if(wire===AUDIT_WIRE_VERSION)return AUDIT_CONTEXT_CAPABILITY;if(wire===AUDIT_CUSTOMIZATION_WIRE)return AUDIT_CUSTOMIZATION_CAPABILITY;fail();}
+function auditSupportsRuntime(descriptor,runtime){
+ if(descriptor?.executorId!==AUDIT_EXECUTOR||!descriptor.audit)return false;
+ const wire=Object.hasOwn(descriptor.audit,'wireVersion')?descriptor.audit.wireVersion:'apollo.figma-audit.v1',cap=runtime?.capabilities?.figmaAudit;
+ if(wire===AUDIT_CUSTOMIZATION_WIRE)return cap===AUDIT_CUSTOMIZATION_CAPABILITY;
+ if(wire===AUDIT_WIRE_VERSION)return cap===AUDIT_CONTEXT_CAPABILITY||cap===AUDIT_CUSTOMIZATION_CAPABILITY;
+ return !Object.hasOwn(descriptor.audit,'wireVersion')&&wire==='apollo.figma-audit.v1'&&[AUDIT_CAPABILITY,AUDIT_CONTEXT_CAPABILITY,AUDIT_CUSTOMIZATION_CAPABILITY].includes(cap);
+}
 const exact=(v,keys)=>v&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).sort().join(',')===keys.slice().sort().join(',');
 const pin=v=>exact(v,['path','sha256','bytes'])&&/^[a-f0-9]{64}$/.test(v.sha256||'')&&Number.isSafeInteger(v.bytes)&&v.bytes>=0&&v.bytes<=65536;
 function parse(bytes){try{return JSON.parse(bytes.toString());}catch{fail();}}
@@ -30,7 +42,7 @@ function packageFiles(bytes,expectedId=ID){
     const profile=value.audit;
     if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','audit'])||expectedId!=='ab-audit-figma'||value.id!==expectedId||value.executorId!==AUDIT_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||!skillId(value.id)||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
       ||!Array.isArray(value.files)||!value.files.length||!value.files.some(p=>p.path==='SKILL.md')||new Set(value.files.map(p=>p?.path)).size!==value.files.length||value.files.some(p=>!pin(p)||!instructionPath(p.path))
-      ||!exact(profile,['requiredResources','initialFiles','hostInstructions'])||!Array.isArray(profile.requiredResources)||!profile.requiredResources.length||new Set(profile.requiredResources).size!==profile.requiredResources.length||profile.requiredResources.some(id=>typeof id!=='string'||!/^knowledge\/data\/ds-ai-hub\/.+\.(md|json|yaml|yml|txt)$/.test(id)||id.split('/').some(p=>!p||p==='.'||p==='..'))
+      ||!exact(profile,['requiredResources','initialFiles','hostInstructions'].concat(Object.hasOwn(profile||{},'wireVersion')?['wireVersion']:[]).concat(Object.hasOwn(profile||{},'documentRouting')?['documentRouting']:[]).concat(Object.hasOwn(profile||{},'catalogLifecycle')?['catalogLifecycle']:[]).concat(Object.hasOwn(profile||{},'customizationFacts')?['customizationFacts']:[]))||Object.hasOwn(profile||{},'wireVersion')&&![AUDIT_WIRE_VERSION,AUDIT_CUSTOMIZATION_WIRE].includes(profile.wireVersion)||Object.hasOwn(profile||{},'customizationFacts')&&(profile.customizationFacts!==CUSTOMIZATION_FACTS||profile.wireVersion!==AUDIT_CUSTOMIZATION_WIRE)||Object.hasOwn(profile||{},'documentRouting')&&profile.documentRouting!=='component-documents-v1'||Object.hasOwn(profile||{},'catalogLifecycle')&&profile.catalogLifecycle!=='component-lifecycle-v1'||!Array.isArray(profile.requiredResources)||!profile.requiredResources.length||new Set(profile.requiredResources).size!==profile.requiredResources.length||profile.requiredResources.some(id=>typeof id!=='string'||!/^knowledge\/data\/ds-ai-hub\/.+\.(md|json|yaml|yml|txt)$/.test(id)||id.split('/').some(p=>!p||p==='.'||p==='..'))
       ||!Array.isArray(profile.initialFiles)||!profile.initialFiles.includes('SKILL.md')||new Set(profile.initialFiles).size!==profile.initialFiles.length||profile.initialFiles.some(file=>!value.files.some(pin=>pin.path===file))||typeof profile.hostInstructions!=='string'||!profile.hostInstructions.length||profile.hostInstructions.length>12000)fail();
     return value.files;
   }
@@ -38,7 +50,7 @@ function packageFiles(bytes,expectedId=ID){
     const profile=value.generation;
     if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','generation'])||!skillId(expectedId)||expectedId===ID||value.id!==expectedId||value.executorId!==GENERATION_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
       ||!Array.isArray(value.files)||!value.files.length||!value.files.some(p=>p.path==='SKILL.md')||new Set(value.files.map(p=>p?.path)).size!==value.files.length||value.files.some(p=>!pin(p)||!instructionPath(p.path))
-      ||!exact(profile,['platforms','requiredResources','initialQueries','initialFiles','hostInstructions'].concat(Object.hasOwn(profile||{},'workflow')?['workflow']:[]).concat(Object.hasOwn(profile||{},'recipeOperations')?['recipeOperations']:[]))||Object.hasOwn(profile||{},'workflow')&&profile.workflow!==STAGED_WORKFLOW||Object.hasOwn(profile||{},'recipeOperations')&&(profile.recipeOperations!==SLOT_CONTENT_REPLACEMENT||profile.workflow!==STAGED_WORKFLOW)||!Array.isArray(profile.platforms)||profile.platforms.length!==1||profile.platforms[0]!=='desktop'
+      ||!exact(profile,['platforms','requiredResources','initialQueries','initialFiles','hostInstructions'].concat(Object.hasOwn(profile||{},'workflow')?['workflow']:[]).concat(Object.hasOwn(profile||{},'recipeOperations')?['recipeOperations']:[]).concat(Object.hasOwn(profile||{},'skeletonExecutor')?['skeletonExecutor']:[]))||Object.hasOwn(profile||{},'workflow')&&![STAGED_WORKFLOW,DIRECT_WORKFLOW].includes(profile.workflow)||Object.hasOwn(profile||{},'recipeOperations')&&(profile.recipeOperations!==SLOT_CONTENT_REPLACEMENT||profile.workflow!==STAGED_WORKFLOW)||Object.hasOwn(profile||{},'skeletonExecutor')&&(profile.skeletonExecutor!=='native-layout-v1'||profile.workflow!==STAGED_WORKFLOW)||!Array.isArray(profile.platforms)||profile.platforms.length!==1||profile.platforms[0]!=='desktop'
       ||!Array.isArray(profile.requiredResources)||!profile.requiredResources.length||new Set(profile.requiredResources).size!==profile.requiredResources.length||profile.requiredResources.some(id=>typeof id!=='string'||!/^knowledge\/data\/(ds-ai-hub|design-system_ab)\/.+\.(md|json|yaml|yml|txt)$/.test(id)||id.split('/').some(p=>!p||p==='.'||p==='..'))
       ||!Array.isArray(profile.initialQueries)||profile.initialQueries.some(q=>typeof q!=='string'||q.length>256)||!Array.isArray(profile.initialFiles)||!profile.initialFiles.includes('SKILL.md')||new Set(profile.initialFiles).size!==profile.initialFiles.length||profile.initialFiles.some(file=>!value.files.some(pin=>pin.path===file))||typeof profile.hostInstructions!=='string'||profile.hostInstructions.length>12000)fail();
     return value.files;
@@ -73,4 +85,4 @@ function skillPackages(root,manifest){
 }
 function generationPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId!==AUDIT_EXECUTOR);}
 function auditPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId===AUDIT_EXECUTOR);}
-module.exports={AUDIT_EXECUTOR,AUDIT_CAPABILITY,skillPackages,auditPackages,ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};
+module.exports={AUDIT_CUSTOMIZATION_WIRE,AUDIT_CUSTOMIZATION_CAPABILITY,CUSTOMIZATION_FACTS,AUDIT_EXECUTOR,AUDIT_CAPABILITY,AUDIT_CONTEXT_CAPABILITY,AUDIT_WIRE_VERSION,auditCapabilityForWire,auditSupportsRuntime,skillPackages,auditPackages,ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,DIRECT_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};

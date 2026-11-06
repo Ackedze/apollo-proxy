@@ -39,14 +39,93 @@ async function pinned(root, file, expected, pins) {
   return bytes;
 }
 
+async function rawCatalogInputs(root, selected, pins) {
+  const result = [];
+  async function add(entry, manual, file, expected, requiredVariants = [], representationIds) {
+    const bytes = await pinned(root, file, expected, pins), raw = JSON.parse(bytes);
+    if (!Array.isArray(raw.components)) fail('DATA_PREPARE_CATALOG_INVALID');
+    for (const variantKey of requiredVariants) {
+      const owners = raw.components.filter(component => component.key === variantKey || component.variants?.some(v => v.key === variantKey));
+      if (owners.length !== 1 || !Array.isArray(owners[0].structure) || !owners[0].structure.length
+        || owners[0].variants?.some(v => v.key === variantKey) && !Array.isArray(owners[0].variantStructures?.[variantKey])) fail('DATA_PREPARE_CATALOG_VARIANT_UNAVAILABLE');
+    }
+    const reps = manual.representations.filter(rep => rep.kind === 'figma' && rep.status !== 'deprecated'
+      && raw.components.some(component => component.key === (rep.locator?.componentSetKey || rep.locator?.componentKey)
+        || component.variants?.some(v => v.key === rep.locator?.componentKey))).map(rep => rep.id).sort();
+    if (!reps.length || representationIds && (!Array.isArray(representationIds) || !representationIds.length
+      || new Set(representationIds).size !== representationIds.length || representationIds.some(id => !reps.includes(id)))) fail('DATA_PREPARE_CATALOG_IDENTITY_INVALID');
+    result.push({ contractId:entry.contractId, componentId:entry.componentId, revision:entry.revision,
+      representationIds:representationIds || reps, source:{path:file,sha256:releases.sha(bytes),bytes:bytes.length} });
+  }
+  for (const { entry, manual } of selected) {
+    const directory = path.posix.dirname(entry.manual.path), descriptorPath = directory + '/pilot/catalog-source.json';
+    if (!sync.existsSync(path.join(root, descriptorPath))) continue;
+    const descriptor = JSON.parse(await pinned(root, descriptorPath, null, pins));
+    if (descriptor.schemaVersion !== 'apollo.catalog-pilot-source.v1' || descriptor.contractId !== entry.contractId
+      || descriptor.componentId !== entry.componentId || descriptor.revision !== entry.revision
+      || descriptor.manualSourceHash !== entry.manualSourceHash || !descriptor.catalog?.file) fail('DATA_PREPARE_CATALOG_IDENTITY_INVALID');
+    const catalogPath = path.posix.normalize(path.posix.join(path.posix.dirname(descriptorPath), descriptor.catalog.file));
+    await add(entry, manual, catalogPath, descriptor.catalog, [], descriptor.representationIds);
+    if (!descriptor.dependencySources) continue;
+    const dependencyPath = path.posix.normalize(path.posix.join(path.posix.dirname(descriptorPath), descriptor.dependencySources.file));
+    const dependencies = JSON.parse(await pinned(root, dependencyPath, descriptor.dependencySources, pins));
+    if (dependencies.schemaVersion !== 'apollo.titleview-pilot-dependency-sources.v1'
+      || dependencies.ownerContract?.componentId !== entry.componentId || dependencies.ownerContract.revision !== entry.revision
+      || dependencies.ownerContract.manualSourceHash !== entry.manualSourceHash || !Array.isArray(dependencies.contracts)) fail('DATA_PREPARE_CATALOG_IDENTITY_INVALID');
+    for (const dependency of dependencies.contracts) {
+      const matches = selected.filter(item => item.entry.contractId === dependency.contractId && item.entry.componentId === dependency.componentId
+        && item.entry.revision === dependency.revision && item.entry.manualSourceHash === dependency.manualSourceHash);
+      if (matches.length !== 1 || !Array.isArray(dependency.rawSources) || !dependency.rawSources.length) fail('DATA_PREPARE_CATALOG_IDENTITY_INVALID');
+      const declared = dependency.rawSources.flatMap(source => (source.components || []).flatMap(component => (component.requiredVariants || []).map(variant => variant.key)));
+      if (!Array.isArray(dependency.requiredVariantKeys) || !dependency.requiredVariantKeys.length
+        || dependency.requiredVariantKeys.some(key => !declared.includes(key))) fail('DATA_PREPARE_CATALOG_VARIANT_UNAVAILABLE');
+      for (const source of dependency.rawSources) await add(matches[0].entry, matches[0].manual, source.path, source,
+        (source.components || []).flatMap(component => (component.requiredVariants || []).map(variant => variant.key)));
+    }
+  }
+  return result;
+}
+
+async function overlayRawCatalogs(config, snapshot, root) {
+  if (!snapshot.rawCatalogs?.length) return;
+  const index = await json(path.join(root, 'manifest.json')), descriptors = [];
+  for (const input of snapshot.rawCatalogs) {
+    const bytes = await pinned(config.designSystemRoot, input.source.path, input.source, new Map());
+    const file = 'catalogs/' + input.source.sha256 + '.json', target = path.join(root, file);
+    await fs.mkdir(path.dirname(target), { recursive:true });
+    if (sync.existsSync(target)) { if (!(await fs.readFile(target)).equals(bytes)) fail('DATA_PREPARE_ARTIFACT_CONFLICT'); }
+    else await fs.writeFile(target, bytes, {flag:'wx'});
+    const incoming = {contractId:input.contractId,componentId:input.componentId,revision:input.revision,
+      representationIds:input.representationIds,catalog:{file,sha256:input.source.sha256,bytes:bytes.length}};
+    const duplicate = descriptors.find(item => item.contractId === incoming.contractId && item.revision === incoming.revision && item.catalog.file === file);
+    if (duplicate) duplicate.representationIds = [...new Set([...duplicate.representationIds,...incoming.representationIds])].sort();
+    else descriptors.push(incoming);
+  }
+  const previous = (index.rawCatalogs || []).flatMap(item => {
+    const replacements = descriptors.filter(row => row.contractId === item.contractId);
+    const remaining = (item.representationIds || []).filter(id => !replacements.some(row => row.representationIds.includes(id)));
+    return replacements.length ? remaining.length ? [{...item,representationIds:remaining}] : [] : [item];
+  });
+  index.rawCatalogs = previous.concat(descriptors); index.id = releases.idOf(index);
+  await fs.writeFile(path.join(root, 'manifest.json'), JSON.stringify(index,null,2) + '\n');
+}
+
 async function inputSnapshot(config) {
   const pins = new Map(), runtime = releases.readRuntime(config.runtimeRoot);
   const baseManifest = await releases.validateRelease(config.baseRelease, { runtimeRoot: config.baseRuntimeRoot || config.runtimeRoot });
   for (const pin of baseManifest.files) pins.set(path.join(config.baseRelease, pin.file), { sha256: pin.sha256, bytes: pin.bytes });
   await pinned(config.baseRelease, 'manifest.json', null, pins);
   const base = await json(path.join(config.baseRelease, 'contracts/manifest.json'));
+  const knowledgeRoot = config.knowledgeRoot || path.join(config.baseRelease, 'knowledge');
+  const auditFile = path.join(knowledgeRoot, 'data/v3-audit/manifest.json');
+  const auditData = sync.existsSync(auditFile)
+    ? await require('../src/audit-data/reader').createAuditDataReader({knowledgeRoot}).manifest() : null;
+  if (auditData && runtime.capabilities?.auditDataPreparation !== require('../src/audit-data/protocol').SCHEMA) fail('DATA_PREPARE_AUDIT_CODE_REQUIRED');
+  if (!auditData && runtime.capabilities?.auditDataPreparation) fail('DATA_PREPARE_AUDIT_DATA_REQUIRED');
   if (base.deliveryProfile !== PORTABLE_PROFILE) fail('DATA_PREPARE_PROFILE_INVALID');
-  const inputs = { base: baseManifest.id, runtimeId: runtime.id, tarballUrl: config.tarballUrl, bundleRuntime: !!config.bundleRuntime }, updates = [], excluded = [];
+  const inputs = { base: baseManifest.id, runtimeId: runtime.id, tarballUrl: config.tarballUrl, bundleRuntime: !!config.bundleRuntime,
+    ...(config.incremental ? {incremental:{objectsUrl:config.incremental.objectsUrl,packUrl:config.incremental.packUrl}} : {}) }, updates = [], excluded = [], selectedManuals = [];
+  let rawCatalogs = [];
   for (const pin of runtime.files) pins.set(path.join(config.runtimeRoot, pin.file), { sha256: pin.sha256, bytes: pin.bytes });
   await pinned(config.runtimeRoot, 'portable-runtime.json', null, pins);
   if (config.baseRuntimeRoot) {
@@ -54,7 +133,9 @@ async function inputSnapshot(config) {
     for (const pin of previousRuntime.files) pins.set(path.join(config.baseRuntimeRoot, pin.file), { sha256: pin.sha256, bytes: pin.bytes });
     await pinned(config.baseRuntimeRoot, 'portable-runtime.json', null, pins);
   }
-  if (config.designSystemRoot) {
+  // Retain the historical generation payload, but V3 audit data never refreshes
+  // or compiles the retired manual-contract pilot.
+  if (config.designSystemRoot && !auditData) {
     const root = config.designSystemRoot;
     const manifest = JSON.parse(await pinned(root, 'experiments/current-contract-packages/manifest.json', null, pins));
     if (manifest.schemaVersion !== 'component-contract-package-collection.v1' || manifest.archivePathBase !== 'design-system_ab' || manifest.authoringIndex?.file !== '../../JSONS/indexes/component-contracts.index.json') fail('DATA_PREPARE_CATALOG_INVALID');
@@ -69,6 +150,7 @@ async function inputSnapshot(config) {
       const archive = archives[0];
       if (archive.componentId !== entry.componentId || archive.revision !== entry.revision || archive.zipSha256 !== entry.archiveSha256 || archive.manualSourceHash !== entry.manualSourceHash || path.posix.dirname(archive.file) !== path.posix.join(path.posix.dirname(entry.manual.path), 'packages')) fail('DATA_PREPARE_CATALOG_INVALID');
       const manual = JSON.parse(await pinned(root, entry.manual.path, entry.manual, pins));
+      selectedManuals.push({entry,manual});
       const facts = JSON.parse(await pinned(root, entry.facts.path, entry.facts, pins));
       await pinned(root, archive.file, { sha256: archive.zipSha256, bytes: archive.bytes }, pins);
       if (manual.component?.contractId !== entry.contractId || manual.component?.componentId !== entry.componentId || manual.metadata?.revision !== entry.revision || core.stableHash(manual) !== entry.manualSourceHash) fail('DATA_PREPARE_CONTRACT_IDENTITY_INVALID');
@@ -77,8 +159,9 @@ async function inputSnapshot(config) {
       inputs.contracts.push([entry.contractId, entry.platform, entry.revision, entry.manualSourceHash, factsHash, archive.zipSha256]);
       if (old.manualSourceHash !== entry.manualSourceHash || old.generatedFactsHash !== factsHash || old.revision !== entry.revision) updates.push({ entry, factsHash, archive: path.join(root, archive.file) });
     }
+    rawCatalogs = await rawCatalogInputs(root, selectedManuals, pins);
+    inputs.rawCatalogs = rawCatalogs;
   }
-  const knowledgeRoot = config.knowledgeRoot || path.join(config.baseRelease, 'knowledge');
   const defaultSkills = path.join(config.baseRelease, 'skills');
   const skillsRoot = config.skillsRoot || (sync.existsSync(defaultSkills) ? defaultSkills : undefined);
   inputs.knowledge = (await knowledge.validatePackageDirectory(knowledgeRoot)).contentVersion;
@@ -95,14 +178,14 @@ async function inputSnapshot(config) {
   inputs.activation = activation;
   // Detect relevant builder changes without timestamps, random encryption IVs or output metadata.
   inputs.producer = [];
-  for (const directory of ['scripts', 'src/data-packages', 'src/data-release', 'src/knowledge-package', 'src/style-token-catalog', 'src/skills']) {
+  for (const directory of ['scripts', 'src/data-packages', 'src/data-release', 'src/knowledge-package', 'src/style-token-catalog', 'src/skills', 'src/audit-data']) {
     for (const file of await knowledge.listPackageFiles(path.join(__dirname, '..', directory))) {
       const relative = directory + '/' + file;
       const bytes = await pinned(path.resolve(__dirname, '..'), relative, null, pins);
       inputs.producer.push([relative, releases.sha(bytes)]);
     }
   }
-  return { base, baseManifest, runtime, updates, excluded, knowledgeRoot, skillsRoot, activation, pins, fingerprint: releases.idOf(inputs) };
+  return { base, baseManifest, runtime, updates, excluded, rawCatalogs, knowledgeRoot, skillsRoot, activation, pins, auditData, fingerprint: releases.idOf(inputs) };
 }
 
 async function assertInputs(snapshot) {
@@ -115,7 +198,7 @@ async function assertInputs(snapshot) {
 async function overlayContracts(config, snapshot, work) {
   const root = path.join(work, 'contracts');
   await fs.cp(path.join(config.baseRelease, 'contracts'), root, { recursive: true });
-  if (!snapshot.updates.length) return root;
+  if (!snapshot.updates.length) { await overlayRawCatalogs(config,snapshot,root); return root; }
   const deltaRoot = path.join(work, 'delta');
   // Supply exact retained dependency sources, without reimporting old archives.
   await fs.cp(root, deltaRoot, { recursive: true });
@@ -147,6 +230,7 @@ async function overlayContracts(config, snapshot, work) {
   }
   next.id = releases.idOf(next);
   await fs.writeFile(path.join(root, 'manifest.json'), JSON.stringify(next, null, 2) + '\n');
+  await overlayRawCatalogs(config,snapshot,root);
   packages.readGenerationData({ root, apolloRoot: config.runtimeRoot }).assertCurrent();
   return root;
 }
@@ -175,7 +259,7 @@ async function assertOutput(config) {
   let ancestor = output;
   while (!sync.existsSync(ancestor)) ancestor = path.dirname(ancestor);
   if (await fs.realpath(ancestor) !== ancestor) fail('DATA_PREPARE_OUTPUT_UNSAFE');
-  if (['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'knowledgeRoot', 'skillsRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot'].map(key => config[key]).filter(Boolean).some(root => output === root || output.startsWith(root + path.sep) || root.startsWith(output + path.sep))) fail('DATA_PREPARE_OUTPUT_UNSAFE');
+  if (['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'designSystemAbmRoot', 'knowledgeRoot', 'skillsRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot'].map(key => config[key]).filter(Boolean).some(root => output === root || output.startsWith(root + path.sep) || root.startsWith(output + path.sep))) fail('DATA_PREPARE_OUTPUT_UNSAFE');
   return output;
 }
 
@@ -190,6 +274,7 @@ async function prepareDataPackage(config, { passwordInput, assertSourceInputs = 
     const last = await json(path.join(output, 'last-build.json')).catch(error => { if (error.code !== 'ENOENT') throw error; return null; });
     if (last?.inputFingerprint === snapshot.fingerprint) {
       for (const pin of [last.artifact, last.descriptor]) await pinned(output, pin.file, pin, new Map());
+      for (const pin of last.incrementalArtifacts || []) await pinned(output,pin.file,pin,new Map());
       if (last.runtime) {
         if (!knowledge.isSafeRelativePath(last.runtime.root) || releases.readRuntime(path.join(output, last.runtime.root)).id !== snapshot.runtime.id) fail('DATA_PREPARE_INPUT_CHANGED');
       }
@@ -213,13 +298,34 @@ async function prepareDataPackage(config, { passwordInput, assertSourceInputs = 
       tarballUrl: 'https://example.invalid/local-only/{version}.tgz' });
     stage = 'npm';
     const built = await buildProtectedDataPackage({ releaseRoot: release.packageRoot, runtimeRoot: config.runtimeRoot,
-      output: path.join(work, 'npm'), version: config.version, tarballUrl, activation: snapshot.activation, password });
+      output: path.join(work, 'npm'), version: config.version, tarballUrl, activation: snapshot.activation, password,
+      ...(config.incremental ? {incremental:{objectsUrl:config.incremental.objectsUrl,packUrl:config.incremental.packUrl,
+        previousRoot:config.incremental.previousRoot || (last?.artifact ? path.dirname(path.join(output,last.artifact.file)) : undefined)}} : {}) });
     const archive = await fs.readFile(built.tarballPath), store = path.join(work, 'verify');
     await fs.mkdir(store, { mode: 0o700 });
     stage = 'consumer';
+    const ensured = config.incremental
+      ? await releases.ensureStore({storeRoot:store,seedRoot:config.baseRelease,runtimeRoot:config.baseRuntimeRoot || config.runtimeRoot})
+      : {state:{current:null,previous:null}};
     const result = await protectedData.installProtected({ settings: { storeRoot: store, seedRoot: path.join(work, 'empty-seed'), runtimeRoot: config.runtimeRoot },
-      ensured: { state: { current: null, previous: null } }, selected: { index: built.descriptor, commit: null }, command: 'update', access: { password },
-      request: async url => { if (String(url) !== tarballUrl) fail('DATA_PREPARE_VERIFICATION_URL_INVALID'); return new Response(archive); }, releases });
+      ensured, selected: { index: built.descriptor, commit: null }, command: 'update', access: { password },
+      request: async (url,options) => {
+        if (String(url) === tarballUrl) return new Response(archive);
+        const transport=built.descriptor.incremental;
+        if (transport && String(url)===transport.manifest.url) return new Response(await fs.readFile(path.join(work,'npm/incremental.json.enc')));
+        if (transport?.objectsPack && String(url)===transport.objectsPack.url) {
+          const range=/^bytes=(\d+)-(\d+)$/.exec(options?.headers?.Range||'');
+          if (!range) fail('DATA_PREPARE_VERIFICATION_URL_INVALID');
+          const bytes=await fs.readFile(path.join(work,'npm/objects.bin')),start=Number(range[1]),end=Number(range[2]);
+          if (end<start || end>=bytes.length) fail('DATA_PREPARE_VERIFICATION_URL_INVALID');
+          return new Response(bytes.subarray(start,end+1),{status:206,headers:{'Content-Range':'bytes '+start+'-'+end+'/'+bytes.length}});
+        }
+        if (transport?.objectsUrl && String(url).startsWith(transport.objectsUrl)) {
+          const file=String(url).slice(transport.objectsUrl.length);
+          if (/^[a-f0-9]{64}\.enc$/.test(file)) return new Response(await fs.readFile(path.join(work,'npm/objects',file)));
+        }
+        fail('DATA_PREPARE_VERIFICATION_URL_INVALID');
+      }, releases });
     if (!result.updated || result.current.contentVersion !== release.manifest.id || 'activationKey' in result) fail('DATA_PREPARE_VERIFICATION_FAILED');
     stage = 'freshness';
     await assertInputs(snapshot);
@@ -230,12 +336,18 @@ async function prepareDataPackage(config, { passwordInput, assertSourceInputs = 
       if (releases.readRuntime(path.join(work, 'npm/runtime')).id !== snapshot.runtime.id) fail('DATA_PREPARE_INPUT_CHANGED');
     }
     const tarball = path.basename(built.tarballPath), descriptorBytes = await fs.readFile(path.join(work, 'npm/current.json'));
+    const incrementalArtifacts=[];
+    if (built.incrementalStats) for (const file of ['incremental.json.enc',...(built.descriptor.incremental.objectsPack ? ['objects.bin'] : []),...(await fs.readdir(path.join(work,'npm/objects'))).map(file=>'objects/'+file)]) {
+      const bytes=await fs.readFile(path.join(work,'npm',file));incrementalArtifacts.push({file:config.version+'/'+file,sha256:releases.sha(bytes),bytes:bytes.length});
+    }
     const report = { schemaVersion: 'apollo.data-package-build.v1', status: 'PREPARED_LOCAL', inputFingerprint: snapshot.fingerprint,
       version: config.version, runtimeId: snapshot.runtime.id, runtimeChanged: snapshot.runtime.id !== snapshot.baseManifest.runtimeId,
       contentVersion: release.manifest.id, contracts: snapshot.base.contracts.length,
       updated: snapshot.updates.map(u => ({ contractId: u.entry.contractId, revision: u.entry.revision })), excluded: snapshot.excluded,
+      ...(snapshot.auditData ? { auditDataId: snapshot.auditData.dataId } : {}),
       artifact: { file: config.version + '/' + tarball, sha256: releases.sha(archive), bytes: archive.length },
       descriptor: { file: config.version + '/current.json', sha256: releases.sha(descriptorBytes), bytes: descriptorBytes.length },
+      ...(built.incrementalStats ? {incremental:built.incrementalStats,incrementalArtifacts,incrementalTransfer:result.transfer} : {}),
       ...(config.bundleRuntime ? { runtime: { root: config.version + '/runtime', id: snapshot.runtime.id } } : {}),
       ...(sourceBuild ? { sourceBuild } : {}),
       actualProtectedConsumer: 'PASS', Ready: false, published: false, installed: false };
@@ -287,8 +399,13 @@ async function prepareFromSources(config, options = {}) {
   try {
     protectedData.validateActivation(await json(config.activationFile));
     const source = await sourceSnapshot(config);
+    let auditSourcePins=[];
     const assertSourceInputs = async () => {
       if ((await sourceSnapshot(config)).fingerprint !== source.fingerprint) fail('DATA_PREPARE_SOURCE_CHANGED');
+      for(const pin of auditSourcePins) {
+        const stat=await fs.lstat(pin.path),bytes=await fs.readFile(pin.path);
+        if(!stat.isFile()||await fs.realpath(pin.path)!==pin.path||bytes.length!==pin.bytes||releases.sha(bytes)!==pin.sha256)fail('DATA_PREPARE_SOURCE_CHANGED');
+      }
     };
     work = await fs.realpath(await fs.mkdtemp(path.join(require('node:os').tmpdir(), 'apollo-data-source-')));
     stage = 'apollo-build';
@@ -298,20 +415,24 @@ async function prepareFromSources(config, options = {}) {
     console.error(JSON.stringify({ phase: stage }));
     const runtimeRoot = path.join(work, 'runtime');
     require('./build-portable-runtime').buildPortableRuntime({ apolloRoot: config.apolloRoot, output: runtimeRoot, skillsRoot: config.generationSkillsRoot });
+    const auditPreparation=releases.readRuntime(runtimeRoot).capabilities?.auditDataPreparation
+      ? require('../src/audit-data/builder').preparationFromRuntime(runtimeRoot) : null;
     stage = 'knowledge';
     console.error(JSON.stringify({ phase: stage }));
     const knowledgeBuilt = await require('./build-knowledge-package').buildKnowledgePackage({
       'design-system-root': config.designSystemRoot, 'ds-ai-hub-root': config.dsAiHubRoot,
       output: path.join(work, 'knowledge'), directoryOnly: true, channel: 'stable',
       minEngine: knowledge.ENGINE_VERSION, maxEngine: knowledge.ENGINE_VERSION,
+      ...(auditPreparation ? { auditPreparation, 'audit-abm-root': config.designSystemAbmRoot || path.join(path.dirname(config.designSystemRoot),'desing-system_abm') } : {}),
     });
+    auditSourcePins=knowledgeBuilt.auditData?.sourcePins||[];
     require('../src/style-token-catalog/inventory').loadPackageSnapshot(knowledgeBuilt.packageRoot).assertFresh();
     stage = 'source-freshness';
     await assertSourceInputs();
     stage = 'package';
     return await prepareDataPackage({ ...config, baseRuntimeRoot: config.baseRuntimeRoot || config.runtimeRoot,
       runtimeRoot, knowledgeRoot: knowledgeBuilt.packageRoot, bundleRuntime: true }, {
-      ...options, assertSourceInputs, sourceBuild: { fingerprint: source.fingerprint, commits: source.commits },
+      ...options, assertSourceInputs, sourceBuild: { fingerprint: auditSourcePins.length ? releases.idOf({base:source.fingerprint,audit:auditSourcePins.map(p=>[p.repo,p.relative,p.sha256]).sort()}) : source.fingerprint, commits: Object.assign({},knowledgeBuilt.auditData?.manifest.sourceCommits||{},source.commits) },
     });
   } catch (error) { error.stage ||= stage; throw error; }
   finally {
@@ -329,11 +450,12 @@ async function main(argv) {
   }
   const configFile = path.resolve(options.config), config = await json(configFile);
   if (config.schemaVersion !== 'apollo.data-package-build.v1') fail('DATA_PREPARE_CONFIG_INVALID');
-  for (const key of ['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'activationFile', 'knowledgeRoot', 'skillsRoot', 'outputRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot']) {
+  for (const key of ['baseRelease', 'runtimeRoot', 'baseRuntimeRoot', 'designSystemRoot', 'designSystemAbmRoot', 'activationFile', 'knowledgeRoot', 'skillsRoot', 'outputRoot', 'apolloRoot', 'dsAiHubRoot', 'generationSkillsRoot']) {
     if (config[key] !== undefined) config[key] = path.resolve(path.dirname(configFile), config[key]);
   }
+  if (config.incremental?.previousRoot) config.incremental.previousRoot=path.resolve(path.dirname(configFile),config.incremental.previousRoot);
   config.version = options.version || config.version;
   console.log(JSON.stringify(await (config.apolloRoot ? prepareFromSources(config) : prepareDataPackage(config))));
 }
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(JSON.stringify({ code: error.code || 'DATA_PREPARE_FAILED', stage: error.stage || 'config' })); process.exitCode = 1; });
-module.exports = { selectContracts, inputSnapshot, assertInputs, overlayContracts, prepareDataPackage, prepareFromSources, sourceSnapshot, passwordFrom, main };
+module.exports = { selectContracts, rawCatalogInputs, overlayRawCatalogs, inputSnapshot, assertInputs, overlayContracts, prepareDataPackage, prepareFromSources, sourceSnapshot, passwordFrom, main };

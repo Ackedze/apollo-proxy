@@ -13,6 +13,10 @@ test('exact folder autoload is identical with or without slash and never reads a
   assert.deepEqual(a,b);assert.equal(a.length,4);assert(a.every(r=>r.id.startsWith(base)));
  }
 });
+test('Core Figma subfolder recipes are batched and conditional routed dependencies remain discovery only',()=>{
+ const prefix='knowledge/data/ds-ai-hub/core/web/components/button/',required=prefix+'guidelines.md',list={query:'core/web/components/button/',offset:0,next:null,resources:['guidelines.md','figma/adapter.md','figma/cookbook.md','figma/snippets.md','figma/keys.json','figma/model.json','code/adapter.md'].map(file=>({id:prefix+file})),routing:{requiredSources:[{id:required,reasons:['component:Button']}],technicalSources:[{id:prefix+'figma/keys.json'}],candidateSources:[{id:base+'instructions.md',reason:'conditional dependency'}]}};
+ const requests=componentRequests(list);assert.equal(requests.length,6);assert.equal(new Set(requests.map(r=>r.id)).size,6);assert(requests.every(r=>r.id.startsWith(prefix)&&!r.id.includes('/code/')));assert(!requests.some(r=>r.id===base+'instructions.md'));
+});
 test('phase projection preserves complete pinned ledger, exposes cached addresses and leaves legacy behavior intact',()=>{
  const context=[{id:base+'instructions.md',text:'norm',address:'norm'},{id:'other',text:'other',address:'other'},{id:'workflow/api',text:'signature',address:'api'}],indexes=[{query:'fixture',offset:0,total:1,next:null,resources:[{id:'fixture',large:'x'.repeat(1000)}]}];
  const job={source:{skill:{generation:{}}},context,indexes,phase:'plan'},record={spec:{sections:[{id:'hero',sourceIds:[context[0].id]}]},execution:{activeSectionId:'hero'}};

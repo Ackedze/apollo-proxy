@@ -68,6 +68,32 @@ test('npm catalogue closure admits only declared hash-checked raw JSON', async t
   await fs.appendFile(path.join(built.packageRoot,'data',rawFile),' ');
   await assert.rejects(npmData.readPackage(built.packageRoot,built.descriptor.npm,f.runtimeRoot),/DATA_PACKAGE_STALE/);
 });
+test('V3 data preparation preserves historical generation bytes and never falls back to manual contracts', async t => {
+  const f=await fixture(t), native=await require('./audit-data.test').fixture(t), built=await native.build();
+  const dataRoot=await f.data('v3-base');
+  const seed=await buildDataRelease({dataRoot,knowledgeRoot:f.knowledgeRoot,runtimeRoot:f.runtimeRoot,
+    output:path.join(f.root,'v3-seed'),profile:'checking-ask-figma-mcp',tarballUrl:'https://example.test/{version}.tgz'});
+  await put(f.root,'activation.json',require('../src/data-packages/protected').createActivation('fixture-v3'));
+  const config={baseRelease:seed.packageRoot,runtimeRoot:f.runtimeRoot,knowledgeRoot:built.packageRoot,
+    designSystemRoot:native.designRoot,activationFile:path.join(f.root,'activation.json'),tarballUrl:'https://example.test/{version}.tgz'};
+  const {inputSnapshot,assertInputs,overlayContracts}=require('../scripts/prepare-data-package');
+  await assert.rejects(inputSnapshot(config),/DATA_PREPARE_AUDIT_CODE_REQUIRED/);
+  f.runtime.capabilities={auditDataPreparation:require('../src/audit-data/protocol').SCHEMA};
+  f.runtime.id=releases.idOf(f.runtime);await put(f.runtimeRoot,'portable-runtime.json',f.runtime);
+  // Validate the historical base with its original runtime while selecting the new code.
+  const oldRuntimeRoot=path.join(f.root,'old-runtime');await fs.cp(f.runtimeRoot,oldRuntimeRoot,{recursive:true});
+  const old=structuredClone(f.runtime);delete old.capabilities;old.id=releases.idOf(old);await put(oldRuntimeRoot,'portable-runtime.json',old);
+  config.baseRuntimeRoot=oldRuntimeRoot;
+  await assert.rejects(inputSnapshot({...config,knowledgeRoot:f.knowledgeRoot}),/DATA_PREPARE_AUDIT_DATA_REQUIRED/);
+  const snapshot=await inputSnapshot(config);assert.equal(snapshot.auditData.dataId,built.auditData.manifest.dataId);
+  assert.deepEqual(snapshot.updates,[]);assert.deepEqual(snapshot.rawCatalogs,[]);await assertInputs(snapshot);
+  assert(!Array.from(snapshot.pins.keys()).some(file=>/contract\.manual|variant-evidence|current-contract-packages/.test(file)));
+  const overlay=await overlayContracts(config,snapshot,path.join(f.root,'v3-overlay'));
+  for(const file of await require('../src/knowledge-package').listPackageFiles(path.join(seed.packageRoot,'contracts'))){
+    assert.deepEqual(await fs.readFile(path.join(overlay,file)),await fs.readFile(path.join(seed.packageRoot,'contracts',file)));
+  }
+});
+
 test('data prepare selects exact contract IDs, keeps platform exclusions visible and rejects ambiguous identity', () => {
   const { selectContracts } = require('../scripts/prepare-data-package');
   const base = { contracts: [{ id: 'buttons.desktop', componentId: 'buttons', revision: 60 }] };
@@ -80,6 +106,58 @@ test('data prepare selects exact contract IDs, keeps platform exclusions visible
     assert.throws(() => selectContracts(base, entries), /DATA_PREPARE_CONTRACT_(SELECTION|IDENTITY)_INVALID/);
   }
   assert.throws(() => selectContracts({ contracts: [...base.contracts, { id: mobile.contractId, componentId: 'buttons', revision: 3 }] }, [desktop, mobile]), /DATA_COMPONENT_CONFLICT/);
+});
+
+async function rawSourceFixture(t) {
+  const f = await fixture(t), dataRoot = await f.data('raw-base/contracts', 65), designSystemRoot = path.join(f.root,'design-system');
+  const base = JSON.parse(await fs.readFile(path.join(dataRoot,'manifest.json')));
+  const selected = base.contracts.map((entry,index) => ({entry:{contractId:entry.id,componentId:entry.componentId,revision:entry.revision,
+    manualSourceHash:entry.manualSourceHash,manual:{path:`JSONS/component${index}/contract.manual.json`}},
+    manual:{representations:[{id:`rep${index}`,kind:'figma',locator:{componentKey:`set${index}`}}]}}));
+  async function pin(file,value) { await put(designSystemRoot,file,value);const bytes=await fs.readFile(path.join(designSystemRoot,file));return {sha256:sha(bytes),bytes:bytes.length}; }
+  const rootRaw = 'JSONS/root.json', dependencyRaw = 'JSONS/dependency.json';
+  const rootPin=await pin(rootRaw,{components:[{key:'set0',structure:[{id:1,parentId:null}],variants:[{key:'root-variant'}],variantStructures:{'root-variant':[]}}]});
+  const dependency={components:[{key:'set1',structure:[{id:1,parentId:null}],variants:[{key:'required-variant'}],variantStructures:{'required-variant':[]}}]};
+  const dependencyPin=await pin(dependencyRaw,dependency), owner=selected[0].entry, child=selected[1].entry;
+  const descriptorFile='JSONS/component0/pilot/catalog-source.json', dependenciesFile='JSONS/component0/pilot/dependency-sources.json';
+  const dependencies={schemaVersion:'apollo.titleview-pilot-dependency-sources.v1',ownerContract:{componentId:owner.componentId,revision:owner.revision,manualSourceHash:owner.manualSourceHash},
+    contracts:[{contractId:child.contractId,componentId:child.componentId,revision:child.revision,manualSourceHash:child.manualSourceHash,
+      requiredVariantKeys:['required-variant'],rawSources:[{path:dependencyRaw,...dependencyPin,components:[{requiredVariants:[{key:'required-variant'}]}]}]}]};
+  const dependenciesPin=await pin(dependenciesFile,dependencies);
+  const descriptor={schemaVersion:'apollo.catalog-pilot-source.v1',contractId:owner.contractId,componentId:owner.componentId,revision:owner.revision,manualSourceHash:owner.manualSourceHash,
+    representationIds:['rep0'],catalog:{file:'../../root.json',...rootPin},dependencySources:{file:'dependency-sources.json',...dependenciesPin}};
+  await pin(descriptorFile,descriptor);
+  return {...f,dataRoot,base,selected,designSystemRoot,descriptor,descriptorFile,dependencies,dependenciesFile,dependencyRaw,dependency,pin};
+}
+
+test('data prepare registers pinned root and dependency raw catalogues without changing the 65 contract entries', async t => {
+  const {rawCatalogInputs,overlayContracts,assertInputs}=require('../scripts/prepare-data-package'),f=await rawSourceFixture(t),sourcePins=new Map();
+  const rawCatalogs=await rawCatalogInputs(f.designSystemRoot,f.selected,sourcePins);
+  assert.equal(rawCatalogs.length,2);assert.deepEqual(rawCatalogs.map(c=>c.contractId),['contract0','contract1']);
+  assert.equal(sourcePins.size,4);await assertInputs({pins:sourcePins});
+  const original=JSON.stringify(f.base.contracts),legacyBytes=Buffer.from('{"legacyNativeProjection":true}'),legacyFile='catalogs/legacy.json';
+  await put(f.dataRoot,legacyFile,legacyBytes);f.base.rawCatalogs=[{contractId:'contract0',revision:1,representationIds:['rep0'],catalog:{file:legacyFile,sha256:sha(legacyBytes),bytes:legacyBytes.length}}];
+  f.base.id=releases.idOf(f.base);await put(f.dataRoot,'manifest.json',f.base);
+  const output=await overlayContracts({baseRelease:path.dirname(f.dataRoot),designSystemRoot:f.designSystemRoot},{base:f.base,updates:[],rawCatalogs},path.join(f.root,'raw-overlay'));
+  const index=JSON.parse(await fs.readFile(path.join(output,'manifest.json')));
+  assert.equal(index.contracts.length,65);assert.equal(JSON.stringify(index.contracts),original);assert.equal(index.rawCatalogs.length,2);
+  assert(!index.rawCatalogs.some(c=>c.catalog.file===legacyFile));
+  for(const row of index.rawCatalogs){const bytes=await fs.readFile(path.join(output,row.catalog.file));assert.equal(sha(bytes),row.catalog.sha256);}
+  assert.equal(index.id,releases.idOf(index));
+  await fs.appendFile(path.join(f.designSystemRoot,f.dependencyRaw),' ');
+  await assert.rejects(assertInputs({pins:sourcePins}),/DATA_PREPARE_INPUT_CHANGED/);
+});
+
+test('data prepare rejects changed raw pins, missing selected variants and foreign dependency revisions', async t => {
+  const {rawCatalogInputs}=require('../scripts/prepare-data-package'),f=await rawSourceFixture(t);
+  await fs.appendFile(path.join(f.designSystemRoot,f.dependencyRaw),' ');
+  await assert.rejects(rawCatalogInputs(f.designSystemRoot,f.selected,new Map()),/DATA_PREPARE_INPUT_CHANGED/);
+  f.dependency.components[0].variants=[];f.dependency.components[0].variantStructures={};
+  const changed=await f.pin(f.dependencyRaw,f.dependency);Object.assign(f.dependencies.contracts[0].rawSources[0],changed);
+  Object.assign(f.descriptor.dependencySources,await f.pin(f.dependenciesFile,f.dependencies));await f.pin(f.descriptorFile,f.descriptor);
+  await assert.rejects(rawCatalogInputs(f.designSystemRoot,f.selected,new Map()),/DATA_PREPARE_CATALOG_VARIANT_UNAVAILABLE/);
+  f.dependencies.contracts[0].revision=99;Object.assign(f.descriptor.dependencySources,await f.pin(f.dependenciesFile,f.dependencies));await f.pin(f.descriptorFile,f.descriptor);
+  await assert.rejects(rawCatalogInputs(f.designSystemRoot,f.selected,new Map()),/DATA_PREPARE_CATALOG_IDENTITY_INVALID/);
 });
 
 test('data prepare makes one protected package, verifies the actual consumer, then reuses bytes without requesting a password', async t => {
@@ -286,6 +364,8 @@ test('empty app activates an encrypted npm release once; wrong password/tamperin
     const archive=await fs.readFile(built.tarballPath);
     const checked=await updateFromGit({...args,ensured,command:'check',access,request:transport(built.descriptor,archive).request});
     assert.equal(checked.activationRequired,count===1);
+    assert.equal(checked.descriptor.packageVersion,'1.0.'+count);
+    if(count===2)assert.equal(checked.current.packageVersion,'1.0.1','candidate version must not relabel installed data');
     const before=(await fs.readFile(path.join(settings.storeRoot,'state.json')).catch(()=>null));
     const bad=transport(built.descriptor,archive);
     await assert.rejects(updateFromGit({...args,ensured,command:'activate',access:{password:'incorrect'},request:bad.request}),/PASSWORD_INVALID/);
@@ -293,10 +373,29 @@ test('empty app activates an encrypted npm release once; wrong password/tamperin
     assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')).catch(()=>null),before);
     const result=await updateFromGit({...args,ensured,command:count===1?'activate':'update',access:access||{password},request:transport(built.descriptor,archive).request});
     assert.equal(result.activationRequired,false);
+    assert.equal(result.current.packageVersion,'1.0.'+count);
     assert.equal(packages.readGenerationData({root:result.dataRoot,apolloRoot:f.runtimeRoot}).contracts.length,count);
     if(count===1)access={key:result.activationKey,keyId:result.activationKeyID};
     else assert.equal(result.activationKey,undefined,'updates must not return secrets');
     ensured={state:await releases.readState(settings.storeRoot)};
+    assert.equal((await releases.ensureStore(settings)).state.current.packageVersion,'1.0.'+count,'restart retains the installed npm version');
+    // Old installations have only the content hash; matching metadata can fill the label without downloading.
+    delete ensured.state.current.packageVersion;
+    await put(settings.storeRoot,'state.json',ensured.state);
+    const unlabeledState=await fs.readFile(path.join(settings.storeRoot,'state.json'));
+    await assert.rejects(updateFromGit({...args,ensured,command:'activate',access:{password:'incorrect'},request:transport(built.descriptor,archive).request}),/PASSWORD_INVALID/);
+    assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')),unlabeledState,'invalid access must not save even a version label');
+    const labelOnly=transport(built.descriptor,archive);
+    const recoveredLabel=await updateFromGit({...args,ensured,command:'check',access,request:labelOnly.request});
+    assert.equal(recoveredLabel.current.packageVersion,'1.0.'+count);
+    assert.equal(recoveredLabel.current.contentVersion,result.current.contentVersion);
+    assert.equal(recoveredLabel.updateAvailable,false);
+    assert.equal(labelOnly.calls.length,2,'metadata recovery must not download or replace data');
+    ensured={state:await releases.readState(settings.storeRoot)};
+    const labelState=await fs.readFile(path.join(settings.storeRoot,'state.json'));
+    await assert.rejects(releases.rememberPackageVersion(settings,'f'.repeat(64),'1.0.99'),{code:'DATA_RELEASE_STATE_CHANGED'});
+    await assert.rejects(releases.rememberPackageVersion(settings,result.current.contentVersion,'not-a-version'),{code:'DATA_PACKAGE_VERSION_INVALID'});
+    assert.deepEqual(await fs.readFile(path.join(settings.storeRoot,'state.json')),labelState);
     const noOp=transport(built.descriptor,archive);
     assert.equal((await updateFromGit({...args,ensured,command:'update',access,request:noOp.request})).updateAvailable,false);
     assert.equal(noOp.calls.length,2);
@@ -312,6 +411,7 @@ test('empty app activates an encrypted npm release once; wrong password/tamperin
     assert.ok(!(await fs.readdir(settings.storeRoot)).some(n=>n.startsWith('.protected-update-')));
   }
   const restored=await releases.rollbackStore(settings);
+  assert.equal(restored.current.packageVersion,'1.0.1','rollback restores the previous package number');
   assert.equal(packages.readGenerationData({root:path.join(restored.current.path,'contracts'),apolloRoot:f.runtimeRoot}).contracts.length,1);
 });
 

@@ -18,6 +18,86 @@ function hasRuleId(value, ruleId) {
   return Object.values(value).some((item) => hasRuleId(item, ruleId));
 }
 
+function assertCanonicalLinks(crosswalk, readSource, readHub) {
+  const checked = [];
+  for (const entry of crosswalk.entries.filter((row) => row.canonicalRuleId)) {
+    const id = entry.canonicalRuleId;
+    assert.equal(entry.apolloRuleId, id, 'Apollo and canonical norm IDs differ');
+    assert.ok(['exact', 'semantic-equivalent'].includes(entry.relation));
+    assert.equal(entry.review.status, 'verified');
+    const named = entry.hubEvidence.filter((row) => row.kind === 'named-rule');
+    assert.equal(named.length, 1, 'Canonical norm needs one unambiguous named Hub rule');
+    assert.equal(named[0].ruleId, id, 'Hub and canonical norm IDs differ');
+    const hub = readHub(crosswalk.documents[named[0].document].path);
+    assert.equal(hub.split('\n').filter((line) => line.trim() === `- ruleId: ${id}`).length, 1, 'Canonical Hub ID is missing or duplicated');
+    assert.ok(hub.includes(named[0].heading));
+    const source = readSource(entry.apolloSource);
+    assert.ok(hasRuleId(source, id), 'Canonical ID is absent from executable norms');
+    for (const alias of entry.legacyApolloRuleIds || []) {
+      assert.notEqual(alias, id);
+      assert.equal(hasRuleId(source, alias), false, 'Legacy alias is still an active norm');
+      assert.equal((source.manual?.executionPolicy?.predicateRules || []).includes(alias), false, 'Legacy alias remains in execution policy');
+    }
+    assert.ok(entry.executionSources?.length, 'Canonical norm has no checked execution binding');
+    for (const execution of entry.executionSources) {
+      assert.equal(execution.kind, 'v3-composition');
+      const body = readSource(execution.path);
+      const contracts = body.runtime?.contracts || body.manual?.contracts || body.contracts || [];
+      for (const alias of entry.legacyApolloRuleIds || []) {
+        assert.equal(contracts.some((contract) => (contract.constraints || []).some((constraint) =>
+          constraint.ruleId === alias || `${contract.id}.${constraint.id}` === alias)), false, 'Legacy alias remains in an execution binding');
+      }
+      const matches = contracts.flatMap((contract) => (contract.constraints || [])
+        .filter((constraint) => constraint.ruleId === id).map((constraint) => `${contract.id}.${constraint.id}`));
+      assert.deepEqual(matches, [id], 'V3 output ID differs from the canonical norm ID');
+    }
+    checked.push(id);
+  }
+  return checked;
+}
+
+test('canonical TitleView norm ID agrees with Hub, executable norm and current V3 binding', () => {
+  const crosswalk = JSON.parse(fs.readFileSync(crosswalkPath, 'utf8'));
+  const checked = assertCanonicalLinks(crosswalk,
+    (file) => JSON.parse(fs.readFileSync(path.join(designSystemRoot, file), 'utf8')),
+    (file) => fs.readFileSync(path.join(hubRoot, file), 'utf8'));
+  assert.ok(checked.includes('rule:components.title-view.status-color-consistency'));
+});
+
+test('canonical guard rejects drift, ambiguous Hub IDs and an active legacy duplicate', () => {
+  const id = 'rule:fixture.peer.equal';
+  const valid = { documents: { fixture: { path: 'fixture.md' } }, entries: [{
+    apolloRuleId: id, canonicalRuleId: id, legacyApolloRuleIds: ['old.fixture.equal'],
+    apolloSource: 'rules.json', relation: 'exact', review: { status: 'verified' },
+    hubEvidence: [{ kind: 'named-rule', document: 'fixture', heading: 'Rule 1', ruleId: id }],
+    executionSources: [{ kind: 'v3-composition', path: 'composition.json' }],
+  }] };
+  const files = { 'rules.json': { manual: { rules: [{ ruleId: id }] } },
+    'composition.json': { manual: { contracts: [{ id: 'rule:fixture.peer', constraints: [{ id: 'equal', ruleId: id }] }] } } };
+  const text = `### Rule 1\n- ruleId: ${id}\n`;
+  assert.deepEqual(assertCanonicalLinks(valid, (file) => files[file], () => text), [id]);
+  for (const change of [
+    (x) => { x.entries[0].apolloRuleId = 'wrong'; },
+    (x) => { x.entries[0].hubEvidence[0].ruleId = 'wrong'; },
+    (x) => { x.entries[0].relation = 'semantic-support'; },
+    (x) => { x.entries[0].review.status = 'draft'; },
+    (x) => { x.entries[0].hubEvidence.push(x.entries[0].hubEvidence[0]); },
+  ]) {
+    const candidate = structuredClone(valid); change(candidate);
+    assert.throws(() => assertCanonicalLinks(candidate, (file) => files[file], () => text));
+  }
+  assert.throws(() => assertCanonicalLinks(valid, (file) => files[file], () => '### Rule 1\n'));
+  assert.throws(() => assertCanonicalLinks(valid, (file) => files[file], () => text + text));
+  const duplicate = structuredClone(files); duplicate['rules.json'].manual.rules.push({ ruleId: 'old.fixture.equal' });
+  assert.throws(() => assertCanonicalLinks(valid, (file) => duplicate[file], () => text));
+  const stalePolicy = structuredClone(files); stalePolicy['rules.json'].manual.executionPolicy = { predicateRules: ['old.fixture.equal'] };
+  assert.throws(() => assertCanonicalLinks(valid, (file) => stalePolicy[file], () => text));
+  const wrongOutput = structuredClone(files); wrongOutput['composition.json'].manual.contracts[0].id = 'old.fixture';
+  assert.throws(() => assertCanonicalLinks(valid, (file) => wrongOutput[file], () => text));
+  const oldBinding = structuredClone(files); oldBinding['composition.json'].manual.contracts.push({ id: 'old.fixture', constraints: [{ id: 'equal', ruleId: 'old.fixture.equal' }] });
+  assert.throws(() => assertCanonicalLinks(valid, (file) => oldBinding[file], () => text));
+});
+
 test('rule crosswalk links Apollo rules to verifiable human evidence without ID duplication', () => {
   const crosswalk = JSON.parse(fs.readFileSync(crosswalkPath, 'utf8'));
   assert.equal(crosswalk.schemaVersion, 'apollo.rule-crosswalk.v2');

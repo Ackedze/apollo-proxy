@@ -1,10 +1,11 @@
 {
   "name": "apollo-proxy",
-  "version": "1.4.21",
+  "version": "1.4.32",
   "description": "Локальный прокси-сервер Apollo для корпоративного агента",
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
+    "release:pair": "node scripts/release-pair.js",
     "data:import": "node scripts/import-data-package.js",
     "data:build-release": "node scripts/build-data-release.js",
     "data:prepare": "node scripts/prepare-data-package.js",

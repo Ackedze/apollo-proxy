@@ -1,10 +1,13 @@
 'use strict';
 const crypto=require('node:crypto');
+const nativeState=require('./native-state');
 const sha=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const fail=code=>{throw Object.assign(Error(code),{code,status:409});};
 function validateNative(readback,target){
  const native=readback.native;if(native===undefined)return;
- if(!native||native.schemaVersion!=='apollo.landing-native.v1'||!Array.isArray(native.nodes)||native.nodes.length!==readback.nodeCount||native.nodes.length>5000)fail('LANDING_READBACK_INVALID');
+ if(!native||!['apollo.landing-native.v1','apollo.landing-native.v2'].includes(native.schemaVersion)||!Array.isArray(native.nodes)||native.nodes.length!==readback.nodeCount||native.nodes.length>nativeState.MAX_NODES)fail('LANDING_READBACK_INVALID');
+ if(nativeState.isV2(native)&&native.nodes[0]?.parentId!==(target.parentNodeId||target.pageId))fail('LANDING_READBACK_INVALID');
+ if(nativeState.isV2(native)&&(!native.modeDefaults||typeof native.modeDefaults!=='object'||Array.isArray(native.modeDefaults)||Object.keys(native.modeDefaults).length>128||Object.entries(native.modeDefaults).some(([id,mode])=>!id||id.length>512||['__proto__','prototype','constructor'].includes(id)||typeof mode!=='string'||!mode||mode.length>128)))fail('LANDING_READBACK_INVALID');
  const seen=new Set();
  for(const [index,row]of native.nodes.entries()){
   if(!row||typeof row.id!=='string'||!/^[\w:;-]{1,512}$/.test(row.id)||seen.has(row.id)||typeof row.type!=='string'||typeof row.name!=='string'||typeof row.role!=='string'||index===0&&(row.id!==target.rootNodeId||row.type!=='FRAME')||index>0&&!seen.has(row.parentId))fail('LANDING_READBACK_INVALID');

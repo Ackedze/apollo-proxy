@@ -62,7 +62,7 @@ function readReleaseFiles(root, runtimeRoot) {
   const skillFiles=new Set();
   const catalog=require('../skills/catalog');
   for(const entry of catalog.skillPackages(root,manifest)){
-    if(entry.descriptor.executorId===catalog.AUDIT_EXECUTOR&&runtime.capabilities?.figmaAudit!==catalog.AUDIT_CAPABILITY)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
+    if(entry.descriptor.executorId===catalog.AUDIT_EXECUTOR&&!catalog.auditSupportsRuntime(entry.descriptor,runtime))fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.schemaVersion==='apollo.skill-package.v2'&&runtime.capabilities?.generationSkills!==catalog.GENERATION_CAPABILITY)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.generation?.workflow&&runtime.capabilities?.generationWorkflow!==entry.descriptor.generation.workflow)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
     if(entry.descriptor.generation?.recipeOperations&&runtime.capabilities?.recipeOperations!==entry.descriptor.generation.recipeOperations)fail('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
@@ -152,8 +152,13 @@ async function withLock(root, action) {
   finally { await lock.close(); await fsp.unlink(file); }
 }
 
-function record(manifest, root, kind = 'downloaded') {
-  return { contentVersion: manifest.id, path: path.resolve(root), kind, dataId: manifest.dataId, knowledgeVersion: manifest.knowledgeVersion, sourceCommits: manifest.sourceCommits, generatedAt: manifest.generatedAt, runtimeId: manifest.runtimeId };
+function validPackageVersion(value) {
+  return typeof value === 'string' && /^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?$/.test(value);
+}
+
+function record(manifest, root, kind = 'downloaded', packageVersion) {
+  return { contentVersion: manifest.id, path: path.resolve(root), kind, dataId: manifest.dataId, knowledgeVersion: manifest.knowledgeVersion, sourceCommits: manifest.sourceCommits, generatedAt: manifest.generatedAt, runtimeId: manifest.runtimeId,
+    ...(validPackageVersion(packageVersion) ? { packageVersion } : {}) };
 }
 
 function ownedVersion(root, id) {
@@ -242,7 +247,7 @@ async function validRecord(value, storeRoot, seedRoot, options) {
   try {
     const manifest = await validateRelease(value.path, options);
     if (manifest.id !== value.contentVersion) return null;
-    return record(manifest, value.path, value.kind);
+    return record(manifest, value.path, value.kind, value.packageVersion);
   } catch { return null; }
 }
 
@@ -278,7 +283,29 @@ async function ensureStore({ storeRoot, seedRoot, ...options }) {
   });
 }
 
-async function installTarball({ storeRoot, seedRoot, tarballPath, expectedIntegrity, expectedContentVersion, ...options }) {
+async function activateDirectory({storeRoot,expectedContentVersion,expectedCurrentVersion,packageVersion,...options},unpacked) {
+  const old = await readState(storeRoot);
+  if (expectedCurrentVersion !== undefined && (old?.current?.contentVersion || null) !== expectedCurrentVersion) fail('DATA_RELEASE_STATE_CHANGED');
+  const manifest = await validateRelease(unpacked, options);
+  if (expectedContentVersion && manifest.id !== expectedContentVersion) fail('DATA_RELEASE_DESCRIPTOR_MISMATCH');
+  const destination = path.join(storeRoot, 'versions', manifest.id);
+  await fsp.mkdir(path.dirname(destination), { recursive: true });
+  if (fs.existsSync(destination)) {
+    if ((await validateRelease(destination, options)).id !== manifest.id) fail('DATA_RELEASE_VERSION_CONFLICT');
+  } else await fsp.rename(unpacked, destination);
+  const current = record(manifest, destination, 'downloaded', packageVersion
+    ?? (old?.current?.contentVersion === manifest.id ? old.current.packageVersion : undefined));
+  const next = {schemaVersion:STORE_SCHEMA,current,previous:old?.current?.contentVersion === current.contentVersion ? old.previous || null : old?.current || null};
+  await writeState(storeRoot, next);
+  await pruneSafely(storeRoot, next);
+  return next;
+}
+
+async function installDirectory({directory,...options}) {
+  return withLock(options.storeRoot,()=>activateDirectory(options,directory));
+}
+
+async function installTarball({ storeRoot, seedRoot, tarballPath, expectedIntegrity, ...options }) {
   return withLock(storeRoot, async () => {
     if ('sha256-' + Buffer.from(await knowledge.sha256File(tarballPath), 'hex').toString('base64') !== expectedIntegrity) fail('DATA_RELEASE_INTEGRITY_INVALID');
     knowledge.validateArchiveEntries(tarballPath);
@@ -288,21 +315,20 @@ async function installTarball({ storeRoot, seedRoot, tarballPath, expectedIntegr
       const extraction = spawnSync('/usr/bin/tar', ['-xzf', tarballPath, '-C', staging, '--no-same-owner'], { encoding: 'utf8' });
       if (extraction.status !== 0) fail('DATA_RELEASE_ARCHIVE_INVALID');
       const unpacked = path.join(staging, 'package');
-      const manifest = await validateRelease(unpacked, options);
-      if (expectedContentVersion && manifest.id !== expectedContentVersion) fail('DATA_RELEASE_DESCRIPTOR_MISMATCH');
-      const destination = path.join(storeRoot, 'versions', manifest.id);
-      await fsp.mkdir(path.dirname(destination), { recursive: true });
-      if (fs.existsSync(destination)) {
-        if ((await validateRelease(destination, options)).id !== manifest.id) fail('DATA_RELEASE_VERSION_CONFLICT');
-      }
-      else await fsp.rename(unpacked, destination);
-      const old = await readState(storeRoot);
-      const current = record(manifest, destination);
-      const next = { schemaVersion: STORE_SCHEMA, current, previous: old?.current?.contentVersion === current.contentVersion ? old.previous || null : old?.current || null };
-      await writeState(storeRoot, next);
-      await pruneSafely(storeRoot, next);
-      return next;
+      return await activateDirectory({storeRoot,seedRoot,...options},unpacked);
     } finally { await fsp.rm(staging, { recursive: true, force: true }); }
+  });
+}
+
+async function rememberPackageVersion({ storeRoot }, contentVersion, packageVersion) {
+  if (!validPackageVersion(packageVersion)) fail('DATA_PACKAGE_VERSION_INVALID');
+  return withLock(storeRoot, async () => {
+    const state = await readState(storeRoot);
+    if (state?.current?.contentVersion !== contentVersion) fail('DATA_RELEASE_STATE_CHANGED');
+    if (validPackageVersion(state.current.packageVersion)) return state;
+    const next = { ...state, current: { ...state.current, packageVersion } };
+    await writeState(storeRoot, next);
+    return next;
   });
 }
 
@@ -329,4 +355,4 @@ function publicStatus(state, update = {}) {
   };
 }
 
-module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, MAX_RELEASE_BYTES, MAX_ARCHIVE_BYTES, inventorySize, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, rollbackStore, readState, publicStatus, pruneStore, retainRelease };
+module.exports = { RELEASE_SCHEMA, CHANNEL_SCHEMA, STORE_SCHEMA, RUNTIME_SCHEMA, MAX_RELEASE_BYTES, MAX_ARCHIVE_BYTES, inventorySize, sha, idOf, verifyFiles, readRuntime, readReleaseFiles, validateRelease, validateDescriptor, ensureStore, installTarball, installDirectory, withLock, rememberPackageVersion, rollbackStore, readState, publicStatus, pruneStore, retainRelease };

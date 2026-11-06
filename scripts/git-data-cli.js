@@ -54,8 +54,8 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
   const refs = await get('https://github.com/' + source.owner + '/' + source.repo + '.git/info/refs?service=git-upload-pack', token, request);
   const commit = advertisedCommit(Buffer.from(await refs.arrayBuffer()), source.ref);
   const index = await (await get(contentUrl(source, commit, source.file), token, request, true)).json();
-  if (!['apollo.git-data-index.v1', 'apollo.git-data-index.v2', 'apollo.git-data-index.v3'].includes(index.schemaVersion) || index.runtimeId !== runtimeId) throw Error('Git data index is invalid or incompatible with this runtime.');
-  if (['apollo.git-data-index.v2','apollo.git-data-index.v3'].includes(index.schemaVersion)) {
+  if (!['apollo.git-data-index.v1', 'apollo.git-data-index.v2', 'apollo.git-data-index.v3', 'apollo.git-data-index.v4'].includes(index.schemaVersion) || index.runtimeId !== runtimeId) throw Error('Git data index is invalid or incompatible with this runtime.');
+  if (['apollo.git-data-index.v2','apollo.git-data-index.v3','apollo.git-data-index.v4'].includes(index.schemaVersion)) {
     if (index.snapshot !== undefined) throw Error('Ambiguous Git data index.');
     require('../src/data-packages/npm').validateReference(index.npm);
   } else if (!safe(index.snapshot?.path) || !index.snapshot.path.endsWith('.tgz') ||
@@ -63,10 +63,12 @@ async function readGitIndex(url, runtimeId, token, request = fetch) {
       !Number.isSafeInteger(index.snapshot.bytes) || index.snapshot.bytes < 1 || index.snapshot.bytes > 100 * 1024 * 1024) throw Error('Git data index is invalid or incompatible with this runtime.');
   if(index.skills!==undefined && (!index.skills || Object.keys(index.skills).sort().join(',')!=='bytes,path,sha256' || index.skills.path!=='apollo/skills/manifest.json'
     || !/^[a-f0-9]{64}$/.test(index.skills.sha256||'') || !Number.isSafeInteger(index.skills.bytes) || index.skills.bytes<1 || index.skills.bytes>65536))throw Error('Git skill catalog reference is invalid.');
-  if (index.schemaVersion === 'apollo.git-data-index.v3') {
+  if (['apollo.git-data-index.v3','apollo.git-data-index.v4'].includes(index.schemaVersion)) {
     require('../src/data-packages/protected').validateActivation(index.activation);
     if (index.skills !== undefined || index.knowledge !== undefined) throw Error('Protected release must be a complete package.');
   }
+  if (index.schemaVersion === 'apollo.git-data-index.v4') require('../src/data-packages/incremental').validateDescriptor(index.incremental);
+  else if (index.incremental !== undefined) throw Error('Incremental delivery requires the v4 data index.');
   return { source, commit, index };
 }
 
@@ -114,14 +116,19 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
   const releases = require(path.join(producerRoot, 'src/data-release'));
   const runtime = releases.readRuntime(settings.runtimeRoot);
   const selected = await readGitIndex(url, runtime.id, token, request);
-  if (runtimeMigration && selected.index.schemaVersion !== 'apollo.git-data-index.v3') throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
-  if (selected.index.schemaVersion === 'apollo.git-data-index.v3') return require('../src/data-packages/protected').installProtected({settings,ensured,selected,command,access,request,releases});
+  if (runtimeMigration && !['apollo.git-data-index.v3','apollo.git-data-index.v4'].includes(selected.index.schemaVersion)) throw Error('DATA_RELEASE_RUNTIME_INCOMPATIBLE');
+  if (['apollo.git-data-index.v3','apollo.git-data-index.v4'].includes(selected.index.schemaVersion)) return require('../src/data-packages/protected').installProtected({settings,ensured,selected,command,access,request,releases});
   if (!ensured.state?.current) throw Error('DATA_ACTIVATION_REQUIRED');
   const snapshot = selected.index.npm || selected.index.snapshot;
   const installed=selected.index.skills ? releases.readReleaseFiles(ensured.state.current.path,settings.runtimeRoot) : null;
   const updateAvailable = snapshot.dataId !== ensured.state.current.dataId || Boolean(selected.index.skills && selected.index.skills.sha256!==installed.skillsSourceSha256);
-  const extra = { updateAvailable, descriptor: { contentVersion: snapshot.dataId }, sourceCommit: selected.commit };
-  if (command === 'check' || !updateAvailable) return releases.publicStatus(ensured.state, extra);
+  const packageVersion = selected.index.npm?.version;
+  const extra = { updateAvailable, descriptor: { contentVersion: snapshot.dataId, ...(packageVersion ? { packageVersion } : {}) }, sourceCommit: selected.commit };
+  if (command === 'check' || !updateAvailable) {
+    const state = !updateAvailable && packageVersion && !ensured.state.current.packageVersion
+      ? await releases.rememberPackageVersion(settings, ensured.state.current.contentVersion, packageVersion) : ensured.state;
+    return releases.publicStatus(state, extra);
+  }
   const temporary = await fs.mkdtemp(path.join(settings.storeRoot, '.git-update-'));
   try {
     console.error(JSON.stringify({ phase: 'downloading' }));
@@ -162,7 +169,7 @@ async function updateFromGit({ settings, ensured, url, token, command, producerR
     if (built.manifest.dataId !== snapshot.dataId) throw Error('Local packaging changed the Git data identity.');
     if(selected.index.skills && built.manifest.skillsSourceSha256!==selected.index.skills.sha256)throw Error('Local packaging changed the Git skill identity.');
     if ((await releases.readState(settings.storeRoot)).current.contentVersion !== ensured.state.current.contentVersion) throw Error('Installed data changed during Git download; check again.');
-    const state = await releases.installTarball({ ...settings, tarballPath: built.tarballPath,
+    const state = await releases.installTarball({ ...settings, tarballPath: built.tarballPath, packageVersion,
       expectedIntegrity: built.descriptor.tarballIntegrity, expectedContentVersion: built.manifest.id });
     return releases.publicStatus(state, { ...extra, updateAvailable: false, updated: true });
   } finally { await fs.rm(temporary, { recursive: true, force: true }); }

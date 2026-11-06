@@ -15,6 +15,11 @@ const {
 
 const TEXT_DATA_EXTENSIONS = new Set(['.json', '.md', '.yaml', '.yml', '.txt']);
 const DESIGN_RUNTIME_ARTIFACT_ROLES = new Set(['rules', 'composition', 'generatedContract']);
+const DESIGN_LIFECYCLE_FILES = [
+  'JSONS/indexes/lifecycle/deprecated.index.json',
+  'JSONS/indexes/lifecycle/scheduled.index.json',
+  'JSONS/indexes/lifecycle/parts.index.json',
+];
 const DESIGN_ASSET_FILES = [
   'JSONS/images/Сorp _ Image Library -- Продуктовые имиджи.json',
   'JSONS/images/Сorp _ Image Library -- Вспомогательные имиджи.json',
@@ -25,6 +30,7 @@ const DESIGN_ASSET_FILES = [
 const HUB_ASSET_FILES = ['core/web/assets/assets_glyph-26.json'];
 const DESIGN_GIT_INPUT_PATHS = [
   ...DESIGN_ASSET_FILES,
+  ...DESIGN_LIFECYCLE_FILES,
   'JSONS/apollo',
   'JSONS/tokens',
   'JSONS/styles',
@@ -47,10 +53,14 @@ const HUB_DATA_ROOTS = [
   'products/ab',
   'products/abm/patterns',
   'core/web/components',
+  'core/common/tokens',
+  'core/web/tokens',
+  'core/web/assets',
 ];
 const HUB_GIT_INPUT_PATHS = [
   ...HUB_ASSET_FILES,
   ...HUB_DATA_ROOTS,
+  'registry/index.json',
   'AGENTS.md',
   'README.md',
   'CONTRACT.md',
@@ -120,7 +130,7 @@ async function collectDesignSystemFiles(root) {
   await addTree('apollo', TEXT_DATA_EXTENSIONS, (item) => !item.startsWith('knowledge/channels/'));
   await addTree('patterns', TEXT_DATA_EXTENSIONS);
   await addTree('redpolrules', TEXT_DATA_EXTENSIONS);
-  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md', 'JSONS/referenceSourcesMVP.json', ...DESIGN_ASSET_FILES]) {
+  for (const fileName of ['README.md', 'AGENTIC_FILES.md', 'COMPONENT_AUTHORING.md', 'JSONS/referenceSourcesMVP.json', ...DESIGN_ASSET_FILES, ...DESIGN_LIFECYCLE_FILES]) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   const indexPath = path.join(root, 'JSONS/apollo/indexes/componentContractIndex.json');
@@ -211,15 +221,19 @@ async function collectDsAiHubFiles(root) {
       result.add(path.posix.join(relativeRoot, relative));
     }
   }
-  for (const fileName of ['AGENTS.md', 'README.md', 'CONTRACT.md', ...HUB_ASSET_FILES]) {
+  for (const fileName of ['AGENTS.md', 'README.md', 'CONTRACT.md', 'registry/index.json', ...HUB_ASSET_FILES]) {
     if ((await fsp.stat(path.join(root, fileName)).catch(() => null))?.isFile()) result.add(fileName);
   }
   return [...result].sort();
 }
 
 async function copyProjection(sourceRoot, files, targetRoot, prefix) {
+  const canonicalRoot = await fsp.realpath(sourceRoot);
   for (const relative of files) {
     const source = assertInside(sourceRoot, path.join(sourceRoot, relative));
+    if (!(await fsp.lstat(source)).isFile() || await fsp.realpath(source) !== path.join(canonicalRoot, relative)) {
+      throw new Error(`Knowledge inputs may not contain symlinks: ${source}`);
+    }
     const target = path.join(targetRoot, 'data', prefix, relative);
     await fsp.mkdir(path.dirname(target), { recursive: true });
     await fsp.copyFile(source, target);
@@ -277,6 +291,13 @@ async function buildKnowledgePackage(options) {
   const packageRoot = path.join(temporaryRoot, 'package');
   try {
     await copyProjection(designRoot, await collectDesignSystemFiles(designRoot), packageRoot, 'design-system_ab');
+    let auditData = null;
+    const preparation = options.auditPreparation || (options['audit-runtime-root']
+      ? require('../src/audit-data/builder').preparationFromRuntime(options['audit-runtime-root']) : null);
+    if (preparation) auditData = await require('../src/audit-data/builder').buildAuditData({
+      designRoot, abmRoot: options['audit-abm-root'] || path.join(path.dirname(designRoot), 'desing-system_abm'),
+      packageRoot, preparation, sourceCommits: { 'design-system_ab': designCommit },
+    });
     await rewriteDesignRuntimeProjection(designRoot, packageRoot);
     await copyProjection(hubRoot, await collectDsAiHubFiles(hubRoot), packageRoot, 'ds-ai-hub');
     await writeCatalogProvenance(designRoot, packageRoot, designCommit);
@@ -293,6 +314,7 @@ async function buildKnowledgePackage(options) {
       projection: {
         predicate: 'design-system_ab/JSONS indexed artifacts + generation semantic targets + tokens + styles + apollo + patterns + redpolrules',
         agent: `ds-ai-hub ${HUB_DATA_ROOTS.join(' + ')} text data`,
+        ...(auditData ? { audit: { schemaVersion: 'apollo.v3-audit-data.v1', dataId: auditData.manifest.dataId } } : {}),
       },
       artifactCount: artifacts.length,
       totalBytes: artifacts.reduce((total, artifact) => total + artifact.size, 0),
@@ -342,7 +364,7 @@ async function buildKnowledgePackage(options) {
         await fsp.writeFile(path.join(outputRoot, 'latest-stable.json'), `${JSON.stringify(descriptor, null, 2)}\n`);
       }
     }
-    return { manifest, tarball, descriptor, packageRoot: directoryTarget };
+    return { manifest, tarball, descriptor, packageRoot: directoryTarget, auditData };
   } finally {
     await fsp.rm(temporaryRoot, { recursive: true, force: true });
   }

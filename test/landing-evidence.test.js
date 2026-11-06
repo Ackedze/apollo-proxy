@@ -25,6 +25,12 @@ for(const invalid of ['missing-host','host-key','body-frame','outside-body','wro
 test('native tree count, duplicate IDs and parent order fail closed',()=>{
  const {record}=fixture();for(const attack of ['count','duplicate','parent']){const readback=copy(record.readback);if(attack==='count')readback.nodeCount++;if(attack==='duplicate')readback.native.nodes[1].id='root';if(attack==='parent')readback.native.nodes[1].parentId='section:0';assert.throws(()=>validateNative(readback,record.target),{code:'LANDING_READBACK_INVALID'});}
 });
+test('native v2 requires bounded typed default evidence and the actual declared root parent',()=>{
+ const {record}=fixture(),target={...record.target,pageId:'page'};record.readback.native.schemaVersion='apollo.landing-native.v2';record.readback.native.modeDefaults={'VariableCollectionId:source/1:1':'1:0'};assert.doesNotThrow(()=>validateNative(record.readback,target));
+ for(const attack of ['missing','array','number','too-many','future','wrong-root-parent']){
+  const value=copy(record.readback);if(attack==='missing')delete value.native.modeDefaults;if(attack==='array')value.native.modeDefaults=[];if(attack==='number')value.native.modeDefaults={source:1};if(attack==='too-many')value.native.modeDefaults=Object.fromEntries(Array.from({length:129},(_,i)=>['source'+i,'1:0']));if(attack==='future')value.native.schemaVersion='apollo.landing-native.v3';if(attack==='wrong-root-parent')value.native.nodes[0].parentId='foreign';assert.throws(()=>validateNative(value,target),{code:'LANDING_READBACK_INVALID'});
+ }
+});
 
 
 test('AB CorporateContent evidence policy does not impose AB host norms on another packaged skill',async t=>{

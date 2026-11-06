@@ -15,9 +15,9 @@ test('native runtime channel migration updates former defaults while preserving 
   const main = path.join(temporary, 'main.swift');
   fs.writeFileSync(main, `import Foundation
 let prefix="https://raw.githubusercontent.com/Ackedze/design-system_ab/main/"
-let previous=String(repeating:"a",count:64), next=String(repeating:"b",count:64)
-let bundled=prefix+"apollo/runtimes/"+next+"/data-packages/current.json"
-for old in [prefix+"apollo/data-packages/current.json",prefix+"apollo/channels/stable/data-packages/current.json",prefix+"apollo/runtimes/"+previous+"/data-packages/current.json"] {
+let previous=String(repeating:"a",count:64)
+let bundled=prefix+"apollo/proxy-releases/1.4.31/data-packages/current.json"
+for old in [prefix+"apollo/data-packages/current.json",prefix+"apollo/channels/stable/data-packages/current.json",prefix+"apollo/runtimes/"+previous+"/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.23/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.24/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.25/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.26/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.27/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.28/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.29/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.30/data-packages/current.json"] {
  precondition(DataChannelMigration.replacement(configured:old,bundled:bundled,previousRuntimeIDs:[previous]) == bundled)
 }
 for custom in ["https://example.test/own.json",prefix+"apollo/runtimes/"+String(repeating:"c",count:64)+"/data-packages/current.json",bundled] {
