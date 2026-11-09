@@ -105,3 +105,17 @@ test('ABM dialogue context uses only explicit bounded user messages', () => {
   assert.equal(dialogueUsesAbmRules('Теперь про АБ', [{role:'user',text:'Кнопки АБМ'}]), false);
   assert.equal(dialogueUsesAbmRules('А исключения?', [{role:'user',text:'Кнопки АБМ'},{role:'user',text:'Теперь про АБ'}]), false);
 });
+
+test('explicit picker platform overrides question, history and saved library; legacy requests still use text',()=>{
+ const {dialogueUsesAbmRules}=require('../src/reports/messages');
+ for(const platform of ['iOS','Android']) {
+  assert.equal(normalizeInput({text:'Вопрос',dialoguePlatform:platform}).dialoguePlatform,platform);
+  assert(dialogueUsesAbmRules('Про АБ',[{role:'user',text:'Только AB'}],false,platform));
+ }
+ for(const platform of ['Desktop','MobileWeb'])
+  assert.equal(dialogueUsesAbmRules('Про АБМ',[{role:'user',text:'Только ABM'}],true,platform),false);
+ assert.throws(()=>normalizeInput({text:'Вопрос',dialoguePlatform:'Tablet'}),error=>error.status===400);
+ assert.throws(()=>normalizeInput({text:'Вопрос',dialoguePlatform:null}),error=>error.status===400);
+ assert.equal(normalizeInput({text:'Вопрос'}).dialoguePlatform,undefined);
+ assert(dialogueUsesAbmRules('Про АБМ',[],false));
+});

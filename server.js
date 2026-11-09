@@ -883,7 +883,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   // Dialogue reads Proxy-owned knowledge in its disposable request directory.
   // ABM supplies a source-bounded packet; AB retains its existing reader workflow.
   inspectActiveApolloKnowledge();
-  const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false)
+  const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false, inputValue.dialoguePlatform)
     ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
     const error = new Error(
@@ -1506,6 +1506,7 @@ app.get('/health', async (req, res) => {
   res.json({
     ok: true,
     activeRequests: activeApiRequests,
+    capabilities: { dialoguePlatformRouting: true },
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     proxy: {
@@ -1717,9 +1718,20 @@ app.post('/analyze', async (req, res) => {
 
     // The historical codex wire alias follows the desktop agent selection.
     const provider = inputValue.source === 'codex' ? CLI_PROVIDER : 'alfagen';
+    if (['iOS', 'Android'].includes(inputValue.dialoguePlatform)
+      && !dialogueUsesAbmRules(extractDialogueQuestion(inputValue), [], true)) {
+      res.json({ success: true,
+        result: 'Сейчас выбран поиск по паттернам АБМ. Чтобы задать вопрос по АБ, выбери Desktop или MobileWeb в переключателе сверху.',
+        source: inputValue.source, provider, model: null, knowledgeRelease: null,
+        dialogueLibrary: 'abm', responseKind: 'library-selection-notice' });
+      return;
+    }
     let result;
     let localKnowledge;
     if (provider === 'alfagen') {
+      if (['iOS', 'Android'].includes(inputValue.dialoguePlatform))
+        throw Object.assign(new Error('Для ответов по паттернам АБМ выбери Codex или Claude в «О прокси». AlfaGen пока не поддерживает этот режим.'),
+          { status: 503, code: 'ABM_PROVIDER_UNSUPPORTED' });
       if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429});
       activeCodexRuns++;
       const controller = new AbortController();
@@ -1748,11 +1760,13 @@ app.post('/analyze', async (req, res) => {
       provider,
       model: provider === 'alfagen' ? null : AGENT_MODEL || null,
       knowledgeRelease: provider === 'alfagen' ? null : localKnowledge || APOLLO_KNOWLEDGE_RELEASE,
+      ...(inputValue.dialoguePlatform !== undefined ? { dialogueLibrary: ['iOS', 'Android'].includes(inputValue.dialoguePlatform) ? 'abm' : 'ab' } : {}),
     });
   } catch (err) {
     res.status(err.status || 500).json({
       success: false,
       error: err.message || 'Apollo agent error',
+      code: err.code || null,
       details: err.details || null,
       status: err.status || null,
     });

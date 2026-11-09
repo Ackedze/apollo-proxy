@@ -61,7 +61,10 @@ function normalizeInput(payload) {
     const dialogue = normalizeDialogueHistory(payload.dialogue);
 
     if (text) {
-      return { text, component, action, session_id, source, dialogue };
+      const input = { text, component, action, session_id, source, dialogue };
+      const platform = normalizeDialoguePlatform(payload.dialoguePlatform);
+      if (platform !== undefined) input.dialoguePlatform = platform;
+      return input;
     }
   }
 
@@ -118,7 +121,15 @@ function extractDialogueQuestion(inputValue) {
 
 
 
-function dialogueUsesAbmRules(question, dialogue, previousAbm = false) {
+function normalizeDialoguePlatform(value) {
+  if (value !== undefined && !['Desktop', 'MobileWeb', 'iOS', 'Android'].includes(value))
+    throw Object.assign(new Error('Некорректная платформа диалога Apollo.'), { status: 400, code: 'DIALOGUE_PLATFORM_INVALID' });
+  return value;
+}
+
+function dialogueUsesAbmRules(question, dialogue, previousAbm = false, dialoguePlatform) {
+  const platform = normalizeDialoguePlatform(dialoguePlatform);
+  if (platform !== undefined) return platform === 'iOS' || platform === 'Android';
   const abm = /(?:^|[^\p{L}\p{N}_])(?:АБМ|ABM)(?=$|[^\p{L}\p{N}_])/iu;
   const ab = /(?:^|[^\p{L}\p{N}_])(?:АБ|AB|Альфа[ -]Бизнес)(?=$|[^\p{L}\p{N}_])/iu;
   const questions = [question, ...normalizeDialogueHistory(dialogue)

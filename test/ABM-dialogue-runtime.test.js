@@ -41,6 +41,7 @@ test('existing Ask route selects ABM explicitly, preserves AB, and rejects unava
   write(path.join(ds, 'patterns/fixture.md'), '# AB fixture');
   for (const directory of ['products/ab/components', 'core/web/components']) fs.mkdirSync(path.join(hub, directory), { recursive: true });
   write(path.join(hub, 'products/ab/patterns/fixture.md'), '# Hub fixture');
+  write(path.join(hub, 'products/ab/components/fixture/meta.json'), JSON.stringify({id:'fixture',name:'Fixture'}));
   write(file, markdown);
   write(binary, '#!' + process.execPath + '\n' + `
 const fs=require('node:fs');let input='';
@@ -62,10 +63,10 @@ const {buildCodexDialoguePrompt}=require(${JSON.stringify(path.resolve(__dirname
 const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').map(JSON.parse):[];
 (async()=>{
  const server=app.listen(0,'127.0.0.1');await new Promise(resolve=>server.once('listening',resolve));
- async function post(question,dialogue=[]) {
+ async function post(question,dialogue=[],dialoguePlatform,source='codex') {
   const response=await fetch('http://127.0.0.1:'+server.address().port+'/analyze',{
    method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({source:'codex',session_id:'fixture-chat',text:JSON.stringify({schemaVersion:1,mode:'design-dialogue',question}),dialogue})
+   body:JSON.stringify({source,dialoguePlatform,session_id:'fixture-chat',text:JSON.stringify({schemaVersion:1,mode:'design-dialogue',question}),dialogue})
   });return {status:response.status,body:await response.json()};
  }
  function last(){return calls().at(-1);}
@@ -103,6 +104,39 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(rejected.status,502,JSON.stringify(rejected.body));
   assert.equal(rejected.body.result,undefined);
   assert(!JSON.stringify(rejected.body).includes('Напиши в чат'));
+  const health=await (await fetch('http://127.0.0.1:'+server.address().port+'/health')).json();
+  assert.equal(health.capabilities.dialoguePlatformRouting,true);
+  for(const platform of ['iOS','Android']) {
+   const selected=await post('Как использовать кнопку?',[{role:'user',text:'Только АБ'}],platform);
+   assert.equal(selected.status,200,JSON.stringify(selected.body));
+   assert.equal(selected.body.dialogueLibrary,'abm');
+   assert.equal(selected.body.knowledgeRelease.source,'local-abm-markdown');
+   assert(last().args.includes('--output-schema'));
+  }
+  for(const platform of ['Desktop','MobileWeb']) {
+   const selected=await post('Кнопки АБМ',[{role:'user',text:'Только АБМ'}],platform);
+   assert.equal(selected.status,200,JSON.stringify(selected.body));
+   assert.equal(selected.body.dialogueLibrary,'ab');
+   assert.equal(selected.body.knowledgeRelease.source,undefined);
+   assert(!last().args.includes('--output-schema'));
+  }
+  const beforeNotice=calls().length;
+  for(const platform of ['iOS','Android'])for(const question of ['Про АБ','Про AB','Про Альфа-Бизнес']) {
+   const notice=await post(question,[],platform);
+   assert.equal(notice.status,200);
+   assert.equal(notice.body.dialogueLibrary,'abm');
+   assert.equal(notice.body.responseKind,'library-selection-notice');
+   assert.equal(notice.body.model,null);
+   assert.equal(notice.body.knowledgeRelease,null);
+   assert.equal(notice.body.result,'Сейчас выбран поиск по паттернам АБМ. Чтобы задать вопрос по АБ, выбери Desktop или MobileWeb в переключателе сверху.');
+  }
+  assert.equal(calls().length,beforeNotice);
+  const beforeInvalid=calls().length;
+  assert.equal((await post('Кнопки',[],'Tablet')).status,400);
+  const unsupported=await post('Кнопки',[],'iOS','langflow');
+  assert.equal(unsupported.status,503);
+  assert.equal(unsupported.body.code,'ABM_PROVIDER_UNSUPPORTED');
+  assert.equal(calls().length,beforeInvalid);
   const count=calls().length;
   fs.writeFileSync(${JSON.stringify(file)},'# No ABM metadata');
   const invalid=await post('Кнопки АБМ');
