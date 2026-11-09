@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
-const {buildAbmKnowledgePacket,MAX_PACKET_CHARS}=require('../src/reports/ABM-retrieval');
+const {buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS}=require('../src/reports/ABM-retrieval');
 const {buildAbmDialoguePrompt}=require('../src/reports/ABM-messages');
 function fixture(t) {
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-retrieval-')));
@@ -80,10 +80,97 @@ test('same-level descriptive headings anchor their entire section before generic
   assert(packet.matchedSections.some(section=>section.title==='Нейминг в кнопках'));
   for(const id of ['R13_labels','R14_pair','R14.1_exception','R15_retry'])assert(packet.rules.some(rule=>rule.ruleId===id));
   assert.equal(packet.rules[0].ruleId,'R13_labels');
+  assert(!packet.rules.some(rule=>rule.ruleId==='R01_general'));
   const naming=packet.rules.find(rule=>rule.ruleId==='R13_labels');
   assert(naming.context.includes('Нейминг в кнопках'));
   assert(!naming.context.includes('Общие правила'));
   const prompt=buildAbmDialoguePrompt(query,[],packet);
   assert(prompt.includes('matchedSections'));
  }
+});
+
+test('unknown new subjects never inherit an unrelated earlier topic',t=>{
+ const f=fixture(t);
+ const packet=buildAbmKnowledgePacket(f.source(),'QuantumButton', [{role:'user',text:'Про клавиатуру в АБМ'}]);
+ assert.equal(packet.rules.length,0);assert.equal(packet.diagnostics.historyUsed,false);
+});
+test('platform-only follow-up uses the latest substantive user topic, ignoring assistant text',t=>{
+ const f=fixture(t);
+ const packet=buildAbmKnowledgePacket(f.source(),'А на Android?',[
+ {role:'user',text:'Про клавиатуру'}, {role:'assistant',text:'Читай про суммы'},
+ {role:'user',text:'Иконка Инфо в поле ввода'}, {role:'assistant',text:'Обсудим суммы'},
+ ]);
+ assert(packet.rules.some(rule=>rule.ruleId==='R02_info'));
+ assert.equal(packet.diagnostics.historyUsed,true);
+ assert(!packet.rules.some(rule=>rule.file==='p_abm_amount.md'));
+ assert.equal(buildAbmKnowledgePacket(f.source(),'Android').rules.length,0);
+});
+test('button naming paraphrases and a unique typo find the complete same section',t=>{
+ const f=fixture(t);
+ f.write('buttons','Кнопки','## Текст\n### Нейминг в кнопках\n### [Rule] R01\nПрименимое условие.\n### [Rule] R02\nДополнительное исключение.\n');
+ for(const q of ['Как назвать кнопку?','Как подписать кнопки?','Названия кнопок','Неймниг кнопок','Button naming']) {
+  const packet=buildAbmKnowledgePacket(f.source(),q);
+  assert(packet.matchedSections.some(section=>section.title==='Нейминг в кнопках'),q);
+  assert(packet.rules.some(rule=>rule.file==='p_abm_buttons.md'&&rule.ruleId==='R01'),q);
+  assert(packet.rules.some(rule=>rule.file==='p_abm_buttons.md'&&rule.ruleId==='R02'),q);
+ }
+});
+test('a broad first topic cannot consume the reservation for another question; the entire payload is budgeted',t=>{
+ const f=fixture(t);
+ f.write('huge','Большая тема','## Большая тема\n'+Array.from({length:150},(_,i)=>'### [Rule] R'+String(i+1).padStart(3,'0')+'\nБольшая тема. '+('Подробное условие. '.repeat(24))+'\n').join(''));
+ const packet=buildAbmKnowledgePacket(f.source(),'Расскажи все правила большой темы? Что делает иконка Инфо в поле ввода?');
+ assert(packet.rules.some(rule=>rule.ruleId==='R02_info'));
+ assert(packet.diagnostics.queryCoverage.every(Boolean));
+ assert(packet.coverageLimited);
+ const payload=knowledgePayload(packet);
+ assert(payload.matchedSections.some(section=>section.title==='Большая тема'&&!section.complete));
+ assert.equal(packet.chars,JSON.stringify(payload).length);
+ assert(packet.chars<=MAX_PACKET_CHARS);
+ for(const section of payload.matchedSections)for(const id of section.ruleIds)assert(payload.rules.some(rule=>rule.file===section.file&&rule.ruleId===id));
+});
+
+test('the model packet keeps every source text and parent without repeating shared context',t=>{
+ const f=fixture(t);
+ const packet=buildAbmKnowledgePacket(f.source(),'Каким шрифтом писать копейки?');
+ const payload=knowledgePayload(packet);
+ for(const row of packet.rules) {
+  const item=payload.rules.find(rule=>rule.file===row.file&&rule.ruleId===row.ruleId);
+  assert.equal(item.text,row.text);
+  assert.equal(payload.contexts.find(context=>context.id===item.contextId).text,row.context);
+  for(const parent of row.parents) {
+   assert(item.parentRuleIds.includes(parent.ruleId));
+   assert(payload.rules.some(rule=>rule.file===row.file&&rule.ruleId===parent.ruleId&&rule.text===parent.text));
+  }
+ }
+ assert(payload.contexts.length<payload.rules.length);
+ assert(JSON.stringify(payload).length<JSON.stringify({rules:packet.rules,matchedSections:packet.matchedSections,coverageLimited:packet.coverageLimited}).length);
+});
+
+test('a qualified examples request switches to its explicit subject instead of inheriting an old one',t=>{
+ const f=fixture(t);
+ f.write('checkbox','Checkbox','### [Rule] R01_checkbox\nУсловие чекбокса.\n');
+ const history=[{role:'user',text:'Клавиатура в АБМ'},{role:'user',text:'Покажи примеры чекбоксов'}];
+ const explicit=buildAbmKnowledgePacket(f.source(),'Покажи примеры чекбоксов',[history[0]]);
+ assert.equal(explicit.diagnostics.historyUsed,false);
+ assert(explicit.rules.some(rule=>rule.file==='p_abm_checkbox.md'));
+ const follow=buildAbmKnowledgePacket(f.source(),'А на Android?',history);
+ assert(follow.diagnostics.historyUsed);
+ assert(follow.rules.some(rule=>rule.file==='p_abm_checkbox.md'));
+ assert(!follow.rules.some(rule=>rule.file==='p_abm_keyboard.md'));
+ const examples=buildAbmKnowledgePacket(f.source(),'Покажи примеры',[{role:'user',text:'Клавиатура в АБМ'}]);
+ assert(examples.diagnostics.historyUsed);
+ assert(examples.rules.some(rule=>rule.file==='p_abm_keyboard.md'));
+});
+
+test('a component list keeps core definitions as well as detailed guidelines',t=>{
+ const f=fixture(t);
+ f.write('selection','Selection components',
+ '## Компоненты выбора\n### [Rule] R02_radio_buttons\nРадиокнопки — одиночный выбор.\n'+
+ '### [Rule] R03_checkboxes\nЧекбоксы — независимые варианты.\n'+
+ '### [Rule] R04_switch\nПереключатель — мгновенное действие.\n'+
+ '## Отдельно расположенное исключение\n### [Rule] R04.1_confirmation\nНе используй переключатель с подтверждением.\n## Продолжение\n'+
+ '### [Rule] R05_chips\nЧипсы — альтернативный выбор.\n'+
+ '## Детали\n'+Array.from({length:24},(_,i)=>'### [Rule] R'+(20+i)+'_radio_checkbox_switch_chips_guidelines\nПодробные условия для Radio, Checkbox, Switch и Chips.\n').join(''));
+ const packet=buildAbmKnowledgePacket(f.source(),'Когда использовать радиокнопки, чекбоксы, переключатели и чипсы?');
+ for(const id of ['R02_radio_buttons','R03_checkboxes','R04_switch','R04.1_confirmation','R05_chips'])assert(packet.rules.some(rule=>rule.ruleId===id),id);
 });

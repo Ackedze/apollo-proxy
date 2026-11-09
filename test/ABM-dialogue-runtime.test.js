@@ -50,7 +50,7 @@ process.stdin.on('end',()=>{
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
  const question=input.split('<question>')[1].split('</question>')[0].trim();
- const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:'Условие fixture.',text:'Условие fixture.'}]}]}):'Ответ fixture';
+ const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:question.includes('подтверждение')?'Выдуманное утверждение.':'Условие fixture.',text:question.includes('оформление')?'### Условие fixture.':'Условие fixture.'}]}]}):'Ответ fixture';
  fs.writeFileSync(args[args.indexOf('--output-last-message')+1],result);
 });
 `);
@@ -96,6 +96,13 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(bounded.body.knowledgeRelease.source,'local-abm-markdown');
   const reset=await post('Теперь про АБ',[{role:'user',text:'Как использовать кнопку в АБМ?'}]);
   assert.equal(reset.status,200);assert.equal(reset.body.knowledgeRelease.source,undefined);
+  const recovered=await post('АБМ кнопка: оформление');
+  assert.equal(recovered.status,200,JSON.stringify(recovered.body));
+  assert.equal(recovered.body.result,${JSON.stringify('Условие fixture.\n\nПаттерн: «Fixture», v.1.2')});
+  const rejected=await post('АБМ кнопка: подтверждение');
+  assert.equal(rejected.status,502,JSON.stringify(rejected.body));
+  assert.equal(rejected.body.result,undefined);
+  assert(!JSON.stringify(rejected.body).includes('Напиши в чат'));
   const count=calls().length;
   fs.writeFileSync(${JSON.stringify(file)},'# No ABM metadata');
   const invalid=await post('Кнопки АБМ');

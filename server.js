@@ -956,7 +956,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       }
       onKnowledge?.({ contentVersion: 'abm-local-' + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, source: 'local-abm-markdown' });
     }
-    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet) : agentResult;
+    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event) }) : agentResult;
     if (inputValue.session_id) {
       dialogueLibraryBySession.delete(inputValue.session_id);
       dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
@@ -966,7 +966,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       knowledgeSource: abm ? 'local-abm-markdown' : APOLLO_CODEX_KNOWLEDGE_SOURCE,
       knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
-      ...(packet ? { retrieval: { rules: packet.rules.length, indexedRules: packet.indexedRules, packetChars: packet.chars, promptChars: prompt.length, coverageLimited: packet.coverageLimited } } : {}),
+      ...(packet ? { retrieval: { rules: packet.rules.length, indexedRules: packet.indexedRules, packetChars: packet.chars, promptChars: prompt.length, coverageLimited: packet.coverageLimited, ...packet.diagnostics } } : {}),
     });
     return result;
   } finally {

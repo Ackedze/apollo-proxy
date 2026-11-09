@@ -50,17 +50,21 @@ function loadPattern(root, file) {
 // Strip link destinations, preserving their exact visible labels and all prose.
 function cleanRuleContent(value) {
   return value.replace(/^\s*\*\*(?:Ключ правила|Раздел):?\*\*[^\n]*$/gm,'')
+    .replace(/^#{1,6}[ \t]+/gm,'')
+    .replace(/`([^`\n]+)`/g,'$1')
+    .replace(/\*\*([^*\n]+)\*\*/g,'$1')
+    .replace(/(?<!\*)\*([^*\n]+)\*(?!\*)/g,'$1')
     .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,'$1')
     .replace(/https?:\/\/\S+/g,'').trim();
 }
 function ruleText(body) {
-  return normalize(cleanRuleContent(body).split(/\r?\n/).filter(line =>
-    !/^\s*(?:#{1,6}\s|\*\*(?:Ключ правила|Раздел):?\*\*|Ссылка на|https?:\/\/)/i.test(line)
-  ).join('\n'));
+  return normalize(cleanRuleContent(body));
 }
 function examplesFor(pattern, ruleId) {
   let found = pattern.examples.filter(example => example.key === ruleId);
   let parent = numericKey(ruleId);
+  if(!found.length&&parent&&pattern.rules.filter(rule=>numericKey(rule.key)===parent).length===1)
+    found=pattern.examples.filter(example=>numericKey(example.key)===parent);
   while (!found.length && parent?.includes('.')) {
     parent = parent.slice(0,parent.lastIndexOf('.'));
     const parentRule = pattern.rules.find(rule=>numericKey(rule.key)===parent);

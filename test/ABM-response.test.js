@@ -62,20 +62,20 @@ test('unanswered questions are collected under one final heading',t=>{
 test('invalid evidence, unrelated examples and references outside retrieved rules fail closed',t=>{
  const f=fixture(t);
  const render=item=>renderAbmResponse({answers:[answer(item)]},f.root,'Вопрос?');
- assert.equal(render(evidence(f.file,'R01_without_example','Несуществующее подтверждение.')),NOT_FOUND);
- assert.equal(render(evidence('../'+f.file,'R01_without_example','Копейки всегда отделяем запятой.')),NOT_FOUND);
- assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},f.root,'Вопрос?',{rules:[]}),NOT_FOUND);
+ assert.throws(()=>render(evidence(f.file,'R01_without_example','Несуществующее подтверждение.')),e=>e.code==='ABM_QUOTE_MISMATCH');
+ assert.throws(()=>render(evidence('../'+f.file,'R01_without_example','Копейки всегда отделяем запятой.')),e=>e.code==='ABM_EVIDENCE_REJECTED');
+ assert.throws(()=>renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},f.root,'Вопрос?',{rules:[]}),e=>e.code==='ABM_EVIDENCE_OUTSIDE_PACKET');
  const result=render(evidence(f.file,'R02.1_first','Первое условие действует в тексте.'));
  assert(result.includes('1-2')&&!result.includes('9-9'));
 });
-test('unsafe formatting, invented subquestions and invalid source versions fail closed',t=>{
+test('unsafe formatting recovers from evidence while invented questions and invalid sources remain errors',t=>{
  const f=fixture(t);
  for(const text of ['[Чужая ссылка](https://evil.test)','| A | B |','<script>x</script>','Источник: v.R29','Текст R29_info']) {
-  assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.',text))]},f.root,'Вопрос?'),NOT_FOUND);
+  assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.',text))]},f.root,'Вопрос?'),'Копейки всегда отделяем запятой.\n\nПаттерн: «Поля ввода», v.2.3');
  }
- assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),'Выдуманный?')]},f.root,'Вопрос?'),NOT_FOUND);
+ assert.throws(()=>renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),'Выдуманный?')]},f.root,'Вопрос?'),e=>e.code==='ABM_QUESTION_MISMATCH');
  const invalid=fixture(t,'R29');
- assert.equal(renderAbmResponse({answers:[answer(evidence(invalid.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},invalid.root,'Вопрос?'),NOT_FOUND);
+ assert.throws(()=>renderAbmResponse({answers:[answer(evidence(invalid.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},invalid.root,'Вопрос?'),e=>e.code==='ABM_EVIDENCE_REJECTED');
 });
 
 test('a citation spanning an inline Markdown link is validated against the same text sent to the agent',t=>{
@@ -99,7 +99,7 @@ test('a citation spanning an inline Markdown link is validated against the same 
  assert(result.includes('node-id=1-2'));
  assert(!result.includes('example.test'));
  // Normalization must not make new normative statements acceptable.
- assert.equal(renderAbmResponse({answers:[answer({...item,quote:quote+'\nДопускается любой компонент.'})]},f.root,'Вопрос?'),NOT_FOUND);
+ assert.throws(()=>renderAbmResponse({answers:[answer({...item,quote:quote+'\nДопускается любой компонент.'})]},f.root,'Вопрос?'),e=>e.code==='ABM_QUOTE_MISMATCH');
 });
 
 test('source placeholders in square brackets are plain text while model-authored links remain forbidden',t=>{
@@ -109,5 +109,40 @@ test('source placeholders in square brackets are plain text while model-authored
  const result=render('Используй «К [разделу]» и «Что такое [продукт]».');
  assert(result.startsWith('Используй «К [разделу]» и «Что такое [продукт]».'));
  assert(!result.includes('примера к нему не нашёл'));
- for(const text of ['[Ссылка](/local)','[Ссылка][ref]','[ref]: /local','![image](/local)'])assert.equal(render(text),NOT_FOUND);
+ for(const text of ['[Ссылка](/local)','[Ссылка][ref]','[ref]: /local','![image](/local)'])assert(render(text).startsWith(quote+'\n\n'));
+});
+
+test('presentation-only repairs preserve the answer and do not invoke a model',t=>{
+ const f=fixture(t),events=[];
+ const value={answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.','### Копейки отделяй `запятой`.'))]};
+ const result=renderAbmResponse(value,f.root,'Вопрос',undefined,{onDiagnostic:event=>events.push(event)});
+ assert(result.startsWith('Копейки отделяй запятой.'));
+ assert(events.some(event=>event.reason==='MARKDOWN_REPAIRED'));
+ assert(events.some(event=>event.reason==='QUESTION_PUNCTUATION_REPAIRED'));
+ assert(!JSON.stringify(events).includes('Копейки'));
+});
+test('diagnostics distinguish no candidate, model abstention and invalid proof',t=>{
+ const f=fixture(t),events=[];
+ const render=(value,packet)=>renderAbmResponse(value,f.root,'Вопрос?',packet,{onDiagnostic:event=>events.push(event)});
+ const missing={answers:[{question:'Вопрос?',kind:'not_found',evidence:[]}]};
+ assert.equal(render(missing,{rules:[]}),NOT_FOUND);
+ assert.equal(render(missing,{rules:[{file:f.file,ruleId:'R01_without_example'}]}),NOT_FOUND);
+ assert.throws(()=>render({answers:[answer(evidence(f.file,'R01_without_example','Неподтверждённые слова.'))]}),e=>e.status===502&&e.code==='ABM_QUOTE_MISMATCH');
+ assert(events.some(event=>event.reason==='NO_SEARCH_CANDIDATES'));
+ assert(events.some(event=>event.reason==='NO_CONFIRMED_ANSWER'));
+ assert(events.some(event=>event.reason==='ABM_QUOTE_MISMATCH'));
+ assert(!JSON.stringify(events).includes('Неподтверждённые')&&!JSON.stringify(events).includes('Вопрос'));
+});
+test('ordinary headings and Markdown emphasis do not break canonical quote grounding',t=>{
+ const f=fixture(t);
+ fs.appendFileSync(path.join(f.root,f.file),'\n### [Rule] R10\n#### Условия\nИспользуй **Regular** только в `поле ввода`.\n');
+ const result=renderAbmResponse({answers:[answer(evidence(f.file,'R10','Условия\nИспользуй Regular только в поле ввода.','Используй Regular только в поле ввода.'))]},f.root,'Вопрос?');
+ assert(result.startsWith('Используй Regular только в поле ввода.'));
+ assert.throws(()=>renderAbmResponse({answers:[answer(evidence(f.file,'R10','Условия\nИспользуй Regular только в поле ввода.\n### Новое разрешение','Новое разрешение'))]},f.root,'Вопрос?'),e=>e.code==='ABM_QUOTE_MISMATCH');
+});
+test('a uniquely abbreviated example key maps to its own numeric rule without using a neighbor',t=>{
+ const f=fixture(t);
+ fs.appendFileSync(path.join(f.root,f.file),'\n### [Rule] R11_long_name\nСобственное условие для примера.\n#### [RuleExample] R11\nСсылка на [RuleExample] R11 (iOS): https://www.figma.com/design/fixture?node-id=11-11\n');
+ const result=renderAbmResponse({answers:[answer(evidence(f.file,'R11_long_name','Собственное условие для примера.'))]},f.root,'Вопрос?');
+ assert(result.includes('node-id=11-11')&&!result.includes('node-id=9-9'));
 });
