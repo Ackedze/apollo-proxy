@@ -7,7 +7,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { inspectAbmPatternKnowledge } = require('../src/knowledge-root');
 
-const markdown = '---\nabmDocumentType: Pattern\nabmPatternID: "ptrn:controls.fixture"\n---\n# Fixture\n### [Rule] R01\nУсловие fixture.\n';
+const markdown = '---\nabmDocumentType: Pattern\nabmPatternID: "ptrn:controls.fixture"\nabmPatternTitle: Fixture\nversion: v.1.2\n---\n# Fixture\n### [Rule] R01\nУсловие fixture.\n';
 
 test('ABM source rejects missing metadata and fingerprints changed content', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-abm-source-'));
@@ -26,7 +26,7 @@ test('ABM source rejects missing metadata and fingerprints changed content', t =
 });
 
 test('existing Ask route selects ABM explicitly, preserves AB, and rejects unavailable or changed sources', t => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-abm-ask-'));
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-abm-ask-')));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const ds = path.join(root, 'ab'), hub = path.join(root, 'hub'), patterns = path.join(root, 'abm');
   const file = path.join(patterns, 'p_abm_fixture.md'), record = path.join(root, 'calls.jsonl');
@@ -49,7 +49,9 @@ process.stdin.on('end',()=>{
  const args=process.argv.slice(2);
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
- fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'Ответ fixture');
+ const question=input.split('<question>')[1].split('</question>')[0].trim();
+ const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:'Условие fixture.'}]}]}):'Ответ fixture';
+ fs.writeFileSync(args[args.indexOf('--output-last-message')+1],result);
 });
 `);
   fs.chmodSync(binary, 0o700);
@@ -63,7 +65,7 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
  async function post(question,dialogue=[]) {
   const response=await fetch('http://127.0.0.1:'+server.address().port+'/analyze',{
    method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({source:'codex',text:JSON.stringify({schemaVersion:1,mode:'design-dialogue',question}),dialogue})
+   body:JSON.stringify({source:'codex',session_id:'fixture-chat',text:JSON.stringify({schemaVersion:1,mode:'design-dialogue',question}),dialogue})
   });return {status:response.status,body:await response.json()};
  }
  function last(){return calls().at(-1);}
@@ -81,9 +83,13 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(last().args[last().args.indexOf('--sandbox')+1],'read-only');
   assert(last().input.includes('## Чтение [Rule] и [RuleExample]'));
   assert(last().input.includes('Противоречие в паттернах'));
+  assert(last().args.includes('--output-schema'));
+  assert.equal(abm.body.result,${JSON.stringify('Условие fixture.\n\nПравило есть, но примера к нему не нашёл.\n\nПаттерн: «Fixture», v.1.2')});
   assert.equal(fs.existsSync(last().cwd),false);
   const follow=await post('А какие есть исключения?',[{role:'user',text:'Как использовать кнопку в АБМ?'}]);
   assert.equal(follow.body.knowledgeRelease.source,'local-abm-markdown');
+  const bounded=await post('Какие есть условия?');
+  assert.equal(bounded.body.knowledgeRelease.source,'local-abm-markdown');
   const reset=await post('Теперь про АБ',[{role:'user',text:'Как использовать кнопку в АБМ?'}]);
   assert.equal(reset.status,200);assert.equal(reset.body.knowledgeRelease.source,undefined);
   const count=calls().length;

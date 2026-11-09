@@ -118,7 +118,7 @@ function extractDialogueQuestion(inputValue) {
 
 
 
-function dialogueUsesAbmRules(question, dialogue) {
+function dialogueUsesAbmRules(question, dialogue, previousAbm = false) {
   const abm = /(?:^|[^\p{L}\p{N}_])(?:АБМ|ABM)(?=$|[^\p{L}\p{N}_])/iu;
   const ab = /(?:^|[^\p{L}\p{N}_])(?:АБ|AB|Альфа[ -]Бизнес)(?=$|[^\p{L}\p{N}_])/iu;
   const questions = [question, ...normalizeDialogueHistory(dialogue)
@@ -127,7 +127,7 @@ function dialogueUsesAbmRules(question, dialogue) {
     if (abm.test(text)) return true;
     if (ab.test(text)) return false;
   }
-  return false;
+  return previousAbm;
 }
 
 function buildCodexDialoguePrompt(question, dialogue, knowledgeSource) {

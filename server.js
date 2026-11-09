@@ -862,6 +862,9 @@ async function callCodexContractExplanation(
 }
 
 const { buildAbmDialoguePrompt } = require('./src/reports/ABM-messages');
+const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-response');
+// Keep an explicit library choice after the bounded client history drops its first turn.
+const dialogueLibraryBySession = new Map();
 
 async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   const question = extractDialogueQuestion(inputValue);
@@ -879,7 +882,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   // Dialogue reads Proxy-owned knowledge in its disposable request directory.
   // Validator workspace, skills and output schemas are not used by this route.
   inspectActiveApolloKnowledge();
-  const abm = dialogueUsesAbmRules(question, inputValue.dialogue)
+  const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false)
     ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
     const error = new Error(
@@ -912,6 +915,11 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
     '--output-last-message',
     outputPath,
   ];
+  if (abm) {
+    const schemaPath = path.join(runDirectory, 'abm-response.schema.json');
+    await fsp.writeFile(schemaPath, JSON.stringify(ABM_RESPONSE_SCHEMA));
+    args.push('--output-schema', schemaPath);
+  }
   if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
   const prompt = abm
@@ -920,7 +928,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
 
   activeCodexRuns += 1;
   try {
-    const result = await runCodexProcess(
+    const agentResult = await runCodexProcess(
       args,
       prompt,
       outputPath,
@@ -931,7 +939,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
         model: AGENT_MODEL || null,
         workingDirectory: runDirectory,
       },
-      'text'
+      abm ? 'json' : 'text'
     );
     if (abm) {
       const current = inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
@@ -939,6 +947,12 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
         throw Object.assign(new Error('Паттерны АБМ изменились во время ответа. Повторите запрос.'), { code: 'ABM_KNOWLEDGE_CHANGED', status: 503 });
       }
       onKnowledge?.({ contentVersion: 'abm-local-' + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, source: 'local-abm-markdown' });
+    }
+    const result = abm ? renderAbmResponse(agentResult, abm.root, question) : agentResult;
+    if (inputValue.session_id) {
+      dialogueLibraryBySession.delete(inputValue.session_id);
+      dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
+      if (dialogueLibraryBySession.size > 256) dialogueLibraryBySession.delete(dialogueLibraryBySession.keys().next().value);
     }
     console.info('[Apollo][codex] dialogue completed', {
       knowledgeSource: abm ? 'local-abm-markdown' : APOLLO_CODEX_KNOWLEDGE_SOURCE,
