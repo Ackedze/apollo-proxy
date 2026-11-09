@@ -12,6 +12,9 @@ struct ProxyDetailsSnapshot {
     var canChangeAgent = true
     var cliMissing = false
     var authorizationBusy = false
+    var figmaState: FigmaConnectionState = .notChecked
+    var figmaBusy = false
+    var canConnectFigma = false
     var model = ""
     var modelChoices: [AgentModelChoice] = []
     var modelMessage = "Модель применяется к новым запросам."
@@ -42,7 +45,7 @@ final class ProxyDetailsWindowController: NSWindowController {
     private final class DocumentView: NSView {
         override var isFlipped: Bool { true }
     }
-    enum Action: Hashable { case login, checkAccess, installCLI, updates,
+    enum Action: Hashable { case login, checkAccess, installCLI, updates, connectFigma, checkFigma, cancelFigma,
                       editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder, activateData }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
@@ -60,6 +63,9 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let authorizationLabel = NSTextField(wrappingLabelWithString: "")
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
+    private let figmaSettings = NSStackView()
+    private let figmaLabel = NSTextField(wrappingLabelWithString: "")
+    private let figmaProgress = NSProgressIndicator()
     private let knowledgePicker = NSPopUpButton(frame: .zero, pullsDown: false)
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
     private let urlField = NSTextField(wrappingLabelWithString: "")
@@ -113,6 +119,14 @@ final class ProxyDetailsWindowController: NSWindowController {
         modelMessage.stringValue = state.modelMessage
         buttons[.refreshModels]?.isHidden = state.provider != .codex
         buttons[.refreshModels]?.isEnabled = state.canRefreshModels && !state.modelLoading
+        figmaSettings.isHidden = state.provider != .codex
+        figmaLabel.stringValue = state.figmaState.title
+        if state.figmaBusy { figmaProgress.startAnimation(nil) } else { figmaProgress.stopAnimation(nil) }
+        buttons[.connectFigma]?.title = [.connected, .reconnect].contains(state.figmaState) ? "Подключить повторно" : "Подключить Figma"
+        buttons[.connectFigma]?.isEnabled = state.canConnectFigma && !state.figmaBusy
+        buttons[.checkFigma]?.isEnabled = state.canConnectFigma && !state.figmaBusy
+        buttons[.cancelFigma]?.isHidden = !state.figmaBusy
+        buttons[.cancelFigma]?.isEnabled = state.figmaState != .cancelling
         authorizationLabel.stringValue = state.authorization
         authorizationHelp.stringValue = state.authorizationHelp
         if state.authorizationBusy { authorizationProgress.startAnimation(nil) }
@@ -200,6 +214,22 @@ final class ProxyDetailsWindowController: NSWindowController {
                      row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])] {
             cliSettings.addArrangedSubview(view)
         }
+        style(figmaLabel)
+        figmaProgress.style = .spinning
+        figmaProgress.controlSize = .small
+        figmaProgress.isDisplayedWhenStopped = false
+        figmaProgress.setAccessibilityLabel("Подключение Figma")
+        let figmaHelp = NSTextField(wrappingLabelWithString: "Нужно для генерации макетов. Проверка макета и «Спросить» работают без подключения. Доступ к конкретному файлу проверяется отдельно.")
+        style(figmaHelp, secondary: true)
+        figmaSettings.orientation = .vertical; figmaSettings.alignment = .leading; figmaSettings.spacing = 8
+        let figmaStatusRow = row([figmaProgress, figmaLabel])
+        for view in [heading("Figma"), figmaStatusRow, figmaHelp,
+                     row([button("Подключить Figma", .connectFigma), button("Проверить подключение", .checkFigma), button("Отменить", .cancelFigma)])] {
+            figmaSettings.addArrangedSubview(view)
+        }
+        figmaHelp.widthAnchor.constraint(equalTo: figmaSettings.widthAnchor).isActive = true
+        figmaStatusRow.widthAnchor.constraint(equalTo: figmaSettings.widthAnchor).isActive = true
+        figmaLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         style(urlField, selectable: true)
         urlField.isEditable = false
         urlField.isBezeled = true
@@ -216,6 +246,8 @@ final class ProxyDetailsWindowController: NSWindowController {
             group.orientation = .vertical; group.alignment = .leading; group.spacing = 8
         }
         section([heading("AI-агент"), agentPicker, cliSettings, alfaGenSettings])
+        section([figmaSettings])
+        figmaSettings.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         for view in [cliSettings, alfaGenSettings, authorizationHelp, urlField, alfaGenHelp, modelRow, modelMessage] {
             view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         }

@@ -133,13 +133,62 @@ async function putVersion(store, staging, manifest, profile) {
   if (fs.existsSync(target)) { versionManifest(store,manifest.id,profile); return; }
   await fsp.rename(staging,target);
 }
+function ownedVersion(store, id) {
+  const root=versionRoot(store,id),file=path.join(root,MANIFEST);
+  if(!fs.lstatSync(root).isDirectory() || fs.realpathSync(root)!==root || !fs.lstatSync(file).isFile() || fs.realpathSync(file)!==file)fail('CODE_CLEANUP_UNSAFE');
+  const manifest=json(file);validateManifest(manifest,manifest.compatibility);
+  if(manifest.id!==id)fail('CODE_CLEANUP_UNSAFE');
+  return {root,manifest};
+}
+async function pruneVersions(store,state) {
+  const versions=path.join(store,'versions'),keep=new Set(),remove=[],skipped=[];
+  if(fs.realpathSync(versions)!==versions)fail('CODE_CLEANUP_UNSAFE');
+  let current;
+  for(const entry of [state.current,state.previous,state.pending].filter(Boolean)) {
+    const owned=ownedVersion(store,entry.id);
+    if(owned.manifest.version!==entry.version)fail('CODE_CLEANUP_UNSAFE');
+    keep.add(entry.id);if(entry===state.current)current=owned.manifest;
+  }
+  const control=path.join(store,'control.json');
+  if(fs.existsSync(control)) {
+    const stat=fs.lstatSync(control);
+    if(!stat.isFile() || stat.isSymbolicLink() || stat.size>1024)fail('CODE_CLEANUP_UNSAFE');
+    let value;try{value=json(control);}catch{fail('CODE_CLEANUP_UNSAFE');}
+    if(!value || !Number.isInteger(value.pid) || value.pid<=0 || value.pid>2147483647)fail('CODE_CLEANUP_UNSAFE');
+    if(value.pid!==process.pid) {
+      try{process.kill(value.pid,0);fail('CODE_CLEANUP_BUSY');}catch(e){if(e.code!=='ESRCH')throw e;}
+    }
+  }
+  for(const id of await fsp.readdir(versions)) {
+    if(keep.has(id))continue;
+    let owned;try{owned=ownedVersion(store,id);}catch{skipped.push(id);continue;}
+    // An old store may lack its rollback pointer. Do not guess among usable candidates.
+    if(!state.previous && state.lastFailure?.id!==id) {
+      try{readRelease(owned.root,current.compatibility);keep.add(id);skipped.push(id);continue;}catch{}
+    }
+    remove.push(id);
+  }
+  for(const id of remove) {
+    const {root}=ownedVersion(store,id);
+    for(const name of await fsp.readdir(root))if(name!==MANIFEST)await fsp.rm(path.join(root,name),{recursive:true,force:true});
+    await fsp.unlink(path.join(root,MANIFEST));await fsp.rmdir(root);
+  }
+  return {removed:remove,retained:[...keep],skipped};
+}
+async function pruneStore({store}) {
+  return withLock(store,()=>pruneVersions(store,readState(store)));
+}
+async function pruneSafely(store,state) {
+  try{return await pruneVersions(store,state);}catch(e){console.error('[Apollo code] Cleanup deferred: '+(e.code || e.message));}
+}
 async function ensureStore({home,store}) {
   return withLock(store,async()=>{
     const profile=compatibility(home);
     const marker = path.join(home,'.bundle-build-id');
     const bundleBuild = fs.existsSync(marker) ? fs.readFileSync(marker,'utf8').trim() : null;
+    let prior;
     if (fs.existsSync(path.join(store,'state.json'))) {
-      const state=readState(store);
+      const state=readState(store);prior=state;
       // A complete app replacement must select its own code, never a previous JS overlay.
       if (!bundleBuild || state.bundleBuild === bundleBuild) {
       try { versionManifest(store,state.current.id,profile); }
@@ -149,7 +198,7 @@ async function ensureStore({home,store}) {
         state.lastFailure={id:state.current.id,code:'CODE_CURRENT_INVALID'};
         state.current=state.previous;state.previous=null;state.pending=null; await writeState(store,state);
       }
-      return state;
+      await pruneSafely(store,state);return state;
       }
     }
     const staging=await fsp.mkdtemp(path.join(store,'.seed-'));
@@ -157,8 +206,12 @@ async function ensureStore({home,store}) {
       const version=json(path.join(home,'package.json')).version+'-bootstrap';
       const manifest=await snapshotCode({sourceRoot:home,destination:staging,version,profile});
       await putVersion(store,staging,manifest,profile);
-      const state={schemaVersion:STORE_SCHEMA,current:record(manifest),previous:null,pending:null,...(bundleBuild ? {bundleBuild} : {})};
-      await writeState(store,state); return state;
+      let previous=null;
+      if(prior?.current.id!==manifest.id && prior?.current) {
+        try{versionManifest(store,prior.current.id,profile);previous=prior.current;}catch{}
+      }
+      const state={schemaVersion:STORE_SCHEMA,current:record(manifest),previous,pending:null,...(bundleBuild ? {bundleBuild} : {})};
+      await writeState(store,state);await pruneSafely(store,state);return state;
     } finally { await fsp.rm(staging,{recursive:true,force:true}); }
   });
 }
@@ -173,7 +226,7 @@ async function installArchive({home,store,archive,manifest}) {
       if (actual.id !== manifest.id) fail('CODE_RELEASE_ID_MISMATCH');
       if (actual.id === state.current.id) return state;
       await putVersion(store,staging,actual,profile);
-      state.pending=record(actual); await writeState(store,state); return state;
+      state.pending=record(actual); await writeState(store,state);await pruneSafely(store,state);return state;
     } finally { await fsp.rm(staging,{recursive:true,force:true}); }
   });
 }
@@ -201,7 +254,7 @@ async function beginLaunch(options) {
       versionManifest(options.store,selected.id,compatibility(options.home));
     }
     if (state.pending) state.pending={...state.pending,attempted:true};
-    await writeState(options.store,state);
+    await writeState(options.store,state);await pruneSafely(options.store,state);
     return {...selected,path:versionRoot(options.store,selected.id),candidate:Boolean(state.pending)};
   });
 }
@@ -211,8 +264,8 @@ async function finishLaunch({store}, id, failure) {
     if (state.pending?.id !== id) return state;
     if (failure) state.lastFailure={id,code:failure};
     else { state.previous=state.current;state.current=record(state.pending);delete state.lastFailure; }
-    state.pending=null; await writeState(store,state); return state;
+    state.pending=null; await writeState(store,state);await pruneSafely(store,state);return state;
   });
 }
 module.exports={SCHEMA,STORE_SCHEMA,MANIFEST,allowedFile,compatibility,validateManifest,readRelease,codeFiles,
-  snapshotCode,versionRoot,readState,ensureStore,installArchive,rollback,beginLaunch,finishLaunch,withLock,sha};
+  snapshotCode,versionRoot,readState,ensureStore,installArchive,rollback,beginLaunch,finishLaunch,withLock,pruneStore,sha};

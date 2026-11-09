@@ -4,12 +4,12 @@ const {measurement,budget,persistMeasurement}=require('./usage');
 const fs=require('node:fs'),fsp=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const {spawn,execFile}=require('node:child_process');
 const {promisify}=require('node:util');
-const ENV=['PATH','HOME','USER','LOGNAME','SHELL','TMPDIR','LANG','LC_ALL','CODEX_HOME'];
+const figmaConnection=require('../figma-mcp/connection');
 const MAX_PROMPT_CHARS=900000;
 const MCP_MAX_TOOL_CALLS=24;
 const MCP_TOOL_TIMEOUT_MS=60000;
 const isMcp=profile=>['landing-figma','landing-direct'].includes(profile);
-const DIRECT_FIGMA_TOOLS=['use_figma','get_screenshot','create_session','get_libraries','search_design_system','get_metadata'];
+const DIRECT_FIGMA_TOOLS=figmaConnection.DIRECT_FIGMA_TOOLS;
 const fail=code=>{throw Object.assign(new Error(code),{code,status:503});};
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 function mcpNativeFailures(events,timings=[]){
@@ -72,8 +72,8 @@ function invocation(options){
  args.push('--json','--ignore-user-config','--ignore-rules','--skip-git-repo-check','--output-schema',schemaPath,'--output-last-message',outputPath);
  const quote=JSON.stringify,env={APOLLO_RELEASE_ROOT:knowledgeConnection.releaseRoot,APOLLO_PROJECT_ROOT:knowledgeConnection.runtimeRoot,APOLLO_GENERATION_SOURCE_PIN:knowledgeConnection.sourcePin,APOLLO_GENERATION_SKILL_ID:knowledgeConnection.skillId};
  const reader='command='+quote(process.execPath)+',args='+quote([path.join(__dirname,'../landing/knowledge-mcp.js')])+',env={'+Object.entries(env).map(([k,v])=>k+'='+quote(v)).join(',')+'},enabled=true,required=true,enabled_tools=["list_sources","read_source"],default_tools_approval_mode="approve"';
- const connection='mcp_servers={apollo_figma_mcp={url="https://mcp.figma.com/mcp",enabled=true,required=true,enabled_tools='+quote(mcpConnection.tools)+',default_tools_approval_mode="approve",tool_timeout_sec='+MCP_TOOL_TIMEOUT_MS/1000+'},apollo_knowledge={'+reader+'}}';
- for(const setting of ['features.skip_host_skill_discovery=true','features.skill_search=false','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','project_doc_max_bytes=0','web_search="disabled"','sandbox_workspace_write.writable_roots=[]','sandbox_workspace_write.network_access=false',connection])args.push('-c',setting);
+ const connection='mcp_servers={apollo_figma_mcp={'+figmaConnection.serverConfig(mcpConnection.tools)+',default_tools_approval_mode="approve",tool_timeout_sec='+MCP_TOOL_TIMEOUT_MS/1000+'},apollo_knowledge={'+reader+'}}';
+ for(const setting of ['features.skip_host_skill_discovery=true','features.skill_search=false','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','project_doc_max_bytes=0','web_search="disabled"','sandbox_workspace_write.writable_roots=[]','sandbox_workspace_write.network_access=false',figmaConnection.credentialsConfig,connection])args.push('-c',setting);
  if(model)args.push('--model',model);args.push('-');return args;
 }
 function profilePrefix(profile){
@@ -86,8 +86,8 @@ function profilePrefix(profile){
 
 
 function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,environment=process.env,
- maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,knowledgeConnection=null,usageRoot=null,trackUsage=()=>null}={}){
- const env=Object.fromEntries(ENV.filter(k=>typeof environment[k]==='string').map(k=>[k,environment[k]]));
+ maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,knowledgeConnection=null,usageRoot=null,trackUsage=()=>null,checkMcp=figmaConnection.checkConnection}={}){
+ const env=figmaConnection.environment(environment);
  if(!Number.isInteger(maxRuntimeMs)||maxRuntimeMs<1000||maxRuntimeMs>900000)fail('AGENT_PROFILE_INVALID');
  function available(){if(provider!=='codex')fail('AGENT_PROVIDER_CAPABILITY_UNAVAILABLE');}
  async function probe(){
@@ -121,7 +121,9 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   const prefix=profilePrefix(profile);
   const input=prefix+'\n'+prompt;
   const toolTimings=new Map(),timingView=()=>Array.from(toolTimings.values(),({monotonicStart,...value})=>value);
-  async function failureError(code,{status=502,exitCode=null,stage='process',stderr='',events=[]}={}){
+  async function failureError(code,{status=502,exitCode=null,stage='process',stderr='',events=[],mcpAuthentication=null}={}){
+   const originalCode=code;
+   if(profile==='landing-direct'&&code==='AGENT_PROCESS_FAILED'&&figmaConnection.executionAuthRequired(stderr)){code='AGENT_MCP_AUTH_REQUIRED';stage='mcp-authentication';status=401;}
    const startup=profile==='landing-direct'&&code==='AGENT_PROCESS_FAILED'?stderr.match(/(apollo_figma_mcp|apollo_knowledge): MCP client startup timed out after (\d+(?:\.\d+)?)s/):null;
    if(startup){code='AGENT_MCP_STARTUP_TIMEOUT';status=504;stage='mcp-startup';}
    const mcpToolEvents=isMcp(profile)?mcpFailureEvents(events):null,lastTool=mcpToolEvents?.events.at(-1),safe=value=>typeof value==='string'&&/^[a-zA-Z0-9._:-]{1,120}$/.test(value)?value:null;
@@ -131,6 +133,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    const nativeFailure=failedTool?{callId:safe(failedTool.id),message:typeof nativeMessage==='string'?nativeMessage.slice(0,2000):null}:null;
    const callContext=lastTool?{callId:safe(lastTool.id),operation:safe('mcp.'+lastTool.tool)}:{};
    const diagnostic={...failureDiagnostic(code,{...diagnosticContext,...callContext,stage,traceId:id},'err:'+id),exitCode,promptChars:input.length,promptBytes:Buffer.byteLength(input),maxPromptChars:MAX_PROMPT_CHARS};
+   if(code!==originalCode)diagnostic.originalCode=originalCode;
+   if(mcpAuthentication)diagnostic.mcpAuthentication=mcpAuthentication;
    if(startup)diagnostic.mcpStartup={server:startup[1],timeoutMs:Number(startup[2])*1000};
    if(isMcp(profile))Object.assign(diagnostic,{sectionId:safe(diagnosticContext.sectionId),executionStage:safe(diagnosticContext.executionStage),elapsedMs:Math.max(0,Date.now()-startedAt)});
    const usage=measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':profile});
@@ -141,6 +145,17 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   }
   try{budget({prompt,schema,prefix:prefix+'\n',outputReserveChars:isMcp(profile)?163840:16384});}catch{throw await failureError('AGENT_CONTEXT_LIMIT',{status:413,stage:'input-budget'});}
   if(isMcp(profile)&&(!Number.isSafeInteger(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)||(mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS)<1))throw await failureError('AGENT_MCP_BUDGET_INVALID',{status:400,stage:'input-budget'});
+  if(profile==='landing-direct'){
+   const budgetMs=runtimeBudgetMs===null?maxRuntimeMs:Math.min(maxRuntimeMs,runtimeBudgetMs);
+   if(!Number.isInteger(budgetMs)||budgetMs<1)throw await failureError('AGENT_EXECUTION_TIME_BUDGET',{status:400,stage:'input-budget'});
+   let ready;
+   try{ready=await checkMcp({binary,environment:env,signal,timeoutMs:Math.min(35000,budgetMs)});}catch(error){throw await failureError(signal?.aborted?'AGENT_CANCELLED':'AGENT_MCP_CONNECTION_UNVERIFIED',{stage:'mcp-connection',status:503,stderr:String(error.stack||error).slice(0,8192)});}
+   if(signal?.aborted)throw await failureError('AGENT_CANCELLED',{stage:'mcp-connection',status:503});
+   if(ready.state!=='connected'){
+    const code=ready.state==='cancelled'?'AGENT_CANCELLED':ready.state==='config_conflict'?'AGENT_MCP_CONFIG_CONFLICT':['not_connected','reauthentication_required'].includes(ready.state)?'AGENT_MCP_AUTH_REQUIRED':'AGENT_MCP_CONNECTION_UNVERIFIED';
+    throw await failureError(code,{stderr:ready.privateError||'',status:code==='AGENT_MCP_AUTH_REQUIRED'?401:503,stage:'mcp-connection',mcpAuthentication:{state:ready.state,reason:ready.reason,server:figmaConnection.NAME}});
+   }
+  }
   return new Promise((resolve,reject)=>{
    let child,closed=false,failure,forceTimer,responseTimer,yieldRequested=false,buffer='',stdoutBytes=0,stderr='',events=[];
    const toolCalls=new Set(),toolResults=new Set(),maxToolCalls=Math.min(profile==='landing-direct'?128:MCP_MAX_TOOL_CALLS,mcpBudget?.maxToolCalls??MCP_MAX_TOOL_CALLS),maxToolOutputBytes=isMcp(profile)?8*1024*1024:65536,maxTotalToolOutputBytes=Math.min(isMcp(profile)?16*1024*1024:65536,mcpBudget?.maxTotalToolOutputBytes??65536);let totalToolOutputBytes=0;
@@ -149,7 +164,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
     const kill=signalName=>{try{if(child?.pid&&process.platform!=='win32')process.kill(-child.pid,signalName);else child?.kill(signalName);}catch{child?.kill(signalName);}};
     kill('SIGTERM');clearTimeout(forceTimer);forceTimer=setTimeout(()=>kill('SIGKILL'),3000);forceTimer.unref();
    };
-   const allowedRuntime=runtimeBudgetMs===null?maxRuntimeMs:Math.min(maxRuntimeMs,runtimeBudgetMs);if(!Number.isInteger(allowedRuntime)||allowedRuntime<1){reject(Object.assign(Error('AGENT_EXECUTION_TIME_BUDGET'),{code:'AGENT_EXECUTION_TIME_BUDGET'}));return;}
+   const allowedRuntime=(runtimeBudgetMs===null?maxRuntimeMs:Math.min(maxRuntimeMs,runtimeBudgetMs))-(profile==='landing-direct'?Date.now()-startedAt:0);if(!Number.isInteger(allowedRuntime)||allowedRuntime<1){reject(Object.assign(Error('AGENT_EXECUTION_TIME_BUDGET'),{code:'AGENT_EXECUTION_TIME_BUDGET'}));return;}
    const abort=()=>stop('AGENT_CANCELLED'),timer=setTimeout(()=>stop('AGENT_TIMEOUT'),allowedRuntime);
    let completedCalls=0;const inFlight=new Set();
    const shouldYield=()=>checkpointBudget&&!inFlight.size&&(completedCalls>=checkpointBudget.maxCompletedCalls||Date.now()-startedAt>=checkpointBudget.softRuntimeMs);

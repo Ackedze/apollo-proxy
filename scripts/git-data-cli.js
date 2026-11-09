@@ -249,8 +249,11 @@ async function main(argv) {
   }
   for (const key of ['store', 'seed', 'runtime']) if (!options[key]) throw Error('--' + key + ' is required.');
   if (process.env.APOLLO_DATA_INPUT === '1') {
-    let input=''; for await(const chunk of process.stdin){input+=chunk;if(Buffer.byteLength(input)>4096)throw Error('DATA_ACTIVATION_INPUT_INVALID');}
-    options.access=JSON.parse(input || '{}');
+    if (process.env.APOLLO_DATA_MANAGED === '1') options.access = await require('../src/data-release/managed-command').readPrivateInput();
+    else {
+      let input=''; for await(const chunk of process.stdin){input+=chunk;if(Buffer.byteLength(input)>4096)throw Error('DATA_ACTIVATION_INPUT_INVALID');}
+      options.access=JSON.parse(input || '{}');
+    }
   }
   const status = await runCommand(command, options);
   if (command !== 'run') { console.log(JSON.stringify(status)); return; }

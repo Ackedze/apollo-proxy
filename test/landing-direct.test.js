@@ -83,3 +83,12 @@ test('a premature completed reply never bypasses the structure approval gate',as
 test('deleting history preserves the old record in its archive and never invokes generation',t=>{
  const f=fixture(t),id=crypto.randomUUID(),file=path.join(f.root,id+'.json'),old={schemaVersion:'apollo.landing-chat.v1',id,revision:3,sequence:1,status:'awaiting-native',messages:[],updatedAt:'2026-11-06T00:00:00Z'};const bytes=JSON.stringify(old);fs.writeFileSync(file,bytes);assert.deepEqual(f.service.remove(id,{revision:3}),{id,deleted:true});assert.equal(fs.existsSync(file),false);assert.equal(fs.readFileSync(file.replace('.json','.deleted.json'),'utf8'),bytes);assert.equal(f.calls.length,0);assert.throws(()=>f.service.poll(id),{code:'LANDING_CHAT_NOT_FOUND'});
 });
+
+test('Figma auth and unverified connection preserve chat, target and session with a concrete recovery action',async t=>{
+ for(const code of ['AGENT_MCP_AUTH_REQUIRED','AGENT_MCP_CONNECTION_UNVERIFIED']){
+  const f=fixture(t);f.send();await f.service.settled(f.chat.id);const before=f.service.poll(f.chat.id);f.setError(Object.assign(Error('original failure'),{code,diagnostic:'saved original diagnostic'}));f.send('Continue');await f.service.settled(f.chat.id);const after=f.service.poll(f.chat.id);
+  assert.equal(after.status,'interrupted');assert.equal(after.error.code,code);assert.equal(after.error.diagnostic,'saved original diagnostic');assert.equal(after.failures.at(-1).diagnostic,'saved original diagnostic');assert.deepEqual(after.target,before.target);assert.equal(after.execution.sessionId,before.execution.sessionId);assert(after.messages.length>before.messages.length);assert.match(after.message,/О прокси/);
+  assert.match(after.message,code==='AGENT_MCP_AUTH_REQUIRED'?/Подключить Figma/:/Проверить подключение/);
+  f.setError(null);f.send('Continue after connecting');await f.service.settled(f.chat.id);assert.equal(JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1)).hostFailure.code,code);
+ }
+});

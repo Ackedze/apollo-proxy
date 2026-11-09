@@ -49,18 +49,19 @@ function launch(f,timeout=1500,env={}) {
   async function stop(){if(child.exitCode!==null)return;child.kill('SIGTERM');await once(child,'exit');}
   return {child,ready,stop,stderr:()=>stderr,stdout:()=>output};
 }
-test('a complete app build replaces the JS overlay and keeps the previous immutable bytes',async t=>{
+test('a complete app build selects its own code and retains one compatible rollback version',async t=>{
   const f=await fixture(t),old=api.readState(f.store).current;
   const r=await release(f);await api.installArchive({...f,...r});
   await api.finishLaunch(f,r.manifest.id);
   await fs.writeFile(path.join(f.home,'.bundle-build-id'),'local-app-build-2\n');
   await fs.writeFile(path.join(f.home,'server.js'),fakeServer+'\n// new bundled code\n');
   const next=await api.ensureStore(f);
-  assert.notEqual(next.current.id,r.manifest.id);assert.equal(next.pending,null);assert.equal(next.previous,null);
+  assert.notEqual(next.current.id,r.manifest.id);assert.equal(next.pending,null);assert.equal(next.previous.id,r.manifest.id);
   assert.equal(next.bundleBuild,'local-app-build-2');
   assert.equal((await api.ensureStore(f)).current.id,next.current.id);
   assert.match(await fs.readFile(path.join(api.versionRoot(f.store,next.current.id),'server.js'),'utf8'),/new bundled code/);
-  assert.ok(await fs.stat(api.versionRoot(f.store,old.id)));assert.ok(await fs.stat(api.versionRoot(f.store,r.manifest.id)));
+  await assert.rejects(fs.stat(api.versionRoot(f.store,old.id)),{code:'ENOENT'});assert.ok(await fs.stat(api.versionRoot(f.store,r.manifest.id)));
+  assert.equal((await fs.readdir(path.join(f.store,'versions'))).length,2);
   await f.preserved();
 });
 test('immutable code update, launch confirmation and rollback preserve settings, auth/history and journal',async t=>{
@@ -72,6 +73,41 @@ test('immutable code update, launch confirmation and rollback preserve settings,
   await running.stop();await api.rollback(f);running=launch(f);await running.ready(seed.version);
   state=api.readState(f.store);assert.equal(state.current.id,seed.id);assert.equal(state.previous.id,r.manifest.id);
   await running.stop();await f.preserved();
+});
+test('code retention prunes to current and previous after repeated successful updates and still rolls back',async t=>{
+  const f=await fixture(t);let previous=api.readState(f.store).current.id;
+  for(const version of ['1.1.0','1.2.0','1.3.0']) {
+    const r=await release(f,{version});await api.installArchive({...f,...r});
+    assert.equal(api.readState(f.store).pending.id,r.manifest.id);
+    await api.finishLaunch(f,r.manifest.id);const state=api.readState(f.store);
+    assert.equal(state.current.id,r.manifest.id);assert.equal(state.previous.id,previous);
+    assert.deepEqual((await fs.readdir(path.join(f.store,'versions'))).sort(),[state.current.id,state.previous.id].sort());previous=r.manifest.id;
+  }
+  const before=api.readState(f.store);await api.rollback(f);await api.finishLaunch(f,before.previous.id);
+  const state=api.readState(f.store);assert.equal(state.current.id,before.previous.id);assert.equal(state.previous.id,before.current.id);await f.preserved();
+});
+test('code retention preserves unknown rollback candidates, pending and foreign/linked directories',async t=>{
+  const f=await fixture(t),r=await release(f);await fs.mkdir(path.join(f.store,'versions',r.manifest.id));
+  await fs.cp(r.payload,path.join(f.store,'versions',r.manifest.id),{recursive:true});
+  const outside=path.join(f.root,'outside');await fs.mkdir(outside);await fs.writeFile(path.join(outside,'keep'),'user bytes');
+  await fs.symlink(outside,path.join(f.store,'versions','f'.repeat(64)));await fs.mkdir(path.join(f.store,'versions','foreign'));await fs.writeFile(path.join(f.store,'versions','foreign','keep'),'user bytes');
+  const result=await api.pruneStore(f);assert(result.retained.includes(r.manifest.id));assert(result.skipped.includes('foreign'));assert(result.skipped.includes('f'.repeat(64)));
+  assert.equal(await fs.readFile(path.join(outside,'keep'),'utf8'),'user bytes');
+  await api.installArchive({...f,...r});await api.pruneStore(f);assert.equal(api.readState(f.store).pending.id,r.manifest.id);assert.ok(await fs.stat(api.versionRoot(f.store,r.manifest.id)));
+});
+test('code retention refuses corrupt pointers and live/unknown controls without deleting rollback candidates',async t=>{
+  const f=await fixture(t),r=await release(f);await api.installArchive({...f,...r});await api.finishLaunch(f,r.manifest.id);
+  const extra=await release(f,{version:'1.2.0'});await fs.cp(extra.payload,api.versionRoot(f.store,extra.manifest.id),{recursive:true});
+  const stateFile=path.join(f.store,'state.json'),before=await fs.readFile(stateFile),state=api.readState(f.store);
+  await fs.writeFile(stateFile,JSON.stringify({...state,previous:{...state.previous,id:'f'.repeat(64)}}));
+  await assert.rejects(api.pruneStore(f));assert.ok(await fs.stat(api.versionRoot(f.store,extra.manifest.id)));await fs.writeFile(stateFile,before);
+  const control=path.join(f.store,'control.json');await fs.writeFile(control,JSON.stringify({pid:process.ppid}));
+  await assert.rejects(api.pruneStore(f),{code:'CODE_CLEANUP_BUSY'});assert.ok(await fs.stat(api.versionRoot(f.store,extra.manifest.id)));
+  await fs.writeFile(control,JSON.stringify({pid:'unknown'}));await assert.rejects(api.pruneStore(f),{code:'CODE_CLEANUP_UNSAFE'});assert.ok(await fs.stat(api.versionRoot(f.store,extra.manifest.id)));
+  await fs.writeFile(control,'private-secret');await assert.rejects(api.pruneStore(f),{code:'CODE_CLEANUP_UNSAFE'});
+  await fs.writeFile(control,'x'.repeat(1025));await assert.rejects(api.pruneStore(f),{code:'CODE_CLEANUP_UNSAFE'});
+  await fs.unlink(control);await fs.symlink(path.join(f.home,'auth-history-fixture'),control);await assert.rejects(api.pruneStore(f),{code:'CODE_CLEANUP_UNSAFE'});
+  await fs.unlink(control);const cleaned=await api.pruneStore(f);assert.deepEqual(cleaned.removed,[extra.manifest.id]);assert.deepEqual(await fs.readFile(stateFile),before);await f.preserved();
 });
 test('failed or timed-out candidate returns to the working version; interrupted attempt is not retried',async t=>{
   const f=await fixture(t),seed=api.readState(f.store).current;

@@ -117,6 +117,7 @@ test('CLI diagnostic carries run and step into the private receipt and public me
 });
 test('proxy diagnostic module is shipped locally and the CLI loads without an author checkout',t=>{
  const f=fixture(t),standalone=f.root+'/standalone';fs.mkdirSync(standalone);const directory=path.resolve(__dirname,'../src/generation-agent');for(const n of ['agent-cli.js','failure-diagnostic.js','usage.js'])fs.copyFileSync(path.join(directory,n),path.join(standalone,n));
+ fs.mkdirSync(path.join(f.root,'figma-mcp'));fs.copyFileSync(path.join(directory,'../figma-mcp/connection.js'),path.join(f.root,'figma-mcp/connection.js'));
  assert.equal(typeof require(standalone+'/agent-cli').createAgentCli,'function');const canonical=path.resolve(__dirname,"../../../projects/Apollo/src/generation/failure.js");assert.deepEqual(fs.readFileSync(directory+'/failure-diagnostic.js'),fs.readFileSync(canonical));
 });
 
