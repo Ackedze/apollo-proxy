@@ -15,7 +15,7 @@ function tokens(value) {
     .filter(word=>word.length>1&&!STOP.has(word)))];
 }
 const GROUPS=[
- ['клавиатура','keyboard'],['шеврон','chevron'],['поиск','search'],
+ ['хаптик','haptic','haptics'],['клавиатура','keyboard'],['шеврон','chevron'],['поиск','search'],
  ['очистка','крестик','clear'],['копейки','kopecks'],['шрифт','font'],['таблица','table','tables'],
  ['радиокнопка','radio'],['чекбокс','checkbox','checkboxes'],['переключатель','switch','тумблер'],
  ['чипсы','chips','chip'],['нейминг','naming'],['инфо','info'],['иконка','icon'],['кнопка','button','buttons'],
@@ -60,11 +60,14 @@ function expandTerms(value,vocabulary=new Set()) {
   }
   return {terms:[...result],intentTerms:canonicalTerms([...result]),typoCorrections};
 }
+function isMoreRequest(value) {
+  return /^(?:(?:а|и|что)\s+)?(?:ещ[её]|дальше|продолжи(?:ть)?|продолжай)(?:\s+(?:что|есть|можно|расскажешь|подробнее))?[?!.…\s]*$/iu.test(String(value).trim());
+}
 function isFollowup(value) {
-  return /^(?:а\s+)?(?:(?:покажи|приведи|дай)\s+(?:пример|исключен|подроб)|(?:какие\s+)?(?:есть\s+)?(?:исключен|ограничен|услов|пример|подроб|почему)|(?:на|для)\s+(?:ios|android|андроиде?|айос)\b|если\b)/iu.test(String(value).trim());
+  return isMoreRequest(value)||/^(?:а\s+)?(?:(?:покажи|приведи|дай)\s+(?:пример|исключен|подроб)|(?:какие\s+)?(?:есть\s+)?(?:исключен|ограничен|услов|пример|подроб|почему)|(?:на|для)\s+(?:ios|android|андроиде?|айос)\b|если\b)/iu.test(String(value).trim());
 }
 function recentTopic(dialogue,continuation=isFollowup) {
   return [...dialogue].reverse().find(entry=>entry?.role==='user'&&typeof entry.text==='string'
     &&!continuation(entry.text)&&tokens(entry.text).length)?.text.slice(-2000)||'';
 }
-module.exports={tokens,expandTerms,canonicalTerms,isFollowup,recentTopic};
+module.exports={tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic};

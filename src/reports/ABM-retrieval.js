@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs');
 const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=require('./ABM-source');
-const {tokens,expandTerms,canonicalTerms,isFollowup,recentTopic}=require('./ABM-search-terms');
+const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic}=require('./ABM-search-terms');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -78,11 +78,11 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const topicalVocabulary=new Set(canonicalTerms(rows.flatMap(row=>[...row.meta,...row.heading])));
   const genericFollowup=new Set(tokens('пример исключение ограничение условие подробности отличие почему если'));
   const hasSubject=value=>expandTerms(value,vocabulary).intentTerms.some(term=>topicalVocabulary.has(term)&&!genericFollowup.has(term));
-  const continuation=value=>isFollowup(value)&&!hasSubject(value);
+  const continuation=value=>isMoreRequest(value)||(isFollowup(value)&&!hasSubject(value));
   const previous=recentTopic(dialogue,continuation);
   const historyUsed=continuation(question)&&Boolean(previous);
   const topic=historyUsed?previous:'';
-  const expansions=parts.map(part=>expandTerms(topic?part+'\n'+topic:part,vocabulary));
+  const expansions=parts.map(part=>expandTerms(isMoreRequest(part)?topic:topic?part+'\n'+topic:part,vocabulary));
   const queries=expansions.map(item=>item.terms);
   const score=(row,query)=>query.reduce((sum,term)=>sum+(row.weights.get(term)||0),0);
   const ranked=queries.map(query=>rows.map(row=>({row,score:score(row,query)}))
@@ -93,6 +93,22 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const plans=queries.map((query,index)=>{
     const focused=[],headings=new Map();
     const intent=expansions[index].intentTerms.filter(term=>canonicalVocabulary.has(term));
+    // A topic equal to a pattern title requests the pattern, not whichever
+    // subsection happens to repeat that title. Specific qualifiers still narrow
+    // retrieval normally (e.g. haptic + onboarding must not read every rule).
+    const topicIntent=expansions[index].intentTerms;
+    const topicFiles=new Set(rows.filter(row=>{
+      const title=canonicalTerms(tokens(row.record.pattern));
+      return topicIntent.length&&title.length&&topicIntent.every(term=>title.includes(term))
+        &&title.every(term=>topicIntent.includes(term));
+    }).map(row=>row.record.file));
+    if(topicFiles.size) {
+      const relevant=rows.filter(row=>topicFiles.has(row.record.file));
+      for(const file of topicFiles)if(!matchedSections.some(section=>section.file===file&&section.title===relevant.find(row=>row.record.file===file).record.pattern))
+        matchedSections.push({file,title:relevant.find(row=>row.record.file===file).record.pattern,
+          ruleIds:relevant.filter(row=>row.record.file===file).map(row=>row.record.ruleId)});
+      return relevant;
+    }
     for(const row of rows)for(const title of row.sectionHeadings) {
       const matches=tokens(title).filter(term=>query.includes(term)).length;
       // A broad heading must not override a more specific question about an icon,

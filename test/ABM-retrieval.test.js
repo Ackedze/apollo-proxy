@@ -174,3 +174,40 @@ test('a component list keeps core definitions as well as detailed guidelines',t=
  const packet=buildAbmKnowledgePacket(f.source(),'Когда использовать радиокнопки, чекбоксы, переключатели и чипсы?');
  for(const id of ['R02_radio_buttons','R03_checkboxes','R04_switch','R04.1_confirmation','R05_chips'])assert(packet.rules.some(rule=>rule.ruleId===id),id);
 });
+
+test('a pattern overview includes every section even when only two headings repeat its name',t=>{
+ const f=fixture(t);
+ f.write('haptic','Хаптик',
+  '## Общие принципы\n### [Rule] R01_definition\nОпределение тактильной отдачи.\n'+
+  '### [Rule] R02_types\nТри системных типа.\n### [Rule] R02.1_impact\nФизическое взаимодействие.\n'+
+  '## Кнопки\n### [Rule] R03_required\nПри завершении сценария нужен Light.\n'+
+  '### [Rule] R04_not_required\nЕсли действие ничего не меняет, отдача не нужна.\n'+
+  '## Выбор\n### [Rule] R05_selection\nSelection при выборе.\n'+
+  '## Хаптик в онбордингах\n### [Rule] R09_onboarding\nХаптик при появлении спотлайта.\n'+
+  '## Хаптик в лотти-анимациях\n### [Rule] R10_lottie\nХаптик в ключевые моменты анимации.\n');
+ f.write('animation','Анимации','## Общие принципы\n### [Rule] R01_start\nПервый случай.\n## Анимации в лотти\n### [Rule] R02_end\nВторой случай.\n');
+ const animation=buildAbmKnowledgePacket(f.source(),'Как использовать анимации');
+ assert.deepEqual(animation.rules.map(rule=>rule.ruleId),['R01_start','R02_end']);
+ const ids=['R01_definition','R02_types','R02.1_impact','R03_required','R04_not_required','R05_selection','R09_onboarding','R10_lottie'];
+ for(const query of ['Как мне использовать хаптик','Haptic','Haptics','Хаптик']) {
+  const packet=buildAbmKnowledgePacket(f.source(),query);
+  assert.deepEqual(new Set(packet.rules.map(rule=>rule.ruleId)),new Set(ids),query);
+  assert(knowledgePayload(packet).matchedSections.some(section=>section.title==='Хаптик'&&section.complete));
+  assert(!packet.coverageLimited);
+ }
+ const specific=buildAbmKnowledgePacket(f.source(),'Хаптик в онбордингах');
+ assert.deepEqual(specific.rules.map(rule=>rule.ruleId),['R09_onboarding']);
+ for(const query of ['А ещё?','Что еще?','Продолжи','А дальше?']) {
+  const packet=buildAbmKnowledgePacket(f.source(),query,[
+   {role:'user',text:'Как мне использовать хаптик'},
+   {role:'assistant',text:'Хаптик в онбордингах и анимациях.'},
+   {role:'user',text:'А ещё?'},
+  ]);
+  assert(packet.diagnostics.historyUsed,query);
+  assert.deepEqual(new Set(packet.rules.map(rule=>rule.ruleId)),new Set(ids),query);
+  assert.equal(buildAbmKnowledgePacket(f.source(),query).rules.length,0,query);
+ }
+ const changed=buildAbmKnowledgePacket(f.source(),'Хаптик в онбордингах',[{role:'user',text:'Клавиатура'}]);
+ assert(!changed.diagnostics.historyUsed);
+ assert.deepEqual(changed.rules.map(rule=>rule.ruleId),['R09_onboarding']);
+});
