@@ -7,7 +7,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { inspectAbmPatternKnowledge } = require('../src/knowledge-root');
 
-const markdown = '---\nabmDocumentType: Pattern\nabmPatternID: "ptrn:controls.fixture"\nabmPatternTitle: Fixture\nversion: v.1.2\n---\n# Fixture\n### [Rule] R01\nУсловие fixture.\n';
+const markdown = '---\nabmDocumentType: Pattern\nabmPatternID: "ptrn:controls.fixture"\nabmPatternTitle: Fixture\ntags: кнопка, button\nversion: v.1.2\n---\n# Fixture\n### [Rule] R01\nУсловие fixture.\n';
 
 test('ABM source rejects missing metadata and fingerprints changed content', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-abm-source-'));
@@ -50,7 +50,7 @@ process.stdin.on('end',()=>{
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
  const question=input.split('<question>')[1].split('</question>')[0].trim();
- const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:'Условие fixture.'}]}]}):'Ответ fixture';
+ const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:'Условие fixture.',text:'Условие fixture.'}]}]}):'Ответ fixture';
  fs.writeFileSync(args[args.indexOf('--output-last-message')+1],result);
 });
 `);
@@ -79,7 +79,11 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(abm.status,200,JSON.stringify(abm.body));
   assert.equal(abm.body.knowledgeRelease.source,'local-abm-markdown');
   assert.match(abm.body.knowledgeRelease.contentVersion,/^abm-local-/);
-  assert.deepEqual(last().args.filter((v,i)=>last().args[i-1]==='--add-dir'),[${JSON.stringify(patterns)}]);
+  assert.deepEqual(last().args.filter((v,i)=>last().args[i-1]==='--add-dir'),[]);
+  assert(last().args.includes('features.shell_tool=false'));
+  assert(last().args.includes('mcp_servers={}'));
+  assert(last().input.includes('Условие fixture.'));
+  assert(!last().input.includes(${JSON.stringify(patterns)}));
   assert.equal(last().args[last().args.indexOf('--sandbox')+1],'read-only');
   assert(last().input.includes('## Чтение [Rule] и [RuleExample]'));
   assert(last().input.includes('Противоречие в паттернах'));

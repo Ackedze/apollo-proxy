@@ -862,6 +862,7 @@ async function callCodexContractExplanation(
 }
 
 const { buildAbmDialoguePrompt } = require('./src/reports/ABM-messages');
+const { buildAbmKnowledgePacket } = require('./src/reports/ABM-retrieval');
 const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-response');
 // Keep an explicit library choice after the bounded client history drops its first turn.
 const dialogueLibraryBySession = new Map();
@@ -880,7 +881,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   }
 
   // Dialogue reads Proxy-owned knowledge in its disposable request directory.
-  // Validator workspace, skills and output schemas are not used by this route.
+  // ABM supplies a source-bounded packet; AB retains its existing reader workflow.
   inspectActiveApolloKnowledge();
   const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false)
     ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
@@ -891,6 +892,8 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
     error.status = 503;
     throw error;
   }
+  const history = normalizeDialogueHistory(inputValue.dialogue);
+  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
@@ -910,12 +913,17 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
     '--skip-git-repo-check',
     '--cd',
     runDirectory,
-    '--add-dir',
-    knowledgeRoot,
+    ...(abm ? [] : ['--add-dir', knowledgeRoot]),
     '--output-last-message',
     outputPath,
   ];
   if (abm) {
+    for (const setting of ['features.shell_tool=false', 'features.skip_host_skill_discovery=true',
+      'features.skill_search=false', 'skills.include_instructions=false', 'skills.bundled.enabled=false',
+      'features.apps=false', 'features.plugins=false', 'features.remote_plugin=false',
+      'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"', 'mcp_servers={}']) {
+      args.push('-c', setting);
+    }
     const schemaPath = path.join(runDirectory, 'abm-response.schema.json');
     await fsp.writeFile(schemaPath, JSON.stringify(ABM_RESPONSE_SCHEMA));
     args.push('--output-schema', schemaPath);
@@ -923,7 +931,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
   const prompt = abm
-    ? buildAbmDialoguePrompt(question, normalizeDialogueHistory(inputValue.dialogue), abm.root)
+    ? buildAbmDialoguePrompt(question, history.slice(-4).map(entry => ({ ...entry, text: entry.text.slice(-1500) })), packet)
     : buildCodexDialoguePrompt(question, inputValue.dialogue, APOLLO_CODEX_KNOWLEDGE_SOURCE);
 
   activeCodexRuns += 1;
@@ -948,7 +956,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       }
       onKnowledge?.({ contentVersion: 'abm-local-' + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, source: 'local-abm-markdown' });
     }
-    const result = abm ? renderAbmResponse(agentResult, abm.root, question) : agentResult;
+    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet) : agentResult;
     if (inputValue.session_id) {
       dialogueLibraryBySession.delete(inputValue.session_id);
       dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
@@ -958,6 +966,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       knowledgeSource: abm ? 'local-abm-markdown' : APOLLO_CODEX_KNOWLEDGE_SOURCE,
       knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
+      ...(packet ? { retrieval: { rules: packet.rules.length, indexedRules: packet.indexedRules, packetChars: packet.chars, promptChars: prompt.length, coverageLimited: packet.coverageLimited } } : {}),
     });
     return result;
   } finally {

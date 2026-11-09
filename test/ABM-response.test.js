@@ -1,99 +1,78 @@
 'use strict';
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const os = require('node:os');
-const { NOT_FOUND, NO_EXAMPLE, renderAbmResponse } = require('../src/reports/ABM-response');
-
-function fixture(t, version = 'v.2.3') {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'apollo-abm-template-'));
-  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
-  const file = 'p_abm_fixture.md';
-  fs.writeFileSync(path.join(root, file), `---
-abmDocumentType: Pattern
-abmPatternID: "ptrn:controls.fixture"
-titlePage: "✅ Поля ввода :: R29 :: 03 сентября 2026"
-version: ${version}
----
-### [Rule] R01_without_example
-**Ключ правила:** R01_without_example
-**Раздел:** hidden-section
-Копейки всегда отделяем запятой.
-### [Rule] R02_parent
-Общая группа правил.
-### [Rule] R02.1_first
-Первое условие действует в тексте.
-### [Rule] R02.2_second
-Второе условие действует в таблице.
-#### [RuleExample] R02_parent
-Ссылка на [RuleExample] R02_parent (iOS): https://www.figma.com/design/fixture?node-id=1-2
-Ссылка на [RuleExample] R02_parent (Android): https://www.figma.com/design/fixture?node-id=1-3
-### [Rule] R03_other
-- Чужое условие не применяется.
-#### [RuleExample] R03_other
-Ссылка на [RuleExample] R03_other (iOS): https://www.figma.com/design/fixture?node-id=9-9
-`);
-  return { root, file };
+const test=require('node:test'),assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
+const {CHAT_URL,NOT_FOUND,NO_EXAMPLE,renderAbmResponse}=require('../src/reports/ABM-response');
+function fixture(t,version='v.2.3') {
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-template-'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const file='p_abm_fixture.md';
+ fs.writeFileSync(path.join(root,file),'---\nabmDocumentType: Pattern\nabmPatternID: "ptrn:controls.fixture"\ntitlePage: "✅ Поля ввода :: R29 :: 03 сентября 2026"\nversion: '+version+'\n---\n'+
+ '### [Rule] R01_without_example\n**Ключ правила:** R01_without_example\n**Раздел:** hidden-section\nКопейки всегда отделяем запятой.\n'+
+ '### [Rule] R02_parent\nОбщая группа правил.\n### [Rule] R02.1_first\nПервое условие действует в тексте.\n'+
+ '### [Rule] R02.2_second\nВторое условие действует в таблице.\n#### [RuleExample] R02_parent\n'+
+ 'Ссылка на [RuleExample] R02_parent (iOS): https://www.figma.com/design/fixture?node-id=1-2\n'+
+ 'Ссылка на [RuleExample] R02_parent (Android): https://www.figma.com/design/fixture?node-id=1-3\n'+
+ '### [Rule] R03_other\n- Чужое условие не применяется.\n#### [RuleExample] R03_other\n'+
+ 'Ссылка на [RuleExample] R03_other (iOS): https://www.figma.com/design/fixture?node-id=9-9\n');
+ return {root,file};
 }
-const answer = (file, ruleId, quote, question = 'Вопрос?') => ({
-  question, kind: 'answer', evidence: [{ file, ruleId, quote }],
+const evidence=(file,ruleId,quote,text=quote)=>({file,ruleId,quote,text});
+const answer=(item,question='Вопрос?')=>({question,kind:'answer',evidence:[item]});
+test('missing answers use the exact approved chat link without model prose',t=>{
+ const f=fixture(t);
+ const result=renderAbmResponse({answers:[{question:'Вопрос?',kind:'not_found',evidence:[],text:'Уточни сценарий?'}]},f.root,'Вопрос?');
+ assert.equal(result,NOT_FOUND);assert(result.includes(']('+CHAT_URL+')'));
 });
-
-test('the no-answer template is exact and never emits model prose or questions', t => {
-  const f = fixture(t);
-  assert.equal(renderAbmResponse({answers:[{question:'Вопрос?',kind:'not_found',evidence:[],text:'Уточни сценарий?'}]},f.root,'Вопрос?'),NOT_FOUND);
-  assert.equal(renderAbmResponse({answers:[answer(f.file,'R01_without_example','Моя интерпретация правила.')]},f.root,'Вопрос?'),NOT_FOUND);
-  assert.equal(renderAbmResponse({answers:[answer(f.file,'R99_missing','Копейки всегда отделяем запятой.')]},f.root,'Вопрос?'),NOT_FOUND);
+test('paraphrases and allowed Markdown survive; source captions use real metadata',t=>{
+ const f=fixture(t);
+ const text='Копейки отделяй **запятой**.\n\n- Это *условие*.\n1. Первый пункт.';
+ const result=renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.',text))]},f.root,'Вопрос?');
+ assert.equal(result,text+'\n\n'+NO_EXAMPLE+'\n\nПаттерн: «Поля ввода», v.2.3');
+ assert(!result.includes('R29')&&!result.includes('2026')&&!result.includes('hidden-section'));
 });
-
-test('the caption always uses metadata version, never a model number, section or date', t => {
-  const f = fixture(t);
-  const item = {...answer(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),version:'R29',title:'Источник: 2026'};
-  const text=renderAbmResponse({answers:[item]},f.root,'Вопрос?');
-  assert.equal(text,'Копейки всегда отделяем запятой.\n\n'+NO_EXAMPLE+'\n\nПаттерн: «Поля ввода», v.2.3');
-  assert(!text.includes('R29') && !text.includes('2026') && !text.includes('hidden-section'));
+test('each rule is followed by its own example; one caption per pattern',t=>{
+ const f=fixture(t);
+ const value={answers:[{question:'Вопрос?',kind:'answer',evidence:[
+ evidence(f.file,'R02.1_first','Первое условие действует в тексте.','Первый ответ.'),
+ evidence(f.file,'R03_other','- Чужое условие не применяется.','Второй ответ.'),
+ evidence(f.file,'R02.2_second','Второе условие действует в таблице.','Третий ответ.'),
+ ]}]};
+ const result=renderAbmResponse(value,f.root,'Вопрос?');
+ assert(result.indexOf('Первый ответ.')<result.indexOf('node-id=1-2'));
+ assert(result.indexOf('node-id=1-3')<result.indexOf('Второй ответ.'));
+ assert(result.indexOf('Второй ответ.')<result.indexOf('node-id=9-9'));
+ assert(result.indexOf('node-id=9-9')<result.indexOf('Третий ответ.'));
+ assert.equal((result.match(/node-id=1-2/g)||[]).length,2);
+ assert.equal((result.match(/Паттерн:/g)||[]).length,1);
+ assert(result.includes('🍏 [Пример](')&&result.includes('🤖 [Пример]('));
+ assert(!result.includes('[🍏')&&!result.includes('Пример iOS'));
 });
-
-test('a missing or non-version metadata value fails closed instead of substituting another number', t => {
-  const f = fixture(t,'R29');
-  assert.equal(renderAbmResponse({answers:[answer(f.file,'R01_without_example','Копейки всегда отделяем запятой.')]},f.root,'Вопрос?'),NOT_FOUND);
+test('unanswered questions are collected under one final heading',t=>{
+ const f=fixture(t),questions='Первый? Второй? Третий?';
+ const result=renderAbmResponse({answers:[
+ {question:'Первый?',kind:'not_found',evidence:[]},
+ answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),'Второй?'),
+ {question:'Третий?',kind:'not_found',evidence:[]},
+ ]},f.root,questions);
+ assert(result.startsWith('**Второй?**'));
+ assert.equal((result.match(/Не нашёл ответа/g)||[]).length,1);
+ assert(result.includes('**'+NOT_FOUND+'**\n\n- Первый?\n- Третий?'));
 });
-
-test('subrules resolve shared parent examples and never use an unrelated neighboring example', t => {
-  const f=fixture(t);
-  const text=renderAbmResponse({answers:[answer(f.file,'R02.1_first','Первое условие действует в тексте.')]},f.root,'Вопрос?');
-  assert(text.includes('[Пример iOS](https://www.figma.com/design/fixture?node-id=1-2)'));
-  assert(text.includes('[Пример Android](https://www.figma.com/design/fixture?node-id=1-3)'));
-  assert(!text.includes('9-9'));
-  assert(text.indexOf('Пример iOS')<text.indexOf('Паттерн:'));
+test('invalid evidence, unrelated examples and references outside retrieved rules fail closed',t=>{
+ const f=fixture(t);
+ const render=item=>renderAbmResponse({answers:[answer(item)]},f.root,'Вопрос?');
+ assert.equal(render(evidence(f.file,'R01_without_example','Несуществующее подтверждение.')),NOT_FOUND);
+ assert.equal(render(evidence('../'+f.file,'R01_without_example','Копейки всегда отделяем запятой.')),NOT_FOUND);
+ assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},f.root,'Вопрос?',{rules:[]}),NOT_FOUND);
+ const result=render(evidence(f.file,'R02.1_first','Первое условие действует в тексте.'));
+ assert(result.includes('1-2')&&!result.includes('9-9'));
 });
-
-test('multiple questions have independent template blocks and repeated relevant examples', t => {
-  const f=fixture(t);
-  const text=renderAbmResponse({answers:[
-    answer(f.file,'R02.1_first','Первое условие действует в тексте.','Первый вопрос?'),
-    answer(f.file,'R02.2_second','Второе условие действует в таблице.','Второй вопрос?'),
-  ]},f.root,'Первый вопрос? Второй вопрос?');
-  assert(text.startsWith('**Первый вопрос?**'));
-  assert.equal((text.match(/Паттерн:/g)||[]).length,2);
-  assert.equal((text.match(/node-id=1-2/g)||[]).length,2);
-  const boundary=text.indexOf('**Второй вопрос?**');
-  assert(text.indexOf('Паттерн:')<boundary);
-  assert(text.lastIndexOf('Пример Android')<text.lastIndexOf('Паттерн:'));
-  assert(!/^\s*(?:\||[-*] |\d+[.)] )/m.test(text));
-});
-
-test('invented subquestions and paths outside the pattern folder fail closed', t => {
-  const f=fixture(t);
-  assert.equal(renderAbmResponse({answers:[answer(f.file,'R01_without_example','Копейки всегда отделяем запятой.','Вопрос от агента?')]},f.root,'Вопрос?'),NOT_FOUND);
-  assert.equal(renderAbmResponse({answers:[answer('../p_abm_fixture.md','R01_without_example','Копейки всегда отделяем запятой.')]},f.root,'Вопрос?'),NOT_FOUND);
-});
-
-
-test('source quote list markers remain plain text instead of creating Markdown lists', t => {
-  const f=fixture(t);
-  const text=renderAbmResponse({answers:[answer(f.file,'R03_other','- Чужое условие не применяется.')]},f.root,'Вопрос?');
-  assert(text.startsWith('\\- Чужое условие не применяется.'));
-  assert(!/^[-+*] /m.test(text));
+test('unsafe formatting, invented subquestions and invalid source versions fail closed',t=>{
+ const f=fixture(t);
+ for(const text of ['[Чужая ссылка](https://evil.test)','| A | B |','<script>x</script>','Источник: v.R29','Текст R29_info']) {
+  assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.',text))]},f.root,'Вопрос?'),NOT_FOUND);
+ }
+ assert.equal(renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),'Выдуманный?')]},f.root,'Вопрос?'),NOT_FOUND);
+ const invalid=fixture(t,'R29');
+ assert.equal(renderAbmResponse({answers:[answer(evidence(invalid.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},invalid.root,'Вопрос?'),NOT_FOUND);
 });
