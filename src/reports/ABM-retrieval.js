@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('node:fs');
-const {loadPattern,parentsFor,ruleText} = require('./ABM-source');
+const {loadPattern,parentsFor,ruleText,cleanRuleContent:clean} = require('./ABM-source');
 const MAX_PACKET_CHARS = 64000;
 const MAX_RULES = 128;
 const STOP = new Set('как какой какая какие какое когда где это для или при про что есть нужно надо можно нельзя должен должна должны будет быть использовать использует используем писать показывать делает делать направлять абм abm вопрос ответ паттерн правило расскажи пожалуйста мне мы он она они его ее ли и в на с из по к у а не то'.split(' '));
@@ -9,11 +9,6 @@ function tokens(value) {
     .filter(word=>word.length>1&&!STOP.has(word))
     .map(word=>/^[а-я]+$/u.test(word)&&word.length>3
       ?word.replace(/(?:иями|ями|ами|ого|ему|ому|ыми|ими|ией|иям|иях|ов|ев|ей|ий|ый|ой|ая|яя|ое|ее|ые|ие|ую|юю|ом|ем|ам|ям|ах|ях|ы|и|а|я|у|ю|е|о)$/u,''):word))];
-}
-function clean(value) {
-  return value.replace(/^\s*\*\*(?:Ключ правила|Раздел):?\*\*[^\n]*$/gm,'')
-    .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,'$1')
-    .replace(/https?:\/\/\S+/g,'').trim();
 }
 let cached;
 function indexFor(source) {

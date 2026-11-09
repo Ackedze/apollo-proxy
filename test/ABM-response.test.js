@@ -76,3 +76,27 @@ test('unsafe formatting, invented subquestions and invalid source versions fail 
  const invalid=fixture(t,'R29');
  assert.equal(renderAbmResponse({answers:[answer(evidence(invalid.file,'R01_without_example','Копейки всегда отделяем запятой.'))]},invalid.root,'Вопрос?'),NOT_FOUND);
 });
+
+test('a citation spanning an inline Markdown link is validated against the same text sent to the agent',t=>{
+ const f=fixture(t);
+ const body='\n### [Rule] R04_linked_context\nКвадратные чипсы используй в фильтрах.\n\n[Фильтры. Читать паттерн](https://example.test/pattern)\n\nВыбирай компонент ChipView.\n';
+ fs.appendFileSync(path.join(f.root,f.file),body);
+ const quote='Квадратные чипсы используй в фильтрах.\n\nФильтры. Читать паттерн\n\nВыбирай компонент ChipView.';
+ const item=evidence(f.file,'R04_linked_context',quote,'Квадратные чипсы используй в фильтрах.');
+ const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
+ const {buildAbmKnowledgePacket}=require('../src/reports/ABM-retrieval');
+ const packet=buildAbmKnowledgePacket(inspectAbmPatternKnowledge(f.root),'Когда использовать чипсы?');
+ assert(packet.rules.find(rule=>rule.ruleId===item.ruleId).text.includes('Фильтры. Читать паттерн'));
+ assert(!packet.rules.find(rule=>rule.ruleId===item.ruleId).text.includes('https://'));
+ const result=renderAbmResponse({answers:[{question:'Вопрос?',kind:'answer',evidence:[
+  evidence(f.file,'R02.1_first','Первое условие действует в тексте.'),
+  item,
+ ]}]},f.root,'Вопрос?');
+ assert.notEqual(result,NOT_FOUND);
+ assert(result.includes('Первое условие действует в тексте.'));
+ assert(result.includes('Квадратные чипсы используй в фильтрах.'));
+ assert(result.includes('node-id=1-2'));
+ assert(!result.includes('example.test'));
+ // Normalization must not make new normative statements acceptable.
+ assert.equal(renderAbmResponse({answers:[answer({...item,quote:quote+'\nДопускается любой компонент.'})]},f.root,'Вопрос?'),NOT_FOUND);
+});

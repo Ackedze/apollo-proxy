@@ -44,8 +44,15 @@ function loadPattern(root, file) {
     metadata:['abmPatternID','abmPatternTitle','abmPatternType','tags','platform'].map(key=>scalar(metadata,key)).join(' '),
     rules:sections(text,'Rule'), examples:sections(text,'RuleExample')};
 }
+// The packet and evidence validator must see the same source representation.
+// Strip link destinations, preserving their exact visible labels and all prose.
+function cleanRuleContent(value) {
+  return value.replace(/^\s*\*\*(?:Ключ правила|Раздел):?\*\*[^\n]*$/gm,'')
+    .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g,'$1')
+    .replace(/https?:\/\/\S+/g,'').trim();
+}
 function ruleText(body) {
-  return normalize(body.split(/\r?\n/).filter(line =>
+  return normalize(cleanRuleContent(body).split(/\r?\n/).filter(line =>
     !/^\s*(?:#{1,6}\s|\*\*(?:Ключ правила|Раздел):?\*\*|Ссылка на|https?:\/\/)/i.test(line)
   ).join('\n'));
 }
@@ -80,4 +87,4 @@ function parentsFor(pattern, rule) {
   }
   return parents;
 }
-module.exports={normalize,numericKey,loadPattern,ruleText,examplesFor,parentsFor};
+module.exports={normalize,numericKey,loadPattern,ruleText,cleanRuleContent,examplesFor,parentsFor};
