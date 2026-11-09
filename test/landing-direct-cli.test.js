@@ -3,9 +3,9 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {EventEmitter}=require('node:events'),{PassThrough,Writable}=require('node:stream');
 const {createAgentCli,invocation,DIRECT_FIGMA_TOOLS}=require('../src/generation-agent/agent-cli');
 const session='12345678-1234-1234-1234-123456789abc',knowledge={releaseRoot:'/private/tmp/installed-data',runtimeRoot:'/private/tmp/installed-runtime',sourcePin:'a'.repeat(64),skillId:'ab-generate-custom-landing'},connection={name:'apollo_figma_mcp',url:'https://mcp.figma.com/mcp',fileKey:'FixtureFile',tools:DIRECT_FIGMA_TOOLS};
-function fixture(t,attack=null,readiness={state:"connected",reason:"FIXTURE"}){
+function fixture(t,attack=null,readiness={state:"connected",reason:"FIXTURE"},telemetry={}){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'direct-cli-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));for(const n of ['work','trace'])fs.mkdirSync(path.join(root,n));const invocations=[],probes=[],spawnEnvironments=[];
- const cli=createAgentCli({generatedRoot:root,mcpConnection:connection,knowledgeConnection:knowledge,maxRuntimeMs:2000,checkMcp:async input=>{probes.push(input);return typeof readiness==='function'?readiness(input):readiness;},spawnProcess(_bin,args,options){spawnEnvironments.push({binary:_bin,env:options.env});
+ const makeCli=()=>createAgentCli({generatedRoot:root,mcpConnection:connection,knowledgeConnection:knowledge,maxRuntimeMs:2000,trackUsage:telemetry.trackUsage,usageRoot:telemetry.persist?path.join(root,'usage'):null,checkMcp:async input=>{probes.push(input);return typeof readiness==='function'?readiness(input):readiness;},spawnProcess(_bin,args,options){spawnEnvironments.push({binary:_bin,env:options.env});
   invocations.push(args);const child=new EventEmitter();child.pid=987999999;child.stdout=new PassThrough();child.stderr=new PassThrough();child.kill=()=>{queueMicrotask(()=>child.emit('close',null));};
   child.stdin=new Writable({write(_chunk,_enc,done){done();},final(done){done();queueMicrotask(()=>{
    if(attack==='startup-timeout'||attack==='process-failure'||attack==='auth-required'){child.stderr.write(attack==='auth-required'?'Failed to initialize session: apollo_figma_mcp: Auth required':attack==='startup-timeout'?'Failed to initialize session: required MCP servers failed to initialize: apollo_figma_mcp: MCP client startup timed out after 30s':'ordinary process failure');child.emit('close',1);return;}
@@ -15,11 +15,37 @@ function fixture(t,attack=null,readiness={state:"connected",reason:"FIXTURE"}){
    if(attack==='file-scope')item={id:'figma:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',arguments:{fileKey:'ForeignFile',code:'return {};'},status:'in_progress'};
    emit({type:'item.started',item});if(attack)return;
    emit({type:'item.completed',item:{...item,status:'completed',result:{content:[{type:'text',text:'{"text":"Packaged rule"}'}]}}});
-   emit({type:'turn.completed',usage:{input_tokens:10,output_tokens:3}});fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({status:'partial'}));child.emit('close',0);
+   for(const event of telemetry.eventsForRun?.(invocations.length)||[{type:'turn.completed',usage:{input_tokens:10,output_tokens:3}}])emit(event);fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({status:'partial'}));child.emit('close',telemetry.exitForRun?.(invocations.length)||0);
   });}});return child;
  }});
- return {root,invocations,probes,spawnEnvironments,run:opts=>cli.run({workspace:path.join(root,'work'),traceDirectory:path.join(root,'trace'),profile:'landing-direct',prompt:'Read packaged sources',schema:{type:'object'},mcpBudget:{maxToolCalls:128},...opts})};
+ let cli=makeCli();return {root,invocations,probes,spawnEnvironments,resetCli:()=>{cli=makeCli();},run:opts=>cli.run({workspace:path.join(root,'work'),traceDirectory:path.join(root,'trace'),profile:'landing-direct',prompt:'Read packaged sources',schema:{type:'object'},mcpBudget:{maxToolCalls:128},...opts})};
 }
+test('generation journal and durable receipts share exact run deltas across recreated CLI adapters',async t=>{
+ const {createTokenJournal}=require('../src/token-journal'),{requestTotals}=require('../src/generation-agent/usage'),crypto=require('node:crypto');let journal;
+ const raw=[{input_tokens:5185766,cached_input_tokens:4932096,output_tokens:23802,reasoning_output_tokens:4689},{input_tokens:10977761,cached_input_tokens:10652672,output_tokens:36543,reasoning_output_tokens:7638},{input_tokens:12000000,cached_input_tokens:11000000,output_tokens:40000,reasoning_output_tokens:8000}];
+ const f=fixture(t,null,{state:'connected'},{persist:true,trackUsage:options=>journal.call(options),eventsForRun:i=>[{type:'turn.started'},{type:'turn.completed',usage:raw[i-1]}]});journal=createTokenJournal(path.join(f.root,'journal'));
+ const chat=crypto.randomUUID(),request=()=>({requestId:'landing-chat:'+chat+':'+crypto.randomUUID(),runId:crypto.randomUUID(),stage:'content'}),firstContext=request();
+ const first=await f.run({diagnosticContext:firstContext});f.resetCli();const second=await f.run({sessionId:first.receipt.sessionId,diagnosticContext:request()});
+ assert.equal(first.receipt.usage.actualInputTokens,5185766);assert.equal(second.receipt.usage.actualInputTokens,5791995);assert.equal(second.receipt.usage.cachedInputSubsetTokens,5720576);assert.equal(second.receipt.usage.actualOutputTokens,12741);assert.equal(second.receipt.usage.reasoningOutputSubsetTokens,2949);
+ assert.equal(second.receipt.events.find(e=>e.type==='turn.completed').usage.input_tokens,10977761,'original provider counters retained');
+ assert.deepEqual(journal.read().records.map(r=>r.totalTokens).sort((a,b)=>a-b),[5209568,5804736]);
+ const totals=requestTotals(path.join(f.root,'usage'),firstContext.requestId);assert.equal(totals.actualInputTokens,10977761);assert.equal(totals.actualOutputTokens,36543);assert.equal(totals.measurementIds.length,2);
+ const original=journal.read().records.map(r=>[r.id,fs.readFileSync(path.join(f.root,'journal',r.id+'.json'),'utf8')]);journal.close();journal=createTokenJournal(path.join(f.root,'journal'));f.resetCli();
+ const restored=await f.run({sessionId:first.receipt.sessionId,diagnosticContext:request()});assert.equal(restored.receipt.usage.actualInputTokens,null);assert(journal.read().records.some(r=>r.totalTokens===null));
+ for(const [id,bytes] of original)assert.equal(fs.readFileSync(path.join(f.root,'journal',id+'.json'),'utf8'),bytes);
+});
+test('failed generation gaps, repeated totals and resets agree between journal and receipts',async t=>{
+ const {createTokenJournal}=require('../src/token-journal');let journal;
+ const totals=[[100,20],[110,23],[200,40],[250,50],[250,50],[10,2],[30,6]],expected=[120,null,null,60,0,null,24];
+ const f=fixture(t,null,{state:'connected'},{trackUsage:options=>journal.call(options),eventsForRun:i=>[{type:'turn.started'},{type:'turn.completed',usage:{input_tokens:totals[i-1][0],output_tokens:totals[i-1][1]}},...(i===2?[{type:'turn.started'},{type:'turn.failed'}]:[])],exitForRun:i=>i===2?1:0});
+ journal=createTokenJournal(path.join(f.root,'journal'));t.after(()=>journal.close());
+ for(let i=0;i<expected.length;i++){
+  const before=new Set(journal.read().records.map(row=>row.id));let usage;
+  try{usage=(await f.run(i?{sessionId:session}:{})).receipt.usage;}catch(error){assert.equal(i,1);assert.equal(error.code,'AGENT_PROCESS_FAILED');usage=error.usage;}
+  const row=journal.read().records.find(row=>!before.has(row.id));assert.equal(row.totalTokens,expected[i]);
+  assert.equal(usage.actualInputTokens===null||usage.actualOutputTokens===null?null:usage.actualInputTokens+usage.actualOutputTokens,expected[i]);
+ }
+});
 test('every fresh and resumed CLI launch disables host skills/shell and connects the pinned reader plus direct Figma MCP',async t=>{
  const f=fixture(t);const first=await f.run();await f.run({sessionId:first.receipt.sessionId});assert.equal(first.receipt.sessionId,session);
  for(const args of f.invocations){for(const setting of ['features.skip_host_skill_discovery=true','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false'])assert(args.includes(setting));assert(!args.includes('--ephemeral'));const config=args.find(x=>x.startsWith('mcp_servers='));assert(config.includes('apollo_figma_mcp=')&&config.includes('apollo_knowledge=')&&config.includes(knowledge.sourcePin));assert(config.includes('knowledge-mcp.js'));}

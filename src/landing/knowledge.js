@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),catalog=require('../skills/catalog'),releases=require('../data-release');
 const {selectHubDocuments}=require('../knowledge-routing/hub-documents');
+const {createSourcePlanner}=require('./source-plan');
 const HUB='knowledge/data/ds-ai-hub/',POLICY='ds-ai-hub-only-v1';
 const searchText=value=>value.toLowerCase().normalize('NFKC').replace(/[^\p{L}\p{N}]+/gu,'');
 const fail=code=>{throw Object.assign(Error(code),{code,status:503});};
@@ -103,7 +104,9 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
  const assetSources={};
  for(const [role,match] of Object.entries({glyph26Metadata:id=>id===HUB+'core/web/assets/assets_glyph-26.json',hubAssets:id=>id.startsWith(HUB+'core/web/assets/')||id.startsWith(HUB+'products/ab/assets/'),hubTokens:id=>id.startsWith(HUB+'core/web/tokens/')||id.startsWith(HUB+'core/common/tokens/')})){const ids=[...resources.keys()].filter(match).sort();assetSources[role]={available:ids.length>0,ids};}
  const instructions=skill.generation?Object.fromEntries(skill.generation.initialFiles.map(file=>[file,skill.bodies[file]])):skill.bodies;
- return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin:sha(Buffer.from(JSON.stringify([manifestHash,workflowHash,skill.sha256,POLICY]))),assertCurrent,read,list,
+ const resumePin=sha(Buffer.from(JSON.stringify([manifestHash,workflowHash,skill.sha256,POLICY])));
+ const plan=createSourcePlanner({resources,skill,sourcePin:resumePin,releaseId:manifest.id,metadata:id=>JSON.parse(sourceText(resources.get(id))),routing,assertCurrent});
+ return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,
   initial:{knowledgePolicy:POLICY,assetSources,selectedSkill:{id:skill.id,name:skill.name,resourcesRoot:'skills/'+skill.id+'/'},hostInstructions:skill.generation?skill.generation.hostInstructions:'Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules. Tag the CorporateContent instance role=host in apollolanding.',skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list(skill.generation?skill.generation.initialQueries[0]||'':'products/ab/patterns/'),indexes:skill.generation?.initialQueries.map(query=>list(query))||[]}};
 }
 module.exports={readLandingSkill,openKnowledge};

@@ -21,6 +21,14 @@ function fixture(t){
  return {root,service,chat,calls,options,source,send,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
+test('phase source plan receives brief/read ranges and usage correlates distinct structure/content runs',async t=>{
+ const f=fixture(t),plans=[];f.source.plan=input=>{plans.push(input);return {sourcePin:'source-pin',phase:input.phase,required:[{id:'rule'}],candidates:[],gaps:[]};};
+ f.send('Build a landing');await f.service.settled(f.chat.id);f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
+ assert.deepEqual(plans.map(p=>p.phase),['structure','content']);assert.equal(plans[0].resuming,false);assert.equal(plans[1].resuming,true);assert(plans[1].query.includes('Build a landing'));assert(plans[1].ledger.length);
+ assert(Object.hasOwn(plans[1].ledger[0],'returned'));assert(plans[0].providedIds.includes('skills/ab-generate-custom-landing/SKILL.md'));
+ const contexts=f.calls.map(c=>c.diagnosticContext);assert(contexts.every(c=>c.requestId.startsWith('landing-chat:'+f.chat.id+':')));assert.notEqual(contexts[0].requestId,contexts[1].requestId);assert.notEqual(contexts[0].runId,contexts[1].runId);assert.deepEqual(contexts.map(c=>c.stage),['structure','content']);
+ assert.equal(JSON.parse(f.calls[1].prompt.split('\n').at(-1)).sourcePlan.phase,'content');assert.equal(f.service.poll(f.chat.id).status,'completed');
+});
 test('successful initial no-root inspection continues to actual root creation and approval',async t=>{
  const f=fixture(t);f.setInspection(absent);f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);
  assert.equal(c.error,null);assert.equal(c.status,'needs-structure-approval');assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.execution.lastFailure,null);

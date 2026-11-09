@@ -3,11 +3,11 @@ const fs = require('node:fs'), path = require('node:path'), crypto = require('no
 const { AsyncLocalStorage } = require('node:async_hooks');
 const SCHEMA = 'apollo.token-operation.v1';
 const count = n => Number.isSafeInteger(n) && n >= 0;
-const usageFields = ['input_tokens', 'output_tokens', 'cached_input_tokens', 'reasoning_output_tokens'];
+const { createUsageTracker } = require('./generation-agent/usage');
 let configured = null;
 
 function createTokenJournal(root, { now = Date.now, onError = error => console.warn('[Apollo][tokens]', error.code || 'JOURNAL_UNAVAILABLE') } = {}) {
-  const context = new AsyncLocalStorage(), active = new Set(), named = new Map(), sessions = new Map();
+  const context = new AsyncLocalStorage(), active = new Set(), named = new Map(), usageTracker = createUsageTracker();
   function safe(action) { try { return action(); } catch (error) { onError(error); return null; } }
   function write(entry) {
     return safe(() => {
@@ -56,47 +56,19 @@ function createTokenJournal(root, { now = Date.now, onError = error => console.w
   }
   function call({ provider, model, operation = 'Запрос к агенту', cumulativeUsage = false, resumeSessionId = null } = {}) {
     const parent = context.getStore(), entry = parent || begin(operation, { provider, model });
-    const state = { events: [], done: false }; entry.calls.set(crypto.randomUUID(), state);
-    const cumulative = provider === 'codex' && cumulativeUsage;
-    let sessionId = null, identified = false, previous = resumeSessionId ? sessions.get(resumeSessionId) : Object.fromEntries(usageFields.map(key => [key, 0]));
-    let lastUsage = null;
+    const state = usageTracker.start({ cumulativeUsage: provider === 'codex' && cumulativeUsage, resumeSessionId });
+    entry.calls.set(crypto.randomUUID(), state);
     entry.value.provider ||= provider || null; entry.value.model ||= model || null;
     update(entry);
     return {
+      usageEvents: state.events,
       event(event) {
         if (state.done) return;
-        if (cumulative && event?.type === 'thread.started') {
-          if (sessionId === null) {
-            sessionId = event.thread_id;
-            identified = typeof sessionId === 'string' && /^[a-f0-9-]{36}$/i.test(sessionId)
-              && (resumeSessionId ? sessionId === resumeSessionId : !sessions.has(sessionId));
-          } else if (sessionId !== event.thread_id) identified = false;
-          return;
-        }
-        if (!['turn.started', 'turn.completed', 'turn.failed'].includes(event?.type)) return;
-        // Persist only counters, never model messages, prompts, tool output or credentials.
-        let usage;
-        if (event.type === 'turn.completed') {
-          usage = Object.fromEntries(usageFields.map(key => [key, event.usage?.[key]]));
-          if (cumulative) {
-            const raw = usage;
-            // Each CLI completion is a session counter, including all internal model iterations.
-            usage = Object.fromEntries(usageFields.map(key => [key, identified && count(raw[key]) && count(previous?.[key]) && raw[key] >= previous[key] ? raw[key] - previous[key] : undefined]));
-            lastUsage = raw; previous = raw;
-          }
-        }
-        state.events.push({ type: event.type, usage });
-        update(entry);
+        state.event(event); update(entry);
       },
       end(error) {
         if (state.done) return;
-        state.done = true;
-        if (cumulative) {
-          const key = resumeSessionId || sessionId;
-          // Missing final usage leaves an unmeasured gap; do not charge it to the next batch.
-          if (identified && state.events.at(-1)?.type === 'turn.completed' && count(lastUsage?.input_tokens) && count(lastUsage?.output_tokens)) sessions.set(sessionId, lastUsage);
-          else if (key) sessions.delete(key);
-        }
+        state.end();
         if (!parent) finish(entry, error ? 'failed' : 'completed'); else update(entry);
       },
     };
@@ -138,7 +110,7 @@ function createTokenJournal(root, { now = Date.now, onError = error => console.w
     startNamed(key, label) { if (!named.has(key)) named.set(key, begin(label)); },
     withinNamed(key, fn) { const entry = named.get(key); return entry ? context.run(entry, fn) : fn(); },
     finishNamed(key, status) { finish(named.get(key), status); named.delete(key); },
-    close() { for (const entry of active) { finish(entry, 'interrupted'); } sessions.clear(); },
+    close() { for (const entry of active) { finish(entry, 'interrupted'); } usageTracker.clear(); },
     middleware(req, res, next) {
       const labels = { '/v1/validate/codex': 'Проверить · AI', '/v1/validate/predicates': 'Проверить · локально',
         '/v1/generation/plan': 'Генерация · план', '/v2/contracts/explain': 'Объяснить проверку',

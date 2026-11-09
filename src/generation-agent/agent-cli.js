@@ -1,6 +1,6 @@
 'use strict';
 const {failureDiagnostic,readFailure}=require('./failure-diagnostic');
-const {measurement,budget,persistMeasurement}=require('./usage');
+const {measurement,budget,persistMeasurement,createUsageTracker}=require('./usage');
 const fs=require('node:fs'),fsp=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const {spawn,execFile}=require('node:child_process');
 const {promisify}=require('node:util');
@@ -87,7 +87,7 @@ function profilePrefix(profile){
 
 function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,environment=process.env,
  maxRuntimeMs=300000,spawnProcess=spawn,mcpConnection=null,knowledgeConnection=null,usageRoot=null,trackUsage=()=>null,checkMcp=figmaConnection.checkConnection}={}){
- const env=figmaConnection.environment(environment);
+ const env=figmaConnection.environment(environment),usageTracker=createUsageTracker();
  if(!Number.isInteger(maxRuntimeMs)||maxRuntimeMs<1000||maxRuntimeMs>900000)fail('AGENT_PROFILE_INVALID');
  function available(){if(provider!=='codex')fail('AGENT_PROVIDER_CAPABILITY_UNAVAILABLE');}
  async function probe(){
@@ -102,11 +102,13 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   }catch{return{provider,available:false,reason:'CLI_OR_AUTH_UNAVAILABLE',acceptedWriteOperations:[]};}
  }
  async function run(options){
-  const observed=trackUsage({provider,model:model||null,operation:options.profile==='figma-audit'?'Аудит Figma':'Генерация'});let failure;
-  try{return await execute({...options,onEvent:event=>{observed?.event(event);options.onEvent?.(event);}});}
-  catch(error){failure=error;throw error;}finally{observed?.end(failure);}
+  const cumulativeUsage=provider==='codex'&&options.profile==='landing-direct';
+  const observed=trackUsage({provider,model:model||null,operation:options.profile==='figma-audit'?'Аудит Figma':'Генерация',cumulativeUsage,resumeSessionId:options.sessionId||null});
+  const counters=Array.isArray(observed?.usageEvents)?null:usageTracker.start({cumulativeUsage,resumeSessionId:options.sessionId||null});let failure;
+  try{return await execute({...options,usageEvents:cumulativeUsage?(observed?.usageEvents||counters.events):null,onEvent:event=>{observed?.event(event);counters?.event(event);options.onEvent?.(event);}});}
+  catch(error){failure=error;throw error;}finally{observed?.end(failure);counters?.end();}
  }
- async function execute({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},mcpBudget=null,runtimeBudgetMs=null,checkpointBudget=null,sessionId=null}){
+ async function execute({workspace,profile,prompt,schema,traceDirectory,signal,onEvent=()=>{},diagnosticContext={},usageEvents=null,mcpBudget=null,runtimeBudgetMs=null,checkpointBudget=null,sessionId=null}){
   const startedAt=Date.now();
   available();const scope=scopedDirectory(generatedRoot,workspace);
   if(typeof prompt!=='string'||Buffer.byteLength(prompt)>2*1024*1024||!schema||typeof schema!=='object')fail('AGENT_INPUT_INVALID');
@@ -137,7 +139,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
    if(mcpAuthentication)diagnostic.mcpAuthentication=mcpAuthentication;
    if(startup)diagnostic.mcpStartup={server:startup[1],timeoutMs:Number(startup[2])*1000};
    if(isMcp(profile))Object.assign(diagnostic,{sectionId:safe(diagnosticContext.sectionId),executionStage:safe(diagnosticContext.executionStage),elapsedMs:Math.max(0,Date.now()-startedAt)});
-   const usage=measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':profile});
+   const usage=measurement({prompt,schema,prefix:prefix+'\n',events,usageEvents,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':profile});
    let traceRecorded=true;
    try{await fsp.writeFile(path.join(trace,id+'.failure.json'),JSON.stringify({...diagnostic,provider,profile,model:model||'cli-default',promptSha256:sha(Buffer.from(input)),schemaSha256:sha(Buffer.from(JSON.stringify(schema))),stderr,usage,usageEvents:events.filter(e=>e.type==='turn.completed'),errorEvents:events.filter(e=>['error','turn.failed'].includes(e.type)).slice(-16),...(mcpToolEvents?{mcpToolEvents,nativeFailures,mcpToolTimings:timingView()}:{})},null,2)+'\n',{flag:'wx',mode:0o600});}catch{traceRecorded=false;}
    try{persistMeasurement(usageRoot,usage,events.filter(e=>e.type==='turn.completed'));}catch{usage.persistence='FAILED';}
@@ -222,7 +224,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
      const emittedSession=events.find(e=>e.type==='thread.started')?.thread_id;if(profile==='landing-direct'&&(!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(emittedSession||'')||sessionId&&emittedSession!==sessionId))fail('AGENT_SESSION_INVALID');
      const receipt={sessionId:emittedSession||null,provider,profile,model:model||'cli-default',workspace:scope,args,promptSha256:sha(Buffer.from(input)),schemaSha256:sha(Buffer.from(JSON.stringify(schema))),outputSha256:sha(bytes),
       cliModel:stderr.match(/^model:\s*(.+)$/m)?.[1]||null,events,
-      usage:measurement({prompt,schema,prefix:prefix+'\n',events,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':profile}),
+      usage:measurement({prompt,schema,prefix:prefix+'\n',events,usageEvents,durationMs:Date.now()-startedAt,requestId:diagnosticContext.requestId,runId:diagnosticContext.runId,stage:diagnosticContext.stage||'executor',attempt:diagnosticContext.modelStep,method:isMcp(profile)?'mcp':profile}),
       mcp:isMcp(profile)?{connection:'apollo_figma_mcp',targetFileKey:mcpConnection.fileKey,argumentScopeValidated:true,endpoint:'https://mcp.figma.com/mcp',toolCalls:toolCalls.size,maxToolCalls,maxToolOutputBytes,totalToolOutputBytes,maxTotalToolOutputBytes,toolArgumentBytesLimit:16384,hiddenToolSchemaChars:null,nativeFailures:mcpNativeFailures(events,timingView()),toolTimings:timingView(),toolTimeoutMs:MCP_TOOL_TIMEOUT_MS,guaranteeProfile:profile==='landing-figma'?'landing-owned-root-independent-readback':'experimental-owned-root-post-readback',internalProviderModelAttempts:null,toolAdmission:'CLI allowlist; event budget termination can follow a remote mutation, so interrupted roots require independent readback and are retained.'}:null};
      persistMeasurement(usageRoot,receipt.usage,events.filter(e=>e.type==='turn.completed'));
      await fsp.writeFile(path.join(trace,id+'.trace.json'),JSON.stringify(receipt,null,2)+'\n',{flag:'wx',mode:0o600});
