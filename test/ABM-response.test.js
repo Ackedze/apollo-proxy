@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {CHAT_URL,NOT_FOUND,NO_EXAMPLE,renderAbmResponse}=require('../src/reports/ABM-response');
+const {CHAT_URL,NOT_FOUND,renderAbmResponse}=require('../src/reports/ABM-response');
 function fixture(t,version='v.2.3') {
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-template-'));
  t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
@@ -27,7 +27,8 @@ test('paraphrases and allowed Markdown survive; source captions use real metadat
  const f=fixture(t);
  const text='Копейки отделяй **запятой**.\n\n- Это *условие*.\n1. Первый пункт.';
  const result=renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.',text))]},f.root,'Вопрос?');
- assert.equal(result,text+'\n\n'+NO_EXAMPLE+'\n\nПаттерн: «Поля ввода», v.2.3');
+ assert.equal(result,text+'\n\nПаттерн: «Поля ввода», v.2.3');
+ assert(!result.includes('примера к нему не нашёл'));
  assert(!result.includes('R29')&&!result.includes('2026')&&!result.includes('hidden-section'));
 });
 test('each rule is followed by its own example; one caption per pattern',t=>{
@@ -99,4 +100,14 @@ test('a citation spanning an inline Markdown link is validated against the same 
  assert(!result.includes('example.test'));
  // Normalization must not make new normative statements acceptable.
  assert.equal(renderAbmResponse({answers:[answer({...item,quote:quote+'\nДопускается любой компонент.'})]},f.root,'Вопрос?'),NOT_FOUND);
+});
+
+test('source placeholders in square brackets are plain text while model-authored links remain forbidden',t=>{
+ const f=fixture(t);
+ const quote='Копейки всегда отделяем запятой.';
+ const render=text=>renderAbmResponse({answers:[answer(evidence(f.file,'R01_without_example',quote,text))]},f.root,'Вопрос?');
+ const result=render('Используй «К [разделу]» и «Что такое [продукт]».');
+ assert(result.startsWith('Используй «К [разделу]» и «Что такое [продукт]».'));
+ assert(!result.includes('примера к нему не нашёл'));
+ for(const text of ['[Ссылка](/local)','[Ссылка][ref]','[ref]: /local','![image](/local)'])assert.equal(render(text),NOT_FOUND);
 });

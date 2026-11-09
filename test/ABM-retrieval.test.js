@@ -67,3 +67,23 @@ test('clear-button aliases preserve the source parent and child together',t=>{
  assert(packet.rules.some(rule=>rule.ruleId==='R10.1_search'));
  assert(packet.rules.some(rule=>rule.ruleId==='R10_parent'));
 });
+
+test('same-level descriptive headings anchor their entire section before generic matching rules',t=>{
+ const f=fixture(t);
+ f.write('buttons','Кнопки',
+ '## General rules\n### Общие правила\n### [Rule] R01_general\nПодпись кнопки соответствует заголовку.\n'+
+ '## Button labels\n### Нейминг в кнопках\n### [Rule] R13_labels\nДля действия используй глагол.\n'+
+ '### [Rule] R14_pair\nДве кнопки называй единообразно.\n### [Rule] R14.1_exception\nДля отмены есть исключение.\n'+
+ '### [Rule] R15_retry\nПовторный запрос обозначай явно.\n## Placement\n### Расположение кнопок\n### [Rule] R20_position\nРасполагай кнопку под контентом.\n');
+ for(const query of ['Нейминг кнопок','Нейминг в кнопках','Расскажи про нейминг кнопки']) {
+  const packet=buildAbmKnowledgePacket(f.source(),query);
+  assert(packet.matchedSections.some(section=>section.title==='Нейминг в кнопках'));
+  for(const id of ['R13_labels','R14_pair','R14.1_exception','R15_retry'])assert(packet.rules.some(rule=>rule.ruleId===id));
+  assert.equal(packet.rules[0].ruleId,'R13_labels');
+  const naming=packet.rules.find(rule=>rule.ruleId==='R13_labels');
+  assert(naming.context.includes('Нейминг в кнопках'));
+  assert(!naming.context.includes('Общие правила'));
+  const prompt=buildAbmDialoguePrompt(query,[],packet);
+  assert(prompt.includes('matchedSections'));
+ }
+});

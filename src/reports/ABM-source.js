@@ -16,7 +16,7 @@ function sections(text, type) {
     const special = /^\[(Rule|RuleExample)\][ \t]+(\S+)/.exec(heading[2]);
     if (!special) {
       while (context.length && context.at(-1).level >= level) context.pop();
-      context.push({level, text: heading[2] + '\n' + text.slice(heading.index + heading[0].length, headings[index + 1]?.index ?? text.length).trim()});
+      context.push({level, title:heading[2], text: heading[2] + '\n' + text.slice(heading.index + heading[0].length, headings[index + 1]?.index ?? text.length).trim()});
       return;
     }
     if (special[1] !== type) return;
@@ -24,8 +24,10 @@ function sections(text, type) {
       (type === 'Rule' ? /^\[Rule\]\s/ : /^\[(Rule|RuleExample)\]\s/).test(next[2]) || (!/^\[RuleExample\]/.test(next[2]) && next[1].length <= level))?.index ?? text.length;
     const rawBody=text.slice(heading.index + heading[0].length,end);
     const body=type==='Rule'?rawBody.replace(/^#{1,6}[ \t]+\[RuleExample\][^\n]*$/gm,'').replace(/^Ссылка на[^\n]*$/gm,''):rawBody;
+    const scope=context.filter(item => item.level <= level);
     result.push({key:special[2], body,
-      context:context.filter(item => item.level < level).map(item => item.text).join('\n\n')});
+      headings:scope.map(item=>item.title),
+      context:scope.map(item=>item.text).join('\n\n')});
   });
   return result;
 }

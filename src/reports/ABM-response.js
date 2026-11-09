@@ -3,7 +3,6 @@ const fs = require('node:fs');
 const {normalize,loadPattern,ruleText,examplesFor} = require('./ABM-source');
 const CHAT_URL = 'https://xlink.achat.best/join/chat/ODA3MzVlZmEtYzlkZC01NmY5LTlhZDQtZjJiNWFkOWUzNDk4OjI1MjE3Yzk1LTY3YTYtNTcxYS1hMzM0LWViMDFiZDExY2M2ODpiOTNmZDI4OS05ZmNmLTUxZWUtYjU4Mi0yNDc0YTZjYjNlOGE6OWMzMmUzMTctZWUxNi01ZDI1LTlmZGYtODkzNTUxMGM3NmEy';
 const NOT_FOUND = 'Не нашёл ответа в паттернах АБМ. Напиши в чат [«DS ABM :: Скорая помощь по дизайну»](' + CHAT_URL + ') — мы ответим на твой вопрос';
-const NO_EXAMPLE = 'Правило есть, но примера к нему не нашёл.';
 const evidenceSchema = {
   type:'object',additionalProperties:false,
   properties:{file:{type:'string'},ruleId:{type:'string'},quote:{type:'string'},text:{type:'string'}},
@@ -26,8 +25,9 @@ const plain = value => normalize(value).replace(/[\\`*_[\]<>#|]/g,'\\$&')
 function answerText(value) {
   if(typeof value!=='string')throw Error('Missing answer text');
   const text=value.trim();
-  if(!text||text.length>6000||/https?:|www\.|<|>|\||`|\[[^\]]*\]|!\[|(?:^|\n)\s*(?:#{1,6}\s|\|)|(?:^|\n)\s*[-: ]+\|/iu.test(text)
+  if(!text||text.length>6000||/https?:|www\.|<|>|\||`|\[[^\]]*\]\s*(?:\(|\[)|(?:^|\n)\s*\[[^\]]+\]:|!\[|(?:^|\n)\s*(?:#{1,6}\s|\|)|(?:^|\n)\s*[-: ]+\|/iu.test(text)
       ||/Паттерн\s*:|Источник\s*:|\[Rule|R\d+[._]|Не наш[её]л ответа|Правило есть, но примера/iu.test(text))throw Error('Invalid answer format');
+  // Source placeholders such as [разделу] are text, not model-authored links.
   return text;
 }
 function renderAnswer(answer,root,packet) {
@@ -50,7 +50,7 @@ function renderAnswer(answer,root,packet) {
         seen.add(item.ruleId);
         paragraphs.push(item.text);
         const links=examplesFor(item.pattern,item.ruleId);
-        paragraphs.push(links.length?links.map(link=>(link.platform==='iOS'?'🍏':'🤖')+' [Пример]('+link.url+')').join(' · '):NO_EXAMPLE);
+        if(links.length)paragraphs.push(links.map(link=>(link.platform==='iOS'?'🍏':'🤖')+' [Пример]('+link.url+')').join(' · '));
       }
       const pattern=items[0].pattern;
       paragraphs.push('Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
@@ -74,4 +74,4 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet) {
     ?'**'+NOT_FOUND+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):NOT_FOUND);
   return found.join('\n\n');
 }
-module.exports={CHAT_URL,NOT_FOUND,NO_EXAMPLE,ABM_RESPONSE_SCHEMA,renderAbmResponse};
+module.exports={CHAT_URL,NOT_FOUND,ABM_RESPONSE_SCHEMA,renderAbmResponse};

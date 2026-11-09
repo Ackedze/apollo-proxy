@@ -88,7 +88,7 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert(last().input.includes('## Чтение [Rule] и [RuleExample]'));
   assert(last().input.includes('Противоречие в паттернах'));
   assert(last().args.includes('--output-schema'));
-  assert.equal(abm.body.result,${JSON.stringify('Условие fixture.\n\nПравило есть, но примера к нему не нашёл.\n\nПаттерн: «Fixture», v.1.2')});
+  assert.equal(abm.body.result,${JSON.stringify('Условие fixture.\n\nПаттерн: «Fixture», v.1.2')});
   assert.equal(fs.existsSync(last().cwd),false);
   const follow=await post('А какие есть исключения?',[{role:'user',text:'Как использовать кнопку в АБМ?'}]);
   assert.equal(follow.body.knowledgeRelease.source,'local-abm-markdown');

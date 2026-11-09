@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const {loadPattern,parentsFor,ruleText,cleanRuleContent:clean} = require('./ABM-source');
 const MAX_PACKET_CHARS = 64000;
 const MAX_RULES = 128;
-const STOP = new Set('как какой какая какие какое когда где это для или при про что есть нужно надо можно нельзя должен должна должны будет быть использовать использует используем писать показывать делает делать направлять абм abm вопрос ответ паттерн правило расскажи пожалуйста мне мы он она они его ее ли и в на с из по к у а не то'.split(' '));
+const STOP = new Set('как какой какая какие какое когда где это для или при про что есть нужно надо можно нельзя должен должна должны будет быть использовать использует используем писать показывать делает делать направлять абм abm вопрос ответ паттерн правило правила правил общие общий расскажи пожалуйста мне мы он она они его ее ли и в на с из по к у а не то'.split(' '));
 function tokens(value) {
   return [...new Set((String(value).toLowerCase().replace(/ё/g,'е').match(/[\p{L}\p{N}]+/gu)||[])
     .filter(word=>word.length>1&&!STOP.has(word))
@@ -18,9 +18,9 @@ function indexFor(source) {
   const rows=patterns.flatMap(pattern=>pattern.rules.map(rule=>{
     const parents=parentsFor(pattern,rule);
     const record={file:pattern.file,ruleId:rule.key,pattern:pattern.title,version:pattern.version,
-      context:clean(rule.context),
+      context:clean(rule.context),sectionTitles:rule.headings,
       parents:parents.map(parent=>({ruleId:parent.key,text:clean(parent.body)})),text:clean(rule.body)};
-    return {record, section:pattern.file+'\n'+rule.context, meta:tokens(pattern.title+' '+pattern.metadata), heading:tokens(rule.key),
+    return {record, section:pattern.file+'\n'+rule.context, meta:tokens(pattern.title+' '+pattern.metadata), heading:tokens(rule.key+' '+rule.headings.join(' ')), sectionHeadings:rule.headings,
       body:tokens(ruleText(rule.body)+' '+rule.context+' '+parents.map(parent=>parent.body).join(' '))};
   }));
   const df=new Map();
@@ -35,7 +35,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const rows=indexFor(source);
   const parts=String(question).split(/[?\n;]+/u).map(text=>text.trim()).filter(Boolean).slice(0,12);
   const prior=dialogue.filter(item=>item.role==='user').slice(-2).map(item=>item.text).join(' ').slice(-2000);
-  const queries=(parts.length?parts:[question]).map(part=>tokens(part));
+  const queries=(parts.length?parts:[question]).map(part=>tokens(part).map(term=>term==='кнопок'?'кнопк':term));
   const aliases={клавиатур:['keyboard'],шеврон:['chevron'],поиск:['search'],
     очистк:['clear','крестик'],крестик:['clear','очистк'],копейк:['kopecks'],шрифт:['font'],таблиц:['tables']};
   for(const query of queries) {
@@ -87,6 +87,23 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
       .sort((a,b)=>frequency.get(a)-frequency.get(b)).slice(0,2);
     for(const term of distinctive)for(const row of rows)if(row.body.includes(term))seeds.push({row});
   }
+  // A named documentation section outranks generic body matches. Keep the
+  // entire section (including child exceptions), not just its first rule.
+  const matchedSections=[];
+  for(const query of queries) {
+    const headings=new Map();
+    for(const row of rows)for(const title of row.sectionHeadings) {
+      const terms=tokens(title),matches=terms.filter(term=>query.includes(term)).length;
+      if(matches)headings.set(row.record.file+'\n'+title,{file:row.record.file,title,matches});
+    }
+    const best=Math.max(0,...[...headings.values()].map(item=>item.matches));
+    for(const hit of headings.values())if(hit.matches===best&&best>0) {
+      if(matchedSections.some(item=>item.file===hit.file&&item.title===hit.title))continue;
+      const relevant=rows.filter(row=>row.record.file===hit.file&&row.sectionHeadings.includes(hit.title));
+      matchedSections.push({file:hit.file,title:hit.title,ruleIds:relevant.map(row=>row.record.ruleId)});
+      for(const row of relevant)add({row});
+    }
+  }
   // Broad topic requests and explicit pattern IDs need a whole matching pattern.
   const broad=/(?:все|общие|какие|расскажи)[^?]*(?:правил|требован|паттерн)/iu.test(question);
   if(broad||/ptrn:/i.test(question)) {
@@ -106,7 +123,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const sections=new Set(seeds.map(seed=>seed.row.section));
   for(const row of rows)if(sections.has(row.section))add({row});
   const rules=selected;
-  return {rules,chars:JSON.stringify({rules}).length,indexedRules:rows.length,
+  return {rules,matchedSections,chars:JSON.stringify({rules}).length,indexedRules:rows.length,
     omittedCandidates:omitted,coverageLimited:omitted>0,sourceSha:source.contentSha256};
 }
 module.exports={buildAbmKnowledgePacket,MAX_PACKET_CHARS,MAX_RULES,tokens};
