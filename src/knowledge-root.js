@@ -74,4 +74,31 @@ function assertCompleteKnowledgeRoot(root, kind) {
   if (!isCompleteKnowledgeRoot(root, kind)) throw incompleteRoot();
 }
 
-module.exports = { resolveKnowledgeRoot, assertCompleteKnowledgeRoot, isCompleteKnowledgeRoot };
+
+function inspectAbmPatternKnowledge(patternsRoot) {
+  try {
+    if (!patternsRoot || !path.isAbsolute(patternsRoot)) throw Error('Missing absolute path');
+    const root = fs.realpathSync(patternsRoot);
+    const files = fs.readdirSync(root, { withFileTypes: true })
+      .filter(entry => entry.isFile() && /^p_abm_.+\.md$/.test(entry.name))
+      .map(entry => entry.name).sort();
+    if (!files.length) throw Error('No ABM patterns');
+    const hash = require('node:crypto').createHash('sha256');
+    for (const name of files) {
+      const file = path.join(root, name);
+      if (fs.realpathSync(file) !== file) throw Error('Symlinked pattern');
+      const bytes = fs.readFileSync(file);
+      const metadata = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(bytes.toString('utf8'))?.[1] || '';
+      if (!/^abmDocumentType:\s*["']?Pattern["']?\s*$/m.test(metadata) ||
+          !/^abmPatternID:\s*["']?ptrn:[^\r\n]+$/m.test(metadata)) throw Error('Invalid ABM metadata');
+      hash.update(JSON.stringify([name, bytes.toString('base64')]));
+    }
+    return { root, contentSha256: hash.digest('hex'), patternCount: files.length };
+  } catch {
+    throw Object.assign(new Error('Исходные MD-паттерны АБМ недоступны или некорректны. Проверьте CODEX_ABM_PATTERNS в настройках AP.'), {
+      code: 'ABM_KNOWLEDGE_UNAVAILABLE', status: 503,
+    });
+  }
+}
+
+module.exports = { resolveKnowledgeRoot, assertCompleteKnowledgeRoot, isCompleteKnowledgeRoot, inspectAbmPatternKnowledge };

@@ -117,6 +117,19 @@ function extractDialogueQuestion(inputValue) {
 }
 
 
+
+function dialogueUsesAbmRules(question, dialogue) {
+  const abm = /(?:^|[^\p{L}\p{N}_])(?:АБМ|ABM)(?=$|[^\p{L}\p{N}_])/iu;
+  const ab = /(?:^|[^\p{L}\p{N}_])(?:АБ|AB|Альфа[ -]Бизнес)(?=$|[^\p{L}\p{N}_])/iu;
+  const questions = [question, ...normalizeDialogueHistory(dialogue)
+    .filter(entry => entry.role === 'user').reverse().map(entry => entry.text)];
+  for (const text of questions) {
+    if (abm.test(text)) return true;
+    if (ab.test(text)) return false;
+  }
+  return false;
+}
+
 function buildCodexDialoguePrompt(question, dialogue, knowledgeSource) {
   const knowledgeRoot = knowledgeSource === 'design-system_ab'
     ? CODEX_DESIGN_SYSTEM
@@ -308,4 +321,4 @@ function buildHtmlResponseError(contentType, text) {
   return err;
 }
 
-module.exports = {sanitizeSessionId, normalizeInput, normalizeAgentSource, normalizeDialogueHistory, extractDialogueQuestion, buildCodexDialoguePrompt, extractLangflowText, collectTextCandidates, isUsableAgentText, looksLikeToolCallOnly, stripToolCallBlocks, buildToolCallRetryPayload, buildToolCallResponseError, looksLikeHtml, buildHtmlResponseError};
+module.exports = {dialogueUsesAbmRules, sanitizeSessionId, normalizeInput, normalizeAgentSource, normalizeDialogueHistory, extractDialogueQuestion, buildCodexDialoguePrompt, extractLangflowText, collectTextCandidates, isUsableAgentText, looksLikeToolCallOnly, stripToolCallBlocks, buildToolCallRetryPayload, buildToolCallResponseError, looksLikeHtml, buildHtmlResponseError};

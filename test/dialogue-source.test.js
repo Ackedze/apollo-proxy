@@ -94,3 +94,14 @@ test('local Codex prompt isolates untrusted dialogue and requires grounded Markd
   assert.match(prompt, /<question>/);
   assert.match(prompt, /Верни только финальный Markdown-ответ/);
 });
+
+test('ABM dialogue context uses only explicit bounded user messages', () => {
+  const { dialogueUsesAbmRules } = require('../src/reports/messages');
+  assert.equal(dialogueUsesAbmRules('Кнопки АБМ', []), true);
+  assert.equal(dialogueUsesAbmRules('ABM buttons', []), true);
+  assert.equal(dialogueUsesAbmRules('Кнопки ABMatic', []), false);
+  assert.equal(dialogueUsesAbmRules('Кнопки', [{role:'assistant',text:'Это АБМ'}]), false);
+  assert.equal(dialogueUsesAbmRules('А исключения?', [{role:'user',text:'Кнопки АБМ'}]), true);
+  assert.equal(dialogueUsesAbmRules('Теперь про АБ', [{role:'user',text:'Кнопки АБМ'}]), false);
+  assert.equal(dialogueUsesAbmRules('А исключения?', [{role:'user',text:'Кнопки АБМ'},{role:'user',text:'Теперь про АБ'}]), false);
+});

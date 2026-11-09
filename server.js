@@ -22,6 +22,7 @@ const {
   APOLLO_CODEX_INPUT_BUDGET_CHARS,
   CODEX_DS_AI_HUB,
   CODEX_DESIGN_SYSTEM,
+  CODEX_ABM_PATTERNS,
   APOLLO_CODEX_SKILL_NAME,
   APOLLO_CODEX_SKILL_REQUIRED_VERSION,
   APOLLO_CODEX_REPORT_STRATEGY,
@@ -215,6 +216,7 @@ const {
   normalizeDialogueHistory,
   extractDialogueQuestion,
   buildCodexDialoguePrompt,
+  dialogueUsesAbmRules,
   extractLangflowText,
   collectTextCandidates,
   isUsableAgentText,
@@ -247,6 +249,7 @@ const { bindManagedProxyLifetime } = require('./src/proxy-lifecycle');
 const {
   resolveKnowledgeRoot,
   assertCompleteKnowledgeRoot,
+  inspectAbmPatternKnowledge,
 } = require('./src/knowledge-root');
 const {
   selectedCliProvider,
@@ -858,7 +861,9 @@ async function callCodexContractExplanation(
   }
 }
 
-async function callCodexDialogue(inputValue) {
+const { buildAbmDialoguePrompt } = require('./src/reports/ABM-messages');
+
+async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
     const err = new Error('Codex dialogue requires a non-empty question.');
@@ -874,6 +879,8 @@ async function callCodexDialogue(inputValue) {
   // Dialogue reads Proxy-owned knowledge in its disposable request directory.
   // Validator workspace, skills and output schemas are not used by this route.
   inspectActiveApolloKnowledge();
+  const abm = dialogueUsesAbmRules(question, inputValue.dialogue)
+    ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
     const error = new Error(
       `${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`
@@ -885,10 +892,10 @@ async function callCodexDialogue(inputValue) {
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
   const outputPath = path.join(runDirectory, 'response.md');
-  const knowledgeRoot =
+  const knowledgeRoot = abm?.root || (
     APOLLO_CODEX_KNOWLEDGE_SOURCE === 'design-system_ab'
       ? CODEX_DESIGN_SYSTEM
-      : CODEX_DS_AI_HUB;
+      : CODEX_DS_AI_HUB);
   const args = [
     'exec',
     '--json',
@@ -907,11 +914,9 @@ async function callCodexDialogue(inputValue) {
   ];
   if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
-  const prompt = buildCodexDialoguePrompt(
-    question,
-    inputValue.dialogue,
-    APOLLO_CODEX_KNOWLEDGE_SOURCE
-  );
+  const prompt = abm
+    ? buildAbmDialoguePrompt(question, normalizeDialogueHistory(inputValue.dialogue), abm.root)
+    : buildCodexDialoguePrompt(question, inputValue.dialogue, APOLLO_CODEX_KNOWLEDGE_SOURCE);
 
   activeCodexRuns += 1;
   try {
@@ -928,9 +933,16 @@ async function callCodexDialogue(inputValue) {
       },
       'text'
     );
+    if (abm) {
+      const current = inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
+      if (current.root !== abm.root || current.contentSha256 !== abm.contentSha256) {
+        throw Object.assign(new Error('Паттерны АБМ изменились во время ответа. Повторите запрос.'), { code: 'ABM_KNOWLEDGE_CHANGED', status: 503 });
+      }
+      onKnowledge?.({ contentVersion: 'abm-local-' + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, source: 'local-abm-markdown' });
+    }
     console.info('[Apollo][codex] dialogue completed', {
-      knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
-      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+      knowledgeSource: abm ? 'local-abm-markdown' : APOLLO_CODEX_KNOWLEDGE_SOURCE,
+      knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
     });
     return result;
@@ -1683,6 +1695,7 @@ app.post('/analyze', async (req, res) => {
     // The historical codex wire alias follows the desktop agent selection.
     const provider = inputValue.source === 'codex' ? CLI_PROVIDER : 'alfagen';
     let result;
+    let localKnowledge;
     if (provider === 'alfagen') {
       if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429});
       activeCodexRuns++;
@@ -1695,7 +1708,7 @@ app.post('/analyze', async (req, res) => {
       catch (error) { failure = error; throw error; }
       finally { tracked.end(failure); activeCodexRuns--; res.removeListener('close', onClose); }
     } else {
-      result = await callCodexDialogue(inputValue);
+      result = await callCodexDialogue(inputValue, { onKnowledge: value => { localKnowledge = value; } });
     }
     if (typeof result !== 'string' || !result.trim()) {
       throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
@@ -1711,7 +1724,7 @@ app.post('/analyze', async (req, res) => {
       source: inputValue.source,
       provider,
       model: provider === 'alfagen' ? null : AGENT_MODEL || null,
-      knowledgeRelease: provider === 'alfagen' ? null : APOLLO_KNOWLEDGE_RELEASE,
+      knowledgeRelease: provider === 'alfagen' ? null : localKnowledge || APOLLO_KNOWLEDGE_RELEASE,
     });
   } catch (err) {
     res.status(err.status || 500).json({
