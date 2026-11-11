@@ -21,11 +21,17 @@ function fixture(t){
  return {root,service,chat,calls,options,source,send,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
-test('phase source plan receives brief/read ranges and usage correlates distinct structure/content runs',async t=>{
+test('initial CLI prompt omits the source plan and resume retains phase planning and usage correlation',async t=>{
  const f=fixture(t),plans=[];f.source.plan=input=>{plans.push(input);return {sourcePin:'source-pin',phase:input.phase,required:[{id:'rule'}],candidates:[],gaps:[]};};
- f.send('Build a landing');await f.service.settled(f.chat.id);f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
- assert.deepEqual(plans.map(p=>p.phase),['structure','content']);assert.equal(plans[0].resuming,false);assert.equal(plans[1].resuming,true);assert(plans[1].query.includes('Build a landing'));assert(plans[1].ledger.length);
- assert(Object.hasOwn(plans[1].ledger[0],'returned'));assert(plans[0].providedIds.includes('skills/ab-generate-custom-landing/SKILL.md'));
+ f.send('Build a landing');await f.service.settled(f.chat.id);
+ const initial=JSON.parse(f.calls[0].prompt.split('\n').at(-1));
+ assert.equal(Object.hasOwn(initial,'sourcePlan'),false);assert.equal(plans.length,0);
+ assert.equal(initial.userMessage,'Build a landing');assert.deepEqual(initial.skill,f.source.initial.instructions);
+ assert.equal(f.service.poll(f.chat.id).status,'needs-structure-approval');
+ f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
+ assert.deepEqual(plans.map(p=>p.phase),['content']);assert.equal(plans[0].resuming,true);
+ assert(plans[0].query.includes('Build a landing'));assert(Object.hasOwn(plans[0].ledger[0],'returned'));
+ assert(plans[0].providedIds.includes('skills/ab-generate-custom-landing/SKILL.md'));
  const contexts=f.calls.map(c=>c.diagnosticContext);assert(contexts.every(c=>c.requestId.startsWith('landing-chat:'+f.chat.id+':')));assert.notEqual(contexts[0].requestId,contexts[1].requestId);assert.notEqual(contexts[0].runId,contexts[1].runId);assert.deepEqual(contexts.map(c=>c.stage),['structure','content']);
  assert.equal(JSON.parse(f.calls[1].prompt.split('\n').at(-1)).sourcePlan.phase,'content');assert.equal(f.service.poll(f.chat.id).status,'completed');
 });
