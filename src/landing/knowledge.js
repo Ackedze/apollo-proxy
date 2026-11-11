@@ -7,14 +7,14 @@ const searchText=value=>value.toLowerCase().normalize('NFKC').replace(/[^\p{L}\p
 const fail=code=>{throw Object.assign(Error(code),{code,status:503});};
 const sha=catalog.sha;
 const MAX_READ_BYTES=32768;
-function pageResult(base,value,offset,limit){
+function pageResult(base,value,offset,limit,maxBytes){
  const array=Array.isArray(value),total=value.length,max=Math.min(limit,array?100:limit,Math.max(0,total-offset));
  const row=count=>Object.assign({},base,{next:offset+count<total?offset+count:null,total,returned:count,text:array?JSON.stringify(value.slice(offset,offset+count)):value.slice(offset,offset+count)});
  let low=0,high=max;
- while(low<high){const n=Math.ceil((low+high)/2);if(Buffer.byteLength(JSON.stringify(row(n)))<=MAX_READ_BYTES)low=n;else high=n-1;}
+ while(low<high){const n=Math.ceil((low+high)/2);if(Buffer.byteLength(JSON.stringify(row(n)))<=maxBytes)low=n;else high=n-1;}
  if(!array&&low>0&&/[\uD800-\uDBFF]/.test(value[offset+low-1])&&/[\uDC00-\uDFFF]/.test(value[offset+low]||''))low--;
  if(!low&&max)return Object.assign({},base,{tooLarge:true,total,returned:0,next:null,availablePath:array?base.path.concat(String(offset)):base.path,hint:array?'One item exceeds the response budget. Read keys at availablePath, then read the needed child fields. No item was read.':'Select a narrower JSON path or read keys. No value was read.'});
- const result=row(low);if(Buffer.byteLength(JSON.stringify(result))>MAX_READ_BYTES)fail('LANDING_RESOURCE_INVALID');return result;
+ const result=row(low);if(Buffer.byteLength(JSON.stringify(result))>maxBytes)fail('LANDING_RESOURCE_INVALID');return result;
 }
 function readLandingSkill(root,id=catalog.LANDING_ID,manifest=null){
  if(!catalog.skillId(id))fail('LANDING_SKILL_UNAVAILABLE');root=path.resolve(root);const folder=path.join(root,'skills',id),pins=[];
@@ -44,16 +44,18 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
   if(sha(fs.readFileSync(manifestFile))!==manifestHash||sha(fs.readFileSync(workflowFile))!==workflowHash)fail('LANDING_DATA_STALE');skill.assertCurrent();
   for(const [file,pin]of used){const stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(file)!==file||sha(fs.readFileSync(file))!==pin)fail('LANDING_DATA_STALE');}
  }
- function sourceText(pin){
+ function sourceText(pin,remember=true){
   if(pin.text!==undefined)return pin.text;
   const file=path.join(releaseRoot,pin.file),stat=fs.lstatSync(file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(file)!==file)fail('LANDING_RESOURCE_INVALID');
-  const bytes=fs.readFileSync(file);if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail('LANDING_DATA_STALE');used.set(file,pin.sha256);return bytes.toString('utf8');
+  const bytes=fs.readFileSync(file);if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail('LANDING_DATA_STALE');
+  if(remember)used.set(file,pin.sha256);
+  return bytes.toString('utf8');
  }
- function read(request){
+ function read(request,maxBytes=MAX_READ_BYTES){
   const pin=resources.get(request?.id),mode=request?.mode||'read',offset=request?.offset??0,limit=request?.limit??12000,keys=request?.path||[];
   if(!pin||!['read','keys','summary'].includes(mode)||!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>16000||!Array.isArray(keys)||keys.length>24||keys.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)||(typeof k==='string'&&/(^|[\\/])\.\.($|[\\/])/.test(k))))fail('LANDING_RESOURCE_INVALID');
   assertCurrent();const text=sourceText(pin);
-  const base={id:pin.file,sha256:pin.sha256,path:keys,mode,offset};if(Buffer.byteLength(JSON.stringify(base))>MAX_READ_BYTES-1024)fail('LANDING_RESOURCE_INVALID');let value;
+  const base={id:pin.file,sha256:pin.sha256,path:keys,mode,offset};if(Buffer.byteLength(JSON.stringify(base))>maxBytes-1024)fail('LANDING_RESOURCE_INVALID');let value;
   const invalid=(code,availablePath,allowedModes,hint)=>({...base,error:{code,availablePath,allowedModes,hint}});
   if(pin.file.endsWith('.json')){
    value=JSON.parse(text);for(let i=0;i<keys.length;i++){const key=keys[i];if(value===null||typeof value!=='object'||!Object.prototype.hasOwnProperty.call(value,key))return {id:pin.file,sha256:pin.sha256,path:keys,mode,offset,error:{code:'LANDING_RESOURCE_PATH_INVALID',availablePath:keys.slice(0,i),hint:'Read keys at availablePath, then select an observed key. This read failed; no asset was selected.'}};value=value[key];}
@@ -61,13 +63,13 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
     return invalid('LANDING_RESOURCE_MODE_INVALID',keys,['read','keys'],'Hub JSON supports read and keys. Read observed child fields; no source body was read.');
    }
    if(mode==='keys')value=Array.isArray(value)?value.map((_,i)=>i):value&&typeof value==='object'?Object.keys(value):[];
-   if(Array.isArray(value))return pageResult(base,value,offset,limit);
+   if(Array.isArray(value))return pageResult(base,value,offset,limit,maxBytes);
    if(offset!==0)return invalid('LANDING_RESOURCE_RANGE_INVALID',keys,['read','keys'],'This JSON value is not an array. Read it with offset=0, or select an observed array child.');
    const result=Object.assign({},base,{next:null,total:null,text:JSON.stringify(value)});
-   if(Buffer.byteLength(JSON.stringify(result))>MAX_READ_BYTES)return Object.assign({},base,{tooLarge:true,returned:0,next:null,total:null,availablePath:keys,hint:'Read keys at availablePath and select needed fields. No value was read.'});
+   if(Buffer.byteLength(JSON.stringify(result))>maxBytes)return Object.assign({},base,{tooLarge:true,returned:0,next:null,total:null,availablePath:keys,hint:'Read keys at availablePath and select needed fields. No value was read.'});
    return result;
   }
-  if(keys.length||mode!=='read')return invalid(mode!=='read'?'LANDING_RESOURCE_MODE_INVALID':'LANDING_RESOURCE_PATH_INVALID',[],['read'],'Read this text document with mode=read and path=[]. offset/limit are character ranges; follow next. No source body was read.');return pageResult(base,text,offset,limit);
+  if(keys.length||mode!=='read')return invalid(mode!=='read'?'LANDING_RESOURCE_MODE_INVALID':'LANDING_RESOURCE_PATH_INVALID',[],['read'],'Read this text document with mode=read and path=[]. offset/limit are character ranges; follow next. No source body was read.');return pageResult(base,text,offset,limit,maxBytes);
  }
  function routing(query){
   const match=query.match(/^(?:knowledge\/data\/ds-ai-hub\/)?((?:products\/([a-z0-9-]+)|core\/web)\/components\/[a-z0-9-]+)\/?$/);
@@ -93,6 +95,39 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
   assertCurrent();const words=query.split(/\s+/).map(searchText).filter(Boolean),rows=query.trim()&&!words.length?[]:Array.from(resources.values()).filter(pin=>words.every(word=>searchText(pin.file).includes(word))).sort((a,b)=>a.file.localeCompare(b.file)),route=offset===0?routing(query):null;
   return {query,offset,total:rows.length,next:offset+64<rows.length?offset+64:null,resources:rows.slice(offset,offset+64).map(({file,bytes,sha256})=>({id:file,bytes,sha256,capabilities:{modes:file.endsWith('.json')?['read','keys']:['read'],pathItems:'string'}})),...(route?{routing:route}:{})};
  }
+ function search({query,offset=0,limit=12}){
+  if(typeof query!=='string'||query.length>256||!Number.isSafeInteger(offset)||offset<0||!Number.isSafeInteger(limit)||limit<1||limit>24)fail('LANDING_RESOURCE_INVALID');
+  const words=[...new Set(query.toLowerCase().match(/[\p{L}\p{N}]+/gu)||[])];
+  if(!words.length||words.length>12)fail('LANDING_RESOURCE_INVALID');
+  assertCurrent();
+  const terms=words.map(word=>new RegExp(word,'iu'));
+  const phrase=new RegExp(query.trim().replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'iu');
+  const hits=[];
+  for(const pin of resources.values()){
+   if(!pin.file.startsWith(HUB))continue;
+   // Every scan verifies the file pin; navigation does not add files to the read set.
+   const text=sourceText(pin,false);
+   const literal=phrase.exec(text);
+   const matches=literal?[literal]:terms.map(term=>term.exec(text));
+   if(matches.some(match=>!match))continue;
+   const first=matches.reduce((a,b)=>a.index<=b.index?a:b);
+   const end=Math.max(...matches.map(match=>match.index+match[0].length));
+   const snippetOffset=Math.max(0,first.index-60);
+   const position={offset:first.index,length:first[0].length,line:text.slice(0,first.index).split('\n').length,column:first.index-text.lastIndexOf('\n',first.index-1)};
+   hits.push({literal:Boolean(literal),span:end-first.index,match:{id:pin.file,sha256:pin.sha256,position,snippetOffset,snippet:text.slice(snippetOffset,snippetOffset+240)}});
+  }
+  hits.sort((a,b)=>Number(b.literal)-Number(a.literal)||a.span-b.span||a.match.id.localeCompare(b.match.id));
+  const result={query,offset,total:hits.length,next:null,matches:[]};
+  for(const hit of hits.slice(offset,offset+limit)){
+   result.matches.push(hit.match);
+   if(Buffer.byteLength(JSON.stringify(result))>MAX_READ_BYTES-1024){result.matches.pop();break;}
+  }
+  if(offset+result.matches.length<hits.length){
+   if(!result.matches.length)fail('LANDING_RESOURCE_INVALID');
+   result.next=offset+result.matches.length;
+  }
+  return result;
+ }
  const base='knowledge/data/ds-ai-hub/',legacyRequired=['AGENTS.md','products/ab/manifest.json','products/ab/patterns/landing-pages.md','products/ab/patterns/business-segment-styles.md','products/ab/patterns/draft-layout.md'].map(file=>base+file);
  const required=skill.generation?[...new Set([base+'AGENTS.md',...skill.generation.requiredResources])]:legacyRequired;
  if(required.some(id=>!id.startsWith(HUB)))fail('LANDING_KNOWLEDGE_POLICY_INVALID');
@@ -106,7 +141,7 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
  const instructions=skill.generation?Object.fromEntries(skill.generation.initialFiles.map(file=>[file,skill.bodies[file]])):skill.bodies;
  const resumePin=sha(Buffer.from(JSON.stringify([manifestHash,workflowHash,skill.sha256,POLICY])));
  const plan=createSourcePlanner({resources,skill,sourcePin:resumePin,releaseId:manifest.id,metadata:id=>JSON.parse(sourceText(resources.get(id))),routing,assertCurrent});
- return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,
+ return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,search,
   initial:{knowledgePolicy:POLICY,assetSources,selectedSkill:{id:skill.id,name:skill.name,resourcesRoot:'skills/'+skill.id+'/'},hostInstructions:skill.generation?skill.generation.hostInstructions:'Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules. Tag the CorporateContent instance role=host in apollolanding.',skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list(skill.generation?skill.generation.initialQueries[0]||'':'products/ab/patterns/'),indexes:skill.generation?.initialQueries.map(query=>list(query))||[]}};
 }
-module.exports={readLandingSkill,openKnowledge};
+module.exports={readLandingSkill,openKnowledge,MAX_READ_BYTES};

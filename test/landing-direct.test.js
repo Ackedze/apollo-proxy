@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {FLOW,createDirectLandingService,mountDirectLandingRoutes}=require('../src/landing/direct-service');
 function fixture(t){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'direct-landing-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
- let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[];
+ let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[];
  const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
  const options={root,knowledge:()=>source,isProcessAlive:()=>false,createCli:()=>({async run(input){
   calls.push(input);const context=JSON.parse(input.prompt.split('\n').at(-1));
@@ -12,13 +12,14 @@ function fixture(t){
   if(hold)await new Promise(resolve=>{held=resolve;input.signal.addEventListener('abort',resolve,{once:true});});
   if(input.signal.aborted)throw Object.assign(Error('Stopped'),{code:'AGENT_CANCELLED'});
   input.onEvent({type:'item.completed',item:{id:'source:1',type:'mcp_tool_call',server:'apollo_knowledge',tool:'read_source',status:'completed',result:{content:[{type:'text',text:JSON.stringify({id:'knowledge/data/ds-ai-hub/products/ab/patterns/landing-pages.md',sha256:'b'.repeat(64),path:[],offset:0,mode:'read',text:'Rule.',sourcePin:'source-pin'})}]}}});
+  for(const [index,{tool,value}] of knowledgeEvents.entries())input.onEvent({type:'item.completed',item:{id:'knowledge:'+index,type:'mcp_tool_call',server:'apollo_knowledge',tool,status:'completed',result:{content:[{type:'text',text:JSON.stringify(value)}]}}});
   if(inspection)input.onEvent({type:'item.completed',item:{id:'inspect:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify(inspection(context))}]}}});
   const hasRoot=result!=='needs-input'&&!onlyInspection;if(hasRoot)input.onEvent({type:'item.completed',item:{id:'figma:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({target:{rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce}})}]}}});
   return {result:{status:result,message:'Actual fixture checkpoint',rootNodeId:hasRoot?'30:40':null,checkpoint:'Existing frame and next action',checks:[],issues:[]},receipt:{usage:{actualInputTokens:10,actualOutputTokens:5}}};
  }})};
  const service=createDirectLandingService(options),chat=service.create({id:crypto.randomUUID(),fileKey:'FigmaTestFile',pageId:'1:2',placement:{mode:'new-section',sectionId:null}});
  const send=(text='Build a landing')=>service.submit(chat.id,{requestId:crypto.randomUUID(),revision:service.poll(chat.id).revision,text});
- return {root,service,chat,calls,options,source,send,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
+ return {root,service,chat,calls,options,source,send,knowledgeEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
 test('initial CLI prompt omits the source plan and resume retains phase planning and usage correlation',async t=>{
@@ -27,6 +28,7 @@ test('initial CLI prompt omits the source plan and resume retains phase planning
  const initial=JSON.parse(f.calls[0].prompt.split('\n').at(-1));
  assert.equal(Object.hasOwn(initial,'sourcePlan'),false);assert.equal(plans.length,0);
  assert.equal(initial.userMessage,'Build a landing');assert.deepEqual(initial.skill,f.source.initial.instructions);
+ assert.match(f.calls[0].prompt,/search_sources.*read_sources/);
  assert.equal(f.service.poll(f.chat.id).status,'needs-structure-approval');
  f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
  assert.deepEqual(plans.map(p=>p.phase),['content']);assert.equal(plans[0].resuming,true);
@@ -34,6 +36,19 @@ test('initial CLI prompt omits the source plan and resume retains phase planning
  assert(plans[0].providedIds.includes('skills/ab-generate-custom-landing/SKILL.md'));
  const contexts=f.calls.map(c=>c.diagnosticContext);assert(contexts.every(c=>c.requestId.startsWith('landing-chat:'+f.chat.id+':')));assert.notEqual(contexts[0].requestId,contexts[1].requestId);assert.notEqual(contexts[0].runId,contexts[1].runId);assert.deepEqual(contexts.map(c=>c.stage),['structure','content']);
  assert.equal(JSON.parse(f.calls[1].prompt.split('\n').at(-1)).sourcePlan.phase,'content');assert.equal(f.service.poll(f.chat.id).status,'completed');
+});
+test('batch records actual successful read ranges once and search snippets never count as reads',async t=>{
+ const f=fixture(t),id='knowledge/data/ds-ai-hub/fixture.json';
+ const row={id,sha256:'c'.repeat(64),path:['sections'],mode:'read',offset:1,returned:1,total:4,next:2,text:'["section"]'};
+ f.knowledgeEvents.push({tool:'search_sources',value:{sourcePin:'source-pin',matches:[row]}},{tool:'read_sources',value:{sourcePin:'source-pin',results:[row,row,{...row,id:'missing',error:{code:'LANDING_RESOURCE_INVALID'}},{...row,mode:'keys'},{...row,tooLarge:true}]}});
+ f.send();await f.service.settled(f.chat.id);
+ const c=f.service.poll(f.chat.id);
+ assert.equal(c.status,'needs-structure-approval');assert.equal(c.sources.length,2);
+ assert.deepEqual(c.sources[1],{id,sha256:row.sha256,path:row.path,offset:1,returned:1,total:4,next:2});
+ const stale=fixture(t);
+ stale.knowledgeEvents.push({tool:'read_sources',value:{sourcePin:'foreign',results:[row]}});
+ stale.send();await stale.service.settled(stale.chat.id);
+ const rejected=stale.service.poll(stale.chat.id);assert.equal(rejected.error.code,'LANDING_DATA_STALE');assert.equal(rejected.sources.length,1);
 });
 test('successful initial no-root inspection continues to actual root creation and approval',async t=>{
  const f=fixture(t);f.setInspection(absent);f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);

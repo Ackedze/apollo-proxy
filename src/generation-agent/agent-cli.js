@@ -4,6 +4,7 @@ const {measurement,budget,persistMeasurement,createUsageTracker}=require('./usag
 const fs=require('node:fs'),fsp=require('node:fs/promises'),path=require('node:path'),crypto=require('node:crypto');
 const {spawn,execFile}=require('node:child_process');
 const {promisify}=require('node:util');
+const DIRECT_KNOWLEDGE_TOOLS=['list_sources','read_source','search_sources','read_sources'];
 const figmaConnection=require('../figma-mcp/connection');
 const MAX_PROMPT_CHARS=900000;
 const MCP_MAX_TOOL_CALLS=24;
@@ -71,7 +72,7 @@ function invocation(options){
  const args=['-a','never','exec','--sandbox','read-only','--cd',workspace];if(sessionId)args.push('resume',sessionId);
  args.push('--json','--ignore-user-config','--ignore-rules','--skip-git-repo-check','--output-schema',schemaPath,'--output-last-message',outputPath);
  const quote=JSON.stringify,env={APOLLO_RELEASE_ROOT:knowledgeConnection.releaseRoot,APOLLO_PROJECT_ROOT:knowledgeConnection.runtimeRoot,APOLLO_GENERATION_SOURCE_PIN:knowledgeConnection.sourcePin,APOLLO_GENERATION_SKILL_ID:knowledgeConnection.skillId};
- const reader='command='+quote(process.execPath)+',args='+quote([path.join(__dirname,'../landing/knowledge-mcp.js')])+',env={'+Object.entries(env).map(([k,v])=>k+'='+quote(v)).join(',')+'},enabled=true,required=true,enabled_tools=["list_sources","read_source"],default_tools_approval_mode="approve"';
+ const reader='command='+quote(process.execPath)+',args='+quote([path.join(__dirname,'../landing/knowledge-mcp.js')])+',env={'+Object.entries(env).map(([k,v])=>k+'='+quote(v)).join(',')+'},enabled=true,required=true,enabled_tools='+quote(DIRECT_KNOWLEDGE_TOOLS)+',default_tools_approval_mode="approve"';
  const connection='mcp_servers={apollo_figma_mcp={'+figmaConnection.serverConfig(mcpConnection.tools)+',default_tools_approval_mode="approve",tool_timeout_sec='+MCP_TOOL_TIMEOUT_MS/1000+'},apollo_knowledge={'+reader+'}}';
  for(const setting of ['features.skip_host_skill_discovery=true','features.skill_search=false','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','features.multi_agent=false','project_doc_max_bytes=0','web_search="disabled"','sandbox_workspace_write.writable_roots=[]','sandbox_workspace_write.network_access=false',figmaConnection.credentialsConfig,connection])args.push('-c',setting);
  if(model)args.push('--model',model);args.push('-');return args;
@@ -179,7 +180,7 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
     if(!isMcp(profile)&&['mcp_tool_call','command_execution','file_change'].includes(event.item?.type)){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
     if(isMcp(profile)&&event.item?.type==='mcp_tool_call'){
      const item=event.item,server=item.server||item.server_name,sourceCall=profile==='landing-direct'&&server==='apollo_knowledge';
-     if((sourceCall?!['list_sources','read_source'].includes(item.tool):server!=='apollo_figma_mcp'||!mcpConnection.tools.includes(item.tool))||typeof item.id!=='string'){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
+     if((sourceCall?!DIRECT_KNOWLEDGE_TOOLS.includes(item.tool):server!=='apollo_figma_mcp'||!mcpConnection.tools.includes(item.tool))||typeof item.id!=='string'){stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
      let toolArguments=item.arguments;try{if(typeof toolArguments==='string')toolArguments=JSON.parse(toolArguments);}catch{stop('AGENT_MCP_TOOL_NOT_ALLOWED');return;}
      if(!toolArguments||!sourceCall&&toolArguments.fileKey!==mcpConnection.fileKey){stop('AGENT_MCP_FILE_SCOPE_MISMATCH');return;}
      toolCalls.add(item.id);if(toolCalls.size>maxToolCalls){stop('AGENT_MCP_TOOL_LIMIT');return;}

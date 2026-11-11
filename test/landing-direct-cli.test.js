@@ -48,8 +48,14 @@ test('failed generation gaps, repeated totals and resets agree between journal a
 });
 test('every fresh and resumed CLI launch disables host skills/shell and connects the pinned reader plus direct Figma MCP',async t=>{
  const f=fixture(t);const first=await f.run();await f.run({sessionId:first.receipt.sessionId});assert.equal(first.receipt.sessionId,session);
- for(const args of f.invocations){for(const setting of ['features.skip_host_skill_discovery=true','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false'])assert(args.includes(setting));assert(!args.includes('--ephemeral'));const config=args.find(x=>x.startsWith('mcp_servers='));assert(config.includes('apollo_figma_mcp=')&&config.includes('apollo_knowledge=')&&config.includes(knowledge.sourcePin));assert(config.includes('knowledge-mcp.js'));}
+ for(const args of f.invocations){for(const setting of ['features.skip_host_skill_discovery=true','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false'])assert(args.includes(setting));assert(!args.includes('--ephemeral'));const config=args.find(x=>x.startsWith('mcp_servers='));assert(config.includes('apollo_figma_mcp=')&&config.includes('apollo_knowledge=')&&config.includes(knowledge.sourcePin));assert(config.includes('knowledge-mcp.js'));assert(config.includes('enabled_tools=["list_sources","read_source","search_sources","read_sources"]'));}
  assert(!f.invocations[0].includes('resume'));assert.equal(f.invocations[1][f.invocations[1].indexOf('resume')+1],session);
+});
+test('direct CLI accepts both new knowledge calls and keeps them in the tool budget',async t=>{
+ const events=['search_sources','read_sources'].map(tool=>({type:'item.completed',item:{id:tool,type:'mcp_tool_call',server:'apollo_knowledge',tool,arguments:{},status:'completed'}}));
+ const f=fixture(t,null,{state:'connected'},{eventsForRun:()=>events});
+ const output=await f.run();assert.equal(output.receipt.mcp.toolCalls,3);
+ await assert.rejects(f.run({mcpBudget:{maxToolCalls:2}}),{code:'AGENT_MCP_TOOL_LIMIT'});
 });
 for(const attack of ['server','shell','file','file-scope'])test('direct CLI refuses '+attack+' outside its two allowed MCP capabilities',async t=>{
  const f=fixture(t,attack);await assert.rejects(f.run(),{code:attack==='file-scope'?'AGENT_MCP_FILE_SCOPE_MISMATCH':'AGENT_MCP_TOOL_NOT_ALLOWED'});
