@@ -35,7 +35,7 @@ test('guide citations are checked and captions never invent a pattern version or
  const f=fixture(t),q='Buttons accessibility HIG',packet=buildAbmKnowledgePacket(f.source(),q,[],{platform:'iOS'});
  const row=packet.rules.find(row=>row.sourceType==='guide'&&row.text.includes('accessible name'));
  const answer={answers:[{question:q,kind:'answer',evidence:[{file:row.file,ruleId:row.ruleId,quote:row.text,text:'У кнопки должно быть доступное имя.'}]}]};
- const text=renderAbmResponse(answer,f.root,q,packet);assert(text.includes('Гайд: HIG — «Buttons»'));assert(!text.includes('Паттерн:'));assert(!text.includes('Пример'));
+ const text=renderAbmResponse(answer,f.root,q,packet);assert(text.includes('Гайд: HIG — [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons)'));assert(!text.includes('Паттерн:'));assert(!text.includes('Пример'));
  answer.answers[0].evidence[0].quote='Invented guideline sentence';assert.throws(()=>renderAbmResponse(answer,f.root,q,packet),e=>e.code==='ABM_QUOTE_MISMATCH');
 });
 test('guide modifications change source identity and foreign products and symlinks are rejected',t=>{
@@ -64,4 +64,18 @@ test('multiple questions preserve guide ownership in structured blocks',t=>{
  const text=renderAbmResponse(value,f.root,q,{rules:[{file:doc.file,ruleId:rule.key}]},{onBlocks:value=>{blocks=value;}});
  assert.equal(blocks.find(b=>b.kind==='guide').question,'Первый вопрос?');
  assert.equal(blocks[0].questionHeading,true);assert.equal(blocks.map(b=>b.text).join('\n\n'),text);
+});
+
+test('guide links bind to the exact source identity and official family, without unrelated or invented destinations',()=>{
+ const {guideUrl,safeGuideUrl}=require('../src/reports/ABM-guide-links');
+ const url=guideUrl({family:'hig',guideId:'guide:hig.playing-haptics',title:'Playing haptics'});
+ assert.equal(url,'https://developer.apple.com/design/human-interface-guidelines/playing-haptics');
+ assert.equal(guideUrl({family:'hig',guideId:'guide:hig.playing-haptics',title:'Different guide'}),null);
+ assert.equal(guideUrl({family:'hig',guideId:'guide:hig.unknown',title:'Unknown'}),null);
+ assert.equal(safeGuideUrl('javascript:alert(1)','hig'),null);
+ assert.equal(safeGuideUrl('https://developer.apple.com.evil.test/design/human-interface-guidelines/buttons','hig'),null);
+ assert.equal(safeGuideUrl('https://m3.material.io/foundations','material2'),null);
+ assert.equal(safeGuideUrl('https://developer.apple.com/documentation/UIKit','hig'),null);
+ assert.equal(safeGuideUrl('https://m2.material.io/design/navigation/understanding-navigation.html','material2'),'https://m2.material.io/design/navigation/understanding-navigation.html');
+ assert.equal(guideUrl({family:'material3',guideId:'guide:material3.designing.structure',title:'Designing — Structure'}),'https://m3.material.io/foundations/designing/structure');
 });

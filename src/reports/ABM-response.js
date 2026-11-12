@@ -72,7 +72,8 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
    if(links.length)paragraphs.push(links.map(link=>(link.platform==='iOS'?'🍏':'🤖')+' [Пример]('+link.url+')').join(' · '));
   }
   const pattern=items[0].pattern;
-  paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — «'+plain(pattern.title)+'»':'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
+  const guideTitle=pattern.sourceUrl?'['+plain(pattern.title)+']('+pattern.sourceUrl+')':'«'+plain(pattern.title)+'»';
+  paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — '+guideTitle:'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
   sections.push(pattern.sourceType==='guide'?{kind:'guide',family:pattern.family,text:paragraphs.slice(start).join('\n\n')}:{kind:'text',text:paragraphs.slice(start).join('\n\n')});
  }
  emit({outcome:'answered',questionIndex,evidenceCount:evidence.length});

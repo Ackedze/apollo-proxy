@@ -43,6 +43,9 @@ function loadGuide(root,file,clean) {
  const header=doc.body.split(/^##\s/m)[0];
  if(!/^- documentType:\s*PlatformGuide\s*$/m.test(header))return null;
  const title=/^#\s+(.+)$/m.exec(doc.body)?.[1]?.trim();if(!title)return null;
+ const guideId=/^- guideID:\s*(.+)$/m.exec(header)?.[1]?.trim();
+ const explicit=scalar(doc.front,'sourceUrl')||/^- sourceUrl:\s*(.+)$/m.exec(header)?.[1]?.trim();
+ const sourceUrl=require('./ABM-guide-links').guideUrl({family,guideId,title,explicit});
  const platform=family==='hig'?'ios':'android';
  const expected=new RegExp('^platforms:\\s*\\[\\s*'+platform+'\\s*\\]\\s*$','m');
  if(!expected.test(doc.front))return null;
@@ -53,12 +56,12 @@ function loadGuide(root,file,clean) {
   if(stack.some(x=>/^(?:Resources|Change log|See also|Ресурсы|История изменений)$/i.test(x.title)))continue;
   if(family==='hig'&&stack.some(x=>/^(?:macOS|watchOS|tvOS|visionOS|iPadOS)$/i.test(x.title)))continue;
   let body=doc.body.slice(h.index+h[0].length,headings[i+1]?.index??doc.body.length);
-  body=body.replace(/^- (?:documentType|guideID|guideTitle|platform|tags):[^\n]*$/gm,'').replace(/<[^>]*>/g,'').replace(/\|/g,' ');
+  body=body.replace(/^- (?:documentType|guideID|guideTitle|platform|tags|sourceUrl):[^\n]*$/gm,'').replace(/<[^>]*>/g,'').replace(/\|/g,' ');
   body=clean(body);stack[stack.length-1].body=body;if(!body)continue;
   const names=stack.map(x=>x.title),key='G'+crypto.createHash('sha256').update(names.join('\n')+'\n'+i).digest('hex').slice(0,12);
   rules.push({key,body,headings:names,context:stack.slice(0,-1).map(item=>item.title+'\n'+(item.body||'')).join('\n\n')});
  }
  return {file,title,version:'',patternId:scalar(doc.front,'id'),metadata:family+' '+title+' '+platform,
-  sourceType:'guide',family,guideLabel:families[family],platform,rules,examples:[]};
+  sourceType:'guide',family,guideLabel:families[family],platform,sourceUrl,rules,examples:[]};
 }
 module.exports={filesFor,read,hubPatternMetadata,loadGuide,scalar,layout};
