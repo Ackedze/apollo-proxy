@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const uxWriter=require('./ux-writer');
 const ID='figma-layer-name-hygiene';
 const FILES=['SKILL.md','profile.json','run/SKILL.md','run/profile.json'];
 const LANDING_ID='ab-generate-custom-landing';
@@ -38,6 +39,16 @@ function catalogEntries(bytes){
 function catalogEntry(bytes){return catalogEntries(bytes).find(e=>e.id===ID);}
 function packageFiles(bytes,expectedId=ID){
   const value=parse(bytes);
+  if(value.schemaVersion===uxWriter.PACKAGE_SCHEMA){
+    if(!exact(value,['schemaVersion','id','version','name','description','executorId','files'])
+      ||expectedId!==uxWriter.ID||value.id!==expectedId||value.executorId!==uxWriter.EXECUTOR
+      ||!/^\d+\.\d+\.\d+$/.test(value.version||'')||typeof value.name!=='string'||!value.name||value.name.length>120
+      ||typeof value.description!=='string'||value.description.length>1000||!Array.isArray(value.files)
+      ||new Set(value.files.map(file=>file?.path)).size!==value.files.length
+      ||value.files.some(file=>!pin(file)||!instructionPath(file.path))
+      ||!['SKILL.md',...uxWriter.BASE,uxWriter.ROUTES,uxWriter.GLOSSARY,uxWriter.RULES].every(name=>value.files.some(file=>file.path===name)))fail();
+    return value.files;
+  }
   if(value.schemaVersion==='apollo.skill-package.v3'){
     const profile=value.audit;
     if(!exact(value,['schemaVersion','id','version','name','description','executorId','files','audit'])||expectedId!=='ab-audit-figma'||value.id!==expectedId||value.executorId!==AUDIT_EXECUTOR||!/^\d+\.\d+\.\d+$/.test(value.version||'')||!skillId(value.id)||typeof value.name!=='string'||!value.name.length||value.name.length>120||typeof value.description!=='string'||value.description.length>1000
@@ -79,10 +90,10 @@ function skillPackages(root,manifest){
  return manifest.files.filter(pin=>/^skills\/[a-z0-9][a-z0-9-]{0,79}\/manifest\.json$/.test(pin.file)).map(pin=>{
   const id=pin.file.split('/')[1],bytes=fs.readFileSync(path.join(root,pin.file)),descriptor=parse(bytes);
   if(bytes.length!==pin.bytes||sha(bytes)!==pin.sha256)fail();
-  packageFiles(bytes,id);if(id!==LANDING_ID&&![GENERATION_EXECUTOR,AUDIT_EXECUTOR].includes(descriptor.executorId))fail();
+  packageFiles(bytes,id);if(id!==LANDING_ID&&![GENERATION_EXECUTOR,AUDIT_EXECUTOR,uxWriter.EXECUTOR].includes(descriptor.executorId))fail();
   return{id,descriptor,files:descriptor.files};
  });
 }
-function generationPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId!==AUDIT_EXECUTOR);}
+function generationPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.id===LANDING_ID||p.descriptor.executorId===GENERATION_EXECUTOR);}
 function auditPackages(root,manifest){return skillPackages(root,manifest).filter(p=>p.descriptor.executorId===AUDIT_EXECUTOR);}
 module.exports={AUDIT_CUSTOMIZATION_WIRE,AUDIT_CUSTOMIZATION_CAPABILITY,CUSTOMIZATION_FACTS,AUDIT_EXECUTOR,AUDIT_CAPABILITY,AUDIT_CONTEXT_CAPABILITY,AUDIT_WIRE_VERSION,auditCapabilityForWire,auditSupportsRuntime,skillPackages,auditPackages,ID,FILES,LANDING_ID,LANDING_FILES,GENERATION_EXECUTOR,GENERATION_CAPABILITY,STAGED_WORKFLOW,DIRECT_WORKFLOW,SLOT_CONTENT_REPLACEMENT,skillId,instructionPath,sha,catalogEntry,catalogEntries,packageFiles,readCatalog,generationPackages};
