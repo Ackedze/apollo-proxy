@@ -190,21 +190,42 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
   };
 }
 
+function resolveRuleId(text, ruleId) {
+  if (typeof text !== 'string' || typeof ruleId !== 'string' || !ruleId.trim()) return null;
+  if (text.toLowerCase().includes(ruleId.toLowerCase())) return ruleId;
+
+  const section = /^§\s*(\d+)\.?\s+(.+)$/.exec(ruleId.trim());
+  if (!section) return null;
+  const title = `${section[1]}. ${section[2]}`.toLowerCase();
+  const headings = [...text.matchAll(/^#{1,6}[ \t]+(.+)$/gm)].map(match => match[1].trim());
+  const matches = headings.filter(heading => {
+    const name = heading.toLowerCase();
+    return name === title || name.startsWith(title + ' — ');
+  });
+  return matches.length === 1 ? matches[0] : null;
+}
+
 function validateResult(result, prepared) {
   if (!result || !Array.isArray(result.findings)) fail('UX_WRITER_RESPONSE_INVALID', 502);
   const nodes = new Set(prepared.request.texts.map(t => t.node));
   const sourceText = new Map(prepared.request.sources.map(s => [s.path, s.text]));
   const seen = new Set();
-  for (const row of result.findings) {
+  const findings = result.findings.map(row => {
     if (!nodes.has(row?.nodeId) || seen.has(row.nodeId) || !['error', 'warning', 'info'].includes(row.priority) ||
         typeof row.category !== 'string' || !row.category.trim() || typeof row.message !== 'string' || !row.message.trim() ||
-        !(row.replacement === null || typeof row.replacement === 'string') || !Array.isArray(row.sources) || !row.sources.length ||
-        row.sources.some(source => typeof source?.ruleId !== 'string' || !source.ruleId.trim() ||
-          !sourceText.get(source.path)?.toLowerCase().includes(source.ruleId.toLowerCase()))) fail('UX_WRITER_RESPONSE_INVALID', 502);
+        !(row.replacement === null || typeof row.replacement === 'string') || !Array.isArray(row.sources) || !row.sources.length) {
+      fail('UX_WRITER_RESPONSE_INVALID', 502);
+    }
+    const sources = row.sources.map(source => {
+      const ruleId = resolveRuleId(sourceText.get(source?.path), source?.ruleId);
+      if (ruleId === null) fail('UX_WRITER_RESPONSE_INVALID', 502);
+      return { ...source, ruleId };
+    });
     seen.add(row.nodeId);
-  }
+    return { ...row, sources };
+  });
   return { skillId: ID, skillVersion: prepared.version, releaseId: prepared.releaseId,
-    coverageGaps: prepared.request.coverageGaps, findings: result.findings };
+    coverageGaps: prepared.request.coverageGaps, findings };
 }
 
 module.exports = { ID, REPORT_KIND, PACKAGE_SCHEMA, EXECUTOR, ROUTES, GLOSSARY, RULES, BASE, SCHEMA, prepare, validateCapture, validateResult, roleOf };

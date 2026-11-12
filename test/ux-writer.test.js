@@ -79,3 +79,24 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     fs.rmSync(dir,{recursive:true,force:true});
   }
 });
+
+test('UX-writer resolves a numbered section only within the cited document and only when unambiguous', () => {
+  const path = 'references/fixture.md';
+  const heading = '12. Название раздела — пояснение';
+  const request = {
+    texts: [{ node: '1:2' }],
+    sources: [{ path, text: `## ${heading}\nОбразец текста.` }],
+    coverageGaps: [],
+  };
+  const row = { nodeId: '1:2', priority: 'warning', category: 'Пример', message: 'Замечание', replacement: null };
+  const cite = (ruleId, sourcePath = path) => ux.validateResult({
+    findings: [{ ...row, sources: [{ path: sourcePath, ruleId }] }],
+  }, { request, version: '2.0.0' });
+
+  assert.deepEqual(cite('§12 Название раздела').findings[0].sources, [{ path, ruleId: heading }]);
+  assert.throws(() => cite('§13 Название раздела'), { code: 'UX_WRITER_RESPONSE_INVALID' });
+  assert.throws(() => cite('§12 Другое название'), { code: 'UX_WRITER_RESPONSE_INVALID' });
+  assert.throws(() => cite('§12 Название раздела', 'references/other.md'), { code: 'UX_WRITER_RESPONSE_INVALID' });
+  request.sources[0].text += '\n## 12. Название раздела — второе пояснение';
+  assert.throws(() => cite('§12 Название раздела'), { code: 'UX_WRITER_RESPONSE_INVALID' });
+});
