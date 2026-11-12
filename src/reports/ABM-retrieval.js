@@ -6,7 +6,7 @@ const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
   if(cached?.root===source.root&&cached.sha===source.contentSha256)return cached.rows;
-  const patterns=fs.readdirSync(source.root).filter(file=>/^p_abm_.+\.md$/.test(file)).sort()
+  const patterns=(source.files||require('./ABM-hub-source').filesFor(source.root))
     .map(file=>{
       const pattern=loadPattern(source.root,file);
       if(!pattern)throw Object.assign(new Error('Некорректные метаданные паттерна АБМ.'),{code:'ABM_KNOWLEDGE_UNAVAILABLE',status:503});
@@ -15,6 +15,7 @@ function indexFor(source) {
   const rows=patterns.flatMap(pattern=>pattern.rules.map(rule=>{
     const parents=parentsFor(pattern,rule);
     const record={file:pattern.file,ruleId:rule.key,pattern:pattern.title,version:pattern.version,
+      sourceType:pattern.sourceType||'pattern',family:pattern.family||null,guideLabel:pattern.guideLabel||null,platform:pattern.platform||null,
       context:clean(rule.context),sectionTitles:rule.headings,
       parents:parents.map(parent=>({ruleId:parent.key,text:clean(parent.body)})),text:clean(rule.body)};
     return {record,section:pattern.file+'\n'+rule.context,meta:tokens(pattern.title+' '+pattern.metadata),
@@ -34,7 +35,7 @@ function knowledgePayload(packet) {
   const selected=new Set(packet.rules.map(rule=>rule.file+':'+rule.ruleId));
   const contexts=[],contextIds=new Map(),patterns=new Map();
   const rules=packet.rules.map(rule=>{
-    patterns.set(rule.file,{file:rule.file,title:rule.pattern,version:rule.version});
+    patterns.set(rule.file,{file:rule.file,title:rule.pattern,version:rule.version,sourceType:rule.sourceType||'pattern',family:rule.family||null,platform:rule.platform||null});
     const key=rule.file+'\n'+rule.context;
     if(!contextIds.has(key)) {
       const id='c'+(contexts.length+1);
@@ -71,8 +72,9 @@ function includeChildren(rows,seeds) {
     return key&&[...(families.get(row.record.file)||[])].some(parent=>key.startsWith(parent+'.'));
   })]);
 }
-function buildAbmKnowledgePacket(source,question,dialogue=[]) {
-  const rows=indexFor(source),vocabulary=new Set(rows.flatMap(row=>[...row.weights.keys()]));
+function buildAbmKnowledgePacket(source,question,dialogue=[],{platform}={}) {
+  const allRows=indexFor(source),rows=allRows.filter(row=>row.record.sourceType!=='guide');
+  const vocabulary=new Set(allRows.flatMap(row=>[...row.weights.keys()]));
   const allParts=String(question).split(/[?\n;]+/u).map(part=>part.trim()).filter(Boolean);
   const parts=(allParts.length?allParts:[String(question)]).slice(0,12);
   const topicalVocabulary=new Set(canonicalTerms(rows.flatMap(row=>[...row.meta,...row.heading])));
@@ -176,6 +178,32 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     const sections=new Set(related.map(row=>row.section));
     return uniqueRows([...related,...rows.filter(row=>sections.has(row.section))]);
   });
+  const guidePlans=expansions.map((expansion,index)=>{
+    const request=topic?topic+' '+parts[index]:parts[index];
+    const currentPlatform=/\bios\b|айос|android|андроид/iu.test(parts[index]);
+    const scope=currentPlatform?parts[index]:request;
+    const ios=platform==='iOS'||platform===undefined&&/\bios\b|айос|HIG/iu.test(scope);
+    const android=platform==='Android'||platform===undefined&&/android|андроид/iu.test(scope);
+    const hig=/\bhig\b|human interface guidelines/iu.test(currentPlatform?parts[index]:request);
+    const m2=/(?:material(?:\s*design)?|материал)\s*2/iu.test(request),m3=/(?:material(?:\s*design)?|материал)\s*3/iu.test(request);
+    const topical=expansion.terms.filter(term=>!['hig','material','material2','material3','гайд','гайдлайн','guideline','guidelines','ios','android','02','03'].includes(term)&&!/^\d+$/.test(term));
+    if(!topical.length)return [];
+    const hits=allRows.filter(row=>row.record.sourceType==='guide'&&(!ios||row.record.platform==='ios')&&(!android||row.record.platform==='android')
+      &&(!hig||row.record.family==='hig')
+      &&(!(m2||m3)||(row.record.family!=='hig'&&row.record.family===(m2&&m3?row.record.family:m2?'material2':'material3'))))
+      .map(row=>({row,score:score(row,topical)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
+    const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
+    const bestTitle=Math.max(0,...hits.map(hit=>titleScore(hit.row)));
+    const focused=bestTitle?hits.filter(hit=>titleScore(hit.row)===bestTitle):hits.filter(hit=>hit.score>=hits[0].score*0.5);
+    const counts=new Map(),documents=new Map();
+    return focused.filter(hit=>{
+      const key=hit.row.record.file,family=hit.row.record.family,n=counts.get(key)||0;
+      if(n>=2)return false;
+      if(!documents.has(family))documents.set(family,new Set());
+      const docs=documents.get(family);if(!docs.has(key)&&docs.size>=2)return false;
+      docs.add(key);counts.set(key,n+1);return true;
+    }).slice(0,8).map(hit=>hit.row);
+  });
   const selected=[],seen=new Set(),omitted=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
   let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections})).length;
   const add=(row,allowance=Infinity)=>{
@@ -198,12 +226,16 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   });
   const length=Math.max(0,...plans.map(plan=>plan.length));
   for(let depth=0;depth<length;depth++)for(const plan of plans)if(plan[depth])add(plan[depth]);
-  const packet={rules:selected,matchedSections,indexedRules:rows.length,sourceSha:source.contentSha256,
+  // Guides share the existing hard budget and are considered only after patterns.
+  let guideChars=0;
+  for(let depth=0;depth<8;depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
+    guideChars+=add(plan[depth],12000-guideChars);
+  const packet={rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
     omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;
   packet.diagnostics={queryCount:queries.length,historyUsed,typoCorrections:expansions.reduce((sum,item)=>sum+item.typoCorrections,0),
-    noCandidates:plans.every(plan=>!plan.length),candidateRules:uniqueRows(plans.flat()).length,
-    selectedRules:selected.length,omittedCandidates:omitted.size,queryCoverage:plans.map(plan=>plan.some(row=>seen.has(row.record.file+':'+row.record.ruleId)))};
+    noCandidates:selected.length===0,candidateRules:uniqueRows([...plans.flat(),...guidePlans.flat()]).length,
+    selectedRules:selected.length,omittedCandidates:omitted.size,queryCoverage:plans.map((plan,index)=>[...plan,...guidePlans[index]].some(row=>seen.has(row.record.file+':'+row.record.ruleId)))};
   return packet;
 }
 module.exports={buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS,MAX_RULES,tokens};

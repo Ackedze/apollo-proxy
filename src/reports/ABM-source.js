@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
+const hub = require('./ABM-hub-source');
 const normalize = value => String(value).replace(/\s+/gu, ' ').trim();
 const numericKey = key => /^R\d+(?:\.\d+)*/i.exec(key)?.[0].toUpperCase();
 function scalar(metadata, key) {
@@ -32,19 +33,24 @@ function sections(text, type) {
   return result;
 }
 function loadPattern(root, file) {
-  if (typeof file !== 'string' || !/^p_abm_[\p{L}\p{N}_-]+\.md$/u.test(file)) return null;
-  const full = path.join(root, file);
-  if (fs.realpathSync(full) !== full) return null;
-  const text = fs.readFileSync(full, 'utf8');
-  const metadata = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text)?.[1] || '';
+  if (typeof file === 'string' && file.startsWith('guides/')) return hub.loadGuide(root,file,cleanRuleContent);
+  const doc=hub.read(root,file);if(!doc)return null;
+  const text=doc.text;
+  const metadata=file.startsWith('patterns/')?hub.hubPatternMetadata(doc):doc.front;
+  if(!metadata||!/^ptrn:/.test(scalar(metadata,'abmPatternID')))return null;
   if (scalar(metadata, 'abmDocumentType') !== 'Pattern') return null;
   const rawTitle = scalar(metadata, 'titlePage') || scalar(metadata, 'abmPatternTitle');
   const title = rawTitle.split('::')[0].replace(/^[^\p{L}\p{N}]+/u, '').trim();
   const version = scalar(metadata, 'version');
   if (!title || !/^(?:v\.?\s*)?\d+(?:\.\d+)*(?:[-+][\w.-]+)?$/i.test(version)) return null;
+  let content=text;
+  if(file.startsWith('patterns/')) {
+    const boundary=doc.body.search(/^##\s/m),end=boundary<0?doc.body.length:boundary;
+    content=doc.body.slice(0,end).replace(/^- (?:abmDocumentType|abmPatternType|abmPatternID|abmPatternTitle|platform|version|updatedAt|editor|tags|titlePage|figma_url):[^\n]*$/gm,'')+doc.body.slice(end);
+  }
   return {file, title, version, patternId:scalar(metadata,'abmPatternID'),
     metadata:['abmPatternID','abmPatternTitle','abmPatternType','tags','platform'].map(key=>scalar(metadata,key)).join(' '),
-    rules:sections(text,'Rule'), examples:sections(text,'RuleExample')};
+    rules:sections(content,'Rule'), examples:sections(content,'RuleExample')};
 }
 // The packet and evidence validator must see the same source representation.
 // Strip link destinations, preserving their exact visible labels and all prose.

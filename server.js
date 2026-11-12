@@ -893,7 +893,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
     throw error;
   }
   const history = normalizeDialogueHistory(inputValue.dialogue);
-  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
+  const packet = abm ? buildAbmKnowledgePacket(abm, question, history, { platform: inputValue.dialoguePlatform }) : null;
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
@@ -954,7 +954,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       if (current.root !== abm.root || current.contentSha256 !== abm.contentSha256) {
         throw Object.assign(new Error('Паттерны АБМ изменились во время ответа. Повторите запрос.'), { code: 'ABM_KNOWLEDGE_CHANGED', status: 503 });
       }
-      onKnowledge?.({ contentVersion: 'abm-local-' + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, source: 'local-abm-markdown' });
+      onKnowledge?.({ contentVersion: (abm.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-') + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, guideCount: abm.guideCount, source: abm.source });
     }
     const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event) }) : agentResult;
     if (inputValue.session_id) {
@@ -963,7 +963,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       if (dialogueLibraryBySession.size > 256) dialogueLibraryBySession.delete(dialogueLibraryBySession.keys().next().value);
     }
     console.info('[Apollo][codex] dialogue completed', {
-      knowledgeSource: abm ? 'local-abm-markdown' : APOLLO_CODEX_KNOWLEDGE_SOURCE,
+      knowledgeSource: abm ? abm.source : APOLLO_CODEX_KNOWLEDGE_SOURCE,
       knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
       ...(packet ? { retrieval: { rules: packet.rules.length, indexedRules: packet.indexedRules, packetChars: packet.chars, promptChars: prompt.length, coverageLimited: packet.coverageLimited, ...packet.diagnostics } } : {}),
@@ -1471,6 +1471,14 @@ function publicCodexRun(run) {
 }
 
 app.get('/health', async (req, res) => {
+  let abmKnowledge=null;
+  if(CODEX_ABM_PATTERNS) {
+    try {
+      const source=inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
+      abmKnowledge={ready:true,source:source.source,patternCount:source.patternCount,guideCount:source.guideCount,
+        contentVersion:(source.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-')+source.contentSha256.slice(0,16)};
+    } catch(error) { abmKnowledge={ready:false,error:error.code||'ABM_KNOWLEDGE_UNAVAILABLE'}; }
+  }
   const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
   let skill;
   let knowledge;
@@ -1507,6 +1515,7 @@ app.get('/health', async (req, res) => {
     ok: true,
     activeRequests: activeApiRequests,
     capabilities: { dialoguePlatformRouting: true },
+    abmKnowledge,
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     proxy: {

@@ -71,7 +71,7 @@ function renderAnswer(answer,root,packet,emit,questionIndex) {
    if(links.length)paragraphs.push(links.map(link=>(link.platform==='iOS'?'🍏':'🤖')+' [Пример]('+link.url+')').join(' · '));
   }
   const pattern=items[0].pattern;
-  paragraphs.push('Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
+  paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — «'+plain(pattern.title)+'»':'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
  }
  emit({outcome:'answered',questionIndex,evidenceCount:evidence.length});
  return paragraphs.join('\n\n');

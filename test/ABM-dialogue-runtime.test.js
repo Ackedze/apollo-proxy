@@ -51,7 +51,10 @@ process.stdin.on('end',()=>{
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
  const question=input.split('<question>')[1].split('</question>')[0].trim();
- const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:'p_abm_fixture.md',ruleId:'R01',quote:question.includes('подтверждение')?'Выдуманное утверждение.':'Условие fixture.',text:question.includes('оформление')?'### Условие fixture.':'Условие fixture.'}]}]}):'Ответ fixture';
+ const packet=args.includes('--output-schema')?JSON.parse(input.split('<knowledge>')[1].split('</knowledge>')[0]):null;
+ const selected=packet?.rules.find(rule=>question.includes('Navigation')?rule.file.startsWith('guides/'):!rule.file.startsWith('guides/'));
+ const quote=question.includes('подтверждение')?'Выдуманное утверждение.':selected?.text||'Условие fixture.';
+ const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:selected?.file||'p_abm_fixture.md',ruleId:selected?.ruleId||'R01',quote,text:question.includes('оформление')?'### Условие fixture.':quote}]}]}):'Ответ fixture';
  fs.writeFileSync(args[args.indexOf('--output-last-message')+1],result);
 });
 `);
@@ -145,6 +148,19 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   fs.writeFileSync(${JSON.stringify(mutation)},'mutate');
   const changed=await post('Кнопки АБМ');
   assert.equal(changed.status,503);assert.match(changed.body.error,/изменились/);assert.equal(changed.body.result,undefined);
+  fs.unlinkSync(${JSON.stringify(mutation)});
+  fs.mkdirSync(${JSON.stringify(path.join(patterns,'patterns'))});
+  fs.writeFileSync(${JSON.stringify(path.join(patterns,'patterns/p_abm_fixture.md'))},${JSON.stringify('---\nproduct: abm\nid: ptrn:abm.fixture\n---\n# Fixture\n- abmDocumentType: Pattern\n- abmPatternID: ptrn:controls.fixture\n- abmPatternTitle: Fixture\n- version: v.1.2\n\n## Rules\n### [Rule] R01\nУсловие fixture.\n')});
+  fs.mkdirSync(${JSON.stringify(path.join(patterns,'guides/hig'))},{recursive:true});
+  fs.writeFileSync(${JSON.stringify(path.join(patterns,'guides/hig/g_hig_navigation.md'))},${JSON.stringify('---\nproduct: abm\nid: abm.guides.hig.navigation\nplatforms: [ios]\n---\n# Navigation\n- documentType: PlatformGuide\n\nNavigation uses clear destinations.\n')});
+  const hub=await post('АБМ Navigation HIG',[],'iOS');
+  assert.equal(hub.status,200,JSON.stringify(hub.body));
+  assert.equal(hub.body.knowledgeRelease.source,'ds-ai-hub-abm');
+  assert.equal(hub.body.knowledgeRelease.guideCount,1);
+  assert.match(hub.body.result,/Гайд: HIG/);
+  assert(hub.body.result.includes('Navigation uses clear destinations.'));
+  const hubHealth=await (await fetch('http://127.0.0.1:'+server.address().port+'/health')).json();
+  assert.equal(hubHealth.abmKnowledge.ready,true);assert.equal(hubHealth.abmKnowledge.guideCount,1);assert.equal(hubHealth.abmKnowledge.source,'ds-ai-hub-abm');
   console.log('PASS');
  }finally{await new Promise(resolve=>server.close(resolve));}
 })().catch(error=>{console.error(error);process.exitCode=1;});
