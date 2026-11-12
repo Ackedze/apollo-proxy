@@ -1711,13 +1711,16 @@ function respondWithCodexRun(req, res) {
 app.get('/v1/validate/codex/runs/:runId', respondWithCodexRun);
 app.get('/v1/analyze/codex/runs/:runId', respondWithCodexRun);
 
+const {withAskTokenUsage}=require('./src/reports/ask-token-usage');
 app.post('/analyze', async (req, res) => {
+  const reply=value=>res.json(withAskTokenUsage(value,tokenJournal.snapshotUsage(),process.env.APOLLO_ASK_SHOW_TOKEN_USAGE==='1'));
   try {
     const payload = req.body ?? {};
     const inputValue = normalizeInput(payload);
 
     if (!inputValue || !inputValue.text) {
-      res.status(400).json({
+      res.status(400);
+      reply({
         success: false,
         error:
           'Empty input. Send a string, { text: "..." }, or { report: {...} }.',
@@ -1729,7 +1732,7 @@ app.post('/analyze', async (req, res) => {
     const provider = inputValue.source === 'codex' ? CLI_PROVIDER : 'alfagen';
     if (['iOS', 'Android'].includes(inputValue.dialoguePlatform)
       && !dialogueUsesAbmRules(extractDialogueQuestion(inputValue), [], true)) {
-      res.json({ success: true,
+      reply({ success: true,
         result: 'Сейчас выбран поиск по паттернам АБМ. Чтобы задать вопрос по АБ, выбери Desktop или MobileWeb в переключателе сверху.',
         source: inputValue.source, provider, model: null, knowledgeRelease: null,
         dialogueLibrary: 'abm', responseKind: 'library-selection-notice' });
@@ -1763,7 +1766,7 @@ app.post('/analyze', async (req, res) => {
       throw buildHtmlResponseError('text/html', result);
     }
 
-    res.json({
+    reply({
       success: true,
       result,
       source: inputValue.source,
@@ -1774,7 +1777,8 @@ app.post('/analyze', async (req, res) => {
       ...(inputValue.dialoguePlatform !== undefined ? { dialogueLibrary: ['iOS', 'Android'].includes(inputValue.dialoguePlatform) ? 'abm' : 'ab' } : {}),
     });
   } catch (err) {
-    res.status(err.status || 500).json({
+    res.status(err.status || 500);
+    reply({
       success: false,
       error: err.message || 'Apollo agent error',
       code: err.code || null,

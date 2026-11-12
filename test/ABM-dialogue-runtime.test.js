@@ -55,6 +55,8 @@ process.stdin.on('end',()=>{
  const selected=packet?.rules.find(rule=>question.includes('Navigation')?rule.file.startsWith('guides/'):!rule.file.startsWith('guides/'));
  const quote=question.includes('подтверждение')?'Выдуманное утверждение.':selected?.text||'Условие fixture.';
  const result=args.includes('--output-schema')?JSON.stringify({answers:[{question,kind:'answer',evidence:[{file:selected?.file||'p_abm_fixture.md',ruleId:selected?.ruleId||'R01',quote,text:question.includes('оформление')?'### Условие fixture.':quote}]}]}):'Ответ fixture';
+ const events=[{type:'thread.started',thread_id:require('node:crypto').randomUUID()},{type:'turn.started'},{type:'turn.completed',usage:{input_tokens:12000,output_tokens:300,cached_input_tokens:8000}}];
+ for(const event of events)process.stdout.write(JSON.stringify(event)+'\\n');
  fs.writeFileSync(args[args.indexOf('--output-last-message')+1],result);
 });
 `);
@@ -163,13 +165,26 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert(hub.body.result.includes('Navigation uses clear destinations.'));
   const hubHealth=await (await fetch('http://127.0.0.1:'+server.address().port+'/health')).json();
   assert.equal(hubHealth.abmKnowledge.ready,true);assert.equal(hubHealth.abmKnowledge.guideCount,1);assert.equal(hubHealth.abmKnowledge.source,'ds-ai-hub-abm');
+  process.env.APOLLO_ASK_SHOW_TOKEN_USAGE='1';
+  const metered=await post('АБМ Navigation HIG',[],'iOS');
+  assert.equal(metered.status,200,JSON.stringify(metered.body));
+  assert.equal(metered.body.tokenUsage.totalTokens,12300);
+  assert.equal(metered.body.tokenUsage.cachedInputTokens,8000);
+  assert(metered.body.result.includes('Токены: всего'));
+  assert.equal(metered.body.answerBlocks.map(block=>block.text).join('\\n\\n'),metered.body.result);
+  const callsBeforeNotice=calls().length;
+  const freeNotice=await post('Про АБ',[],'iOS');
+  assert.equal(freeNotice.body.tokenUsage.totalTokens,0);assert.equal(calls().length,callsBeforeNotice);
+  const meteredError=await post('Кнопки АБМ: подтверждение',[],'iOS');
+  assert.equal(meteredError.status,502);assert.equal(meteredError.body.tokenUsage.totalTokens,12300);assert(meteredError.body.error.includes('Токены: всего'));
+  delete process.env.APOLLO_ASK_SHOW_TOKEN_USAGE;
   console.log('PASS');
  }finally{await new Promise(resolve=>server.close(resolve));}
 })().catch(error=>{console.error(error);process.exitCode=1;});
 `;
   const output = execFileSync(process.execPath, ['-e', script], {
     cwd: root, encoding: 'utf8', timeout: 20000,
-    env: { ...process.env, APOLLO_PROXY_MANAGED: '0', APOLLO_CLI_PROVIDER: 'codex',
+    env: { ...process.env, APOLLO_PROXY_MANAGED: '0', APOLLO_CLI_PROVIDER: 'codex', APOLLO_ASK_SHOW_TOKEN_USAGE:'0',
       CODEX_BIN: binary, CODEX_DESIGN_SYSTEM: ds, CODEX_DS_AI_HUB: hub, CODEX_ABM_PATTERNS: patterns,
       APOLLO_CODEX_KNOWLEDGE_SOURCE: 'design-system_ab', APOLLO_STATE_ROOT: path.join(root, 'state'),
     },
