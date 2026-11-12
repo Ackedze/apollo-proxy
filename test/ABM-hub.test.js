@@ -85,3 +85,23 @@ test('guide links bind to the exact source identity and official family, without
  assert.equal(safeGuideUrl('https://m2.material.io/design/navigation/understanding-navigation.html','material2'),'https://m2.material.io/design/navigation/understanding-navigation.html');
  assert.equal(guideUrl({family:'material3',guideId:'guide:material3.designing.structure',title:'Designing — Structure'}),'https://m3.material.io/foundations/designing/structure');
 });
+
+
+test('Russian guide prose preserves source terms and units while grounding stays in the original language',t=>{
+ const f=fixture(t),file='guides/material3/g_material3_buttons.md';
+ const quote='Keep a touch target of at least 48 dp. An outlined button may represent a secondary action.';
+ fs.appendFileSync(path.join(f.root,file),'\n## Touch targets\n'+quote+'\n');
+ const q='Buttons Material 3 touch target',packet=buildAbmKnowledgePacket(f.source(),q);
+ const row=packet.rules.find(row=>row.file===file&&row.text.includes(quote));
+ assert(row);
+ const translated='Сохраняй область касания (touch target) не меньше **48 dp**. Кнопка outlined может обозначать дополнительное действие (secondary action).';
+ const value={answers:[{question:q,kind:'answer',evidence:[{file,ruleId:row.ruleId,quote,text:translated}]}]};
+ let blocks;
+ const text=renderAbmResponse(value,f.root,q,packet,{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks.length,1);assert.equal(blocks[0].kind,'guide');assert.equal(blocks[0].family,'material3');
+ assert(text.startsWith(translated+'\n\nГайд: Material 3'));
+ assert(!text.includes(quote));assert.equal(blocks[0].text,text);
+ // Translating the evidence itself must never bypass exact source verification.
+ value.answers[0].evidence[0].quote=translated;
+ assert.throws(()=>renderAbmResponse(value,f.root,q,packet),e=>e.code==='ABM_QUOTE_MISMATCH');
+});
