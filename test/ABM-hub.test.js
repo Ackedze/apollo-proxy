@@ -44,3 +44,24 @@ test('guide modifications change source identity and foreign products and symlin
  fs.symlinkSync(p,path.join(f.root,'guides/hig/g_hig_alias.md'));assert.throws(()=>f.source(),e=>e.status===503);
  assert.equal(loadPattern(f.root,'../outside.md'),null);
 });
+
+test('structured guide blocks group each family separately after product rules and match legacy Markdown',t=>{
+ const f=fixture(t),q='Buttons HIG Material 2 Material 3';
+ const files=['guides/hig/g_hig_buttons.md','guides/material2/g_material2_buttons.md','guides/material3/g_material3_buttons.md','patterns/p_abm_buttons.md'];
+ const documents=files.map(file=>loadPattern(f.root,file));
+ const rows=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key}));
+ const evidence=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key,quote:doc.rules[0].body,text:doc.rules[0].body}));
+ let blocks;
+ const text=renderAbmResponse({answers:[{question:q,kind:'answer',evidence}]},f.root,q,{rules:rows},{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks[0].kind,'text');assert(blocks[0].text.includes('Паттерн:'));
+ assert.deepEqual(blocks.filter(b=>b.kind==='guide').map(b=>b.family),['hig','material2','material3']);
+ assert.equal(blocks.map(block=>block.text).join('\n\n'),text);
+});
+
+test('multiple questions preserve guide ownership in structured blocks',t=>{
+ const f=fixture(t),doc=loadPattern(f.root,'guides/hig/g_hig_buttons.md'),rule=doc.rules[0],q='Первый вопрос? Второй вопрос?';let blocks;
+ const value={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[{file:doc.file,ruleId:rule.key,quote:rule.body,text:rule.body}]},{question:'Второй вопрос?',kind:'not_found',evidence:[]}]};
+ const text=renderAbmResponse(value,f.root,q,{rules:[{file:doc.file,ruleId:rule.key}]},{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks.find(b=>b.kind==='guide').question,'Первый вопрос?');
+ assert.equal(blocks[0].questionHeading,true);assert.equal(blocks.map(b=>b.text).join('\n\n'),text);
+});

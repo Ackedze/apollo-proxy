@@ -867,7 +867,7 @@ const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-re
 // Keep an explicit library choice after the bounded client history drops its first turn.
 const dialogueLibraryBySession = new Map();
 
-async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
+async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {}) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
     const err = new Error('Codex dialogue requires a non-empty question.');
@@ -956,7 +956,7 @@ async function callCodexDialogue(inputValue, { onKnowledge } = {}) {
       }
       onKnowledge?.({ contentVersion: (abm.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-') + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, guideCount: abm.guideCount, source: abm.source });
     }
-    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event) }) : agentResult;
+    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event), onBlocks: onAnswerBlocks }) : agentResult;
     if (inputValue.session_id) {
       dialogueLibraryBySession.delete(inputValue.session_id);
       dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
@@ -1737,6 +1737,7 @@ app.post('/analyze', async (req, res) => {
     }
     let result;
     let localKnowledge;
+    let answerBlocks;
     if (provider === 'alfagen') {
       if (['iOS', 'Android'].includes(inputValue.dialoguePlatform))
         throw Object.assign(new Error('Для ответов по паттернам АБМ выбери Codex или Claude в «О прокси». AlfaGen пока не поддерживает этот режим.'),
@@ -1752,7 +1753,7 @@ app.post('/analyze', async (req, res) => {
       catch (error) { failure = error; throw error; }
       finally { tracked.end(failure); activeCodexRuns--; res.removeListener('close', onClose); }
     } else {
-      result = await callCodexDialogue(inputValue, { onKnowledge: value => { localKnowledge = value; } });
+      result = await callCodexDialogue(inputValue, { onKnowledge: value => { localKnowledge = value; }, onAnswerBlocks: value => { answerBlocks = value; } });
     }
     if (typeof result !== 'string' || !result.trim()) {
       throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
@@ -1769,6 +1770,7 @@ app.post('/analyze', async (req, res) => {
       provider,
       model: provider === 'alfagen' ? null : AGENT_MODEL || null,
       knowledgeRelease: provider === 'alfagen' ? null : localKnowledge || APOLLO_KNOWLEDGE_RELEASE,
+      ...(answerBlocks ? { answerBlocks } : {}),
       ...(inputValue.dialoguePlatform !== undefined ? { dialogueLibrary: ['iOS', 'Android'].includes(inputValue.dialoguePlatform) ? 'abm' : 'ab' } : {}),
     });
   } catch (err) {

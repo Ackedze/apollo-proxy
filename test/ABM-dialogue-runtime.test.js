@@ -158,6 +158,8 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(hub.body.knowledgeRelease.source,'ds-ai-hub-abm');
   assert.equal(hub.body.knowledgeRelease.guideCount,1);
   assert.match(hub.body.result,/Гайд: HIG/);
+  assert(hub.body.answerBlocks.some(block=>block.kind==='guide'&&block.family==='hig'));
+  assert.equal(hub.body.answerBlocks.map(block=>block.text).join('\\n\\n'),hub.body.result);
   assert(hub.body.result.includes('Navigation uses clear destinations.'));
   const hubHealth=await (await fetch('http://127.0.0.1:'+server.address().port+'/health')).json();
   assert.equal(hubHealth.abmKnowledge.ready,true);assert.equal(hubHealth.abmKnowledge.guideCount,1);assert.equal(hubHealth.abmKnowledge.source,'ds-ai-hub-abm');

@@ -37,7 +37,7 @@ function answerText(value,sourceQuote,emit,details) {
  if(repaired!==original)emit({outcome:'recovered',reason:'MARKDOWN_REPAIRED',...details});
  return repaired;
 }
-function renderAnswer(answer,root,packet,emit,questionIndex) {
+function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
  if(answer.kind==='not_found') {
   if(!Array.isArray(answer.evidence)||answer.evidence.length)fail('ABM_RESPONSE_INVALID',emit,{questionIndex});
   emit({outcome:'not_found',reason:packet?.rules.length===0?'NO_SEARCH_CANDIDATES':'NO_CONFIRMED_ANSWER',questionIndex});
@@ -61,8 +61,9 @@ function renderAnswer(answer,root,packet,emit,questionIndex) {
    fail('ABM_QUOTE_MISMATCH',emit,details);
   return {pattern,ruleId:item.ruleId,text:answerText(item.text,quote,emit,details)};
  });
- const paragraphs=[];
+ const paragraphs=[],sections=[];
  for(const file of [...new Set(evidence.map(item=>item.pattern.file))]) {
+  const start=paragraphs.length;
   const items=evidence.filter(item=>item.pattern.file===file),seen=new Set();
   for(const item of items) {
    if(seen.has(item.ruleId))continue;
@@ -72,11 +73,19 @@ function renderAnswer(answer,root,packet,emit,questionIndex) {
   }
   const pattern=items[0].pattern;
   paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — «'+plain(pattern.title)+'»':'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
+  sections.push(pattern.sourceType==='guide'?{kind:'guide',family:pattern.family,text:paragraphs.slice(start).join('\n\n')}:{kind:'text',text:paragraphs.slice(start).join('\n\n')});
  }
  emit({outcome:'answered',questionIndex,evidenceCount:evidence.length});
- return paragraphs.join('\n\n');
+ // Product rules are displayed before separately grouped guide recommendations.
+ const ordered=sections.filter(section=>section.kind==='text');
+ for(const section of sections.filter(section=>section.kind==='guide')) {
+  const previous=ordered.find(item=>item.kind==='guide'&&item.family===section.family);
+  if(previous)previous.text+='\n\n'+section.text;else ordered.push(section);
+ }
+ blocks.push(...ordered);
+ return ordered.map(section=>section.text).join('\n\n');
 }
-function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnostic=()=>{}}={}) {
+function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnostic=()=>{},onBlocks=()=>{}}={}) {
  // Diagnostics contain fixed reason codes and indexes, never questions or quotes.
  const emit=event=>onDiagnostic(event);
  let root;
@@ -93,13 +102,24 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
   if(question!==label)emit({outcome:'recovered',reason:'QUESTION_PUNCTUATION_REPAIRED',questionIndex});
   return {...answer,question};
  });
- const found=[],missing=[];
+ const found=[],missing=[],answerBlocks=[];
  answers.forEach((answer,index)=>{
-  const text=renderAnswer(answer,root,packet,emit,index);
-  if(text)found.push((answers.length>1?'**'+plain(answer.question)+'**\n\n':'')+text);
+  const blocks=[];
+  const text=renderAnswer(answer,root,packet,emit,index,blocks);
+  if(text) {
+   const heading=answers.length>1?'**'+plain(answer.question)+'**':'';
+   found.push((heading?heading+'\n\n':'')+text);
+   if(heading)answerBlocks.push({kind:'text',text:heading,questionHeading:true});
+   if(answers.length>1)for(const block of blocks)if(block.kind==='guide')block.question=answer.question;
+   answerBlocks.push(...blocks);
+  }
   else if(!missing.includes(answer.question))missing.push(answer.question);
  });
- if(missing.length)found.push(answers.length>1?'**'+NOT_FOUND+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):NOT_FOUND);
+ if(missing.length) {
+  const text=answers.length>1?'**'+NOT_FOUND+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):NOT_FOUND;
+  found.push(text);answerBlocks.push({kind:'text',text});
+ }
+ onBlocks(answerBlocks);
  return found.join('\n\n');
 }
 module.exports={CHAT_URL,NOT_FOUND,ABM_RESPONSE_SCHEMA,renderAbmResponse};
