@@ -6,7 +6,7 @@ const {once}=require('node:events');
 const api=require('../src/code-release/store'),git=require('../src/code-release/git');
 const cli=require('../scripts/code-release-cli');
 const express=require('express');
-const fakeServer=`const http=require('node:http');const s=http.createServer((q,r)=>r.end(JSON.stringify({ok:true,proxy:{name:'apollo-proxy',codeId:process.env.APOLLO_CODE_RELEASE_ID,codeSupervisorPid:Number(process.env.APOLLO_CODE_SUPERVISOR_PID)}}))).listen(0,'127.0.0.1',()=>process.send({type:'apollo-proxy-ready',id:process.env.APOLLO_CODE_RELEASE_ID,port:s.address().port}));process.on('message',m=>{if(m.type==='apollo-code-confirmed'){console.log('CONFIRMED '+process.env.APOLLO_CODE_VERSION);console.log('WORKSPACE '+process.env.CODEX_WORKSPACE);}});process.stdin.resume();const stop=()=>s.close(()=>process.exit(0));process.stdin.on('end',stop);process.on('SIGTERM',stop);`;
+const fakeServer=`const http=require('node:http');const s=http.createServer((q,r)=>r.end(JSON.stringify({ok:true,proxy:{name:'apollo-proxy',codeId:process.env.APOLLO_CODE_RELEASE_ID,codeSupervisorPid:Number(process.env.APOLLO_CODE_SUPERVISOR_PID)}}))).listen(0,'127.0.0.1',()=>process.send({type:'apollo-proxy-ready',id:process.env.APOLLO_CODE_RELEASE_ID,port:s.address().port}));process.on('message',m=>{if(m.type==='apollo-code-confirmed'){console.log('WORKSPACE '+process.env.CODEX_WORKSPACE);console.log('CONFIRMED '+process.env.APOLLO_CODE_VERSION);}});process.stdin.resume();const stop=()=>s.close(()=>process.exit(0));process.stdin.on('end',stop);process.on('SIGTERM',stop);`;
 async function fixture(t) {
   const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'apollo-code-')));
   t.after(()=>fs.rm(root,{recursive:true,force:true}));
@@ -228,6 +228,10 @@ test('actual Proxy launches from code store with fixed home, counts partial requ
   const health=await until(async()=>{const r=await fetch(url+'/health');return r.ok?await r.json():null;});
   assert.equal(health.proxy.codeSupervisorPid,running.child.pid);
   assert.equal(health.proxy.codeId,api.readState(f.store).current.id);
+  const checker='src/skills/ux-writer/checker.py';
+  const installedChecker=path.join(api.versionRoot(f.store,health.proxy.codeId),checker);
+  assert.deepEqual(await fs.readFile(installedChecker),await fs.readFile(path.join(source,checker)));
+  assert.equal(api.allowedFile('src/skills/ux-writer/other.py'),false);
   await until(async()=>(await fetch(url+'/not-a-route')).status===404);
   const req=require('node:http').request(url+'/analyze',{method:'POST',headers:{'Content-Type':'application/json','Content-Length':'1000'}});
   req.on('error',()=>{});req.write('{');

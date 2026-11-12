@@ -16,7 +16,7 @@ const json = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const allowedFile = file => typeof file === 'string' && !/[\\\x00-\x1f]/.test(file)
   && file.split('/').every(p => p && p !== '.' && p !== '..')
   && !BOOTSTRAP_MODULES.includes(file)
-  && (['server.js','package.json','recipes/catalog.json','scripts/list-agent-models.js',...SCHEMAS].includes(file)
+  && (['server.js','package.json','recipes/catalog.json','scripts/list-agent-models.js','src/skills/ux-writer/checker.py',...SCHEMAS].includes(file)
     || /^src\/.+\.(js|json|md)$/.test(file));
 const record = manifest => ({id:manifest.id, version:manifest.version});
 function compatibility(home) {
