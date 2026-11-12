@@ -50,7 +50,7 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     const report = { reportKind: ux.REPORT_KIND, reportId: 'pilot', scan: {channel:'Desktop'}, facts: {
       scopes: [{nodeId:'card',name:'Узкая карточка',width:320,overlay:false}],
       texts: [{node:{id:'1:2',name:'Label',visible:true},scopeNodeId:'card',effectiveOpacity:1,text:'Оплатить в банке.',
-        ancestors:[{nodeId:'1:3',name:'Переименованный инстанс',componentName:'[D] Button',componentKey:'example'}]}],
+        ancestors:[{nodeId:'1:3',name:'Переименованный инстанс',componentName:'[D] Button',componentKey:'example',variantProperties:{Size:'S'}}]}],
     }};
     assert.equal(validateCodexReportRequest({report}),null);
     assert.deepEqual(generationPackages(releaseDir, release), []);
@@ -64,6 +64,9 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     assert.equal(prepared.request.scopes[0].width,320);
     assert.equal(prepared.request.texts[0].role,'button');
     assert.equal(prepared.request.texts[0].components[0].nodeId,'1:3');
+    const prompt = ux.buildPrompt(prepared.request);
+    const modelInput = JSON.parse(prompt.slice(prompt.indexOf('\n') + 1));
+    assert.deepEqual(modelInput.components[modelInput.texts[0].componentContext[0]], prepared.request.texts[0].components[0]);
     assert(prepared.request.sources.some(source=>source.path===web));
     assert(!prepared.request.sources.some(source=>source.path===mobile));
     assert.equal(prepared.request.checks.findings[0].fixed_text,'Оплатить в\u00a0банке');
@@ -99,4 +102,24 @@ test('UX-writer resolves a numbered section only within the cited document and o
   assert.throws(() => cite('§12 Название раздела', 'references/other.md'), { code: 'UX_WRITER_RESPONSE_INVALID' });
   request.sources[0].text += '\n## 12. Название раздела — второе пояснение';
   assert.throws(() => cite('§12 Название раздела'), { code: 'UX_WRITER_RESPONSE_INVALID' });
+});
+
+test('UX-writer retains independently verified findings and flags omitted citations', () => {
+  const path = 'references/fixture.md';
+  const request = {
+    texts: [{ node: '1:2' }, { node: '1:3' }],
+    sources: [{ path, text: '## Подтверждённое правило' }],
+    coverageGaps: ['Уже известное ограничение'],
+  };
+  const row = { priority: 'warning', category: 'Пример', message: 'Замечание', replacement: null };
+  const accepted = { ...row, nodeId: '1:2', sources: [{ path, ruleId: 'Подтверждённое правило' }] };
+  const unsupported = { ...row, nodeId: '1:3', sources: [{ path, ruleId: 'Придуманный заголовок' }] };
+  const prepared = { request };
+  const result = ux.validateResult({ findings: [unsupported, accepted] }, prepared);
+  assert.deepEqual(result.findings, [accepted]);
+  assert.deepEqual(result.coverageGaps, ['Уже известное ограничение', 'Замечаний без подтверждённой ссылки на правило: 1.']);
+  assert.deepEqual(request.coverageGaps, ['Уже известное ограничение']);
+  assert.throws(() => ux.validateResult({ findings: [unsupported] }, prepared), { code: 'UX_WRITER_RESPONSE_INVALID' });
+  assert.throws(() => ux.validateResult({ findings: [accepted, { ...accepted, nodeId: 'outside' }] }, prepared),
+    { code: 'UX_WRITER_RESPONSE_INVALID' });
 });
