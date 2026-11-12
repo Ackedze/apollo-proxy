@@ -16,11 +16,16 @@ test('native runtime channel migration updates former defaults while preserving 
   fs.writeFileSync(main, `import Foundation
 let prefix="https://raw.githubusercontent.com/Ackedze/design-system_ab/main/"
 let previous=String(repeating:"a",count:64)
-let bundled=prefix+"apollo/proxy-releases/1.4.31/data-packages/current.json"
-for old in [prefix+"apollo/data-packages/current.json",prefix+"apollo/channels/stable/data-packages/current.json",prefix+"apollo/runtimes/"+previous+"/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.23/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.24/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.25/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.26/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.27/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.28/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.29/data-packages/current.json",prefix+"apollo/proxy-releases/1.4.30/data-packages/current.json"] {
+let bundled=prefix+"apollo/proxy-releases/1.4.38/data-packages/current.json"
+let priorChannels = ["1.4.23", "1.4.24", "1.4.25", "1.4.26", "1.4.27", "1.4.28", "1.4.29", "1.4.30", "1.4.31", "1.4.38-ux-writer.1"]
+let defaults = [prefix+"apollo/data-packages/current.json", prefix+"apollo/channels/stable/data-packages/current.json",
+                prefix+"apollo/runtimes/"+previous+"/data-packages/current.json"]
+    + priorChannels.map { prefix+"apollo/proxy-releases/"+$0+"/data-packages/current.json" }
+for old in defaults {
  precondition(DataChannelMigration.replacement(configured:old,bundled:bundled,previousRuntimeIDs:[previous]) == bundled)
 }
-for custom in ["https://example.test/own.json",prefix+"apollo/runtimes/"+String(repeating:"c",count:64)+"/data-packages/current.json",bundled] {
+for custom in ["https://example.test/own.json", prefix+"apollo/proxy-releases/1.4.38-custom/data-packages/current.json",
+               prefix+"apollo/runtimes/"+String(repeating:"c",count:64)+"/data-packages/current.json", bundled] {
  precondition(DataChannelMigration.replacement(configured:custom,bundled:bundled,previousRuntimeIDs:[previous]) == nil)
 }
 precondition(DataChannelMigration.replacement(configured:nil,bundled:bundled,previousRuntimeIDs:[]) == bundled)
