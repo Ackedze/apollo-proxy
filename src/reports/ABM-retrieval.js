@@ -72,7 +72,7 @@ function includeChildren(rows,seeds) {
     return key&&[...(families.get(row.record.file)||[])].some(parent=>key.startsWith(parent+'.'));
   })]);
 }
-function buildAbmKnowledgePacket(source,question,dialogue=[],{platform}={}) {
+function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const allRows=indexFor(source),rows=allRows.filter(row=>row.record.sourceType!=='guide');
   const vocabulary=new Set(allRows.flatMap(row=>[...row.weights.keys()]));
   const allParts=String(question).split(/[?\n;]+/u).map(part=>part.trim()).filter(Boolean);
@@ -180,29 +180,31 @@ function buildAbmKnowledgePacket(source,question,dialogue=[],{platform}={}) {
   });
   const guidePlans=expansions.map((expansion,index)=>{
     const request=topic?topic+' '+parts[index]:parts[index];
-    const currentPlatform=/\bios\b|айос|android|андроид/iu.test(parts[index]);
-    const scope=currentPlatform?parts[index]:request;
-    const ios=platform==='iOS'||platform===undefined&&/\bios\b|айос|HIG/iu.test(scope);
-    const android=platform==='Android'||platform===undefined&&/android|андроид/iu.test(scope);
-    const hig=/\bhig\b|human interface guidelines/iu.test(currentPlatform?parts[index]:request);
+    const hig=/\bhig\b|human interface guidelines/iu.test(request);
     const m2=/(?:material(?:\s*design)?|материал)\s*2/iu.test(request),m3=/(?:material(?:\s*design)?|материал)\s*3/iu.test(request);
     const topical=expansion.terms.filter(term=>!['hig','material','material2','material3','гайд','гайдлайн','guideline','guidelines','ios','android','02','03'].includes(term)&&!/^\d+$/.test(term));
     if(!topical.length)return [];
-    const hits=allRows.filter(row=>row.record.sourceType==='guide'&&(!ios||row.record.platform==='ios')&&(!android||row.record.platform==='android')
+    const hits=allRows.filter(row=>row.record.sourceType==='guide'
       &&(!hig||row.record.family==='hig')
       &&(!(m2||m3)||(row.record.family!=='hig'&&row.record.family===(m2&&m3?row.record.family:m2?'material2':'material3'))))
       .map(row=>({row,score:score(row,topical)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
-    const bestTitle=Math.max(0,...hits.map(hit=>titleScore(hit.row)));
-    const focused=bestTitle?hits.filter(hit=>titleScore(hit.row)===bestTitle):hits.filter(hit=>hit.score>=hits[0].score*0.5);
-    const counts=new Map(),documents=new Map();
-    return focused.filter(hit=>{
-      const key=hit.row.record.file,family=hit.row.record.family,n=counts.get(key)||0;
-      if(n>=2)return false;
-      if(!documents.has(family))documents.set(family,new Set());
-      const docs=documents.get(family);if(!docs.has(key)&&docs.size>=2)return false;
-      docs.add(key);counts.set(key,n+1);return true;
-    }).slice(0,8).map(hit=>hit.row);
+    // Rank each guideline family independently so an exact HIG title cannot
+    // suppress relevant Material candidates for the same cross-platform topic.
+    const lanes=['hig','material2','material3'].map(family=>{
+      const list=hits.filter(hit=>hit.row.record.family===family);
+      const bestTitle=Math.max(0,...list.map(hit=>titleScore(hit.row)));
+      const focused=bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
+      const counts=new Map(),documents=new Set();
+      return focused.filter(hit=>{
+        const key=hit.row.record.file,n=counts.get(key)||0;
+        if(n>=2||!documents.has(key)&&documents.size>=2)return false;
+        documents.add(key);counts.set(key,n+1);return true;
+      }).map(hit=>hit.row);
+    });
+    const plan=[];
+    for(let depth=0;depth<4;depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);
+    return plan.slice(0,8);
   });
   const selected=[],seen=new Set(),omitted=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
   let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections})).length;
@@ -228,6 +230,13 @@ function buildAbmKnowledgePacket(source,question,dialogue=[],{platform}={}) {
   for(let depth=0;depth<length;depth++)for(const plan of plans)if(plan[depth])add(plan[depth]);
   // Guides share the existing hard budget and are considered only after patterns.
   let guideChars=0;
+  const guideFamilies=[...new Set(guidePlans.flat().map(row=>row.record.family))];
+  const familyShare=Math.floor(12000/Math.max(1,guideFamilies.length));
+  for(const family of guideFamilies) {
+    for(const row of uniqueRows(guidePlans.flat()).filter(row=>row.record.family===family)) {
+      const size=add(row,familyShare);if(size){guideChars+=size;break;}
+    }
+  }
   for(let depth=0;depth<8;depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
     guideChars+=add(plan[depth],12000-guideChars);
   const packet={rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,

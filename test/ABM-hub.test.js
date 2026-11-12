@@ -20,7 +20,7 @@ test('Hub source reads product metadata and keeps real versions, rules and examp
  const text=renderAbmResponse({answers:[{question:'Нейминг кнопок',kind:'answer',evidence:[{file:doc.file,ruleId:'R01_naming',quote:'Подпись кнопки соответствует действию.',text:'Подпись кнопки соответствует действию.'}]}]},f.root,'Нейминг кнопок',packet);
  assert(text.includes('🍏 [Пример](https://example.test/ios)'));assert(text.includes('Паттерн: «Кнопки», v.1.7'));
 });
-test('guides use a separate bounded lane, respect platform and explicit Material versions',t=>{
+test('guides use separate bounded lanes and respect explicit guide or Material version requests',t=>{
  const f=fixture(t);
  for(const [q,platform,family] of [['Buttons accessibility HIG','iOS','hig'],['Buttons accessibility Material 2','Android','material2'],['Buttons accessibility Material 3','Android','material3']]){
   const packet=buildAbmKnowledgePacket(f.source(),q,[],{platform});const guides=packet.rules.filter(row=>row.sourceType==='guide');
@@ -29,7 +29,13 @@ test('guides use a separate bounded lane, respect platform and explicit Material
   assert(!guides.some(row=>row.text.includes('Old publication history')));
  }
  const contradiction=buildAbmKnowledgePacket(f.source(),'Buttons HIG',[],{platform:'Android'});
- assert(!contradiction.rules.some(row=>row.sourceType==='guide'));
+ assert(contradiction.rules.some(row=>row.sourceType==='guide'&&row.family==='hig'));
+ const ios=buildAbmKnowledgePacket(f.source(),'Buttons accessibility',[],{platform:'iOS'});
+ const android=buildAbmKnowledgePacket(f.source(),'Buttons accessibility',[],{platform:'Android'});
+ assert.deepEqual(ios,android);
+ assert.deepEqual(new Set(ios.rules.filter(row=>row.sourceType==='guide').map(row=>row.family)),new Set(['hig','material2','material3']));
+ const materialOnIos=buildAbmKnowledgePacket(f.source(),'Buttons Material 3',[],{platform:'iOS'});
+ assert(materialOnIos.rules.some(row=>row.sourceType==='guide'&&row.family==='material3'));
 });
 test('guide citations are checked and captions never invent a pattern version or platform example',t=>{
  const f=fixture(t),q='Buttons accessibility HIG',packet=buildAbmKnowledgePacket(f.source(),q,[],{platform:'iOS'});

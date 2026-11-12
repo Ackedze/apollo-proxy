@@ -893,7 +893,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     throw error;
   }
   const history = normalizeDialogueHistory(inputValue.dialogue);
-  const packet = abm ? buildAbmKnowledgePacket(abm, question, history, { platform: inputValue.dialoguePlatform }) : null;
+  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
