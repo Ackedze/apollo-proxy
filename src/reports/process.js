@@ -36,7 +36,7 @@ function executeCodexProcess(
     return runClaudeProcess({ binary: CLI_AGENT_BIN, codexArgs: args, prompt, outputPath,
       outputFormat, idleTimeoutMs: CODEX_IDLE_TIMEOUT_MS, maxRuntimeMs, signal,
       onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
-      model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT, onEvent: telemetryContext.onEvent });
+      model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT, onEvent: telemetryContext.onEvent, onInput: telemetryContext.onInput });
   }
   return new Promise((resolve, reject) => {
     const workingDirectory =
@@ -195,7 +195,9 @@ function executeCodexProcess(
     child.stdin.on('error',()=>{});
     signal?.addEventListener('abort',onAbort,{once:true});
     if (signal?.aborted) onAbort();
-    child.stdin.end(prompt);
+    child.stdin.end(prompt, telemetryContext.onInput && (error => {
+      if (!error && child.pid) telemetryContext.onInput();
+    }));
   });
 }
 

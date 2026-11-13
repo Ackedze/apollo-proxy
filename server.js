@@ -1164,9 +1164,8 @@ async function callCodexValidator(payload, onProgress, options = {}) {
       }
       args.push('-');
 
-      const prompt = writerRun
-        ? uxWriter.buildPrompt(requestDocument)
-        : buildCodexPrompt(
+      const writerInvocation = writerRun ? uxWriter.buildInvocation(requestDocument) : null;
+      const prompt = writerInvocation?.prompt ?? buildCodexPrompt(
         prepared.requestPath,
         mode,
         skillManifest,
@@ -1247,6 +1246,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
           runtimeBudgetMs: pilot ? 120000 : undefined,
           workingDirectory: pilot ? runDirectory : undefined,
           onEvent: pilot ? event => { if (pilotUsageEvents.length < 2000) pilotUsageEvents.push(event); } : undefined,
+          onInput: writerInvocation && options.onInput ? () => options.onInput(writerInvocation.input) : undefined,
         }
       );
       passResults.push({ pass: requestDocument, result: passResult });
@@ -1338,7 +1338,9 @@ async function callCodexValidator(payload, onProgress, options = {}) {
   }
 }
 
-function createCodexRun(payload) {
+const validCodexInputKey = key => typeof key === 'string' && /^[a-f0-9]{64}$/.test(key);
+
+function createCodexRun(payload, inputKey) {
   const id = `run_${crypto.randomUUID()}`;
   const now = new Date().toISOString();
   const run = {
@@ -1354,6 +1356,7 @@ function createCodexRun(payload) {
     error: null,
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
   };
+  if (payload.report?.reportKind === uxWriter.REPORT_KIND && validCodexInputKey(inputKey)) run.inputKey = inputKey;
   codexRuns.set(id, run);
   appendCodexRunProgress(run, CODEX_PROGRESS_STAGES.queued);
   activeCodexRuns += 1;
@@ -1366,7 +1369,7 @@ function createCodexRun(payload) {
         (progressEvent) => {
           appendCodexRunProgress(run, progressEvent);
         },
-        { runId: id }
+        { runId: id, onInput: run.inputKey ? input => { run.agentInput = input; } : undefined }
       );
       run.status = 'completed';
       run.validation = validation;
@@ -1449,6 +1452,7 @@ function publicCodexRun(run) {
     validation: run.status === 'completed' ? run.validation : null,
     error: run.status === 'failed' ? run.error : null,
     knowledgeRelease: run.knowledgeRelease,
+    ...(run.inputKey ? { agentInputAvailable: Boolean(run.agentInput) } : {}),
   };
 }
 
@@ -1653,7 +1657,7 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
   }
   function begin() {
     if (activeCodexRuns >= 1) { res.status(429).json({ success: false, error: 'Codex is already processing another Apollo request.' }); return; }
-    const run = createCodexRun(payload); res.status(202).json({ success: true, run });
+    const run = createCodexRun(payload, req.headers?.['x-apollo-input-key']); res.status(202).json({ success: true, run });
   }
   if (progressBarPilot.isProgressBarPilot(payload)) {
     void Promise.resolve().then(async () => {
@@ -1682,6 +1686,16 @@ function respondWithCodexRun(req, res) {
 
 app.get('/v1/validate/codex/runs/:runId', respondWithCodexRun);
 app.get('/v1/analyze/codex/runs/:runId', respondWithCodexRun);
+app.get('/v1/analyze/codex/runs/:runId/input', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const run = codexRuns.get(req.params.runId);
+  const key = req.get('X-Apollo-Input-Key');
+  if (!run?.agentInput || !validCodexInputKey(key) || !crypto.timingSafeEqual(Buffer.from(key), Buffer.from(run.inputKey))) {
+    res.status(404).json({ success: false, error: 'UX_WRITER_INPUT_UNAVAILABLE' });
+    return;
+  }
+  res.type('application/json').send(run.agentInput);
+});
 
 app.post('/analyze', async (req, res) => {
   try {
