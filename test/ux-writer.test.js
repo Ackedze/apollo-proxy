@@ -11,14 +11,16 @@ const releases = require('../src/data-release');
 const { validateCodexReportRequest } = require('../src/reports/request');
 const { generationPackages } = require('../src/skills/catalog');
 
-function fixture(t, textSuffix = '') {
+function fixture(t, textSuffix = '', roleMapping) {
     const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ux-writer-test-')));
     t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
     const runtimeDir = path.join(dir, 'runtime'), releaseDir = path.join(dir, 'release');
     fs.mkdirSync(runtimeDir);
     fs.mkdirSync(releaseDir);
-    const contents = { 'SKILL.md': '---\nname: ux-writer-v2\nmetadata:\n  version: "2.0.0"\n---\nПроверка текста.' };
-    for (const name of ux.BASE.concat('references/roles/button.md')) contents[name] = '# Переносы\nНеразрывный пробел.';
+    const version = roleMapping === undefined ? '2.0.0' : '2.0.1';
+    const contents = { 'SKILL.md': `---\nname: ux-writer-v2\nmetadata:\n  version: "${version}"\n---\nПроверка текста.` };
+    for (const name of ux.BASE.concat('references/roles/button.md', 'references/roles/input.md')) contents[name] = '# Переносы\nНеразрывный пробел.';
+    if (roleMapping !== undefined) contents[ux.ROLE_MAPPING] = JSON.stringify(roleMapping);
     contents[ux.GLOSSARY] = '[]';
     contents[ux.RULES] = '{}';
     const web = 'knowledge/data/ds-ai-hub/products/ab/patterns/buttons.md';
@@ -28,7 +30,7 @@ function fixture(t, textSuffix = '') {
       { channel: 'abm', components: ['Button'], sources: [{ path: mobile }] },
     ]);
     const files = Object.entries(contents).map(([file, value]) => ({path:file,bytes:Buffer.byteLength(value),sha256:releases.sha(value)}));
-    const descriptor = { schemaVersion: ux.PACKAGE_SCHEMA, id: ux.ID, version: '2.0.0', name: 'UX-writer',
+    const descriptor = { schemaVersion: ux.PACKAGE_SCHEMA, id: ux.ID, version, name: 'UX-writer',
       description: 'Проверка текста.', executorId: ux.EXECUTOR, files };
     const packaged = Object.fromEntries(Object.entries(contents).map(([file, value]) => ['skills/' + ux.ID + '/' + file, value]));
     packaged['skills/' + ux.ID + '/manifest.json'] = JSON.stringify(descriptor);
@@ -86,6 +88,27 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     prepared.assertCurrent();
     fs.writeFileSync(path.join(releaseDir, web), 'Изменился источник.');
     assert.throws(()=>prepared.assertCurrent(),{code:'UX_WRITER_DATA_CHANGED'});
+});
+
+test('updating only the packaged layer mapping changes the role used by the checker and model', async t => {
+  const reportFor = profile => fixture(t, '', profile);
+  const base = {schemaVersion:1, componentRules:[], layerRoles:{label:'caption'}};
+  const updated = { ...base, componentRules:[{components:['button'],layers:['label'],role:'label'}] };
+  for (const [profile, role] of [[base, 'caption'], [updated, 'label']]) {
+    const {report, releaseDir, runtimeDir} = reportFor(profile);
+    const prepared = await ux.prepare(report, 'desktop', releaseDir, runtimeDir, ({texts}) => {
+      assert.equal(texts[0].role, role);
+      return {findings:[],model_candidates:[],hygiene:[]};
+    });
+    assert.equal(JSON.parse(ux.buildInvocation(prepared.request).input).texts[0].role, role);
+    prepared.assertCurrent();
+    fs.appendFileSync(path.join(releaseDir, 'skills', ux.ID, ux.ROLE_MAPPING), '\n');
+    assert.throws(() => prepared.assertCurrent(), {code:'UX_WRITER_DATA_CHANGED'});
+  }
+  const invalid = reportFor({ ...base, layerRoles:{label:'invented-role'} });
+  await assert.rejects(ux.prepare(invalid.report, 'desktop', invalid.releaseDir, invalid.runtimeDir, () => assert.fail('checker called')), {
+    code:'UX_WRITER_ROLE_MAPPING_INVALID',
+  });
 });
 
 for (const provider of ['codex', 'claude']) {

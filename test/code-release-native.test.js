@@ -16,8 +16,8 @@ test('native runtime channel migration updates former defaults while preserving 
   fs.writeFileSync(main, `import Foundation
 let prefix="https://raw.githubusercontent.com/Ackedze/design-system_ab/main/"
 let previous=String(repeating:"a",count:64)
-let bundled=prefix+"apollo/proxy-releases/1.4.38/data-packages/current.json"
-let priorChannels = ["1.4.23", "1.4.24", "1.4.25", "1.4.26", "1.4.27", "1.4.28", "1.4.29", "1.4.30", "1.4.31", "1.4.38-ux-writer.1"]
+let bundled=prefix+"apollo/proxy-releases/1.4.44/data-packages/current.json"
+let priorChannels = ["1.4.23", "1.4.24", "1.4.25", "1.4.26", "1.4.27", "1.4.28", "1.4.29", "1.4.30", "1.4.31", "1.4.38", "1.4.38-ux-writer.1"]
 let defaults = [prefix+"apollo/data-packages/current.json", prefix+"apollo/channels/stable/data-packages/current.json",
                 prefix+"apollo/runtimes/"+previous+"/data-packages/current.json"]
     + priorChannels.map { prefix+"apollo/proxy-releases/"+$0+"/data-packages/current.json" }

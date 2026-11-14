@@ -12,6 +12,9 @@ const EXECUTOR = 'apollo.ux-writer';
 const ROUTES = 'references/pattern-routes.json';
 const GLOSSARY = 'references/glossary.json';
 const RULES = 'references/checker-rules.json';
+const ROLE_MAPPING = 'references/layer-role-mapping.json';
+const TEXT_ROLES = new Set(['title', 'subtitle', 'description', 'button', 'link', 'label', 'placeholder', 'hint', 'error',
+  'caption', 'tooltip', 'plate', 'amount', 'status', 'tab', 'stepper', 'navigation', 'product_name', 'stub']);
 const SCHEMA = path.join(__dirname, 'result.schema.json');
 const BASE = ['references/rules.md', 'references/guide.md', 'references/layer-roles.md', 'references/guide-coverage.md'];
 
@@ -43,6 +46,40 @@ function family(name) {
     : '';
 }
 
+function parseRoleMapping(body) {
+  let mapping;
+  try { mapping = JSON.parse(body); } catch { fail('UX_WRITER_ROLE_MAPPING_INVALID'); }
+  const isObject = value => value && typeof value === 'object' && !Array.isArray(value);
+  const hasOnlyKeys = (value, keys) => isObject(value) && Object.keys(value).every(key => keys.includes(key));
+  const validName = name => typeof name === 'string' && name.length > 0 && family(name) === name;
+  const validNames = names => Array.isArray(names) && names.length > 0 && names.every(validName);
+  if (!hasOnlyKeys(mapping, ['schemaVersion', 'componentRules', 'layerRoles']) || mapping.schemaVersion !== 1 ||
+      !Array.isArray(mapping.componentRules) || !isObject(mapping.layerRoles) ||
+      !Object.entries(mapping.layerRoles).every(([name, role]) => validName(name) && TEXT_ROLES.has(role))) {
+    fail('UX_WRITER_ROLE_MAPPING_INVALID');
+  }
+  for (const rule of mapping.componentRules) {
+    if (!hasOnlyKeys(rule, ['components', 'layers', 'exceptLayers', 'role']) || !validNames(rule.components) || !TEXT_ROLES.has(rule.role) ||
+        (rule.layers !== undefined && !validNames(rule.layers)) || (rule.exceptLayers !== undefined && !validNames(rule.exceptLayers))) {
+      fail('UX_WRITER_ROLE_MAPPING_INVALID');
+    }
+  }
+  return mapping;
+}
+
+function mappedRole(fact, mapping) {
+  const layer = family(fact.node.name);
+  for (let i = fact.ancestors.length - 1; i >= 0; i--) {
+    const component = fact.ancestors[i];
+    const name = family(component?.componentName || component?.name);
+    const rule = mapping.componentRules.find(rule => rule.components.includes(name) &&
+      (!rule.layers || rule.layers.includes(layer)) && !rule.exceptLayers?.includes(layer));
+    if (rule) return rule.role;
+  }
+  return Object.hasOwn(mapping.layerRoles, layer) ? mapping.layerRoles[layer] : '';
+}
+
+// Preserve the installed 2.0.0 package, which predates the mapping resource.
 function roleOf(fact) {
   const layer = family(fact.node.name);
   const ancestors = fact.ancestors.slice().reverse().map(component => family(component?.componentName || component?.name));
@@ -142,6 +179,8 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
   BASE.forEach(document);
   const glossary = JSON.parse(required(GLOSSARY));
   const rules = JSON.parse(required(RULES));
+  const legacyRoles = descriptor.version === '2.0.0' && !declared.has(ROLE_MAPPING);
+  const roleMapping = legacyRoles ? null : parseRoleMapping(required(ROLE_MAPPING));
   const platformFamily = platform === 'ios' || platform === 'android' ? 'abm' : 'ab';
   const scopes = new Map(report.facts.scopes.map(scope => [scope.nodeId, scope]));
   const gaps = new Set(report.facts.scopes.filter(scope => scope.overlay).map(scope =>
@@ -154,7 +193,7 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
       return { nodeId, name, componentName, componentKey, variantProperties };
     });
     return { node: fact.node.id, scopeNodeId: fact.scopeNodeId, screen: scopes.get(fact.scopeNodeId).name,
-      layer: fact.node.name, role: roleOf(fact), text: fact.text, opacity: fact.effectiveOpacity,
+      layer: fact.node.name, role: roleMapping ? mappedRole(fact, roleMapping) : roleOf(fact), text: fact.text, opacity: fact.effectiveOpacity,
       component: fact.owner?.componentName || fact.owner?.name || null, components };
   });
   for (const [file, applies] of [
@@ -263,4 +302,4 @@ function validateResult(result, prepared) {
     coverageGaps, findings };
 }
 
-module.exports = { ID, REPORT_KIND, PACKAGE_SCHEMA, EXECUTOR, ROUTES, GLOSSARY, RULES, BASE, SCHEMA, prepare, buildInvocation, buildPrompt, validateCapture, validateResult, roleOf };
+module.exports = { ID, REPORT_KIND, PACKAGE_SCHEMA, EXECUTOR, ROUTES, GLOSSARY, RULES, ROLE_MAPPING, BASE, SCHEMA, prepare, buildInvocation, buildPrompt, validateCapture, validateResult, roleOf };

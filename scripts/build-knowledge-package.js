@@ -5,6 +5,7 @@ const fsp = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
+const { PACKAGED_COMPACT_INDEX, validateCompactIndex } = require('../src/audit-data/protocol');
 const {
   CHANNEL_SCHEMA_VERSION,
   ENGINE_VERSION,
@@ -302,6 +303,8 @@ async function buildKnowledgePackage(options) {
     await copyProjection(hubRoot, await collectDsAiHubFiles(hubRoot), packageRoot, 'ds-ai-hub');
     await writeCatalogProvenance(designRoot, packageRoot, designCommit);
     const artifacts = await artifactManifest(packageRoot);
+    const compactIndex = artifacts.find(artifact => artifact.path === PACKAGED_COMPACT_INDEX);
+    const compactIndexId = compactIndex ? validateCompactIndex(await fsp.readFile(path.join(packageRoot, compactIndex.path))) : null;
     const checksum = manifestChecksum(artifacts);
     const contentVersion = options['content-version'] || `ds-${designCommit.slice(0, 12)}.hub-${hubCommit.slice(0, 12)}.${checksum.value.slice(0, 12)}`;
     const manifest = {
@@ -315,6 +318,7 @@ async function buildKnowledgePackage(options) {
         predicate: 'design-system_ab/JSONS indexed artifacts + generation semantic targets + tokens + styles + apollo + patterns + redpolrules',
         agent: `ds-ai-hub ${HUB_DATA_ROOTS.join(' + ')} text data`,
         ...(auditData ? { audit: { schemaVersion: 'apollo.v3-audit-data.v1', dataId: auditData.manifest.dataId } } : {}),
+        ...(compactIndexId ? { athenaIndex: { dataId: compactIndexId, path: compactIndex.path } } : {}),
       },
       artifactCount: artifacts.length,
       totalBytes: artifacts.reduce((total, artifact) => total + artifact.size, 0),
