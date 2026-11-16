@@ -11,16 +11,20 @@ const releases = require('../src/data-release');
 const { validateCodexReportRequest } = require('../src/reports/request');
 const { generationPackages } = require('../src/skills/catalog');
 
-function fixture(t, textSuffix = '', roleMapping) {
+function fixture(t, textSuffix = '', roleMapping, exclusions) {
     const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ux-writer-test-')));
     t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
     const runtimeDir = path.join(dir, 'runtime'), releaseDir = path.join(dir, 'release');
     fs.mkdirSync(runtimeDir);
     fs.mkdirSync(releaseDir);
-    const version = roleMapping === undefined ? '2.0.0' : '2.0.1';
+    const version = exclusions !== undefined ? '2.0.3' : roleMapping === undefined ? '2.0.0' : '2.0.1';
     const contents = { 'SKILL.md': `---\nname: ux-writer-v2\nmetadata:\n  version: "${version}"\n---\nПроверка текста.` };
     for (const name of ux.BASE.concat('references/roles/button.md', 'references/roles/input.md')) contents[name] = '# Переносы\nНеразрывный пробел.';
     if (roleMapping !== undefined) contents[ux.ROLE_MAPPING] = JSON.stringify(roleMapping);
+    if (exclusions !== undefined) {
+      contents[ux.ROLE_MAPPING] ??= JSON.stringify({schemaVersion:1, componentRules:[], layerRoles:{label:'button'}});
+      if (exclusions !== null) contents[ux.EXCLUSIONS] = JSON.stringify(exclusions);
+    }
     contents[ux.GLOSSARY] = '[]';
     contents[ux.RULES] = '{}';
     const web = 'knowledge/data/ds-ai-hub/products/ab/patterns/buttons.md';
@@ -111,9 +115,72 @@ test('updating only the packaged layer mapping changes the role used by the chec
   });
 });
 
+test('pinned exclusions skip a component subtree or a uniquely matched layer before both checks', async t => {
+  const entire = 'a'.repeat(40), variant = 'b'.repeat(40), otherVariant = 'c'.repeat(40);
+  const profile = {schemaVersion:2, components:[{componentKeys:[entire],reason:'Технический компонент'}],
+    layers:[{componentKeys:[variant],layerPath:['Content','Inner','Label'],reason:'Техническая подпись'}]};
+  const {report, releaseDir, runtimeDir, web} = fixture(t, '', undefined, profile);
+  const template = report.facts.texts[0];
+  const instance = (nodeId, name, componentKey) => ({ ...template.ancestors[0], nodeId, name, componentKey });
+  function fact(id, parents, segments, uniqueName = true) {
+    const path = ['Card', ...parents.map(parent => parent.name), ...(segments ?? ['Content','Inner','Label'])].join(' / ');
+    const componentPath = segments && parents.map(({nodeId,name}) => ({nodeId,name,uniqueName:true})).concat(
+      segments.map((name,i) => ({nodeId:i===segments.length-1?id:id+'-'+i,name,uniqueName})));
+    return { ...template, node:{ ...template.node, id, path }, ancestors:parents, componentPath };
+  }
+  const whole = instance('2:1', 'Placeholder', entire);
+  const renamed = instance('2:2', 'Главное / действие', variant);
+  const other = instance('2:3', 'Главное действие', otherVariant);
+  const duplicate = instance('2:4', 'Repeated', variant);
+  const actualPath = ['Content','Inner','Label'];
+  const eligible = ['1:12','1:13','1:14','1:15','1:16','1:17','1:18'];
+  report.facts.texts = [
+    fact('1:10', [whole, instance('2:5','Nested',otherVariant)], actualPath),
+    fact('1:11', [renamed], actualPath),
+    fact('1:12', [renamed], ['Content / Inner','Label']),
+    fact('1:13', [other], actualPath),
+    fact('1:14', [duplicate], actualPath),
+    fact('1:15', [duplicate], actualPath),
+    fact('1:16', [renamed], undefined),
+    fact('1:17', [instance('2:6','Another',variant)], actualPath, false),
+    fact('1:18', [renamed], ['Other','Label']),
+  ];
+  assert.equal(report.facts.texts[1].node.path, report.facts.texts[2].node.path);
+  assert.equal(report.facts.texts[1].node.path, report.facts.texts[6].node.path);
+  const prepared = await ux.prepare(report, 'desktop', releaseDir, runtimeDir, ({texts}) => {
+    assert.deepEqual(texts.map(text => text.node), eligible);
+    return {findings:[],model_candidates:[],hygiene:[]};
+  });
+  assert.deepEqual(JSON.parse(ux.buildInvocation(prepared.request).input).texts.map(text => text.node), eligible);
+  const result = ux.validateResult({findings:[]}, prepared);
+  assert.equal(result.excludedTextCount, 2);
+  assert.equal(result.unresolvedExclusionCount, 4);
+  assert.throws(() => ux.validateResult({findings:[{nodeId:'1:11', priority:'warning', category:'Пример',
+    message:'Замечание', replacement:null, sources:[{path:web, ruleId:'rule:button.text'}]}]}, prepared),
+  {code:'UX_WRITER_RESPONSE_INVALID'});
+  prepared.assertCurrent();
+  fs.appendFileSync(path.join(releaseDir, 'skills', ux.ID, ux.EXCLUSIONS), '\n');
+  assert.throws(() => prepared.assertCurrent(), {code:'UX_WRITER_DATA_CHANGED'});
+});
+
+test('new packages require an exact, valid exclusion profile before the checker', async t => {
+  for (const [profile, code] of [
+    [null, 'UX_WRITER_SOURCE_UNAVAILABLE'],
+    [{schemaVersion:1, components:[], layers:[]}, 'UX_WRITER_EXCLUSIONS_INVALID'],
+    [{schemaVersion:2, components:[{componentKeys:['Button'], reason:'Заглушка'}], layers:[]}, 'UX_WRITER_EXCLUSIONS_INVALID'],
+    [{schemaVersion:2, components:[], layers:[{componentKeys:['a'.repeat(40)], layerPath:'Label',reason:'Заглушка'}]}, 'UX_WRITER_EXCLUSIONS_INVALID'],
+  ]) {
+    const { report, releaseDir, runtimeDir } = fixture(t, '', undefined, profile);
+    await assert.rejects(ux.prepare(report, 'desktop', releaseDir, runtimeDir, () => assert.fail('checker called')), {code});
+  }
+});
+
 for (const provider of ['codex', 'claude']) {
   test(`HTTP exports exactly the UX-writer JSON received by ${provider}, only to its caller`, { timeout: 20000 }, async t => {
-    const { dir, runtimeDir, releaseDir, report } = fixture(t, 'x'.repeat(350000));
+    const excludedKey = 'e'.repeat(40);
+    const { dir, runtimeDir, releaseDir, report } = fixture(t, 'x'.repeat(350000), undefined, {
+      schemaVersion:2, components:[{componentKeys:[excludedKey], reason:'Технический компонент'}], layers:[],
+    });
     const write = (name, contents, mode) => {
       const file = path.join(dir, name);
       fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -195,6 +262,13 @@ for (const provider of ['codex', 'claude']) {
     assert.equal(empty.status, 'completed');
     assert.equal(empty.agentInputAvailable, false);
     assert.equal((await input(empty.id, otherKey)).status, 404);
+    const excluded = await start({ ...report, facts:{ ...report.facts, texts:report.facts.texts.map(fact => ({
+      ...fact, ancestors:fact.ancestors.map(ancestor => ({ ...ancestor, componentKey:excludedKey })),
+    })) } }, otherKey);
+    assert.equal(excluded.status, 'completed');
+    assert.equal(excluded.agentInputAvailable, false);
+    assert.equal(excluded.validation.excludedTextCount, 1);
+    assert.equal((await input(excluded.id, otherKey)).status, 404);
     assert.equal((await input(run.id, otherKey)).status, 404);
     const expired = once(service, 'message');
     service.send(run.id);

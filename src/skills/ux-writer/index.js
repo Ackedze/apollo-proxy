@@ -13,6 +13,7 @@ const ROUTES = 'references/pattern-routes.json';
 const GLOSSARY = 'references/glossary.json';
 const RULES = 'references/checker-rules.json';
 const ROLE_MAPPING = 'references/layer-role-mapping.json';
+const EXCLUSIONS = 'references/exclusions.json';
 const TEXT_ROLES = new Set(['title', 'subtitle', 'description', 'button', 'link', 'label', 'placeholder', 'hint', 'error',
   'caption', 'tooltip', 'plate', 'amount', 'status', 'tab', 'stepper', 'navigation', 'product_name', 'stub']);
 const SCHEMA = path.join(__dirname, 'result.schema.json');
@@ -65,6 +66,83 @@ function parseRoleMapping(body) {
     }
   }
   return mapping;
+}
+
+function parseExclusions(body) {
+  let profile;
+  try { profile = JSON.parse(body); } catch { fail('UX_WRITER_EXCLUSIONS_INVALID'); }
+  const hasFields = (value, fields) => value && typeof value === 'object' && !Array.isArray(value) &&
+    Object.keys(value).length === fields.length && fields.every(field => Object.hasOwn(value, field));
+  const nonempty = value => typeof value === 'string' && value.trim().length > 0;
+  if (!hasFields(profile, ['schemaVersion', 'components', 'layers']) || profile.schemaVersion !== 2 ||
+      !Array.isArray(profile.components) || !Array.isArray(profile.layers)) fail('UX_WRITER_EXCLUSIONS_INVALID');
+
+  const components = new Set();
+  const layers = new Map();
+  for (const [entries, fields] of [
+    [profile.components, ['componentKeys', 'reason']],
+    [profile.layers, ['componentKeys', 'layerPath', 'reason']],
+  ]) {
+    for (const rule of entries) {
+      if (!hasFields(rule, fields) || !nonempty(rule.reason) ||
+          !Array.isArray(rule.componentKeys) || !rule.componentKeys.length ||
+          !rule.componentKeys.every(key => typeof key === 'string' && key.length === 40 && !/[^a-f0-9]/.test(key)) ||
+          (entries === profile.layers && (!Array.isArray(rule.layerPath) || !rule.layerPath.length ||
+            !rule.layerPath.every(name => typeof name === 'string')))) fail('UX_WRITER_EXCLUSIONS_INVALID');
+      for (const key of rule.componentKeys) {
+        if (entries === profile.components) {
+          components.add(key);
+        } else {
+          if (!layers.has(key)) layers.set(key, new Set());
+          layers.get(key).add(JSON.stringify(rule.layerPath));
+        }
+      }
+    }
+  }
+  return { components, layers };
+}
+
+function matchExclusions(facts, exclusions) {
+  const excluded = new Set();
+  const unresolved = new Set();
+  if (!exclusions || (!exclusions.components.size && !exclusions.layers.size)) return { excluded, unresolved };
+
+  const matches = new Map();
+  for (const { node, ancestors, componentPath } of facts) {
+    if (ancestors.some(ancestor => exclusions.components.has(ancestor.componentKey))) excluded.add(node.id);
+    if (!ancestors.some(ancestor => exclusions.layers.has(ancestor.componentKey))) continue;
+    const hasPath = Array.isArray(componentPath) && componentPath.at(-1)?.nodeId === node.id &&
+      componentPath.at(-1)?.name === node.name &&
+      componentPath.every(part => typeof part?.nodeId === 'string' && part.nodeId &&
+        typeof part.name === 'string' && typeof part.uniqueName === 'boolean') &&
+      new Set(componentPath.map(part => part.nodeId)).size === componentPath.length;
+    for (const ancestor of ancestors) {
+      const paths = exclusions.layers.get(ancestor.componentKey);
+      if (!paths) continue;
+      // Older captures flatten path names with " / ", which can also occur within a single name.
+      const start = hasPath ? componentPath.findIndex(part => part.nodeId === ancestor.nodeId) : -1;
+      if (start < 0 || componentPath[start].name !== ancestor.name) {
+        unresolved.add(node.id);
+        continue;
+      }
+      const relative = componentPath.slice(start + 1);
+      const route = JSON.stringify(relative.map(part => part.name));
+      if (!paths.has(route)) continue;
+      if (relative.some(part => !part.uniqueName)) {
+        unresolved.add(node.id);
+        continue;
+      }
+      const match = JSON.stringify([ancestor.nodeId, route]);
+      if (!matches.has(match)) matches.set(match, []);
+      matches.get(match).push(node.id);
+    }
+  }
+  for (const ids of matches.values()) {
+    if (ids.length === 1) excluded.add(ids[0]);
+    else for (const id of ids) unresolved.add(id);
+  }
+  for (const id of excluded) unresolved.delete(id);
+  return { excluded, unresolved };
 }
 
 function mappedRole(fact, mapping) {
@@ -181,12 +259,16 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
   const rules = JSON.parse(required(RULES));
   const legacyRoles = descriptor.version === '2.0.0' && !declared.has(ROLE_MAPPING);
   const roleMapping = legacyRoles ? null : parseRoleMapping(required(ROLE_MAPPING));
+  const legacyExclusions = ['2.0.0', '2.0.1'].includes(descriptor.version) && !declared.has(EXCLUSIONS);
+  const exclusions = legacyExclusions ? null : parseExclusions(required(EXCLUSIONS));
   const platformFamily = platform === 'ios' || platform === 'android' ? 'abm' : 'ab';
   const scopes = new Map(report.facts.scopes.map(scope => [scope.nodeId, scope]));
   const gaps = new Set(report.facts.scopes.filter(scope => scope.overlay).map(scope =>
     'Область «' + scope.name + '» содержит перекрытие. Выбери модальное окно или нужную часть макета отдельно.'));
   const observedFamilies = new Set();
-  const texts = report.facts.texts.filter(fact => !scopes.get(fact.scopeNodeId).overlay).map(fact => {
+  const visibleFacts = report.facts.texts.filter(fact => !scopes.get(fact.scopeNodeId).overlay);
+  const { excluded, unresolved } = matchExclusions(visibleFacts, exclusions);
+  const texts = visibleFacts.filter(fact => !excluded.has(fact.node.id)).map(fact => {
     const components = fact.ancestors.map(({ nodeId, name, componentName, componentKey, variantProperties }) => {
       observedFamilies.add(family(componentName));
       observedFamilies.add(family(name));
@@ -221,6 +303,7 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
   const request = { instructions, platform, scopes: report.facts.scopes, texts, checks, sources, coverageGaps: [...gaps] };
   return {
     request, version: descriptor.version, releaseId: manifest.id,
+    excludedTextCount: excluded.size, unresolvedExclusionCount: unresolved.size,
     assertCurrent() {
       if (sha(fs.readFileSync(path.join(root, 'manifest.json'))) !== releaseManifestHash) fail('UX_WRITER_DATA_CHANGED');
       readPinned(root, descriptorPin);
@@ -299,7 +382,9 @@ function validateResult(result, prepared) {
   const coverageGaps = prepared.request.coverageGaps.slice();
   if (unsupported) coverageGaps.push(`Замечаний без подтверждённой ссылки на правило: ${unsupported}.`);
   return { skillId: ID, skillVersion: prepared.version, releaseId: prepared.releaseId,
+    ...(prepared.excludedTextCount ? { excludedTextCount: prepared.excludedTextCount } : {}),
+    ...(prepared.unresolvedExclusionCount ? { unresolvedExclusionCount: prepared.unresolvedExclusionCount } : {}),
     coverageGaps, findings };
 }
 
-module.exports = { ID, REPORT_KIND, PACKAGE_SCHEMA, EXECUTOR, ROUTES, GLOSSARY, RULES, ROLE_MAPPING, BASE, SCHEMA, prepare, buildInvocation, buildPrompt, validateCapture, validateResult, roleOf };
+module.exports = { ID, REPORT_KIND, PACKAGE_SCHEMA, EXECUTOR, ROUTES, GLOSSARY, RULES, ROLE_MAPPING, EXCLUSIONS, BASE, SCHEMA, prepare, buildInvocation, buildPrompt, validateCapture, validateResult, roleOf };
