@@ -11,10 +11,6 @@ NBH = '\u2011'
 SP = r'[ \u00a0\u202f]'
 
 SKIP_ROLES = {'product_name', 'stub'}
-KNOWN_ROLES = {'title', 'subtitle', 'description', 'button', 'link', 'label',
-               'placeholder', 'hint', 'error', 'caption', 'tooltip', 'plate',
-               'amount', 'status', 'tab', 'stepper', 'navigation', 'product_name',
-               'stub'}
 NO_DOT_ROLES = {'title', 'subtitle', 'button', 'link', 'tab', 'status', 'label',
                 'placeholder', 'stepper', 'navigation'}
 CAPITAL_ROLES = {'title', 'subtitle', 'description', 'button', 'label', 'hint',
@@ -53,7 +49,7 @@ def case_mode(write, avoid):
     return avoid[1:] != avoid[1:].lower()
 
 
-def check_glossary(texts, glossary):
+def check_glossary(texts, glossary, known_roles):
     findings, candidates = [], []
     for row in glossary:
         cs = case_mode(row['write'], row['avoid'])
@@ -68,9 +64,9 @@ def check_glossary(texts, glossary):
             role = t.get('role') or ''
             r = row
             if need:
-                if role in KNOWN_ROLES and role not in need:
+                if role in known_roles and role not in need:
                     continue
-                if role not in KNOWN_ROLES:
+                if role not in known_roles:
                     r = dict(row, needs_confirmation='yes',
                              context=(row['context'] + '; ' if row['context'] else '')
                              + copy['roleContext'].format(row['section'][:-1]))
@@ -222,7 +218,7 @@ def check_rules(texts, fixed_map):
     return findings, candidates
 
 
-def check_hygiene(texts):
+def check_hygiene(texts, known_roles):
     out = []
     for t in texts:
         role = t.get('role') or ''
@@ -230,7 +226,7 @@ def check_hygiene(texts):
             out.append(item(t, type=copy['hygieneType'], rule=copy['stubRule'],
                             severity='ℹ️', found=t['text'],
                             write=copy['stubMessage']))
-        elif role not in KNOWN_ROLES:
+        elif role not in known_roles:
             out.append(item(t, type=copy['hygieneType'], rule=copy['unknownRoleRule'],
                             severity='ℹ️', found=t.get('layer') or '',
                             write=copy['unknownRoleMessage']))
@@ -241,13 +237,13 @@ def check_hygiene(texts):
     return out
 
 
-def run(payload, glossary):
+def run(payload, glossary, known_roles):
     texts = [t for t in payload.get('texts', []) if (t.get('text') or '').strip()]
-    hygiene = check_hygiene(texts)
+    hygiene = check_hygiene(texts, known_roles)
     stub_nodes = {h['node'] for h in hygiene if h['rule'] == copy['stubRule']}
     checkable = [t for t in texts
                  if t.get('role') not in SKIP_ROLES and t.get('node') not in stub_nodes]
-    gf, gc = check_glossary(checkable, glossary)
+    gf, gc = check_glossary(checkable, glossary, known_roles)
     af, fixed_map = check_autofix(checkable)
     rf, rc = check_rules(checkable, fixed_map)
     findings, cands = gf + af + rf, gc + rc
@@ -257,7 +253,7 @@ def run(payload, glossary):
                       'model_candidates': len(cands), 'hygiene': len(hygiene)}}
 
 
-def validate_rules(data):
+def validate_rules(data, known_roles):
     if (not isinstance(data, dict) or data.keys() !=
             {'schemaVersion', 'checks', 'words', 'vagueLinks', 'sectionRoles', 'copy'} or data['schemaVersion'] != 1):
         raise ValueError('Invalid UX-writer rule profile')
@@ -267,6 +263,9 @@ def validate_rules(data):
 
     def text_list(values):
         return isinstance(values, list) and 0 < len(values) <= 256 and all(map(valid_text, values))
+
+    def role_list(values):
+        return text_list(values) and all(role in known_roles for role in values)
 
     required_copy = {
         'abbreviations', 'amountSign', 'approximationSpace', 'autofixRule',
@@ -286,7 +285,7 @@ def validate_rules(data):
     }
     if (not text_list(data['words']) or not text_list(data['vagueLinks'])
             or not isinstance(data['sectionRoles'], dict) or not data['sectionRoles']
-            or not all(valid_text(k) and text_list(v) for k, v in data['sectionRoles'].items())
+            or not all(valid_text(k) and role_list(v) for k, v in data['sectionRoles'].items())
             or not isinstance(data['copy'], dict) or data['copy'].keys() != required_copy
             or not all(map(valid_text, data['copy'].values()))
             or not isinstance(data['checks'], list) or not 0 < len(data['checks']) <= 64):
@@ -294,7 +293,7 @@ def validate_rules(data):
     checks = []
     for row in data['checks']:
         if (not isinstance(row, list) or len(row) != 6 or not all(map(valid_text, row[:4]))
-                or not isinstance(row[4], bool) or (row[5] is not None and not text_list(row[5]))):
+                or not isinstance(row[4], bool) or (row[5] is not None and not role_list(row[5]))):
             raise ValueError('Invalid UX-writer check')
         checks.append([row[0], re.compile(row[1]), *row[2:]])
     return {**data, 'checks': checks, 'words': frozenset(data['words']), 'vagueLinks': frozenset(data['vagueLinks'])}
@@ -302,9 +301,10 @@ def validate_rules(data):
 
 if __name__ == '__main__':
     request = json.load(sys.stdin)
+    known_roles = frozenset(request['roles'])
     try:
-        rules = validate_rules(request['rules'])
+        rules = validate_rules(request['rules'], known_roles)
     except (ValueError, re.error):
         sys.exit(65)
     copy = rules['copy']
-    print(json.dumps(run(request['input'], request['glossary']), ensure_ascii=False))
+    print(json.dumps(run(request['input'], request['glossary'], known_roles), ensure_ascii=False))

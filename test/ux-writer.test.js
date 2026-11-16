@@ -17,7 +17,8 @@ function fixture(t, textSuffix = '', roleMapping, exclusions) {
     const runtimeDir = path.join(dir, 'runtime'), releaseDir = path.join(dir, 'release');
     fs.mkdirSync(runtimeDir);
     fs.mkdirSync(releaseDir);
-    const version = exclusions !== undefined ? '2.0.3' : roleMapping === undefined ? '2.0.0' : '2.0.1';
+    const version = roleMapping?.schemaVersion === 2 ? '2.0.7'
+      : exclusions !== undefined ? '2.0.3' : roleMapping === undefined ? '2.0.0' : '2.0.1';
     const contents = { 'SKILL.md': `---\nname: ux-writer-v2\nmetadata:\n  version: "${version}"\n---\nПроверка текста.` };
     for (const name of ux.BASE.concat('references/roles/button.md', 'references/roles/input.md')) contents[name] = '# Переносы\nНеразрывный пробел.';
     if (roleMapping !== undefined) contents[ux.ROLE_MAPPING] = JSON.stringify(roleMapping);
@@ -113,6 +114,90 @@ test('updating only the packaged layer mapping changes the role used by the chec
   await assert.rejects(ux.prepare(invalid.report, 'desktop', invalid.releaseDir, invalid.runtimeDir, () => assert.fail('checker called')), {
     code:'UX_WRITER_ROLE_MAPPING_INVALID',
   });
+});
+
+test('UX-writer specializes nested roles inside the matching component only', async t => {
+  const variants = [
+    ['[D] TableView :: Horizontal', 'fc30a28cc1077ced1817c3076a9941955262bc08', true],
+    ['TableView :: Vertical', 'd169f155db12c66f5198dd597d260bbacccd5bf5', true],
+    ['[D] TableView :: Horizontal', '6e9a72189d150779165acb1dde3a800b92daa2f9', false],
+    ['TableView :: Vertical', 'f2a12fda7bf715932a6f640334825b120cf5b51b', false],
+    ['[D] TableView :: Horizontal SidePanel', '46fdafb593b319e287d29eb6bc875a951b812a5e', false],
+  ];
+  const compactKeys = variants.filter(([, , compact]) => compact).map(([, key]) => key);
+  const profile = {schemaVersion:1, componentRules:[
+    {components:['compacttag'], within:['filtercompanyselectsingle'], layers:['value'], role:'select_value'},
+    {components:['caption'], withinKeys:compactKeys, layers:['value'], role:'table_header'},
+    {components:['title'], withinKeys:compactKeys, layers:['value'], role:'table_value'},
+    {components:['caption'], role:'caption'},
+    {components:['amount'], role:'amount'},
+  ], layerRoles:{title:'title'}};
+  const {report, releaseDir, runtimeDir} = fixture(t, '', profile);
+  const base = report.facts.texts[0];
+  const cases = [
+    [['[D] FilterCompanySelect_Single', '[D] CompactTag'], 'Value', 'select_value'],
+    [['[D] CompactTag'], 'Value', ''],
+    ...variants.flatMap(([name, key, compact]) => [
+      [[name, 'Row', 'Caption'], 'value', compact ? 'table_header' : 'caption', key],
+      [[name, 'Row', 'Column', 'Title'], 'value', compact ? 'table_value' : '', key],
+    ]),
+    [['TableView :: Vertical', 'Row', 'Column', 'Title', 'Amount'], 'value', 'amount', compactKeys[1]],
+    [['Other', 'Caption'], 'value', 'caption'],
+    [['Other', 'Title'], 'value', ''],
+    [['Title', 'TableView'], 'value', ''],
+    [['TableView :: Vertical', 'Caption'], 'value', 'caption'],
+  ];
+  report.facts.texts = cases.map(([ancestors, layer, , key], i) => ({
+    ...base, node:{...base.node, id:'text-'+i, name:layer},
+    ancestors:ancestors.map((componentName,j)=>({
+      nodeId:'parent-'+i+'-'+j, name:'Renamed instance', componentName, componentKey:j===0 ? key : undefined,
+    })),
+  }));
+  const expected = cases.map(([, , role])=>role);
+  const prepared = await ux.prepare(report, 'desktop', releaseDir, runtimeDir, ({texts}) => {
+    assert.deepEqual(texts.map(row=>row.role),expected);
+    return {findings:[],model_candidates:[],hygiene:[]};
+  });
+  assert.deepEqual(JSON.parse(ux.buildInvocation(prepared.request).input).texts.map(row=>row.role),expected);
+  for (const rule of [{...profile.componentRules[0], within:[]}, {...profile.componentRules[1], withinKeys:['not-a-key']}]) {
+    const invalid = fixture(t, '', {...profile, componentRules:[rule]});
+    await assert.rejects(ux.prepare(invalid.report, 'desktop', invalid.releaseDir, invalid.runtimeDir, () => assert.fail('checker called')), {
+      code:'UX_WRITER_ROLE_MAPPING_INVALID',
+    });
+  }
+});
+
+test('UX-writer takes new role IDs from the pinned package for the checker and model', async t => {
+  const base = {schemaVersion:2, roles:['caption'], componentRules:[], layerRoles:{label:'caption'}};
+  const newRole = 'invoice_summary';
+  const updated = {
+    ...base,
+    roles:[...base.roles, newRole],
+    componentRules:[{components:['button'], layers:['label'], role:newRole}],
+  };
+  const exclusions = {schemaVersion:2, components:[], layers:[]};
+  for (const [profile, expected] of [[base, 'caption'], [updated, newRole]]) {
+    const {report, releaseDir, runtimeDir} = fixture(t, '', profile, exclusions);
+    const prepared = await ux.prepare(report, 'desktop', releaseDir, runtimeDir, ({texts, roles}) => {
+      assert.deepEqual(roles, profile.roles);
+      assert.equal(texts[0].role, expected);
+      return {findings:[],model_candidates:[],hygiene:[]};
+    });
+    assert.equal(JSON.parse(ux.buildInvocation(prepared.request).input).texts[0].role, expected);
+  }
+  const invalidProfiles = [
+    { ...updated, roles:base.roles },
+    { ...base, layerRoles:{label:'button'} },
+    { ...base, roles:['caption', 'caption'] },
+    { ...base, roles:['caption', 'another role'] },
+    { ...base, roles:undefined },
+  ];
+  for (const profile of invalidProfiles) {
+    const {report, releaseDir, runtimeDir} = fixture(t, '', profile, exclusions);
+    await assert.rejects(ux.prepare(report, 'desktop', releaseDir, runtimeDir, () => assert.fail('checker called')), {
+      code:'UX_WRITER_ROLE_MAPPING_INVALID',
+    });
+  }
 });
 
 test('pinned exclusions skip a component subtree or a uniquely matched layer before both checks', async t => {

@@ -14,8 +14,10 @@ const GLOSSARY = 'references/glossary.json';
 const RULES = 'references/checker-rules.json';
 const ROLE_MAPPING = 'references/layer-role-mapping.json';
 const EXCLUSIONS = 'references/exclusions.json';
-const TEXT_ROLES = new Set(['title', 'subtitle', 'description', 'button', 'link', 'label', 'placeholder', 'hint', 'error',
-  'caption', 'tooltip', 'plate', 'amount', 'status', 'tab', 'stepper', 'navigation', 'product_name', 'stub']);
+// Compatibility for packages predating the roles list in mapping schema 2.
+const LEGACY_TEXT_ROLES = new Set(['title', 'subtitle', 'description', 'button', 'link', 'label', 'placeholder', 'hint', 'error',
+  'caption', 'tooltip', 'plate', 'amount', 'status', 'tab', 'stepper', 'navigation', 'product_name', 'stub',
+  'select_value', 'table_header', 'table_value']);
 const SCHEMA = path.join(__dirname, 'result.schema.json');
 const BASE = ['references/rules.md', 'references/guide.md', 'references/layer-roles.md', 'references/guide-coverage.md'];
 
@@ -54,18 +56,33 @@ function parseRoleMapping(body) {
   const hasOnlyKeys = (value, keys) => isObject(value) && Object.keys(value).every(key => keys.includes(key));
   const validName = name => typeof name === 'string' && name.length > 0 && family(name) === name;
   const validNames = names => Array.isArray(names) && names.length > 0 && names.every(validName);
-  if (!hasOnlyKeys(mapping, ['schemaVersion', 'componentRules', 'layerRoles']) || mapping.schemaVersion !== 1 ||
-      !Array.isArray(mapping.componentRules) || !isObject(mapping.layerRoles) ||
-      !Object.entries(mapping.layerRoles).every(([name, role]) => validName(name) && TEXT_ROLES.has(role))) {
+  const validKeys = keys => Array.isArray(keys) && keys.length > 0 &&
+    keys.every(key => typeof key === 'string' && key.length === 40 && !/[^a-f0-9]/.test(key));
+  const schema = mapping?.schemaVersion;
+  const fields = ['schemaVersion', 'componentRules', 'layerRoles'];
+  if (schema === 2) fields.push('roles');
+  if ((schema !== 1 && schema !== 2) || !hasOnlyKeys(mapping, fields) ||
+      !Array.isArray(mapping.componentRules) || !isObject(mapping.layerRoles)) {
+    fail('UX_WRITER_ROLE_MAPPING_INVALID');
+  }
+  if (schema === 2 && (!Array.isArray(mapping.roles) || !mapping.roles.length || mapping.roles.length > 256 ||
+      !mapping.roles.every(role => typeof role === 'string' && role.length <= 64 && /^[a-z]/.test(role) && !/[^a-z0-9_]/.test(role)) ||
+      new Set(mapping.roles).size !== mapping.roles.length)) {
+    fail('UX_WRITER_ROLE_MAPPING_INVALID');
+  }
+  const roles = schema === 1 ? LEGACY_TEXT_ROLES : new Set(mapping.roles);
+  if (!Object.entries(mapping.layerRoles).every(([name, role]) => validName(name) && roles.has(role))) {
     fail('UX_WRITER_ROLE_MAPPING_INVALID');
   }
   for (const rule of mapping.componentRules) {
-    if (!hasOnlyKeys(rule, ['components', 'layers', 'exceptLayers', 'role']) || !validNames(rule.components) || !TEXT_ROLES.has(rule.role) ||
-        (rule.layers !== undefined && !validNames(rule.layers)) || (rule.exceptLayers !== undefined && !validNames(rule.exceptLayers))) {
+    if (!hasOnlyKeys(rule, ['components', 'layers', 'exceptLayers', 'within', 'withinKeys', 'role']) ||
+        !validNames(rule.components) || !roles.has(rule.role) ||
+        (rule.layers !== undefined && !validNames(rule.layers)) || (rule.exceptLayers !== undefined && !validNames(rule.exceptLayers)) ||
+        (rule.within !== undefined && !validNames(rule.within)) || (rule.withinKeys !== undefined && !validKeys(rule.withinKeys))) {
       fail('UX_WRITER_ROLE_MAPPING_INVALID');
     }
   }
-  return mapping;
+  return { ...mapping, roles };
 }
 
 function parseExclusions(body) {
@@ -147,11 +164,16 @@ function matchExclusions(facts, exclusions) {
 
 function mappedRole(fact, mapping) {
   const layer = family(fact.node.name);
-  for (let i = fact.ancestors.length - 1; i >= 0; i--) {
-    const component = fact.ancestors[i];
-    const name = family(component?.componentName || component?.name);
-    const rule = mapping.componentRules.find(rule => rule.components.includes(name) &&
-      (!rule.layers || rule.layers.includes(layer)) && !rule.exceptLayers?.includes(layer));
+  const ancestors = fact.ancestors.map(component => ({
+    name: family(component?.componentName || component?.name),
+    key: component?.componentKey,
+  }));
+  for (let i = ancestors.length - 1; i >= 0; i--) {
+    const rule = mapping.componentRules.find(rule => rule.components.includes(ancestors[i].name) &&
+      (!rule.layers || rule.layers.includes(layer)) && !rule.exceptLayers?.includes(layer) &&
+      ((!rule.within && !rule.withinKeys) || ancestors.slice(0, i).some(outer =>
+        (!rule.within || rule.within.includes(outer.name)) &&
+        (!rule.withinKeys || rule.withinKeys.includes(outer.key)))));
     if (rule) return rule.role;
   }
   return Object.hasOwn(mapping.layerRoles, layer) ? mapping.layerRoles[layer] : '';
@@ -208,7 +230,7 @@ function patternText(body, source) {
   return matches.map(block => block.split(/^## (?!#)/m)[0].trim()).join('\n\n');
 }
 
-function runChecker({ rules, glossary, platform, texts }) {
+function runChecker({ rules, glossary, platform, texts, roles }) {
   return new Promise((resolve, reject) => {
     const child = execFile(process.env.APOLLO_UX_WRITER_PYTHON || '/usr/bin/python3',
       ['-I', path.join(__dirname, 'checker.py')],
@@ -218,7 +240,7 @@ function runChecker({ rules, glossary, platform, texts }) {
         try { resolve(JSON.parse(stdout)); } catch (parseError) { reject(parseError); }
       });
     child.stdin.on('error', () => {});
-    child.stdin.end(JSON.stringify({ rules, glossary, input: { platform, texts } }));
+    child.stdin.end(JSON.stringify({ rules, glossary, roles, input: { platform, texts } }));
   });
 }
 
@@ -296,7 +318,7 @@ async function prepare(report, platform, releaseRoot, runtimeRoot, check = runCh
       else if (documents.get(source.path) !== text) documents.set(source.path, documents.get(source.path) + '\n\n' + text);
     }
   }
-  const checks = await check({ rules, glossary, platform: platformFamily, texts });
+  const checks = await check({ rules, glossary, platform: platformFamily, texts, roles: [...(roleMapping?.roles ?? LEGACY_TEXT_ROLES)] });
   const sources = [...documents].map(([file, text]) => ({ path: file, text }));
   // Dictionary findings cite their named section, without sending the entire glossary to the model.
   sources.push({ path: GLOSSARY, text: [...new Set([...checks.findings, ...checks.model_candidates].map(item => item.rule).filter(rule => rule.startsWith('глоссарий/')))].join('\n') });
