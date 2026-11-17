@@ -64,4 +64,4 @@ function createSourcePlanner({resources,skill,sourcePin,releaseId,metadata,routi
    nextSearch:skill.generation?.initialQueries||[],instruction:'Navigation only, not evidence of reading. Read applicable original rules/ranges before dependent actions. Candidate beforeUse applies when choosing that component. Partial readState does not require dumping the whole document. Expand list_sources/read_source when uncertain; never omit mandatory rules because of ranking.'};
  };
 }
-module.exports={createSourcePlanner};
+module.exports={createSourcePlanner,readState};

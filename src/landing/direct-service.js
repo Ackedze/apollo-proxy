@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const {contentFamilies,contentInputs,illustrationSlots,instructions:contentInstructions,unfinishedRecipes,verifyContent}=require('./content-verification');
 const FLOW='direct-cli-mcp-v1',UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const node=v=>typeof v==='string'&&/^[\w:;-]{1,512}$/.test(v),key=v=>typeof v==='string'&&/^[\w-]{6,128}$/.test(v);
 const copy=v=>JSON.parse(JSON.stringify(v)),sha=v=>crypto.createHash('sha256').update(JSON.stringify(v)).digest('hex');
@@ -39,7 +40,7 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
   const source=knowledge(skillId);source.assertCurrent();if(source.skill.generation?.workflow!==FLOW)fail('LANDING_DIRECT_SKILL_REQUIRED',503);
   const r={schemaVersion:'apollo.landing-chat.v1',flow:FLOW,id:body.id,skillId,skillName:source.skill.name,revision:0,sequence:0,status:'idle',message:'',context,messages:[],target:null,result:null,error:null,failures:[],usage:[],sources:[],source:{workflow:FLOW,releaseId:source.id,knowledgeVersion:source.knowledgeVersion,skillId,skillVersion:source.skill.version,skillHash:source.skill.sha256,sourcePin:source.resumePin},execution:{sessionId:null,processPid:null,checkpoint:'',stage:'structure',structureApproved:false,ownerNonce:crypto.randomBytes(32).toString('hex'),mcpCallsUsed:0},createdAt:new Date(readNow()).toISOString()};save(r);records.set(r.id,r);return view(r);
  }
- function prompt(r,source,text){
+ function prompt(r,source,text,content){
   let sourcePlan;
   if(r.execution.sessionId){
    const phase=r.execution.structureApproved?'content':'structure';
@@ -49,7 +50,7 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
      query:[r.messages.find(m=>m.role==='user')?.text,text,r.execution.checkpoint].filter(Boolean).join('\n'),
      ledger:r.sources,
      resuming:true,
-     providedIds:Object.keys(source.initial.instructions||{}).map(file=>'skills/'+source.skill.id+'/'+file),
+     providedIds:[...Object.keys(source.initial.instructions||{}).map(file=>'skills/'+source.skill.id+'/'+file),...(content?.sources.map(doc=>doc.id)||[])],
     });
    }else{
     sourcePlan={phase,gaps:[{code:'SOURCE_PLAN_UNAVAILABLE'}]};
@@ -61,9 +62,10 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
    'For placement.mode=new-section, the owned root is a new SECTION directly on target.pageId; put the mutable layout wrapper and library components inside it. For placement.mode=section, the owned root is a new FRAME directly inside placement.sectionId. Return that outer owned root, not a nested wrapper, as rootNodeId.',
    'Return target:{rootNodeId,pageId,parentNodeId,ownerNonce} from use_figma after creating or reading the owned root, using actual IDs. Read after uncertain outcomes before any further write; recover from the owned root rather than repeating creation. Re-resolve descendants when IDs change. Return actual affected IDs from writes. Read back final root hierarchy/settings and inspect screenshot evidence before completion; mark unavailable checks unknown.',
    'Before first creation, an inspection with ownedCount=0 and target.rootNodeId=null is normal absence, not a changed root. It does not confirm a root or authorize completion. Once a root is confirmed, its absence, ambiguity or changed ownership must stop writes. hostFailure describes the previous Proxy/CLI stop; do not infer cancellation by incoming user messages or canvas changes from aborted/missing tool output.',
-   r.execution.structureApproved?'The user explicitly approved the shown structure. Before content, read the actual root and compare with the approved checkpoint. If structure changed, request structure approval again; do not overwrite unconfirmed edits.':'Build only the skeleton from the brief, then stop with status=needs-structure-approval and a link to the actual root. Do not fill final copy/assets or edit component internals before explicit structure approval. Ask material brief questions with needs-input; no fixed questionnaire.',
+   r.execution.structureApproved?'The user explicitly approved the shown structure. Before content, read the actual root and compare with the approved checkpoint. If structure changed, request structure approval again; do not overwrite unconfirmed edits.':'Build the skeleton from the brief. Configure public component properties and documented structural slots inside the owned root, including the required blocks and visible actions in Footer. Use provisional copy and assets until approval. Read the actual Figma tree, count visible items, and verify section order and Footer contents against the brief before requesting needs-structure-approval with a link to the root. If a required check cannot be confirmed, return partial with the unresolved check. Ask material brief questions with needs-input.',
+   ...(content?[contentInstructions]:r.execution.structureApproved?[]:['In the final structural readback return instances: [{id,setName}] for visible library sections of the owned landing, using actual component-set names.']),
    'Return only the next checkpoint and a clear Russian message, not the full plan. partial means a safe resumable pause. completed requires the complete requested content and honest checks; a successful tool call alone is not design conformance. Do not claim full DS compliance from a root receipt.',
-   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
+   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,contentInputs:content||undefined,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
  }
  function targetFrom(r,value){
   const t=value?.target;if(!t)return false;
@@ -85,8 +87,9 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
   const directory=path.join(root,'work',r.id),trace=path.join(root,'traces',r.id);fs.mkdirSync(directory,{recursive:true});fs.mkdirSync(trace,{recursive:true});
   job.promise=(async()=>{
    try{
+    const content=r.execution.structureApproved?contentInputs(source,r.execution.contentFamilies):null;
     const cli=createCli(r.context.fileKey,source);
-    const output=await cli.run({workspace:directory,traceDirectory:trace,profile:'landing-direct',sessionId:r.execution.sessionId,prompt:prompt(r,source,text),schema:RESPONSE,signal:controller.signal,diagnosticContext:{requestId:'landing-chat:'+r.id+':'+(requestId||job.runId),runId:job.runId,stage:r.execution.structureApproved?'content':'structure'},mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:16*1024*1024},onEvent:event=>{
+    const output=await cli.run({workspace:directory,traceDirectory:trace,profile:'landing-direct',sessionId:r.execution.sessionId,prompt:prompt(r,source,text,content),schema:RESPONSE,signal:controller.signal,diagnosticContext:{requestId:'landing-chat:'+r.id+':'+(requestId||job.runId),runId:job.runId,stage:r.execution.structureApproved?'content':'structure'},mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:16*1024*1024},onEvent:event=>{
      if(jobs.get(r.id)!==job)return;
      if(event.type==='thread.started'){if(!UUID.test(event.thread_id||'')||r.execution.sessionId&&r.execution.sessionId!==event.thread_id)fail('LANDING_CLI_SESSION_CHANGED');r.execution.sessionId=event.thread_id;save(r);}
      if(event.type==='process.started'){r.execution.processPid=event.pid;save(r);}
@@ -104,7 +107,22 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
         if(!r.sources.some(v=>sha(v)===sha(pin)))r.sources.push(pin);
        }
       }
-      if(item.server==='apollo_figma_mcp'&&item.tool==='use_figma'&&item.status==='completed'&&!item.error&&!item.result?.isError&&!item.result?.structured_content?.error&&!item.result?.structuredContent?.error&&!value?.error){if(targetFrom(r,value))job.targetObserved=true;}
+      if(item.server==='apollo_figma_mcp'&&item.tool==='use_figma'){
+       const successful=item.status==='completed'&&!item.error&&!item.result?.isError&&!item.result?.structured_content?.error&&!item.result?.structuredContent?.error&&!value?.error;
+       const changed=['createdNodeIds','mutatedNodeIds','removedNodeIds'].some(field=>Array.isArray(value?.[field])&&value[field].length);
+       if(changed||!successful)job.contentReadback=null;
+       if(changed)job.contentWritten=true;
+       if(successful&&targetFrom(r,value)){
+        job.targetObserved=true;
+        if(!changed){
+         const families=contentFamilies(value.instances);
+         if(!content&&families)job.contentFamilies=families;
+         const slots=illustrationSlots(value.illustrationSlotIds);
+         if(content&&families&&slots&&!job.contentWritten&&!job.contentInventory)job.contentInventory={families,slots};
+         if(content&&value.contentReadback)job.contentReadback=value.contentReadback;
+        }
+       }
+      }
       save(r);
      }
      if(event.type==='item.completed'&&event.item?.type==='agent_message'){
@@ -119,9 +137,27 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
     if(value.rootNodeId!==null&&value.rootNodeId!==r.target?.rootNodeId)fail('LANDING_TARGET_UNCONFIRMED');
     if(['needs-structure-approval','completed'].includes(value.status)&&(!r.target||!job.targetObserved||value.rootNodeId!==r.target.rootNodeId))fail('LANDING_TARGET_UNCONFIRMED');
     if(value.status==='completed'&&!r.execution.structureApproved)fail('LANDING_STRUCTURE_APPROVAL_REQUIRED');
+    if(content&&value.status==='completed'){
+     const confirmed=job.contentInventory;
+     const approved=r.execution.contentFamilies;
+     const changed=approved&&confirmed&&JSON.stringify(Object.entries(approved).sort())!==JSON.stringify(Object.entries(confirmed.families).sort());
+     const checked=changed?null:verifyContent(job.contentReadback,confirmed,r.messages);
+     const checks=checked||[{name:'Наполнение',status:'unknown',evidence:'Требуется чтение ассетов и размеров карточек из Figma после последней записи.'}];
+     if(changed)checks[0].evidence='Библиотечные секции изменились. Проверь каркас и повторно согласуй структуру.';
+     const missing=unfinishedRecipes(source,content,confirmed,r.sources);
+     if(missing.length)checks.push({name:'Рецепты наполнения',status:'unknown',evidence:missing.join(', ')});
+     const names=new Set(checks.map(check=>check.name));
+     value.checks=[...checks,...value.checks.filter(check=>!names.has(check.name))].slice(0,100);
+     if(checks.some(check=>check.status!=='passed')){
+      value.status='partial';
+      value.message='Макет сохранён. Проверка наполнения ещё не пройдена.';
+      value.checkpoint=checks.filter(check=>check.status!=='passed').map(check=>check.name+': '+check.evidence).join('\n').slice(0,16000);
+     }
+    }
     r.execution.checkpoint=value.checkpoint;r.execution.lastFailure=null;r.messages=r.messages.filter(m=>m.id!=='progress:'+job.runId);r.messages.push({id:'answer:'+job.runId,role:'assistant',text:value.message});r.message=value.message;
     r.status=value.status==='partial'?'interrupted':value.status;
     if(value.status==='needs-structure-approval'){
+     r.execution.contentFamilies=job.contentFamilies||null;
      r.execution.structureApproved=false;r.execution.stage='structure';r.execution.structureApproval={id:crypto.randomUUID(),structureHash:sha([r.source.sourcePin,r.target,value.checkpoint,r.revision]),status:'pending'};
     }
     if(r.target)r.result={revision:r.revision,rootNodeId:r.target.rootNodeId,summary:value.message,checks:value.checks,issues:value.issues,ready:false,verification:'agent-reported'};

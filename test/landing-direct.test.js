@@ -3,7 +3,7 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {FLOW,createDirectLandingService,mountDirectLandingRoutes}=require('../src/landing/direct-service');
 function fixture(t){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'direct-landing-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
- let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[];
+ let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[],figmaEvents=[];
  const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
  const options={root,knowledge:()=>source,isProcessAlive:()=>false,createCli:()=>({async run(input){
   calls.push(input);const context=JSON.parse(input.prompt.split('\n').at(-1));
@@ -14,12 +14,13 @@ function fixture(t){
   input.onEvent({type:'item.completed',item:{id:'source:1',type:'mcp_tool_call',server:'apollo_knowledge',tool:'read_source',status:'completed',result:{content:[{type:'text',text:JSON.stringify({id:'knowledge/data/ds-ai-hub/products/ab/patterns/landing-pages.md',sha256:'b'.repeat(64),path:[],offset:0,mode:'read',text:'Rule.',sourcePin:'source-pin'})}]}}});
   for(const [index,{tool,value}] of knowledgeEvents.entries())input.onEvent({type:'item.completed',item:{id:'knowledge:'+index,type:'mcp_tool_call',server:'apollo_knowledge',tool,status:'completed',result:{content:[{type:'text',text:JSON.stringify(value)}]}}});
   if(inspection)input.onEvent({type:'item.completed',item:{id:'inspect:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify(inspection(context))}]}}});
+  for(const [index,readback] of figmaEvents.entries())input.onEvent({type:'item.completed',item:{id:'readback:'+index,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({...readback,target:{...context.target,rootNodeId:'30:40',parentNodeId:context.target.pageId}})}]}}});
   const hasRoot=result!=='needs-input'&&!onlyInspection;if(hasRoot)input.onEvent({type:'item.completed',item:{id:'figma:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({target:{rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce}})}]}}});
   return {result:{status:result,message:'Actual fixture checkpoint',rootNodeId:hasRoot?'30:40':null,checkpoint:'Existing frame and next action',checks:[],issues:[]},receipt:{usage:{actualInputTokens:10,actualOutputTokens:5}}};
  }})};
  const service=createDirectLandingService(options),chat=service.create({id:crypto.randomUUID(),fileKey:'FigmaTestFile',pageId:'1:2',placement:{mode:'new-section',sectionId:null}});
  const send=(text='Build a landing')=>service.submit(chat.id,{requestId:crypto.randomUUID(),revision:service.poll(chat.id).revision,text});
- return {root,service,chat,calls,options,source,send,knowledgeEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
+ return {root,service,chat,calls,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
 test('initial CLI prompt omits the source plan and resume retains phase planning and usage correlation',async t=>{
@@ -87,6 +88,88 @@ test('continue is not structure approval; rejection waits for requested changes 
  f.send('продолжай');assert.equal(f.calls.length,1);assert.equal(f.service.poll(c.id).status,'needs-structure-approval');
  f.service.structureDecision(c.id,{requestId:crypto.randomUUID(),revision:c.revision,approvalId:a.id,structureHash:a.structureHash,decision:'revise',text:''});assert.equal(f.service.poll(c.id).status,'needs-structure-changes');assert.equal(f.calls.length,1);
  f.send('Move FAQ after benefits');await f.service.settled(c.id);c=f.service.poll(c.id);assert.equal(c.status,'needs-structure-approval');assert.notEqual(c.execution.structureApproval.id,a.id);assert.equal(c.execution.structureApproved,false);
+});
+
+test('content sends full applicable rules and completes only against the final Figma readback',async t=>{
+ const cases={
+  complete:(inventory,proof)=>[inventory,{mutatedNodeIds:['50:1']},proof],
+  draftOnly:inventory=>[inventory,{mutatedNodeIds:['50:1']}],
+  stale:(inventory,proof)=>[inventory,proof,{mutatedNodeIds:['50:1']}],
+  lateInventory:(inventory,proof)=>[{mutatedNodeIds:['50:1']},inventory,proof],
+  violations:(inventory,proof)=>{
+   const {imageSlots,groups}=proof.contentReadback;
+   imageSlots[1].familyKey=imageSlots[0].familyKey;
+   groups[0].cards[0].icon=null;
+   groups[0].cards[1].height=160;
+   groups[1].cards[1].height=95;
+   return [inventory,proof];
+  },
+  hiddenIllustration:(inventory,proof)=>{
+   proof.contentReadback.imageSlots.pop();
+   return [inventory,proof];
+  },
+  partiallyRead:(inventory,proof)=>[inventory,proof],
+  fullyRead:(inventory,proof)=>[inventory,proof],
+  changedStructure:(inventory,proof)=>[{...inventory,instances:[]},{contentReadback:{imageSlots:proof.contentReadback.imageSlots,groups:[]}}],
+ };
+ for(const [name,events] of Object.entries(cases))await t.test(name,async t=>{
+  const f=fixture(t),calls=[];
+  const content='Content start. '+'Content instruction. '.repeat(650)+'Content end.';
+  f.source.skill.bodies={'references/rules/content-and-assets.md':content};
+  f.source.read=input=>{
+   calls.push(input);
+   return {text:'Full recipe: '+input.id,offset:0,next:null,sha256:'d'.repeat(64)};
+  };
+  const instances=[{id:'50:1',setName:'🔒 [D] Benefits'},{id:'51:1',setName:'🔒 [D] BentoGrid '}];
+  const legacy=['partiallyRead','fullyRead'].includes(name);
+  if(!legacy)f.figmaEvents.push({instances});
+  f.send();await f.service.settled(f.chat.id);
+  const before=f.service.poll(f.chat.id);
+  assert.equal(before.status,'needs-structure-approval');
+  assert.equal(Object.hasOwn(JSON.parse(f.calls[0].prompt.split('\n').at(-1)),'contentInputs'),false);
+  assert.match(f.calls[0].prompt,/documented structural slots/);
+
+  const icon={variantKey:'e'.repeat(40),expectedVariantKey:'e'.repeat(40),set:'glyph-26',size:24,expectedSize:24,gridVisible:false};
+  const card={width:300,height:180,verticalSizing:'FILL',stopperSizing:'FILL',graphicBottom:240,graphicKind:'icon',icon};
+  const inventory={instances,illustrationSlotIds:['30:41','30:42']};
+  const proof={contentReadback:{
+   imageSlots:[{id:'30:41',variantKey:'a'.repeat(40),familyKey:'b'.repeat(40),gridVisible:false},{id:'30:42',variantKey:'c'.repeat(40),familyKey:'d'.repeat(40),gridVisible:false}],
+   groups:[
+    {id:'50:1',family:'Benefits',capacity:3,cards:[{...card,id:'50:2',graphicId:'50:3'},{...card,id:'50:4',graphicId:'50:5',stopperSizing:'FIXED'},{...card,id:'50:6',graphicId:'50:7'}]},
+    {id:'51:1',family:'BentoGrid',capacity:4,cards:[
+     {id:'51:2',width:280,height:400,areaWidth:280,areaHeight:400,verticalSizing:'FILL'},
+     {id:'51:3',width:280,height:180,areaWidth:280,areaHeight:180,verticalSizing:'FILL'},
+     {id:'51:4',width:280,height:210,areaWidth:280,areaHeight:210,verticalSizing:'FILL'},
+     {id:'51:5',width:280,height:400,areaWidth:280,areaHeight:400,verticalSizing:'FILL'},
+    ]},
+   ],
+  }};
+  if(legacy){
+   const {contentInputs}=require('../src/landing/content-verification');
+   const paths=Object.values(contentInputs(f.source).recipesByFamily).flat();
+   for(const id of paths){
+    const partial=id.endsWith('bento-grid/cookbook/04-compose-cards.md')&&name==='partiallyRead';
+    f.knowledgeEvents.push({tool:'read_source',value:{sourcePin:'source-pin',mode:'read',path:[],id,sha256:'d'.repeat(64),offset:0,returned:partial?4:30,total:30,next:partial?4:null,text:partial?'Part':'Read complete'}});
+   }
+  }
+  f.figmaEvents.splice(0,f.figmaEvents.length,...events(inventory,proof));
+  f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
+  const after=f.service.poll(f.chat.id);
+  const {contentInputs}=JSON.parse(f.calls[1].prompt.split('\n').at(-1));
+  assert.equal(contentInputs.sources[0].text,content);
+  if(!legacy){
+   assert(contentInputs.sources.some(row=>row.id.includes('/benefits/cookbook/04-compose-cards.md')));
+   assert(contentInputs.sources.some(row=>row.id.includes('/promo-card/cookbook/04-image-and-surface.md')));
+  }
+  assert(calls.filter(call=>call.limit===16000).every(call=>call.offset===undefined));
+  assert.equal(after.target.rootNodeId,'30:40');
+  assert.equal(after.status,['complete','fullyRead'].includes(name)?'completed':'interrupted');
+  if(['complete','fullyRead'].includes(name))assert.deepEqual(after.result.checks.map(row=>row.status),['passed','passed','passed']);
+  if(name==='violations')assert.deepEqual(after.result.checks.map(row=>row.status),['failed','failed','failed']);
+  if(name==='hiddenIllustration')assert.match(after.result.checks[0].evidence,/30:42/);
+  if(name==='partiallyRead')assert(after.result.checks.some(row=>row.status==='unknown'&&row.evidence.includes('04-compose-cards.md')));
+  if(name==='changedStructure')assert.equal(after.result.checks[0].status,'unknown');
+ });
 });
 test('Stop retains session/root; restart resumes with fresh-read instruction and duplicate message delivery is idempotent',async t=>{
  const f=fixture(t);f.setHold(true);const body={requestId:crypto.randomUUID(),revision:0,text:'Build'};f.service.submit(f.chat.id,body);f.service.cancel(f.chat.id);await f.service.settled(f.chat.id);
