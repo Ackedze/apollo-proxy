@@ -1,6 +1,9 @@
 require('dotenv').config();
 // Code-download credentials belong to the launcher, never to agent subprocesses.
 delete process.env.APOLLO_CODE_TOKEN;
+const openRouterEnabled = process.env.APOLLO_UX_WRITER_OPENROUTER === '1';
+const proxyControlKey = process.env.APOLLO_CODE_UPDATE_KEY;
+delete process.env.APOLLO_UX_WRITER_OPENROUTER_KEY;
 require('./src/portable-runtime').configureInstalledEnvironment({ proxyRoot: process.env.APOLLO_PROXY_HOME || __dirname });
 const {
   HOST,
@@ -314,7 +317,7 @@ app.use((req, res, next) => {
   res.once('close', release);
   return next();
 });
-require('./src/code-release/maintenance').createMaintenance({key:process.env.APOLLO_CODE_UPDATE_KEY,
+require('./src/code-release/maintenance').createMaintenance({key:proxyControlKey,
   launchId:process.env.APOLLO_CODE_RELEASE_ID,
   busy:async()=>{
     const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
@@ -1014,6 +1017,37 @@ function assertCodexInputWithinBudget(metrics) {
 }
 
 const uxWriter = require('./src/skills/ux-writer');
+const openRouter = require('./src/skills/ux-writer/openrouter');
+const openRouterApproval = openRouterEnabled ? openRouter.createApproval(proxyControlKey) : null;
+let openRouterFailure = null;
+if (openRouterApproval) app.post('/ux-writer/openrouter/approval', openRouterApproval.respond);
+
+async function callOpenRouterTextReview(payload, onProgress, options) {
+  emitCodexProgress(onProgress, 'checking_skill');
+  const report = payload.report;
+  const prepared = await uxWriter.prepare(report, normalizeApolloPlatform(report.scan.channel),
+    process.env.APOLLO_RELEASE_ROOT, process.env.APOLLO_PROJECT_ROOT);
+  prepared.assertCurrent();
+  if (!prepared.request.texts.length) return uxWriter.validateResult({ findings: [] }, prepared);
+  const { prompt, input } = uxWriter.buildInvocation(prepared.request);
+  assertCodexInputWithinBudget(buildCodexInputMetrics(prompt, prepared.request));
+  onProgress?.({ stage: 'awaiting_openrouter_approval', progress: 42,
+    message: 'Подтвердите отправку текстов в Apollo Proxy.' });
+  const key = await openRouterApproval.wait({ runId: options.runId, texts: prepared.request.texts.length });
+  prepared.assertCurrent();
+  emitCodexProgress(onProgress, 'starting_agent');
+  const tracked = tokenJournal.call({ provider: 'openrouter', model: openRouter.MODEL });
+  try {
+    options.onInput?.(input);
+    const result = await openRouter.complete({ key, prompt,
+      onUsage: usage => tracked.event({ type: 'turn.completed', usage }),
+    });
+    prepared.assertCurrent();
+    return uxWriter.validateResult(result, prepared);
+  } finally {
+    tracked.end();
+  }
+}
 
 async function callCodexValidator(payload, onProgress, options = {}) {
   const pilot = progressBarPilot.isProgressBarPilot(payload), pilotUsageEvents = [], pilotStarted = Date.now();
@@ -1340,7 +1374,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
 
 const validCodexInputKey = key => typeof key === 'string' && /^[a-f0-9]{64}$/.test(key);
 
-function createCodexRun(payload, inputKey) {
+function createCodexRun(payload, inputKey, useOpenRouter = false) {
   const id = `run_${crypto.randomUUID()}`;
   const now = new Date().toISOString();
   const run = {
@@ -1362,9 +1396,10 @@ function createCodexRun(payload, inputKey) {
   activeCodexRuns += 1;
 
   Promise.resolve()
-    .then(() => tokenJournal.operation('Проверить · AI', async () => {
+    .then(() => tokenJournal.operation(useOpenRouter ? 'Проверка текстов' : 'Проверить · AI', async () => {
       run.status = 'running';
-      const validation = await callCodexValidator(
+      const validate = useOpenRouter ? callOpenRouterTextReview : callCodexValidator;
+      const validation = await validate(
         payload,
         (progressEvent) => {
           appendCodexRunProgress(run, progressEvent);
@@ -1380,6 +1415,7 @@ function createCodexRun(payload, inputKey) {
       });
     }))
     .catch((error) => {
+      if (useOpenRouter) openRouterFailure = { runId: id, code: error?.code || 'OPENROUTER_UNAVAILABLE' };
       run.status = 'failed';
       run.error = {
         message: error?.message || 'Codex validation error',
@@ -1494,6 +1530,7 @@ app.get('/health', async (req, res) => {
     activeRequests: activeApiRequests,
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+    ...(openRouterApproval ? { openRouterEnabled: true, openRouterApproval: openRouterApproval.current, openRouterFailure } : {}),
     proxy: {
       name: 'apollo-proxy',
       version: APOLLO_PROXY_VERSION,
@@ -1656,8 +1693,14 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
     return;
   }
   function begin() {
+    const useOpenRouter = openRouterEnabled && payload.report?.reportKind === uxWriter.REPORT_KIND;
+    if (useOpenRouter && !openRouter.allowsLocalRequest(req)) {
+      res.status(403).json({ success: false, error: 'OPENROUTER_LOCAL_REQUEST_REQUIRED' });
+      return;
+    }
     if (activeCodexRuns >= 1) { res.status(429).json({ success: false, error: 'Codex is already processing another Apollo request.' }); return; }
-    const run = createCodexRun(payload, req.headers?.['x-apollo-input-key']); res.status(202).json({ success: true, run });
+    if (useOpenRouter) openRouterFailure = null;
+    const run = createCodexRun(payload, req.headers?.['x-apollo-input-key'], useOpenRouter); res.status(202).json({ success: true, run });
   }
   if (progressBarPilot.isProgressBarPilot(payload)) {
     void Promise.resolve().then(async () => {

@@ -260,7 +260,7 @@ test('new packages require an exact, valid exclusion profile before the checker'
   }
 });
 
-for (const provider of ['codex', 'claude']) {
+for (const provider of ['codex', 'claude', 'openrouter']) {
   test(`HTTP exports exactly the UX-writer JSON received by ${provider}, only to its caller`, { timeout: 20000 }, async t => {
     const excludedKey = 'e'.repeat(40);
     const { dir, runtimeDir, releaseDir, report } = fixture(t, 'x'.repeat(350000), undefined, {
@@ -283,6 +283,7 @@ for (const provider of ['codex', 'claude']) {
     write(skill + 'SKILL.md', 'Version: `1.3.0`\n');
     for (const schema of ['audit-response.schema.json', 'pattern-assessment-response.schema.json']) write(skill + 'references/' + schema, '{}');
     const checker = write('checker', '#!' + process.execPath + '\n' + `
+      if (process.env.APOLLO_UX_WRITER_OPENROUTER_KEY) process.exit(65);
       process.stdin.resume();
       process.stdin.on('end', () => console.log(JSON.stringify({findings:[],model_candidates:[],hygiene:[],stats:{}})));
     `, 0o700);
@@ -298,7 +299,22 @@ for (const provider of ['codex', 'claude']) {
       });
     `, 0o700);
     const boot = write('boot.cjs', `
+      const fs = require('node:fs'), assert = require('node:assert/strict');
+      if (${provider === 'openrouter'}) {
+        globalThis.fetch = async (url, request) => {
+          assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
+          assert.equal(request.headers.Authorization, 'Bearer openrouter-fixture-key');
+          const body = JSON.parse(request.body);
+          fs.writeFileSync(${JSON.stringify(path.join(dir, 'received'))}, body.messages[0].content);
+          if (fs.existsSync(${JSON.stringify(path.join(dir, 'upstream-failure'))})) return new Response(null, {status: 401});
+          return Response.json({
+            choices: [{finish_reason:'stop',message:{content:'{"findings":[]}'}}],
+            usage: {prompt_tokens:30,completion_tokens:5,prompt_tokens_details:{cached_tokens:12}},
+          });
+        };
+      }
       const { app } = require(${JSON.stringify(path.resolve(__dirname, '../server.js'))});
+      assert.equal(process.env.APOLLO_UX_WRITER_OPENROUTER_KEY, undefined);
       const server = app.listen(0, '127.0.0.1', () => process.send(server.address().port));
       process.on('message', id => {
         require(${JSON.stringify(path.resolve(__dirname, '../src/config.js'))}).codexRuns.delete(id);
@@ -307,7 +323,8 @@ for (const provider of ['codex', 'claude']) {
     `);
     const { once } = require('node:events');
     const service = fork(boot, [], { cwd: dir, env: {
-      PATH: process.env.PATH, APOLLO_PROXY_MANAGED: '0', APOLLO_CLI_PROVIDER: provider,
+      PATH: process.env.PATH, APOLLO_PROXY_MANAGED: '0', APOLLO_CLI_PROVIDER: provider === 'openrouter' ? 'alfagen' : provider,
+      APOLLO_UX_WRITER_OPENROUTER: provider === 'openrouter' ? '1' : '0', APOLLO_CODE_UPDATE_KEY: 'c'.repeat(64),
       CODEX_BIN: agent, CLAUDE_BIN: agent, CODEX_WORKSPACE: path.join(dir, 'workspace'),
       CODEX_DS_AI_HUB: path.join(dir, 'hub'), CODEX_DESIGN_SYSTEM: path.join(dir, 'ds'),
       APOLLO_CODEX_DEBUG_ENABLED: '0', APOLLO_RELEASE_ROOT: releaseDir, APOLLO_PROJECT_ROOT: runtimeDir,
@@ -318,11 +335,31 @@ for (const provider of ['codex', 'claude']) {
     const [port] = await Promise.race([once(service, 'message'), exited.then(() => { throw Error('Fixture Proxy exited'); })]);
     const endpoint = `http://127.0.0.1:${port}/v1/analyze/codex/runs`;
     const key = 'a'.repeat(64), otherKey = 'b'.repeat(64);
-    const start = async (request, accessKey = key) => {
-      const response = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', 'X-Apollo-Input-Key':accessKey }, body:JSON.stringify({report:request}) });
+    const start = async (request, accessKey = key, approve = true) => {
+      const headers = { 'Content-Type':'application/json', 'X-Apollo-Input-Key':accessKey };
+      if (provider === 'openrouter') headers.Origin = 'null';
+      const response = await fetch(endpoint, { method:'POST', headers, body:JSON.stringify({report:request}) });
       assert.equal(response.status, 202);
       let { run } = await response.json();
+      let replied = false;
       while (run.status === 'queued' || run.status === 'running') {
+        if (provider === 'openrouter' && !replied && run.stage === 'awaiting_openrouter_approval') {
+          replied = true;
+          const target = `http://127.0.0.1:${port}/ux-writer/openrouter/approval`;
+          const send = (token, body, origin) => fetch(target, {
+            method:'POST', headers:{ 'Content-Type':'application/json', ...(token && {'X-Apollo-Code-Key':token}), ...(origin && {Origin:origin}) },
+            body:JSON.stringify(body),
+          });
+          const before = fs.existsSync(path.join(dir, 'received')) ? fs.statSync(path.join(dir, 'received')).mtimeMs : null;
+          const approval = {runId:run.id,key:'openrouter-fixture-key'};
+          assert.equal((await send(null, approval)).status, 403);
+          assert.equal((await send(key, approval, 'null')).status, 403);
+          assert.equal((await send('c'.repeat(64), approval, 'null')).status, 403);
+          assert.equal((await send('c'.repeat(64), {...approval,runId:'wrong'})).status, 409);
+          assert.equal(fs.existsSync(path.join(dir, 'received')) ? fs.statSync(path.join(dir, 'received')).mtimeMs : null, before);
+          assert.equal((await send('c'.repeat(64), {...approval,key:approve ? approval.key : null})).status, 200);
+          assert.equal((await send('c'.repeat(64), approval)).status, 409);
+        }
         await new Promise(resolve => setTimeout(resolve, 20));
         ({ run } = await (await fetch(endpoint + '/' + run.id)).json());
       }
@@ -359,6 +396,28 @@ for (const provider of ['codex', 'claude']) {
     service.send(run.id);
     assert.equal((await expired)[0], run.id);
     assert.equal((await input(run.id, key)).status, 404);
+
+    if (provider === 'openrouter') {
+      const denied = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', Origin:'https://other.example' },
+        body:JSON.stringify({report}) });
+      assert.equal(denied.status, 403);
+      const journalRoot = path.join(dir, 'state/token-journal');
+      const usage = fs.readdirSync(journalRoot).map(file => JSON.parse(fs.readFileSync(path.join(journalRoot, file))))
+        .find(entry => entry.provider === 'openrouter');
+      assert.equal(usage.totalTokens, 35);
+      assert.equal(usage.cachedInputTokens, 12);
+      const declined = await start(report, key, false);
+      assert.equal(declined.error.code, 'OPENROUTER_APPROVAL_REQUIRED');
+      const oversized = await start({...report, facts:{...report.facts,
+        texts:report.facts.texts.map(fact => ({...fact,text:'x'.repeat(950000)})) }});
+      assert.equal(oversized.error.code, 'CODEX_INPUT_BUDGET_EXCEEDED');
+      assert.equal(oversized.events.some(event => event.stage === 'awaiting_openrouter_approval'), false);
+      write('upstream-failure', '');
+      const failed = await start(report);
+      assert.equal(failed.status, 'failed');
+      assert.equal(failed.error.code, 'OPENROUTER_KEY_REJECTED');
+      return;
+    }
 
     fs.writeFileSync(agent, '#!/path/to/nonexistent/interpreter\n');
     const noSpawn = await start(report);
