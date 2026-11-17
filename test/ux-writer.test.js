@@ -88,7 +88,6 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     const finding = {nodeId:'1:2',priority:'warning',category:'Типографика',message:'Неразрывный пробел',replacement:'Оплатить в\u00a0банке',
       sources:[{path:web,ruleId:'rule:button.text'}]};
     assert.equal(ux.validateResult({findings:[finding]},prepared).skillVersion,'2.0.0');
-    assert.throws(()=>ux.validateResult({findings:[{...finding,nodeId:'outside'}]},prepared),{code:'UX_WRITER_RESPONSE_INVALID'});
     assert.throws(()=>ux.validateResult({findings:[{...finding,sources:[{path:mobile,ruleId:'Мобильные'}]}]},prepared),{code:'UX_WRITER_RESPONSE_INVALID'});
     prepared.assertCurrent();
     fs.writeFileSync(path.join(releaseDir, web), 'Изменился источник.');
@@ -240,9 +239,10 @@ test('pinned exclusions skip a component subtree or a uniquely matched layer bef
   const result = ux.validateResult({findings:[]}, prepared);
   assert.equal(result.excludedTextCount, 2);
   assert.equal(result.unresolvedExclusionCount, 4);
-  assert.throws(() => ux.validateResult({findings:[{nodeId:'1:11', priority:'warning', category:'Пример',
-    message:'Замечание', replacement:null, sources:[{path:web, ruleId:'rule:button.text'}]}]}, prepared),
-  {code:'UX_WRITER_RESPONSE_INVALID'});
+  const skipped = ux.validateResult({findings:[{nodeId:'1:11', priority:'warning', category:'Пример',
+    message:'Замечание', replacement:null, sources:[{path:web, ruleId:'rule:button.text'}]}]}, prepared);
+  assert.deepEqual(skipped.findings, []);
+  assert.ok(skipped.coverageGaps.includes('Пропущено замечаний без привязки к текстовому слою: 1.'));
   prepared.assertCurrent();
   fs.appendFileSync(path.join(releaseDir, 'skills', ux.ID, ux.EXCLUSIONS), '\n');
   assert.throws(() => prepared.assertCurrent(), {code:'UX_WRITER_DATA_CHANGED'});
@@ -316,8 +316,9 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
           fs.writeFileSync(${JSON.stringify(path.join(dir, 'received'))}, prompt);
           if (fs.existsSync(${JSON.stringify(path.join(dir, 'upstream-failure'))})) return new Response(null, {status: 401});
           const [check] = JSON.parse(prompt.slice(prompt.indexOf('\\n') + 1)).checks.hygiene;
-          const findings = [{nodeId:check.node,priority:'info',category:'Гигиена макета',
-            message:'Прозрачный слой',replacement:null,sources:[check.source]}];
+          const finding = {nodeId:check.node,priority:'info',category:'Гигиена макета',
+            message:'Прозрачный слой',replacement:null,sources:[check.source]};
+          const findings = [finding, {...finding, nodeId:'99:99'}];
           return Response.json({
             choices: [{finish_reason:'stop',message:{content:JSON.stringify({findings})}}],
             usage: {prompt_tokens:30,completion_tokens:5,prompt_tokens_details:{cached_tokens:12}},
@@ -409,6 +410,8 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
     assert.equal((await input(run.id, key)).status, 404);
 
     if (provider === 'openrouter') {
+      assert.equal(run.validation.findings.length, 1);
+      assert.ok(run.validation.coverageGaps.includes('Пропущено замечаний без привязки к текстовому слою: 1.'));
       assert.equal(run.validation.findings[0].nodeId, report.facts.texts[0].node.id);
       assert.deepEqual(run.validation.findings[0].sources, [{ path: ux.RULES, ruleId: 'гигиена/прозрачный слой' }]);
       const denied = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', Origin:'https://other.example' },
@@ -489,8 +492,74 @@ test('UX-writer retains independently verified findings and flags omitted citati
   assert.deepEqual(result.coverageGaps, ['Уже известное ограничение', 'Замечаний без подтверждённой ссылки на правило: 1.']);
   assert.deepEqual(request.coverageGaps, ['Уже известное ограничение']);
   assert.throws(() => ux.validateResult({ findings: [unsupported] }, prepared), { code: 'UX_WRITER_RESPONSE_INVALID' });
-  assert.throws(() => ux.validateResult({ findings: [accepted, { ...accepted, nodeId: 'outside' }] }, prepared),
-    { code: 'UX_WRITER_RESPONSE_INVALID' });
+});
+
+test('UX-writer retains known layers and reports each skipped unbound finding, including when none can be shown', () => {
+  const path = 'references/fixture.md', ruleId = 'Подтверждённое правило';
+  const prepared = { request: {
+    texts: [{ node: '1:2' }, { node: '1:3' }],
+    sources: [{ path, text: `## ${ruleId}` }],
+    coverageGaps: ['Уже известное ограничение'],
+  } };
+  const known = { nodeId: '1:2', priority: 'warning', category: 'Пример',
+    message: 'Замечание', replacement: null, sources: [{ path, ruleId }] };
+  const unknown = { ...known, nodeId: 'outside' };
+  const another = { ...known, nodeId: '1:3' };
+  const mixed = ux.validateResult({ findings: [known, unknown, another] }, prepared);
+  assert.deepEqual(mixed.findings, [known, another]);
+  assert.deepEqual(mixed.coverageGaps, [
+    'Уже известное ограничение', 'Пропущено замечаний без привязки к текстовому слою: 1.',
+  ]);
+  const unbound = ux.validateResult({ findings: [unknown, { ...unknown, nodeId: 'elsewhere' }] }, prepared);
+  assert.deepEqual(unbound.findings, []);
+  assert.deepEqual(unbound.coverageGaps, [
+    'Уже известное ограничение', 'Пропущено замечаний без привязки к текстовому слою: 2.',
+  ]);
+  for (const malformed of [null, {}, { ...unknown, nodeId: null }, { ...unknown, nodeId: 42 },
+    { ...unknown, nodeId: ' ' }, { ...unknown, replacement: 42 }, { ...unknown, sources: [null] }]) {
+    assert.throws(() => ux.validateResult({ findings: [known, malformed] }, prepared), {
+      code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'invalid-finding-fields', findingIndex: 1 },
+    });
+  }
+  assert.throws(() => ux.validateResult({ findings: [{ ...unknown, sources: [] }] }, prepared), {
+    code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'missing-sources', findingIndex: 0 },
+  });
+});
+
+test('UX-writer takes exact typography from the checker and keeps other valid edits intact', () => {
+  const path = 'references/fixture.md', ruleId = 'гайд/автоисправления';
+  const copyRule = 'Заголовок описывает действие';
+  const formal = { path: ux.RULES, ruleId };
+  const contextual = { path, ruleId: copyRule };
+  const cases = [
+    { proposed: 'Для\x00кого', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal] },
+    { proposed: 'Длякого', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal] },
+    { proposed: '10-20 ₽', expected: '10\u202f–\u202f20\u202f₽', fixed: '10\u202f–\u202f20\u202f₽', sources: [formal] },
+    { proposed: '10–20 ₽', expected: '10\u202f–\u202f20\u202f₽', fixed: '10\u202f–\u202f20\u202f₽', sources: [formal, contextual] },
+    { proposed: 'Для кого', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal, contextual] },
+    { proposed: 'Доступно\u00a0ИП', expected: 'Доступно\u00a0ИП', fixed: 'Для\u00a0кого', sources: [formal, contextual] },
+    { proposed: '−100\u202f₽', expected: '−100\u202f₽', fixed: '100\u202f₽', sources: [formal, contextual] },
+    { proposed: '10 − 5', expected: '10 − 5', fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
+    { proposed: '10-5', expected: '10-5', fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
+    { proposed: 'Доступно\x00ИП', expected: null, fixed: 'Для\u00a0кого', sources: [formal, contextual] },
+    { proposed: 'Для\x00кого', expected: null, fixed: 'Для\u00a0кого', sources: [contextual] },
+    { proposed: null, expected: null, fixed: 'Для\u00a0кого', sources: [formal] },
+    { proposed: 'Итог\u202f–\u202f100\u00a0₽\nСрок — 2\u00a0дня 👩‍💻', expected: 'Итог\u202f–\u202f100\u00a0₽\nСрок — 2\u00a0дня 👩‍💻', sources: [contextual] },
+  ];
+  const texts = cases.map((_, index) => ({ node: `1:${index}` }));
+  const checked = cases.flatMap(({ fixed }, index) => fixed
+    ? [{ node: texts[index].node, rule: ruleId, fixed_text: fixed }] : []);
+  const prepared = { request: {
+    texts, checks: { findings: checked },
+    sources: [{ path, text: `## ${copyRule}` }], coverageGaps: [],
+  } };
+  const findings = cases.map(({ proposed, sources }, index) => ({
+    nodeId: texts[index].node, priority: 'warning', category: 'Типографика',
+    message: 'Замечание', replacement: proposed, sources,
+  }));
+  const result = ux.validateResult({ findings }, prepared);
+  assert.deepEqual(result.findings.map(({ replacement }) => replacement), cases.map(({ expected }) => expected));
+  assert.deepEqual(result.coverageGaps, ['Скрыто предложений с недопустимыми управляющими символами: 2.']);
 });
 
 test('UX-writer accepts checker evidence only for the layer and rule actually checked', async t => {

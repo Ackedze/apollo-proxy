@@ -388,30 +388,50 @@ function buildPrompt(request) {
   return buildInvocation(request).prompt;
 }
 
+// Keep line breaks, tabs and intentional formatting characters such as emoji joiners.
+const unsafeReplacementCharacters = /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\p{Cs}]/gu;
+
+function comparableTypography(text) {
+  return text.replace(unsafeReplacementCharacters, ' ')
+    .replace(/[\p{Zs}\u200b\u2060\ufeff]+/gu, ' ')
+    .replace(/ *([–—−]) */gu, '$1');
+}
+
 function validateResult(result, prepared) {
   if (!Array.isArray(result?.findings)) invalidResult('missing-findings');
   const nodes = new Set(prepared.request.texts.map(t => t.node));
   const sourceText = new Map(prepared.request.sources.map(s => [s.path, s.text]));
   const checkedRules = new Map();
+  const autofixes = new Map();
   for (const group of CHECK_GROUPS) {
     for (const check of prepared.request.checks?.[group] ?? []) {
       if (typeof check.rule !== 'string' || check.rule.startsWith('глоссарий/')) continue;
       if (!checkedRules.has(check.node)) checkedRules.set(check.node, new Set());
       checkedRules.get(check.node).add(check.rule);
+      if (typeof check.fixed_text === 'string') autofixes.set(check.node, check);
     }
   }
   const seen = new Set();
   const findings = [];
   let unsupported = 0;
+  let unbound = 0;
+  let unsafeReplacements = 0;
   for (const [findingIndex, row] of result.findings.entries()) {
-    if (!nodes.has(row?.nodeId)) invalidResult('unknown-layer', { findingIndex });
-    if (seen.has(row.nodeId)) invalidResult('duplicate-layer', { findingIndex });
-    if (!['error', 'warning', 'info'].includes(row.priority) ||
+    if (typeof row?.nodeId !== 'string' || !row.nodeId.trim() ||
+        !['error', 'warning', 'info'].includes(row.priority) ||
         typeof row.category !== 'string' || !row.category.trim() || typeof row.message !== 'string' || !row.message.trim() ||
         !(row.replacement === null || typeof row.replacement === 'string')) {
       invalidResult('invalid-finding-fields', { findingIndex });
     }
     if (!Array.isArray(row.sources) || !row.sources.length) invalidResult('missing-sources', { findingIndex });
+    if (!nodes.has(row.nodeId)) {
+      if (row.sources.some(source => typeof source?.path !== 'string' || typeof source.ruleId !== 'string')) {
+        invalidResult('invalid-finding-fields', { findingIndex });
+      }
+      unbound += 1;
+      continue;
+    }
+    if (seen.has(row.nodeId)) invalidResult('duplicate-layer', { findingIndex });
     seen.add(row.nodeId);
     const sources = row.sources.map(source => {
       if (source?.path === RULES) {
@@ -424,11 +444,28 @@ function validateResult(result, prepared) {
       unsupported += 1;
       continue;
     }
-    findings.push({ ...row, sources });
+    let replacement = row.replacement;
+    if (replacement !== null) {
+      const fix = autofixes.get(row.nodeId);
+      if (fix) {
+        const citesFix = source => source.path === RULES && source.ruleId === fix.rule;
+        if (sources.every(citesFix) || (sources.some(citesFix) &&
+            comparableTypography(replacement) === comparableTypography(fix.fixed_text))) {
+          replacement = fix.fixed_text;
+        }
+      }
+      if (replacement.replace(unsafeReplacementCharacters, '') !== replacement) {
+        replacement = null;
+        unsafeReplacements += 1;
+      }
+    }
+    findings.push({ ...row, replacement, sources });
   }
   if (unsupported && !findings.length) invalidResult('unverified-sources', { unsupportedFindings: unsupported });
   const coverageGaps = prepared.request.coverageGaps.slice();
   if (unsupported) coverageGaps.push(`Замечаний без подтверждённой ссылки на правило: ${unsupported}.`);
+  if (unbound) coverageGaps.push(`Пропущено замечаний без привязки к текстовому слою: ${unbound}.`);
+  if (unsafeReplacements) coverageGaps.push(`Скрыто предложений с недопустимыми управляющими символами: ${unsafeReplacements}.`);
   return { skillId: ID, skillVersion: prepared.version, releaseId: prepared.releaseId,
     ...(prepared.excludedTextCount ? { excludedTextCount: prepared.excludedTextCount } : {}),
     ...(prepared.unresolvedExclusionCount ? { unresolvedExclusionCount: prepared.unresolvedExclusionCount } : {}),
