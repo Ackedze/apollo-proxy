@@ -284,8 +284,15 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
     for (const schema of ['audit-response.schema.json', 'pattern-assessment-response.schema.json']) write(skill + 'references/' + schema, '{}');
     const checker = write('checker', '#!' + process.execPath + '\n' + `
       if (process.env.APOLLO_UX_WRITER_OPENROUTER_KEY) process.exit(65);
-      process.stdin.resume();
-      process.stdin.on('end', () => console.log(JSON.stringify({findings:[],model_candidates:[],hygiene:[],stats:{}})));
+      let input = '';
+      process.stdin.setEncoding('utf8');
+      process.stdin.on('data', chunk => input += chunk);
+      process.stdin.on('end', () => {
+        const { texts } = JSON.parse(input).input;
+        const hygiene = ${provider === 'openrouter'} && texts.length
+          ? [{ node: texts[0].node, rule: 'гигиена/прозрачный слой' }] : [];
+        console.log(JSON.stringify({findings:[],model_candidates:[],hygiene,stats:{}}));
+      });
     `, 0o700);
     const agent = write('agent', '#!' + process.execPath + '\n' + `
       const fs = require('node:fs');
@@ -305,10 +312,14 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
           assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
           assert.equal(request.headers.Authorization, 'Bearer openrouter-fixture-key');
           const body = JSON.parse(request.body);
-          fs.writeFileSync(${JSON.stringify(path.join(dir, 'received'))}, body.messages[0].content);
+          const prompt = body.messages[0].content;
+          fs.writeFileSync(${JSON.stringify(path.join(dir, 'received'))}, prompt);
           if (fs.existsSync(${JSON.stringify(path.join(dir, 'upstream-failure'))})) return new Response(null, {status: 401});
+          const [check] = JSON.parse(prompt.slice(prompt.indexOf('\\n') + 1)).checks.hygiene;
+          const findings = [{nodeId:check.node,priority:'info',category:'Гигиена макета',
+            message:'Прозрачный слой',replacement:null,sources:[check.source]}];
           return Response.json({
-            choices: [{finish_reason:'stop',message:{content:'{"findings":[]}'}}],
+            choices: [{finish_reason:'stop',message:{content:JSON.stringify({findings})}}],
             usage: {prompt_tokens:30,completion_tokens:5,prompt_tokens_details:{cached_tokens:12}},
           });
         };
@@ -398,6 +409,8 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
     assert.equal((await input(run.id, key)).status, 404);
 
     if (provider === 'openrouter') {
+      assert.equal(run.validation.findings[0].nodeId, report.facts.texts[0].node.id);
+      assert.deepEqual(run.validation.findings[0].sources, [{ path: ux.RULES, ruleId: 'гигиена/прозрачный слой' }]);
       const denied = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', Origin:'https://other.example' },
         body:JSON.stringify({report}) });
       assert.equal(denied.status, 403);
@@ -478,4 +491,31 @@ test('UX-writer retains independently verified findings and flags omitted citati
   assert.throws(() => ux.validateResult({ findings: [unsupported] }, prepared), { code: 'UX_WRITER_RESPONSE_INVALID' });
   assert.throws(() => ux.validateResult({ findings: [accepted, { ...accepted, nodeId: 'outside' }] }, prepared),
     { code: 'UX_WRITER_RESPONSE_INVALID' });
+});
+
+test('UX-writer accepts checker evidence only for the layer and rule actually checked', async t => {
+  const { report, releaseDir, runtimeDir } = fixture(t);
+  report.facts.texts.push({ ...report.facts.texts[0], node: { id: '1:4', name: 'Label', visible: true } });
+  const ruleId = 'гигиена/прозрачный слой';
+  const prepared = await ux.prepare(report, 'desktop', releaseDir, runtimeDir, () => ({
+    findings: [], model_candidates: [], hygiene: [{ node: '1:2', rule: ruleId }],
+  }));
+  const { input } = ux.buildInvocation(prepared.request);
+  const source = { path: ux.RULES, ruleId };
+  const row = { nodeId: '1:2', priority: 'info', category: 'Гигиена макета',
+    message: 'Прозрачный слой', replacement: null, sources: [source] };
+  assert.deepEqual(ux.validateResult({ findings: [row] }, prepared).findings, [row]);
+  assert.deepEqual(JSON.parse(input).checks.hygiene[0].source, source);
+  for (const invalid of [
+    { ...row, nodeId: '1:4' },
+    { ...row, sources: [{ ...source, ruleId: 'гигиена/несуществующее правило' }] },
+    { ...row, sources: [{ ...source, path: 'references/guide.md' }] },
+  ]) {
+    assert.throws(() => ux.validateResult({ findings: [invalid] }, prepared), {
+      code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'unverified-sources', unsupportedFindings: 1 },
+    });
+  }
+  assert.throws(() => ux.validateResult({ findings: [row, row] }, prepared), {
+    code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'duplicate-layer', findingIndex: 1 },
+  });
 });
