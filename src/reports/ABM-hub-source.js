@@ -54,7 +54,7 @@ function loadGuide(root,file,clean) {
   const h=headings[i],level=h[1].length;
   while(stack.length&&stack.at(-1).level>=level)stack.pop();stack.push({level,title:h[2]});
   if(stack.some(x=>/^(?:Resources|Change log|See also|Ресурсы|История изменений)$/i.test(x.title)))continue;
-  if(family==='hig'&&stack.some(x=>/^(?:macOS|watchOS|tvOS|visionOS|iPadOS)$/i.test(x.title)))continue;
+  if(family==='hig'&&stack.some(x=>/^(?:macOS|watchOS|tvOS|visionOS)$/i.test(x.title)))continue;
   let body=doc.body.slice(h.index+h[0].length,headings[i+1]?.index??doc.body.length);
   body=body.replace(/^- (?:documentType|guideID|guideTitle|platform|tags|sourceUrl):[^\n]*$/gm,'').replace(/<[^>]*>/g,'').replace(/\|/g,' ');
   body=clean(body);stack[stack.length-1].body=body;if(!body)continue;

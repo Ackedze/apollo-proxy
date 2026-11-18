@@ -105,3 +105,41 @@ test('Russian guide prose preserves source terms and units while grounding stays
  value.answers[0].evidence[0].quote=translated;
  assert.throws(()=>renderAbmResponse(value,f.root,q,packet),e=>e.code==='ABM_QUOTE_MISMATCH');
 });
+
+function writeGuideFixture(f,family,slug,title,body){
+ const file='guides/'+family+'/g_'+family+'_'+slug+'.md';
+ f.write(file,'---\nid: abm.guides.'+family+'.'+slug+'\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# '+title+'\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.'+slug+'\n\n'+body+'\n');
+ return file;
+}
+test('Russian guide phrases retrieve English sections with intact conditions and distinguish touch from pointer targets',t=>{
+ const f=fixture(t);
+ const file=writeGuideFixture(f,'material3','structure','Structure','## Touch targets\nTouch targets must be at least 48 dp; retain the spacing exception.\n## Pointer targets\nPointer targets may be smaller for mouse input.');
+ const p=buildAbmKnowledgePacket(f.source(),'Размер области нажатия Material 3');
+ const matches=p.rules.filter(row=>row.sourceType==='guide');
+ assert(matches.length);assert(matches.every(row=>row.family==='material3'));
+ assert.equal(matches[0].file,file);assert(matches[0].sectionTitles.includes('Touch targets'));
+ assert(matches[0].text.includes('48 dp; retain the spacing exception.'));
+ assert(p.chars<=MAX_PACKET_CHARS);
+ const naming=writeGuideFixture(f,'material2','writing','Writing','## Button labels\nButton labels describe their action, except for contextual labels.');
+ const names=buildAbmKnowledgePacket(f.source(),'Подпись кнопки Material 2');
+ assert(names.rules.some(row=>row.file===naming&&row.sectionTitles.includes('Button labels')&&row.text.includes('except for contextual labels')));
+});
+test('mobile retrieval removes watches, XR, desktop and television scopes before budgeting for either picker platform',t=>{
+ const f=fixture(t);
+ const phone=writeGuideFixture(f,'material3','haptics_mobile','Haptics','## Phone feedback\nPhone haptics confirm a touch event.');
+ const watch=writeGuideFixture(f,'material3','haptics_watches','Design for watches — Haptics','## Haptics\nWatch haptics repeat repeat repeat repeat haptics.');
+ const xr=writeGuideFixture(f,'material2','haptics_xr','Design for immersive XR','## Haptics\nXR haptics use controllers.');
+ const mixed=writeGuideFixture(f,'hig','haptics_mixed','Haptics','## iOS\nPhone haptics are optional.\n## watchOS\nWatch haptics are long.\n### Timing\nWatch haptics repeat.\n## macOS\nDesktop haptics use the trackpad.\n## tvOS\nTelevision haptics use controllers.\n## iPadOS\nTablet haptics require compatible hardware.');
+ const source=f.source(),ios=buildAbmKnowledgePacket(source,'Хаптик',[],{platform:'iOS'}),android=buildAbmKnowledgePacket(source,'Хаптик',[],{platform:'Android'});
+ assert.deepEqual(ios,android);
+ assert(ios.rules.some(row=>row.file===phone));assert(!ios.rules.some(row=>row.file===watch||row.file===xr));
+ assert(ios.diagnostics.excludedGuideSections>0);
+ const doc=loadPattern(f.root,mixed);
+ assert(doc.rules.some(row=>row.headings.includes('iPadOS')));
+ assert(!doc.rules.some(row=>row.headings.some(title=>['watchOS','macOS','tvOS'].includes(title))));
+ const alien=loadPattern(f.root,watch).rules[0];
+ assert.throws(()=>renderAbmResponse({answers:[{question:'Хаптик',kind:'answer',evidence:[{file:watch,ruleId:alien.key,quote:alien.body,text:alien.body}]}]},f.root,'Хаптик',ios),error=>error.code==='ABM_EVIDENCE_OUTSIDE_PACKET');
+ assert.deepEqual(new Set(ios.rules.filter(row=>row.sourceType==='guide').map(row=>row.family)),new Set(['hig','material3']));
+ const explicit=buildAbmKnowledgePacket(source,'Хаптик для часов Material 3');
+ assert(!explicit.rules.some(row=>row.file===watch),'the mobile product scope is not disabled by a question mentioning watches');
+});

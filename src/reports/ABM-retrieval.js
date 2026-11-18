@@ -2,6 +2,7 @@
 const fs=require('node:fs');
 const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=require('./ABM-source');
 const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic}=require('./ABM-search-terms');
+const {expandGuideTerms,isMobileGuideSection}=require('./ABM-guide-search');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -178,23 +179,26 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     const sections=new Set(related.map(row=>row.section));
     return uniqueRows([...related,...rows.filter(row=>sections.has(row.section))]);
   });
-  const guidePlans=expansions.map((expansion,index)=>{
-    const request=topic?topic+' '+parts[index]:parts[index];
+  const guideRows=allRows.filter(row=>row.record.sourceType==='guide');
+  const mobileGuideRows=guideRows.filter(row=>isMobileGuideSection(row.record));
+  const guidePlans=parts.map(part=>{
+    const request=topic?topic+' '+part:part;
+    const expansion=expandGuideTerms(request,vocabulary);
     const hig=/\bhig\b|human interface guidelines/iu.test(request);
     const m2=/(?:material(?:\s*design)?|материал)\s*2/iu.test(request),m3=/(?:material(?:\s*design)?|материал)\s*3/iu.test(request);
     const topical=expansion.terms.filter(term=>!['hig','material','material2','material3','гайд','гайдлайн','guideline','guidelines','ios','android','02','03'].includes(term)&&!/^\d+$/.test(term));
     if(!topical.length)return [];
-    const hits=allRows.filter(row=>row.record.sourceType==='guide'
-      &&(!hig||row.record.family==='hig')
+    const hits=mobileGuideRows.filter(row=>(!hig||row.record.family==='hig')
       &&(!(m2||m3)||(row.record.family!=='hig'&&row.record.family===(m2&&m3?row.record.family:m2?'material2':'material3'))))
-      .map(row=>({row,score:score(row,topical)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
+      .map(row=>{const phraseMatch=expansion.phrases.some(phrase=>phrase.length>1&&phrase.every(term=>row.heading.includes(term)));return {row,phraseMatch,score:score(row,topical)};}).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
     // Rank each guideline family independently so an exact HIG title cannot
     // suppress relevant Material candidates for the same cross-platform topic.
     const lanes=['hig','material2','material3'].map(family=>{
       const list=hits.filter(hit=>hit.row.record.family===family);
       const bestTitle=Math.max(0,...list.map(hit=>titleScore(hit.row)));
-      const focused=bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
+      // A requested compound term in a section beats a generic document title.
+      const focused=list.some(hit=>hit.phraseMatch)?list.filter(hit=>hit.phraseMatch):bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
       const counts=new Map(),documents=new Set();
       return focused.filter(hit=>{
         const key=hit.row.record.file,n=counts.get(key)||0;
@@ -242,7 +246,9 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const packet={rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
     omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;
-  packet.diagnostics={queryCount:queries.length,historyUsed,typoCorrections:expansions.reduce((sum,item)=>sum+item.typoCorrections,0),
+  packet.diagnostics={excludedGuideSections:guideRows.length-mobileGuideRows.length,
+    selectedGuideFamilies:Object.fromEntries(['hig','material2','material3'].map(family=>[family,selected.filter(row=>row.sourceType==='guide'&&row.family===family).length])),
+    queryCount:queries.length,historyUsed,typoCorrections:expansions.reduce((sum,item)=>sum+item.typoCorrections,0),
     noCandidates:selected.length===0,candidateRules:uniqueRows([...plans.flat(),...guidePlans.flat()]).length,
     selectedRules:selected.length,omittedCandidates:omitted.size,queryCoverage:plans.map((plan,index)=>[...plan,...guidePlans[index]].some(row=>seen.has(row.record.file+':'+row.record.ruleId)))};
   return packet;
