@@ -473,6 +473,27 @@ test('hub projection includes ABM pattern data recursively and keeps other ABM f
   );
 });
 
+test('hub projection packages Corp Code Connect data but excludes executable templates', async (t) => {
+  const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-code-connect-projection-test-'));
+  t.after(() => fsp.rm(root, { recursive: true, force: true }));
+  const packageRoot = 'products/ab/code-connect/web-corp/button-group';
+  const included = [
+    `${packageRoot}/figma.config.json`,
+    `${packageRoot}/code-connect/README.md`,
+  ];
+  const excluded = [
+    `${packageRoot}/code-connect/ButtonsGroupDesktop.figma.ts`,
+    `${packageRoot}/code-connect/preview.css`,
+  ];
+  for (const relative of [...included, ...excluded]) {
+    const target = path.join(root, relative);
+    await fsp.mkdir(path.dirname(target), { recursive: true });
+    await fsp.writeFile(target, 'fixture\n');
+  }
+
+  assert.deepEqual(await collectDsAiHubFiles(root), included.sort());
+});
+
 test('ABM pattern commits and bytes update the validated knowledge package', async (t) => {
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-abm-package-test-'));
   t.after(() => fsp.rm(root, { recursive: true, force: true }));
