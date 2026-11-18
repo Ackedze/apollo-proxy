@@ -46,11 +46,12 @@ test('existing Ask route selects ABM explicitly, preserves AB, and rejects unava
   write(binary, '#!' + process.execPath + '\n' + `
 const fs=require('node:fs');let input='';
 process.stdin.on('data',bytes=>input+=bytes);
-process.stdin.on('end',()=>{
+process.stdin.on('end',async()=>{
  const args=process.argv.slice(2);
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
  const question=input.split('<question>')[1].split('</question>')[0].trim();
+ if(question.includes('Блокировка'))await new Promise(resolve=>setTimeout(resolve,350));
  const packet=args.includes('--output-schema')?JSON.parse(input.split('<knowledge>')[1].split('</knowledge>')[0]):null;
  const selected=packet?.rules.find(rule=>question.includes('Navigation')?rule.file.startsWith('guides/'):!rule.file.startsWith('guides/'));
  const quote=question.includes('подтверждение')?'Выдуманное утверждение.':selected?.text||'Условие fixture.';
@@ -76,6 +77,12 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
  }
  function last(){return calls().at(-1);}
  try {
+  const pendingBusy=post('Блокировка кнопки в АБМ?');
+  for(let i=0;i<100&&!last()?.input.includes('Блокировка');i++)await new Promise(resolve=>setTimeout(resolve,5));
+  assert(last()?.input.includes('Блокировка'));const busyCount=calls().length;
+  const rejectedBusy=await post('Повторный вопрос в АБМ?');
+  assert.equal(rejectedBusy.status,429);assert.equal(rejectedBusy.body.code,'APOLLO_AGENT_BUSY');
+  assert.equal(calls().length,busyCount);assert.equal((await pendingBusy).status,200);
   const ab=await post('Как использовать кнопку в АБ?');
   assert.equal(ab.status,200,JSON.stringify(ab.body));
   assert.equal(last().input,buildCodexDialoguePrompt('Как использовать кнопку в АБ?',[],'design-system_ab'));

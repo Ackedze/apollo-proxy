@@ -718,6 +718,7 @@ async function callCodexContractExplanation(
   if (activeCodexRuns >= 1) {
     const error = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     error.status = 429;
+    error.code = 'APOLLO_AGENT_BUSY';
     throw error;
   }
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
@@ -877,6 +878,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
   if (activeCodexRuns >= 1) {
     const err = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     err.status = 429;
+    err.code = 'APOLLO_AGENT_BUSY';
     throw err;
   }
 
@@ -1745,7 +1747,7 @@ app.post('/analyze', async (req, res) => {
       if (['iOS', 'Android'].includes(inputValue.dialoguePlatform))
         throw Object.assign(new Error('Для ответов по паттернам АБМ выбери Codex или Claude в «О прокси». AlfaGen пока не поддерживает этот режим.'),
           { status: 503, code: 'ABM_PROVIDER_UNSUPPORTED' });
-      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429});
+      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429, code: 'APOLLO_AGENT_BUSY'});
       activeCodexRuns++;
       const controller = new AbortController();
       const onClose = () => { if (!res.writableEnded) controller.abort(); };
