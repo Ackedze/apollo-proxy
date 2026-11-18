@@ -45,7 +45,7 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
  }
  if(answer.kind!=='answer'||!Array.isArray(answer.evidence)||!answer.evidence.length||answer.evidence.length>16)
   fail('ABM_RESPONSE_INVALID',emit,{questionIndex});
- const evidence=answer.evidence.map((item,evidenceIndex)=>{
+ const verified=answer.evidence.map((item,evidenceIndex)=>{
   const details={questionIndex,evidenceIndex};
   if(!item||typeof item!=='object')fail('ABM_RESPONSE_INVALID',emit,details);
   if(packet&&!packet.rules.some(rule=>rule.file===item.file&&rule.ruleId===item.ruleId))
@@ -61,6 +61,11 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
    fail('ABM_QUOTE_MISMATCH',emit,details);
   return {pattern,ruleId:item.ruleId,text:answerText(item.text,quote,emit,details)};
  });
+ // Enforce guide fallback per question even if a model returns both sources.
+ // Every citation above is still verified; suppression never hides bad proof.
+ const hasPattern=verified.some(item=>item.pattern.sourceType!=='guide');
+ const evidence=hasPattern?verified.filter(item=>item.pattern.sourceType!=='guide'):verified;
+ if(evidence.length<verified.length)emit({outcome:'filtered',reason:'GUIDE_SUPPRESSED_PATTERN_ANSWER',questionIndex,suppressedCount:verified.length-evidence.length});
  const paragraphs=[],sections=[];
  for(const file of [...new Set(evidence.map(item=>item.pattern.file))]) {
   const start=paragraphs.length;

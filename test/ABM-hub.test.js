@@ -51,15 +51,15 @@ test('guide modifications change source identity and foreign products and symlin
  assert.equal(loadPattern(f.root,'../outside.md'),null);
 });
 
-test('structured guide blocks group each family separately after product rules and match legacy Markdown',t=>{
+test('guide-only fallback groups families separately and matches legacy Markdown',t=>{
  const f=fixture(t),q='Buttons HIG Material 2 Material 3';
- const files=['guides/hig/g_hig_buttons.md','guides/material2/g_material2_buttons.md','guides/material3/g_material3_buttons.md','patterns/p_abm_buttons.md'];
+ const files=['guides/hig/g_hig_buttons.md','guides/material2/g_material2_buttons.md','guides/material3/g_material3_buttons.md'];
  const documents=files.map(file=>loadPattern(f.root,file));
  const rows=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key}));
  const evidence=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key,quote:doc.rules[0].body,text:doc.rules[0].body}));
  let blocks;
  const text=renderAbmResponse({answers:[{question:q,kind:'answer',evidence}]},f.root,q,{rules:rows},{onBlocks:value=>{blocks=value;}});
- assert.equal(blocks[0].kind,'text');assert(blocks[0].text.includes('Паттерн:'));
+ assert.equal(blocks[0].kind,'guide');assert(!text.includes('Паттерн:'));
  assert.deepEqual(blocks.filter(b=>b.kind==='guide').map(b=>b.family),['hig','material2','material3']);
  assert.equal(blocks.map(block=>block.text).join('\n\n'),text);
 });
@@ -142,4 +142,21 @@ test('mobile retrieval removes watches, XR, desktop and television scopes before
  assert.deepEqual(new Set(ios.rules.filter(row=>row.sourceType==='guide').map(row=>row.family)),new Set(['hig','material3']));
  const explicit=buildAbmKnowledgePacket(source,'Хаптик для часов Material 3');
  assert(!explicit.rules.some(row=>row.file===watch),'the mobile product scope is not disabled by a question mentioning watches');
+});
+
+
+test('guide fallback is enforced independently per question and does not conceal invalid guide proof',t=>{
+ const f=fixture(t),pattern=loadPattern(f.root,'patterns/p_abm_buttons.md'),guide=loadPattern(f.root,'guides/material3/g_material3_buttons.md');
+ const make=doc=>({file:doc.file,ruleId:doc.rules[0].key,quote:doc.rules[0].body,text:doc.rules[0].body});
+ const product=make(pattern),recommendation=make(guide),q='Первый вопрос? Второй вопрос?';let blocks;const events=[];
+ const value={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[recommendation,product]},{question:'Второй вопрос?',kind:'answer',evidence:[recommendation]}]};
+ const text=renderAbmResponse(value,f.root,q,undefined,{onBlocks:value=>{blocks=value;},onDiagnostic:event=>events.push(event)});
+ assert.equal(blocks.filter(b=>b.kind==='guide').length,1);
+ assert.equal(blocks.find(b=>b.kind==='guide').question,'Второй вопрос?');
+ assert.equal((text.match(/Гайд:/g)||[]).length,1);
+ assert(text.includes('Паттерн: «Кнопки», v.1.7'));
+ assert.equal(blocks.map(b=>b.text).join('\n\n'),text);
+ assert(events.some(event=>event.reason==='GUIDE_SUPPRESSED_PATTERN_ANSWER'&&event.questionIndex===0));
+ const invalid={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[product,{...recommendation,quote:'Invented unsupported quote'}]}]};
+ assert.throws(()=>renderAbmResponse(invalid,f.root,q),error=>error.code==='ABM_QUOTE_MISMATCH');
 });
