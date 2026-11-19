@@ -16,8 +16,8 @@ test('native runtime channel migration updates former defaults while preserving 
   fs.writeFileSync(main, `import Foundation
 let prefix="https://raw.githubusercontent.com/Ackedze/design-system_ab/main/"
 let previous=String(repeating:"a",count:64)
-let bundled=prefix+"apollo/proxy-releases/1.4.47/data-packages/current.json"
-let priorChannels = ["1.4.23", "1.4.24", "1.4.25", "1.4.26", "1.4.27", "1.4.28", "1.4.29", "1.4.30", "1.4.31", "1.4.38", "1.4.38-ux-writer.1", "1.4.44", "1.4.45", "1.4.46"]
+let bundled=prefix+"apollo/proxy-releases/1.4.51/data-packages/current.json"
+let priorChannels = ["1.4.23", "1.4.24", "1.4.25", "1.4.26", "1.4.27", "1.4.28", "1.4.29", "1.4.30", "1.4.31", "1.4.38", "1.4.38-ux-writer.1", "1.4.44", "1.4.45", "1.4.46", "1.4.47"]
 let defaults = [prefix+"apollo/data-packages/current.json", prefix+"apollo/channels/stable/data-packages/current.json",
                 prefix+"apollo/runtimes/"+previous+"/data-packages/current.json"]
     + priorChannels.map { prefix+"apollo/proxy-releases/"+$0+"/data-packages/current.json" }
@@ -25,10 +25,12 @@ for old in defaults {
  precondition(DataChannelMigration.replacement(configured:old,bundled:bundled,previousRuntimeIDs:[previous]) == bundled)
 }
 for custom in ["https://example.test/own.json", prefix+"apollo/proxy-releases/1.4.38-custom/data-packages/current.json",
+               prefix+"apollo/proxy-releases/1.4.47-custom/data-packages/current.json",
                prefix+"apollo/runtimes/"+String(repeating:"c",count:64)+"/data-packages/current.json", bundled] {
  precondition(DataChannelMigration.replacement(configured:custom,bundled:bundled,previousRuntimeIDs:[previous]) == nil)
 }
 precondition(DataChannelMigration.replacement(configured:nil,bundled:bundled,previousRuntimeIDs:[]) == bundled)
+precondition(DataChannelMigration.replacement(configured:"",bundled:bundled,previousRuntimeIDs:[]) == bundled)
 let status=try JSONDecoder().decode(KnowledgeCommandStatus.self,from:Data("{\\"current\\":null,\\"runtimeMigrationRequired\\":true,\\"activationRequired\\":false}".utf8))
 precondition(status.runtimeMigrationRequired == true && status.activationRequired == false && status.current == nil)
 print("channel migration PASS")

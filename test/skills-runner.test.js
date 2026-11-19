@@ -10,7 +10,7 @@ function fixture(){
   {nodeId:'form',type:'FRAME',parentId:'root',oldName:'Frame 1',path:'Order / Frame 1',texts:['Адрес доставки']}]};
  const change={nodeId:'form',oldName:'Frame 1',newName:'Адрес доставки',reason:'Название подтверждено заголовком.',category:'recommended'};
  const context={snapshotId:snapshot.snapshotId,nodes:[Object.assign({},snapshot.nodes[1],{layoutMode:'VERTICAL',geometry:[0,0,200,80],childTypes:[{type:'TEXT',count:1}]})]};
- return {snapshot,change,context,skill:loadRunSkill(apolloRoot),protocol:p,requestId:'owned-request'};
+ return {snapshot,change,callbackContext:context,skill:loadRunSkill(apolloRoot),protocol:p,requestId:'owned-request'};
 }
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 async function settled(service,run){for(let i=0;i<100;i++){const value=service.read(run.runId,run.requestId);if(value.status!=='running')return value;await tick();}assert.fail('Owned stub did not settle');}
@@ -23,12 +23,17 @@ test('runner supplies deduplicated overview, executes requested context and retu
   assert.match(prompt,/VERTICAL/);assert.equal(meta.runtimeBudgetMs,899000);return finish([f.change]);
  }});
  const first=service.begin(f),waiting=await settled(service,first);assert.equal(waiting.status,'awaiting-context');assert.equal(p.runValid(waiting,f.snapshot,f.requestId),true);
- time=1000;service.observe({runId:first.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context});const done=await settled(service,first);
+ time=1000;service.observe({runId:first.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext});const done=await settled(service,first);
  assert.equal(done.status,'completed');assert.deepEqual(done.plan,{changes:[f.change]});assert.equal(done.readCount,1);assert.equal(calls.length,2);assert.equal(service.busy(),false);assert.equal(JSON.stringify(f.snapshot),before);
 });
 test('enough overview evidence finishes in one model call without mandatory reads',async()=>{
  const f=fixture();let calls=0;const service=createSkillRunner({invoke:async()=>{calls++;return finish([f.change]);}}),run=service.begin(f);
  assert.equal((await settled(service,run)).status,'completed');assert.equal(calls,1);
+});
+test('preloaded context still refuses a repeated read without requesting a callback',async()=>{
+ const f=fixture();let calls=0;const service=createSkillRunner({invoke:async()=>{calls++;return{action:'read_nodes',nodeIds:['form'],changes:[]};}});
+ const run=service.begin(Object.assign({},f,{context:f.callbackContext})),out=await settled(service,run);
+ assert.equal(out.status,'failed');assert.equal(out.error.code,'LAYER_NAMES_REPEATED_READ');assert.equal(out.pending,null);assert.equal(out.plan,null);assert.equal(out.readCount,1);assert.equal(calls,1);
 });
 test('foreign IDs, writes and invalid finish plans are refused before any native request',async()=>{
  for(const step of [{action:'read_nodes',nodeIds:['outside'],changes:[]},{action:'write',nodeIds:['form'],changes:[]},finish([Object.assign({},fixture().change,{nodeId:'outside'})])]){
@@ -39,11 +44,11 @@ test('foreign IDs, writes and invalid finish plans are refused before any native
 test('context capability, payload and replay checks preserve the pending read',async()=>{
  const f=fixture();let calls=0;const service=createSkillRunner({invoke:async()=>++calls===1?{action:'read_nodes',nodeIds:['form'],changes:[]}:finish()}),run=service.begin(f),waiting=await settled(service,run);
  assert.throws(()=>service.read(run.runId,'foreign'),e=>e.status===404);
- assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:'foreign',context:f.context}),e=>e.code==='LAYER_NAMES_CONTEXT_REPLAY');
- const payload=Object.assign({},f.context,{nodes:[Object.assign({},f.context.nodes[0],{oldName:'changed'})]});
+ assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:'foreign',context:f.callbackContext}),e=>e.code==='LAYER_NAMES_CONTEXT_REPLAY');
+ const payload=Object.assign({},f.callbackContext,{nodes:[Object.assign({},f.callbackContext.nodes[0],{oldName:'changed'})]});
  assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:payload}),e=>e.code==='LAYER_NAMES_CONTEXT_INVALID');
- assert.equal(calls,1);service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context});
- assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context}),e=>e.code==='LAYER_NAMES_CONTEXT_REPLAY');assert.equal((await settled(service,run)).status,'completed');
+ assert.equal(calls,1);service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext});
+ assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext}),e=>e.code==='LAYER_NAMES_CONTEXT_REPLAY');assert.equal((await settled(service,run)).status,'completed');
 });
 test('cancel aborts the current invocation and late completion cannot replace its state',async()=>{
  const f=fixture();let release,signal;const service=createSkillRunner({invoke:async(a,b,meta)=>{signal=meta.signal;await new Promise(resolve=>{release=resolve;});return finish([f.change]);}}),run=service.begin(f);
@@ -52,14 +57,14 @@ test('cancel aborts the current invocation and late completion cannot replace it
 });
 test('total deadline includes callback waiting and stops before another CLI invocation',async()=>{
  const f=fixture();let now=0,calls=0;const service=createSkillRunner({now:()=>now,maxRuntimeMs:1000,invoke:async()=>{calls++;return{action:'read_nodes',nodeIds:['form'],changes:[]};}}),run=service.begin(f),waiting=await settled(service,run);
- now=1001;assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context}),e=>e.code==='LAYER_NAMES_DEADLINE');assert.equal(calls,1);assert.equal(service.read(run.runId,f.requestId).status,'failed');
+ now=1001;assert.throws(()=>service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext}),e=>e.code==='LAYER_NAMES_DEADLINE');assert.equal(calls,1);assert.equal(service.read(run.runId,f.requestId).status,'failed');
  let clock=0;const exhausted=createSkillRunner({now:()=>clock+=100,maxRuntimeMs:50,invoke:async()=>{calls++;return finish();}}),before=exhausted.begin(Object.assign({},f,{requestId:'exhausted'}));
  assert.equal(exhausted.read(before.runId,'exhausted').error.code,'LAYER_NAMES_DEADLINE');assert.equal(calls,1);
 });
 test('repeated reads and exhausted step budgets terminate explicitly',async()=>{
  for(const maxSteps of [1,8]){
   const f=fixture(),service=createSkillRunner({maxSteps,invoke:async()=>({action:'read_nodes',nodeIds:['form'],changes:[]})}),run=service.begin(f),waiting=await settled(service,run);
-  service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context});const out=await settled(service,run);
+  service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext});const out=await settled(service,run);
   assert.equal(out.status,'failed');assert.equal(out.error.code,maxSteps===1?'LAYER_NAMES_STEP_LIMIT':'LAYER_NAMES_REPEATED_READ');
  }
 });
@@ -102,8 +107,8 @@ test('terminal eviction preserves pending context, active admission, cancellatio
  assert.throws(()=>service.begin({...f,requestId:'cancelled'}),e=>e.code==='LAYER_NAMES_RUN_EXPIRED');
  const run=service.begin({...f,requestId:'waiting'}),waiting=await settled(service,run);assert.equal(waiting.status,'awaiting-context');
  assert.throws(()=>service.begin({...f,requestId:'competing'}),e=>e.code==='LAYER_NAMES_BUSY');
- assert.throws(()=>service.observe({runId:cancelled.runId,requestId:'cancelled',callId:'late',context:f.context}),e=>e.code==='LAYER_NAMES_RUN_NOT_FOUND');
- service.observe({runId:run.runId,requestId:'waiting',callId:waiting.pending.callId,context:f.context});assert.equal((await settled(service,run)).status,'completed');assert.equal(calls,73);
+ assert.throws(()=>service.observe({runId:cancelled.runId,requestId:'cancelled',callId:'late',context:f.callbackContext}),e=>e.code==='LAYER_NAMES_RUN_NOT_FOUND');
+ service.observe({runId:run.runId,requestId:'waiting',callId:waiting.pending.callId,context:f.callbackContext});assert.equal((await settled(service,run)).status,'completed');assert.equal(calls,73);
 });
 test('bounded replay ledger fails closed at its capacity and empty scopes emit one completion without model calls',()=>{
  const f=fixture(),events=[];let calls=0;const service=createSkillRunner({invoke:async()=>{calls++;return finish();},onTrace:e=>events.push(e.event)}),snapshot={...f.snapshot,nodes:[],observedCount:0,skippedCount:0};
@@ -116,7 +121,7 @@ test('optional diagnostics are correlated, bounded, data-free and ignore late pr
  const f=fixture();let callback,step=0,time=0;const service=createSkillRunner({now:()=>time,invoke:async(a,b,meta)=>{if(++step===1){callback=meta.onProgress;meta.onProgress({kind:'request-prepared',provider:'claude',requestedModel:'model@latest',cliRunId:'apollo-contract-v4-fixture',raw:'secret'});for(let i=0;i<30;i++){time++;meta.onProgress({kind:'retry',retry:i+1,code:'WORKSPACE_ROUTING_TIMEOUT'});}return {action:'read_nodes',nodeIds:['form'],changes:[]};}return finish();}}),run=service.begin(f),waiting=await settled(service,run);
  const d=service.diagnostics(run.runId,f.requestId);assert.equal(d.provider,'claude');assert.equal(d.requestedModel,'model@latest');assert.equal(d.phase,'reading-context');assert.ok(d.events.length<=24);assert.ok(!JSON.stringify(d).includes('secret'));assert.equal(p.runValid(waiting,f.snapshot,f.requestId),true);
  assert.throws(()=>service.diagnostics(run.runId,'foreign'),e=>e.status===404);callback({kind:'agent-output'});assert.deepEqual(service.diagnostics(run.runId,f.requestId),d);
- service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.context});await settled(service,run);const done=service.diagnostics(run.runId,f.requestId);callback({kind:'retry'});assert.deepEqual(service.diagnostics(run.runId,f.requestId),done);assert.equal(done.phase,'completed');
+ service.observe({runId:run.runId,requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext});await settled(service,run);const done=service.diagnostics(run.runId,f.requestId);callback({kind:'retry'});assert.deepEqual(service.diagnostics(run.runId,f.requestId),done);assert.equal(done.phase,'completed');
 });
 test('HTTP lifecycle exposes only a bound readonly callback, blocks competing legacy requests and cancels safely',async t=>{
  const express=require('express'),app=express();app.use(express.json());const f=fixture();let calls=0;
@@ -129,8 +134,8 @@ test('HTTP lifecycle exposes only a bound readonly callback, blocks competing le
  const get=()=>fetch(origin+'/skills/layer-names/runs/'+first.runId+'?requestId='+f.requestId).then(r=>r.json());let waiting=(await get()).run;
  while(waiting.status==='running'){await tick();waiting=(await get()).run;}assert.equal(waiting.status,'awaiting-context');
  assert.equal((await post('/skills/layer-names/plan',{requestId:'legacy',snapshot:f.snapshot})).status,409);
- assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:'foreign',context:f.context})).status,409);assert.equal(calls,1);
- assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:waiting.pending.callId,context:f.context})).status,200);
+ assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:'foreign',context:f.callbackContext})).status,409);assert.equal(calls,1);
+ assert.equal((await post('/skills/layer-names/runs/'+first.runId+'/context',{requestId:f.requestId,callId:waiting.pending.callId,context:f.callbackContext})).status,200);
  assert.deepEqual((await get()).run.plan,{changes:[f.change]});assert.equal(calls,2);
 });
 test('HTTP diagnostics stay outside strict run proof and unsupported capability prevents provider invocation',async t=>{

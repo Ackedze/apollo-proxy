@@ -4,7 +4,7 @@ const {FLOW,createDirectLandingService,mountDirectLandingRoutes}=require('../src
 function fixture(t){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'direct-landing-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[],figmaEvents=[];
- const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
+ const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW},bodies:{'references/rules/page-layout.md':'Layout recipe.','references/rules/component-selection.md':'Selection recipe.'}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
  const options={root,knowledge:()=>source,isProcessAlive:()=>false,createCli:()=>({async run(input){
   calls.push(input);const context=JSON.parse(input.prompt.split('\n').at(-1));
   if(runError)throw runError;
@@ -23,6 +23,27 @@ function fixture(t){
  return {root,service,chat,calls,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
+test('complete structural recipes survive first and resumed prompts; content keeps its existing delivery',async t=>{
+ const f=fixture(t),plans=[];
+ const bodies=Object.fromEntries(['page-layout.md','component-selection.md'].map(name=>['references/rules/'+name,'Начало '+name+'\n'+'Переменные сетки и отступы. '.repeat(800)+'\nПоследняя строка '+name+' 🧩']));
+ f.source.skill.bodies=bodies;
+ f.source.plan=input=>{plans.push(input);return {phase:input.phase};};
+ const expected=Object.entries(bodies).map(([file,text])=>({id:'skills/'+f.source.skill.id+'/'+file,text}));
+ f.send();await f.service.settled(f.chat.id);
+ f.send('Revise the structure');await f.service.settled(f.chat.id);
+ for(const call of f.calls){assert.deepEqual(JSON.parse(call.prompt.split('\n').at(-1)).structureSources,expected);assert.match(call.prompt,/complete layout and component-selection recipes/);}
+ for(const doc of expected)assert(plans[0].providedIds.includes(doc.id));
+ f.setResult('completed');f.send('да');await f.service.settled(f.chat.id);
+ const content=JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1));assert.equal(content.structureApproved,true);assert.equal(content.structureSources,undefined);assert.equal(f.service.poll(f.chat.id).status,'completed');
+});
+test('missing or invalid structural recipes stop before CLI and other skills keep their existing inputs',async t=>{
+ for(const value of [undefined,null,'','   ',{text:'partial'}]){
+  const f=fixture(t);f.source.skill.bodies['references/rules/page-layout.md']=value;f.send();await f.service.settled(f.chat.id);
+  assert.equal(f.calls.length,0);assert.equal(f.service.poll(f.chat.id).error.code,'LANDING_REQUIRED_KNOWLEDGE_MISSING');
+ }
+ const f=fixture(t);f.source.skill.id='other-skill';f.source.skill.bodies={};f.send();await f.service.settled(f.chat.id);
+ assert.equal(f.calls.length,1);assert.equal(JSON.parse(f.calls[0].prompt.split('\n').at(-1)).structureSources,undefined);
+});
 test('initial CLI prompt omits the source plan and resume retains phase planning and usage correlation',async t=>{
  const f=fixture(t),plans=[];f.source.plan=input=>{plans.push(input);return {sourcePin:'source-pin',phase:input.phase,required:[{id:'rule'}],candidates:[],gaps:[]};};
  f.send('Build a landing');await f.service.settled(f.chat.id);
@@ -115,7 +136,7 @@ test('content sends full applicable rules and completes only against the final F
  for(const [name,events] of Object.entries(cases))await t.test(name,async t=>{
   const f=fixture(t),calls=[];
   const content='Content start. '+'Content instruction. '.repeat(650)+'Content end.';
-  f.source.skill.bodies={'references/rules/content-and-assets.md':content};
+  f.source.skill.bodies={...f.source.skill.bodies,'references/rules/content-and-assets.md':content};
   f.source.read=input=>{
    calls.push(input);
    return {text:'Full recipe: '+input.id,offset:0,next:null,sha256:'d'.repeat(64)};

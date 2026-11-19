@@ -11,7 +11,7 @@ const releases = require('../src/data-release');
 const { validateCodexReportRequest } = require('../src/reports/request');
 const { generationPackages } = require('../src/skills/catalog');
 
-function fixture(t, textSuffix = '', roleMapping, exclusions) {
+function fixture(t, textSuffix = '', roleMapping, exclusions, checkerRules = {}) {
     const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'ux-writer-test-')));
     t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
     const runtimeDir = path.join(dir, 'runtime'), releaseDir = path.join(dir, 'release');
@@ -27,7 +27,7 @@ function fixture(t, textSuffix = '', roleMapping, exclusions) {
       if (exclusions !== null) contents[ux.EXCLUSIONS] = JSON.stringify(exclusions);
     }
     contents[ux.GLOSSARY] = '[]';
-    contents[ux.RULES] = '{}';
+    contents[ux.RULES] = JSON.stringify(checkerRules);
     const web = 'knowledge/data/ds-ai-hub/products/ab/patterns/buttons.md';
     const mobile = 'knowledge/data/ds-ai-hub/products/abm/patterns/buttons.md';
     contents[ux.ROUTES] = JSON.stringify([
@@ -72,7 +72,8 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
       assert.deepEqual(input.rules,{});
       assert.deepEqual(input.glossary,[]);
       assert.equal(input.platform,'ab');
-      return {findings:[{rule:'fixture',fixed_text:'Оплатить в\u00a0банке'}],model_candidates:[],hygiene:[]};
+      return {findings:[{node:'1:2',rule:'fixture',type:'Типографика',severity:'🟡',write:'Неразрывный пробел',
+        fixed_text:'Оплатить в\u00a0банке'}],model_candidates:[],hygiene:[]};
     });
     assert.equal(prepared.request.scopes[0].width,320);
     assert.equal(prepared.request.texts[0].role,'button');
@@ -82,13 +83,18 @@ test('UX-writer reads its installed package and canonical web rules for a narrow
     assert.equal(prompt.slice(prompt.indexOf('\n') + 1), input);
     const modelInput = JSON.parse(prompt.slice(prompt.indexOf('\n') + 1));
     assert.deepEqual(modelInput.components[modelInput.texts[0].componentContext[0]], prepared.request.texts[0].components[0]);
+    assert.equal(modelInput.texts[0].text, report.facts.texts[0].text);
+    assert.equal(modelInput.texts[0].checkedText, 'Оплатить в\u00a0банке');
+    assert.equal(Object.hasOwn(modelInput.checks.findings[0], 'fixed_text'), false, 'send the prepared text once');
     assert(prepared.request.sources.some(source=>source.path===web));
     assert(!prepared.request.sources.some(source=>source.path===mobile));
     assert.equal(prepared.request.checks.findings[0].fixed_text,'Оплатить в\u00a0банке');
     const finding = {nodeId:'1:2',priority:'warning',category:'Типографика',message:'Неразрывный пробел',replacement:'Оплатить в\u00a0банке',
       sources:[{path:web,ruleId:'rule:button.text'}]};
     assert.equal(ux.validateResult({findings:[finding]},prepared).skillVersion,'2.0.0');
-    assert.throws(()=>ux.validateResult({findings:[{...finding,sources:[{path:mobile,ruleId:'Мобильные'}]}]},prepared),{code:'UX_WRITER_RESPONSE_INVALID'});
+    const unverified = ux.validateResult({findings:[{...finding,sources:[{path:mobile,ruleId:'Мобильные'}]}]},prepared);
+    assert.deepEqual(unverified.findings[0].sources,[{path:ux.RULES,ruleId:'fixture'}]);
+    assert.deepEqual(unverified.coverageGaps,['Замечаний без подтверждённой ссылки на правило: 1.']);
     prepared.assertCurrent();
     fs.writeFileSync(path.join(releaseDir, web), 'Изменился источник.');
     assert.throws(()=>prepared.assertCurrent(),{code:'UX_WRITER_DATA_CHANGED'});
@@ -291,7 +297,9 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
         const { texts } = JSON.parse(input).input;
         const hygiene = ${provider === 'openrouter'} && texts.length
           ? [{ node: texts[0].node, rule: 'гигиена/прозрачный слой' }] : [];
-        console.log(JSON.stringify({findings:[],model_candidates:[],hygiene,stats:{}}));
+        const findings = texts.length ? [{node:texts[0].node,rule:'гайд/автоисправления',type:'Типографика',
+          severity:'🟡',write:'Неразрывный пробел после «в»',fixed_text:texts[0].text.replace(' в ', ' в\u00a0')}] : [];
+        console.log(JSON.stringify({findings,model_candidates:[],hygiene,stats:{}}));
       });
     `, 0o700);
     const agent = write('agent', '#!' + process.execPath + '\n' + `
@@ -318,7 +326,7 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
           const [check] = JSON.parse(prompt.slice(prompt.indexOf('\\n') + 1)).checks.hygiene;
           const finding = {nodeId:check.node,priority:'info',category:'Гигиена макета',
             message:'Прозрачный слой',replacement:null,sources:[check.source]};
-          const findings = [finding, {...finding, nodeId:'99:99'}];
+          const findings = [finding, {...finding, nodeId:'99:99'}, {...finding, message:'Повторное замечание'}];
           return Response.json({
             choices: [{finish_reason:'stop',message:{content:JSON.stringify({findings})}}],
             usage: {prompt_tokens:30,completion_tokens:5,prompt_tokens_details:{cached_tokens:12}},
@@ -380,6 +388,8 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
     const input = (id, accessKey) => fetch(endpoint + '/' + id + '/input', { headers: accessKey ? { 'X-Apollo-Input-Key':accessKey } : {} });
     const run = await start(report);
     assert.equal(run.status, 'completed', JSON.stringify(run.error));
+    assert.equal(run.validation.findings.length, 1);
+    assert.equal(run.validation.findings[0].replacement, report.facts.texts[0].text.replace(' в ', ' в\u00a0'));
     assert.equal(run.agentInputAvailable, true);
     assert.equal(Object.hasOwn(run, 'agentInput'), false);
     assert.equal(Object.hasOwn(run, 'inputKey'), false);
@@ -412,8 +422,11 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
     if (provider === 'openrouter') {
       assert.equal(run.validation.findings.length, 1);
       assert.ok(run.validation.coverageGaps.includes('Пропущено замечаний без привязки к текстовому слою: 1.'));
+      assert.ok(run.validation.coverageGaps.includes('Пропущено повторных замечаний к одному текстовому слою: 1.'));
       assert.equal(run.validation.findings[0].nodeId, report.facts.texts[0].node.id);
-      assert.deepEqual(run.validation.findings[0].sources, [{ path: ux.RULES, ruleId: 'гигиена/прозрачный слой' }]);
+      assert.deepEqual(run.validation.findings[0].sources, [
+        { path: ux.RULES, ruleId: 'гигиена/прозрачный слой' }, { path: ux.RULES, ruleId: 'гайд/автоисправления' },
+      ]);
       const denied = await fetch(endpoint, { method:'POST', headers:{ 'Content-Type':'application/json', Origin:'https://other.example' },
         body:JSON.stringify({report}) });
       assert.equal(denied.status, 403);
@@ -432,6 +445,7 @@ for (const provider of ['codex', 'claude', 'openrouter']) {
       const failed = await start(report);
       assert.equal(failed.status, 'failed');
       assert.equal(failed.error.code, 'OPENROUTER_KEY_REJECTED');
+      assert.equal(failed.validation, null, 'a model failure must not expose a partial formal result');
       return;
     }
 
@@ -526,7 +540,134 @@ test('UX-writer retains known layers and reports each skipped unbound finding, i
   });
 });
 
-test('UX-writer takes exact typography from the checker and keeps other valid edits intact', () => {
+test('UX-writer retains the first verified finding per layer and reports duplicates without losing other layers', () => {
+  const path = 'references/fixture.md', ruleId = 'Подтверждённое правило';
+  const request = {
+    texts: [{ node: '1:2' }, { node: '1:3' }],
+    sources: [{ path, text: `## ${ruleId}` }],
+    coverageGaps: ['Уже известное ограничение'],
+  };
+  const first = { nodeId: '1:2', priority: 'warning', category: 'Пример',
+    message: 'Первое замечание', replacement: 'Первый вариант', sources: [{ path, ruleId }] };
+  const duplicate = { ...first, message: 'Повторное замечание', replacement: 'Другой вариант' };
+  const other = { ...first, nodeId: '1:3' };
+  const findings = [first, duplicate, other, duplicate];
+  const raw = JSON.stringify(findings);
+  const result = ux.validateResult({ findings }, { request });
+  assert.deepEqual(result.findings, [first, other]);
+  assert.deepEqual(result.coverageGaps, [
+    'Уже известное ограничение', 'Пропущено повторных замечаний к одному текстовому слою: 2.',
+  ]);
+  assert.equal(JSON.stringify(findings), raw);
+  assert.deepEqual(request.coverageGaps, ['Уже известное ограничение']);
+
+  const unsupported = { ...first, sources: [{ path, ruleId: 'Несуществующее правило' }] };
+  for (const rows of [[unsupported, first, other], [first, unsupported, other]]) {
+    const verified = ux.validateResult({ findings: rows }, { request });
+    assert.deepEqual(verified.findings, [first, other]);
+    assert.deepEqual(verified.coverageGaps, [
+      'Уже известное ограничение', 'Замечаний без подтверждённой ссылки на правило: 1.',
+    ]);
+  }
+  assert.throws(() => ux.validateResult({ findings: [unsupported, unsupported] }, { request }), {
+    code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'unverified-sources', unsupportedFindings: 2 },
+  });
+  assert.throws(() => ux.validateResult({ findings: [first, { ...duplicate, replacement: 42 }] }, { request }), {
+    code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'invalid-finding-fields', findingIndex: 1 },
+  });
+});
+
+test('UX-writer retains confirmed checks after an empty successful model response and merges same-layer evidence safely', () => {
+  const formal = (node, rule, write, extra = {}) => ({node,rule,write,type:'Типографика',severity:'🟡',...extra});
+  const rule = 'гайд/автоисправления', copyPath = 'references/fixture.md';
+  const request = {
+    texts: [{node:'1:2'}, {node:'1:3'}, {node:'1:4'}, {node:'1:5'}],
+    sources: [{path:ux.GLOSSARY,text:'глоссарий/термины'}, {path:copyPath,text:'## Контекстное правило'}],
+    checks: {
+      findings: [formal('1:2',rule,'Процент без пробела',{fixed_text:'45%'}),
+        formal('1:3',rule,'Неразрывный пробел',{fixed_text:'На\u00a0шаг назад'}),
+        formal('1:2','гайд/ссылка','Уточните ссылку',{type:'Редполитика',severity:'🔴'}),
+        formal('1:4','глоссарий/термины','поддержка',{type:'Глоссарий',found:'колцентр',severity:'ℹ️'})],
+      model_candidates: [formal('1:5','гайд/кандидат','Нужен контекст')],
+      hygiene: [formal('1:5','гигиена/роль','Неизвестная роль')],
+    }, coverageGaps: [],
+  };
+  const original = JSON.stringify(request), prepared = {request};
+  const direct = ux.validateResult({findings:[]},prepared);
+  assert.deepEqual(direct.findings.map(row=>row.nodeId),['1:2','1:3','1:4']);
+  assert.equal(direct.findings[0].priority,'error');
+  assert.equal(direct.findings[0].replacement,'45%');
+  assert.match(direct.findings[0].message,/Процент без пробела/);
+  assert.match(direct.findings[0].message,/Уточните ссылку/);
+  assert.equal(direct.findings[0].sources.length,2);
+  assert.equal(direct.findings[1].replacement,'На\u00a0шаг назад');
+  assert.equal(direct.findings[2].replacement,null);
+  assert.match(direct.findings[2].message,/колцентр.*поддержка/);
+  assert.deepEqual(direct.findings[2].sources,[{path:ux.GLOSSARY,ruleId:'глоссарий/термины'}]);
+  const contextual = {nodeId:'1:2',priority:'warning',category:'Контекст',message:'Уточните сумму',
+    replacement:'50%',sources:[{path:copyPath,ruleId:'Контекстное правило'}]};
+  const result = ux.validateResult({findings:[contextual,{...contextual,nodeId:'outside'}]},prepared);
+  assert.equal(result.findings.length,3);
+  assert.equal(result.findings[0].replacement,null);
+  assert.equal(result.findings[0].priority,'error');
+  assert.match(result.findings[0].message,/Уточните сумму/);
+  assert.match(result.findings[0].message,/Процент без пробела/);
+  assert.equal(result.findings[0].sources.length,3);
+  assert.deepEqual(result.coverageGaps,[
+    'Пропущено замечаний без привязки к текстовому слою: 1.',
+    'Не подготовлена общая замена для замечаний к одному слою: 1.',
+  ]);
+  const unsupported = {...contextual,sources:[{path:copyPath,ruleId:'Неизвестное правило'}]};
+  const recovered = ux.validateResult({findings:[unsupported]},prepared);
+  assert.equal(recovered.findings.length,3);
+  assert.deepEqual(recovered.coverageGaps,['Замечаний без подтверждённой ссылки на правило: 1.']);
+  assert.throws(()=>ux.validateResult({findings:[{...contextual,replacement:42}]},prepared),{
+    code:'UX_WRITER_RESPONSE_INVALID',details:{reason:'invalid-finding-fields',findingIndex:0},
+  });
+  assert.throws(()=>ux.validateResult({},prepared),{
+    code:'UX_WRITER_RESPONSE_INVALID',details:{reason:'missing-findings'},
+  });
+  assert.equal(JSON.stringify(request),original);
+});
+
+test('the model cannot re-author a deterministic fix, but contextual candidates still require its decision', () => {
+  const rule = 'гайд/автоисправления', candidateRule = 'гайд/пунктуация';
+  const formal = {node:'text',rule,type:'Типографика',severity:'🟡',write:'Неразрывный пробел',fixed_text:'Для\u00a0кого'};
+  const prepared = {request:{texts:[{node:'text'},{node:'candidate'}],sources:[],coverageGaps:[],
+    checks:{findings:[formal],model_candidates:[{node:'candidate',rule:candidateRule}],hygiene:[]}}};
+  const echo = {nodeId:'text',priority:'error',category:'Произвольная категория',message:'Другая диагностика модели',
+    replacement:'Длякого',sources:[{path:ux.RULES,ruleId:rule}]};
+  const empty = ux.validateResult({findings:[]},prepared);
+  assert.deepEqual(ux.validateResult({findings:[echo]},prepared),empty);
+  assert.equal(empty.findings.length,1);
+  assert.equal(empty.findings[0].priority,'warning');
+  assert.equal(empty.findings[0].replacement,'Для\u00a0кого');
+  const contextual = {nodeId:'candidate',priority:'warning',category:'Пунктуация',message:'Контекст подтверждает правило',
+    replacement:'Готово',sources:[{path:ux.RULES,ruleId:candidateRule}]};
+  const confirmed = ux.validateResult({findings:[contextual]},prepared);
+  assert(confirmed.findings.some(row=>row.nodeId==='candidate'&&row.replacement==='Готово'));
+  assert.equal(prepared.request.checks.findings[0],formal);
+});
+
+test('mechanical typography preserves monetary precision and is idempotent', () => {
+  const cases = [
+    ['10,123 ₽','10,123\u202f₽'], ['10.123 ₽','10,123\u202f₽'],
+    ['100000,123 ₽','100000,123\u202f₽'], ['100\u202f000,123 ₽','100\u202f000,123\u202f₽'], ['−10,001 ₽','−10,001\u202f₽'],
+    ['Для кого','Для\u00a0кого'], ['10–20 ₽','10\u202f–\u202f20\u202f₽'],
+  ];
+  const script = `import importlib.util,json,sys,collections
+spec=importlib.util.spec_from_file_location('checker',sys.argv[1])
+checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker)
+checker.copy=collections.defaultdict(lambda:'rule')
+checker.rules={'words':frozenset(['для','в','не'])}
+rows=json.load(sys.stdin)
+print(json.dumps([[checker.autofix(text,'')[0],checker.autofix(checker.autofix(text,'')[0],'')[0]] for text in rows]))`;
+  const result = require('node:child_process').execFileSync('/usr/bin/python3', ['-I','-B','-c',script,
+    path.resolve(__dirname,'../src/skills/ux-writer/checker.py')], {input:JSON.stringify(cases.map(([text])=>text)),encoding:'utf8'});
+  assert.deepEqual(JSON.parse(result),cases.map(([,expected])=>[expected,expected]));
+});
+
+test('UX-writer takes exact typography from the checker and disables conflicting complete replacements', () => {
   const path = 'references/fixture.md', ruleId = 'гайд/автоисправления';
   const copyRule = 'Заголовок описывает действие';
   const formal = { path: ux.RULES, ruleId };
@@ -537,18 +678,18 @@ test('UX-writer takes exact typography from the checker and keeps other valid ed
     { proposed: '10-20 ₽', expected: '10\u202f–\u202f20\u202f₽', fixed: '10\u202f–\u202f20\u202f₽', sources: [formal] },
     { proposed: '10–20 ₽', expected: '10\u202f–\u202f20\u202f₽', fixed: '10\u202f–\u202f20\u202f₽', sources: [formal, contextual] },
     { proposed: 'Для кого', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal, contextual] },
-    { proposed: 'Доступно\u00a0ИП', expected: 'Доступно\u00a0ИП', fixed: 'Для\u00a0кого', sources: [formal, contextual] },
-    { proposed: '−100\u202f₽', expected: '−100\u202f₽', fixed: '100\u202f₽', sources: [formal, contextual] },
-    { proposed: '10 − 5', expected: '10 − 5', fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
-    { proposed: '10-5', expected: '10-5', fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
-    { proposed: 'Доступно\x00ИП', expected: null, fixed: 'Для\u00a0кого', sources: [formal, contextual] },
-    { proposed: 'Для\x00кого', expected: null, fixed: 'Для\u00a0кого', sources: [contextual] },
-    { proposed: null, expected: null, fixed: 'Для\u00a0кого', sources: [formal] },
+    { proposed: 'Доступно\u00a0ИП', expected: null, fixed: 'Для\u00a0кого', sources: [formal, contextual] },
+    { proposed: '−100\u202f₽', expected: null, fixed: '100\u202f₽', sources: [formal, contextual] },
+    { proposed: '10 − 5', expected: null, fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
+    { proposed: '10-5', expected: null, fixed: '10\u202f–\u202f5', sources: [formal, contextual] },
+    { proposed: 'Доступно\x00ИП', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal, contextual] },
+    { proposed: 'Для\x00кого', expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [contextual] },
+    { proposed: null, expected: 'Для\u00a0кого', fixed: 'Для\u00a0кого', sources: [formal] },
     { proposed: 'Итог\u202f–\u202f100\u00a0₽\nСрок — 2\u00a0дня 👩‍💻', expected: 'Итог\u202f–\u202f100\u00a0₽\nСрок — 2\u00a0дня 👩‍💻', sources: [contextual] },
   ];
   const texts = cases.map((_, index) => ({ node: `1:${index}` }));
   const checked = cases.flatMap(({ fixed }, index) => fixed
-    ? [{ node: texts[index].node, rule: ruleId, fixed_text: fixed }] : []);
+    ? [{ node: texts[index].node, rule: ruleId, fixed_text: fixed, type:'Типографика',severity:'🟡',write:'Формальная типографика' }] : []);
   const prepared = { request: {
     texts, checks: { findings: checked },
     sources: [{ path, text: `## ${copyRule}` }], coverageGaps: [],
@@ -559,7 +700,8 @@ test('UX-writer takes exact typography from the checker and keeps other valid ed
   }));
   const result = ux.validateResult({ findings }, prepared);
   assert.deepEqual(result.findings.map(({ replacement }) => replacement), cases.map(({ expected }) => expected));
-  assert.deepEqual(result.coverageGaps, ['Скрыто предложений с недопустимыми управляющими символами: 2.']);
+  assert.deepEqual(result.coverageGaps, ['Скрыто предложений с недопустимыми управляющими символами: 2.',
+    'Не подготовлена общая замена для замечаний к одному слою: 4.']);
 });
 
 test('UX-writer accepts checker evidence only for the layer and rule actually checked', async t => {
@@ -584,7 +726,34 @@ test('UX-writer accepts checker evidence only for the layer and rule actually ch
       code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'unverified-sources', unsupportedFindings: 1 },
     });
   }
-  assert.throws(() => ux.validateResult({ findings: [row, row] }, prepared), {
-    code: 'UX_WRITER_RESPONSE_INVALID', details: { reason: 'duplicate-layer', findingIndex: 1 },
-  });
+  const duplicates = ux.validateResult({ findings: [row, row] }, prepared);
+  assert.deepEqual(duplicates.findings, [row]);
+  assert.deepEqual(duplicates.coverageGaps, ['Пропущено повторных замечаний к одному текстовому слою: 1.']);
+});
+
+test('explicit skipped layers retain captured IDs; exclusions and general source gaps stay out',async t=>{
+ const key='a'.repeat(40),rule='гигиена/заглушка';
+ const {report,releaseDir,runtimeDir}=fixture(t,'',undefined,{schemaVersion:2,components:[{componentKeys:[key],reason:'Технический компонент'}],layers:[]},{copy:{stubRule:rule}});
+ const template=report.facts.texts[0];
+ report.facts.scopes.push({nodeId:'overlay',name:'Модальное окно',width:800,overlay:true});
+ report.facts.texts=[template,{...template,node:{id:'stub',name:'Label'},text:'Label'},
+  {...template,node:{id:'overlay-text',name:'Title'},scopeNodeId:'overlay'},
+  {...template,node:{id:'excluded',name:'Label'},scopeNodeId:'overlay',ancestors:[{...template.ancestors[0],componentKey:key}]}];
+ const prepared=await ux.prepare(report,'desktop',releaseDir,runtimeDir,()=>({findings:[],model_candidates:[],hygiene:[{node:'stub',rule,write:'Заглушка вместо текста — не проверялась'}]}));
+ assert.equal(prepared.request.unverifiedTexts,undefined); // Model input and its schema are unchanged.
+ const result=ux.validateResult({findings:[]},prepared);
+ assert.deepEqual(result.unverifiedTexts.map(row=>row.nodeId).sort(),['overlay-text','stub']);
+ assert(result.unverifiedTexts.every(row=>typeof row.reason==='string'&&row.reason.trim()));
+ assert.match(result.unverifiedTexts.find(row=>row.nodeId==='overlay-text').reason,/перекрыт/);
+ assert.deepEqual(result.findings,[]);
+ const confirmed=ux.validateResult({findings:[{nodeId:'stub',priority:'error',category:'Гигиена',message:'Заполни статус',replacement:null,sources:[{path:ux.RULES,ruleId:rule}]}]},prepared);
+ assert(!confirmed.unverifiedTexts.some(row=>row.nodeId==='stub')); // Required placeholders remain Errors.
+});
+test('new proxy coverage field is additive and absent findings never imply unverified text',async t=>{
+ const {report,releaseDir,runtimeDir}=fixture(t);
+ const prepared=await ux.prepare(report,'desktop',releaseDir,runtimeDir,()=>({findings:[],model_candidates:[],hygiene:[]}));
+ prepared.request.coverageGaps.push('Нет одного документа');
+ const result=ux.validateResult({findings:[]},prepared);
+ assert.deepEqual(result.unverifiedTexts,[]);assert.deepEqual(result.findings,[]);
+ assert.deepEqual(result.coverageGaps,['Нет одного документа']);
 });

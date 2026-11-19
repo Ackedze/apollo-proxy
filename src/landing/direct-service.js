@@ -41,6 +41,14 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
   const r={schemaVersion:'apollo.landing-chat.v1',flow:FLOW,id:body.id,skillId,skillName:source.skill.name,revision:0,sequence:0,status:'idle',message:'',context,messages:[],target:null,result:null,error:null,failures:[],usage:[],sources:[],source:{workflow:FLOW,releaseId:source.id,knowledgeVersion:source.knowledgeVersion,skillId,skillVersion:source.skill.version,skillHash:source.skill.sha256,sourcePin:source.resumePin},execution:{sessionId:null,processPid:null,checkpoint:'',stage:'structure',structureApproved:false,ownerNonce:crypto.randomBytes(32).toString('hex'),mcpCallsUsed:0},createdAt:new Date(readNow()).toISOString()};save(r);records.set(r.id,r);return view(r);
  }
  function prompt(r,source,text,content){
+  let structureSources;
+  if(!r.execution.structureApproved&&source.skill.id==='ab-generate-custom-landing'){
+   structureSources=['page-layout.md','component-selection.md'].map(name=>{
+    const file='references/rules/'+name,body=source.skill.bodies?.[file];
+    if(typeof body!=='string'||!body.trim())fail('LANDING_REQUIRED_KNOWLEDGE_MISSING',503);
+    return {id:'skills/'+source.skill.id+'/'+file,text:body};
+   });
+  }
   let sourcePlan;
   if(r.execution.sessionId){
    const phase=r.execution.structureApproved?'content':'structure';
@@ -50,7 +58,7 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
      query:[r.messages.find(m=>m.role==='user')?.text,text,r.execution.checkpoint].filter(Boolean).join('\n'),
      ledger:r.sources,
      resuming:true,
-     providedIds:[...Object.keys(source.initial.instructions||{}).map(file=>'skills/'+source.skill.id+'/'+file),...(content?.sources.map(doc=>doc.id)||[])],
+     providedIds:[...Object.keys(source.initial.instructions||{}).map(file=>'skills/'+source.skill.id+'/'+file),...(structureSources?.map(doc=>doc.id)||[]),...(content?.sources.map(doc=>doc.id)||[])],
     });
    }else{
     sourcePlan={phase,gaps:[{code:'SOURCE_PLAN_UNAVAILABLE'}]};
@@ -63,9 +71,10 @@ function createDirectLandingService({root,knowledge,createCli,readNow=Date.now,i
    'Return target:{rootNodeId,pageId,parentNodeId,ownerNonce} from use_figma after creating or reading the owned root, using actual IDs. Read after uncertain outcomes before any further write; recover from the owned root rather than repeating creation. Re-resolve descendants when IDs change. Return actual affected IDs from writes. Read back final root hierarchy/settings and inspect screenshot evidence before completion; mark unavailable checks unknown.',
    'Before first creation, an inspection with ownedCount=0 and target.rootNodeId=null is normal absence, not a changed root. It does not confirm a root or authorize completion. Once a root is confirmed, its absence, ambiguity or changed ownership must stop writes. hostFailure describes the previous Proxy/CLI stop; do not infer cancellation by incoming user messages or canvas changes from aborted/missing tool output.',
    r.execution.structureApproved?'The user explicitly approved the shown structure. Before content, read the actual root and compare with the approved checkpoint. If structure changed, request structure approval again; do not overwrite unconfirmed edits.':'Build the skeleton from the brief. Configure public component properties and documented structural slots inside the owned root, including the required blocks and visible actions in Footer. Use provisional copy and assets until approval. Read the actual Figma tree, count visible items, and verify section order and Footer contents against the brief before requesting needs-structure-approval with a link to the root. If a required check cannot be confirmed, return partial with the unresolved check. Ask material brief questions with needs-input.',
+   ...(structureSources?['Read the complete layout and component-selection recipes supplied in structureSources before creating or changing the skeleton. These are full texts from the selected installed skill; use them without another read while they remain available in context. Read any other applicable component recipes through the same Hub reader and follow every next offset. Verify the actual layout against the provided recipes before requesting structure approval.']:[]),
    ...(content?[contentInstructions]:r.execution.structureApproved?[]:['In the final structural readback return instances: [{id,setName}] for visible library sections of the owned landing, using actual component-set names.']),
    'Return only the next checkpoint and a clear Russian message, not the full plan. partial means a safe resumable pause. completed requires the complete requested content and honest checks; a successful tool call alone is not design conformance. Do not claim full DS compliance from a root receipt.',
-   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,contentInputs:content||undefined,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
+   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,structureSources,contentInputs:content||undefined,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
  }
  function targetFrom(r,value){
   const t=value?.target;if(!t)return false;
