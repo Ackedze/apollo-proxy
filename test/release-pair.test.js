@@ -83,11 +83,12 @@ async function configFixture(t) {
         c[k]=path.join(f.root,k);await fs.mkdir(c[k]);
     }
     c.nodeSource=path.join(f.root,'node');await fs.writeFile(c.nodeSource,'node');
-    for(const n of ['src','scripts','node_modules','codex-workspace/.agents/skills/apollo-design-validator','macos-app/Sources','macos-app/scripts'])await fs.mkdir(path.join(c.proxyRoot,n),{recursive:true});
+    for(const n of ['src','scripts','schemas','node_modules','codex-workspace/.agents/skills/apollo-design-validator','macos-app/Sources','macos-app/scripts'])await fs.mkdir(path.join(c.proxyRoot,n),{recursive:true});
     for(const n of ['package-lock.json','server.js','macos-app/Package.swift','test/landing-direct.test.js','test/landing-direct-cli.test.js','test/landing-knowledge-mcp.test.js']){
         const p=path.join(c.proxyRoot,n);await fs.mkdir(path.dirname(p),{recursive:true});await fs.writeFile(p,n);
     }
     await v.json(path.join(c.proxyRoot,'package.json'),{version:c.version});
+    await v.json(path.join(c.proxyRoot,'schemas/apollo-predicate-capabilities.v1.json'),{schemaVersion:'fixture'});
     await fs.mkdir(path.join(c.apolloRoot,'tests'));await fs.writeFile(path.join(c.apolloRoot,'tests/landing-retry-facts.test.js'),'apollo test');
     await fs.writeFile(path.join(c.sparkleTools,'sign_update'),'sign tool');
     const file=path.join(f.root,'config.json');await v.json(file,c);return {...f,c,file};
@@ -95,6 +96,7 @@ async function configFixture(t) {
 test('complete configuration pins all four regression sources; missing leaf refuses before credentials/output', async t => {
     const f=await configFixture(t),c=await runner.configuration(f.file),pins=await runner.inventory(c);
     for(const n of ['landing-direct.test.js','landing-direct-cli.test.js','landing-knowledge-mcp.test.js','landing-retry-facts.test.js'])assert(pins.some(p=>p.path.endsWith('/'+n)));
+    assert(pins.some(p=>p.path===path.join(c.proxyRoot,'schemas/apollo-predicate-capabilities.v1.json')));
     await fs.unlink(path.join(c.proxyRoot,'test/landing-direct-cli.test.js'));
     await assert.rejects(runner.configuration(f.file),{code:'RELEASE_INPUT_PATH_UNSAFE',detail:'test/landing-direct-cli.test.js'});
     assert.equal(sync.existsSync(c.outputRoot),false);
