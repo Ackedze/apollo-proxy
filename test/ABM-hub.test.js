@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
 const {loadPattern}=require('../src/reports/ABM-source');
-const {buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS}=require('../src/reports/ABM-retrieval');
+const {buildAbmKnowledgePacket,knowledgePayload}=require('../src/reports/ABM-retrieval');
 const {renderAbmResponse}=require('../src/reports/ABM-response');
 function fixture(t){
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'abm-hub-test-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
@@ -25,7 +25,7 @@ test('guides use separate bounded lanes and respect explicit guide or Material v
  for(const [q,platform,family] of [['Buttons accessibility HIG','iOS','hig'],['Buttons accessibility Material 2','Android','material2'],['Buttons accessibility Material 3','Android','material3']]){
   const packet=buildAbmKnowledgePacket(f.source(),q,[],{platform});const guides=packet.rules.filter(row=>row.sourceType==='guide');
   assert(guides.length,q);assert(guides.every(row=>row.family===family),q);assert(packet.guideOnly);assert(packet.rules.every(row=>row.sourceType==='guide'));
-  assert(packet.chars<=MAX_PACKET_CHARS);assert.equal(packet.chars,JSON.stringify(knowledgePayload(packet)).length);
+  assert.equal(packet.chars,JSON.stringify(knowledgePayload(packet)).length);
   assert(!guides.some(row=>row.text.includes('Old publication history')));
  }
  const contradiction=buildAbmKnowledgePacket(f.source(),'Buttons HIG',[],{platform:'Android'});
@@ -119,7 +119,7 @@ test('Russian guide phrases retrieve English sections with intact conditions and
  assert(matches.length);assert(matches.every(row=>row.family==='material3'));
  assert.equal(matches[0].file,file);assert(matches[0].sectionTitles.includes('Touch targets'));
  assert(matches[0].text.includes('48 dp; retain the spacing exception.'));
- assert(p.chars<=MAX_PACKET_CHARS);
+
  const naming=writeGuideFixture(f,'material2','writing','Writing','## Button labels\nButton labels describe their action, except for contextual labels.');
  const names=buildAbmKnowledgePacket(f.source(),'Подпись кнопки Material 2');
  assert(names.rules.some(row=>row.file===naming&&row.sectionTitles.includes('Button labels')&&row.text.includes('except for contextual labels')));
@@ -178,7 +178,7 @@ test('long guide scenarios share clause ranking across families without losing t
    assert(selected.some(row=>row.text.includes('immediate feedback')),family+' pressed');
    assert(!selected.some(row=>row.text.includes('for watches')),family+' watches');
   }
-  assert(p.chars<=MAX_PACKET_CHARS);
+
  }
 });
 
@@ -197,14 +197,14 @@ test('a named guide subsection wins over a generic matching document title and r
   assert(!tagged.rules.some(row=>row.text.includes('telemetry')));
  }
 });
-test('guide overview coverage is limited when requested descendants exceed the bounded overview packet',t=>{
+test('guide overview retains all requested descendants without the former section cap',t=>{
  const f=fixture(t);
  f.write('guides/material3/g_material3_catalog.md','---\nid: abm.guides.material3.catalog\nproduct: abm\nplatforms: [android]\n---\n# Catalog\n'+
  '- documentType: PlatformGuide\n- guideID: guide:material3.catalog\n\n## States\nState overview.\n'+Array.from({length:50},(_,i)=>'### Item '+i+'\nSpecific condition '+i+'.\n').join(''));
  const p=buildAbmKnowledgePacket(f.source(),'Какие states есть в Material 3?');
  assert(p.rules.some(row=>row.file.includes('catalog')));
- assert(p.coverageLimited);
- assert(p.chars<=MAX_PACKET_CHARS);
+ assert(!p.coverageLimited);assert(p.rules.filter(row=>row.file.includes('catalog')).length>32);
+
 });
 
 test('overview reads core thematic chapters before case studies and retains late sections across families',t=>{
@@ -225,6 +225,19 @@ test('overview reads core thematic chapters before case studies and retains late
    assert(rows.some(row=>row.text.includes('Late variant details')),family+' nested late section');
    assert(!rows.some(row=>row.file.includes('_sample')),family+' examples do not replace core');
   }
-  assert(p.rules.every(row=>row.sourceType==='guide'));assert(p.chars<=12000);
+  assert(p.rules.every(row=>row.sourceType==='guide'));
+ }
+});
+
+test('guide topics survive conversational framing and grammatical case across all families',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3'])f.write('guides/'+family+'/g_'+family+'_navigation.md',
+ '---\nid: abm.guides.'+family+'.navigation\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Understanding navigation\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.navigation\n\nNavigation links destinations.\n## Types\nThe guide describes destination transitions.\n');
+ for(const q of ['Что по навигациям в гайдах платформ?','Какие рекомендации по навигации есть в гайдах?','Расскажи про навигацию в гайдах платформ','Что у нас с навигацией в гайдлайнах?']) {
+  const p=buildAbmKnowledgePacket(f.source(),q);
+  assert(p.guideOnly,q);
+  assert.deepEqual(new Set(p.rules.map(row=>row.family)),new Set(['hig','material2','material3']),q);
+  assert(p.rules.some(row=>row.text.includes('destination transitions')),q);
+  assert(p.rules.every(row=>row.sourceType==='guide'));
  }
 });

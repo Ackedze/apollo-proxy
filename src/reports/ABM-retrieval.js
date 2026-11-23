@@ -6,7 +6,6 @@ const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}
 const {scenarioIndex,scenarioCandidates}=require('./ABM-scenario-search');
 const {sourceReferences}=require('./ABM-dialogue-context');
 const {guideOverview}=require('./ABM-guide-overview');
-const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
   if(cached?.root===source.root&&cached.sha===source.contentSha256)return cached.rows;
@@ -266,60 +265,39 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
       const topicTerms=expandGuideTerms(topic,vocabulary).terms;
       const recalled=mobileGuideRows.filter(row=>row.record.family===family&&rememberedTitles.includes(row.record.pattern))
         .map(row=>({row,score:score(row,topicTerms)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score).map(hit=>hit.row);
-      const candidates=overview?uniqueRows(overview.filter(row=>row.record.family===family)):uniqueRows([...scenario,...recalled,...focused.map(hit=>hit.row)]);
+      const candidates=overview?uniqueRows([...recalled,...overview.filter(row=>row.record.family===family)]):uniqueRows([...scenario,...recalled,...focused.map(hit=>hit.row)]);
+      if(overview)return candidates;
       const counts=new Map(),documents=new Set();
       return candidates.filter(row=>{
         const key=row.record.file,n=counts.get(key)||0;
-        if(!overview&&n>=2||!documents.has(key)&&documents.size>=2)return false;
+        if(n>=2||!documents.has(key)&&documents.size>=2)return false;
         documents.add(key);counts.set(key,n+1);return true;
       });
     });
     const plan=[];
-    for(let depth=0;depth<(overview?32:4);depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);
-    return plan.slice(0,overview?32:8);
+    for(let depth=0;depth<Math.max(0,...lanes.map(lane=>lane.length));depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);
+    return plan;
   });
-  const selected=[],seen=new Set(),omitted=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
-  let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections,guideOnly})).length;
-  const add=(row,allowance=Infinity)=>{
+  const selected=[],seen=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
+  const add=row=>{
     const required=uniqueRows([...row.record.parents.map(parent=>lookup.get(row.record.file+':'+parent.ruleId)).filter(Boolean),row]);
-    const pending=required.filter(item=>!seen.has(item.record.file+':'+item.record.ruleId));
-    if(!pending.length)return 0;
-    const next=[...selected,...pending.map(item=>item.record)];
-    const size=JSON.stringify(knowledgePayload({rules:next,matchedSections,guideOnly})).length;
-    if(size-chars>allowance)return 0; // Defer large groups until other subjects have a reservation.
-    if(next.length>MAX_RULES||size>MAX_PACKET_CHARS){omitted.add(row.record.file+':'+row.record.ruleId);return 0;}
-    const added=size-chars;
-    chars=size;
-    for(const item of pending){seen.add(item.record.file+':'+item.record.ruleId);selected.push(item.record);}
-    return added;
-  };
-  // Reserve space for every question before any broad section can fill the packet.
-  const spent=plans.map(()=>0),share=Math.floor(MAX_PACKET_CHARS/Math.max(1,plans.length));
-  for(let depth=0;depth<3;depth++)plans.forEach((plan,index)=>{
-    if(plan[depth])spent[index]+=add(plan[depth],Math.max(0,share-spent[index]));
-  });
-  const length=Math.max(0,...plans.map(plan=>plan.length));
-  for(let depth=0;depth<length;depth++)for(const plan of plans)if(plan[depth])add(plan[depth]);
-  // Guides share the existing hard budget and are considered only after patterns.
-  let guideChars=0;
-  const guideFamilies=[...new Set(guidePlans.flat().map(row=>row.record.family))];
-  const familyShare=Math.floor(12000/Math.max(1,guideFamilies.length));
-  for(const family of guideFamilies) {
-    for(const row of uniqueRows(guidePlans.flat()).filter(row=>row.record.family===family)) {
-      const size=add(row,familyShare);if(size){guideChars+=size;break;}
+    for(const item of required) {
+      const key=item.record.file+':'+item.record.ruleId;
+      if(!seen.has(key)){seen.add(key);selected.push(item.record);}
     }
-  }
-  for(let depth=0;depth<Math.max(0,...guidePlans.map(plan=>plan.length));depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
-    guideChars+=add(plan[depth],12000-guideChars);
+  };
+  for(const plan of [plans,guidePlans])
+    for(let depth=0;depth<Math.max(0,...plan.map(rows=>rows.length));depth++)
+      for(const lane of plan)if(lane[depth])add(lane[depth]);
   const packet={guideOnly,requestedGuideFamilies:guideRequest?.families||[],rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
-    omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length
+    omittedCandidates:0,coverageLimited:allParts.length>parts.length
       ||requestedGuideSections.some(row=>!seen.has(row.record.file+':'+row.record.ruleId))};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;
-  packet.diagnostics={guideOnly,excludedGuideSections:guideRows.length-mobileGuideRows.length,
+  packet.diagnostics={guideOnly,sourceBudget:'unlimited',excludedGuideSections:guideRows.length-mobileGuideRows.length,
     selectedGuideFamilies:Object.fromEntries(['hig','material2','material3'].map(family=>[family,selected.filter(row=>row.sourceType==='guide'&&row.family===family).length])),
     queryCount:queries.length,historyUsed,typoCorrections:expansions.reduce((sum,item)=>sum+item.typoCorrections,0),
     noCandidates:selected.length===0,candidateRules:uniqueRows([...plans.flat(),...guidePlans.flat()]).length,
-    selectedRules:selected.length,omittedCandidates:omitted.size,queryCoverage:plans.map((plan,index)=>[...plan,...guidePlans[index]].some(row=>seen.has(row.record.file+':'+row.record.ruleId)))};
+    selectedRules:selected.length,omittedCandidates:0,queryCoverage:plans.map((plan,index)=>[...plan,...guidePlans[index]].some(row=>seen.has(row.record.file+':'+row.record.ruleId)))};
   return packet;
 }
-module.exports={buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS,MAX_RULES,tokens};
+module.exports={buildAbmKnowledgePacket,knowledgePayload,tokens};

@@ -888,6 +888,21 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
   inspectActiveApolloKnowledge();
   const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false, inputValue.dialoguePlatform)
     ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
+  const history = abm ? normalizeAbmDialogue(inputValue.dialogue) : normalizeDialogueHistory(inputValue.dialogue);
+  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
+  const publishKnowledge=()=>onKnowledge?.({ contentVersion: (abm.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-') + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, guideCount: abm.guideCount, source: abm.source });
+  const rememberLibrary=()=>{
+    if (!inputValue.session_id)return;
+    dialogueLibraryBySession.delete(inputValue.session_id);
+    dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
+    if (dialogueLibraryBySession.size > 256) dialogueLibraryBySession.delete(dialogueLibraryBySession.keys().next().value);
+  };
+  if(packet&&!packet.rules.length) {
+    publishKnowledge();rememberLibrary();
+    console.info('[Apollo][ABM] skipped agent',{reason:'NO_SEARCH_CANDIDATES',guideOnly:packet.guideOnly});
+    return renderAbmResponse({answers:[{question,kind:'not_found',evidence:[]}]},abm.root,question,packet,
+      {onDiagnostic:event=>console.info('[Apollo][ABM] response',event),onBlocks:onAnswerBlocks});
+  }
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
     const error = new Error(
       `${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`
@@ -895,8 +910,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     error.status = 503;
     throw error;
   }
-  const history = abm ? normalizeAbmDialogue(inputValue.dialogue) : normalizeDialogueHistory(inputValue.dialogue);
-  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
+
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
@@ -957,14 +971,10 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
       if (current.root !== abm.root || current.contentSha256 !== abm.contentSha256) {
         throw Object.assign(new Error('Паттерны АБМ изменились во время ответа. Повторите запрос.'), { code: 'ABM_KNOWLEDGE_CHANGED', status: 503 });
       }
-      onKnowledge?.({ contentVersion: (abm.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-') + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, guideCount: abm.guideCount, source: abm.source });
+      publishKnowledge();
     }
     const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event), onBlocks: onAnswerBlocks }) : agentResult;
-    if (inputValue.session_id) {
-      dialogueLibraryBySession.delete(inputValue.session_id);
-      dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
-      if (dialogueLibraryBySession.size > 256) dialogueLibraryBySession.delete(dialogueLibraryBySession.keys().next().value);
-    }
+    rememberLibrary();
     console.info('[Apollo][codex] dialogue completed', {
       knowledgeSource: abm ? abm.source : APOLLO_CODEX_KNOWLEDGE_SOURCE,
       knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,

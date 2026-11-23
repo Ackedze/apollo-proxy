@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
 const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
-const {buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS}=require('../src/reports/ABM-retrieval');
+const {buildAbmKnowledgePacket,knowledgePayload}=require('../src/reports/ABM-retrieval');
 const {buildAbmDialoguePrompt}=require('../src/reports/ABM-messages');
 function fixture(t) {
  const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-retrieval-')));
@@ -27,7 +27,7 @@ test('multiquestion retrieval keeps each subject, complete parents and section c
  assert(packet.rules.find(rule=>rule.ruleId==='R01.2_numbers').text.includes('После ссылки сохраняем исключение для таблиц.'));
  assert(!money.text.includes('RuleExample')&&!money.text.includes('Несвязанный раздел'));
  assert(!JSON.stringify(packet.rules).includes('example.test'));
- assert(packet.chars<=MAX_PACKET_CHARS);
+
 });
 test('morphological variants and explicit IDs retrieve real rules; history recovers follow-up topic',t=>{
  const f=fixture(t);
@@ -45,13 +45,13 @@ test('the cached index follows content fingerprint changes and prompt contains n
  assert(prompt.includes('Клавиатура всегда скрыта.'));
  assert(!prompt.includes(f.root));
 });
-test('large rules are never cut through conditions and overflow is explicit',t=>{
+test('large selected rules retain every condition without the former character cap',t=>{
  const f=fixture(t);
- f.write('large','Лимиты','### [Rule] R01\nЛимит '+('условие '.repeat(MAX_PACKET_CHARS))+'исключение в конце.\n');
+ f.write('large','Лимиты','### [Rule] R01\nЛимит '+('условие '.repeat(10000))+'исключение в конце.\n');
  const packet=buildAbmKnowledgePacket(f.source(),'Лимиты');
- assert(packet.chars<=MAX_PACKET_CHARS);
- assert(!packet.rules.some(rule=>rule.file==='p_abm_large.md'));
- assert(packet.coverageLimited);
+
+ assert(packet.rules.some(rule=>rule.file==='p_abm_large.md'&&rule.text.endsWith('исключение в конце.')));
+ assert(packet.chars>64000);assert(!packet.coverageLimited);
 });
 
 test('short follow-ups keep the user topic even when the generic word matches another pattern',t=>{
@@ -115,17 +115,17 @@ test('button naming paraphrases and a unique typo find the complete same section
   assert(packet.rules.some(rule=>rule.file==='p_abm_buttons.md'&&rule.ruleId==='R02'),q);
  }
 });
-test('a broad first topic cannot consume the reservation for another question; the entire payload is budgeted',t=>{
+test('broad and narrow questions both retain their sources without the former rule-count cap',t=>{
  const f=fixture(t);
  f.write('huge','Большая тема','## Большая тема\n'+Array.from({length:150},(_,i)=>'### [Rule] R'+String(i+1).padStart(3,'0')+'\nБольшая тема. '+('Подробное условие. '.repeat(24))+'\n').join(''));
  const packet=buildAbmKnowledgePacket(f.source(),'Расскажи все правила большой темы? Что делает иконка Инфо в поле ввода?');
  assert(packet.rules.some(rule=>rule.ruleId==='R02_info'));
  assert(packet.diagnostics.queryCoverage.every(Boolean));
- assert(packet.coverageLimited);
+ assert(!packet.coverageLimited);assert(packet.rules.length>128);
  const payload=knowledgePayload(packet);
- assert(payload.matchedSections.some(section=>section.title==='Большая тема'&&!section.complete));
+ assert(payload.matchedSections.some(section=>section.title==='Большая тема'&&section.complete));
  assert.equal(packet.chars,JSON.stringify(payload).length);
- assert(packet.chars<=MAX_PACKET_CHARS);
+
  for(const section of payload.matchedSections)for(const id of section.ruleIds)assert(payload.rules.some(rule=>rule.file===section.file&&rule.ruleId===id));
 });
 
@@ -225,7 +225,7 @@ test('decimal paraphrases focus the source rule with its conditions and parent',
  const multi=buildAbmKnowledgePacket(f.source(),'Чем отделять копейки? Что делает иконка Инфо?');
  assert(multi.rules.some(row=>row.ruleId==='R01.1_kopecks'));
  assert(multi.rules.some(row=>row.ruleId==='R02_info'));
- assert(multi.chars<=MAX_PACKET_CHARS);
+
 });
 test('number follow-ups use the user domain but explicit new domains override it',t=>{
  const f=fixture(t),history=[{role:'user',text:'Форматирование сумм'},{role:'assistant',text:'Обсудим телефон'}];
@@ -251,7 +251,7 @@ test('long scenarios retain small alternative groups and full parent families',t
  const packet=buildAbmKnowledgePacket(f.source(),'Карточку нужно архивировать после подтверждения, но в офлайне сохраняем черновик локально. Как поступить с архивированием?');
  for(const id of ['R40','R40.1_online','R40.2_offline'])assert(packet.rules.some(row=>row.ruleId===id),id);
  assert(!packet.rules.some(row=>row.ruleId==='R90'));
- assert(packet.chars<=MAX_PACKET_CHARS);
+
 });
 test('long scenarios compare numeric layout constraints and retain alternate child rules',t=>{
  const f=fixture(t);

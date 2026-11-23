@@ -36,3 +36,12 @@ test('separate font weight is not confused with separating a fractional part',()
  const {numberSeparatorIntent}=require('../src/reports/ABM-search-terms');
  assert(!numberSeparatorIntent('Копейки отдельно облегчать или весь текст regular делать?'));
 });
+
+test('Russian noun declensions share roots across topics instead of depending on the wording',()=>{
+ for(const forms of [
+ ['анимация','анимации','анимациям','анимациями','анимацией','анимацию','анимациях'],
+ ['навигация','навигации','навигациям','навигацией','навигацию'],
+ ['рекомендация','рекомендации','рекомендациям','рекомендациями'],
+ ['состояние','состояния','состоянием','состоянию'],
+ ])assert.equal(new Set(forms.flatMap(tokens)).size,1,forms.join(', '));
+});

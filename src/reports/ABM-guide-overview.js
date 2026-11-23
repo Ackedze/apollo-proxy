@@ -4,7 +4,8 @@ const FRAMING=new Set(tokens('the a an understanding overview introduction found
 const concepts=value=>canonicalTerms(tokens(value)).filter(term=>!FRAMING.has(term));
 function equalTopic(a,b) {return a.length&&b.length&&a.every(term=>b.includes(term))&&b.every(term=>a.includes(term));}
 function guideOverview(rows,query) {
- const intent=canonicalTerms(query).filter(term=>!FRAMING.has(term));
+ const vocabulary=new Set(rows.flatMap(row=>[...concepts(row.record.pattern),...row.sectionHeadings.flatMap(concepts)]));
+ const intent=canonicalTerms(query).filter(term=>!FRAMING.has(term)&&vocabulary.has(term));
  if(!intent.length)return null;
  const eligible=rows.filter(row=>!row.record.guideTags?.some(tag=>['case-study','material-studies'].includes(tag))
    ||concepts(row.record.pattern).every(term=>intent.includes(term)));

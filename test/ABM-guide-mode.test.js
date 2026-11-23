@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
 const {readGuideRequest}=require('../src/reports/ABM-guide-search');
 const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
-const {buildAbmKnowledgePacket,knowledgePayload,MAX_PACKET_CHARS}=require('../src/reports/ABM-retrieval');
+const {buildAbmKnowledgePacket,knowledgePayload}=require('../src/reports/ABM-retrieval');
 const {buildAbmDialoguePrompt}=require('../src/reports/ABM-messages');
 const {renderAbmResponse}=require('../src/reports/ABM-response');
 function fixture(t){
@@ -23,7 +23,7 @@ test('guide-only packets exclude patterns before budgeting and preserve ordinary
   assert.equal(p.guideOnly,true);assert(p.rules.length,q);assert(p.rules.every(r=>r.sourceType==='guide'&&families.includes(r.family)));
   assert.deepEqual(new Set(p.rules.map(r=>r.family)),new Set(families));
   assert(!JSON.stringify(knowledgePayload(p)).includes('Кнопка запускает действие.'));
-  assert(p.chars<=MAX_PACKET_CHARS);assert.equal(p.chars,JSON.stringify(knowledgePayload(p)).length);
+  assert.equal(p.chars,JSON.stringify(knowledgePayload(p)).length);
   const prompt=buildAbmDialoguePrompt(q,[],p);assert(prompt.includes('Пользователь явно запросил только платформенные гайды.'));assert(!prompt.includes('Для каждого отдельного вопроса сначала ищи точный подтверждённый ответ в паттернах АБМ.'));
  }
  const ordinary=buildAbmKnowledgePacket(f.source,'Кнопки');assert.equal(ordinary.guideOnly,false);assert(ordinary.rules.some(r=>r.sourceType==='pattern'));

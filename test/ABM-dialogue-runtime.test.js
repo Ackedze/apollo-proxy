@@ -139,6 +139,16 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   const modelHistory=JSON.parse(last().input.split('<dialogue>')[1].split('</dialogue>')[0]);
   assert.equal(modelHistory.length,30);assert.equal(modelHistory[0].text,'Кнопки АБМ');
   assert(last().input.includes('Условие fixture.'));
+  process.env.APOLLO_ASK_SHOW_TOKEN_USAGE='1';
+  for(const question of ['ZqxUnknownObject','ZqxUnknownObject Material 3']) {
+    const beforeEmpty=calls().length;
+    const empty=await post(question,[],'iOS');
+    assert.equal(empty.status,200,JSON.stringify(empty.body));
+    assert.equal(calls().length,beforeEmpty,'empty retrieval never launches a model');
+    assert.equal(empty.body.tokenUsage.calls,0);
+    assert.equal(empty.body.tokenUsage.totalTokens,0);
+  }
+  process.env.APOLLO_ASK_SHOW_TOKEN_USAGE='0';
   const beforeNotice=calls().length;
   for(const platform of ['iOS','Android'])for(const question of ['Про АБ','Про AB','Про Альфа-Бизнес']) {
    const notice=await post(question,[],platform);
@@ -192,7 +202,7 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   const callsBeforeNotice=calls().length;
   const freeNotice=await post('Про АБ',[],'iOS');
   assert.equal(freeNotice.body.tokenUsage.totalTokens,0);assert.equal(calls().length,callsBeforeNotice);
-  const meteredError=await post('Кнопки АБМ: подтверждение',[],'iOS');
+  const meteredError=await post('АБМ Navigation HIG: подтверждение',[],'iOS');
   assert.equal(meteredError.status,502);assert.equal(meteredError.body.tokenUsage.totalTokens,12300);assert(meteredError.body.error.includes('Токены: всего'));
   delete process.env.APOLLO_ASK_SHOW_TOKEN_USAGE;
   console.log('PASS');
