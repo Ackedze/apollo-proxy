@@ -158,3 +158,23 @@ test('an unsupported independent part does not discard the grounded part of a sc
  assert(result.includes('- как менять валюту?'));
  assert(!result.includes('- Как отделяем копейки'));
 });
+
+test('partial answers keep verified rules and refer only the unsupported fragment',t=>{
+ const f=fixture(t),question='Как отделяем копейки и как менять валюту?',gap='как менять валюту?';let blocks;
+ const item={question,kind:'partial',evidence:[evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.')],unanswered:[gap]};
+ const result=renderAbmResponse({answers:[item]},f.root,question,undefined,{onBlocks:value=>blocks=value});
+ assert(result.startsWith('Копейки всегда отделяем запятой.'));
+ assert(result.includes('Паттерн: «Поля ввода», v.2.3'));
+ assert(result.endsWith('- '+gap));
+ assert(result.includes(NOT_FOUND));
+ assert(blocks.every(block=>block.kind==='text'));
+ for(const change of [{unanswered:[]},{unanswered:['Придуманный вопрос?']},{unanswered:[12]}, {kind:'answer'}, {evidence:[]}])
+  assert.throws(()=>renderAbmResponse({answers:[{...item,...change}]},f.root,question),e=>['ABM_RESPONSE_INVALID','ABM_QUESTION_MISMATCH'].includes(e.code));
+ assert.throws(()=>renderAbmResponse({answers:[{...item,evidence:[evidence(f.file,'R01_without_example','Несуществующая цитата.')] }]},f.root,question),e=>e.code==='ABM_QUOTE_MISMATCH');
+});
+test('partial status is an explicit structured-model output rather than a prose exception',()=>{
+ const {ABM_RESPONSE_SCHEMA}=require('../src/reports/ABM-response');
+ const item=ABM_RESPONSE_SCHEMA.properties.answers.items;
+ assert(item.properties.kind.enum.includes('partial'));
+ assert(item.required.includes('unanswered'));
+});

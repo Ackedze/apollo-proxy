@@ -13,8 +13,8 @@ const ABM_RESPONSE_SCHEMA={
  type:'object',additionalProperties:false,
  properties:{answers:{type:'array',minItems:1,maxItems:12,items:{
   type:'object',additionalProperties:false,
-  properties:{question:{type:'string'},kind:{type:'string',enum:['answer','not_found']},evidence:{type:'array',maxItems:16,items:evidenceSchema}},
-  required:['question','kind','evidence'],
+  properties:{question:{type:'string'},kind:{type:'string',enum:['answer','partial','not_found']},evidence:{type:'array',maxItems:16,items:evidenceSchema},unanswered:{type:'array',maxItems:12,items:{type:'string',minLength:1}}},
+  required:['question','kind','evidence','unanswered'],
  }}},required:['answers'],
 };
 const plain=value=>normalize(value).replace(/[\\`*_[\]<>#|]/g,'\\$&').replace(/^([-+])\s/u,'\\$1 ').replace(/^(\d+)([.)])\s/u,'$1\\$2 ');
@@ -44,7 +44,7 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
   emit({outcome:'not_found',reason:packet?.rules.length===0?'NO_SEARCH_CANDIDATES':'NO_CONFIRMED_ANSWER',questionIndex});
   return null;
  }
- if(answer.kind!=='answer'||!Array.isArray(answer.evidence)||!answer.evidence.length||answer.evidence.length>16)
+ if(!['answer','partial'].includes(answer.kind)||!Array.isArray(answer.evidence)||!answer.evidence.length||answer.evidence.length>16)
   fail('ABM_RESPONSE_INVALID',emit,{questionIndex});
  const verified=answer.evidence.map((item,evidenceIndex)=>{
   const details={questionIndex,evidenceIndex};
@@ -82,7 +82,7 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
   paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — '+guideTitle:'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
   sections.push(pattern.sourceType==='guide'&&!packet?.guideOnly?{kind:'guide',family:pattern.family,text:paragraphs.slice(start).join('\n\n')}:{kind:'text',text:paragraphs.slice(start).join('\n\n')});
  }
- emit({outcome:'answered',questionIndex,evidenceCount:evidence.length});
+ emit({outcome:answer.kind==='partial'?'partial':'answered',questionIndex,evidenceCount:evidence.length,...(answer.kind==='partial'?{unansweredCount:answer.unanswered.length}:{})});
  // Product rules are displayed before separately grouped guide recommendations.
  const ordered=sections.filter(section=>section.kind==='text');
  for(const section of sections.filter(section=>section.kind==='guide')) {
@@ -107,7 +107,17 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
   let question=original.slice(position,position+anchor.length);
   if(/[?!.]/u.test(original[position+anchor.length]||' '))question+=original[position+anchor.length];
   if(question!==label)emit({outcome:'recovered',reason:'QUESTION_PUNCTUATION_REPAIRED',questionIndex});
-  return {...answer,question};
+  // Older clients may omit the new empty field; partial answers must name the gap.
+  const unanswered=answer.unanswered===undefined?[]:answer.unanswered;
+  if(!Array.isArray(unanswered)||unanswered.length>12
+    ||(answer.kind==='partial'?unanswered.length===0:unanswered.length>0))
+    fail('ABM_RESPONSE_INVALID',emit,{questionIndex});
+  const gaps=unanswered.map(fragment=>{
+    if(typeof fragment!=='string'||!normalize(fragment)||!question.includes(normalize(fragment)))
+      fail('ABM_QUESTION_MISMATCH',emit,{questionIndex});
+    return normalize(fragment);
+  });
+  return {...answer,question,unanswered:gaps};
  });
  const found=[],missing=[],answerBlocks=[];
  answers.forEach((answer,index)=>{
@@ -121,10 +131,11 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
    answerBlocks.push(...blocks);
   }
   else if(!missing.includes(answer.question))missing.push(answer.question);
+  for(const fragment of answer.unanswered)if(!missing.includes(fragment))missing.push(fragment);
  });
  if(missing.length) {
   const notFound=packet?.guideOnly?GUIDE_NOT_FOUND:NOT_FOUND;
-  const text=answers.length>1?'**'+notFound+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):notFound;
+  const text=answers.length>1||answers.some(answer=>answer.kind==='partial')?'**'+notFound+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):notFound;
   found.push(text);answerBlocks.push({kind:'text',text});
  }
  onBlocks(answerBlocks);
