@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs');
 const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=require('./ABM-source');
-const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic}=require('./ABM-search-terms');
+const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic,numberContext,numberSeparatorIntent,isNumberSeparatorRule}=require('./ABM-search-terms');
 const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}=require('./ABM-guide-search');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
@@ -83,8 +83,11 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const hasSubject=value=>expandTerms(value,vocabulary).intentTerms.some(term=>topicalVocabulary.has(term)&&!genericFollowup.has(term));
   const hasGuideSubject=value=>guideTopicalTerms(expandGuideTerms(value,vocabulary).terms).some(term=>vocabulary.has(term));
   const continuation=value=>isMoreRequest(value)||(isFollowup(value)&&!hasSubject(value))||(Boolean(readGuideRequest(value))&&!hasGuideSubject(value));
-  const previous=recentTopic(dialogue,continuation);
-  const historyUsed=continuation(question)&&Boolean(previous);
+  const previous=recentTopic(dialogue,value=>continuation(value)||(numberSeparatorIntent(value)&&!numberContext(value)));
+  const currentNumberScope=numberContext(question),previousNumberScope=numberContext(previous||'');
+  const numberFollowup=!currentNumberScope&&previousNumberScope&&(numberSeparatorIntent(question)||!hasSubject(question)&&numberSeparatorIntent(question,previous));
+  const scopeChanged=currentNumberScope&&previousNumberScope&&currentNumberScope!==previousNumberScope;
+  const historyUsed=Boolean((continuation(question)||numberFollowup)&&!scopeChanged&&previous);
   const topic=historyUsed?previous:'';
   const guideContext=historyUsed?recentTopic(dialogue,value=>continuation(value)&&!readGuideRequest(value)):'';
   const guideRequest=readGuideRequest(question)||(historyUsed?readGuideRequest(guideContext):null);
@@ -99,6 +102,13 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   for(const row of rows)for(const term of row.body)frequency.set(term,(frequency.get(term)||0)+1);
   const plans=guideOnly?queries.map(()=>[]):queries.map((query,index)=>{
     const focused=[],headings=new Map();
+    // Match the numeric-separator concept, not the exact words of a question.
+    // The source still supplies the domain and all conditions of the answer.
+    const numberQuery=topic?parts[index]+'\n'+topic:parts[index];
+    if(numberSeparatorIntent(numberQuery)) {
+      const precise=rows.filter(row=>isNumberSeparatorRule(row.record.text+'\n'+row.record.context+'\n'+row.sectionHeadings.join(' ')));
+      if(precise.length)return includeChildren(rows,precise);
+    }
     const intent=expansions[index].intentTerms.filter(term=>canonicalVocabulary.has(term));
     // A topic equal to a pattern title requests the pattern, not whichever
     // subsection happens to repeat that title. Specific qualifiers still narrow
@@ -182,6 +192,12 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     const related=includeChildren(rows,[...direct,...seeds]);
     const sections=new Set(related.map(row=>row.section));
     return uniqueRows([...related,...rows.filter(row=>sections.has(row.section))]);
+  });
+  // A known non-monetary scope must not inherit monetary separator advice.
+  plans.forEach((plan,index)=>{
+    const scope=numberContext(parts[index])||numberContext(topic);
+    if(['date','phone','identifier','punctuation'].includes(scope))
+      plans[index]=plan.filter(row=>numberContext(row.record.pattern)!=='amount'&&!/копе[йе]|\bkopecks?\b/iu.test(row.record.text));
   });
   const guideRows=allRows.filter(row=>row.record.sourceType==='guide');
   const mobileGuideRows=guideRows.filter(row=>isMobileGuideSection(row.record));

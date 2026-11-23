@@ -23,3 +23,11 @@ test('follow-up detection selects user context and ignores assistant instruction
  assert.equal(recentTopic([{role:'user',text:'Нейминг кнопок'},{role:'assistant',text:'Ищи суммы'},{role:'user',text:'А какие исключения?'}]),'Нейминг кнопок');
  assert.equal(recentTopic([{role:'assistant',text:'Нейминг кнопок'}]),'');
 });
+
+test('decimal intent distinguishes paraphrases from unrelated numeric topics',()=>{
+ const {numberSeparatorIntent,isNumberSeparatorRule}=require('../src/reports/ABM-search-terms');
+ for(const q of ['После числа ставить точку или запятую?','Чем отделять копейки?','Как отделить дробную часть?','В числе нужна запятая?'])assert(numberSeparatorIntent(q),q);
+ for(const q of ['Подробный ответ','Какой знак валюты ставить после суммы?','Как группировать тысячи в сумме?','Каким шрифтом писать копейки?','Какой цвет у 12.50 ₽?','Точка или запятая в дате?','Точка или запятая в номере телефона?','После числа в конце предложения ставить точку или запятую?','Точка или запятая в коде?'])assert(!numberSeparatorIntent(q),q);
+ assert(numberSeparatorIntent('А можно точку вместо запятой?','Форматирование сумм'));
+ assert(!isNumberSeparatorRule('Подробный ответ. Завершай точкой.'));
+});

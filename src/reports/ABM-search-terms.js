@@ -41,6 +41,34 @@ function oneEdit(a,b) {
 function canonicalTerms(terms) {
  return [...new Set(terms.map(term=>GROUPS.find(group=>group.includes(term))?.[0]||term))];
 }
+
+function numberContext(value) {
+ const text=String(value);
+ const amount=/сумм|копе[йе]|рубл|денеж|денег|деньг|валют|стоимост|₽|\bamount\b|\bkopecks?\b|\bcurrency\b/iu.test(text);
+ const punctuation=/(?:кон(?:ец|це)|завершени[ея])[^?\n]*(?:предложени|абзац)|(?:предложени|абзац)[^?\n]*(?:кон(?:ец|це)|завершени[ея])/iu.test(text);
+ const date=/(?:^|[^\p{L}])дат[аыуе](?:[^\p{L}]|$)|дат[а-я]*\s+рождени|календар|\bdate\b|\b\d{1,2}[./]\d{1,2}[./]\d{2,4}\b/iu.test(text);
+ const identifier=/(?:^|[^\p{L}])(?:код[а-я]*|идентификатор[а-я]*|номер[а-я]*|верси[а-я]*|артикул[а-я]*)(?:[^\p{L}]|$)|\b(?:code|identifier|version)\b/iu.test(text);
+ const phone=/телефон|\bphone\b/iu.test(text);
+ const other=punctuation?'punctuation':date?'date':phone?'phone':identifier?'identifier':null;
+ return amount&&other?'mixed':amount?'amount':other;
+}
+
+const FRACTION_WORDS=/(?<![\p{L}])(?:копе[йе][а-я]*|дробн[а-я]*|десятичн[а-я]*)|\b(?:decimal|fraction\w*|kopecks?|cents?)\b/iu;
+function numberSeparatorIntent(value,context='') {
+ const text=String(value),scope=numberContext(text)||numberContext(context);
+ if(scope&&scope!=='amount')return false;
+ const fraction=FRACTION_WORDS.test(text),literal=/\d+[.,]\d+/u.test(text);
+ const numeric=fraction||/числ|цифр|сумм|рубл|значени|\b(?:number|amount)\b/iu.test(text)||literal||scope==='amount';
+ const choice=/точк|\bdot\b|\bperiod\b/iu.test(text)&&/запят|\bcomma\b/iu.test(text);
+ const separator=/раздел|отдел|через|между|знак|точк|запят|\b(?:separat\w*|comma|dot|period)\b/iu.test(text);
+ const contextual=scope==='amount'&&/разделител|точк|запят/iu.test(text);
+ const insideNumber=/(?:^|\s)в\s+(?:числ[ае]|сумм[еы]|значени[ие])/iu.test(text)&&/точк|запят/iu.test(text);
+ return numeric&&(choice||fraction&&separator||contextual||insideNumber);
+}
+function isNumberSeparatorRule(value) {
+ return /запят|точк|\b(?:comma|dot|period)\b/iu.test(value)&&FRACTION_WORDS.test(value);
+}
+
 function expandTerms(value,vocabulary=new Set()) {
   const result=new Set(tokens(value));
   let typoCorrections=0;
@@ -49,6 +77,7 @@ function expandTerms(value,vocabulary=new Set()) {
     const candidates=[...vocabulary].filter(word=>oneEdit(term,word));
     if(candidates.length===1){result.delete(term);result.add(candidates[0]);typoCorrections++;}
   }
+  if(numberSeparatorIntent(value))for(const term of tokens('десятичный дробный разделитель decimal separator fraction'))result.add(term);
   // These aliases only retrieve documents; they never create normative claims.
   for(const group of GROUPS)if(group.some(term=>result.has(term)))for(const term of group)result.add(term);
   if((result.has('кнопк')||result.has('button'))&&
@@ -71,4 +100,4 @@ function recentTopic(dialogue,continuation=isFollowup) {
   return [...dialogue].reverse().find(entry=>entry?.role==='user'&&typeof entry.text==='string'
     &&!continuation(entry.text)&&tokens(entry.text).length)?.text.slice(-2000)||'';
 }
-module.exports={tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic};
+module.exports={tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic,numberContext,numberSeparatorIntent,isNumberSeparatorRule};

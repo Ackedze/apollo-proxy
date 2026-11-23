@@ -211,3 +211,32 @@ test('a pattern overview includes every section even when only two headings repe
  assert(!changed.diagnostics.historyUsed);
  assert.deepEqual(changed.rules.map(rule=>rule.ruleId),['R09_onboarding']);
 });
+
+test('decimal paraphrases focus the source rule with its conditions and parent',t=>{
+ const f=fixture(t);
+ f.write('faq','FAQ','### [Rule] R90\nПодробный ответ заканчивается точкой.\n');
+ for(const q of ['После числа ставить точку или запятую?','Чем отделять копейки?','Как отделить дробную часть?','В числе нужна запятая?']) {
+  const packet=buildAbmKnowledgePacket(f.source(),q);
+  assert.deepEqual(new Set(packet.rules.map(row=>row.ruleId)),new Set(['R01_parent','R01.1_kopecks']),q);
+  const rule=packet.rules.find(row=>row.ruleId==='R01.1_kopecks');
+  assert(rule.context.includes('Только для сумм, не для кодов.'));
+  assert(rule.parents.some(parent=>parent.ruleId==='R01_parent'));
+ }
+ const multi=buildAbmKnowledgePacket(f.source(),'Чем отделять копейки? Что делает иконка Инфо?');
+ assert(multi.rules.some(row=>row.ruleId==='R01.1_kopecks'));
+ assert(multi.rules.some(row=>row.ruleId==='R02_info'));
+ assert(multi.chars<=MAX_PACKET_CHARS);
+});
+test('number follow-ups use the user domain but explicit new domains override it',t=>{
+ const f=fixture(t),history=[{role:'user',text:'Форматирование сумм'},{role:'assistant',text:'Обсудим телефон'}];
+ for(const q of ['А можно точку вместо запятой?','После числа ставить точку или запятую?']) {
+  const packet=buildAbmKnowledgePacket(f.source(),q,history);
+  assert(packet.diagnostics.historyUsed,q);
+  assert(packet.rules.some(row=>row.ruleId==='R01.1_kopecks'),q);
+ }
+ for(const q of ['Точка или запятая в дате?','После числа в конце предложения ставить точку или запятую?','Точка или запятая в номере телефона?','Точка или запятая в коде?']) {
+  const packet=buildAbmKnowledgePacket(f.source(),q,history);
+  assert(!packet.diagnostics.historyUsed,q);
+  assert(!packet.rules.some(row=>row.file==='p_abm_amount.md'),q);
+ }
+});
