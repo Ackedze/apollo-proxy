@@ -31,3 +31,8 @@ test('decimal intent distinguishes paraphrases from unrelated numeric topics',()
  assert(numberSeparatorIntent('А можно точку вместо запятой?','Форматирование сумм'));
  assert(!isNumberSeparatorRule('Подробный ответ. Завершай точкой.'));
 });
+
+test('separate font weight is not confused with separating a fractional part',()=>{
+ const {numberSeparatorIntent}=require('../src/reports/ABM-search-terms');
+ assert(!numberSeparatorIntent('Копейки отдельно облегчать или весь текст regular делать?'));
+});

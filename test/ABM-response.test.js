@@ -146,3 +146,15 @@ test('a uniquely abbreviated example key maps to its own numeric rule without us
  const result=renderAbmResponse({answers:[answer(evidence(f.file,'R11_long_name','Собственное условие для примера.'))]},f.root,'Вопрос?');
  assert(result.includes('node-id=11-11')&&!result.includes('node-id=9-9'));
 });
+
+test('an unsupported independent part does not discard the grounded part of a scenario',t=>{
+ const f=fixture(t),q='Как отделяем копейки и как менять валюту?';
+ const result=renderAbmResponse({answers:[
+ answer(evidence(f.file,'R01_without_example','Копейки всегда отделяем запятой.'),'Как отделяем копейки'),
+ {question:'как менять валюту?',kind:'not_found',evidence:[]},
+ ]},f.root,q);
+ assert(result.includes('Копейки всегда отделяем запятой.'));
+ assert(result.includes(NOT_FOUND));
+ assert(result.includes('- как менять валюту?'));
+ assert(!result.includes('- Как отделяем копейки'));
+});

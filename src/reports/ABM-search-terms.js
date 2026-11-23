@@ -60,7 +60,7 @@ function numberSeparatorIntent(value,context='') {
  const fraction=FRACTION_WORDS.test(text),literal=/\d+[.,]\d+/u.test(text);
  const numeric=fraction||/числ|цифр|сумм|рубл|значени|\b(?:number|amount)\b/iu.test(text)||literal||scope==='amount';
  const choice=/точк|\bdot\b|\bperiod\b/iu.test(text)&&/запят|\bcomma\b/iu.test(text);
- const separator=/раздел|отдел|через|между|знак|точк|запят|\b(?:separat\w*|comma|dot|period)\b/iu.test(text);
+ const separator=/раздел|отдел(?:ить|ять|я[а-я]*|ен[а-я]*)|через|между|знак|точк|запят|\b(?:separat\w*|comma|dot|period)\b/iu.test(text);
  const contextual=scope==='amount'&&/разделител|точк|запят/iu.test(text);
  const insideNumber=/(?:^|\s)в\s+(?:числ[ае]|сумм[еы]|значени[ие])/iu.test(text)&&/точк|запят/iu.test(text);
  return numeric&&(choice||fraction&&separator||contextual||insideNumber);

@@ -240,3 +240,24 @@ test('number follow-ups use the user domain but explicit new domains override it
   assert(!packet.rules.some(row=>row.file==='p_abm_amount.md'),q);
  }
 });
+
+test('long scenarios retain small alternative groups and full parent families',t=>{
+ const f=fixture(t);
+ f.write('archive','Архивирование',
+ '## Действия\n### [Rule] R40\nКарточку архивируем только после подтверждения.\n'+
+ '### [Rule] R40.1_online\nПри наличии сети подтверждение отправляем немедленно.\n'+
+ '### [Rule] R40.2_offline\nВ офлайне сохраняем черновик локально, архивирование откладываем.\n'+
+ '## Оформление\n### [Rule] R90\nЗаголовок страницы красный.\n');
+ const packet=buildAbmKnowledgePacket(f.source(),'Карточку нужно архивировать после подтверждения, но в офлайне сохраняем черновик локально. Как поступить с архивированием?');
+ for(const id of ['R40','R40.1_online','R40.2_offline'])assert(packet.rules.some(row=>row.ruleId===id),id);
+ assert(!packet.rules.some(row=>row.ruleId==='R90'));
+ assert(packet.chars<=MAX_PACKET_CHARS);
+});
+test('long scenarios compare numeric layout constraints and retain alternate child rules',t=>{
+ const f=fixture(t);
+ f.write('actions','Действия','## Компоновка\n### [Rule] R50\nВыбор расположения действий.\n'+
+ '### [Rule] R50.1\nГоризонтальный: названия кнопок помещаются в ширину 320px.\n'+
+ '### [Rule] R50.2\nВертикальный: если названия не помещаются.\n');
+ const packet=buildAbmKnowledgePacket(f.source(),'У меня две кнопки рядом, названия помещаются в 320, но хочется проверить другое расположение действий.');
+ for(const id of ['R50','R50.1','R50.2'])assert(packet.rules.some(row=>row.ruleId===id),id);
+});

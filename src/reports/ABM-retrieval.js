@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=require('./ABM-source');
 const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic,numberContext,numberSeparatorIntent,isNumberSeparatorRule}=require('./ABM-search-terms');
 const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}=require('./ABM-guide-search');
+const {scenarioIndex,scenarioCandidates}=require('./ABM-scenario-search');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -28,7 +29,7 @@ function indexFor(source) {
   for(const row of rows)row.weights=new Map([...new Set([...row.meta,...row.heading,...row.body])].map(term=>[
     term,Math.log(1+rows.length/(df.get(term)||1))*(Number(row.body.includes(term))+2*Number(row.heading.includes(term))+0.7*Number(row.meta.includes(term)))
   ]));
-  cached={root:source.root,sha:source.contentSha256,rows};
+  cached={root:source.root,sha:source.contentSha256,rows,scenarios:scenarioIndex(rows.filter(row=>row.record.sourceType!=='guide'))};
   return rows;
 }
 // This exact representation is both budgeted here and serialized in the prompt.
@@ -169,6 +170,8 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
         return related;
       }
     }
+    const scenario=tokens(parts[index]).length>=8
+      ?scenarioCandidates(cached.scenarios,topic?parts[index]+'\n'+topic:parts[index]):null;
     const direct=[];
     for(const term of intent) {
       const matches=rows.filter(row=>row.keyTerms.includes(term)).sort((a,b)=>{
@@ -189,6 +192,20 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     const distinctive=query.filter(term=>(frequency.get(term)||Infinity)<=Math.max(12,rows.length*0.08))
       .sort((a,b)=>frequency.get(a)-frequency.get(b)).slice(0,2);
     for(const term of distinctive)for(const row of rows)if(row.body.includes(term))seeds.push(row);
+    // Preserve strong lexical hits, but do not expand a long scenario to whole sections.
+    if(scenario?.length) {
+      const hits=uniqueRows([...scenario,...seeds.slice(0,3)]);
+      const neighbors=[];
+      for(const hit of hits) {
+        const group=rows.filter(row=>row.section===hit.section);
+        if(group.length<=4)neighbors.push(...group);
+        for(const parent of hit.record.parents) {
+          const row=rows.find(item=>item.record.file===hit.record.file&&item.record.ruleId===parent.ruleId);
+          if(row)neighbors.push(row);
+        }
+      }
+      return includeChildren(rows,uniqueRows([...hits,...neighbors]));
+    }
     const related=includeChildren(rows,[...direct,...seeds]);
     const sections=new Set(related.map(row=>row.section));
     return uniqueRows([...related,...rows.filter(row=>sections.has(row.section))]);
