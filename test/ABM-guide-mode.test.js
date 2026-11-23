@@ -87,3 +87,13 @@ test('context reselects previously cited guide sections from current sources',t=
  assert(p.guideOnly);assert(p.rules.some(row=>row.file==='guides/hig/g_hig_details.md'));
  assert(p.rules.every(row=>row.family==='hig'));
 });
+
+test('a missing guide family does not turn an answered question into an unanswered whole',t=>{
+ const f=fixture(t),q='А как в Material?',base=buildAbmKnowledgePacket(f.source,'Кнопки Material 2'),row=base.rules[0];
+ const packet={...base,requestedGuideFamilies:['material2','material3']};
+ const result=renderAbmResponse({answers:[{question:q,kind:'partial',evidence:[{file:row.file,ruleId:row.ruleId,quote:row.text,text:'Подтверждённый ответ Material 2.'}],unanswered:[q]}]},f.root,q,packet);
+ assert(result.includes('Подтверждённый ответ Material 2.'));
+ assert(result.includes('По этой теме не нашёл рекомендаций Material 3.'));
+ assert(!result.includes('- А как в Material?')&&!result.includes('Не нашёл ответа в выбранных гайдах.'));
+ assert(!result.includes('achat'));
+});

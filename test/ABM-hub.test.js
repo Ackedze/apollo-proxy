@@ -193,16 +193,38 @@ test('a named guide subsection wins over a generic matching document title and r
   assert.equal(tagged.diagnostics.queryCount,1);
   assert.deepEqual(tagged.rules,plain.rules);
   assert.equal(tagged.rules[0].sectionTitles.at(-1),'Buttons');
-  assert(tagged.rules[0].text.includes('Tertiary'));
+  assert(tagged.rules.some(row=>row.text.includes('Tertiary')));
   assert(!tagged.rules.some(row=>row.text.includes('telemetry')));
  }
 });
-test('guide overview coverage is limited when requested subsection descendants are excluded by the section cap',t=>{
+test('guide overview coverage is limited when requested descendants exceed the bounded overview packet',t=>{
  const f=fixture(t);
  f.write('guides/material3/g_material3_catalog.md','---\nid: abm.guides.material3.catalog\nproduct: abm\nplatforms: [android]\n---\n# Catalog\n'+
- '- documentType: PlatformGuide\n- guideID: guide:material3.catalog\n\n## States\nState overview.\n### First\nFirst condition.\n### Second\nSecond condition.\n### Third\nThird condition.\n');
+ '- documentType: PlatformGuide\n- guideID: guide:material3.catalog\n\n## States\nState overview.\n'+Array.from({length:50},(_,i)=>'### Item '+i+'\nSpecific condition '+i+'.\n').join(''));
  const p=buildAbmKnowledgePacket(f.source(),'Какие states есть в Material 3?');
  assert(p.rules.some(row=>row.file.includes('catalog')));
  assert(p.coverageLimited);
  assert(p.chars<=MAX_PACKET_CHARS);
+});
+
+test('overview reads core thematic chapters before case studies and retains late sections across families',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3']) {
+  const front=(id,title,tags)=>'---\nid: abm.guides.'+family+'.'+id+'\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# '+title+'\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.'+id+'\n- tags: '+tags+'\n\n';
+  f.write('guides/'+family+'/g_'+family+'_core.md',front('core','Understanding typography','foundations, typography')+
+   'Type communicates hierarchy.\n## Principles\nGeneral type principles.\n## Structure\nType structure rules.\n## Feedback\nType feedback rules.\n## Brand expression\nType conveys a distinctive identity.\n### Variants\nLate variant details must remain available.\n');
+  f.write('guides/'+family+'/g_'+family+'_sample.md',front('sample','Sample app','case-study, material-studies')+
+   'Example product.\n## Typography\n'+('Example typography implementation. '.repeat(30))+'\n### Details\nSample-specific detail.\n');
+ }
+ for(const selector of ['в гайдах','HIG','Material 2','Material 3']) {
+  const p=buildAbmKnowledgePacket(f.source(),'Какая типографика есть '+selector+'?');
+  const families=require('../src/reports/ABM-guide-search').readGuideRequest(selector).families;
+  for(const family of families) {
+   const rows=p.rules.filter(row=>row.family===family);
+   assert(rows.some(row=>row.text.includes('distinctive identity')),family+' core late chapter');
+   assert(rows.some(row=>row.text.includes('Late variant details')),family+' nested late section');
+   assert(!rows.some(row=>row.file.includes('_sample')),family+' examples do not replace core');
+  }
+  assert(p.rules.every(row=>row.sourceType==='guide'));assert(p.chars<=12000);
+ }
 });

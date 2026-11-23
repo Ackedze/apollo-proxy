@@ -62,6 +62,6 @@ function loadGuide(root,file,clean) {
   rules.push({key,body,headings:names,context:stack.slice(0,-1).map(item=>item.title+'\n'+(item.body||'')).join('\n\n')});
  }
  return {file,title,version:'',patternId:scalar(doc.front,'id'),metadata:family+' '+title+' '+platform,
-  sourceType:'guide',family,guideLabel:families[family],platform,sourceUrl,rules,examples:[]};
+  sourceType:'guide',family,guideLabel:families[family],platform,sourceUrl,guideTags:(/^- tags:\s*(.+)$/m.exec(header)?.[1]||'').split(',').map(tag=>tag.trim()),rules,examples:[]};
 }
 module.exports={filesFor,read,hubPatternMetadata,loadGuide,scalar,layout};

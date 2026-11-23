@@ -5,6 +5,7 @@ const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic,nu
 const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}=require('./ABM-guide-search');
 const {scenarioIndex,scenarioCandidates}=require('./ABM-scenario-search');
 const {sourceReferences}=require('./ABM-dialogue-context');
+const {guideOverview}=require('./ABM-guide-overview');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -18,7 +19,7 @@ function indexFor(source) {
   const rows=patterns.flatMap(pattern=>pattern.rules.map(rule=>{
     const parents=parentsFor(pattern,rule);
     const record={file:pattern.file,ruleId:rule.key,pattern:pattern.title,version:pattern.version,
-      sourceType:pattern.sourceType||'pattern',family:pattern.family||null,guideLabel:pattern.guideLabel||null,platform:pattern.platform||null,
+      sourceType:pattern.sourceType||'pattern',guideTags:pattern.guideTags||[],family:pattern.family||null,guideLabel:pattern.guideLabel||null,platform:pattern.platform||null,
       context:clean(rule.context),sectionTitles:rule.headings,
       parents:parents.map(parent=>({ruleId:parent.key,text:clean(parent.body)})),text:clean(rule.body)};
     return {record,section:pattern.file+'\n'+rule.context,meta:tokens(pattern.title+' '+pattern.metadata),
@@ -55,7 +56,7 @@ function knowledgePayload(packet) {
     matchedSections:(packet.matchedSections||[]).map(section=>{
       const ruleIds=section.ruleIds.filter(id=>selected.has(section.file+':'+id));
       return {file:section.file,title:section.title,ruleIds,complete:ruleIds.length===section.ruleIds.length};
-    }).filter(section=>section.ruleIds.length),coverageLimited:Boolean(packet.coverageLimited),...(packet.guideOnly?{guideOnly:true}:{})};
+    }).filter(section=>section.ruleIds.length),coverageLimited:Boolean(packet.coverageLimited),...(packet.guideOnly?{guideOnly:true,guideFamilies:packet.requestedGuideFamilies||[]}:{})};
 }
 function uniqueRows(rows) {
   const seen=new Set();
@@ -249,8 +250,8 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     if(!topical.length)return [];
     const hits=mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family))
       .map(row=>{const phraseMatch=expansion.phrases.some(phrase=>phrase.length>1&&phrase.every(term=>row.heading.includes(term)));return {row,phraseMatch,score:score(row,topical)};}).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
-    const overviewWords=new Set(tokens('вид виды тип типы разновидности существуют перечисли список обзор доступные'));
-    const overviewIntent=canonicalTerms(topical).filter(term=>!overviewWords.has(term));
+    const overview=guideOverview(mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family)),topical);
+    if(overview)requestedGuideSections.push(...overview);
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
     // Rank each guideline family independently so an exact HIG title cannot
     // suppress relevant Material candidates for the same cross-platform topic.
@@ -261,28 +262,21 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
       // A requested compound term in a section beats a generic document title.
       const focused=list.some(hit=>hit.phraseMatch)?list.filter(hit=>hit.phraseMatch):bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
       const scenario=tokens(part).length>=8?scenarioCandidates(cached.guideScenarios.get(family),request):[];
-      // A directly named subsection can carry the requested list even when its
-      // document title differs; a generic title must not suppress that evidence.
-      const sections=list.filter(hit=>overviewIntent.length&&hit.row.sectionHeadings.slice(1).some(title=>{
-        const heading=canonicalTerms(tokens(title));
-        return overviewIntent.every(term=>heading.includes(term))&&heading.every(term=>overviewIntent.includes(term));
-      })).map(hit=>hit.row);
-      requestedGuideSections.push(...sections);
       const rememberedTitles=rememberedReferences.filter(ref=>ref.family===family).slice(-2).map(ref=>ref.title);
       const topicTerms=expandGuideTerms(topic,vocabulary).terms;
       const recalled=mobileGuideRows.filter(row=>row.record.family===family&&rememberedTitles.includes(row.record.pattern))
         .map(row=>({row,score:score(row,topicTerms)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score).map(hit=>hit.row);
-      const candidates=uniqueRows([...sections,...scenario,...recalled,...focused.map(hit=>hit.row)]);
+      const candidates=overview?uniqueRows(overview.filter(row=>row.record.family===family)):uniqueRows([...scenario,...recalled,...focused.map(hit=>hit.row)]);
       const counts=new Map(),documents=new Set();
       return candidates.filter(row=>{
         const key=row.record.file,n=counts.get(key)||0;
-        if(n>=2||!documents.has(key)&&documents.size>=2)return false;
+        if(!overview&&n>=2||!documents.has(key)&&documents.size>=2)return false;
         documents.add(key);counts.set(key,n+1);return true;
       });
     });
     const plan=[];
-    for(let depth=0;depth<4;depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);
-    return plan.slice(0,8);
+    for(let depth=0;depth<(overview?32:4);depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);
+    return plan.slice(0,overview?32:8);
   });
   const selected=[],seen=new Set(),omitted=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
   let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections,guideOnly})).length;
@@ -315,9 +309,9 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
       const size=add(row,familyShare);if(size){guideChars+=size;break;}
     }
   }
-  for(let depth=0;depth<8;depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
+  for(let depth=0;depth<Math.max(0,...guidePlans.map(plan=>plan.length));depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
     guideChars+=add(plan[depth],12000-guideChars);
-  const packet={guideOnly,rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
+  const packet={guideOnly,requestedGuideFamilies:guideRequest?.families||[],rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
     omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length
       ||requestedGuideSections.some(row=>!seen.has(row.record.file+':'+row.record.ruleId))};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;

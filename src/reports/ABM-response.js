@@ -134,6 +134,16 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
   for(const fragment of answer.unanswered)if(!missing.includes(fragment))missing.push(fragment);
  });
  const gaps=packet?.guideOnly?missing.filter(question=>!/^\(?\s*(?:абм|abm)\s*\)?[.!?\\]*$/iu.test(question)):missing;
+ if(packet?.guideOnly&&found.length) {
+  const labels={hig:'HIG',material2:'Material 2',material3:'Material 3'};
+  const absent=(packet.requestedGuideFamilies||[]).filter(family=>!packet.rules.some(rule=>rule.sourceType==='guide'&&rule.family===family));
+  const whole=gaps.filter(gap=>answers.some(answer=>answer.kind==='partial'&&answer.question===gap));
+  if(absent.length||whole.length) {
+   const note=absent.length?'По этой теме не нашёл рекомендаций '+absent.map(family=>labels[family]).join(' и ')+'.':'Не удалось подтвердить полный обзор по этой теме.';
+   found.push(note);answerBlocks.push({kind:'text',text:note});
+   for(const gap of whole)gaps.splice(gaps.indexOf(gap),1);
+  }
+ }
  if(gaps.length) {
   const notFound=packet?.guideOnly?GUIDE_NOT_FOUND:NOT_FOUND;
   const text=(answers.length>1||answers.some(answer=>answer.kind==='partial'))?'**'+notFound+'**\n\n'+gaps.map(question=>'- '+plain(question)).join('\n'):notFound;
