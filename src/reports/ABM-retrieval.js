@@ -4,6 +4,7 @@ const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=requir
 const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic,numberContext,numberSeparatorIntent,isNumberSeparatorRule}=require('./ABM-search-terms');
 const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}=require('./ABM-guide-search');
 const {scenarioIndex,scenarioCandidates}=require('./ABM-scenario-search');
+const {sourceReferences}=require('./ABM-dialogue-context');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -87,14 +88,31 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const hasSubject=value=>expandTerms(value,vocabulary).intentTerms.some(term=>topicalVocabulary.has(term)&&!genericFollowup.has(term));
   const hasGuideSubject=value=>guideTopicalTerms(expandGuideTerms(value,vocabulary).terms).some(term=>vocabulary.has(term));
   const continuation=value=>isMoreRequest(value)||(isFollowup(value)&&!hasSubject(value))||(Boolean(readGuideRequest(value))&&!hasGuideSubject(value));
-  const previous=recentTopic(dialogue,value=>continuation(value)||(numberSeparatorIntent(value)&&!numberContext(value)));
+  // Conversation state follows source topics, not a list of follow-up phrases.
+  const subjectVocabulary=new Set(canonicalTerms(allRows.flatMap(row=>row.meta)));
+  const subjects=value=>canonicalTerms(guideTopicalTerms(expandGuideTerms(value).terms))
+    .filter(term=>subjectVocabulary.has(term)&&!genericFollowup.has(term));
+  let previous='',previousSubjects=[],rememberedGuide=null;
+  for(const entry of dialogue) {
+    if(entry?.role!=='user'||typeof entry.text!=='string')continue;
+    const current=subjects(entry.text);
+    if(current.length) {
+      if(previousSubjects.length&&!current.some(term=>previousSubjects.includes(term)))rememberedGuide=null;
+      previous=entry.text;previousSubjects=current;
+    }
+    const selected=readGuideRequest(entry.text);
+    if(selected)rememberedGuide=selected;
+  }
+  if(!previous)previous=recentTopic(dialogue,continuation);
+  const currentSubjects=subjects(question);
+  const unknownName=!currentSubjects.length&&/^[a-z][a-z0-9]*$/iu.test(String(question).trim());
+  const contextContinues=!unknownName&&(!currentSubjects.length||currentSubjects.some(term=>previousSubjects.includes(term)));
   const currentNumberScope=numberContext(question),previousNumberScope=numberContext(previous||'');
   const numberFollowup=!currentNumberScope&&previousNumberScope&&(numberSeparatorIntent(question)||!hasSubject(question)&&numberSeparatorIntent(question,previous));
   const scopeChanged=currentNumberScope&&previousNumberScope&&currentNumberScope!==previousNumberScope;
-  const historyUsed=Boolean((continuation(question)||numberFollowup)&&!scopeChanged&&previous);
+  const historyUsed=Boolean((contextContinues||continuation(question)||numberFollowup)&&!scopeChanged&&previous);
   const topic=historyUsed?previous:'';
-  const guideContext=historyUsed?recentTopic(dialogue,value=>continuation(value)&&!readGuideRequest(value)):'';
-  const guideRequest=readGuideRequest(question)||(historyUsed?readGuideRequest(guideContext):null);
+  const guideRequest=readGuideRequest(question)||(historyUsed?rememberedGuide:null);
   const guideOnly=Boolean(guideRequest);
   const expansions=parts.map(part=>expandTerms(isMoreRequest(part)?topic:topic?part+'\n'+topic:part,vocabulary));
   const queries=expansions.map(item=>item.terms);
@@ -221,6 +239,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   });
   const guideRows=allRows.filter(row=>row.record.sourceType==='guide');
   const mobileGuideRows=guideRows.filter(row=>isMobileGuideSection(row.record));
+  const rememberedReferences=historyUsed&&rememberedGuide?sourceReferences(dialogue):[];
   const requestedGuideSections=[];
   const guidePlans=parts.map(part=>{
     const request=topic?topic+' '+part:part;
@@ -249,7 +268,11 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
         return overviewIntent.every(term=>heading.includes(term))&&heading.every(term=>overviewIntent.includes(term));
       })).map(hit=>hit.row);
       requestedGuideSections.push(...sections);
-      const candidates=uniqueRows([...sections,...scenario,...focused.map(hit=>hit.row)]);
+      const rememberedTitles=rememberedReferences.filter(ref=>ref.family===family).slice(-2).map(ref=>ref.title);
+      const topicTerms=expandGuideTerms(topic,vocabulary).terms;
+      const recalled=mobileGuideRows.filter(row=>row.record.family===family&&rememberedTitles.includes(row.record.pattern))
+        .map(row=>({row,score:score(row,topicTerms)})).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score).map(hit=>hit.row);
+      const candidates=uniqueRows([...sections,...scenario,...recalled,...focused.map(hit=>hit.row)]);
       const counts=new Map(),documents=new Set();
       return candidates.filter(row=>{
         const key=row.record.file,n=counts.get(key)||0;

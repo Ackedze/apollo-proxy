@@ -1,5 +1,6 @@
 'use strict';
 const crypto=require('node:crypto'),fs=require('node:fs'),fsp=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
+const {normalizeAbmDialogue}=require('./ABM-dialogue-context');
 const {APOLLO_DIALOGUE_MAX_HISTORY_ITEMS, APOLLO_DIALOGUE_MAX_HISTORY_CHARS, APOLLO_DIALOGUE_MAX_QUESTION_CHARS, CODEX_DESIGN_SYSTEM, CODEX_DS_AI_HUB}=require('../config');
 
 
@@ -58,11 +59,12 @@ function normalizeInput(payload) {
         ? sanitizeSessionId(payload.session_id)
         : null;
     const source = normalizeAgentSource(payload.source);
-    const dialogue = normalizeDialogueHistory(payload.dialogue);
+    const platform = normalizeDialoguePlatform(payload.dialoguePlatform);
+    const abm=dialogueUsesAbmRules(extractDialogueQuestion({text}),payload.dialogue,false,platform);
+    const dialogue = abm?normalizeAbmDialogue(payload.dialogue):normalizeDialogueHistory(payload.dialogue);
 
     if (text) {
       const input = { text, component, action, session_id, source, dialogue };
-      const platform = normalizeDialoguePlatform(payload.dialoguePlatform);
       if (platform !== undefined) input.dialoguePlatform = platform;
       return input;
     }

@@ -866,6 +866,7 @@ const { buildAbmDialoguePrompt } = require('./src/reports/ABM-messages');
 const { buildAbmKnowledgePacket } = require('./src/reports/ABM-retrieval');
 const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-response');
 // Keep an explicit library choice after the bounded client history drops its first turn.
+const {normalizeAbmDialogue}=require('./src/reports/ABM-dialogue-context');
 const dialogueLibraryBySession = new Map();
 
 async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {}) {
@@ -894,7 +895,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     error.status = 503;
     throw error;
   }
-  const history = normalizeDialogueHistory(inputValue.dialogue);
+  const history = abm ? normalizeAbmDialogue(inputValue.dialogue) : normalizeDialogueHistory(inputValue.dialogue);
   const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
@@ -933,7 +934,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
   if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
   const prompt = abm
-    ? buildAbmDialoguePrompt(question, history.slice(-4).map(entry => ({ ...entry, text: entry.text.slice(-1500) })), packet)
+    ? buildAbmDialoguePrompt(question, history, packet)
     : buildCodexDialoguePrompt(question, inputValue.dialogue, APOLLO_CODEX_KNOWLEDGE_SOURCE);
 
   activeCodexRuns += 1;

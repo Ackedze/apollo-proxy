@@ -119,3 +119,10 @@ test('explicit picker platform overrides question, history and saved library; le
  assert.equal(normalizeInput({text:'Вопрос'}).dialoguePlatform,undefined);
  assert(dialogueUsesAbmRules('Про АБМ',[],false));
 });
+
+test('ABM accepts fifteen exchanges while AB keeps its existing history limit',()=>{
+ const dialogue=Array.from({length:15},(_,i)=>[{role:'user',text:'Question '+i},{role:'assistant',text:'Answer '+i}]).flat();
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'iOS',dialogue}).dialogue.length,30);
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'Android',dialogue}).dialogue.length,30);
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'Desktop',dialogue}).dialogue.length,12);
+});

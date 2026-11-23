@@ -133,6 +133,12 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
    assert.equal(selected.body.knowledgeRelease.source,undefined);
    assert(!last().args.includes('--output-schema'));
   }
+  const rememberedHistory=Array.from({length:15},(_,i)=>[{role:'user',text:i===0?'Кнопки АБМ':'Сообщение '+i},{role:'assistant',text:'Пояснение '+i}]).flat();
+  const memory=await post('Объясни это иначе',rememberedHistory,'iOS');
+  assert.equal(memory.status,200,JSON.stringify(memory.body));
+  const modelHistory=JSON.parse(last().input.split('<dialogue>')[1].split('</dialogue>')[0]);
+  assert.equal(modelHistory.length,30);assert.equal(modelHistory[0].text,'Кнопки АБМ');
+  assert(last().input.includes('Условие fixture.'));
   const beforeNotice=calls().length;
   for(const platform of ['iOS','Android'])for(const question of ['Про АБ','Про AB','Про Альфа-Бизнес']) {
    const notice=await post(question,[],platform);
