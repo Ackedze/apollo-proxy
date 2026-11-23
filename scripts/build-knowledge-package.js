@@ -52,6 +52,7 @@ const DESIGN_GIT_INPUT_PATHS = [
 ];
 const HUB_DATA_ROOTS = [
   'products/ab',
+  'products/abm/guides',
   'products/abm/patterns',
   'core/web/components',
   'core/common/tokens',

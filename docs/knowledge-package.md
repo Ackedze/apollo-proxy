@@ -52,6 +52,7 @@ Predicate/детерминированный runtime:
 Agent/chat projection:
 
 - text/JSON/YAML из `ds-ai-hub/products/ab/**`;
+- text/JSON/YAML из `ds-ai-hub/products/abm/guides/**`;
 - text/JSON/YAML из `ds-ai-hub/products/abm/patterns/**`;
 - text/JSON/YAML из `ds-ai-hub/core/web/components/**`;
 - корневые `README.md` и `CONTRACT.md`.
@@ -133,7 +134,7 @@ secrets. Если позже понадобится автоматизация, 
 `ds-ai-hub`:
 
 - `products/ab/**/*.md|json|yaml|yml|txt`;
-- `products/abm/patterns/**/*.md|json|yaml|yml|txt`;
+- `products/abm/{guides,patterns}/**/*.md|json|yaml|yml|txt`;
 - `core/web/components/**/*.md|json|yaml|yml|txt`;
 - `README.md`, `CONTRACT.md`.
 
