@@ -58,6 +58,16 @@ Agent/chat projection:
 
 Не включаются `skills`, `tools`, `evals`, registry builds, node_modules, изображения и бинарные assets. Это сохраняет используемые resolver-ом component keys/instructions/guidelines/meta и product patterns AB/ABM. Для будущего полнотекстового dialogue за пределами этой проекции нужен отдельный opt-in package/channel, а не раздувание Predicate release.
 
+Для Corp и Corp Promo Code Connect эта граница означает следующее:
+
+- пакет включает переносимые справки и конфигурацию данных из `products/ab/code-connect/**`,
+  например `README.md` и `figma.config.json`;
+- исполняемые шаблоны `*.figma.ts` не входят в knowledge package: их публикует Figma
+  Code Connect отдельным процессом;
+- любой `.json` внутри `products/ab/**` попадёт в публичную проекцию, поэтому raw Figma
+  context, publication/readback receipts и локальные абсолютные пути должны быть исключены
+  в `ds-ai-hub` до сборки пакета.
+
 ## Delivery и авторизация
 
 Для MVP выбран уже используемый public-репозиторий
@@ -75,7 +85,7 @@ Ackedze/design-system_ab
 `stable.json` содержит immutable HTTPS URL release asset и его SRI. Приложение
 читает descriptor через `raw.githubusercontent.com` с cache-busting query и
 `Cache-Control: no-cache`, а архив — напрямую из Releases, без `npm install`.
-Поскольку репозиторий публичный, на компьютерах дизайнеров не нужны GitHub-токены.
+Поскольку репозиторий и knowledge package публичные, на компьютерах дизайнеров не нужны GitHub-токены.
 Право записи нужно только владельцу при публикации и берётся из уже авторизованного
 `gh`; credentials не попадают в `.app`, пакет, descriptor или логи.
 
