@@ -29,7 +29,10 @@ function indexFor(source) {
   for(const row of rows)row.weights=new Map([...new Set([...row.meta,...row.heading,...row.body])].map(term=>[
     term,Math.log(1+rows.length/(df.get(term)||1))*(Number(row.body.includes(term))+2*Number(row.heading.includes(term))+0.7*Number(row.meta.includes(term)))
   ]));
-  cached={root:source.root,sha:source.contentSha256,rows,scenarios:scenarioIndex(rows.filter(row=>row.record.sourceType!=='guide'))};
+  const guideScenarios=new Map(['hig','material2','material3'].map(family=>[family,
+    scenarioIndex(rows.filter(row=>row.record.sourceType==='guide'&&row.record.family===family&&isMobileGuideSection(row.record)),
+      value=>guideTopicalTerms(expandGuideTerms(value).terms))]));
+  cached={root:source.root,sha:source.contentSha256,rows,guideScenarios,scenarios:scenarioIndex(rows.filter(row=>row.record.sourceType!=='guide'))};
   return rows;
 }
 // This exact representation is both budgeted here and serialized in the prompt.
@@ -230,16 +233,19 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     // Rank each guideline family independently so an exact HIG title cannot
     // suppress relevant Material candidates for the same cross-platform topic.
     const lanes=['hig','material2','material3'].map(family=>{
+      if(scope&&!scope.families.includes(family))return [];
       const list=hits.filter(hit=>hit.row.record.family===family);
       const bestTitle=Math.max(0,...list.map(hit=>titleScore(hit.row)));
       // A requested compound term in a section beats a generic document title.
       const focused=list.some(hit=>hit.phraseMatch)?list.filter(hit=>hit.phraseMatch):bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
+      const scenario=tokens(part).length>=8?scenarioCandidates(cached.guideScenarios.get(family),request):[];
+      const candidates=uniqueRows([...scenario,...focused.map(hit=>hit.row)]);
       const counts=new Map(),documents=new Set();
-      return focused.filter(hit=>{
-        const key=hit.row.record.file,n=counts.get(key)||0;
+      return candidates.filter(row=>{
+        const key=row.record.file,n=counts.get(key)||0;
         if(n>=2||!documents.has(key)&&documents.size>=2)return false;
         documents.add(key);counts.set(key,n+1);return true;
-      }).map(hit=>hit.row);
+      });
     });
     const plan=[];
     for(let depth=0;depth<4;depth++)for(const lane of lanes)if(lane[depth])plan.push(lane[depth]);

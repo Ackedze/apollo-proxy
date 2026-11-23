@@ -23,19 +23,19 @@ function terms(value) {
  QUANTITIES.forEach((pattern,i)=>{if(pattern.test(value))result.push('quantity:'+(i+1));});
  return [...new Set(result)];
 }
-function scenarioIndex(rows) {
- const entries=rows.map(row=>({row,body:terms(row.record.text),
-  context:terms(row.record.context),heading:terms(row.sectionHeadings.join(' ')),title:terms(row.record.pattern)}));
+function scenarioIndex(rows,normalize=terms) {
+ const entries=rows.map(row=>({row,body:normalize(row.record.text),
+  context:normalize(row.record.context),heading:normalize(row.sectionHeadings.join(' ')),title:normalize(row.record.pattern)}));
  const frequency=new Map();
  for(const entry of entries)for(const term of new Set([...entry.body,...entry.context,...entry.heading,...entry.title]))
   frequency.set(term,(frequency.get(term)||0)+1);
- return {entries,frequency};
+ return {entries,frequency,normalize};
 }
 function scenarioCandidates(index,question) {
- const query=terms(question);
+ const query=index.normalize(question);
  // Clause lanes keep a secondary condition from losing to the longest sentence.
  const clauses=String(question).split(/[.!?;\n]+|[,—–]\s*|\s+(?:но|зато|потому что|а если)\s+/iu)
-  .map(terms).filter(part=>part.length>=2);
+  .map(index.normalize).filter(part=>part.length>=2);
  const lanes=[query,...clauses];
  const weight=term=>Math.log(1+index.entries.length/(index.frequency.get(term)||1));
  const ranked=lanes.map(lane=>index.entries.map(entry=>{

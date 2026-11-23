@@ -160,3 +160,24 @@ test('guide fallback is enforced independently per question and does not conceal
  const invalid={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[product,{...recommendation,quote:'Invented unsupported quote'}]}]};
  assert.throws(()=>renderAbmResponse(invalid,f.root,q),error=>error.code==='ABM_QUOTE_MISMATCH');
 });
+
+test('long guide scenarios share clause ranking across families without losing the second condition',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3']) {
+  f.write('guides/'+family+'/g_'+family+'_actions.md',
+   '---\nid: abm.guides.'+family+'.actions\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Actions\n'+
+   '- documentType: PlatformGuide\n- guideID: guide:'+family+'.actions\n\n## Touch target\nTouch target buttons need sufficient target size.\n## Pressed state\nPressed state buttons provide immediate feedback.\n## Wear OS\nTouch target pressed state buttons for watches.\n');
+ }
+ for(const selector of ['в гайдах','HIG','Material 2','Material 3']) {
+  const q='Расскажи '+selector+' про размер области нажатия кнопки, но также важно состояние нажатия кнопки и моментальный отклик';
+  const p=buildAbmKnowledgePacket(f.source(),q),expected=require('../src/reports/ABM-guide-search').readGuideRequest(q).families;
+  assert(p.guideOnly);assert(p.rules.every(row=>row.sourceType==='guide'&&expected.includes(row.family)));
+  for(const family of expected) {
+   const selected=p.rules.filter(row=>row.family===family);
+   assert(selected.some(row=>row.text.includes('sufficient target size')),family+' target');
+   assert(selected.some(row=>row.text.includes('immediate feedback')),family+' pressed');
+   assert(!selected.some(row=>row.text.includes('for watches')),family+' watches');
+  }
+  assert(p.chars<=MAX_PACKET_CHARS);
+ }
+});
