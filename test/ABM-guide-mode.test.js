@@ -43,3 +43,15 @@ test('explicit guide answers use plain text blocks and source links without a fa
  const missing=renderAbmResponse({answers:[{question:q,kind:'not_found',evidence:[]}]},f.root,q,p);assert(missing.startsWith('Не нашёл ответа в выбранных гайдах.'));assert(!missing.includes('в паттернах АБМ'));
  assert.throws(()=>renderAbmResponse({answers:[{question:q,kind:'answer',evidence:[{file:'patterns/p_abm_buttons.md',ruleId:'R01',quote:'Кнопка запускает действие.',text:'Неподходящий источник.'}]}]},f.root,q,p),error=>error.code==='ABM_EVIDENCE_OUTSIDE_PACKET');
 });
+
+test('guide misses never show the ABM chat or routing-label fragments',t=>{
+ const f=fixture(t),q='Кнопки HIG (АБМ)',p=buildAbmKnowledgePacket(f.source,q),row=p.rules[0];
+ const evidence=[{file:row.file,ruleId:row.ruleId,quote:row.text,text:'Проверенная рекомендация.'}];
+ const partial=renderAbmResponse({answers:[{question:q,kind:'partial',evidence,unanswered:['(АБМ)']}]},f.root,q,p);
+ assert(partial.includes('Проверенная рекомендация.'));
+ assert(!partial.includes('Не нашёл')&&!partial.includes('Скорая помощь')&&!partial.includes('(АБМ)'));
+ const allMissing=renderAbmResponse({answers:[{question:q,kind:'not_found',evidence:[]}]},f.root,q,p);
+ assert.equal(allMissing,'Не нашёл ответа в выбранных гайдах.');
+ const mixed=renderAbmResponse({answers:[{question:'Кнопки HIG',kind:'answer',evidence},{question:'(АБМ)',kind:'not_found',evidence:[]}]},f.root,q,p);
+ assert(!mixed.includes('(АБМ)')&&!mixed.includes('Не нашёл')&&!mixed.includes('achat'));
+});
