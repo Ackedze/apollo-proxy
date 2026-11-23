@@ -14,7 +14,8 @@ function fixture(t){
 }
 test('explicit guide names and generic mentions select only the requested families',()=>{
  for(const [q,families] of [['Что в HIG про кнопки?',['hig']],['Что в HIK про кнопки?',['hig']],['Что в ХИГ про кнопки?',['hig']],['Что в Material 2 про кнопки?',['material2']],['Что в Material3 про кнопки?',['material3']],['Что в Материал 3?',['material3']],['HIG и Material 2',['hig','material2']],['Material 2 и Material 3',['material2','material3']],['Что в гайдах про кнопки?',['hig','material2','material3']],['По гайдлайнам',['hig','material2','material3']]])assert.deepEqual(readGuideRequest(q)?.families,families,q);
- for(const q of ['Расскажи про кнопки','Паттерны без гайдов','Не используй гайды','Materialize buttons'])assert.equal(readGuideRequest(q),null,q);
+ for(const q of ['Расскажи про кнопки','Materialize buttons','Не только паттерны'])assert.equal(readGuideRequest(q),null,q);
+ for(const q of ['Паттерны без гайдов','Не используй гайды','Только паттерны'])assert.deepEqual(readGuideRequest(q),{families:[]},q);
 });
 test('guide-only packets exclude patterns before budgeting and preserve ordinary fallback mode',t=>{
  const f=fixture(t);
@@ -96,4 +97,40 @@ test('a missing guide family does not turn an answered question into an unanswer
  assert(result.includes('По этой теме не нашёл рекомендаций Material 3.'));
  assert(!result.includes('- А как в Material?')&&!result.includes('Не нашёл ответа в выбранных гайдах.'));
  assert(!result.includes('achat'));
+});
+
+
+test('an overview in one family preserves lexical candidates in other requested families',t=>{
+ const f=fixture(t);
+ for(const topic of ['Navigation','Typography']) {
+  for(const family of ['hig','material2','material3']) {
+   const file=path.join(f.root,'guides',family,'g_'+family+'_'+topic.toLowerCase()+'.md');
+   const title=family==='hig'?topic:'Custom '+family+' reference';
+   fs.writeFileSync(file,'---\nid: abm.guides.'+family+'.'+topic.toLowerCase()+'\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# '+title+'\n- documentType: PlatformGuide\n\n## Recommendations\n'+topic+' preserves the documented conditions for this platform.\n');
+  }
+  const source=inspectAbmPatternKnowledge(f.root);
+  const all=buildAbmKnowledgePacket(source,topic+' в гайдах');
+  for(const [family,label] of [['hig','HIG'],['material2','Material 2'],['material3','Material 3']]) {
+   const separate=buildAbmKnowledgePacket(source,topic+' '+label);
+   assert(separate.rules.length,topic+' '+family);
+   for(const row of separate.rules)assert(all.rules.some(item=>item.file===row.file&&item.ruleId===row.ruleId),topic+' '+row.file);
+  }
+ }
+});
+
+test('explicit patterns-only selection overrides remembered guides and persists on follow-ups',t=>{
+ const f=fixture(t);
+ for(const selection of ['Без гайдов, только паттерны кнопок','Не используй гайды для кнопок','Кнопки: только паттерны','Только паттерны']) {
+  const history=[{role:'user',text:'Кнопки HIG'}];
+  const assertPatterns=q=>{
+   const packet=buildAbmKnowledgePacket(f.source,q,history);
+   assert.equal(packet.guideOnly,false,selection+' / '+q);
+   assert(packet.rules.length,selection+' / '+q);
+   assert(packet.rules.every(row=>row.sourceType==='pattern'),selection+' / '+q);
+  };
+  assertPatterns(selection);
+  history.push({role:'user',text:selection});assertPatterns('А ещё?');
+  const guides=buildAbmKnowledgePacket(f.source,'Кнопки Material 2',history);
+  assert(guides.guideOnly);assert(guides.rules.length);assert(guides.rules.every(row=>row.family==='material2'));
+ }
 });

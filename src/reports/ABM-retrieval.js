@@ -113,7 +113,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const historyUsed=Boolean((contextContinues||continuation(question)||numberFollowup)&&!scopeChanged&&previous);
   const topic=historyUsed?previous:'';
   const guideRequest=readGuideRequest(question)||(historyUsed?rememberedGuide:null);
-  const guideOnly=Boolean(guideRequest);
+  const guideOnly=Boolean(guideRequest?.families.length);
   const expansions=parts.map(part=>expandTerms(isMoreRequest(part)?topic:topic?part+'\n'+topic:part,vocabulary));
   const queries=expansions.map(item=>item.terms);
   const score=(row,query)=>query.reduce((sum,term)=>sum+(row.weights.get(term)||0),0);
@@ -249,13 +249,13 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     if(!topical.length)return [];
     const hits=mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family))
       .map(row=>{const phraseMatch=expansion.phrases.some(phrase=>phrase.length>1&&phrase.every(term=>row.heading.includes(term)));return {row,phraseMatch,score:score(row,topical)};}).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
-    const overview=guideOverview(mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family)),topical);
-    if(overview)requestedGuideSections.push(...overview);
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
     // Rank each guideline family independently so an exact HIG title cannot
     // suppress relevant Material candidates for the same cross-platform topic.
     const lanes=['hig','material2','material3'].map(family=>{
       if(scope&&!scope.families.includes(family))return [];
+      const overview=guideOverview(mobileGuideRows.filter(row=>row.record.family===family),topical);
+      if(overview)requestedGuideSections.push(...overview);
       const list=hits.filter(hit=>hit.row.record.family===family);
       const bestTitle=Math.max(0,...list.map(hit=>titleScore(hit.row)));
       // A requested compound term in a section beats a generic document title.

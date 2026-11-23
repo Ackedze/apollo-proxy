@@ -22,3 +22,27 @@ test('the read-only audit distinguishes containers from empty rules and reports 
  assert(report.findings.some(f=>f.code==='PROSE_AFTER_EXAMPLE'));
  assert(!JSON.stringify(report).includes('Примечание после'));
 });
+
+
+test('audit reads Hub metadata from its product root or patterns folder and detects real rule errors',t=>{
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-hub-audit-')));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const folder=path.join(root,'patterns');fs.mkdirSync(folder);
+ const file=path.join(folder,'p_abm_fixture.md');
+ const text='---\nproduct: abm\nid: ptrn:abm.fixture\n---\n# Buttons\n- abmDocumentType: Pattern\n- abmPatternID: ptrn:ux.fixture\n- abmPatternTitle: Buttons\n- version: v.1.0\n\n## Rules\n### [Rule] R01\nПодтверждённое правило.\n### [Rule] R02\n';
+ fs.writeFileSync(file,text);
+ const report=auditAbmPatterns(root);
+ assert.equal(report.patternCount,1);assert.equal(report.ruleCount,2);
+ assert(report.findings.some(f=>f.file==='patterns/p_abm_fixture.md'&&f.code==='EMPTY_RULE'&&f.ruleId==='R02'));
+ assert(!report.findings.some(f=>f.code==='INVALID_PATTERN_METADATA'));
+ assert.deepEqual(auditAbmPatterns(folder),report);
+ assert.equal(fs.readFileSync(file,'utf8'),text);
+});
+
+test('an empty source cannot pass the structure audit',t=>{
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'apollo-abm-empty-audit-')));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const report=auditAbmPatterns(root);
+ assert.equal(report.patternCount,0);assert.equal(report.errors,1);
+ assert(report.findings.some(f=>f.code==='NO_PATTERNS'));
+});
