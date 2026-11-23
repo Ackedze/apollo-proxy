@@ -15,7 +15,7 @@ function tokens(value) {
     .filter(word=>word.length>1&&!STOP.has(word)))];
 }
 const GROUPS=[
- ['доступность','accessibility'],['навигация','navigation'],['типографика','typography'],['цвет','color','colors'],['анимация','animation','motion'],['размер','size','sizing'],['отступ','spacing','padding'],
+ ['доступность','accessibility'],['навигация','navigation'],['типографика','typography'],['цвет','color','colors'],['анимация','animation','animations','motion'],['размер','size','sizing'],['отступ','spacing','padding'],
  ['хаптик','haptic','haptics'],['клавиатура','keyboard'],['шеврон','chevron'],['поиск','search'],
  ['очистка','крестик','clear'],['копейки','kopecks'],['шрифт','font'],['таблица','table','tables'],
  ['радиокнопка','radio'],['чекбокс','checkbox','checkboxes'],['переключатель','switch','тумблер'],

@@ -133,11 +133,13 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
   else if(!missing.includes(answer.question))missing.push(answer.question);
   for(const fragment of answer.unanswered)if(!missing.includes(fragment))missing.push(fragment);
  });
- if(missing.length&&(!packet?.guideOnly||!found.length)) {
+ const gaps=packet?.guideOnly?missing.filter(question=>!/^\(?\s*(?:абм|abm)\s*\)?[.!?\\]*$/iu.test(question)):missing;
+ if(gaps.length) {
   const notFound=packet?.guideOnly?GUIDE_NOT_FOUND:NOT_FOUND;
-  const text=!packet?.guideOnly&&(answers.length>1||answers.some(answer=>answer.kind==='partial'))?'**'+notFound+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):notFound;
+  const text=(answers.length>1||answers.some(answer=>answer.kind==='partial'))?'**'+notFound+'**\n\n'+gaps.map(question=>'- '+plain(question)).join('\n'):notFound;
   found.push(text);answerBlocks.push({kind:'text',text});
  }
+ if(!found.length&&packet?.guideOnly){found.push(GUIDE_NOT_FOUND);answerBlocks.push({kind:'text',text:GUIDE_NOT_FOUND});}
  onBlocks(answerBlocks);
  return found.join('\n\n');
 }

@@ -181,3 +181,28 @@ test('long guide scenarios share clause ranking across families without losing t
   assert(p.chars<=MAX_PACKET_CHARS);
  }
 });
+
+test('a named guide subsection wins over a generic matching document title and route labels are not questions',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3'])f.write('guides/'+family+'/g_'+family+'_catalog.md',
+  '---\nid: abm.guides.'+family+'.catalog\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Catalog\n'+
+  '- documentType: PlatformGuide\n- guideID: guide:'+family+'.catalog\n\n## Buttons\nPrimary, Secondary and Tertiary are the documented button variants.\n## Buttons data\nUnrelated button telemetry.\n');
+ for(const family of ['HIG','Material 2','Material 3']) {
+  const q='Какие кнопки есть в '+family+'?';
+  const plain=buildAbmKnowledgePacket(f.source(),q),tagged=buildAbmKnowledgePacket(f.source(),q+' (АБМ)');
+  assert.equal(tagged.diagnostics.queryCount,1);
+  assert.deepEqual(tagged.rules,plain.rules);
+  assert.equal(tagged.rules[0].sectionTitles.at(-1),'Buttons');
+  assert(tagged.rules[0].text.includes('Tertiary'));
+  assert(!tagged.rules.some(row=>row.text.includes('telemetry')));
+ }
+});
+test('guide overview coverage is limited when requested subsection descendants are excluded by the section cap',t=>{
+ const f=fixture(t);
+ f.write('guides/material3/g_material3_catalog.md','---\nid: abm.guides.material3.catalog\nproduct: abm\nplatforms: [android]\n---\n# Catalog\n'+
+ '- documentType: PlatformGuide\n- guideID: guide:material3.catalog\n\n## States\nState overview.\n### First\nFirst condition.\n### Second\nSecond condition.\n### Third\nThird condition.\n');
+ const p=buildAbmKnowledgePacket(f.source(),'Какие states есть в Material 3?');
+ assert(p.rules.some(row=>row.file.includes('catalog')));
+ assert(p.coverageLimited);
+ assert(p.chars<=MAX_PACKET_CHARS);
+});

@@ -55,3 +55,11 @@ test('guide misses never show the ABM chat or routing-label fragments',t=>{
  const mixed=renderAbmResponse({answers:[{question:'Кнопки HIG',kind:'answer',evidence},{question:'(АБМ)',kind:'not_found',evidence:[]}]},f.root,q,p);
  assert(!mixed.includes('(АБМ)')&&!mixed.includes('Не нашёл')&&!mixed.includes('achat'));
 });
+
+test('real guide answer gaps remain visible without sending designers to the ABM chat',t=>{
+ const f=fixture(t),q='Кнопки HIG, а сроки запуска?',p=buildAbmKnowledgePacket(f.source,q),row=p.rules[0];
+ const result=renderAbmResponse({answers:[{question:q,kind:'partial',evidence:[{file:row.file,ruleId:row.ruleId,quote:row.text,text:'Подтверждённое правило.'}],unanswered:['сроки запуска?']}]},f.root,q,p);
+ assert(result.includes('Подтверждённое правило.'));
+ assert(result.includes('- сроки запуска?'));
+ assert(!result.includes('achat')&&!result.includes('Скорая помощь'));
+});

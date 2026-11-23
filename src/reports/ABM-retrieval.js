@@ -80,7 +80,7 @@ function includeChildren(rows,seeds) {
 function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const allRows=indexFor(source),rows=allRows.filter(row=>row.record.sourceType!=='guide');
   const vocabulary=new Set(allRows.flatMap(row=>[...row.weights.keys()]));
-  const allParts=String(question).split(/[?\n;]+/u).map(part=>part.trim()).filter(Boolean);
+  const allParts=String(question).split(/[?\n;]+/u).map(part=>part.trim()).filter(part=>part&&!/^\(?\s*(?:абм|abm)\s*\)?[.!\\]*$/iu.test(part));
   const parts=(allParts.length?allParts:[String(question)]).slice(0,12);
   const topicalVocabulary=new Set(canonicalTerms(rows.flatMap(row=>[...row.meta,...row.heading])));
   const genericFollowup=new Set(tokens('пример исключение ограничение условие подробности отличие почему если'));
@@ -221,6 +221,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   });
   const guideRows=allRows.filter(row=>row.record.sourceType==='guide');
   const mobileGuideRows=guideRows.filter(row=>isMobileGuideSection(row.record));
+  const requestedGuideSections=[];
   const guidePlans=parts.map(part=>{
     const request=topic?topic+' '+part:part;
     const expansion=expandGuideTerms(request,vocabulary);
@@ -229,6 +230,8 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     if(!topical.length)return [];
     const hits=mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family))
       .map(row=>{const phraseMatch=expansion.phrases.some(phrase=>phrase.length>1&&phrase.every(term=>row.heading.includes(term)));return {row,phraseMatch,score:score(row,topical)};}).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
+    const overviewWords=new Set(tokens('вид виды тип типы разновидности существуют перечисли список обзор доступные'));
+    const overviewIntent=canonicalTerms(topical).filter(term=>!overviewWords.has(term));
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
     // Rank each guideline family independently so an exact HIG title cannot
     // suppress relevant Material candidates for the same cross-platform topic.
@@ -239,7 +242,14 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
       // A requested compound term in a section beats a generic document title.
       const focused=list.some(hit=>hit.phraseMatch)?list.filter(hit=>hit.phraseMatch):bestTitle?list.filter(hit=>titleScore(hit.row)===bestTitle):list.filter(hit=>hit.score>=list[0].score*0.5);
       const scenario=tokens(part).length>=8?scenarioCandidates(cached.guideScenarios.get(family),request):[];
-      const candidates=uniqueRows([...scenario,...focused.map(hit=>hit.row)]);
+      // A directly named subsection can carry the requested list even when its
+      // document title differs; a generic title must not suppress that evidence.
+      const sections=list.filter(hit=>overviewIntent.length&&hit.row.sectionHeadings.slice(1).some(title=>{
+        const heading=canonicalTerms(tokens(title));
+        return overviewIntent.every(term=>heading.includes(term))&&heading.every(term=>overviewIntent.includes(term));
+      })).map(hit=>hit.row);
+      requestedGuideSections.push(...sections);
+      const candidates=uniqueRows([...sections,...scenario,...focused.map(hit=>hit.row)]);
       const counts=new Map(),documents=new Set();
       return candidates.filter(row=>{
         const key=row.record.file,n=counts.get(key)||0;
@@ -285,7 +295,8 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   for(let depth=0;depth<8;depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
     guideChars+=add(plan[depth],12000-guideChars);
   const packet={guideOnly,rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
-    omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length};
+    omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length
+      ||requestedGuideSections.some(row=>!seen.has(row.record.file+':'+row.record.ruleId))};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;
   packet.diagnostics={guideOnly,excludedGuideSections:guideRows.length-mobileGuideRows.length,
     selectedGuideFamilies:Object.fromEntries(['hig','material2','material3'].map(family=>[family,selected.filter(row=>row.sourceType==='guide'&&row.family===family).length])),
