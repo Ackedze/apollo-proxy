@@ -5,7 +5,11 @@ function fixture(t){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'direct-landing-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
  let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[],figmaEvents=[];
  const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW},bodies:{'references/rules/page-layout.md':'Layout recipe.','references/rules/component-selection.md':'Selection recipe.'}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
- const options={root,knowledge:()=>source,isProcessAlive:()=>false,createCli:()=>({async run(input){
+ source.fileAccess={hub:'/package/hub',skill:'/package/skill',workflow:'/runtime/workflow.md'};
+ const rootCalls=[],rootValues=[];
+ const rootLifecycle={async inspect(input,options){if(!options.fit)rootCalls.push({...input,create:options.create});if(rootValues.length){const v=rootValues.shift();if(v instanceof Error)throw v;if(typeof v==='function')return v(input,options);return v;}return {state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:input.ownerNonce,chat:input.chatId,width:1140,height:400,childrenComplete:true,children:[{id:'30:41',x:0,y:0,width:1140,height:400}]}};}};
+ const options={root,rootLifecycle,knowledge:()=>source,isProcessAlive:()=>false,createCli:(_fileKey,_source,knowledgePilot)=>({async run(input){
+  input.knowledgePilot=knowledgePilot;
   calls.push(input);const context=JSON.parse(input.prompt.split('\n').at(-1));
   if(runError)throw runError;
   input.onEvent({type:'thread.started',thread_id:'12345678-1234-1234-1234-123456789abc'});input.onEvent({type:'process.started',pid:999999});
@@ -20,16 +24,84 @@ function fixture(t){
  }})};
  const service=createDirectLandingService(options),chat=service.create({id:crypto.randomUUID(),fileKey:'FigmaTestFile',pageId:'1:2',placement:{mode:'new-section',sectionId:null}});
  const send=(text='Build a landing')=>service.submit(chat.id,{requestId:crypto.randomUUID(),revision:service.poll(chat.id).revision,text});
- return {root,service,chat,calls,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
+ return {root,service,chat,calls,rootCalls,rootValues,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
+test('new chats default to B and explicit modes remain pinned after the first message',async t=>{
+ const brief='Собери обзор из трёх PromoCard';
+ for(const [selector,mode] of [['','B'],['/ab-a\n','A'],['/ab-b\n','B']]){
+  const f=fixture(t);
+  assert.equal(f.chat.execution.knowledgePilot,'B');
+  f.send(selector+brief);
+  await f.service.settled(f.chat.id);
+  const chat=f.service.poll(f.chat.id),prompt=JSON.parse(f.calls[0].prompt.split('\n').at(-1));
+  assert.equal(chat.execution.knowledgePilot,mode);
+  assert.equal(f.calls[0].knowledgePilot,mode);
+  assert.deepEqual(prompt.source,chat.source);
+  assert.equal(prompt.userMessage,brief);
+  assert.match(f.calls[0].prompt,/Before acting on a recipe, read the complete applicable section/);
+  assert.match(f.calls[0].prompt,/Reuse its full text if it is already in context/);
+  assert.match(f.calls[0].prompt,/If the response was truncated, read the missing range in a separate call before acting/);
+  assert.equal(chat.messages[0].text,brief);
+  assert.deepEqual(prompt.knowledgeFiles,mode==='B'?f.source.fileAccess:undefined);
+  assert.deepEqual(prompt.structureSources.map(doc=>doc.id.split('/').at(-1)),mode==='B'?['component-selection.md']:['page-layout.md','component-selection.md']);
+  if(mode==='B'){
+   assert.match(f.calls[0].prompt,/one short document or one complete applicable section/);
+   assert.match(f.calls[0].prompt,/tokens truncated/);
+   assert.match(f.calls[0].prompt,/references\/rules\/modal-layout\.md/);
+   assert.match(f.calls[0].prompt,/references\/rules\/page-layout\.md/);
+   assert.match(f.calls[0].prompt,/sections of the single knowledgeFiles.workflow file, not filesystem paths/);
+   assert.match(f.calls[0].prompt,/rg -n "\^# Loaded workflow file: "/);
+   assert.match(f.calls[0].prompt,/Do not enumerate the parent directory/);
+  }else{
+   assert.doesNotMatch(f.calls[0].prompt,/sections of the single knowledgeFiles.workflow file/);
+  }
+  assert.match(f.calls[0].prompt,/supplemental API\/tool reference only/);
+  assert.match(f.calls[0].prompt,/If a permitted technical resource is unavailable/);
+  assert.throws(()=>f.send('/ab-b '+brief),{code:'LANDING_KNOWLEDGE_PILOT_NEW_CHAT_REQUIRED'});
+  f.send('Продолжи правку');
+  await f.service.settled(f.chat.id);
+  assert.equal(f.calls[1].knowledgePilot,mode);
+  const resumed=JSON.parse(f.calls[1].prompt.split('\n').at(-1));
+  assert.deepEqual(resumed.structureSources,prompt.structureSources);
+  assert.deepEqual(resumed.knowledgeFiles,prompt.knowledgeFiles);
+  if(mode==='B')assert.match(f.calls[1].prompt,/sections of the single knowledgeFiles.workflow file, not filesystem paths/);
+ }
+});
+test('legacy records keep their mode and source pins still prevent stale file reads',async t=>{
+ const legacy=fixture(t),file=path.join(legacy.root,legacy.chat.id+'.json');
+ const stored=JSON.parse(fs.readFileSync(file,'utf8'));
+ delete stored.execution.knowledgePilot;
+ fs.writeFileSync(file,JSON.stringify(stored));
+ const service=createDirectLandingService(legacy.options);
+ service.submit(stored.id,{requestId:crypto.randomUUID(),revision:0,text:'Use retained mode'});
+ await service.settled(stored.id);
+ assert.equal(legacy.calls[0].knowledgePilot,undefined);
+ assert.match(legacy.calls[0].prompt,/Use apollo_knowledge/);
+ assert.equal(service.poll(stored.id).execution.knowledgePilot,undefined);
+
+ const b=fixture(t);
+ b.send();await b.service.settled(b.chat.id);
+ const pinned=b.service.poll(b.chat.id);
+ b.source.resumePin='another-source-pin';
+ assert.throws(()=>b.send('Continue'),{code:'LANDING_DATA_STALE'});
+ assert.equal(b.calls.length,1);
+ assert.deepEqual(b.service.poll(b.chat.id),pinned);
+});
+test('B with unavailable file roots stops before starting the CLI',async t=>{
+ const f=fixture(t);
+ delete f.source.fileAccess;
+ f.send();await f.service.settled(f.chat.id);
+ assert.equal(f.calls.length,0);
+ assert.equal(f.service.poll(f.chat.id).error.code,'AGENT_KNOWLEDGE_UNAVAILABLE');
+});
 test('complete structural recipes survive first and resumed prompts; content keeps its existing delivery',async t=>{
  const f=fixture(t),plans=[];
  const bodies=Object.fromEntries(['page-layout.md','component-selection.md'].map(name=>['references/rules/'+name,'Начало '+name+'\n'+'Переменные сетки и отступы. '.repeat(800)+'\nПоследняя строка '+name+' 🧩']));
  f.source.skill.bodies=bodies;
  f.source.plan=input=>{plans.push(input);return {phase:input.phase};};
  const expected=Object.entries(bodies).map(([file,text])=>({id:'skills/'+f.source.skill.id+'/'+file,text}));
- f.send();await f.service.settled(f.chat.id);
+ f.send('/ab-a Build a landing');await f.service.settled(f.chat.id);
  f.send('Revise the structure');await f.service.settled(f.chat.id);
  for(const call of f.calls){assert.deepEqual(JSON.parse(call.prompt.split('\n').at(-1)).structureSources,expected);assert.match(call.prompt,/complete layout and component-selection recipes/);}
  for(const doc of expected)assert(plans[0].providedIds.includes(doc.id));
@@ -38,7 +110,7 @@ test('complete structural recipes survive first and resumed prompts; content kee
 });
 test('missing or invalid structural recipes stop before CLI and other skills keep their existing inputs',async t=>{
  for(const value of [undefined,null,'','   ',{text:'partial'}]){
-  const f=fixture(t);f.source.skill.bodies['references/rules/page-layout.md']=value;f.send();await f.service.settled(f.chat.id);
+  const f=fixture(t);f.source.skill.bodies['references/rules/component-selection.md']=value;f.send();await f.service.settled(f.chat.id);
   assert.equal(f.calls.length,0);assert.equal(f.service.poll(f.chat.id).error.code,'LANDING_REQUIRED_KNOWLEDGE_MISSING');
  }
  const f=fixture(t);f.source.skill.id='other-skill';f.source.skill.bodies={};f.send();await f.service.settled(f.chat.id);
@@ -50,7 +122,8 @@ test('initial CLI prompt omits the source plan and resume retains phase planning
  const initial=JSON.parse(f.calls[0].prompt.split('\n').at(-1));
  assert.equal(Object.hasOwn(initial,'sourcePlan'),false);assert.equal(plans.length,0);
  assert.equal(initial.userMessage,'Build a landing');assert.deepEqual(initial.skill,f.source.initial.instructions);
- assert.match(f.calls[0].prompt,/search_sources.*read_sources/);
+ assert.deepEqual(initial.knowledgeFiles,f.source.fileAccess);
+ assert.match(f.calls[0].prompt,/Use local read-only commands/);
  assert.equal(f.service.poll(f.chat.id).status,'needs-structure-approval');
  f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
  assert.deepEqual(plans.map(p=>p.phase),['content']);assert.equal(plans[0].resuming,true);
@@ -63,32 +136,57 @@ test('batch records actual successful read ranges once and search snippets never
  const f=fixture(t),id='knowledge/data/ds-ai-hub/fixture.json';
  const row={id,sha256:'c'.repeat(64),path:['sections'],mode:'read',offset:1,returned:1,total:4,next:2,text:'["section"]'};
  f.knowledgeEvents.push({tool:'search_sources',value:{sourcePin:'source-pin',matches:[row]}},{tool:'read_sources',value:{sourcePin:'source-pin',results:[row,row,{...row,id:'missing',error:{code:'LANDING_RESOURCE_INVALID'}},{...row,mode:'keys'},{...row,tooLarge:true}]}});
- f.send();await f.service.settled(f.chat.id);
+ f.send('/ab-a Build a landing');await f.service.settled(f.chat.id);
  const c=f.service.poll(f.chat.id);
  assert.equal(c.status,'needs-structure-approval');assert.equal(c.sources.length,2);
  assert.deepEqual(c.sources[1],{id,sha256:row.sha256,path:row.path,offset:1,returned:1,total:4,next:2});
  const stale=fixture(t);
  stale.knowledgeEvents.push({tool:'read_sources',value:{sourcePin:'foreign',results:[row]}});
- stale.send();await stale.service.settled(stale.chat.id);
+ stale.send('/ab-a Build a landing');await stale.service.settled(stale.chat.id);
  const rejected=stale.service.poll(stale.chat.id);assert.equal(rejected.error.code,'LANDING_DATA_STALE');assert.equal(rejected.sources.length,1);
 });
-test('successful initial no-root inspection continues to actual root creation and approval',async t=>{
- const f=fixture(t);f.setInspection(absent);f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);
- assert.equal(c.error,null);assert.equal(c.status,'needs-structure-approval');assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.execution.lastFailure,null);
+test('host bootstraps before CLI and independently rechecks the same canonical root after each run',async t=>{
+ const f=fixture(t);f.send();await f.service.settled(f.chat.id);let c=f.service.poll(f.chat.id);
+ assert.equal(c.status,'needs-structure-approval');assert.deepEqual(f.rootCalls.map(v=>v.create),[true,false]);
+ assert.equal(JSON.parse(f.calls[0].prompt.split('\n').at(-1)).target.rootNodeId,'30:40');
+ f.send('Revise');await f.service.settled(c.id);c=f.service.poll(c.id);
+ assert.deepEqual(f.rootCalls.map(v=>v.create),[true,false,false,false]);assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.execution.rootReadRequired,false);
 });
-test('initial absence alone binds no root and cannot authorize approval or completion',async t=>{
- for(const result of ['partial','needs-structure-approval','completed']){const f=fixture(t);f.setInspection(absent,true);f.setResult(result);f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);
-  assert.equal(c.target,null);assert.equal(c.error?.code||null,result==='partial'?null:'LANDING_TARGET_UNCONFIRMED');assert.notEqual(c.status,'completed');assert.notEqual(c.status,'needs-structure-approval');}
+test('empty canonical root survives needs-input and is reused in the same chat',async t=>{
+ const f=fixture(t);f.setResult('needs-input');f.send();await f.service.settled(f.chat.id);let c=f.service.poll(f.chat.id);
+ assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.status,'needs-input');f.setResult('needs-structure-approval');f.send('Answer');await f.service.settled(c.id);
+ assert.deepEqual(f.rootCalls.map(v=>v.create),[true,false,false,false]);assert.equal(f.calls[1].sessionId,'12345678-1234-1234-1234-123456789abc');
 });
-test('absence of an already confirmed root stops writes and preserves root/session',async t=>{
- const f=fixture(t);f.send();await f.service.settled(f.chat.id);const before=f.service.poll(f.chat.id);
- f.setInspection(absent,true);f.setResult('partial');f.send('Inspect again');await f.service.settled(before.id);const c=f.service.poll(before.id);
- assert.equal(c.error.code,'LANDING_TARGET_UNCONFIRMED');assert.deepEqual(c.target,before.target);assert.equal(c.execution.sessionId,before.execution.sessionId);
- assert.equal(c.execution.lastFailure.origin,'proxy-validation');assert.equal(c.execution.lastFailure.operation.status,'completed');assert(c.messages.at(-1).hostDiagnostic);
+test('unknown bootstrap persists read-required before dispatch and cannot blindly create on restart',async t=>{
+ const f=fixture(t);f.rootValues.push((input,options)=>{options.onToolCall({tool:'use_figma',phase:'bootstrap'});const stored=JSON.parse(fs.readFileSync(path.join(f.root,f.chat.id+'.json')));assert.equal(stored.execution.rootReadRequired,true);throw Object.assign(Error('timeout'),{code:'LANDING_ROOT_MCP_TIMEOUT'});});
+ f.send();await f.service.settled(f.chat.id);assert.equal(f.calls.length,0);
+ f.rootValues.push({state:'absent',matches:[]});const service=createDirectLandingService(f.options);service.submit(f.chat.id,{revision:1,requestId:crypto.randomUUID(),text:'Retry'});await service.settled(f.chat.id);
+ assert.deepEqual(f.rootCalls.map(v=>v.create),[true,false]);assert.equal(f.calls.length,0);assert.equal(service.poll(f.chat.id).execution.rootReadRequired,true);
 });
-test('absent-root exception never admits wrong scope, missing count or ambiguous observations',async t=>{
- const changes=[v=>{v.target.pageId='foreign';},v=>{v.target.parentNodeId='foreign';},v=>{v.target.ownerNonce='foreign';},v=>{delete v.ownedCount;},v=>{v.ownedCount=2;},v=>{v.matches=[{id:'unexpected'}];}];
- for(const mutate of changes){const f=fixture(t);f.setInspection(ctx=>{const v=absent(ctx);mutate(v);return v;},true);f.setResult('partial');f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);assert(c.error);assert.equal(c.target,null);assert.equal(c.status,'interrupted');}
+test('pre-dispatch auth failure may retry bootstrap; cancellation after dispatch recovers only by reading',async t=>{
+ const f=fixture(t);f.rootValues.push(Object.assign(Error('auth'),{code:'AGENT_MCP_AUTH_REQUIRED'}));f.send();await f.service.settled(f.chat.id);assert.equal(f.service.poll(f.chat.id).execution.rootReadRequired,false);assert.equal(f.calls.length,0);f.send('Retry after login');await f.service.settled(f.chat.id);assert.deepEqual(f.rootCalls.map(v=>v.create),[true,true,false]);
+ const c=fixture(t);c.rootValues.push(async(i,o)=>{o.onToolCall({tool:'use_figma',phase:'bootstrap'});c.service.cancel(c.chat.id);throw Object.assign(Error('cancel'),{code:'AGENT_CANCELLED'});});c.send();await c.service.settled(c.chat.id);assert.equal(c.calls.length,0);assert.equal(c.service.poll(c.chat.id).execution.rootReadRequired,true);
+ const resumed=createDirectLandingService(c.options);resumed.submit(c.chat.id,{requestId:crypto.randomUUID(),revision:1,text:'Resume'});await resumed.settled(c.chat.id);assert.deepEqual(c.rootCalls.map(v=>v.create),[true,false,false]);assert.equal(c.calls.length,1);assert.equal(resumed.poll(c.chat.id).target.rootNodeId,'30:40');
+});
+test('failed partial creation retains candidate ID without rebinding or recreation',async t=>{
+ const f=fixture(t);f.rootValues.push((i,o)=>{o.onToolCall({tool:'use_figma',phase:'bootstrap'});return {state:'write-failed',candidateId:'30:40',matches:[]};});f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);assert.equal(c.target,null);assert.equal(c.execution.rootCandidateId,'30:40');assert.equal(c.execution.rootReadRequired,true);assert.equal(f.calls.length,0);
+ f.send('Read after failure');await f.service.settled(f.chat.id);assert.equal(f.rootCalls[1].rootId,'30:40');assert.equal(f.rootCalls[1].create,false);assert.equal(f.service.poll(f.chat.id).target.rootNodeId,'30:40');
+});
+test('host-created empty root plus a model target echo cannot authorize a finished skeleton',async t=>{
+ const f=fixture(t);f.rootValues.push(i=>({state:'found',matches:['30:40'],root:{id:'30:40',type:i.type,pageId:i.pageId,parentId:i.parentId,owner:i.ownerNonce,chat:i.chatId,childrenComplete:true,children:[]}}));
+ f.rootValues.push(i=>({state:'found',matches:['30:40'],root:{id:'30:40',type:i.type,pageId:i.pageId,parentId:i.parentId,owner:i.ownerNonce,chat:i.chatId,childrenComplete:true,children:[]}}));
+ f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);assert.equal(c.status,'interrupted');assert.equal(c.execution.structureApproval,undefined);assert(c.result.checks.some(c=>c.name==='Содержимое корня'&&c.status==='unknown'));
+});
+test('confirmed root loss, wrong canonical metadata, scope and duplicate roots refuse before the model',async t=>{
+ for(const change of [r=>{r.owner='wrong';},r=>{r.chat='wrong';},r=>{r.owner='';r.aliasOwnerNonce='ignored';},r=>{r.pageId='9:9';},r=>{r.parentId='9:9';},r=>{r.type='FRAME';}]){
+  const f=fixture(t);f.rootValues.push(input=>{const r={id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:input.ownerNonce,chat:input.chatId};change(r);return {state:'found',matches:['30:40'],root:r};});f.send();await f.service.settled(f.chat.id);assert.equal(f.calls.length,0);assert.equal(f.service.poll(f.chat.id).error.code,'LANDING_TARGET_CHANGED');
+ }
+ const f=fixture(t);f.send();await f.service.settled(f.chat.id);const before=f.service.poll(f.chat.id);f.rootValues.push({state:'absent',matches:[]});f.send('Continue');await f.service.settled(f.chat.id);assert.deepEqual(f.service.poll(f.chat.id).target,before.target);assert.equal(f.calls.length,1);
+ const a=fixture(t);a.rootValues.push({state:'ambiguous',matches:['30:40','30:50']});a.send();await a.service.settled(a.chat.id);assert.equal(a.calls.length,0);assert.equal(a.service.poll(a.chat.id).error.code,'LANDING_ROOT_AMBIGUOUS');
+});
+test('model target echo and alias metadata cannot replace final independent native ownership',async t=>{
+ const f=fixture(t);f.rootValues.push(input=>({state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:input.ownerNonce,chat:input.chatId}}),input=>({state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:'',chat:'',ownerNonce:input.ownerNonce,chatId:input.chatId}}));
+ f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);assert.equal(c.error.code,'LANDING_TARGET_CHANGED');assert.equal(c.status,'interrupted');assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.execution.rootReadRequired,true);
 });
 test('host failure is shown truthfully and supplied to resumed CLI; success clears it',async t=>{
  const f=fixture(t);f.send();await f.service.settled(f.chat.id);
@@ -185,15 +283,15 @@ test('content sends full applicable rules and completes only against the final F
   assert(calls.filter(call=>call.limit===16000).every(call=>call.offset===undefined));
   assert.equal(after.target.rootNodeId,'30:40');
   assert.equal(after.status,['complete','fullyRead'].includes(name)?'completed':'interrupted');
-  if(['complete','fullyRead'].includes(name))assert.deepEqual(after.result.checks.map(row=>row.status),['passed','passed','passed']);
-  if(name==='violations')assert.deepEqual(after.result.checks.map(row=>row.status),['failed','failed','failed']);
+  if(['complete','fullyRead'].includes(name))assert.deepEqual(after.result.checks.filter(row=>row.name!=='Границы SECTION').map(row=>row.status),['passed','passed','passed']);
+  if(name==='violations')assert.deepEqual(after.result.checks.filter(row=>row.name!=='Границы SECTION').map(row=>row.status),['failed','failed','failed']);
   if(name==='hiddenIllustration')assert.match(after.result.checks[0].evidence,/30:42/);
   if(name==='partiallyRead')assert(after.result.checks.some(row=>row.status==='unknown'&&row.evidence.includes('04-compose-cards.md')));
   if(name==='changedStructure')assert.equal(after.result.checks[0].status,'unknown');
  });
 });
 test('Stop retains session/root; restart resumes with fresh-read instruction and duplicate message delivery is idempotent',async t=>{
- const f=fixture(t);f.setHold(true);const body={requestId:crypto.randomUUID(),revision:0,text:'Build'};f.service.submit(f.chat.id,body);f.service.cancel(f.chat.id);await f.service.settled(f.chat.id);
+ const f=fixture(t);f.setHold(true);const body={requestId:crypto.randomUUID(),revision:0,text:'Build'};f.service.submit(f.chat.id,body);while(!f.calls.length)await new Promise(r=>setImmediate(r));f.service.cancel(f.chat.id);await f.service.settled(f.chat.id);
  assert.equal(f.service.poll(f.chat.id).status,'interrupted');assert.equal(f.service.poll(f.chat.id).execution.sessionId,'12345678-1234-1234-1234-123456789abc');
  f.setHold(false);const resumed=createDirectLandingService(f.options);const c=resumed.poll(f.chat.id);const next={requestId:crypto.randomUUID(),revision:c.revision,text:'продолжай'};resumed.submit(c.id,next);await resumed.settled(c.id);assert.equal(f.calls[1].sessionId,c.execution.sessionId);assert.match(f.calls[1].prompt,/Read after uncertain outcomes/);assert.equal(resumed.submit(c.id,next).status,'needs-structure-approval');assert.equal(f.calls.length,2);
  assert.throws(()=>resumed.submit(c.id,{...next,text:'different request'}),{code:'LANDING_REQUEST_CONFLICT'});
@@ -203,6 +301,35 @@ test('old chats stay byte-identical and read-only; legacy callback routes return
  assert.equal(f.service.poll(id).historical,true);assert.throws(()=>f.service.submit(id,{requestId:crypto.randomUUID(),revision:2,text:'continue'}),{code:'LANDING_LEGACY_FLOW_RETIRED'});assert.equal(fs.readFileSync(filename,'utf8'),raw);
  const routes=new Map(),app={get:(url,fn)=>routes.set('GET '+url,fn),post:(url,fn)=>routes.set('POST '+url,fn)};mountDirectLandingRoutes(app,{loadService:()=>f.service,status:()=>({available:true})});
  for(const name of ['canvas','native','observation','failure']){let response,code;routes.get('POST /landing/chats/:id/'+name)({}, {status:v=>{code=v;return {json:v=>response=v};}});assert.equal(code,410);assert.equal(response.code,'LANDING_LEGACY_FLOW_RETIRED');}
+});
+test('history returns a bounded latest message preview without exposing progress or changing stored chats',t=>{
+ const f=fixture(t),pastId=crypto.randomUUID(),file=path.join(f.root,pastId+'.json');
+ const old={schemaVersion:'apollo.landing-chat.v1',id:pastId,revision:3,sequence:5,status:'awaiting-native',updatedAt:'2026-11-06T00:00:00Z',messages:[
+  {role:'user',text:'Initial brief'},
+  {role:'assistant',text:'Final\n answer '+ '🙂'.repeat(180)},
+  {role:'assistant',text:'Transient progress',progress:true},
+  {id:'progress:prior',role:'assistant',text:'Historical transient progress'},
+  {role:'assistant',text:'Internal diagnostic',hostDiagnostic:true},
+  {role:'user',text:'  '},
+ ]};
+ const bytes=JSON.stringify(old);fs.writeFileSync(file,bytes);
+ const emptyId=f.chat.id,currentFile=path.join(f.root,emptyId+'.json');
+ const currentBytes=fs.readFileSync(currentFile);
+ const current={...JSON.parse(currentBytes),messages:[{role:'user',text:'Latest user message'}]};
+ fs.writeFileSync(currentFile,JSON.stringify(current));
+ const rows=createDirectLandingService(f.options).list();
+ assert.equal(rows[0].id,emptyId);
+ assert.equal(rows[0].lastMessagePreview,'Latest user message');
+ const entry=rows.find(item=>item.id===pastId);
+ assert.equal(entry.title,'Initial brief');
+ assert.equal(entry.updatedAt,old.updatedAt);
+ assert.equal(entry.lastMessagePreview,'Final answer '+'🙂'.repeat(147));
+ assert.deepEqual(Object.keys(entry).sort(),['id','lastMessagePreview','status','title','updatedAt']);
+ assert.equal(fs.readFileSync(file,'utf8'),bytes);
+ fs.writeFileSync(currentFile,currentBytes);
+ const empty=createDirectLandingService(f.options).list().find(item=>item.id===emptyId);
+ assert.equal(Object.hasOwn(empty,'lastMessagePreview'),false);
+ assert.equal(f.calls.length,0);
 });
 test('data drift and potentially alive prior CLI refuse before a new model run',async t=>{
  const f=fixture(t);f.setStale();assert.throws(()=>f.send(),{code:'LANDING_DATA_STALE'});assert.equal(f.calls.length,0);

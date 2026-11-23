@@ -140,8 +140,18 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
  for(const [role,match] of Object.entries({glyph26Metadata:id=>id===HUB+'core/web/assets/assets_glyph-26.json',hubAssets:id=>id.startsWith(HUB+'core/web/assets/')||id.startsWith(HUB+'products/ab/assets/'),hubTokens:id=>id.startsWith(HUB+'core/web/tokens/')||id.startsWith(HUB+'core/common/tokens/')})){const ids=[...resources.keys()].filter(match).sort();assetSources[role]={available:ids.length>0,ids};}
  const instructions=skill.generation?Object.fromEntries(skill.generation.initialFiles.map(file=>[file,skill.bodies[file]])):skill.bodies;
  const resumePin=sha(Buffer.from(JSON.stringify([manifestHash,workflowHash,skill.sha256,POLICY])));
+ const fileAccess={hub:path.join(releaseRoot,HUB),skill:path.join(releaseRoot,'skills',skill.id),workflow:workflowFile};
+ function fileRead(item){
+  if(item.exit_code!==0||typeof item.aggregated_output!=='string'||!item.aggregated_output||typeof item.command!=='string')return null;
+  const hash=sha(Buffer.from(item.aggregated_output));
+  const pin=[...resources.values()].find(pin=>pin.text===undefined&&pin.sha256===hash&&item.command.includes(path.join(releaseRoot,pin.file)));
+  if(!pin)return null;
+  sourceText(pin);
+  const total=item.aggregated_output.length;
+  return {id:pin.file,sha256:pin.sha256,path:[],offset:0,returned:total,total,next:null};
+ }
  const plan=createSourcePlanner({resources,skill,sourcePin:resumePin,releaseId:manifest.id,metadata:id=>JSON.parse(sourceText(resources.get(id))),routing,assertCurrent});
- return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,search,
+ return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,search,fileAccess,fileRead,
   initial:{knowledgePolicy:POLICY,assetSources,selectedSkill:{id:skill.id,name:skill.name,resourcesRoot:'skills/'+skill.id+'/'},hostInstructions:skill.generation?skill.generation.hostInstructions:'Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules. Tag the CorporateContent instance role=host in apollolanding.',skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list(skill.generation?skill.generation.initialQueries[0]||'':'products/ab/patterns/'),indexes:skill.generation?.initialQueries.map(query=>list(query))||[]}};
 }
 module.exports={readLandingSkill,openKnowledge,MAX_READ_BYTES};

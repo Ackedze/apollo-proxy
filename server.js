@@ -274,6 +274,7 @@ let dispatcher;
 let activeCodexRuns = 0;
 let namingRuns = null;
 let figmaAuditRuntime = null;
+let patternAuditRuntime = null;
 let activeGenerationCodexRuns = 0;
 let contractKnowledgeCache = null;
 let dsAiHubKnowledgeCache = null;
@@ -320,8 +321,8 @@ app.use((req, res, next) => {
 require('./src/code-release/maintenance').createMaintenance({key:proxyControlKey,
   launchId:process.env.APOLLO_CODE_RELEASE_ID,
   busy:async()=>{
-    const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
-    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy()));
+    const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
+    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy())));
   }}).mount(app);
 delete process.env.APOLLO_CODE_UPDATE_KEY;
 installStyleTokenCatalogParser(app);
@@ -1493,7 +1494,7 @@ function publicCodexRun(run) {
 }
 
 app.get('/health', async (req, res) => {
-  const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
+  const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
   let skill;
   let knowledge;
   try {
@@ -1542,13 +1543,13 @@ app.get('/health', async (req, res) => {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_PROVIDER === 'alfagen' ? APOLLO_AGENT_URL : CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy())),
+      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
     },
     codex: {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy())),
+      busy: activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
       skill,
@@ -1582,7 +1583,8 @@ namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
 });
 require('./src/landing/retired').mountRetiredGenerationRoutes(app);
 const landingRuntime=require('./src/landing/runtime').mountConfiguredLandingRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT});
-figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()});
+figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(patternAuditRuntime?.isBusy())});
+patternAuditRuntime=require('./src/pattern-audit/runtime').mountConfiguredPatternRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(figmaAuditRuntime?.isBusy())});
 const styleTokenCatalogProvider=mountStyleTokenCatalogRoutes(app, {
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
