@@ -24,7 +24,7 @@ test('guides use separate bounded lanes and respect explicit guide or Material v
  const f=fixture(t);
  for(const [q,platform,family] of [['Buttons accessibility HIG','iOS','hig'],['Buttons accessibility Material 2','Android','material2'],['Buttons accessibility Material 3','Android','material3']]){
   const packet=buildAbmKnowledgePacket(f.source(),q,[],{platform});const guides=packet.rules.filter(row=>row.sourceType==='guide');
-  assert(guides.length,q);assert(guides.every(row=>row.family===family),q);assert(packet.rules[0].sourceType==='pattern');
+  assert(guides.length,q);assert(guides.every(row=>row.family===family),q);assert(packet.guideOnly);assert(packet.rules.every(row=>row.sourceType==='guide'));
   assert(packet.chars<=MAX_PACKET_CHARS);assert.equal(packet.chars,JSON.stringify(knowledgePayload(packet)).length);
   assert(!guides.some(row=>row.text.includes('Old publication history')));
  }
@@ -98,7 +98,7 @@ test('Russian guide prose preserves source terms and units while grounding stays
  const value={answers:[{question:q,kind:'answer',evidence:[{file,ruleId:row.ruleId,quote,text:translated}]}]};
  let blocks;
  const text=renderAbmResponse(value,f.root,q,packet,{onBlocks:value=>{blocks=value;}});
- assert.equal(blocks.length,1);assert.equal(blocks[0].kind,'guide');assert.equal(blocks[0].family,'material3');
+ assert.equal(blocks.length,1);assert.equal(blocks[0].kind,'text');assert.equal(blocks[0].family,undefined);
  assert(text.startsWith(translated+'\n\nГайд: Material 3'));
  assert(!text.includes(quote));assert.equal(blocks[0].text,text);
  // Translating the evidence itself must never bypass exact source verification.

@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const {normalize,loadPattern,ruleText,examplesFor}=require('./ABM-source');
 const CHAT_URL='https://xlink.achat.best/join/chat/ODA3MzVlZmEtYzlkZC01NmY5LTlhZDQtZjJiNWFkOWUzNDk4OjI1MjE3Yzk1LTY3YTYtNTcxYS1hMzM0LWViMDFiZDExY2M2ODpiOTNmZDI4OS05ZmNmLTUxZWUtYjU4Mi0yNDc0YTZjYjNlOGE6OWMzMmUzMTctZWUxNi01ZDI1LTlmZGYtODkzNTUxMGM3NmEy';
 const NOT_FOUND='Не нашёл ответа в паттернах АБМ. Напиши в чат [«DS ABM :: Скорая помощь по дизайну»]('+CHAT_URL+') — мы ответим на твой вопрос';
+const GUIDE_NOT_FOUND=NOT_FOUND.replace('в паттернах АБМ','в выбранных гайдах');
 const evidenceSchema={
  type:'object',additionalProperties:false,
  properties:{file:{type:'string'},ruleId:{type:'string'},quote:{type:'string'},text:{type:'string'}},
@@ -79,7 +80,7 @@ function renderAnswer(answer,root,packet,emit,questionIndex,blocks) {
   const pattern=items[0].pattern;
   const guideTitle=pattern.sourceUrl?'['+plain(pattern.title)+']('+pattern.sourceUrl+')':'«'+plain(pattern.title)+'»';
   paragraphs.push(pattern.sourceType==='guide'?'Гайд: '+plain(pattern.guideLabel)+' — '+guideTitle:'Паттерн: «'+plain(pattern.title)+'», '+plain(pattern.version));
-  sections.push(pattern.sourceType==='guide'?{kind:'guide',family:pattern.family,text:paragraphs.slice(start).join('\n\n')}:{kind:'text',text:paragraphs.slice(start).join('\n\n')});
+  sections.push(pattern.sourceType==='guide'&&!packet?.guideOnly?{kind:'guide',family:pattern.family,text:paragraphs.slice(start).join('\n\n')}:{kind:'text',text:paragraphs.slice(start).join('\n\n')});
  }
  emit({outcome:'answered',questionIndex,evidenceCount:evidence.length});
  // Product rules are displayed before separately grouped guide recommendations.
@@ -122,10 +123,11 @@ function renderAbmResponse(value,patternsRoot,originalQuestion,packet,{onDiagnos
   else if(!missing.includes(answer.question))missing.push(answer.question);
  });
  if(missing.length) {
-  const text=answers.length>1?'**'+NOT_FOUND+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):NOT_FOUND;
+  const notFound=packet?.guideOnly?GUIDE_NOT_FOUND:NOT_FOUND;
+  const text=answers.length>1?'**'+notFound+'**\n\n'+missing.map(question=>'- '+plain(question)).join('\n'):notFound;
   found.push(text);answerBlocks.push({kind:'text',text});
  }
  onBlocks(answerBlocks);
  return found.join('\n\n');
 }
-module.exports={CHAT_URL,NOT_FOUND,ABM_RESPONSE_SCHEMA,renderAbmResponse};
+module.exports={CHAT_URL,NOT_FOUND,GUIDE_NOT_FOUND,ABM_RESPONSE_SCHEMA,renderAbmResponse};

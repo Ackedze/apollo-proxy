@@ -78,7 +78,8 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
  function last(){return calls().at(-1);}
  try {
   const pendingBusy=post('Блокировка кнопки в АБМ?');
-  for(let i=0;i<100&&!last()?.input.includes('Блокировка');i++)await new Promise(resolve=>setTimeout(resolve,5));
+  const busyDeadline=Date.now()+5000;
+  while(Date.now()<busyDeadline&&!last()?.input.includes('Блокировка'))await new Promise(resolve=>setTimeout(resolve,10));
   assert(last()?.input.includes('Блокировка'));const busyCount=calls().length;
   const rejectedBusy=await post('Повторный вопрос в АБМ?');
   assert.equal(rejectedBusy.status,429);assert.equal(rejectedBusy.body.code,'APOLLO_AGENT_BUSY');
@@ -167,7 +168,10 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(hub.body.knowledgeRelease.source,'ds-ai-hub-abm');
   assert.equal(hub.body.knowledgeRelease.guideCount,1);
   assert.match(hub.body.result,/Гайд: HIG/);
-  assert(hub.body.answerBlocks.some(block=>block.kind==='guide'&&block.family==='hig'));
+  assert(hub.body.answerBlocks.every(block=>block.kind==='text'));
+  assert(!last().input.includes('Для каждого отдельного вопроса сначала ищи точный подтверждённый ответ в паттернах АБМ.'));
+  const guidePacket=JSON.parse(last().input.split('<knowledge>')[1].split('</knowledge>')[0]);
+  assert.equal(guidePacket.guideOnly,true);assert(guidePacket.patterns.every(doc=>doc.sourceType==='guide'));
   assert.equal(hub.body.answerBlocks.map(block=>block.text).join('\\n\\n'),hub.body.result);
   assert(hub.body.result.includes('Navigation uses clear destinations.'));
   const hubHealth=await (await fetch('http://127.0.0.1:'+server.address().port+'/health')).json();

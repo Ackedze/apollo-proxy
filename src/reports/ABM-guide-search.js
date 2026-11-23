@@ -46,4 +46,22 @@ const MOBILE_SCOPE=/\b(?:phones?|iphones?|tablets?|ipads?|foldables?|ios|ipados|
 function isMobileGuideSection(row) {
  return ![row.pattern,...(row.sectionTitles||[])].some(title=>NON_MOBILE.test(title)&&!MOBILE_SCOPE.test(title));
 }
-module.exports={expandGuideTerms,isMobileGuideSection};
+
+// Explicit names select a family; a generic guide request selects all families.
+function readGuideRequest(value) {
+ const text=String(value),families=new Set();let generic=false;
+ const negative=index=>/(?:^|\s)(?:не|без)\s+(?:(?:в|из|используй|показывай|ищи|бери)\s+)?$/iu.test(text.slice(0,index));
+ const names=/(?<![\p{L}\p{N}])(?:hig|hik|хи[гк]|human\s+interface\s+guidelines|material(?:\s*design)?(?:\s*[23])?|материал\s*[23])(?![\p{L}\p{N}])/giu;
+ for(const match of text.matchAll(names)) {
+  if(negative(match.index))continue;
+  if(/^(?:hi[gk]|хи|human)/iu.test(match[0]))families.add('hig');
+  else {const version=/[23]$/.exec(match[0])?.[0];for(const family of version?['material'+version]:['material2','material3'])families.add(family);}
+ }
+ const guides=/(?<![\p{L}\p{N}])(?:гайд(?:лайн)?(?:ы|а|е|у|ов|ам|ами|ах)?|guides?|guidelines?)(?![\p{L}\p{N}])/giu;
+ for(const match of text.matchAll(guides))if(!negative(match.index))generic=true;
+ return families.size||generic?{families:families.size?[...families]:['hig','material2','material3']}:null;
+}
+const GUIDE_QUERY_WORDS=new Set(tokens('hig hik хиг хик human interface guide guides guidelines гайд гайды гайдах гайдов гайдлайн гайдлайны material material2 material3 design материал говорит говорят сказано написано написан рекомендует рекомендуют расскажи покажи what says say tell about'));
+function guideTopicalTerms(terms) {return terms.filter(term=>!GUIDE_QUERY_WORDS.has(term)&&!/^\d+$/.test(term));}
+
+module.exports={expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms};

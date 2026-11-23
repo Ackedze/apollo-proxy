@@ -2,7 +2,7 @@
 const fs=require('node:fs');
 const {loadPattern,parentsFor,ruleText,numericKey,cleanRuleContent:clean}=require('./ABM-source');
 const {tokens,expandTerms,canonicalTerms,isMoreRequest,isFollowup,recentTopic}=require('./ABM-search-terms');
-const {expandGuideTerms,isMobileGuideSection}=require('./ABM-guide-search');
+const {expandGuideTerms,isMobileGuideSection,readGuideRequest,guideTopicalTerms}=require('./ABM-guide-search');
 const MAX_PACKET_CHARS=64000,MAX_RULES=128;
 let cached;
 function indexFor(source) {
@@ -50,7 +50,7 @@ function knowledgePayload(packet) {
     matchedSections:(packet.matchedSections||[]).map(section=>{
       const ruleIds=section.ruleIds.filter(id=>selected.has(section.file+':'+id));
       return {file:section.file,title:section.title,ruleIds,complete:ruleIds.length===section.ruleIds.length};
-    }).filter(section=>section.ruleIds.length),coverageLimited:Boolean(packet.coverageLimited)};
+    }).filter(section=>section.ruleIds.length),coverageLimited:Boolean(packet.coverageLimited),...(packet.guideOnly?{guideOnly:true}:{})};
 }
 function uniqueRows(rows) {
   const seen=new Set();
@@ -81,10 +81,14 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const topicalVocabulary=new Set(canonicalTerms(rows.flatMap(row=>[...row.meta,...row.heading])));
   const genericFollowup=new Set(tokens('пример исключение ограничение условие подробности отличие почему если'));
   const hasSubject=value=>expandTerms(value,vocabulary).intentTerms.some(term=>topicalVocabulary.has(term)&&!genericFollowup.has(term));
-  const continuation=value=>isMoreRequest(value)||(isFollowup(value)&&!hasSubject(value));
+  const hasGuideSubject=value=>guideTopicalTerms(expandGuideTerms(value,vocabulary).terms).some(term=>vocabulary.has(term));
+  const continuation=value=>isMoreRequest(value)||(isFollowup(value)&&!hasSubject(value))||(Boolean(readGuideRequest(value))&&!hasGuideSubject(value));
   const previous=recentTopic(dialogue,continuation);
   const historyUsed=continuation(question)&&Boolean(previous);
   const topic=historyUsed?previous:'';
+  const guideContext=historyUsed?recentTopic(dialogue,value=>continuation(value)&&!readGuideRequest(value)):'';
+  const guideRequest=readGuideRequest(question)||(historyUsed?readGuideRequest(guideContext):null);
+  const guideOnly=Boolean(guideRequest);
   const expansions=parts.map(part=>expandTerms(isMoreRequest(part)?topic:topic?part+'\n'+topic:part,vocabulary));
   const queries=expansions.map(item=>item.terms);
   const score=(row,query)=>query.reduce((sum,term)=>sum+(row.weights.get(term)||0),0);
@@ -93,7 +97,7 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const canonicalVocabulary=new Set(canonicalTerms([...vocabulary]));
   const matchedSections=[],frequency=new Map();
   for(const row of rows)for(const term of row.body)frequency.set(term,(frequency.get(term)||0)+1);
-  const plans=queries.map((query,index)=>{
+  const plans=guideOnly?queries.map(()=>[]):queries.map((query,index)=>{
     const focused=[],headings=new Map();
     const intent=expansions[index].intentTerms.filter(term=>canonicalVocabulary.has(term));
     // A topic equal to a pattern title requests the pattern, not whichever
@@ -184,12 +188,10 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   const guidePlans=parts.map(part=>{
     const request=topic?topic+' '+part:part;
     const expansion=expandGuideTerms(request,vocabulary);
-    const hig=/\bhig\b|human interface guidelines/iu.test(request);
-    const m2=/(?:material(?:\s*design)?|материал)\s*2/iu.test(request),m3=/(?:material(?:\s*design)?|материал)\s*3/iu.test(request);
-    const topical=expansion.terms.filter(term=>!['hig','material','material2','material3','гайд','гайдлайн','guideline','guidelines','ios','android','02','03'].includes(term)&&!/^\d+$/.test(term));
+    const scope=readGuideRequest(part)||guideRequest;
+    const topical=guideTopicalTerms(expansion.terms);
     if(!topical.length)return [];
-    const hits=mobileGuideRows.filter(row=>(!hig||row.record.family==='hig')
-      &&(!(m2||m3)||(row.record.family!=='hig'&&row.record.family===(m2&&m3?row.record.family:m2?'material2':'material3'))))
+    const hits=mobileGuideRows.filter(row=>!scope||scope.families.includes(row.record.family))
       .map(row=>{const phraseMatch=expansion.phrases.some(phrase=>phrase.length>1&&phrase.every(term=>row.heading.includes(term)));return {row,phraseMatch,score:score(row,topical)};}).filter(hit=>hit.score>0).sort((a,b)=>b.score-a.score||a.row.record.file.localeCompare(b.row.record.file)||a.row.record.ruleId.localeCompare(b.row.record.ruleId));
     const intent=canonicalTerms(topical),titleScore=row=>canonicalTerms(tokens(row.record.pattern)).filter(term=>intent.includes(term)).length;
     // Rank each guideline family independently so an exact HIG title cannot
@@ -211,13 +213,13 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
     return plan.slice(0,8);
   });
   const selected=[],seen=new Set(),omitted=new Set(),lookup=new Map(rows.map(row=>[row.record.file+':'+row.record.ruleId,row]));
-  let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections})).length;
+  let chars=JSON.stringify(knowledgePayload({rules:selected,matchedSections,guideOnly})).length;
   const add=(row,allowance=Infinity)=>{
     const required=uniqueRows([...row.record.parents.map(parent=>lookup.get(row.record.file+':'+parent.ruleId)).filter(Boolean),row]);
     const pending=required.filter(item=>!seen.has(item.record.file+':'+item.record.ruleId));
     if(!pending.length)return 0;
     const next=[...selected,...pending.map(item=>item.record)];
-    const size=JSON.stringify(knowledgePayload({rules:next,matchedSections})).length;
+    const size=JSON.stringify(knowledgePayload({rules:next,matchedSections,guideOnly})).length;
     if(size-chars>allowance)return 0; // Defer large groups until other subjects have a reservation.
     if(next.length>MAX_RULES||size>MAX_PACKET_CHARS){omitted.add(row.record.file+':'+row.record.ruleId);return 0;}
     const added=size-chars;
@@ -243,10 +245,10 @@ function buildAbmKnowledgePacket(source,question,dialogue=[]) {
   }
   for(let depth=0;depth<8;depth++)for(const plan of guidePlans)if(plan[depth]&&guideChars<12000)
     guideChars+=add(plan[depth],12000-guideChars);
-  const packet={rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
+  const packet={guideOnly,rules:selected,matchedSections,indexedRules:rows.length,indexedGuideSections:allRows.length-rows.length,sourceSha:source.contentSha256,
     omittedCandidates:omitted.size,coverageLimited:omitted.size>0||allParts.length>parts.length};
   packet.chars=JSON.stringify(knowledgePayload(packet)).length;
-  packet.diagnostics={excludedGuideSections:guideRows.length-mobileGuideRows.length,
+  packet.diagnostics={guideOnly,excludedGuideSections:guideRows.length-mobileGuideRows.length,
     selectedGuideFamilies:Object.fromEntries(['hig','material2','material3'].map(family=>[family,selected.filter(row=>row.sourceType==='guide'&&row.family===family).length])),
     queryCount:queries.length,historyUsed,typoCorrections:expansions.reduce((sum,item)=>sum+item.typoCorrections,0),
     noCandidates:selected.length===0,candidateRules:uniqueRows([...plans.flat(),...guidePlans.flat()]).length,
