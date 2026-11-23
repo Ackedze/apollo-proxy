@@ -86,6 +86,6 @@ test('actual portable producer declares direct workflow; unchanged reader accept
   for(const id of profile.generation.requiredResources)files.push(put(target,id,id.endsWith('.json')?'{}':'Fixture rules'));
   const manifest={schemaVersion:RELEASE_SCHEMA,generatedAt:'2026-11-06T00:00:00Z',dataId:'b'.repeat(64),knowledgeVersion:'fixture',runtimeId:runtime.id,profileVersion:runtime.profileVersion,nativeSourceHash:runtime.nativeSourceHash,files};manifest.id=idOf(manifest);put(target,'manifest.json',manifest);return target;
  }
- const direct=data('direct',catalog.DIRECT_WORKFLOW);assert.equal(releases.readReleaseFiles(direct,runtimeRoot).runtimeId,runtime.id);assert.equal(require('../src/landing/knowledge').openKnowledge({releaseRoot:direct,runtimeRoot}).skill.version,'0.6.0');
+ const direct=data('direct',catalog.DIRECT_WORKFLOW);assert.equal(releases.readReleaseFiles(direct,runtimeRoot).runtimeId,runtime.id);assert.equal(require('../src/landing/knowledge').openKnowledge({releaseRoot:direct,runtimeRoot}).skill.version,descriptor.version);
  const staged=data('staged',catalog.STAGED_WORKFLOW);assert.throws(()=>releases.readReleaseFiles(staged,runtimeRoot),{code:'DATA_RELEASE_RUNTIME_INCOMPATIBLE'});
 });

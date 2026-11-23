@@ -9,7 +9,7 @@ const { createPublisher } = require('./release-pair-github');
 
 const SCHEMA = 'apollo.paired-release.v1';
 const PHASES = ['preflight', 'prepare', 'verify', 'data', 'public-data', 'channel', 'migration', 'recovery', 'app', 'public-app', 'final'];
-const SOURCE = ['package.json', 'package-lock.json', 'server.js', 'src', 'scripts', 'node_modules',
+const SOURCE = ['package.json', 'package-lock.json', 'server.js', 'src', 'scripts', 'schemas', 'node_modules',
     'codex-workspace/.agents/skills/apollo-design-validator', 'macos-app/Package.swift',
     'macos-app/Package.resolved', 'macos-app/Sources', 'macos-app/scripts'];
 const ROOTS = ['proxyRoot', 'runtimeRoot', 'baseRuntimeRoot', 'baseRelease', 'knowledgeRoot',

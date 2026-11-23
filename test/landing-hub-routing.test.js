@@ -44,6 +44,12 @@ test('missing or ambiguous Hub routing metadata is visible and never replaced by
 test('routing metadata drift invalidates subsequent reads even before any normative body was consumed',t=>{
  const f=fixture(t),source=f.source();source.list('core/web/components/button');fs.appendFileSync(path.join(f.releaseRoot,HUB+'registry/index.json'),' ');assert.throws(()=>source.read({id:HUB+'core/web/components/button/guidelines.md'}),{code:'LANDING_DATA_STALE'});
 });
+test('phase plan uses actual pinned installed metadata and cached navigation never bypasses drift guards',t=>{
+ const f=fixture(t),source=f.source(),plan=source.plan({phase:'structure',query:'CorporateContent'});
+ assert.equal(plan.sourcePin,source.resumePin);assert(plan.candidates.some(c=>c.id.endsWith('/corporate-content/meta.json')));assert(plan.candidates.find(c=>c.id.endsWith('/corporate-content/meta.json')).beforeUse.some(r=>r.id.endsWith('/adapter.figma.md')));
+ assert(plan.required.some(r=>r.id===HUB+'AGENTS.md'));assert(plan.required.every(r=>r.readState==='unread'));
+ fs.appendFileSync(path.join(f.releaseRoot,HUB+'registry/index.json'),' ');assert.throws(()=>source.plan({phase:'content'}),{code:'LANDING_DATA_STALE'});
+});
 test('service batches current Core sources, preserves navigation/read separation and reports routing in model context',async t=>{
  const f=fixture(t),source=f.source();let calls=0;
  const service=createLandingService({root:path.join(f.root,'jobs'),knowledge:()=>source,createCli:()=>({run:async options=>{

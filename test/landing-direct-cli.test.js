@@ -3,27 +3,75 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {EventEmitter}=require('node:events'),{PassThrough,Writable}=require('node:stream');
 const {createAgentCli,invocation,DIRECT_FIGMA_TOOLS}=require('../src/generation-agent/agent-cli');
 const session='12345678-1234-1234-1234-123456789abc',knowledge={releaseRoot:'/private/tmp/installed-data',runtimeRoot:'/private/tmp/installed-runtime',sourcePin:'a'.repeat(64),skillId:'ab-generate-custom-landing'},connection={name:'apollo_figma_mcp',url:'https://mcp.figma.com/mcp',fileKey:'FixtureFile',tools:DIRECT_FIGMA_TOOLS};
-function fixture(t,attack=null){
- const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'direct-cli-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));for(const n of ['work','trace'])fs.mkdirSync(path.join(root,n));const invocations=[];
- const cli=createAgentCli({generatedRoot:root,mcpConnection:connection,knowledgeConnection:knowledge,maxRuntimeMs:2000,spawnProcess(_bin,args){
+function fixture(t,attack=null,readiness={state:"connected",reason:"FIXTURE"},telemetry={}){
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'direct-cli-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));for(const n of ['work','trace'])fs.mkdirSync(path.join(root,n));const invocations=[],probes=[],spawnEnvironments=[];
+ const makeCli=()=>createAgentCli({generatedRoot:root,mcpConnection:connection,knowledgeConnection:{...knowledge,files:telemetry.files},maxRuntimeMs:2000,trackUsage:telemetry.trackUsage,usageRoot:telemetry.persist?path.join(root,'usage'):null,checkMcp:async input=>{probes.push(input);return typeof readiness==='function'?readiness(input):readiness;},spawnProcess(_bin,args,options){spawnEnvironments.push({binary:_bin,env:options.env});
   invocations.push(args);const child=new EventEmitter();child.pid=987999999;child.stdout=new PassThrough();child.stderr=new PassThrough();child.kill=()=>{queueMicrotask(()=>child.emit('close',null));};
   child.stdin=new Writable({write(_chunk,_enc,done){done();},final(done){done();queueMicrotask(()=>{
-   if(attack==='startup-timeout'||attack==='process-failure'){child.stderr.write(attack==='startup-timeout'?'Failed to initialize session: required MCP servers failed to initialize: apollo_figma_mcp: MCP client startup timed out after 30s':'ordinary process failure');child.emit('close',1);return;}
+   if(attack==='startup-timeout'||attack==='process-failure'||attack==='auth-required'){child.stderr.write(attack==='auth-required'?'Failed to initialize session: apollo_figma_mcp: Auth required':attack==='startup-timeout'?'Failed to initialize session: required MCP servers failed to initialize: apollo_figma_mcp: MCP client startup timed out after 30s':'ordinary process failure');child.emit('close',1);return;}
    const emit=value=>child.stdout.write(JSON.stringify(value)+'\n');emit({type:'thread.started',thread_id:session});
    let item={id:'knowledge:1',type:'mcp_tool_call',server:'apollo_knowledge',tool:'read_source',arguments:{id:'knowledge/data/ds-ai-hub/products/ab/manifest.json'},status:'in_progress'};
+   if(telemetry.files&&!attack)item={id:'command:1',type:'command_execution',command:'cat recipe.md',aggregated_output:'Recipe',exit_code:0};
    if(attack==='server')item.server='other_server';if(attack==='shell')item={id:'command:1',type:'command_execution',command:'cat /outside'};if(attack==='file')item={id:'file:1',type:'file_change'};
    if(attack==='file-scope')item={id:'figma:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',arguments:{fileKey:'ForeignFile',code:'return {};'},status:'in_progress'};
    emit({type:'item.started',item});if(attack)return;
    emit({type:'item.completed',item:{...item,status:'completed',result:{content:[{type:'text',text:'{"text":"Packaged rule"}'}]}}});
-   emit({type:'turn.completed',usage:{input_tokens:10,output_tokens:3}});fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify({status:'partial'}));child.emit('close',0);
+   for(const event of telemetry.eventsForRun?.(invocations.length)||[{type:'turn.completed',usage:{input_tokens:10,output_tokens:3}}])emit(event);fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify(telemetry.resultForRun?.()||{status:'partial'}));child.emit('close',telemetry.exitForRun?.(invocations.length)||0);
   });}});return child;
  }});
- return {root,invocations,run:opts=>cli.run({workspace:path.join(root,'work'),traceDirectory:path.join(root,'trace'),profile:'landing-direct',prompt:'Read packaged sources',schema:{type:'object'},mcpBudget:{maxToolCalls:128},...opts})};
+ let cli=makeCli();return {root,invocations,probes,spawnEnvironments,cli:()=>cli,resetCli:()=>{cli=makeCli();},run:opts=>cli.run({workspace:path.join(root,'work'),traceDirectory:path.join(root,'trace'),profile:'landing-direct',prompt:'Read packaged sources',schema:{type:'object'},mcpBudget:{maxToolCalls:128},...opts})};
 }
+test('filesystem pilot enables sandboxed reads with Figma MCP only and still rejects file changes',async t=>{
+ const files={hub:'/installed/hub',skill:'/installed/skill',workflow:'/runtime/workflow.md'};
+ const f=fixture(t,null,undefined,{files});
+ const {receipt}=await f.run();
+ assert(receipt.events.some(event=>event.item?.type==='command_execution'&&event.type==='item.completed'));
+ const args=f.invocations[0],permissions=args.find(value=>value.startsWith('permissions.apollo-landing-data.filesystem='));
+ assert(!args.includes('--sandbox'));
+ assert(args.includes('features.shell_tool=true'));
+ assert(args.includes('permissions.apollo-landing-data.network.enabled=false'));
+ assert(permissions.includes('":root"="deny"'));
+ for(const file of Object.values(files))assert(permissions.includes(JSON.stringify(file)+'="read"'));
+ assert(!args.find(value=>value.startsWith('mcp_servers=')).includes('apollo_knowledge='));
+ const blocked=fixture(t,'file',undefined,{files});
+ await assert.rejects(blocked.run(),{code:'AGENT_MCP_TOOL_NOT_ALLOWED'});
+});
+test('generation journal and durable receipts share exact run deltas across recreated CLI adapters',async t=>{
+ const {createTokenJournal}=require('../src/token-journal'),{requestTotals}=require('../src/generation-agent/usage'),crypto=require('node:crypto');let journal;
+ const raw=[{input_tokens:5185766,cached_input_tokens:4932096,output_tokens:23802,reasoning_output_tokens:4689},{input_tokens:10977761,cached_input_tokens:10652672,output_tokens:36543,reasoning_output_tokens:7638},{input_tokens:12000000,cached_input_tokens:11000000,output_tokens:40000,reasoning_output_tokens:8000}];
+ const f=fixture(t,null,{state:'connected'},{persist:true,trackUsage:options=>journal.call(options),eventsForRun:i=>[{type:'turn.started'},{type:'turn.completed',usage:raw[i-1]}]});journal=createTokenJournal(path.join(f.root,'journal'));
+ const chat=crypto.randomUUID(),request=()=>({requestId:'landing-chat:'+chat+':'+crypto.randomUUID(),runId:crypto.randomUUID(),stage:'content'}),firstContext=request();
+ const first=await f.run({diagnosticContext:firstContext});f.resetCli();const second=await f.run({sessionId:first.receipt.sessionId,diagnosticContext:request()});
+ assert.equal(first.receipt.usage.actualInputTokens,5185766);assert.equal(second.receipt.usage.actualInputTokens,5791995);assert.equal(second.receipt.usage.cachedInputSubsetTokens,5720576);assert.equal(second.receipt.usage.actualOutputTokens,12741);assert.equal(second.receipt.usage.reasoningOutputSubsetTokens,2949);
+ assert.equal(second.receipt.events.find(e=>e.type==='turn.completed').usage.input_tokens,10977761,'original provider counters retained');
+ assert.deepEqual(journal.read().records.map(r=>r.totalTokens).sort((a,b)=>a-b),[5209568,5804736]);
+ const totals=requestTotals(path.join(f.root,'usage'),firstContext.requestId);assert.equal(totals.actualInputTokens,10977761);assert.equal(totals.actualOutputTokens,36543);assert.equal(totals.measurementIds.length,2);
+ const original=journal.read().records.map(r=>[r.id,fs.readFileSync(path.join(f.root,'journal',r.id+'.json'),'utf8')]);journal.close();journal=createTokenJournal(path.join(f.root,'journal'));f.resetCli();
+ const restored=await f.run({sessionId:first.receipt.sessionId,diagnosticContext:request()});assert.equal(restored.receipt.usage.actualInputTokens,null);assert(journal.read().records.some(r=>r.totalTokens===null));
+ for(const [id,bytes] of original)assert.equal(fs.readFileSync(path.join(f.root,'journal',id+'.json'),'utf8'),bytes);
+});
+test('failed generation gaps, repeated totals and resets agree between journal and receipts',async t=>{
+ const {createTokenJournal}=require('../src/token-journal');let journal;
+ const totals=[[100,20],[110,23],[200,40],[250,50],[250,50],[10,2],[30,6]],expected=[120,null,null,60,0,null,24];
+ const f=fixture(t,null,{state:'connected'},{trackUsage:options=>journal.call(options),eventsForRun:i=>[{type:'turn.started'},{type:'turn.completed',usage:{input_tokens:totals[i-1][0],output_tokens:totals[i-1][1]}},...(i===2?[{type:'turn.started'},{type:'turn.failed'}]:[])],exitForRun:i=>i===2?1:0});
+ journal=createTokenJournal(path.join(f.root,'journal'));t.after(()=>journal.close());
+ for(let i=0;i<expected.length;i++){
+  const before=new Set(journal.read().records.map(row=>row.id));let usage;
+  try{usage=(await f.run(i?{sessionId:session}:{})).receipt.usage;}catch(error){assert.equal(i,1);assert.equal(error.code,'AGENT_PROCESS_FAILED');usage=error.usage;}
+  const row=journal.read().records.find(row=>!before.has(row.id));assert.equal(row.totalTokens,expected[i]);
+  assert.equal(usage.actualInputTokens===null||usage.actualOutputTokens===null?null:usage.actualInputTokens+usage.actualOutputTokens,expected[i]);
+ }
+});
 test('every fresh and resumed CLI launch disables host skills/shell and connects the pinned reader plus direct Figma MCP',async t=>{
  const f=fixture(t);const first=await f.run();await f.run({sessionId:first.receipt.sessionId});assert.equal(first.receipt.sessionId,session);
- for(const args of f.invocations){for(const setting of ['features.skip_host_skill_discovery=true','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false'])assert(args.includes(setting));assert(!args.includes('--ephemeral'));const config=args.find(x=>x.startsWith('mcp_servers='));assert(config.includes('apollo_figma_mcp=')&&config.includes('apollo_knowledge=')&&config.includes(knowledge.sourcePin));assert(config.includes('knowledge-mcp.js'));}
+ for(const args of f.invocations){for(const setting of ['features.skip_host_skill_discovery=true','skills.include_instructions=false','skills.bundled.enabled=false','features.shell_tool=false','features.apps=false','features.plugins=false'])assert(args.includes(setting));assert(!args.includes('--ephemeral'));const config=args.find(x=>x.startsWith('mcp_servers='));assert(config.includes('apollo_figma_mcp=')&&config.includes('apollo_knowledge=')&&config.includes(knowledge.sourcePin));assert(config.includes('knowledge-mcp.js'));assert(config.includes('enabled_tools=["list_sources","read_source","search_sources","read_sources"]'));}
  assert(!f.invocations[0].includes('resume'));assert.equal(f.invocations[1][f.invocations[1].indexOf('resume')+1],session);
+});
+test('direct CLI accepts both new knowledge calls and keeps them in the tool budget',async t=>{
+ const events=['search_sources','read_sources'].map(tool=>({type:'item.completed',item:{id:tool,type:'mcp_tool_call',server:'apollo_knowledge',tool,arguments:{},status:'completed'}}));
+ const f=fixture(t,null,{state:'connected'},{eventsForRun:()=>events});
+ const output=await f.run();assert.equal(output.receipt.mcp.toolCalls,3);
+ await assert.rejects(f.run({mcpBudget:{maxToolCalls:2}}),{code:'AGENT_MCP_TOOL_LIMIT'});
 });
 for(const attack of ['server','shell','file','file-scope'])test('direct CLI refuses '+attack+' outside its two allowed MCP capabilities',async t=>{
  const f=fixture(t,attack);await assert.rejects(f.run(),{code:attack==='file-scope'?'AGENT_MCP_FILE_SCOPE_MISMATCH':'AGENT_MCP_TOOL_NOT_ALLOWED'});
@@ -39,4 +87,162 @@ test('actual MCP startup timeout has its own diagnosis and does not imply a fail
 test('direct skill descriptor cannot enable a legacy executor or recipe workflow',()=>{
  const catalog=require('../src/skills/catalog'),p=path.resolve(__dirname,'../../../shared/design-system_ab/apollo/skills/ab-generate-custom-landing/manifest.json'),value=JSON.parse(fs.readFileSync(p));assert.equal(value.generation.workflow,catalog.DIRECT_WORKFLOW);catalog.packageFiles(Buffer.from(JSON.stringify(value)),value.id);
  for(const extra of [{skeletonExecutor:'native-layout-v1'},{recipeOperations:'slot-content-replacement-v1'}])assert.throws(()=>catalog.packageFiles(Buffer.from(JSON.stringify({...value,generation:{...value.generation,...extra}})),value.id),{code:'SKILL_CATALOG_INVALID'});
+});
+
+test('Figma readiness refuses model execution, preserves private failure and separates unknown from reauthentication',async t=>{
+ for(const [state,code] of [['config_conflict','AGENT_MCP_CONFIG_CONFLICT'],['not_connected','AGENT_MCP_AUTH_REQUIRED'],['reauthentication_required','AGENT_MCP_AUTH_REQUIRED'],['unknown','AGENT_MCP_CONNECTION_UNVERIFIED'],['cancelled','AGENT_CANCELLED']]){
+  const f=fixture(t,null,{state,reason:'FIXTURE',privateError:'original fixture failure'});await assert.rejects(f.run(),{code});assert.equal(f.invocations.length,0);const file=fs.readdirSync(path.join(f.root,'trace')).find(n=>n.endsWith('.failure.json'));assert(file);const trace=JSON.parse(fs.readFileSync(path.join(f.root,'trace',file)));assert.equal(trace.stderr,'original fixture failure');assert.equal(trace.mcpAuthentication.state,state);
+ }
+});
+test('execution Auth required has an exact diagnosis while preserving original stderr and error code',async t=>{
+ const f=fixture(t,'auth-required');await assert.rejects(f.run(),e=>e.code==='AGENT_MCP_AUTH_REQUIRED'&&JSON.parse(e.diagnostic).traceRecorded===true);const file=fs.readdirSync(path.join(f.root,'trace')).find(n=>n.endsWith('.failure.json')),trace=JSON.parse(fs.readFileSync(path.join(f.root,'trace',file)));assert.equal(trace.originalCode,'AGENT_PROCESS_FAILED');assert.match(trace.stderr,/apollo_figma_mcp: Auth required/);assert.equal(trace.stage,'mcp-authentication');
+});
+
+test('readiness and execution use the same binary/environment and shared MCP/OAuth definition',async t=>{
+ const f=fixture(t);await f.run();assert.equal(f.probes[0].binary,f.spawnEnvironments[0].binary);assert.deepEqual(f.probes[0].environment,f.spawnEnvironments[0].env);const connection=require('../src/figma-mcp/connection');assert(f.invocations[0].includes(connection.credentialsConfig));assert(f.invocations[0].find(x=>x.startsWith('mcp_servers=')).includes('apollo_figma_mcp={'+connection.serverConfig(DIRECT_FIGMA_TOOLS)));
+});
+test('unexpected readiness errors and exhausted budget cannot start a model process',async t=>{
+ const failed=fixture(t,null,()=>{throw Error('Fixture check failed');});await assert.rejects(failed.run(),{code:'AGENT_MCP_CONNECTION_UNVERIFIED'});assert.equal(failed.invocations.length,0);
+ const slow=fixture(t,null,async()=>{await new Promise(r=>setTimeout(r,30));return {state:'connected'};});await assert.rejects(slow.run({runtimeBudgetMs:10}),{code:'AGENT_EXECUTION_TIME_BUDGET'});assert.equal(slow.invocations.length,0);
+});
+
+function discoveryEvents(tool='list_mcp_resources',args={server:'apollo_figma_mcp'},extra={}){
+ const item={id:'metadata:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool,arguments:args,status:'in_progress',...extra};
+ return [{type:'item.started',item},{type:'item.completed',item:{...item,status:'completed',result:{content:[]}}}];
+}
+function canvasEvents(args={fileKey:'FixtureFile',code:'return {id:"fixture"};'},extra={}){
+ const item={id:'canvas:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',arguments:args,status:'in_progress'};
+ return [{type:'item.started',item},{type:'item.completed',item:{...item,status:'completed',result:{content:[{type:'text',text:'{"id":"fixture"}'}]},...extra}}];
+}
+const files={hub:'/installed/hub',skill:'/installed/skill',workflow:'/runtime/workflow.md'};
+test('scoped MCP metadata discovery and unsupported results can continue to the pinned canvas',async t=>{
+ const {mcpObservation}=require('../src/generation-agent/agent-cli');
+ for(const [tool,args,unsupported] of [
+  ['list_mcp_resources',{server:'apollo_figma_mcp'},false],
+  ['list_mcp_resource_templates',{server:'apollo_figma_mcp',cursor:'next'},false],
+  ['list_mcp_resources',JSON.stringify({server:'apollo_figma_mcp'}),false],
+  ['list_mcp_resources',{server:'apollo_figma_mcp'},true],
+  ['list_mcp_resource_templates',{server:'apollo_figma_mcp'},true],
+ ]){
+  const events=discoveryEvents(tool,args);
+  if(unsupported)Object.assign(events[1].item,{status:'failed',error:{message:'Method not found'},result:{isError:true,content:[{type:'text',text:'Unsupported metadata method'}]}});
+  events.push(...canvasEvents());
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>events});
+  const {receipt}=await f.run({checkpointBudget:{maxCompletedCalls:24,softRuntimeMs:2000}});
+  assert.equal(receipt.mcp.toolCalls,2);assert.deepEqual(receipt.mcp.nativeFailures,[]);
+  assert.equal(receipt.mcp.toolTimings.length,2);
+  assert.equal(receipt.events.map(mcpObservation).filter(Boolean).length,1,'metadata is not canvas evidence');
+ }
+});
+test('MCP discovery retains server, argument and resource-body boundaries',async t=>{
+ const cases=[
+  discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp'},{server:'other_server'}),
+  discoveryEvents('list_mcp_resources',{server:'other_server'}),
+  discoveryEvents('list_mcp_resources',{}),
+  discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp',uri:'file:///private'}),
+  discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp',path:'/private'}),
+  discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp',fileKey:'FixtureFile'}),
+  discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp',cursor:1}),
+  discoveryEvents('list_mcp_resources','{'),
+  discoveryEvents('read_mcp_resource',{server:'apollo_figma_mcp',uri:'resource://secret'}),
+  discoveryEvents('unknown_tool',{server:'apollo_figma_mcp'}),
+ ];
+ for(const events of cases){const f=fixture(t,null,undefined,{files,eventsForRun:()=>events});await assert.rejects(f.run(),{code:'AGENT_MCP_TOOL_NOT_ALLOWED'});}
+ for(const args of [{fileKey:'OtherFile',code:'return {};'}, {code:'return {};'}]){
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>[...discoveryEvents(),...canvasEvents(args)]});
+  await assert.rejects(f.run(),{code:'AGENT_MCP_FILE_SCOPE_MISMATCH'});
+ }
+});
+test('MCP metadata discovery stays inside shared budgets and cancellation',async t=>{
+ const f=fixture(t,null,undefined,{files,eventsForRun:()=>[...discoveryEvents(),...canvasEvents()]});
+ await assert.rejects(f.run({mcpBudget:{maxToolCalls:1}}),{code:'AGENT_MCP_TOOL_LIMIT'});
+ const args=fixture(t,null,undefined,{files,eventsForRun:()=>discoveryEvents('list_mcp_resources',{server:'apollo_figma_mcp',cursor:'x'.repeat(16384)})});
+ await assert.rejects(args.run(),{code:'AGENT_MCP_TOOL_ARGUMENT_LIMIT'});
+ const output=fixture(t,null,undefined,{files,eventsForRun:()=>{
+  const events=discoveryEvents();events[1].item.result={content:[{type:'text',text:'x'.repeat(8*1024*1024)}]};return events;
+ }});
+ await assert.rejects(output.run({mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:16*1024*1024}}),{code:'AGENT_MCP_TOOL_OUTPUT_LIMIT'});
+ const total=fixture(t,null,undefined,{files,eventsForRun:()=>{
+  const events=discoveryEvents();events[1].item.result={content:[{type:'text',text:'x'.repeat(1024)}]};return events;
+ }});
+ await assert.rejects(total.run({mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:1024}}),{code:'AGENT_MCP_TOOL_OUTPUT_LIMIT'});
+ const controller=new AbortController();
+ await assert.rejects(f.run({signal:controller.signal,onEvent:event=>{if(event.type==='item.started'&&event.item?.id==='metadata:1')controller.abort();}}),{code:'AGENT_CANCELLED'});
+ await assert.rejects(f.run({checkpointBudget:{maxCompletedCalls:1,softRuntimeMs:2000}}),{code:'AGENT_CHECKPOINT_REQUIRED'});
+});
+test('metadata errors do not hide native Figma failures or skip in-flight checkpoint tracking',async t=>{
+ const metadata=discoveryEvents();metadata[1].item.status='failed';metadata[1].item.error={message:'Method not found'};
+ const native=canvasEvents(undefined,{status:'failed',error:{message:'Native fixture failure'}});
+ const failed=fixture(t,null,undefined,{files,eventsForRun:()=>[...metadata,...native]});
+ await assert.rejects(failed.run({checkpointBudget:{maxCompletedCalls:24,softRuntimeMs:2000}}),error=>error.code==='AGENT_CHECKPOINT_REQUIRED'&&error.nativeFailures.length===1&&error.nativeFailures[0].callId==='canvas:1');
+ const active=canvasEvents(),events=[metadata[0],active[0],metadata[1],active[1]],seen=[];
+ const f=fixture(t,null,undefined,{files,eventsForRun:()=>events});
+ await assert.rejects(f.run({checkpointBudget:{maxCompletedCalls:1,softRuntimeMs:2000},onEvent:event=>{seen.push(event.item?.id+':'+event.type);}}),{code:'AGENT_CHECKPOINT_REQUIRED'});
+ assert(seen.includes('canvas:1:item.completed'),'checkpoint waits for the in-flight canvas call');
+});
+
+function technicalReadEvents(uri='skill://figma/figma-use/SKILL.md',extra={}){
+ return discoveryEvents('read_mcp_resource',{server:'apollo_figma_mcp',uri},extra).map(event=>({...event,item:{...event.item,id:'technical:1'}}));
+}
+test('technical Figma resources continue to canvas without becoming canvas evidence',async t=>{
+ const {mcpObservation}=require('../src/generation-agent/agent-cli');
+ for(const uri of ['skill://figma/figma-use/SKILL.md','skill://figma/figma-generate-design/SKILL.md','skill://figma/figma-use/references/plugin-api.d.ts','skill://figma/figma-use/references/plugin-api.symbols.json','skill://figma/figma-generate-diagram/SKILL.md','file://figma/docs/add-custom-rules.md','skill://index.json']){
+  const events=technicalReadEvents(uri);events[1].item.result={content:[{type:'text',text:'Technical reference.'}]};
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>[...discoveryEvents(),...events,...canvasEvents()]});
+  const {receipt}=await f.run({checkpointBudget:{maxCompletedCalls:24,softRuntimeMs:2000}});
+  assert.equal(receipt.mcp.toolCalls,3);assert.equal(receipt.mcp.toolTimings.length,3);assert.deepEqual(receipt.mcp.nativeFailures,[]);
+  assert.equal(receipt.events.map(mcpObservation).filter(Boolean).length,1);
+ }
+ const events=technicalReadEvents();events.forEach(event=>{event.item.arguments=JSON.stringify(event.item.arguments);});
+ const f=fixture(t,null,undefined,{files,eventsForRun:()=>events});assert.equal((await f.run()).receipt.mcp.toolCalls,1);
+});
+test('technical reference reads retain URI, server, arguments and canvas-file boundaries',async t=>{
+ for(const uri of ['file:///Users/private.json','file://figma/private/secret.md','ui://figma/codex.html','https://example.com/doc.md','skill://other/figma-use/SKILL.md','skill://figma/../secret.md','skill://figma/figma-use/./SKILL.md','skill://figma/figma-use/%2e%2e/secret.md','skill://figma/figma-use/SKILL.md?token=x','skill://figma/figma-use/SKILL.md#section','skill://user:password@figma/figma-use/SKILL.md','skill://figma//SKILL.md','file://figma/docs/../../secret.md','skill://figma/figma-use/script.sh','figma://FixtureFile/1:2']){
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>technicalReadEvents(uri)});await assert.rejects(f.run(),{code:'AGENT_MCP_TOOL_NOT_ALLOWED'});
+ }
+ for(const extra of [{server:'other_server'},{arguments:{server:'other_server',uri:'skill://figma/figma-use/SKILL.md'}},{arguments:{server:'apollo_figma_mcp',uri:'skill://figma/figma-use/SKILL.md',fileKey:'FixtureFile'}},{arguments:{server:'apollo_figma_mcp',uri:'skill://figma/figma-use/SKILL.md',path:'/private'}},{arguments:'{'},{arguments:{server:'apollo_figma_mcp',uri:17}}]){
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>technicalReadEvents(undefined,extra)});await assert.rejects(f.run(),{code:'AGENT_MCP_TOOL_NOT_ALLOWED'});
+ }
+ for(const args of [{fileKey:'OtherFile',code:'return {};'}, {code:'return {};'}]){
+  const f=fixture(t,null,undefined,{files,eventsForRun:()=>[...technicalReadEvents(),...canvasEvents(args)]});await assert.rejects(f.run(),{code:'AGENT_MCP_FILE_SCOPE_MISMATCH'});
+ }
+});
+test('technical resource reads share limits, cancellation and native-error checkpoints',async t=>{
+ const events=technicalReadEvents();Object.assign(events[1].item,{status:'failed',error:{message:'Resource unavailable'},result:{isError:true,content:[{type:'text',text:'Use the bundled workflow.'}]}});
+ const f=fixture(t,null,undefined,{files,eventsForRun:()=>[...events,...canvasEvents()]});
+ assert.deepEqual((await f.run({checkpointBudget:{maxCompletedCalls:24,softRuntimeMs:2000}})).receipt.mcp.nativeFailures,[]);
+ await assert.rejects(f.run({mcpBudget:{maxToolCalls:1}}),{code:'AGENT_MCP_TOOL_LIMIT'});
+ const oversized=fixture(t,null,undefined,{files,eventsForRun:()=>technicalReadEvents('skill://figma/'+'a'.repeat(16384)+'.md')});await assert.rejects(oversized.run(),{code:'AGENT_MCP_TOOL_ARGUMENT_LIMIT'});
+ const output=technicalReadEvents();output[1].item.result={content:[{type:'text',text:'x'.repeat(8*1024*1024)}]};
+ await assert.rejects(fixture(t,null,undefined,{files,eventsForRun:()=>output}).run({mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:16*1024*1024}}),{code:'AGENT_MCP_TOOL_OUTPUT_LIMIT'});
+ const total=technicalReadEvents();total[1].item.result={content:[{type:'text',text:'x'.repeat(1024)}]};
+ await assert.rejects(fixture(t,null,undefined,{files,eventsForRun:()=>total}).run({mcpBudget:{maxToolCalls:128,maxTotalToolOutputBytes:1024}}),{code:'AGENT_MCP_TOOL_OUTPUT_LIMIT'});
+ const controller=new AbortController();await assert.rejects(f.run({signal:controller.signal,onEvent:event=>{if(event.type==='item.started'&&event.item?.id==='technical:1')controller.abort();}}),{code:'AGENT_CANCELLED'});
+ const native=canvasEvents(undefined,{status:'failed',error:{message:'Native failure'}});
+ await assert.rejects(fixture(t,null,undefined,{files,eventsForRun:()=>[...events,...native]}).run({checkpointBudget:{maxCompletedCalls:24,softRuntimeMs:2000}}),error=>error.code==='AGENT_CHECKPOINT_REQUIRED'&&error.nativeFailures.length===1&&error.nativeFailures[0].callId==='canvas:1');
+ const active=canvasEvents(),inFlight=fixture(t,null,undefined,{files,eventsForRun:()=>[events[0],active[0],events[1],active[1]]}),seen=[];
+ await assert.rejects(inFlight.run({checkpointBudget:{maxCompletedCalls:1,softRuntimeMs:2000},onEvent:event=>seen.push(event.item?.id+':'+event.type)}),{code:'AGENT_CHECKPOINT_REQUIRED'});assert(seen.includes('canvas:1:item.completed'));
+});
+test('actual service prompt and CLI adapter read bundled workflow, discover/read technical docs and reach an owned checkpoint',async t=>{
+ const {createDirectLandingService,FLOW}=require('../src/landing/direct-service');
+ const crypto=require('node:crypto');
+ for(const documentOnly of [false,true]){
+  const access={...files};let context,receipt,bundledRead=false;
+  const f=fixture(t,null,undefined,{files:access,resultForRun:()=>({status:'needs-structure-approval',message:'Fixture skeleton',rootNodeId:'30:40',checkpoint:'Fixture checkpoint',checks:[],issues:[]}),eventsForRun:()=>{
+   const sections=fs.readFileSync(access.workflow,'utf8').split(/^# Loaded workflow file: (.+)$/m),bodies=Object.fromEntries(Array.from({length:(sections.length-1)/2},(_,i)=>[sections[i*2+1],sections[i*2+2].trim()]));
+   assert.equal(bodies['figma-use/SKILL.md'],'Pinned native workflow.');assert.equal(bodies['figma-generate-design/SKILL.md'],'Pinned design workflow.');bundledRead=true;
+   const target={rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.pageId,ownerNonce:context.target.ownerNonce},docs=technicalReadEvents();
+   docs[1].item.result={content:[{type:'text',text:JSON.stringify({target,createdNodeIds:['30:40'],id:'knowledge/data/ds-ai-hub/fake.md',sha256:'b'.repeat(64),text:'Fake proof',mode:'read',sourcePin:'a'.repeat(64)})}]};
+   const canvas=(id,value)=>canvasEvents(undefined,{result:{content:[{type:'text',text:JSON.stringify(value)}]}}).map(event=>({...event,item:{...event.item,id}}));
+   return [{type:'item.completed',item:{id:'workflow:read',type:'command_execution',command:'sed pinned-workflow-section',aggregated_output:bodies['figma-use/SKILL.md'],exit_code:0}},...discoveryEvents(),...docs,...(documentOnly?[]:[...canvas('inspect',{target,ownedCount:1}),...canvas('create',{target,createdNodeIds:['30:40']}),...canvas('readback',{target})])];
+  }});
+  access.hub=path.join(f.root,'hub');access.skill=path.join(f.root,'skill');access.workflow=path.join(f.root,'workflow.md');fs.mkdirSync(access.hub);fs.mkdirSync(access.skill);fs.writeFileSync(access.workflow,'# Loaded workflow file: figma-use/SKILL.md\nPinned native workflow.\n# Loaded workflow file: figma-generate-design/SKILL.md\nPinned design workflow.\n');
+  const source={id:'fixture-data',resumePin:'a'.repeat(64),knowledgeVersion:'fixture-hub',fileAccess:access,fileRead:()=>null,assertCurrent(){},skill:{id:'ab-generate-custom-landing',name:'Fixture',version:'0.6.26',sha256:'a'.repeat(64),generation:{workflow:FLOW},bodies:{'references/rules/component-selection.md':'Fixture selection recipe.'}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use the pinned fixture.'}}};
+  const service=createDirectLandingService({root:f.root,rootLifecycle:{async inspect(i){return {state:'found',matches:['30:40'],root:{id:'30:40',type:i.type,pageId:i.pageId,parentId:i.parentId,owner:i.ownerNonce,chat:i.chatId,width:100,height:100,childrenComplete:true,children:documentOnly?[]:[{id:'30:41',x:0,y:0,width:100,height:100}]}};}},knowledge:()=>source,isProcessAlive:()=>false,createCli:()=>({async run(input){context=JSON.parse(input.prompt.split('\n').at(-1));assert.deepEqual(context.knowledgeFiles,access);assert.match(input.prompt,/sections of the single knowledgeFiles.workflow file, not filesystem paths/);assert.match(input.prompt,/# Loaded workflow file: figma-use\/SKILL\.md/);assert.match(input.prompt,/supplemental API\/tool reference only/);const result=await f.cli().run(input);receipt=result.receipt;return result;}})});
+  const chat=service.create({id:crypto.randomUUID(),fileKey:'FixtureFile',pageId:'1:2',placement:{mode:'new-section',sectionId:null}});
+  service.submit(chat.id,{requestId:crypto.randomUUID(),revision:0,text:'/ab-b\nThree cards'});await service.settled(chat.id);const result=service.poll(chat.id);
+  assert(bundledRead);assert.deepEqual(receipt.mcp.nativeFailures,[]);assert.equal(result.sources.length,0,'technical docs cannot supply DS read proof');
+  if(documentOnly){assert.equal(result.target.rootNodeId,'30:40');assert.equal(result.error.code,'LANDING_TARGET_UNCONFIRMED');}
+  else{assert.equal(result.error,null);assert.equal(result.status,'needs-structure-approval');assert.equal(result.target.rootNodeId,'30:40');assert.equal(result.execution.structureApproved,false);assert.equal(receipt.mcp.toolCalls,5);}
+ }
 });

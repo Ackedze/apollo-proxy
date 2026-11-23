@@ -3,6 +3,14 @@ const fs = require('node:fs'), os = require('node:os'), path = require('node:pat
 const { createTokenJournal, configure, wrapAgentService, mountJournalRoutes } = require('../src/token-journal');
 const { claudeUsage } = require('../src/cli-agent');
 const turn = (input = 100, output = 20, cached = 90) => ({ type: 'turn.completed', usage: { input_tokens: input, output_tokens: output, cached_input_tokens: cached } });
+test('normalized receipt counters preserve unknown gaps and validate subset/overflow boundaries',()=>{
+ const {createUsageTracker,usageFromEvents}=require('../src/generation-agent/usage'),tracker=createUsageTracker(),events=[{type:'thread.started',thread_id:sessionA},{type:'turn.started'},turn()];
+ const state=tracker.start({cumulativeUsage:true});for(const event of events)state.event(event);
+ const measured=usageFromEvents(events,state.events);assert.equal(measured.actualInputTokens,100);assert.equal(measured.cachedInputSubsetTokens,90);
+ state.event({type:'turn.started'});state.event({type:'turn.failed'});assert.equal(usageFromEvents(events,state.events).actualInputTokens,null);state.end();
+ const resumed=tracker.start({cumulativeUsage:true,resumeSessionId:sessionA});resumed.event(events[0]);resumed.event(turn(200));assert.equal(usageFromEvents([],resumed.events).actualInputTokens,null);
+ assert.equal(usageFromEvents([turn(1,2,5)]).cachedInputSubsetTokens,null);assert.equal(usageFromEvents([turn(Number.MAX_SAFE_INTEGER),turn(1)]).actualInputTokens,null);
+});
 const sessionA = '01a1654b-fc1e-7092-918e-ee798befe820', sessionB = '01a1656f-2d23-72b0-b251-3af6871fe8ed';
 function sessionCall(journal, operation, id = sessionA, resume = false) {
   const call = journal.call({ provider: 'codex', operation, cumulativeUsage: true, resumeSessionId: resume ? id : null });

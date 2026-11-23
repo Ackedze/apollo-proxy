@@ -28,6 +28,7 @@ async function fixture(t){
  await write(designRoot,'JSONS/'+packagePath+'/Example.index.json',{catalogPath:packagePath+'/Example.json',components:[{key,name:'Example'}]});
  const api={schemaVersion:'apollo.ds-contracts.v1',contracts:[{id:'example',name:'Example',normalizedName:'example',componentKey:key,status:'current',role:'Main',platform:'Desktop',figma:{variants:{properties:{View:['Primary']},allowedCombinations:[{View:'Primary'}],variantKeys:[]}}}]};
  for(const [file,body] of Object.entries({'contract.generated.json':api,'rules.json':{schemaVersion:1,rules:[]},'composition-contract.json':{contracts:[]},'overrides.json':{},'agent-context.json':{},'audit-mapping.json':{},'examples.json':{examples:[]}}))await write(designRoot,'JSONS/'+packagePath+'/'+file,body);
+ for(const category of ['deprecated','scheduled','parts'])await write(designRoot,'JSONS/indexes/lifecycle/'+category+'.index.json',{kind:'component-lifecycle-index',version:1,category,count:0,components:[],warnings:[]});
  await write(designRoot,'redpolrules/dictionary.json',{rules:[]});
  await write(abmRoot,'JSONS/referenceSourcesMVP.json',{schemaVersion:2,baseUrl:'https://ackedze.github.io/desing-system_abm/JSONS/',catalogs:[{fileName:'Mobile.json',path:'components/Mobile.json',source:{kind:'components',indexPath:'components/Mobile.index.json'}}]});
  await write(abmRoot,'JSONS/components/Mobile.json',{meta:{library:'Synthetic ABM'},components:[{key:other,name:'Mobile',structure:[],variantStructures:{[key]:[]}}]});

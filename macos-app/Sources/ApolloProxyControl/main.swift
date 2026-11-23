@@ -71,7 +71,21 @@ final class ProxyManager: NSObject {
 
     private var process: Process?
     private var agentAuthProcess: Process?
+    private let figmaConnection = FigmaConnectionController()
     private let codexInstaller = CodexCLIInstaller()
+    private var openRouterKey = OpenRouterConnection.loadKey()
+    private var openRouterStatus: String?
+    private var openRouterChecking = false
+    private var openRouterRestartPending = false
+    private var lastOpenRouterApproval: String?
+    private var lastOpenRouterFailure: String?
+    private var openRouterEnabled: Bool { UserDefaults.standard.bool(forKey: OpenRouterConnection.enabledPreference) }
+    private var canChangeOpenRouter: Bool {
+        !isQuitting && !isExternalProxyRunning && status != .starting && !isStoppingIntentionally &&
+            !openRouterChecking && !openRouterRestartPending && !proxyHasActiveWork &&
+            !knowledgeCommandRunning && !codeCommandRunning && !codeRestartPending && !updateCheck.isRunning &&
+            !pendingKnowledgeRestart && !appUpdater.hasSession
+    }
     private var outputPipe: Pipe?
     private var lifetimePipe: Pipe?
     private var healthTimer: Timer?
@@ -119,6 +133,7 @@ final class ProxyManager: NSObject {
             (Bundle.main.object(forInfoDictionaryKey: "ApolloDataActivationRequired") as? Bool == true && dataAccess == nil)
     }
     private var knowledgeCommandRunning = false
+    private var knowledgeCommandProcess: Process?
     private let updateCheck = ProxyUpdateCheck()
     private let appUpdater = AppUpdater()
     private let appUpdateResumeIntent = AppUpdateResumeIntent()
@@ -172,7 +187,8 @@ final class ProxyManager: NSObject {
         }
         checkForUpdates()
         if dataNeedsActivation { showDataActivation(); return }
-        checkAgentAuthorization(startProxyWhenReady: autoStartProxy)
+        checkAgentAuthorization(startProxyWhenReady: autoStartProxy && !openRouterEnabled)
+        if autoStartProxy && openRouterEnabled { startProxyAction() }
     }
 
     private func configureMenu() {
@@ -238,7 +254,7 @@ final class ProxyManager: NSObject {
             snapshot.canUpdate = false; snapshot.canRollback = false
         }
         snapshot.canCheckUpdates = snapshot.canCheckUpdates && !codeCommandRunning && !codeRestartPending
-            && !updateCheck.isRunning && !pendingKnowledgeRestart && status != .starting && agentAuthProcess == nil && !codexInstaller.isRunning
+            && !updateCheck.isRunning && !pendingKnowledgeRestart && status != .starting && agentAuthProcess == nil && !figmaConnection.isRunning && !codexInstaller.isRunning
         snapshot.checkingUpdates = updateCheck.isRunning
         snapshot.codeStatus = appUpdater.state.summary
         if updateCheck.isRunning {
@@ -254,12 +270,23 @@ final class ProxyManager: NSObject {
         }
         snapshot.canUpdate = snapshot.canUpdate && canManageUpdates
         snapshot.canRollback = snapshot.canRollback && canManageUpdates
-        snapshot.canChangeAgent = agentAuthProcess == nil && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && !codeCommandRunning && !updateCheck.isRunning && !codeRestartPending && !appUpdater.hasSession && status != .starting && !isExternalProxyRunning
+        snapshot.canChangeAgent = agentAuthProcess == nil && !figmaConnection.isRunning && !codexInstaller.isRunning && !proxyHasActiveWork && !knowledgeCommandRunning && !codeCommandRunning && !updateCheck.isRunning && !codeRestartPending && !appUpdater.hasSession && status != .starting && !isExternalProxyRunning
         if case .authorized = agentAuthStatus { snapshot.canRefreshModels = snapshot.canChangeAgent }
+        snapshot.figmaState = figmaConnection.state
+        snapshot.figmaBusy = figmaConnection.isRunning
+        snapshot.openRouterEnabled = openRouterEnabled
+        snapshot.openRouterHasKey = openRouterKey != nil
+        snapshot.openRouterEditable = canChangeOpenRouter
+        snapshot.openRouterChecking = openRouterChecking
+        snapshot.openRouterStatus = openRouterRestartPending ? "Настройка применится после перезапуска прокси." :
+            (openRouterStatus ?? (openRouterKey == nil ? "Не подключён" : "Подключён"))
+        if provider == .codex, case .authorized = agentAuthStatus {
+            snapshot.canConnectFigma = snapshot.canChangeAgent
+        }
         snapshot.cliMissing = agentAuthStatus == .binaryMissing
         let canInstall = provider.canInstall(configured: readEnvMap()?[provider.binaryKey] ?? "")
-        snapshot.canLogin = agentAuthProcess == nil && !codexInstaller.isRunning && (canInstall || claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
-        snapshot.canCheckAccess = agentAuthProcess == nil && !codexInstaller.isRunning
+        snapshot.canLogin = agentAuthProcess == nil && !figmaConnection.isRunning && !codexInstaller.isRunning && (canInstall || claudeLoginTimer != nil || resolveAgentExecutableURL() != nil)
+        snapshot.canCheckAccess = agentAuthProcess == nil && !figmaConnection.isRunning && !codexInstaller.isRunning
         snapshot.loginTitle = claudeLoginTimer != nil ? "Отменить ожидание" : "Войти в \(provider.name)…"
         snapshot.authorizationHelp = provider == .claude
             ? "Вход выполняется в Claude Code через Terminal. Нужен Claude Code 2.1.248 или новее."
@@ -447,6 +474,9 @@ final class ProxyManager: NSObject {
                 self.status = .running
                 self.refreshUI()
                 completion?(true)
+                if let observedProcess, health.supervisorPID == Int(observedProcess.processIdentifier), self.openRouterEnabled {
+                    self.handleOpenRouterApproval(health, process: observedProcess)
+                }
                 if self.codeRestartPending && !self.codeCommandRunning {
                     self.runCodeCommand("status") { value in
                         guard value.pending == nil else { return }
@@ -458,12 +488,9 @@ final class ProxyManager: NSObject {
                         self.refreshUI()
                     }
                 }
-                if self.pendingKnowledgeRestart,
-                   self.process != nil,
-                   health.activeRequests == 0,
-                   !self.proxyHasActiveWork {
-                    self.pendingKnowledgeRestart = false
-                    self.stopManagedProxy(restart: true)
+                if let observedProcess, health.activeRequests == 0, !self.proxyHasActiveWork {
+                    if self.openRouterRestartPending { self.restartForOpenRouter(observedProcess) }
+                    else if self.pendingKnowledgeRestart { self.stopManagedProxy(restart: true) }
                 }
             }
         }.resume()
@@ -489,12 +516,17 @@ final class ProxyManager: NSObject {
         return nil
     }
 
-    private func knowledgeCommandEnvironment() -> [String: String] {
+    private func networkEnvironment() -> [String: String] {
         var environment = ProcessInfo.processInfo.environment
         let config = readEnvMap() ?? [:]
         for key in ["HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "no_proxy", "SSL_CERT_FILE", "NODE_EXTRA_CA_CERTS"] {
             if let value = config[key], !value.isEmpty { environment[key] = value }
         }
+        return environment
+    }
+
+    private func knowledgeCommandEnvironment() -> [String: String] {
+        var environment = networkEnvironment()
         if let token = readEnvMap()?["APOLLO_KNOWLEDGE_TOKEN"], !token.isEmpty {
             environment["APOLLO_KNOWLEDGE_TOKEN"] = token
         }
@@ -528,6 +560,7 @@ final class ProxyManager: NSObject {
             descriptorURL: configuredKnowledgeDescriptorURL(),
             environment: knowledgeCommandEnvironment()
         )
+        runner.managedCommandURL = proxyInstallURL.appendingPathComponent("src/data-release/managed-command.js")
         if portable { runner.runtimeURL = proxyInstallURL.appendingPathComponent("runtime/apollo") }
         runner.privateInput = dataAccess ?? Data("{}".utf8)
         return runner
@@ -550,9 +583,10 @@ final class ProxyManager: NSObject {
         do {
             var runner = try knowledgeCommandRunner()
             runner.privateInput = try JSONSerialization.data(withJSONObject: ["password": password])
-            try runner.run("activate", phase: { _ in }) { [weak self] result in
+            let task = try runner.run("activate", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
-                    guard let self else { return }
+                    guard let self, !self.isQuitting else { return }
+                    self.knowledgeCommandProcess = nil
                     self.knowledgeCommandRunning = false
                     switch result {
                     case .success(var value):
@@ -574,6 +608,7 @@ final class ProxyManager: NSObject {
                     self.refreshUI()
                 }
             }
+            knowledgeCommandProcess = task
         } catch {
             knowledgeCommandRunning = false
             activationController?.showError("Не удалось запустить загрузку данных. Повторите активацию.")
@@ -607,7 +642,7 @@ final class ProxyManager: NSObject {
         do {
             let task = try knowledgeCommandRunner().run("check", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
-                    guard let self else { return }
+                    guard let self, !self.isQuitting else { return }
                     defer { self.finishKnowledgeCommand("check"); completion() }
                     switch result {
                     case .success(let value):
@@ -622,6 +657,7 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            knowledgeCommandProcess = task
             appendLog("=== \(Date()) Knowledge check started (pid \(task.processIdentifier)) ===\n")
         } catch {
             defer { finishKnowledgeCommand("check"); completion() }
@@ -630,6 +666,7 @@ final class ProxyManager: NSObject {
     }
 
     private func finishKnowledgeCommand(_ command: String) {
+        knowledgeCommandProcess = nil
         knowledgeCommandRunning = false
         appendLog("=== \(Date()) Knowledge \(command) finished ===\n")
         if knowledgeRuntime?.runtimeMigrationRequired == true, case .failed = knowledgeUpdateStatus {
@@ -660,7 +697,7 @@ final class ProxyManager: NSObject {
                 }
             }) { [weak self] result in
                 Task { @MainActor in
-                    guard let self else { return }
+                    guard let self, !self.isQuitting else { return }
                     defer { self.finishKnowledgeCommand("update") }
                     switch result {
                     case .success(let value):
@@ -675,6 +712,7 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            knowledgeCommandProcess = task
             appendLog("=== \(Date()) Knowledge update started (pid \(task.processIdentifier)) ===\n")
         } catch {
             defer { finishKnowledgeCommand("update") }
@@ -690,7 +728,7 @@ final class ProxyManager: NSObject {
         do {
             let task = try knowledgeCommandRunner().run("rollback", phase: { _ in }) { [weak self] result in
                 Task { @MainActor in
-                    guard let self else { return }
+                    guard let self, !self.isQuitting else { return }
                     defer { self.finishKnowledgeCommand("rollback") }
                     switch result {
                     case .success(let value):
@@ -704,6 +742,7 @@ final class ProxyManager: NSObject {
                     }
                 }
             }
+            knowledgeCommandProcess = task
             appendLog("=== \(Date()) Knowledge rollback started (pid \(task.processIdentifier)) ===\n")
         } catch {
             defer { finishKnowledgeCommand("rollback") }
@@ -848,6 +887,7 @@ final class ProxyManager: NSObject {
         if let provider = env["APOLLO_CLI_PROVIDER"], CLIProvider(rawValue: provider) == nil {
             return "Укажите codex, claude или alfagen в APOLLO_CLI_PROVIDER либо выберите агент в окне «О прокси»."
         }
+        if openRouterEnabled { return nil }
         if selectedProvider.usesCLI && !CLIProvider.validModel(configuredModel) {
             return "Некорректный ID модели. Выберите модель в окне «О прокси»."
         }
@@ -930,7 +970,7 @@ final class ProxyManager: NSObject {
 
     private func checkAgentAuthorization(startProxyWhenReady: Bool = false, showResult: Bool = false) {
         if startProxyWhenReady { pendingProxyStartAfterAuthorization = true }
-        guard agentAuthProcess == nil, !codexInstaller.isRunning, !isQuitting else { return }
+        guard agentAuthProcess == nil && !figmaConnection.isRunning, !codexInstaller.isRunning, !isQuitting else { return }
         do { try ensureProxyInstalled() } catch { agentAuthStatus = .error("Не удалось подготовить прокси."); return }
         if !selectedProvider.usesCLI {
             pendingProxyStartAfterAuthorization = false
@@ -1007,7 +1047,7 @@ final class ProxyManager: NSObject {
             agentAuthStatus = .unauthorized
             return
         }
-        guard agentAuthProcess == nil, !codexInstaller.isRunning, !isQuitting else { return }
+        guard agentAuthProcess == nil && !figmaConnection.isRunning, !codexInstaller.isRunning, !isQuitting else { return }
         guard let binary = resolveAgentExecutableURL() else {
             if selectedProvider.canInstall(configured: readEnvMap()?[selectedProvider.binaryKey] ?? "") {
                 installCodexAndLogin()
@@ -1259,7 +1299,7 @@ final class ProxyManager: NSObject {
 
     private func applyAlfaGenURL(_ value: String) {
         guard selectedProvider == .alfagen, !proxyHasActiveWork, !isExternalProxyRunning,
-              agentAuthProcess == nil, !knowledgeCommandRunning, status != .starting else { return }
+              agentAuthProcess == nil && !figmaConnection.isRunning, !knowledgeCommandRunning, status != .starting else { return }
         do {
             try saveApolloURL(value)
             refreshUI()
@@ -1401,7 +1441,7 @@ final class ProxyManager: NSObject {
             return
         }
 
-        if isAgentConfigured() {
+        if !openRouterEnabled && isAgentConfigured() {
             guard case .authorized = agentAuthStatus else {
                 pendingProxyStartAfterAuthorization = true
                 if agentAuthStatus != .checking && agentAuthStatus != .authorizing && agentAuthStatus != .installing { showProxyDetailsAction() }
@@ -1441,7 +1481,7 @@ final class ProxyManager: NSObject {
         task.currentDirectoryURL = proxyInstallURL
         task.standardOutput = pipe
         task.standardError = pipe
-        var environment = ProcessInfo.processInfo.environment
+        var environment = OpenRouterConnection.workerEnvironment(ProcessInfo.processInfo.environment, enabled: openRouterEnabled)
         for key in ["CODEX_MODEL", "CLAUDE_MODEL"] { environment[key] = readEnvMap()?[key] ?? "" }
         if let binary = resolveAgentExecutableURL() { environment[selectedProvider.binaryKey] = binary.path }
         if let runtime = knowledgeRuntime,
@@ -1472,6 +1512,11 @@ final class ProxyManager: NSObject {
                 }
             }
         }
+        if selectedProvider == .codex {
+            for key in ["PATH", "HOME", "USER", "LOGNAME", "SHELL", "TMPDIR", "LANG", "LC_ALL", "CODEX_HOME"] {
+                environment[key] = buildAgentEnvironment()[key]
+            }
+        }
         task.environment = environment
         let lifetime = ProxyProcessLifecycle.connectParentLifetime(to: task)
         lifetimePipe = lifetime
@@ -1487,6 +1532,7 @@ final class ProxyManager: NSObject {
                 self.isStoppingIntentionally = false
                 let shouldRestart = !self.isQuitting && intentionalStop && self.pendingRestartAfterStop
                 self.pendingRestartAfterStop = false
+                self.openRouterRestartPending = false
 
                 if shouldRestart {
                     self.status = .stopped
@@ -1526,8 +1572,9 @@ final class ProxyManager: NSObject {
 
     private var canInstallAppUpdate: Bool {
         !isQuitting && !isExternalProxyRunning && !proxyHasActiveWork && status != .starting &&
-        agentAuthProcess == nil && !codexInstaller.isRunning && !knowledgeCommandRunning &&
-        !codeCommandRunning && !updateCheck.isRunning && !codeRestartPending && !pendingKnowledgeRestart
+        agentAuthProcess == nil && !figmaConnection.isRunning && !codexInstaller.isRunning && !knowledgeCommandRunning &&
+        !codeCommandRunning && !updateCheck.isRunning && !codeRestartPending && !pendingKnowledgeRestart &&
+        !openRouterRestartPending && !openRouterChecking
     }
 
     private func prepareAppUpdate(completion: @escaping (Bool) -> Void) {
@@ -1590,7 +1637,7 @@ final class ProxyManager: NSObject {
     }
 
     private func applyCodeUpdate(_ command: String) {
-        guard !isExternalProxyRunning, status != .starting, agentAuthProcess == nil, !codexInstaller.isRunning,
+        guard !isExternalProxyRunning, status != .starting, agentAuthProcess == nil && !figmaConnection.isRunning, !codexInstaller.isRunning,
               !updateCheck.isRunning, !codeCommandRunning, !knowledgeCommandRunning,
               !codeRestartPending, !pendingKnowledgeRestart, let value = codeReleaseStatus else { return }
         let action: CodeReleaseAction = command == "rollback" ? .rollback : .update
@@ -1618,6 +1665,7 @@ final class ProxyManager: NSObject {
         pendingRestartAfterStop = restart && process != nil
         pendingProxyStartAfterAuthorization = false
         pendingKnowledgeRestart = false
+        openRouterRestartPending = false
         guard let process else {
             status = .stopped
             return
@@ -1681,6 +1729,10 @@ final class ProxyManager: NSObject {
                 switch action {
                 case .login: self.authorizeAgentAction()
                 case .checkAccess: self.checkAgentAccessAction()
+                case .connectFigma: self.manageFigmaConnection(login: true)
+                case .checkFigma: self.manageFigmaConnection(login: false)
+                case .cancelFigma: self.figmaConnection.cancel()
+                case .checkOpenRouter: self.verifyOpenRouter()
                 case .installCLI: NSWorkspace.shared.open(self.selectedProvider.installationURL)
                 case .updates: self.checkUpdatesAction()
                 case .editURL: self.editApolloURLAction()
@@ -1695,11 +1747,14 @@ final class ProxyManager: NSObject {
             }
             controller.onProviderChange = { [weak self] provider in self?.selectAgent(provider) }
             controller.onModelChange = { [weak self] model in self?.selectModel(model) }
+            controller.onOpenRouterToggle = { [weak self] enabled in self?.selectOpenRouter(enabled) }
+            controller.onOpenRouterConnect = { [weak self] key in self?.verifyOpenRouter(newKey: key) }
             controller.onKnowledgeSourceChange = { [weak self] source in
                 guard let self, source != self.readConfiguredKnowledgeSource() else { return }
                 self.switchKnowledgeSourceAction()
                 self.refreshUI()
             }
+            figmaConnection.onChange = { [weak self] in self?.refreshUI() }
             detailsController = controller
         }
     }
@@ -1709,6 +1764,127 @@ final class ProxyManager: NSObject {
         refreshUI()
         detailsController?.present()
         refreshModelCatalog()
+        manageFigmaConnection(login: false)
+    }
+
+    private func selectOpenRouter(_ enabled: Bool) {
+        guard canChangeOpenRouter, enabled != openRouterEnabled else { refreshUI(); return }
+        UserDefaults.standard.set(enabled, forKey: OpenRouterConnection.enabledPreference)
+        openRouterStatus = nil
+        applyOpenRouterConfiguration()
+    }
+
+    private func applyOpenRouterConfiguration() {
+        if process != nil, !isStoppingIntentionally {
+            openRouterRestartPending = true
+            checkHealth()
+        }
+        refreshUI()
+    }
+
+    private func restartForOpenRouter(_ current: Process) {
+        guard !knowledgeCommandRunning, !codeCommandRunning, !updateCheck.isRunning,
+              !codeRestartPending, !appUpdater.hasSession else { return }
+        // Close admission before stopping: the health response alone can race a new request.
+        runCodeCommand("prepare-app-update", onFailure: { error in
+            guard self.process === current, self.openRouterRestartPending else { return }
+            let retryable = ["CODE_PROXY_BUSY", "CODE_UPDATE_BUSY", "CODE_PROXY_NOT_READY"]
+            if retryable.contains(error.localizedDescription) { return }
+            self.openRouterRestartPending = false
+            self.openRouterStatus = "Настройка сохранена. Перезапустите прокси, чтобы применить её."
+        }) { _ in
+            guard self.process === current, self.openRouterRestartPending else { return }
+            self.stopManagedProxy(restart: true)
+        }
+    }
+
+    private func verifyOpenRouter(newKey: String? = nil) {
+        guard canChangeOpenRouter, openRouterEnabled, let key = newKey ?? openRouterKey else { return }
+        guard let node = resolveNodeExecutableURL(), let resource = Bundle.main.resourceURL else {
+            openRouterStatus = "Встроенная среда Node.js недоступна."
+            refreshUI()
+            return
+        }
+        let script = resource.appendingPathComponent("embedded-proxy/src/skills/ux-writer/openrouter.js")
+        openRouterChecking = true
+        openRouterStatus = "Проверяем подключение…"
+        refreshUI()
+        Task {
+            defer { openRouterChecking = false; refreshUI() }
+            do {
+                try await OpenRouterConnection.checkKey(key, node: node, script: script, environment: networkEnvironment())
+                guard !isQuitting else { return }
+                if newKey != nil {
+                    try OpenRouterConnection.saveKey(key)
+                    openRouterKey = key
+                    detailsController?.clearOpenRouterKey()
+                    applyOpenRouterConfiguration()
+                }
+                openRouterStatus = "Подключён"
+            } catch {
+                openRouterStatus = error.localizedDescription
+            }
+        }
+    }
+
+    private func handleOpenRouterApproval(_ health: ProxyHealthSnapshot, process current: Process) {
+        guard health.openRouterEnabled else {
+            if !openRouterRestartPending && status == .running {
+                openRouterStatus = "Запущенная версия прокси не поддерживает OpenRouter."
+                refreshUI()
+            }
+            return
+        }
+        if let failure = health.openRouterFailure, failure.runId != lastOpenRouterFailure {
+            lastOpenRouterFailure = failure.runId
+            let code = openRouterKey == nil && failure.code == "OPENROUTER_APPROVAL_REQUIRED"
+                ? "OPENROUTER_KEY_REQUIRED" : failure.code
+            openRouterStatus = OpenRouterConnection.Failure(code).localizedDescription
+            refreshUI()
+        }
+        guard let pending = health.openRouterApproval, pending.runId != lastOpenRouterApproval,
+              NSApp.modalWindow == nil, !isStoppingIntentionally else { return }
+        lastOpenRouterApproval = pending.runId
+        let savedKey = openRouterKey
+        var approvedKey: String?
+        if let savedKey {
+            let alert = NSAlert()
+            alert.messageText = "Отправить тексты в OpenRouter?"
+            alert.informativeText = "В запрос войдут тексты выделенных слоёв (\(pending.texts)) и редакционные правила. Запрос может расходовать баланс OpenRouter."
+            alert.addButton(withTitle: "Отправить")
+            let cancel = alert.addButton(withTitle: "Отменить")
+            cancel.keyEquivalent = "\u{1b}"
+            alert.buttons.first?.keyEquivalent = ""
+            NSApp.activate(ignoringOtherApps: true)
+            if alert.runModal() == .alertFirstButtonReturn { approvedKey = savedKey }
+        }
+        guard process === current, current.isRunning, !isQuitting, !isStoppingIntentionally else { return }
+        if savedKey == nil {
+            openRouterStatus = OpenRouterConnection.Failure("OPENROUTER_KEY_REQUIRED").localizedDescription
+            showProxyDetailsAction()
+        }
+        let port = readPort()
+        Task {
+            do {
+                try await OpenRouterConnection.respond(runId: pending.runId, key: approvedKey, port: port,
+                    supervisor: Int(current.processIdentifier), appSupport: appSupportURL)
+                if approvedKey != nil { openRouterStatus = "Подключён" }
+            } catch {
+                openRouterStatus = OpenRouterConnection.Failure("OPENROUTER_APPROVAL_REQUIRED").localizedDescription
+            }
+            refreshUI()
+        }
+    }
+
+    private func manageFigmaConnection(login: Bool) {
+        guard selectedProvider == .codex, case .authorized = agentAuthStatus,
+              !figmaConnection.isRunning, agentAuthProcess == nil, !proxyHasActiveWork,
+              !isQuitting, !knowledgeCommandRunning, !codeCommandRunning, !codeRestartPending,
+              !pendingKnowledgeRestart, !updateCheck.isRunning, status != .starting,
+              !isExternalProxyRunning, !appUpdater.hasSession,
+              let node = resolveNodeExecutableURL(), let binary = resolveAgentExecutableURL() else { return }
+        let script = proxyInstallURL.appendingPathComponent("scripts/figma-mcp-cli.js")
+        figmaConnection.start(node: node, script: script, binary: binary, environment: buildAgentEnvironment(), login: login)
     }
 
     private func cancelModelCatalog() {
@@ -1773,7 +1949,7 @@ final class ProxyManager: NSObject {
             refreshUI(); return
         }
         guard value != configuredModel else { refreshUI(); return }
-        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning,
+        guard agentAuthProcess == nil && !figmaConnection.isRunning, !codexInstaller.isRunning, !knowledgeCommandRunning,
               !proxyHasActiveWork, !isExternalProxyRunning, status != .starting else { refreshUI(); return }
         do {
             try ensureProxyInstalled()
@@ -1803,7 +1979,7 @@ final class ProxyManager: NSObject {
 
     private func selectAgent(_ provider: CLIProvider) {
         guard provider != selectedProvider else { return }
-        guard agentAuthProcess == nil, !codexInstaller.isRunning, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning, status != .starting else {
+        guard agentAuthProcess == nil && !figmaConnection.isRunning, !codexInstaller.isRunning, !knowledgeCommandRunning, !proxyHasActiveWork, !isExternalProxyRunning, status != .starting else {
             refreshUI()
             return
         }
@@ -1954,7 +2130,7 @@ final class ProxyManager: NSObject {
         pendingKnowledgeRestart = false
         isStoppingIntentionally = true
         try? lifetimePipe?.fileHandleForWriting.close()
-        let children = [process, agentAuthProcess, modelTask, codeCommandProcess].compactMap { $0 }
+        let children = [process, agentAuthProcess, figmaConnection.process, modelTask, codeCommandProcess, knowledgeCommandProcess].compactMap { $0 }
         if !ProxyProcessLifecycle.stopAndWait(children) {
             appendLog("=== \(Date()) A child process did not exit after SIGKILL ===\n")
         }
@@ -1963,6 +2139,8 @@ final class ProxyManager: NSObject {
         lifetimePipe = nil
         process = nil
         agentAuthProcess = nil
+        knowledgeCommandProcess = nil
+        knowledgeCommandRunning = false
     }
 
     @objc private func quitAction() {

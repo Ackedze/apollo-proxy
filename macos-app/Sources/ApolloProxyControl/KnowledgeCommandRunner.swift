@@ -72,28 +72,39 @@ struct KnowledgeCommandRunner {
     let environment: [String: String]
     var runtimeURL: URL? = nil
     var privateInput = Data("{}".utf8)
+    var managedCommandURL: URL? = nil
+    var commandTimeout: TimeInterval? = nil
 
-    private func process(for command: String) -> (Process, Pipe, Pipe) {
+    private func process(for command: String) throws -> (Process, Pipe, Pipe, Pipe) {
+        guard privateInput.count <= 4096 else { throw KnowledgeCommandError.failed("DATA_ACTIVATION_INPUT_INVALID") }
         let task = Process()
         let stdout = Pipe()
         let stderr = Pipe()
         task.executableURL = nodeURL
-        task.arguments = [
+        var arguments = [
             cliURL.path,
             command,
             "--store", storeURL.path,
             "--seed", seedURL.path,
             "--engine", "1.0.1",
-        ] + (descriptorURL.map { ["--descriptor", $0] } ?? [])
-            + (runtimeURL.map { ["--runtime", $0.path] } ?? [])
+        ]
+        if let descriptorURL { arguments += ["--descriptor", descriptorURL] }
+        if let runtimeURL { arguments += ["--runtime", runtimeURL.path] }
+        if let managedCommandURL { arguments.insert(contentsOf: ["--require", managedCommandURL.path], at: 0) }
+        task.arguments = arguments
         task.environment = environment.merging(["APOLLO_DATA_INPUT": "1"], uniquingKeysWith: { _, value in value })
+        if managedCommandURL != nil {
+            task.environment?["APOLLO_DATA_MANAGED"] = "1"
+            let seconds = commandTimeout ?? (["update", "activate"].contains(command) ? 900 : 180)
+            task.environment?["APOLLO_DATA_TIMEOUT_MS"] = String(Int(seconds * 1000))
+        }
         let input = Pipe()
         task.standardInput = input
-        input.fileHandleForWriting.write(privateInput)
-        try? input.fileHandleForWriting.close()
+        input.fileHandleForWriting.write(privateInput + (managedCommandURL == nil ? Data() : Data("\n".utf8)))
+        if managedCommandURL == nil { try? input.fileHandleForWriting.close() }
         task.standardOutput = stdout
         task.standardError = stderr
-        return (task, stdout, stderr)
+        return (task, stdout, stderr, input)
     }
 
     private func decode(stdout: Data, stderr: Data, exitCode: Int32) throws -> KnowledgeCommandStatus {
@@ -119,7 +130,8 @@ struct KnowledgeCommandRunner {
     }
 
     func runSynchronously(_ command: String) throws -> KnowledgeCommandStatus {
-        let (task, stdout, stderr) = process(for: command)
+        let (task, stdout, stderr, input) = try process(for: command)
+        defer { try? input.fileHandleForWriting.close() }
         try task.run()
         task.waitUntilExit()
         return try decode(
@@ -135,7 +147,7 @@ struct KnowledgeCommandRunner {
         phase: @escaping @Sendable (String) -> Void,
         completion: @escaping @Sendable (Result<KnowledgeCommandStatus, Error>) -> Void
     ) throws -> Process {
-        let (task, stdout, stderr) = process(for: command)
+        let (task, stdout, stderr, input) = try process(for: command)
         let stderrBuffer = LockedDataBuffer()
         stderr.fileHandleForReading.readabilityHandler = { handle in
             let data = handle.availableData
@@ -150,6 +162,7 @@ struct KnowledgeCommandRunner {
             }
         }
         task.terminationHandler = { finished in
+            try? input.fileHandleForWriting.close()
             stderr.fileHandleForReading.readabilityHandler = nil
             let stdoutData = stdout.fileHandleForReading.readDataToEndOfFile()
             let remainingError = stderr.fileHandleForReading.readDataToEndOfFile()

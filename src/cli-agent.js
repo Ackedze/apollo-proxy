@@ -107,7 +107,7 @@ function claudeUsage(result) {
 
 function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat = 'json',
   idleTimeoutMs = 300000, maxRuntimeMs = 900000, onProgress, analysisStage, model, skillRoot,
-  environment = buildClaudeEnvironment(), signal, onEvent }) {
+  environment = buildClaudeEnvironment(), signal, onEvent, onInput }) {
   if (signal?.aborted) return Promise.reject(agentError('CLI request cancelled.',499,'CLI_CANCELLED'));
   if (!Number.isSafeInteger(maxRuntimeMs) || maxRuntimeMs<1) return Promise.reject(agentError('CLI time budget exhausted.',504,'CLI_TIME_BUDGET_EXHAUSTED'));
   const invocation = buildClaudeInvocation(codexArgs, prompt, outputPath, { model, skillRoot });
@@ -163,7 +163,9 @@ function runClaudeProcess({ binary, codexArgs, prompt, outputPath, outputFormat 
     });
     signal?.addEventListener('abort',onAbort,{once:true});
     if (signal?.aborted) onAbort();
-    child.stdin.end(invocation.prompt);
+    child.stdin.end(invocation.prompt, onInput && (error => {
+      if (!error && child.pid) onInput();
+    }));
   });
 }
 

@@ -32,7 +32,6 @@ state.version = "v1.4.0 · build fixture"
 state.status = "Прокси работает · порт 3001"
 state.knowledgeVersion = String(repeating: "1234567890", count: 7)
 state.knowledgeStatus = "Установлена актуальная версия знаний"
-state.sourceCommits = "design-system_ab: " + String(repeating: "a", count: 40) + "\nds-ai-hub: " + String(repeating: "b", count: 40)
 for provider in CLIProvider.allCases {
  state.provider = provider; state.apolloURL = CLIProvider.defaultAlfaGenURL
  state.modelChoices = provider.modelChoices
@@ -80,6 +79,7 @@ print("native settings PASS")
   const sources = path.resolve(__dirname, '../macos-app/Sources/ApolloProxyControl');
   const binary = path.join(root, 'settings-test');
   execFileSync('/usr/bin/swiftc', ['-swift-version', '6', '-module-cache-path', path.join(root, 'module-cache'),
-    path.join(sources, 'AgentCLI.swift'), path.join(sources, 'ProxyDetailsWindow.swift'), fixture, '-o', binary], {timeout: 40000});
+    ...['AgentCLI.swift', 'ProxyProcessLifecycle.swift', 'FigmaConnection.swift', 'ProxyDetailsWindow.swift'].map(name => path.join(sources, name)),
+    fixture, '-o', binary], {timeout: 40000});
   assert.match(execFileSync(binary, {encoding: 'utf8', timeout: 15000}), /native settings PASS/);
 });

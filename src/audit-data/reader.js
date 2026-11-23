@@ -4,6 +4,7 @@ const knowledge=require('../knowledge-package'),p=require('./protocol');
 const stamp=s=>[s.dev,s.ino,s.size,s.mtimeNs,s.ctimeNs].join(':');
 function createAuditDataReader({knowledgeRoot}){
  const root=path.resolve(knowledgeRoot);let canonicalRoot,cache=null,opening=null;
+ let compact=null;
  async function safeFile(relative,expected){
   if(!knowledge.isSafeRelativePath(relative))p.fail('AUDIT_DATA_PATH_INVALID');
   canonicalRoot=canonicalRoot||await fs.realpath(root);
@@ -42,6 +43,24 @@ function createAuditDataReader({knowledgeRoot}){
   })().finally(()=>{opening=null;});return opening;
  }
  return {
+  async compactIndex(){
+   try{
+    const outer=await readPinned('manifest.json');
+    if(compact?.packageStamp===outer.stamp&&(await safeFile(p.PACKAGED_COMPACT_INDEX)).stamp===compact.fileStamp){
+     if((await safeFile('manifest.json')).stamp!==outer.stamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
+     return compact.bytes;
+    }
+    const manifest=knowledge.validateManifest(JSON.parse(outer.bytes));
+    const pin=manifest.artifacts.find(row=>row.path===p.PACKAGED_COMPACT_INDEX);
+    if(!pin)p.fail('AUDIT_ATHENA_INDEX_MISSING');
+    if(pin.size>p.MAX_COMPACT_INDEX_BYTES)p.fail('AUDIT_ATHENA_INDEX_INVALID');
+    const stored=await readPinned(pin.path,{bytes:pin.size,sha256:pin.sha256});
+    p.validateCompactIndex(stored.bytes);
+    if((await safeFile('manifest.json')).stamp!==outer.stamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
+    compact={packageStamp:outer.stamp,fileStamp:stored.stamp,bytes:stored.bytes};
+    return stored.bytes;
+   }catch(error){if(error.code==='ENOENT')p.fail('AUDIT_ATHENA_INDEX_MISSING');throw error;}
+  },
   async manifest(){try{const snapshot=await open();return JSON.parse(JSON.stringify(snapshot.document));}catch(error){if(error.code==='ENOENT')p.fail('AUDIT_DATA_PACKAGE_MISSING');throw error;}},
   async asset(dataId,fileId){
    if(!p.HASH.test(dataId||'')||!p.HASH.test(fileId||''))p.fail('AUDIT_DATA_REQUEST_INVALID');

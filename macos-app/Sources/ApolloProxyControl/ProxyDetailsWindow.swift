@@ -12,6 +12,14 @@ struct ProxyDetailsSnapshot {
     var canChangeAgent = true
     var cliMissing = false
     var authorizationBusy = false
+    var figmaState: FigmaConnectionState = .notChecked
+    var figmaBusy = false
+    var canConnectFigma = false
+    var openRouterEnabled = false
+    var openRouterHasKey = false
+    var openRouterEditable = true
+    var openRouterChecking = false
+    var openRouterStatus = ""
     var model = ""
     var modelChoices: [AgentModelChoice] = []
     var modelMessage = "Модель применяется к новым запросам."
@@ -38,16 +46,18 @@ struct ProxyDetailsSnapshot {
 }
 
 @MainActor
-final class ProxyDetailsWindowController: NSWindowController {
+final class ProxyDetailsWindowController: NSWindowController, NSTextFieldDelegate {
     private final class DocumentView: NSView {
         override var isFlipped: Bool { true }
     }
-    enum Action: Hashable { case login, checkAccess, installCLI, updates,
-                      editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder, activateData }
+    enum Action: Hashable { case login, checkAccess, installCLI, updates, connectFigma, checkFigma, cancelFigma,
+                      editURL, resetURL, editModel, refreshModels, openConfiguration, openLogs, openFolder, activateData, checkOpenRouter }
     var onAction: ((Action) -> Void)?
     var onProviderChange: ((CLIProvider) -> Void)?
     var onModelChange: ((String) -> Void)?
     var onKnowledgeSourceChange: ((String) -> Void)?
+    var onOpenRouterToggle: ((Bool) -> Void)?
+    var onOpenRouterConnect: ((String) -> Void)?
 
     private let versionLabel = NSTextField(wrappingLabelWithString: "")
     private let statusLabel = NSTextField(wrappingLabelWithString: "")
@@ -60,6 +70,15 @@ final class ProxyDetailsWindowController: NSWindowController {
     private let authorizationLabel = NSTextField(wrappingLabelWithString: "")
     private let authorizationHelp = NSTextField(wrappingLabelWithString: "")
     private let authorizationProgress = NSProgressIndicator()
+    private let figmaSettings = NSStackView()
+    private let figmaLabel = NSTextField(wrappingLabelWithString: "")
+    private let figmaProgress = NSProgressIndicator()
+    private let openRouterToggle = NSSwitch()
+    private let openRouterSettings = NSStackView()
+    private let openRouterKeyField = NSSecureTextField()
+    private let openRouterConnect = NSButton()
+    private let openRouterLabel = NSTextField(wrappingLabelWithString: "")
+    private let openRouterProgress = NSProgressIndicator()
     private let knowledgePicker = NSPopUpButton(frame: .zero, pullsDown: false)
     private let knowledgeVersion = NSTextField(wrappingLabelWithString: "")
     private let urlField = NSTextField(wrappingLabelWithString: "")
@@ -113,6 +132,26 @@ final class ProxyDetailsWindowController: NSWindowController {
         modelMessage.stringValue = state.modelMessage
         buttons[.refreshModels]?.isHidden = state.provider != .codex
         buttons[.refreshModels]?.isEnabled = state.canRefreshModels && !state.modelLoading
+        figmaSettings.isHidden = state.provider != .codex
+        figmaLabel.stringValue = state.figmaState.title
+        if state.figmaBusy { figmaProgress.startAnimation(nil) } else { figmaProgress.stopAnimation(nil) }
+        buttons[.connectFigma]?.title = [.connected, .reconnect].contains(state.figmaState) ? "Подключить повторно" : "Подключить Figma"
+        buttons[.connectFigma]?.isEnabled = state.canConnectFigma && !state.figmaBusy
+        buttons[.checkFigma]?.isEnabled = state.canConnectFigma && !state.figmaBusy
+        buttons[.cancelFigma]?.isHidden = !state.figmaBusy
+        buttons[.cancelFigma]?.isEnabled = state.figmaState != .cancelling
+        openRouterToggle.state = state.openRouterEnabled ? .on : .off
+        openRouterToggle.isEnabled = state.openRouterEditable
+        openRouterSettings.isHidden = !state.openRouterEnabled
+        openRouterKeyField.isEnabled = state.openRouterEditable
+        if !state.openRouterEnabled && !openRouterKeyField.stringValue.isEmpty { clearOpenRouterKey() }
+        openRouterKeyField.placeholderString = state.openRouterHasKey ? "Новый API-ключ" : "API-ключ OpenRouter"
+        openRouterConnect.title = state.openRouterHasKey ? "Заменить ключ" : "Подключить"
+        updateOpenRouterConnect()
+        openRouterLabel.stringValue = state.openRouterStatus
+        buttons[.checkOpenRouter]?.isHidden = !state.openRouterHasKey
+        buttons[.checkOpenRouter]?.isEnabled = state.openRouterEditable && state.openRouterHasKey
+        if state.openRouterChecking { openRouterProgress.startAnimation(nil) } else { openRouterProgress.stopAnimation(nil) }
         authorizationLabel.stringValue = state.authorization
         authorizationHelp.stringValue = state.authorizationHelp
         if state.authorizationBusy { authorizationProgress.startAnimation(nil) }
@@ -200,6 +239,22 @@ final class ProxyDetailsWindowController: NSWindowController {
                      row([button("Войти", .login), button("Проверить вход", .checkAccess), button("Инструкция установки…", .installCLI)])] {
             cliSettings.addArrangedSubview(view)
         }
+        style(figmaLabel)
+        figmaProgress.style = .spinning
+        figmaProgress.controlSize = .small
+        figmaProgress.isDisplayedWhenStopped = false
+        figmaProgress.setAccessibilityLabel("Подключение Figma")
+        let figmaHelp = NSTextField(wrappingLabelWithString: "Нужно для генерации макетов. Проверка макета и «Спросить» работают без подключения. Доступ к конкретному файлу проверяется отдельно.")
+        style(figmaHelp, secondary: true)
+        figmaSettings.orientation = .vertical; figmaSettings.alignment = .leading; figmaSettings.spacing = 8
+        let figmaStatusRow = row([figmaProgress, figmaLabel])
+        for view in [heading("Figma"), figmaStatusRow, figmaHelp,
+                     row([button("Подключить Figma", .connectFigma), button("Проверить подключение", .checkFigma), button("Отменить", .cancelFigma)])] {
+            figmaSettings.addArrangedSubview(view)
+        }
+        figmaHelp.widthAnchor.constraint(equalTo: figmaSettings.widthAnchor).isActive = true
+        figmaStatusRow.widthAnchor.constraint(equalTo: figmaSettings.widthAnchor).isActive = true
+        figmaLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         style(urlField, selectable: true)
         urlField.isEditable = false
         urlField.isBezeled = true
@@ -216,10 +271,43 @@ final class ProxyDetailsWindowController: NSWindowController {
             group.orientation = .vertical; group.alignment = .leading; group.spacing = 8
         }
         section([heading("AI-агент"), agentPicker, cliSettings, alfaGenSettings])
+        section([figmaSettings])
+        figmaSettings.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         for view in [cliSettings, alfaGenSettings, authorizationHelp, urlField, alfaGenHelp, modelRow, modelMessage] {
             view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         }
         authorizationRow.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        openRouterToggle.target = self
+        openRouterToggle.action = #selector(toggleOpenRouter)
+        openRouterToggle.setAccessibilityLabel("Использовать OpenRouter")
+        let openRouterTitle = NSTextField(labelWithString: "Использовать OpenRouter")
+        openRouterTitle.setAccessibilityElement(false)
+        let openRouterHelp = NSTextField(wrappingLabelWithString: "Подтверждайте каждую отправку текстов и редакционных правил в OpenRouter.")
+        style(openRouterHelp, secondary: true)
+        style(openRouterLabel)
+        openRouterProgress.style = .spinning
+        openRouterProgress.controlSize = .small
+        openRouterProgress.isDisplayedWhenStopped = false
+        openRouterKeyField.setAccessibilityLabel("API-ключ OpenRouter")
+        openRouterKeyField.delegate = self
+        openRouterKeyField.target = self
+        openRouterKeyField.action = #selector(connectOpenRouter)
+        openRouterConnect.bezelStyle = .rounded
+        openRouterConnect.target = self
+        openRouterConnect.action = #selector(connectOpenRouter)
+        openRouterSettings.orientation = .vertical
+        openRouterSettings.alignment = .leading
+        openRouterSettings.spacing = 8
+        let openRouterStatusRow = row([openRouterProgress, openRouterLabel])
+        for view in [openRouterHelp, openRouterKeyField, openRouterStatusRow,
+                     row([openRouterConnect, button("Проверить подключение", .checkOpenRouter)])] {
+            openRouterSettings.addArrangedSubview(view)
+        }
+        section([heading("Проверка текстов"), row([openRouterToggle, openRouterTitle]), openRouterSettings])
+        for view in [openRouterHelp, openRouterKeyField, openRouterStatusRow, openRouterSettings] {
+            view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        }
+        openRouterSettings.isHidden = true
         knowledgePicker.addItems(withTitles: ["ds-ai-hub", "design-system_ab"])
         knowledgePicker.target = self; knowledgePicker.action = #selector(knowledgeSourceChanged)
         knowledgePicker.setAccessibilityLabel("Источник знаний")
@@ -254,6 +342,22 @@ final class ProxyDetailsWindowController: NSWindowController {
     @objc private func modelChanged() {
         if let model = modelPicker.selectedItem?.representedObject as? String { onModelChange?(model) }
         else { onAction?(.editModel) }
+    }
+    func clearOpenRouterKey() {
+        openRouterKeyField.stringValue = ""
+        updateOpenRouterConnect()
+    }
+    func controlTextDidChange(_ notification: Notification) {
+        if notification.object as? NSSecureTextField === openRouterKeyField { updateOpenRouterConnect() }
+    }
+    private func updateOpenRouterConnect() {
+        openRouterConnect.isEnabled = openRouterKeyField.isEnabled &&
+            !openRouterKeyField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    @objc private func toggleOpenRouter() { onOpenRouterToggle?(openRouterToggle.state == .on) }
+    @objc private func connectOpenRouter() {
+        guard openRouterConnect.isEnabled else { return }
+        onOpenRouterConnect?(openRouterKeyField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     @objc private func knowledgeSourceChanged() { if let value = knowledgePicker.titleOfSelectedItem { onKnowledgeSourceChange?(value) } }
 }

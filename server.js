@@ -1,6 +1,9 @@
 require('dotenv').config();
 // Code-download credentials belong to the launcher, never to agent subprocesses.
 delete process.env.APOLLO_CODE_TOKEN;
+const openRouterEnabled = process.env.APOLLO_UX_WRITER_OPENROUTER === '1';
+const proxyControlKey = process.env.APOLLO_CODE_UPDATE_KEY;
+delete process.env.APOLLO_UX_WRITER_OPENROUTER_KEY;
 require('./src/portable-runtime').configureInstalledEnvironment({ proxyRoot: process.env.APOLLO_PROXY_HOME || __dirname });
 const {
   HOST,
@@ -274,6 +277,7 @@ let dispatcher;
 let activeCodexRuns = 0;
 let namingRuns = null;
 let figmaAuditRuntime = null;
+let patternAuditRuntime = null;
 let activeGenerationCodexRuns = 0;
 let contractKnowledgeCache = null;
 let dsAiHubKnowledgeCache = null;
@@ -317,11 +321,11 @@ app.use((req, res, next) => {
   res.once('close', release);
   return next();
 });
-require('./src/code-release/maintenance').createMaintenance({key:process.env.APOLLO_CODE_UPDATE_KEY,
+require('./src/code-release/maintenance').createMaintenance({key:proxyControlKey,
   launchId:process.env.APOLLO_CODE_RELEASE_ID,
   busy:async()=>{
-    const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
-    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy()));
+    const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
+    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy())));
   }}).mount(app);
 delete process.env.APOLLO_CODE_UPDATE_KEY;
 installStyleTokenCatalogParser(app);
@@ -1061,6 +1065,39 @@ function assertCodexInputWithinBudget(metrics) {
   throw error;
 }
 
+const uxWriter = require('./src/skills/ux-writer');
+const openRouter = require('./src/skills/ux-writer/openrouter');
+const openRouterApproval = openRouterEnabled ? openRouter.createApproval(proxyControlKey) : null;
+let openRouterFailure = null;
+if (openRouterApproval) app.post('/ux-writer/openrouter/approval', openRouterApproval.respond);
+
+async function callOpenRouterTextReview(payload, onProgress, options) {
+  emitCodexProgress(onProgress, 'checking_skill');
+  const report = payload.report;
+  const prepared = await uxWriter.prepare(report, normalizeApolloPlatform(report.scan.channel),
+    process.env.APOLLO_RELEASE_ROOT, process.env.APOLLO_PROJECT_ROOT);
+  prepared.assertCurrent();
+  if (!prepared.request.texts.length) return uxWriter.validateResult({ findings: [] }, prepared);
+  const { prompt, input } = uxWriter.buildInvocation(prepared.request);
+  assertCodexInputWithinBudget(buildCodexInputMetrics(prompt, prepared.request));
+  onProgress?.({ stage: 'awaiting_openrouter_approval', progress: 42,
+    message: 'Подтвердите отправку текстов в Apollo Proxy.' });
+  const key = await openRouterApproval.wait({ runId: options.runId, texts: prepared.request.texts.length });
+  prepared.assertCurrent();
+  emitCodexProgress(onProgress, 'starting_agent');
+  const tracked = tokenJournal.call({ provider: 'openrouter', model: openRouter.MODEL });
+  try {
+    options.onInput?.(input);
+    const result = await openRouter.complete({ key, prompt,
+      onUsage: usage => tracked.event({ type: 'turn.completed', usage }),
+    });
+    prepared.assertCurrent();
+    return uxWriter.validateResult(result, prepared);
+  } finally {
+    tracked.end();
+  }
+}
+
 async function callCodexValidator(payload, onProgress, options = {}) {
   const pilot = progressBarPilot.isProgressBarPilot(payload), pilotUsageEvents = [], pilotStarted = Date.now();
   emitCodexProgress(onProgress, 'checking_skill');
@@ -1110,12 +1147,21 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         payload?.report || null
       );
     }
-    const prepared = await prepareCodexRequest(
-      payload,
-      runDirectory,
-      runtimeManifest,
-      onProgress
-    );
+    let writerRun = null;
+    let prepared;
+    if (payload.report?.reportKind === uxWriter.REPORT_KIND) {
+      writerRun = await uxWriter.prepare(payload.report, normalizeApolloPlatform(payload.report.scan.channel),
+        process.env.APOLLO_RELEASE_ROOT, process.env.APOLLO_PROJECT_ROOT);
+      if (!writerRun.request.texts.length) {
+        writerRun.assertCurrent();
+        return uxWriter.validateResult({ findings: [] }, writerRun);
+      }
+      const requestPath = path.join(runDirectory, 'ux-writer-input.json');
+      await fsp.writeFile(requestPath, JSON.stringify(writerRun.request));
+      prepared = { requestPath, requestDocument: writerRun.request, imagePaths: [] };
+    } else {
+      prepared = await prepareCodexRequest(payload, runDirectory, runtimeManifest, onProgress);
+    }
     const pilotKnowledge = { designSystemRoot: CODEX_DESIGN_SYSTEM, hubRoot: CODEX_DS_AI_HUB, knowledgeRelease: runtimeManifest.knowledge };
     if (pilot && !prepared.requestDocument.subjects.length) {
       await progressBarPilot.assertSourceCurrent(prepared.requestDocument, pilotKnowledge);
@@ -1136,7 +1182,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         );
       }
     }
-    const packetMode = pilot || (
+    const packetMode = writerRun || pilot || (
       ['customization-report', 'pattern-report', 'text-report'].includes(
         mode
       ) && APOLLO_CODEX_REPORT_STRATEGY === 'packet');
@@ -1167,9 +1213,9 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         'read-only',
         '--skip-git-repo-check',
         '--cd',
-        pilot ? runDirectory : CODEX_WORKSPACE,
+        writerRun || pilot ? runDirectory : CODEX_WORKSPACE,
       ];
-      if (pilot && CLI_PROVIDER === 'codex') args.push('--config', 'features.shell_tool=false');
+      if ((writerRun || pilot) && CLI_PROVIDER === 'codex') args.push('--config', 'features.shell_tool=false');
       if (mode === 'pattern-report') {
         args.push(
           '--config',
@@ -1185,7 +1231,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
         );
       }
       const outputSchema =
-        pilot ? path.join(__dirname, 'src/reports', progressBarPilot.schemaFileFor(requestDocument)) : mode === 'pattern-report' &&
+        writerRun ? uxWriter.SCHEMA : pilot ? path.join(__dirname, 'src/reports', progressBarPilot.schemaFileFor(requestDocument)) : mode === 'pattern-report' &&
         requestDocument?.transport?.mode === 'semantic-v1'
           ? CODEX_PATTERN_OUTPUT_SCHEMA
           : CODEX_OUTPUT_SCHEMA;
@@ -1201,7 +1247,8 @@ async function callCodexValidator(payload, onProgress, options = {}) {
       }
       args.push('-');
 
-      const prompt = buildCodexPrompt(
+      const writerInvocation = writerRun ? uxWriter.buildInvocation(requestDocument) : null;
+      const prompt = writerInvocation?.prompt ?? buildCodexPrompt(
         prepared.requestPath,
         mode,
         skillManifest,
@@ -1282,6 +1329,7 @@ async function callCodexValidator(payload, onProgress, options = {}) {
           runtimeBudgetMs: pilot ? 120000 : undefined,
           workingDirectory: pilot ? runDirectory : undefined,
           onEvent: pilot ? event => { if (pilotUsageEvents.length < 2000) pilotUsageEvents.push(event); } : undefined,
+          onInput: writerInvocation && options.onInput ? () => options.onInput(writerInvocation.input) : undefined,
         }
       );
       passResults.push({ pass: requestDocument, result: passResult });
@@ -1334,6 +1382,10 @@ async function callCodexValidator(payload, onProgress, options = {}) {
       if (persistDebug) await writeCodexDebugArtifact(debugRunId, '04-agent-response.normalized.json', validated);
       return validated;
     }
+    if (writerRun) {
+      writerRun.assertCurrent();
+      return uxWriter.validateResult(result, writerRun);
+    }
     const normalized = normalizeCodexValidation(
       result,
       payload,
@@ -1369,7 +1421,9 @@ async function callCodexValidator(payload, onProgress, options = {}) {
   }
 }
 
-function createCodexRun(payload) {
+const validCodexInputKey = key => typeof key === 'string' && /^[a-f0-9]{64}$/.test(key);
+
+function createCodexRun(payload, inputKey, useOpenRouter = false) {
   const id = `run_${crypto.randomUUID()}`;
   const now = new Date().toISOString();
   const run = {
@@ -1385,19 +1439,21 @@ function createCodexRun(payload) {
     error: null,
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
   };
+  if (payload.report?.reportKind === uxWriter.REPORT_KIND && validCodexInputKey(inputKey)) run.inputKey = inputKey;
   codexRuns.set(id, run);
   appendCodexRunProgress(run, CODEX_PROGRESS_STAGES.queued);
   activeCodexRuns += 1;
 
   Promise.resolve()
-    .then(() => tokenJournal.operation('Проверить · AI', async () => {
+    .then(() => tokenJournal.operation(useOpenRouter ? 'Проверка текстов' : 'Проверить · AI', async () => {
       run.status = 'running';
-      const validation = await callCodexValidator(
+      const validate = useOpenRouter ? callOpenRouterTextReview : callCodexValidator;
+      const validation = await validate(
         payload,
         (progressEvent) => {
           appendCodexRunProgress(run, progressEvent);
         },
-        { runId: id }
+        { runId: id, onInput: run.inputKey ? input => { run.agentInput = input; } : undefined }
       );
       run.status = 'completed';
       run.validation = validation;
@@ -1408,6 +1464,7 @@ function createCodexRun(payload) {
       });
     }))
     .catch((error) => {
+      if (useOpenRouter) openRouterFailure = { runId: id, code: error?.code || 'OPENROUTER_UNAVAILABLE' };
       run.status = 'failed';
       run.error = {
         message: error?.message || 'Codex validation error',
@@ -1480,6 +1537,7 @@ function publicCodexRun(run) {
     validation: run.status === 'completed' ? run.validation : null,
     error: run.status === 'failed' ? run.error : null,
     knowledgeRelease: run.knowledgeRelease,
+    ...(run.inputKey ? { agentInputAvailable: Boolean(run.agentInput) } : {}),
   };
 }
 
@@ -1492,7 +1550,7 @@ app.get('/health', async (req, res) => {
         contentVersion:(source.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-')+source.contentSha256.slice(0,16)};
     } catch(error) { abmKnowledge={ready:false,error:error.code||'ABM_KNOWLEDGE_UNAVAILABLE'}; }
   }
-  const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
+  const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
   let skill;
   let knowledge;
   try {
@@ -1531,6 +1589,7 @@ app.get('/health', async (req, res) => {
     abmKnowledge,
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+    ...(openRouterApproval ? { openRouterEnabled: true, openRouterApproval: openRouterApproval.current, openRouterFailure } : {}),
     proxy: {
       name: 'apollo-proxy',
       version: APOLLO_PROXY_VERSION,
@@ -1542,13 +1601,13 @@ app.get('/health', async (req, res) => {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_PROVIDER === 'alfagen' ? APOLLO_AGENT_URL : CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy())),
+      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
     },
     codex: {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || Boolean(figmaAuditRuntime?.isBusy())),
+      busy: activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
       skill,
@@ -1582,7 +1641,8 @@ namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
 });
 require('./src/landing/retired').mountRetiredGenerationRoutes(app);
 const landingRuntime=require('./src/landing/runtime').mountConfiguredLandingRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT});
-figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()});
+figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(patternAuditRuntime?.isBusy())});
+patternAuditRuntime=require('./src/pattern-audit/runtime').mountConfiguredPatternRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(figmaAuditRuntime?.isBusy())});
 const styleTokenCatalogProvider=mountStyleTokenCatalogRoutes(app, {
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
@@ -1693,8 +1753,14 @@ app.post('/v1/analyze/codex/runs', (req, res) => {
     return;
   }
   function begin() {
+    const useOpenRouter = openRouterEnabled && payload.report?.reportKind === uxWriter.REPORT_KIND;
+    if (useOpenRouter && !openRouter.allowsLocalRequest(req)) {
+      res.status(403).json({ success: false, error: 'OPENROUTER_LOCAL_REQUEST_REQUIRED' });
+      return;
+    }
     if (activeCodexRuns >= 1) { res.status(429).json({ success: false, error: 'Codex is already processing another Apollo request.' }); return; }
-    const run = createCodexRun(payload); res.status(202).json({ success: true, run });
+    if (useOpenRouter) openRouterFailure = null;
+    const run = createCodexRun(payload, req.headers?.['x-apollo-input-key'], useOpenRouter); res.status(202).json({ success: true, run });
   }
   if (progressBarPilot.isProgressBarPilot(payload)) {
     void Promise.resolve().then(async () => {
@@ -1723,6 +1789,16 @@ function respondWithCodexRun(req, res) {
 
 app.get('/v1/validate/codex/runs/:runId', respondWithCodexRun);
 app.get('/v1/analyze/codex/runs/:runId', respondWithCodexRun);
+app.get('/v1/analyze/codex/runs/:runId/input', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const run = codexRuns.get(req.params.runId);
+  const key = req.get('X-Apollo-Input-Key');
+  if (!run?.agentInput || !validCodexInputKey(key) || !crypto.timingSafeEqual(Buffer.from(key), Buffer.from(run.inputKey))) {
+    res.status(404).json({ success: false, error: 'UX_WRITER_INPUT_UNAVAILABLE' });
+    return;
+  }
+  res.type('application/json').send(run.agentInput);
+});
 
 const {withAskTokenUsage}=require('./src/reports/ask-token-usage');
 app.post('/analyze', async (req, res) => {

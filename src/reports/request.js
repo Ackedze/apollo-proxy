@@ -42,6 +42,8 @@ function validateCodexRequest(payload) {
 }
 
 
+const uxWriter = require('../skills/ux-writer');
+
 function validateCodexReportRequest(payload) {
   if (require('./progressbar-pilot').isProgressBarPilot(payload)) return require('./progressbar-pilot').validatePilotRequest(payload);
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
@@ -55,6 +57,7 @@ function validateCodexReportRequest(payload) {
     'apollo-customizations-wip-report',
     'apollo-pattern-audit-report',
     'apollo-text-audit-report',
+    uxWriter.REPORT_KIND,
   ].includes(report.reportKind)) {
     return 'Unsupported Apollo report kind.';
   }
@@ -68,18 +71,18 @@ function validateCodexReportRequest(payload) {
     return 'Apollo pattern report facts.occurrences must be an array.';
   }
   if (
-    report.reportKind === 'apollo-text-audit-report' &&
+    isTextReportPayload(payload) &&
     !Array.isArray(report?.facts?.texts)
   ) {
     return 'Apollo text report facts.texts must be an array.';
   }
   if (
-    report.reportKind === 'apollo-text-audit-report' &&
+    isTextReportPayload(payload) &&
     report.facts.texts.length > 5000
   ) {
     return 'Apollo text report contains too many text nodes.';
   }
-  if (report.reportKind === 'apollo-text-audit-report') {
+  if (isTextReportPayload(payload)) {
     for (const fact of report.facts.texts) {
       if (!fact?.node || typeof fact.node.id !== 'string') {
         return 'Every Apollo text fact requires node.id.';
@@ -95,13 +98,13 @@ function validateCodexReportRequest(payload) {
       }
     }
   }
-  if (report.reportKind === 'apollo-text-audit-report') {
+  if (isTextReportPayload(payload)) {
     try {
       normalizeApolloPlatform(report?.scan?.channel);
     } catch (error) {
       return error.message;
     }
-    return null;
+    return report.reportKind === uxWriter.REPORT_KIND ? uxWriter.validateCapture(report) : null;
   }
   if (
     report.reportKind === 'apollo-pattern-audit-report' &&
@@ -232,7 +235,7 @@ function isPatternReportPayload(payload) {
 
 
 function isTextReportPayload(payload) {
-  return payload?.report?.reportKind === 'apollo-text-audit-report';
+  return ['apollo-text-audit-report', uxWriter.REPORT_KIND].includes(payload?.report?.reportKind);
 }
 
 
