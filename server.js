@@ -957,20 +957,37 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
 
   activeCodexRuns += 1;
   try {
-    const agentResult = await runCodexProcess(
-      args,
-      prompt,
-      outputPath,
-      null,
-      'reading_design_system',
-      {
-        mode: 'dialogue',
-        dataOnly: Boolean(abm),
-        model: AGENT_MODEL || null,
-        workingDirectory: runDirectory,
-      },
-      abm ? 'json' : 'text'
-    );
+    let agentResult;
+    const retryDelays = [250, 750, 1500];
+    for (let attempt = 0; ; attempt += 1) {
+      let turnStarted = false;
+      try {
+        agentResult = await runCodexProcess(
+          args,
+          prompt,
+          outputPath,
+          null,
+          'reading_design_system',
+          {
+            mode: 'dialogue',
+            dataOnly: Boolean(abm),
+            model: AGENT_MODEL || null,
+            workingDirectory: runDirectory,
+            onEvent(event) { if (event?.type === 'turn.started') turnStarted = true; },
+          },
+          abm ? 'json' : 'text'
+        );
+        break;
+      } catch (error) {
+        if (error?.code !== 'CODEX_PROCESS_FAILED' || turnStarted || attempt >= retryDelays.length) throw error;
+        console.warn('[Apollo][codex] retrying dialogue after early process failure', {
+          attempt: attempt + 2,
+          maxAttempts: retryDelays.length + 1,
+        });
+        await fsp.rm(outputPath, { force: true });
+        await new Promise(resolve => setTimeout(resolve, retryDelays[attempt]));
+      }
+    }
     if (abm) {
       const current = inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
       if (current.root !== abm.root || current.contentSha256 !== abm.contentSha256) {

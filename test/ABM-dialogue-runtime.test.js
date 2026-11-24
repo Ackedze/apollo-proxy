@@ -52,6 +52,9 @@ process.stdin.on('end',async()=>{
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify({args,input,cwd:process.cwd()})+'\\n');
  if(fs.existsSync(${JSON.stringify(mutation)}))fs.appendFileSync(${JSON.stringify(file)},'\\nChanged during call');
  const question=input.split('<question>')[1].split('</question>')[0].trim();
+ const attempts=fs.readFileSync(${JSON.stringify(record)},'utf8').trim().split('\\n').map(JSON.parse).filter(call=>call.input.split('<question>')[1]?.split('</question>')[0].trim()===question).length;
+ if(question==='Ранний сбой запуска'&&attempts<4){process.exitCode=17;return;}
+ if(question==='Поздний сбой запуска'){console.log(JSON.stringify({type:'turn.started'}));process.exitCode=17;return;}
  if(question.includes('Блокировка'))await new Promise(resolve=>setTimeout(resolve,350));
  const packet=args.includes('--output-schema')?JSON.parse(input.split('<knowledge>')[1].split('</knowledge>')[0]):null;
  const selected=packet?.rules.find(rule=>question.includes('Navigation')?rule.file.startsWith('guides/'):!rule.file.startsWith('guides/'));
@@ -90,6 +93,13 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.equal(last().input,buildCodexDialoguePrompt('Как использовать кнопку в АБ?',[],'design-system_ab'));
   assert.deepEqual(last().args.filter((v,i)=>last().args[i-1]==='--add-dir'),[${JSON.stringify(ds)}]);
   assert.equal(ab.body.knowledgeRelease.source,undefined);
+  const beforeEarly=calls().length,early=await post('Ранний сбой запуска');
+  assert.equal(early.status,200,JSON.stringify(early.body));
+  assert.equal(calls().length-beforeEarly,4,'early process failures are retried three times');
+  const beforeLate=calls().length,late=await post('Поздний сбой запуска');
+  assert.equal(late.status,502,JSON.stringify(late.body));
+  assert.equal(late.body.code,'CODEX_PROCESS_FAILED');
+  assert.equal(calls().length-beforeLate,1,'a started turn is never retried');
   const abm=await post('Как использовать кнопку в АБМ?');
   assert.equal(abm.status,200,JSON.stringify(abm.body));
   assert.equal(abm.body.knowledgeRelease.source,'local-abm-markdown');
