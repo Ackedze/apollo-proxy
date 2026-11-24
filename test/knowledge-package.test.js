@@ -436,7 +436,7 @@ test('a stable descriptor-only commit does not change the projected source revis
   );
 });
 
-test('hub projection includes ABM pattern data recursively and keeps other ABM folders out', async (t) => {
+test('hub projection includes ABM pattern and guide data recursively and keeps other ABM folders out', async (t) => {
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-abm-projection-test-'));
   t.after(() => fsp.rm(root, { recursive: true, force: true }));
   const included = [
@@ -445,6 +445,8 @@ test('hub projection includes ABM pattern data recursively and keeps other ABM f
     'CONTRACT.md',
     'products/ab/patterns/desktop.md',
     'core/web/components/fixture/meta.json',
+    'products/abm/guides/hig/buttons.md',
+    'products/abm/guides/material3/nested/evidence.json',
     'products/abm/patterns/buttons.md',
     'products/abm/patterns/nested/evidence.json',
     'products/abm/patterns/nested/config.yaml',
@@ -467,13 +469,14 @@ test('hub projection includes ABM pattern data recursively and keeps other ABM f
   assert.deepEqual(await collectDsAiHubFiles(root), [...included].sort());
 
   await fsp.rm(path.join(root, 'products/abm/patterns'), { recursive: true });
+  await fsp.rm(path.join(root, 'products/abm/guides'), { recursive: true });
   assert.deepEqual(
     await collectDsAiHubFiles(root),
     included.filter((relative) => !relative.startsWith('products/abm/')).sort()
   );
 });
 
-test('ABM pattern commits and bytes update the validated knowledge package', async (t) => {
+test('ABM pattern and guide commits and bytes update the validated knowledge package', async (t) => {
   const root = await fsp.mkdtemp(path.join(os.tmpdir(), 'apollo-abm-package-test-'));
   t.after(() => fsp.rm(root, { recursive: true, force: true }));
   const designRoot = path.join(root, 'design-system_ab');
@@ -520,10 +523,13 @@ test('ABM pattern commits and bytes update the validated knowledge package', asy
   };
   const baseline = await buildKnowledgePackage(options);
   const relative = 'products/abm/patterns/nested/buttons.md';
+  const guideRelative = 'products/abm/guides/hig/buttons.md';
   const contents = '---\r\nplatform: [iOS, Android]\r\n---\r\n# Кнопки ABM\r\n';
+  const guideContents = '# HIG buttons\r\n';
   await write(hubRoot, relative, contents);
+  await write(hubRoot, guideRelative, guideContents);
   runFixtureGit('add', '.');
-  runFixtureGit('commit', '-m', 'ABM pattern only');
+  runFixtureGit('commit', '-m', 'ABM pattern and guide');
   const patternCommit = runFixtureGit('rev-parse', 'HEAD');
   const updated = await buildKnowledgePackage(options);
   assert.equal(updated.manifest.sourceCommits['ds-ai-hub'], patternCommit);
@@ -535,6 +541,12 @@ test('ABM pattern commits and bytes update the validated knowledge package', asy
   assert.equal(artifact.sha256, await sha256File(path.join(hubRoot, relative)));
   assert.equal(artifact.size, Buffer.byteLength(contents));
   assert.equal(await fsp.readFile(path.join(updated.packageRoot, artifactPath), 'utf8'), contents);
+  const guideArtifactPath = `data/ds-ai-hub/${guideRelative}`;
+  const guideArtifact = updated.manifest.artifacts.find((entry) => entry.path === guideArtifactPath);
+  assert.ok(guideArtifact);
+  assert.equal(guideArtifact.sha256, await sha256File(path.join(hubRoot, guideRelative)));
+  assert.equal(guideArtifact.size, Buffer.byteLength(guideContents));
+  assert.equal(await fsp.readFile(path.join(updated.packageRoot, guideArtifactPath), 'utf8'), guideContents);
   await validatePackageDirectory(updated.packageRoot, ENGINE_VERSION);
 
   await write(hubRoot, 'products/abm/components/fixture/meta.json', '{}');

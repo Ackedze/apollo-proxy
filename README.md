@@ -573,8 +573,9 @@ data-only knowledge package. Проверка выполняется при за
 пользовательском `.env`. Архитектура, manifest, CI и recovery описаны в
 [`docs/knowledge-package.md`](docs/knowledge-package.md).
 
-В пакет знаний входят также паттерны ABM из `ds-ai-hub/products/abm/patterns/**`.
-Их изменения учитываются при определении версии пакета.
+В пакет знаний входят также паттерны и платформенные гайды ABM из
+`ds-ai-hub/products/abm/{patterns,guides}/**`. Их изменения учитываются при
+определении версии пакета.
 
 В прежнем knowledge-only канале архив хранится как immutable asset GitHub Release в `Ackedze/design-system_ab`,
 а `stable.json` — в `main` того же репозитория. Владельцу достаточно иметь
