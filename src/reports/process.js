@@ -18,7 +18,7 @@ async function runCodexProcess(args, prompt, outputPath, onProgress, analysisSta
   finally { tracked?.end(failure); }
 }
 
-function executeCodexProcess(
+async function executeCodexProcess(
   args,
   prompt,
   outputPath,
@@ -38,15 +38,15 @@ function executeCodexProcess(
       onProgress: stage => emitCodexProgress(onProgress, stage), analysisStage,
       model: AGENT_MODEL, skillRoot: APOLLO_CODEX_SKILL_ROOT, onEvent: telemetryContext.onEvent, onInput: telemetryContext.onInput });
   }
+  const environment=buildCodexEnvironment();
+  const workingDirectory=typeof telemetryContext.workingDirectory==='string'&&telemetryContext.workingDirectory
+    ? telemetryContext.workingDirectory : CODEX_WORKSPACE;
+  if(telemetryContext.mode==='dialogue'&&telemetryContext.dataOnly)
+    args=await require('./ABM-tool-isolation').isolateAbmTools(CODEX_BIN,args,environment,workingDirectory);
   return new Promise((resolve, reject) => {
-    const workingDirectory =
-      typeof telemetryContext.workingDirectory === 'string' &&
-      telemetryContext.workingDirectory
-        ? telemetryContext.workingDirectory
-        : CODEX_WORKSPACE;
     const child = spawn(CODEX_BIN, args, {
       cwd: workingDirectory,
-      env: buildCodexEnvironment(),
+      env: environment,
       shell: false,
       detached: Boolean((budget!==undefined || signal) && process.platform!=='win32'),
       stdio: ['pipe', 'pipe', 'pipe'],

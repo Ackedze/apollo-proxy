@@ -942,7 +942,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     for (const setting of ['features.shell_tool=false', 'features.skip_host_skill_discovery=true',
       'features.skill_search=false', 'skills.include_instructions=false', 'skills.bundled.enabled=false',
       'features.apps=false', 'features.plugins=false', 'features.remote_plugin=false',
-      'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"', 'mcp_servers={}']) {
+      'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"']) {
       args.push('-c', setting);
     }
     const schemaPath = path.join(runDirectory, 'abm-response.schema.json');
@@ -965,6 +965,7 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
       'reading_design_system',
       {
         mode: 'dialogue',
+        dataOnly: Boolean(abm),
         model: AGENT_MODEL || null,
         workingDirectory: runDirectory,
       },

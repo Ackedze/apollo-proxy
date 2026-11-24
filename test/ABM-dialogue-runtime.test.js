@@ -45,6 +45,7 @@ test('existing Ask route selects ABM explicitly, preserves AB, and rejects unava
   write(file, markdown);
   write(binary, '#!' + process.execPath + '\n' + `
 const fs=require('node:fs');let input='';
+if(process.argv.includes('mcp')&&process.argv.includes('list')){console.log('[]');process.exit(0);}
 process.stdin.on('data',bytes=>input+=bytes);
 process.stdin.on('end',async()=>{
  const args=process.argv.slice(2);
@@ -95,7 +96,7 @@ const calls=()=>fs.existsSync(${JSON.stringify(record)})?fs.readFileSync(${JSON.
   assert.match(abm.body.knowledgeRelease.contentVersion,/^abm-local-/);
   assert.deepEqual(last().args.filter((v,i)=>last().args[i-1]==='--add-dir'),[]);
   assert(last().args.includes('features.shell_tool=false'));
-  assert(last().args.includes('mcp_servers={}'));
+  assert(!last().args.includes('mcp_servers={}'));
   assert(last().input.includes('Условие fixture.'));
   assert(!last().input.includes(${JSON.stringify(patterns)}));
   assert.equal(last().args[last().args.indexOf('--sandbox')+1],'read-only');
