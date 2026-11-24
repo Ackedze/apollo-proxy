@@ -1,0 +1,243 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const {inspectAbmPatternKnowledge}=require('../src/knowledge-root');
+const {loadPattern}=require('../src/reports/ABM-source');
+const {buildAbmKnowledgePacket,knowledgePayload}=require('../src/reports/ABM-retrieval');
+const {renderAbmResponse}=require('../src/reports/ABM-response');
+function fixture(t){
+ const root=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'abm-hub-test-')));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ function write(file,text){fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),text);}
+ write('patterns/p_abm_buttons.md','---\nid: ptrn:abm.buttons\nproduct: abm\nplatforms: [ios, android]\n---\n# Buttons\n- abmDocumentType: Pattern\n- abmPatternID: ptrn:ux.buttons\n- abmPatternTitle: Buttons\n- titlePage: Кнопки :: v.1.7\n- version: v.1.7\n\n## Нейминг в кнопках\n### [Rule] R01_naming\nПодпись кнопки соответствует действию.\n#### [RuleExample] R01_naming\nСсылка на [RuleExample] R01_naming (iOS): https://example.test/ios\n');
+ for(const family of ['hig','material2','material3'])write('guides/'+family+'/g_'+family+'_buttons.md',
+  '---\nid: abm.guides.'+family+'.buttons\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Buttons\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.buttons\n\nA button initiates an action.\n## Accessibility\nButtons need an accessible name.\n## Change log\nOld publication history.\n');
+ return {root,write,source:()=>inspectAbmPatternKnowledge(root)};
+}
+test('Hub source reads product metadata and keeps real versions, rules and examples',t=>{
+ const f=fixture(t),source=f.source();assert.equal(source.patternCount,1);assert.equal(source.guideCount,3);assert.equal(source.source,'ds-ai-hub-abm');
+ const doc=loadPattern(f.root,'patterns/p_abm_buttons.md');assert.equal(doc.title,'Кнопки');assert.equal(doc.version,'v.1.7');assert.equal(doc.rules[0].key,'R01_naming');
+ const packet=buildAbmKnowledgePacket(source,'Нейминг кнопок',[],{platform:'iOS'});
+ assert(packet.rules.some(rule=>rule.file==='patterns/p_abm_buttons.md'));
+ const text=renderAbmResponse({answers:[{question:'Нейминг кнопок',kind:'answer',evidence:[{file:doc.file,ruleId:'R01_naming',quote:'Подпись кнопки соответствует действию.',text:'Подпись кнопки соответствует действию.'}]}]},f.root,'Нейминг кнопок',packet);
+ assert(text.includes('🍏 [Пример](https://example.test/ios)'));assert(text.includes('Паттерн: «Кнопки», v.1.7'));
+});
+test('guides use separate bounded lanes and respect explicit guide or Material version requests',t=>{
+ const f=fixture(t);
+ for(const [q,platform,family] of [['Buttons accessibility HIG','iOS','hig'],['Buttons accessibility Material 2','Android','material2'],['Buttons accessibility Material 3','Android','material3']]){
+  const packet=buildAbmKnowledgePacket(f.source(),q,[],{platform});const guides=packet.rules.filter(row=>row.sourceType==='guide');
+  assert(guides.length,q);assert(guides.every(row=>row.family===family),q);assert(packet.guideOnly);assert(packet.rules.every(row=>row.sourceType==='guide'));
+  assert.equal(packet.chars,JSON.stringify(knowledgePayload(packet)).length);
+  assert(!guides.some(row=>row.text.includes('Old publication history')));
+ }
+ const contradiction=buildAbmKnowledgePacket(f.source(),'Buttons HIG',[],{platform:'Android'});
+ assert(contradiction.rules.some(row=>row.sourceType==='guide'&&row.family==='hig'));
+ const ios=buildAbmKnowledgePacket(f.source(),'Buttons accessibility',[],{platform:'iOS'});
+ const android=buildAbmKnowledgePacket(f.source(),'Buttons accessibility',[],{platform:'Android'});
+ assert.deepEqual(ios,android);
+ assert.deepEqual(new Set(ios.rules.filter(row=>row.sourceType==='guide').map(row=>row.family)),new Set(['hig','material2','material3']));
+ const materialOnIos=buildAbmKnowledgePacket(f.source(),'Buttons Material 3',[],{platform:'iOS'});
+ assert(materialOnIos.rules.some(row=>row.sourceType==='guide'&&row.family==='material3'));
+});
+test('guide citations are checked and captions never invent a pattern version or platform example',t=>{
+ const f=fixture(t),q='Buttons accessibility HIG',packet=buildAbmKnowledgePacket(f.source(),q,[],{platform:'iOS'});
+ const row=packet.rules.find(row=>row.sourceType==='guide'&&row.text.includes('accessible name'));
+ const answer={answers:[{question:q,kind:'answer',evidence:[{file:row.file,ruleId:row.ruleId,quote:row.text,text:'У кнопки должно быть доступное имя.'}]}]};
+ const text=renderAbmResponse(answer,f.root,q,packet);assert(text.includes('Гайд: HIG — [Buttons](https://developer.apple.com/design/human-interface-guidelines/buttons)'));assert(!text.includes('Паттерн:'));assert(!text.includes('Пример'));
+ answer.answers[0].evidence[0].quote='Invented guideline sentence';assert.throws(()=>renderAbmResponse(answer,f.root,q,packet),e=>e.code==='ABM_QUOTE_MISMATCH');
+});
+test('guide modifications change source identity and foreign products and symlinks are rejected',t=>{
+ const f=fixture(t),before=f.source();const p=path.join(f.root,'guides/hig/g_hig_buttons.md');fs.appendFileSync(p,'\nAdditional condition.');assert.notEqual(before.contentSha256,f.source().contentSha256);
+ const body=fs.readFileSync(p,'utf8');fs.writeFileSync(p,body.replace('product: abm','product: ab'));assert.throws(()=>f.source(),e=>e.status===503);fs.writeFileSync(p,body);
+ fs.symlinkSync(p,path.join(f.root,'guides/hig/g_hig_alias.md'));assert.throws(()=>f.source(),e=>e.status===503);
+ assert.equal(loadPattern(f.root,'../outside.md'),null);
+});
+
+test('guide-only fallback groups families separately and matches legacy Markdown',t=>{
+ const f=fixture(t),q='Buttons HIG Material 2 Material 3';
+ const files=['guides/hig/g_hig_buttons.md','guides/material2/g_material2_buttons.md','guides/material3/g_material3_buttons.md'];
+ const documents=files.map(file=>loadPattern(f.root,file));
+ const rows=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key}));
+ const evidence=documents.map(doc=>({file:doc.file,ruleId:doc.rules[0].key,quote:doc.rules[0].body,text:doc.rules[0].body}));
+ let blocks;
+ const text=renderAbmResponse({answers:[{question:q,kind:'answer',evidence}]},f.root,q,{rules:rows},{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks[0].kind,'guide');assert(!text.includes('Паттерн:'));
+ assert.deepEqual(blocks.filter(b=>b.kind==='guide').map(b=>b.family),['hig','material2','material3']);
+ assert.equal(blocks.map(block=>block.text).join('\n\n'),text);
+});
+
+test('multiple questions preserve guide ownership in structured blocks',t=>{
+ const f=fixture(t),doc=loadPattern(f.root,'guides/hig/g_hig_buttons.md'),rule=doc.rules[0],q='Первый вопрос? Второй вопрос?';let blocks;
+ const value={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[{file:doc.file,ruleId:rule.key,quote:rule.body,text:rule.body}]},{question:'Второй вопрос?',kind:'not_found',evidence:[]}]};
+ const text=renderAbmResponse(value,f.root,q,{rules:[{file:doc.file,ruleId:rule.key}]},{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks.find(b=>b.kind==='guide').question,'Первый вопрос?');
+ assert.equal(blocks[0].questionHeading,true);assert.equal(blocks.map(b=>b.text).join('\n\n'),text);
+});
+
+test('guide links bind to the exact source identity and official family, without unrelated or invented destinations',()=>{
+ const {guideUrl,safeGuideUrl}=require('../src/reports/ABM-guide-links');
+ const url=guideUrl({family:'hig',guideId:'guide:hig.playing-haptics',title:'Playing haptics'});
+ assert.equal(url,'https://developer.apple.com/design/human-interface-guidelines/playing-haptics');
+ assert.equal(guideUrl({family:'hig',guideId:'guide:hig.playing-haptics',title:'Different guide'}),null);
+ assert.equal(guideUrl({family:'hig',guideId:'guide:hig.unknown',title:'Unknown'}),null);
+ assert.equal(safeGuideUrl('javascript:alert(1)','hig'),null);
+ assert.equal(safeGuideUrl('https://developer.apple.com.evil.test/design/human-interface-guidelines/buttons','hig'),null);
+ assert.equal(safeGuideUrl('https://m3.material.io/foundations','material2'),null);
+ assert.equal(safeGuideUrl('https://developer.apple.com/documentation/UIKit','hig'),null);
+ assert.equal(safeGuideUrl('https://m2.material.io/design/navigation/understanding-navigation.html','material2'),'https://m2.material.io/design/navigation/understanding-navigation.html');
+ assert.equal(guideUrl({family:'material3',guideId:'guide:material3.designing.structure',title:'Designing — Structure'}),'https://m3.material.io/foundations/designing/structure');
+});
+
+
+test('Russian guide prose preserves source terms and units while grounding stays in the original language',t=>{
+ const f=fixture(t),file='guides/material3/g_material3_buttons.md';
+ const quote='Keep a touch target of at least 48 dp. An outlined button may represent a secondary action.';
+ fs.appendFileSync(path.join(f.root,file),'\n## Touch targets\n'+quote+'\n');
+ const q='Buttons Material 3 touch target',packet=buildAbmKnowledgePacket(f.source(),q);
+ const row=packet.rules.find(row=>row.file===file&&row.text.includes(quote));
+ assert(row);
+ const translated='Сохраняй область касания (touch target) не меньше **48 dp**. Кнопка outlined может обозначать дополнительное действие (secondary action).';
+ const value={answers:[{question:q,kind:'answer',evidence:[{file,ruleId:row.ruleId,quote,text:translated}]}]};
+ let blocks;
+ const text=renderAbmResponse(value,f.root,q,packet,{onBlocks:value=>{blocks=value;}});
+ assert.equal(blocks.length,1);assert.equal(blocks[0].kind,'text');assert.equal(blocks[0].family,undefined);
+ assert(text.startsWith(translated+'\n\nГайд: Material 3'));
+ assert(!text.includes(quote));assert.equal(blocks[0].text,text);
+ // Translating the evidence itself must never bypass exact source verification.
+ value.answers[0].evidence[0].quote=translated;
+ assert.throws(()=>renderAbmResponse(value,f.root,q,packet),e=>e.code==='ABM_QUOTE_MISMATCH');
+});
+
+function writeGuideFixture(f,family,slug,title,body){
+ const file='guides/'+family+'/g_'+family+'_'+slug+'.md';
+ f.write(file,'---\nid: abm.guides.'+family+'.'+slug+'\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# '+title+'\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.'+slug+'\n\n'+body+'\n');
+ return file;
+}
+test('Russian guide phrases retrieve English sections with intact conditions and distinguish touch from pointer targets',t=>{
+ const f=fixture(t);
+ const file=writeGuideFixture(f,'material3','structure','Structure','## Touch targets\nTouch targets must be at least 48 dp; retain the spacing exception.\n## Pointer targets\nPointer targets may be smaller for mouse input.');
+ const p=buildAbmKnowledgePacket(f.source(),'Размер области нажатия Material 3');
+ const matches=p.rules.filter(row=>row.sourceType==='guide');
+ assert(matches.length);assert(matches.every(row=>row.family==='material3'));
+ assert.equal(matches[0].file,file);assert(matches[0].sectionTitles.includes('Touch targets'));
+ assert(matches[0].text.includes('48 dp; retain the spacing exception.'));
+
+ const naming=writeGuideFixture(f,'material2','writing','Writing','## Button labels\nButton labels describe their action, except for contextual labels.');
+ const names=buildAbmKnowledgePacket(f.source(),'Подпись кнопки Material 2');
+ assert(names.rules.some(row=>row.file===naming&&row.sectionTitles.includes('Button labels')&&row.text.includes('except for contextual labels')));
+});
+test('mobile retrieval removes watches, XR, desktop and television scopes before budgeting for either picker platform',t=>{
+ const f=fixture(t);
+ const phone=writeGuideFixture(f,'material3','haptics_mobile','Haptics','## Phone feedback\nPhone haptics confirm a touch event.');
+ const watch=writeGuideFixture(f,'material3','haptics_watches','Design for watches — Haptics','## Haptics\nWatch haptics repeat repeat repeat repeat haptics.');
+ const xr=writeGuideFixture(f,'material2','haptics_xr','Design for immersive XR','## Haptics\nXR haptics use controllers.');
+ const mixed=writeGuideFixture(f,'hig','haptics_mixed','Haptics','## iOS\nPhone haptics are optional.\n## watchOS\nWatch haptics are long.\n### Timing\nWatch haptics repeat.\n## macOS\nDesktop haptics use the trackpad.\n## tvOS\nTelevision haptics use controllers.\n## iPadOS\nTablet haptics require compatible hardware.');
+ const source=f.source(),ios=buildAbmKnowledgePacket(source,'Хаптик',[],{platform:'iOS'}),android=buildAbmKnowledgePacket(source,'Хаптик',[],{platform:'Android'});
+ assert.deepEqual(ios,android);
+ assert(ios.rules.some(row=>row.file===phone));assert(!ios.rules.some(row=>row.file===watch||row.file===xr));
+ assert(ios.diagnostics.excludedGuideSections>0);
+ const doc=loadPattern(f.root,mixed);
+ assert(doc.rules.some(row=>row.headings.includes('iPadOS')));
+ assert(!doc.rules.some(row=>row.headings.some(title=>['watchOS','macOS','tvOS'].includes(title))));
+ const alien=loadPattern(f.root,watch).rules[0];
+ assert.throws(()=>renderAbmResponse({answers:[{question:'Хаптик',kind:'answer',evidence:[{file:watch,ruleId:alien.key,quote:alien.body,text:alien.body}]}]},f.root,'Хаптик',ios),error=>error.code==='ABM_EVIDENCE_OUTSIDE_PACKET');
+ assert.deepEqual(new Set(ios.rules.filter(row=>row.sourceType==='guide').map(row=>row.family)),new Set(['hig','material3']));
+ const explicit=buildAbmKnowledgePacket(source,'Хаптик для часов Material 3');
+ assert(!explicit.rules.some(row=>row.file===watch),'the mobile product scope is not disabled by a question mentioning watches');
+});
+
+
+test('guide fallback is enforced independently per question and does not conceal invalid guide proof',t=>{
+ const f=fixture(t),pattern=loadPattern(f.root,'patterns/p_abm_buttons.md'),guide=loadPattern(f.root,'guides/material3/g_material3_buttons.md');
+ const make=doc=>({file:doc.file,ruleId:doc.rules[0].key,quote:doc.rules[0].body,text:doc.rules[0].body});
+ const product=make(pattern),recommendation=make(guide),q='Первый вопрос? Второй вопрос?';let blocks;const events=[];
+ const value={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[recommendation,product]},{question:'Второй вопрос?',kind:'answer',evidence:[recommendation]}]};
+ const text=renderAbmResponse(value,f.root,q,undefined,{onBlocks:value=>{blocks=value;},onDiagnostic:event=>events.push(event)});
+ assert.equal(blocks.filter(b=>b.kind==='guide').length,1);
+ assert.equal(blocks.find(b=>b.kind==='guide').question,'Второй вопрос?');
+ assert.equal((text.match(/Гайд:/g)||[]).length,1);
+ assert(text.includes('Паттерн: «Кнопки», v.1.7'));
+ assert.equal(blocks.map(b=>b.text).join('\n\n'),text);
+ assert(events.some(event=>event.reason==='GUIDE_SUPPRESSED_PATTERN_ANSWER'&&event.questionIndex===0));
+ const invalid={answers:[{question:'Первый вопрос?',kind:'answer',evidence:[product,{...recommendation,quote:'Invented unsupported quote'}]}]};
+ assert.throws(()=>renderAbmResponse(invalid,f.root,q),error=>error.code==='ABM_QUOTE_MISMATCH');
+});
+
+test('long guide scenarios share clause ranking across families without losing the second condition',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3']) {
+  f.write('guides/'+family+'/g_'+family+'_actions.md',
+   '---\nid: abm.guides.'+family+'.actions\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Actions\n'+
+   '- documentType: PlatformGuide\n- guideID: guide:'+family+'.actions\n\n## Touch target\nTouch target buttons need sufficient target size.\n## Pressed state\nPressed state buttons provide immediate feedback.\n## Wear OS\nTouch target pressed state buttons for watches.\n');
+ }
+ for(const selector of ['в гайдах','HIG','Material 2','Material 3']) {
+  const q='Расскажи '+selector+' про размер области нажатия кнопки, но также важно состояние нажатия кнопки и моментальный отклик';
+  const p=buildAbmKnowledgePacket(f.source(),q),expected=require('../src/reports/ABM-guide-search').readGuideRequest(q).families;
+  assert(p.guideOnly);assert(p.rules.every(row=>row.sourceType==='guide'&&expected.includes(row.family)));
+  for(const family of expected) {
+   const selected=p.rules.filter(row=>row.family===family);
+   assert(selected.some(row=>row.text.includes('sufficient target size')),family+' target');
+   assert(selected.some(row=>row.text.includes('immediate feedback')),family+' pressed');
+   assert(!selected.some(row=>row.text.includes('for watches')),family+' watches');
+  }
+
+ }
+});
+
+test('a named guide subsection wins over a generic matching document title and route labels are not questions',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3'])f.write('guides/'+family+'/g_'+family+'_catalog.md',
+  '---\nid: abm.guides.'+family+'.catalog\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Catalog\n'+
+  '- documentType: PlatformGuide\n- guideID: guide:'+family+'.catalog\n\n## Buttons\nPrimary, Secondary and Tertiary are the documented button variants.\n## Buttons data\nUnrelated button telemetry.\n');
+ for(const family of ['HIG','Material 2','Material 3']) {
+  const q='Какие кнопки есть в '+family+'?';
+  const plain=buildAbmKnowledgePacket(f.source(),q),tagged=buildAbmKnowledgePacket(f.source(),q+' (АБМ)');
+  assert.equal(tagged.diagnostics.queryCount,1);
+  assert.deepEqual(tagged.rules,plain.rules);
+  assert.equal(tagged.rules[0].sectionTitles.at(-1),'Buttons');
+  assert(tagged.rules.some(row=>row.text.includes('Tertiary')));
+  assert(!tagged.rules.some(row=>row.text.includes('telemetry')));
+ }
+});
+test('guide overview retains all requested descendants without the former section cap',t=>{
+ const f=fixture(t);
+ f.write('guides/material3/g_material3_catalog.md','---\nid: abm.guides.material3.catalog\nproduct: abm\nplatforms: [android]\n---\n# Catalog\n'+
+ '- documentType: PlatformGuide\n- guideID: guide:material3.catalog\n\n## States\nState overview.\n'+Array.from({length:50},(_,i)=>'### Item '+i+'\nSpecific condition '+i+'.\n').join(''));
+ const p=buildAbmKnowledgePacket(f.source(),'Какие states есть в Material 3?');
+ assert(p.rules.some(row=>row.file.includes('catalog')));
+ assert(!p.coverageLimited);assert(p.rules.filter(row=>row.file.includes('catalog')).length>32);
+
+});
+
+test('overview reads core thematic chapters before case studies and retains late sections across families',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3']) {
+  const front=(id,title,tags)=>'---\nid: abm.guides.'+family+'.'+id+'\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# '+title+'\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.'+id+'\n- tags: '+tags+'\n\n';
+  f.write('guides/'+family+'/g_'+family+'_core.md',front('core','Understanding typography','foundations, typography')+
+   'Type communicates hierarchy.\n## Principles\nGeneral type principles.\n## Structure\nType structure rules.\n## Feedback\nType feedback rules.\n## Brand expression\nType conveys a distinctive identity.\n### Variants\nLate variant details must remain available.\n');
+  f.write('guides/'+family+'/g_'+family+'_sample.md',front('sample','Sample app','case-study, material-studies')+
+   'Example product.\n## Typography\n'+('Example typography implementation. '.repeat(30))+'\n### Details\nSample-specific detail.\n');
+ }
+ for(const selector of ['в гайдах','HIG','Material 2','Material 3']) {
+  const p=buildAbmKnowledgePacket(f.source(),'Какая типографика есть '+selector+'?');
+  const families=require('../src/reports/ABM-guide-search').readGuideRequest(selector).families;
+  for(const family of families) {
+   const rows=p.rules.filter(row=>row.family===family);
+   assert(rows.some(row=>row.text.includes('distinctive identity')),family+' core late chapter');
+   assert(rows.some(row=>row.text.includes('Late variant details')),family+' nested late section');
+   assert(!rows.some(row=>row.file.includes('_sample')),family+' examples do not replace core');
+  }
+  assert(p.rules.every(row=>row.sourceType==='guide'));
+ }
+});
+
+test('guide topics survive conversational framing and grammatical case across all families',t=>{
+ const f=fixture(t);
+ for(const family of ['hig','material2','material3'])f.write('guides/'+family+'/g_'+family+'_navigation.md',
+ '---\nid: abm.guides.'+family+'.navigation\nproduct: abm\nplatforms: ['+(family==='hig'?'ios':'android')+']\n---\n# Understanding navigation\n- documentType: PlatformGuide\n- guideID: guide:'+family+'.navigation\n\nNavigation links destinations.\n## Types\nThe guide describes destination transitions.\n');
+ for(const q of ['Что по навигациям в гайдах платформ?','Какие рекомендации по навигации есть в гайдах?','Расскажи про навигацию в гайдах платформ','Что у нас с навигацией в гайдлайнах?']) {
+  const p=buildAbmKnowledgePacket(f.source(),q);
+  assert(p.guideOnly,q);
+  assert.deepEqual(new Set(p.rules.map(row=>row.family)),new Set(['hig','material2','material3']),q);
+  assert(p.rules.some(row=>row.text.includes('destination transitions')),q);
+  assert(p.rules.every(row=>row.sourceType==='guide'));
+ }
+});

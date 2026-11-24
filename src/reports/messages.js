@@ -1,5 +1,6 @@
 'use strict';
 const crypto=require('node:crypto'),fs=require('node:fs'),fsp=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
+const {normalizeAbmDialogue}=require('./ABM-dialogue-context');
 const {APOLLO_DIALOGUE_MAX_HISTORY_ITEMS, APOLLO_DIALOGUE_MAX_HISTORY_CHARS, APOLLO_DIALOGUE_MAX_QUESTION_CHARS, CODEX_DESIGN_SYSTEM, CODEX_DS_AI_HUB}=require('../config');
 
 
@@ -58,10 +59,14 @@ function normalizeInput(payload) {
         ? sanitizeSessionId(payload.session_id)
         : null;
     const source = normalizeAgentSource(payload.source);
-    const dialogue = normalizeDialogueHistory(payload.dialogue);
+    const platform = normalizeDialoguePlatform(payload.dialoguePlatform);
+    const abm=dialogueUsesAbmRules(extractDialogueQuestion({text}),payload.dialogue,false,platform);
+    const dialogue = abm?normalizeAbmDialogue(payload.dialogue):normalizeDialogueHistory(payload.dialogue);
 
     if (text) {
-      return { text, component, action, session_id, source, dialogue };
+      const input = { text, component, action, session_id, source, dialogue };
+      if (platform !== undefined) input.dialoguePlatform = platform;
+      return input;
     }
   }
 
@@ -116,6 +121,27 @@ function extractDialogueQuestion(inputValue) {
   return question.slice(0, APOLLO_DIALOGUE_MAX_QUESTION_CHARS);
 }
 
+
+
+function normalizeDialoguePlatform(value) {
+  if (value !== undefined && !['Desktop', 'MobileWeb', 'iOS', 'Android'].includes(value))
+    throw Object.assign(new Error('Некорректная платформа диалога Apollo.'), { status: 400, code: 'DIALOGUE_PLATFORM_INVALID' });
+  return value;
+}
+
+function dialogueUsesAbmRules(question, dialogue, previousAbm = false, dialoguePlatform) {
+  const platform = normalizeDialoguePlatform(dialoguePlatform);
+  if (platform !== undefined) return platform === 'iOS' || platform === 'Android';
+  const abm = /(?:^|[^\p{L}\p{N}_])(?:АБМ|ABM)(?=$|[^\p{L}\p{N}_])/iu;
+  const ab = /(?:^|[^\p{L}\p{N}_])(?:АБ|AB|Альфа[ -]Бизнес)(?=$|[^\p{L}\p{N}_])/iu;
+  const questions = [question, ...normalizeDialogueHistory(dialogue)
+    .filter(entry => entry.role === 'user').reverse().map(entry => entry.text)];
+  for (const text of questions) {
+    if (abm.test(text)) return true;
+    if (ab.test(text)) return false;
+  }
+  return previousAbm;
+}
 
 function buildCodexDialoguePrompt(question, dialogue, knowledgeSource) {
   const knowledgeRoot = knowledgeSource === 'design-system_ab'
@@ -308,4 +334,4 @@ function buildHtmlResponseError(contentType, text) {
   return err;
 }
 
-module.exports = {sanitizeSessionId, normalizeInput, normalizeAgentSource, normalizeDialogueHistory, extractDialogueQuestion, buildCodexDialoguePrompt, extractLangflowText, collectTextCandidates, isUsableAgentText, looksLikeToolCallOnly, stripToolCallBlocks, buildToolCallRetryPayload, buildToolCallResponseError, looksLikeHtml, buildHtmlResponseError};
+module.exports = {dialogueUsesAbmRules, sanitizeSessionId, normalizeInput, normalizeAgentSource, normalizeDialogueHistory, extractDialogueQuestion, buildCodexDialoguePrompt, extractLangflowText, collectTextCandidates, isUsableAgentText, looksLikeToolCallOnly, stripToolCallBlocks, buildToolCallRetryPayload, buildToolCallResponseError, looksLikeHtml, buildHtmlResponseError};

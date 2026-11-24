@@ -94,3 +94,35 @@ test('local Codex prompt isolates untrusted dialogue and requires grounded Markd
   assert.match(prompt, /<question>/);
   assert.match(prompt, /Верни только финальный Markdown-ответ/);
 });
+
+test('ABM dialogue context uses only explicit bounded user messages', () => {
+  const { dialogueUsesAbmRules } = require('../src/reports/messages');
+  assert.equal(dialogueUsesAbmRules('Кнопки АБМ', []), true);
+  assert.equal(dialogueUsesAbmRules('ABM buttons', []), true);
+  assert.equal(dialogueUsesAbmRules('Кнопки ABMatic', []), false);
+  assert.equal(dialogueUsesAbmRules('Кнопки', [{role:'assistant',text:'Это АБМ'}]), false);
+  assert.equal(dialogueUsesAbmRules('А исключения?', [{role:'user',text:'Кнопки АБМ'}]), true);
+  assert.equal(dialogueUsesAbmRules('Теперь про АБ', [{role:'user',text:'Кнопки АБМ'}]), false);
+  assert.equal(dialogueUsesAbmRules('А исключения?', [{role:'user',text:'Кнопки АБМ'},{role:'user',text:'Теперь про АБ'}]), false);
+});
+
+test('explicit picker platform overrides question, history and saved library; legacy requests still use text',()=>{
+ const {dialogueUsesAbmRules}=require('../src/reports/messages');
+ for(const platform of ['iOS','Android']) {
+  assert.equal(normalizeInput({text:'Вопрос',dialoguePlatform:platform}).dialoguePlatform,platform);
+  assert(dialogueUsesAbmRules('Про АБ',[{role:'user',text:'Только AB'}],false,platform));
+ }
+ for(const platform of ['Desktop','MobileWeb'])
+  assert.equal(dialogueUsesAbmRules('Про АБМ',[{role:'user',text:'Только ABM'}],true,platform),false);
+ assert.throws(()=>normalizeInput({text:'Вопрос',dialoguePlatform:'Tablet'}),error=>error.status===400);
+ assert.throws(()=>normalizeInput({text:'Вопрос',dialoguePlatform:null}),error=>error.status===400);
+ assert.equal(normalizeInput({text:'Вопрос'}).dialoguePlatform,undefined);
+ assert(dialogueUsesAbmRules('Про АБМ',[],false));
+});
+
+test('ABM accepts fifteen exchanges while AB keeps its existing history limit',()=>{
+ const dialogue=Array.from({length:15},(_,i)=>[{role:'user',text:'Question '+i},{role:'assistant',text:'Answer '+i}]).flat();
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'iOS',dialogue}).dialogue.length,30);
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'Android',dialogue}).dialogue.length,30);
+ assert.equal(normalizeInput({text:'Question',dialoguePlatform:'Desktop',dialogue}).dialogue.length,12);
+});

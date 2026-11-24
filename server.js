@@ -25,6 +25,7 @@ const {
   APOLLO_CODEX_INPUT_BUDGET_CHARS,
   CODEX_DS_AI_HUB,
   CODEX_DESIGN_SYSTEM,
+  CODEX_ABM_PATTERNS,
   APOLLO_CODEX_SKILL_NAME,
   APOLLO_CODEX_SKILL_REQUIRED_VERSION,
   APOLLO_CODEX_REPORT_STRATEGY,
@@ -218,6 +219,7 @@ const {
   normalizeDialogueHistory,
   extractDialogueQuestion,
   buildCodexDialoguePrompt,
+  dialogueUsesAbmRules,
   extractLangflowText,
   collectTextCandidates,
   isUsableAgentText,
@@ -250,6 +252,7 @@ const { bindManagedProxyLifetime } = require('./src/proxy-lifecycle');
 const {
   resolveKnowledgeRoot,
   assertCompleteKnowledgeRoot,
+  inspectAbmPatternKnowledge,
 } = require('./src/knowledge-root');
 const {
   selectedCliProvider,
@@ -719,6 +722,7 @@ async function callCodexContractExplanation(
   if (activeCodexRuns >= 1) {
     const error = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     error.status = 429;
+    error.code = 'APOLLO_AGENT_BUSY';
     throw error;
   }
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
@@ -862,7 +866,14 @@ async function callCodexContractExplanation(
   }
 }
 
-async function callCodexDialogue(inputValue) {
+const { buildAbmDialoguePrompt } = require('./src/reports/ABM-messages');
+const { buildAbmKnowledgePacket } = require('./src/reports/ABM-retrieval');
+const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-response');
+// Keep an explicit library choice after the bounded client history drops its first turn.
+const {normalizeAbmDialogue}=require('./src/reports/ABM-dialogue-context');
+const dialogueLibraryBySession = new Map();
+
+async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {}) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
     const err = new Error('Codex dialogue requires a non-empty question.');
@@ -872,12 +883,30 @@ async function callCodexDialogue(inputValue) {
   if (activeCodexRuns >= 1) {
     const err = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
     err.status = 429;
+    err.code = 'APOLLO_AGENT_BUSY';
     throw err;
   }
 
   // Dialogue reads Proxy-owned knowledge in its disposable request directory.
-  // Validator workspace, skills and output schemas are not used by this route.
+  // ABM supplies a source-bounded packet; AB retains its existing reader workflow.
   inspectActiveApolloKnowledge();
+  const abm = dialogueUsesAbmRules(question, inputValue.dialogue, dialogueLibraryBySession.get(inputValue.session_id) || false, inputValue.dialoguePlatform)
+    ? inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS) : null;
+  const history = abm ? normalizeAbmDialogue(inputValue.dialogue) : normalizeDialogueHistory(inputValue.dialogue);
+  const packet = abm ? buildAbmKnowledgePacket(abm, question, history) : null;
+  const publishKnowledge=()=>onKnowledge?.({ contentVersion: (abm.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-') + abm.contentSha256.slice(0, 16), sourceCommits: {}, patternCount: abm.patternCount, guideCount: abm.guideCount, source: abm.source });
+  const rememberLibrary=()=>{
+    if (!inputValue.session_id)return;
+    dialogueLibraryBySession.delete(inputValue.session_id);
+    dialogueLibraryBySession.set(inputValue.session_id, Boolean(abm));
+    if (dialogueLibraryBySession.size > 256) dialogueLibraryBySession.delete(dialogueLibraryBySession.keys().next().value);
+  };
+  if(packet&&!packet.rules.length) {
+    publishKnowledge();rememberLibrary();
+    console.info('[Apollo][ABM] skipped agent',{reason:'NO_SEARCH_CANDIDATES',guideOnly:packet.guideOnly});
+    return renderAbmResponse({answers:[{question,kind:'not_found',evidence:[]}]},abm.root,question,packet,
+      {onDiagnostic:event=>console.info('[Apollo][ABM] response',event),onBlocks:onAnswerBlocks});
+  }
   if (path.isAbsolute(CLI_AGENT_BIN) && !fs.existsSync(CLI_AGENT_BIN)) {
     const error = new Error(
       `${CLI_PROVIDER} CLI does not exist: ${CLI_AGENT_BIN}`
@@ -885,14 +914,15 @@ async function callCodexDialogue(inputValue) {
     error.status = 503;
     throw error;
   }
+
   const runDirectory = await fsp.mkdtemp(
     path.join(os.tmpdir(), 'apollo-codex-dialogue-')
   );
   const outputPath = path.join(runDirectory, 'response.md');
-  const knowledgeRoot =
+  const knowledgeRoot = abm?.root || (
     APOLLO_CODEX_KNOWLEDGE_SOURCE === 'design-system_ab'
       ? CODEX_DESIGN_SYSTEM
-      : CODEX_DS_AI_HUB;
+      : CODEX_DS_AI_HUB);
   const args = [
     'exec',
     '--json',
@@ -904,22 +934,30 @@ async function callCodexDialogue(inputValue) {
     '--skip-git-repo-check',
     '--cd',
     runDirectory,
-    '--add-dir',
-    knowledgeRoot,
+    ...(abm ? [] : ['--add-dir', knowledgeRoot]),
     '--output-last-message',
     outputPath,
   ];
+  if (abm) {
+    for (const setting of ['features.shell_tool=false', 'features.skip_host_skill_discovery=true',
+      'features.skill_search=false', 'skills.include_instructions=false', 'skills.bundled.enabled=false',
+      'features.apps=false', 'features.plugins=false', 'features.remote_plugin=false',
+      'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"']) {
+      args.push('-c', setting);
+    }
+    const schemaPath = path.join(runDirectory, 'abm-response.schema.json');
+    await fsp.writeFile(schemaPath, JSON.stringify(ABM_RESPONSE_SCHEMA));
+    args.push('--output-schema', schemaPath);
+  }
   if (AGENT_MODEL) args.push('--model', AGENT_MODEL);
   args.push('-');
-  const prompt = buildCodexDialoguePrompt(
-    question,
-    inputValue.dialogue,
-    APOLLO_CODEX_KNOWLEDGE_SOURCE
-  );
+  const prompt = abm
+    ? buildAbmDialoguePrompt(question, history, packet)
+    : buildCodexDialoguePrompt(question, inputValue.dialogue, APOLLO_CODEX_KNOWLEDGE_SOURCE);
 
   activeCodexRuns += 1;
   try {
-    const result = await runCodexProcess(
+    const agentResult = await runCodexProcess(
       args,
       prompt,
       outputPath,
@@ -927,15 +965,26 @@ async function callCodexDialogue(inputValue) {
       'reading_design_system',
       {
         mode: 'dialogue',
+        dataOnly: Boolean(abm),
         model: AGENT_MODEL || null,
         workingDirectory: runDirectory,
       },
-      'text'
+      abm ? 'json' : 'text'
     );
+    if (abm) {
+      const current = inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
+      if (current.root !== abm.root || current.contentSha256 !== abm.contentSha256) {
+        throw Object.assign(new Error('Паттерны АБМ изменились во время ответа. Повторите запрос.'), { code: 'ABM_KNOWLEDGE_CHANGED', status: 503 });
+      }
+      publishKnowledge();
+    }
+    const result = abm ? renderAbmResponse(agentResult, abm.root, question, packet, { onDiagnostic: event => console.info('[Apollo][ABM] response', event), onBlocks: onAnswerBlocks }) : agentResult;
+    rememberLibrary();
     console.info('[Apollo][codex] dialogue completed', {
-      knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
-      knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
+      knowledgeSource: abm ? abm.source : APOLLO_CODEX_KNOWLEDGE_SOURCE,
+      knowledgeRelease: abm ? null : APOLLO_KNOWLEDGE_RELEASE,
       responseChars: result.length,
+      ...(packet ? { retrieval: { rules: packet.rules.length, indexedRules: packet.indexedRules, packetChars: packet.chars, promptChars: prompt.length, coverageLimited: packet.coverageLimited, ...packet.diagnostics } } : {}),
     });
     return result;
   } finally {
@@ -1494,6 +1543,14 @@ function publicCodexRun(run) {
 }
 
 app.get('/health', async (req, res) => {
+  let abmKnowledge=null;
+  if(CODEX_ABM_PATTERNS) {
+    try {
+      const source=inspectAbmPatternKnowledge(CODEX_ABM_PATTERNS);
+      abmKnowledge={ready:true,source:source.source,patternCount:source.patternCount,guideCount:source.guideCount,
+        contentVersion:(source.source==='ds-ai-hub-abm'?'abm-hub-':'abm-local-')+source.contentSha256.slice(0,16)};
+    } catch(error) { abmKnowledge={ready:false,error:error.code||'ABM_KNOWLEDGE_UNAVAILABLE'}; }
+  }
   const asyncGenerationBusy = (await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(runtime => runtime?.isBusy() || false))).some(Boolean);
   let skill;
   let knowledge;
@@ -1529,6 +1586,8 @@ app.get('/health', async (req, res) => {
   res.json({
     ok: true,
     activeRequests: activeApiRequests,
+    capabilities: { dialoguePlatformRouting: true },
+    abmKnowledge,
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
     ...(openRouterApproval ? { openRouterEnabled: true, openRouterApproval: openRouterApproval.current, openRouterFailure } : {}),
@@ -1742,13 +1801,16 @@ app.get('/v1/analyze/codex/runs/:runId/input', (req, res) => {
   res.type('application/json').send(run.agentInput);
 });
 
+const {withAskTokenUsage}=require('./src/reports/ask-token-usage');
 app.post('/analyze', async (req, res) => {
+  const reply=value=>res.json(withAskTokenUsage(value,tokenJournal.snapshotUsage(),process.env.APOLLO_ASK_SHOW_TOKEN_USAGE==='1'));
   try {
     const payload = req.body ?? {};
     const inputValue = normalizeInput(payload);
 
     if (!inputValue || !inputValue.text) {
-      res.status(400).json({
+      res.status(400);
+      reply({
         success: false,
         error:
           'Empty input. Send a string, { text: "..." }, or { report: {...} }.',
@@ -1758,9 +1820,22 @@ app.post('/analyze', async (req, res) => {
 
     // The historical codex wire alias follows the desktop agent selection.
     const provider = inputValue.source === 'codex' ? CLI_PROVIDER : 'alfagen';
+    if (['iOS', 'Android'].includes(inputValue.dialoguePlatform)
+      && !dialogueUsesAbmRules(extractDialogueQuestion(inputValue), [], true)) {
+      reply({ success: true,
+        result: 'Сейчас выбран поиск по паттернам АБМ. Чтобы задать вопрос по АБ, выбери Desktop или MobileWeb в переключателе сверху.',
+        source: inputValue.source, provider, model: null, knowledgeRelease: null,
+        dialogueLibrary: 'abm', responseKind: 'library-selection-notice' });
+      return;
+    }
     let result;
+    let localKnowledge;
+    let answerBlocks;
     if (provider === 'alfagen') {
-      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429});
+      if (['iOS', 'Android'].includes(inputValue.dialoguePlatform))
+        throw Object.assign(new Error('Для ответов по паттернам АБМ выбери Codex или Claude в «О прокси». AlfaGen пока не поддерживает этот режим.'),
+          { status: 503, code: 'ABM_PROVIDER_UNSUPPORTED' });
+      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429, code: 'APOLLO_AGENT_BUSY'});
       activeCodexRuns++;
       const controller = new AbortController();
       const onClose = () => { if (!res.writableEnded) controller.abort(); };
@@ -1771,7 +1846,7 @@ app.post('/analyze', async (req, res) => {
       catch (error) { failure = error; throw error; }
       finally { tracked.end(failure); activeCodexRuns--; res.removeListener('close', onClose); }
     } else {
-      result = await callCodexDialogue(inputValue);
+      result = await callCodexDialogue(inputValue, { onKnowledge: value => { localKnowledge = value; }, onAnswerBlocks: value => { answerBlocks = value; } });
     }
     if (typeof result !== 'string' || !result.trim()) {
       throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
@@ -1781,18 +1856,22 @@ app.post('/analyze', async (req, res) => {
       throw buildHtmlResponseError('text/html', result);
     }
 
-    res.json({
+    reply({
       success: true,
       result,
       source: inputValue.source,
       provider,
       model: provider === 'alfagen' ? null : AGENT_MODEL || null,
-      knowledgeRelease: provider === 'alfagen' ? null : APOLLO_KNOWLEDGE_RELEASE,
+      knowledgeRelease: provider === 'alfagen' ? null : localKnowledge || APOLLO_KNOWLEDGE_RELEASE,
+      ...(answerBlocks ? { answerBlocks } : {}),
+      ...(inputValue.dialoguePlatform !== undefined ? { dialogueLibrary: ['iOS', 'Android'].includes(inputValue.dialoguePlatform) ? 'abm' : 'ab' } : {}),
     });
   } catch (err) {
-    res.status(err.status || 500).json({
+    res.status(err.status || 500);
+    reply({
       success: false,
       error: err.message || 'Apollo agent error',
+      code: err.code || null,
       details: err.details || null,
       status: err.status || null,
     });

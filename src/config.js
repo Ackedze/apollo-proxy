@@ -99,6 +99,9 @@ const CODEX_DESIGN_SYSTEM = resolveKnowledgeRoot({
   checkoutRoot: path.join(proxyRoot, '..', '..', 'shared', 'design-system_ab'),
 });
 
+// Optional source path for explicit ABM questions in the existing Ask route.
+const CODEX_ABM_PATTERNS = process.env.CODEX_ABM_PATTERNS || '';
+
 const APOLLO_CODEX_SKILL_NAME = 'apollo-design-validator';
 
 // This is a build compatibility gate, not a user preference. Keeping it out of
@@ -319,6 +322,7 @@ module.exports = {
   APOLLO_CODEX_INPUT_BUDGET_CHARS,
   CODEX_DS_AI_HUB,
   CODEX_DESIGN_SYSTEM,
+  CODEX_ABM_PATTERNS,
   APOLLO_CODEX_SKILL_NAME,
   APOLLO_CODEX_SKILL_REQUIRED_VERSION,
   APOLLO_CODEX_REPORT_STRATEGY,

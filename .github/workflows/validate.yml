@@ -20,4 +20,4 @@ jobs:
           cache: npm
       - run: npm ci
       # These tests create their own knowledge/CLI fixtures; they need no account or data checkout.
-      - run: node --test test/dialogue-source.test.js test/dialogue-runtime.test.js test/cli-agent.test.js
+      - run: node --test test/ABM-*.test.js test/ask-token-usage.test.js test/dialogue-source.test.js test/dialogue-runtime.test.js test/cli-agent.test.js

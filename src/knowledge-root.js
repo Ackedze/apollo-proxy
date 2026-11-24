@@ -74,4 +74,32 @@ function assertCompleteKnowledgeRoot(root, kind) {
   if (!isCompleteKnowledgeRoot(root, kind)) throw incompleteRoot();
 }
 
-module.exports = { resolveKnowledgeRoot, assertCompleteKnowledgeRoot, isCompleteKnowledgeRoot };
+
+function inspectAbmPatternKnowledge(patternsRoot) {
+  try {
+    if (!patternsRoot || !path.isAbsolute(patternsRoot)) throw Error('Missing absolute path');
+    const root = fs.realpathSync(patternsRoot);
+    const hub=require('./reports/ABM-hub-source');
+    const {loadPattern}=require('./reports/ABM-source');
+    const files=hub.filesFor(root);
+    let patternCount=0,guideCount=0;
+    if (!files.length) throw Error('No ABM patterns');
+    const hash = require('node:crypto').createHash('sha256');
+    for (const name of files) {
+      const file = path.join(root, name);
+      if (fs.realpathSync(file) !== file) throw Error('Symlinked pattern');
+      const bytes = fs.readFileSync(file);
+      const document=loadPattern(root,name);if(!document)throw Error('Invalid ABM metadata');
+      if(document.sourceType==='guide')guideCount++;else patternCount++;
+      hash.update(JSON.stringify([name, bytes.toString('base64')]));
+    }
+    if(!patternCount)throw Error('No ABM patterns');
+    return { root, contentSha256: hash.digest('hex'), patternCount, guideCount, files, source:hub.layout(root)==='hub'?'ds-ai-hub-abm':'local-abm-markdown' };
+  } catch {
+    throw Object.assign(new Error('Исходные MD-паттерны АБМ недоступны или некорректны. Проверьте CODEX_ABM_PATTERNS в настройках AP.'), {
+      code: 'ABM_KNOWLEDGE_UNAVAILABLE', status: 503,
+    });
+  }
+}
+
+module.exports = { resolveKnowledgeRoot, assertCompleteKnowledgeRoot, isCompleteKnowledgeRoot, inspectAbmPatternKnowledge };

@@ -101,6 +101,12 @@ function createTokenJournal(root, { now = Date.now, onError = error => console.w
   recover();
   return {
     root, begin, finish, call, read,
+    snapshotUsage() {
+      const entry=context.getStore();if(!entry)return null;
+      const value=entry.value;
+      return {inputTokens:value.inputTokens,outputTokens:value.outputTokens,cachedInputTokens:value.cachedInputTokens,
+        totalTokens:entry.calls.size===0?0:value.totalTokens,calls:entry.calls.size};
+    },
     within: (entry, fn) => context.run(entry, fn),
     async operation(label, fn) {
       const entry = begin(label);
