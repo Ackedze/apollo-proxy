@@ -99,8 +99,10 @@ const CODEX_DESIGN_SYSTEM = resolveKnowledgeRoot({
   checkoutRoot: path.join(proxyRoot, '..', '..', 'shared', 'design-system_ab'),
 });
 
-// Optional source path for explicit ABM questions in the existing Ask route.
-const CODEX_ABM_PATTERNS = process.env.CODEX_ABM_PATTERNS || '';
+// An explicit development source wins; installed packages use their ABM projection.
+const packagedAbmRoot = path.join(CODEX_DS_AI_HUB, 'products', 'abm');
+const CODEX_ABM_PATTERNS = process.env.CODEX_ABM_PATTERNS ||
+  (fs.statSync(packagedAbmRoot, { throwIfNoEntry: false })?.isDirectory() ? packagedAbmRoot : '');
 
 const APOLLO_CODEX_SKILL_NAME = 'apollo-design-validator';
 

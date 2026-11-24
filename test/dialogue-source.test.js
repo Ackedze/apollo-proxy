@@ -19,6 +19,20 @@ write('design-system_ab/redpolrules/dictionary.json', '{"rules":[]}');
 write('design-system_ab/patterns/fixture.md', '# Fixture');
 for (const directory of ['products/ab/components', 'core/web/components']) fs.mkdirSync(path.join(hub, directory), { recursive: true });
 write('ds-ai-hub/products/ab/patterns/fixture.md', '# Fixture');
+write('ds-ai-hub/products/abm/patterns/fixture.md', `---
+product: abm
+id: ptrn:abm.fixture
+---
+# Fixture
+- abmDocumentType: Pattern
+- abmPatternID: ptrn:controls.fixture
+- abmPatternTitle: Fixture
+- version: v.1
+
+## Rules
+### [Rule] R01
+Fixture rule.
+`);
 process.env.CODEX_DESIGN_SYSTEM = ds;
 process.env.CODEX_DS_AI_HUB = hub;
 process.env.APOLLO_PROXY_MANAGED = '0';
@@ -30,6 +44,10 @@ const {
   normalizeDialogueHistory,
   normalizeInput,
 } = require('../server');
+
+test('installed Hub supplies the default ABM source without a user override', () => {
+  assert.equal(require('../src/config').CODEX_ABM_PATTERNS, path.join(hub, 'products', 'abm'));
+});
 
 test('dialogue source defaults to LangFlow and accepts explicit local Codex', () => {
   assert.equal(normalizeAgentSource(undefined), 'langflow');
