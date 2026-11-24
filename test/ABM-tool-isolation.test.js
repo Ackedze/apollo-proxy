@@ -10,7 +10,8 @@ function fixture(t,mode='normal') {
  const home=path.join(root,'home');fs.mkdirSync(home);
  const binary=path.join(root,'codex-stub'),mcp=path.join(root,'fake-mcp.js');
  const started=path.join(root,'mcp-started'),session=path.join(root,'session.json'),record=path.join(root,'commands.jsonl');
- const config='[mcp_servers.personal]\ncommand = '+JSON.stringify(process.execPath)+'\nargs = ['+JSON.stringify(mcp)+']\n';
+ const config='[mcp_servers.personal]\ncommand = '+JSON.stringify(process.execPath)+'\nargs = ['+JSON.stringify(mcp)+']\n'
+  +(mode==='disabled-invalid-entry'?'[mcp_servers.legacy]\ntransport = "obsolete"\nenabled = false\n':'');
  fs.writeFileSync(path.join(home,'config.toml'),config);
  fs.writeFileSync(mcp,`const fs=require('node:fs');fs.appendFileSync(${JSON.stringify(started)},'started\\n');
  const readline=require('node:readline').createInterface({input:process.stdin});
@@ -20,7 +21,8 @@ function fixture(t,mode='normal') {
  fs.appendFileSync(${JSON.stringify(record)},JSON.stringify(args)+'\\n');
  const config=fs.readFileSync(require('node:path').join(process.env.CODEX_HOME,'config.toml'),'utf8');
  const names=[...config.matchAll(/^\\[mcp_servers\\.([-\\w]+)\\]$/gm)].map(m=>m[1]);
- const enabled=names.filter(name=>!args.includes('mcp_servers.'+name+'.enabled=false')||${JSON.stringify(mode)}==='ignores-disable');
+ if(${JSON.stringify(mode)}==='disabled-invalid-entry'&&args.includes('mcp_servers.legacy.enabled=false'))process.exit(2);
+ const enabled=names.filter(name=>name!=='legacy'&&(!args.includes('mcp_servers.'+name+'.enabled=false')||${JSON.stringify(mode)}==='ignores-disable'));
  if(args.includes('list')){console.log(${JSON.stringify(mode)}==='invalid'?'broken':JSON.stringify(names.map(name=>({name,enabled:enabled.includes(name)}))));process.exit(0);}
  const tools=[];
  for(const name of enabled){const p=spawnSync(process.execPath,[${JSON.stringify(mcp)}],{input:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})+'\\n',encoding:'utf8'});tools.push(...JSON.parse(p.stdout).result.tools.map(tool=>tool.name));}
@@ -59,5 +61,14 @@ for(const mode of ['invalid','ignores-disable'])test('ABM rejects unverifiable M
  const f=fixture(t,mode);
  await assert.rejects(isolateAbmTools(f.binary,f.args,f.environment,f.root),{code:'ABM_TOOL_ISOLATION_FAILED'});
  assert.equal(fs.existsSync(f.started),false);assert.equal(fs.existsSync(f.session),false);
+ assert.equal(fs.readFileSync(path.join(f.home,'config.toml'),'utf8'),f.config);
+});
+
+test('ABM ignores an already disabled legacy MCP entry while disabling active servers',async t=>{
+ const f=fixture(t,'disabled-invalid-entry');
+ const args=await isolateAbmTools(f.binary,f.args,f.environment,f.root);
+ assert(args.includes('mcp_servers.personal.enabled=false'));
+ assert.equal(args.includes('mcp_servers.legacy.enabled=false'),false);
+ assert.equal(fs.existsSync(f.started),false);
  assert.equal(fs.readFileSync(path.join(f.home,'config.toml'),'utf8'),f.config);
 });
