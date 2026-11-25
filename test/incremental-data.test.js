@@ -111,6 +111,21 @@ test('incremental data travels through the actual Git/protected/release pipeline
  });
 });
 
+test('producer reuses a compact previous pack without a materialized objects directory',async t=>{
+ for(const mode of ['valid','corrupt','short','symlink'])await t.test(mode,async t=>{
+  const f=await fixture(t),seed=await f.make('5.0.0',{same:'retained',change:'before'},true),pack=path.join(seed.output,'objects.bin');
+  await fs.rm(path.join(seed.output,'objects'),{recursive:true});
+  const bytes=await fs.readFile(pack);
+  if(mode==='corrupt'){bytes[0]^=1;await fs.writeFile(pack,bytes);}
+  if(mode==='short')await fs.writeFile(pack,bytes.subarray(1));
+  if(mode==='symlink'){const target=path.join(f.root,'foreign-pack.bin');await fs.rename(pack,target);await fs.symlink(target,pack);}
+  const build=()=>f.make('5.0.1',{same:'retained',change:'after'},true);
+  if(mode!=='valid'){await assert.rejects(build(),/DATA_INCREMENTAL_(INTEGRITY|PREVIOUS)_INVALID/);return;}
+  const next=await build();assert(next.incrementalStats.reusedObjects>0);
+  const settings=await f.store();await f.update(settings,seed);const result=await f.update(settings,next);
+  assert.equal(await fs.readFile(path.join(result.current.path,'knowledge/data/ds-ai-hub/products/ab/docs/change.md'),'utf8'),'after');
+ });
+});
 test('packed incremental delivery downloads only authenticated missing-file ranges',async t=>{
  const f=await fixture(t),seed=await f.make('3.0.0',{same:'unchanged',rename:'retained bytes'},true),skipped=await f.make('3.0.1',{same:'unchanged',rename:'intermediate'},true),next=await f.make('3.0.2',{same:'unchanged',renamed:'retained bytes',added:'new target content'},true);
  assert(next.incrementalStats.reusedObjects>0);assert.equal(next.descriptor.incremental.objectsUrl,undefined);assert.equal(next.incrementalStats.packBytes,f.assets.get(next.descriptor.incremental.objectsPack.url).length);

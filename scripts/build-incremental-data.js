@@ -9,13 +9,18 @@ async function buildIncrementalData({releaseRoot,runtimeRoot,output,descriptor,k
   if (objectsUrl && packUrl) throw Error('DATA_INCREMENTAL_DESCRIPTOR_INVALID');
   const location = packUrl ? {objectsPack:{url:packUrl,bytes:1}} : {objectsUrl};
   incremental.validateDescriptor({schemaVersion:incremental.SCHEMA,...location,manifest:{...sample,url:manifestUrl}});
-  let previous = null;
+  let previous = null, previousPack = null;
   if (previousRoot) {
     previousRoot = path.resolve(previousRoot);
     if (await fs.realpath(previousRoot) !== previousRoot) throw Error('DATA_INCREMENTAL_PREVIOUS_INVALID');
     const old = JSON.parse(await fs.readFile(path.join(previousRoot,'current.json'),'utf8'));
     if (old.schemaVersion === 'apollo.git-data-index.v4' && old.activation.keyId === descriptor.activation.keyId) {
       previous = incremental.readIndex(await fs.readFile(path.join(previousRoot,'incremental.json.enc')),key,old.incremental,old.activation.keyId,old.npm.dataId);
+      if (old.incremental.objectsPack) {
+        const file = path.join(previousRoot,'objects.bin'), stat = await fs.lstat(file);
+        if (!stat.isFile() || await fs.realpath(file) !== file || stat.size !== old.incremental.objectsPack.bytes) throw Error('DATA_INCREMENTAL_PREVIOUS_INVALID');
+        previousPack = await fs.readFile(file);
+      }
     }
   }
   const objectRoot = path.join(output,'objects'); await fs.mkdir(objectRoot);
@@ -26,9 +31,12 @@ async function buildIncrementalData({releaseRoot,runtimeRoot,output,descriptor,k
     if (bytes.length !== file.bytes || releases.sha(bytes) !== file.sha256) throw Error('DATA_RELEASE_ARTIFACT_CHANGED');
     let pin = previous?.objects[file.sha256], body;
     if (pin) {
-      const oldFile = path.join(previousRoot,'objects',pin.sha256 + '.enc');
-      if (await fs.realpath(oldFile) !== oldFile || !(await fs.lstat(oldFile)).isFile()) throw Error('DATA_INCREMENTAL_PREVIOUS_INVALID');
-      body = await fs.readFile(oldFile);
+      if (previousPack) body = previousPack.subarray(pin.offset,pin.offset+pin.bytes);
+      else {
+        const oldFile = path.join(previousRoot,'objects',pin.sha256 + '.enc');
+        if (await fs.realpath(oldFile) !== oldFile || !(await fs.lstat(oldFile)).isFile()) throw Error('DATA_INCREMENTAL_PREVIOUS_INVALID');
+        body = await fs.readFile(oldFile);
+      }
       const plain = incremental.open(body,key,pin,incremental.objectAad(descriptor.activation.keyId,file.sha256),file.bytes);
       if (!plain.equals(bytes)) throw Error('DATA_INCREMENTAL_PREVIOUS_INVALID');
       reusedObjects++;
