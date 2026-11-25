@@ -18,9 +18,13 @@ async function isolateAbmTools(binary,args,environment,cwd) {
    return rows;
   }catch{throw failure();}
  };
- const inherited=await inventory([]);
- const disabled=inherited.filter(row=>row.enabled).flatMap(row=>['-c','mcp_servers.'+row.name+'.enabled=false']);
+ const active=(await inventory([])).filter(row=>row.enabled);
+ const disabled=active.flatMap(row=>['-c','mcp_servers.'+row.name+'.enabled=false']);
  if((await inventory(disabled)).some(row=>row.enabled))throw failure();
- return [...args.slice(0,-1),...disabled,args.at(-1)];
+ // exec ignores the transport definitions that mcp list loaded from user config.
+ const overrides=args.includes('--ignore-user-config')
+  ? active.flatMap(row=>['-c','mcp_servers.'+row.name+'={command="false",enabled=false}'])
+  : disabled;
+ return [...args.slice(0,-1),...overrides,args.at(-1)];
 }
 module.exports={isolateAbmTools};

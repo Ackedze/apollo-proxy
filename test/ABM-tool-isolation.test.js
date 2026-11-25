@@ -22,8 +22,12 @@ function fixture(t,mode='normal') {
  const config=fs.readFileSync(require('node:path').join(process.env.CODEX_HOME,'config.toml'),'utf8');
  const names=[...config.matchAll(/^\\[mcp_servers\\.([-\\w]+)\\]$/gm)].map(m=>m[1]);
  if(${JSON.stringify(mode)}==='disabled-invalid-entry'&&args.includes('mcp_servers.legacy.enabled=false'))process.exit(2);
- const enabled=names.filter(name=>name!=='legacy'&&(!args.includes('mcp_servers.'+name+'.enabled=false')||${JSON.stringify(mode)}==='ignores-disable'));
+ let enabled=names.filter(name=>name!=='legacy'&&(!args.includes('mcp_servers.'+name+'.enabled=false')||${JSON.stringify(mode)}==='ignores-disable'));
  if(args.includes('list')){console.log(${JSON.stringify(mode)}==='invalid'?'broken':JSON.stringify(names.map(name=>({name,enabled:enabled.includes(name)}))));process.exit(0);}
+ if(args.includes('--ignore-user-config')){
+  if(args.some(arg=>arg.startsWith('mcp_servers.')&&arg.endsWith('.enabled=false')))process.exit(1);
+  enabled=names.filter(name=>name!=='legacy'&&!args.includes('mcp_servers.'+name+'={command="false",enabled=false}'));
+ }
  const tools=[];
  for(const name of enabled){const p=spawnSync(process.execPath,[${JSON.stringify(mcp)}],{input:JSON.stringify({jsonrpc:'2.0',id:1,method:'tools/list'})+'\\n',encoding:'utf8'});tools.push(...JSON.parse(p.stdout).result.tools.map(tool=>tool.name));}
  fs.writeFileSync(${JSON.stringify(session)},JSON.stringify({tools,args}));
@@ -33,14 +37,14 @@ function fixture(t,mode='normal') {
  const environment={PATH:process.env.PATH,HOME:home,CODEX_HOME:home,TMPDIR:os.tmpdir()};
  const output=path.join(root,'response.json');
  const settings=['features.shell_tool=false','features.apps=false','features.plugins=false','features.remote_plugin=false','web_search="disabled"'];
- const args=['exec',...settings.flatMap(s=>['-c',s]),'--output-last-message',output,'-'];
+ const args=['exec','--ignore-user-config',...settings.flatMap(s=>['-c',s]),'--output-last-message',output,'-'];
  return {root,home,binary,mcp,started,session,record,config,environment,output,args,settings};
 }
 
 test('ABM process disables an inherited fake MCP before the session; no server starts or tool is offered',t=>{
  const f=fixture(t);
  // Positive control: the preconfigured server really starts and advertises a tool without isolation.
- execFileSync(f.binary,f.args,{cwd:f.root,env:f.environment,input:'synthetic'});
+ execFileSync(f.binary,f.args.filter(arg=>arg!=='--ignore-user-config'),{cwd:f.root,env:f.environment,input:'synthetic'});
  assert(fs.existsSync(f.started));assert.deepEqual(JSON.parse(fs.readFileSync(f.session)).tools,['private_tool']);
  fs.unlinkSync(f.started);fs.unlinkSync(f.session);fs.unlinkSync(f.record);
  const script=`const {runCodexProcess}=require(${JSON.stringify(path.resolve(__dirname,'../src/reports/process'))});
@@ -50,10 +54,11 @@ test('ABM process disables an inherited fake MCP before the session; no server s
   CODEX_DESIGN_SYSTEM:f.root,CODEX_DS_AI_HUB:f.root,APOLLO_STATE_ROOT:path.join(f.root,'state')},timeout:10000});
  assert.equal(fs.existsSync(f.started),false);
  const session=JSON.parse(fs.readFileSync(f.session));assert.deepEqual(session.tools,[]);
- assert(session.args.includes('mcp_servers.personal.enabled=false'));
+ assert(session.args.includes('mcp_servers.personal={command="false",enabled=false}'));
  for(const setting of f.settings)assert(session.args.includes(setting));
  const commands=fs.readFileSync(f.record,'utf8').trim().split('\n').map(JSON.parse);
  assert.equal(commands.length,3);assert(commands.slice(0,2).every(args=>args.includes('list')));assert.equal(commands[2][0],'exec');
+ assert(commands[1].includes('mcp_servers.personal.enabled=false'));
  assert.equal(fs.readFileSync(path.join(f.home,'config.toml'),'utf8'),f.config);
 });
 
@@ -67,8 +72,8 @@ for(const mode of ['invalid','ignores-disable'])test('ABM rejects unverifiable M
 test('ABM ignores an already disabled legacy MCP entry while disabling active servers',async t=>{
  const f=fixture(t,'disabled-invalid-entry');
  const args=await isolateAbmTools(f.binary,f.args,f.environment,f.root);
- assert(args.includes('mcp_servers.personal.enabled=false'));
- assert.equal(args.includes('mcp_servers.legacy.enabled=false'),false);
+ assert(args.includes('mcp_servers.personal={command="false",enabled=false}'));
+ assert(!args.some(arg=>arg.startsWith('mcp_servers.legacy')));
  assert.equal(fs.existsSync(f.started),false);
  assert.equal(fs.readFileSync(path.join(f.home,'config.toml'),'utf8'),f.config);
 });
