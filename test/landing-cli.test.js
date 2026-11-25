@@ -97,6 +97,13 @@ test('landing MCP stdin enables norms and only the owned file, without a fronten
  assert(actual.startsWith(prefix));assert(prefix.includes('DS norms and technical/visual checks are enabled'));assert(prefix.includes('uncertain write outcome')&&prefix.includes('canvas before'));assert(prefix.includes('root owner, active lease')&&prefix.includes('target.parentNodeId')&&prefix.includes('containing page'));assert(!prefix.includes('checking and automatic compliance repair are disabled'));assert(f.observed().args.includes('features.shell_tool=false'));
  assert.throws(()=>module.invocation({workspace:f.root+'/workspace',profile:'frontend-engineering',schemaPath:'schema',outputPath:'out'}),{code:'AGENT_PROFILE_UNAVAILABLE'});
 });
+test('restricted MCP profile requests an inline screenshot rather than pretending a URL is an image',async t=>{
+ const f=fixture(t);await f.run({profile:'landing-figma'});
+ assert.match(f.observed().input,/get_screenshot with enableBase64Response:true/);
+ assert.match(f.observed().input,/URL or image_url metadata alone is not a delivered image/);
+ assert.match(f.observed().input,/report that check as unknown/);
+ assert(f.observed().args.includes('sandbox_workspace_write.network_access=false'));
+});
 test('recorded MCP failure sequence can finish six calls within its admitted run budget',async t=>{
  const f=fixture(t,'mcp-budget-replay'),out=await f.run({profile:'landing-figma',mcpBudget:{maxToolCalls:6}});assert.equal(out.result.kind,'finish');assert.equal(out.receipt.mcp.toolCalls,6);assert.equal(out.receipt.mcp.maxToolCalls,6);assert.deepEqual(f.kills,[]);assert.deepEqual(out.receipt.mcp.nativeFailures.map(f=>f.code),['FIGMA_MCP_API_PROPERTY_UNSUPPORTED','FIGMA_MCP_RESULT_LIMIT']);assert.equal(out.receipt.mcp.nativeFailures[0].property,'slotProperty');assert.equal(out.receipt.mcp.nativeFailures[1].limitBytes,20480);
 });

@@ -16,6 +16,12 @@ const ROOTS = ['proxyRoot', 'runtimeRoot', 'baseRuntimeRoot', 'baseRelease', 'kn
     'skillsRoot', 'previousApp', 'previousData', 'apolloRoot', 'sparkleTools', 'nodeSource'];
 const TESTS = ['landing-direct.test.js', 'landing-direct-cli.test.js', 'landing-knowledge-mcp.test.js'];
 
+function previousChannel(c, app) {
+    // An app-only release can keep the preceding data channel.
+    return Object.keys(c.priorChannels).find(version => app.ApolloDataDescriptorURL ===
+        `https://raw.githubusercontent.com/${c.dataRepository}/main/apollo/proxy-releases/${version}/data-packages/current.json`);
+}
+
 async function configuration(file) {
     const raw = await v.read(file);
     v.check(raw.schemaVersion === SCHEMA, 'RELEASE_CONFIG_INVALID');
@@ -128,7 +134,7 @@ async function actions(c, state, persist, signal, log) {
             const old = await v.plist(c.previousApp, run), previous = await v.read(path.join(c.previousData, 'current.json'));
             for (const name of Object.keys((await v.read(path.join(l.source, 'package.json'))).dependencies || {}))
                 require.resolve(name, { paths: [l.source] });
-            v.check(c.priorChannels[old.CFBundleShortVersionString] && BigInt(c.buildNumber) > BigInt(old.CFBundleVersion), 'RELEASE_PREVIOUS_INVALID');
+            v.check(previousChannel(c, old) && BigInt(c.buildNumber) > BigInt(old.CFBundleVersion), 'RELEASE_PREVIOUS_INVALID');
             v.check(old.SUPublicEDKey === c.sparklePublicKey && old.SUFeedURL === env.APOLLO_APPCAST_URL, 'RELEASE_SIGNING_CHANGED');
             const api = require(path.join(l.source, 'src/data-release'));
             const runtime = api.readRuntime(c.runtimeRoot);
@@ -258,4 +264,4 @@ async function main(argv) {
     finally { process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop); }
 }
 if (require.main === module) main(process.argv.slice(2)).catch(e => { console.error(JSON.stringify({ code: e.code || 'RELEASE_FAILED' })); process.exitCode = 1; });
-module.exports = { SCHEMA, PHASES, configuration, inventory, locations, environment, runRelease, main };
+module.exports = { SCHEMA, PHASES, configuration, inventory, locations, environment, previousChannel, runRelease, main };

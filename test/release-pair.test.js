@@ -4,6 +4,16 @@ const fs = require('node:fs/promises'), sync = require('node:fs'), os = require(
 const runner = require('../scripts/release-pair'), v = require('../scripts/release-pair-verify');
 const { createPublisher } = require('../scripts/release-pair-github');
 
+test('previous app-only release keeps its actual pinned data channel; custom channels are refused', () => {
+    const c = { dataRepository: 'fixture/data', priorChannels: { '1.4.53': 'a'.repeat(40) } };
+    const url = 'https://raw.githubusercontent.com/fixture/data/main/apollo/proxy-releases/1.4.53/data-packages/current.json';
+    const app = { CFBundleShortVersionString: '1.4.54', ApolloDataDescriptorURL: url };
+    assert.equal(runner.previousChannel(c, app), '1.4.53');
+    for (const descriptor of [undefined, 'https://example.test/custom.json', url.replace('1.4.53', '1.4.54'), url + '?other']) {
+        assert.equal(runner.previousChannel(c, { ...app, ApolloDataDescriptorURL: descriptor }), undefined);
+    }
+});
+
 async function fixture(t) {
     const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'release-pair-')));
     t.after(() => fs.rm(root, { recursive: true, force: true }));

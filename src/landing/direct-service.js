@@ -77,7 +77,7 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
    ...(structureSources?[files?'Read the component-selection recipe supplied in structureSources. Choose one layout from the brief and read it under knowledgeFiles.skill: references/rules/page-layout.md for a desktop page or references/rules/modal-layout.md for a desktop modal. Read the selected layout and applicable Hub recipes before creating or changing the skeleton. Verify the actual layout before requesting structure approval.':'Read the complete layout and component-selection recipes supplied in structureSources before creating or changing the skeleton. These are full texts from the selected installed skill; use them without another read while they remain available in context. Read any other applicable component recipes through the same Hub reader and follow every next offset. Verify the actual layout against the provided recipes before requesting structure approval.']:[]),
    ...(content?[files?contentInstructions.replace('with read_source limit 16000 and follow next','with separate reads of complete applicable sections from its absolute path, following the same output and truncation rules'):contentInstructions]:r.execution.structureApproved?[]:['In the final structural readback return instances: [{id,setName}] for visible library sections of the owned landing, using actual component-set names.']),
    'Return only the next checkpoint and a clear Russian message, not the full plan. partial means a safe resumable pause. completed requires the complete requested content and honest checks; a successful tool call alone is not design conformance. Do not claim full DS compliance from a root receipt.',
-   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,knowledgeFiles:files||undefined,structureSources,contentInputs:content||undefined,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
+   JSON.stringify({selectedSkill:source.initial.selectedSkill,skill:r.execution.sessionId?undefined:source.initial.instructions,source:r.source,sourcePlan,knowledgeFiles:files||undefined,structureSources,contentInputs:content||undefined,contentInventory:content?r.execution.contentInventory||null:undefined,contentValidation:content?r.execution.contentValidationChecks||null:undefined,target:{...r.context,...r.target,chatId:r.id,ownerNonce:r.execution.ownerNonce},hostFailure:r.execution.lastFailure||null,structureApproved:r.execution.structureApproved,checkpoint:r.execution.checkpoint,dialogue:r.execution.sessionId?undefined:r.messages.filter(m=>m.role==='user'||!m.progress).slice(-40),userMessage:text})].join('\n');
  }
  function targetFrom(r,value){
   const t=value?.target;if(!t)return false;
@@ -126,6 +126,9 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
     if(create){r.execution.rootReadRequired=true;save(r);}
     source.assertCurrent();await nativeRoot(r,job,create);source.assertCurrent();
     if(controller.signal.aborted)fail('AGENT_CANCELLED');
+    const savedInventory=r.execution.contentInventory;
+    if(content&&savedInventory?.sourcePin===source.resumePin&&savedInventory.rootNodeId===r.target.rootNodeId)job.contentInventory=copy(savedInventory);
+    else r.execution.contentInventory=null;
     const instructions=prompt(r,source,text,content);
     r.execution.rootReadRequired=true;save(r);
     const cli=createCli(r.context.fileKey,source,mode);
@@ -154,15 +157,19 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
       if(item.server==='apollo_figma_mcp'&&item.tool==='use_figma'){
        const successful=item.status==='completed'&&!item.error&&!item.result?.isError&&!item.result?.structured_content?.error&&!item.result?.structuredContent?.error&&!value?.error;
        const changed=['createdNodeIds','mutatedNodeIds','removedNodeIds'].some(field=>Array.isArray(value?.[field])&&value[field].length);
-       if(changed||!successful)job.contentReadback=null;
+       if(changed||!successful){job.contentReadback=null;r.execution.contentValidationChecks=null;}
        if(changed)job.contentWritten=true;
        if(successful&&targetFrom(r,value)){
         job.targetObserved=true;
         if(!changed){
          const families=contentFamilies(value.instances);
          if(!content&&families)job.contentFamilies=families;
+         if(content&&families)job.observedContentFamilies=families;
          const slots=illustrationSlots(value.illustrationSlotIds);
-         if(content&&families&&slots&&!job.contentWritten&&!job.contentInventory)job.contentInventory={families,slots};
+         if(content&&families&&slots&&!job.contentWritten&&!job.contentInventory){
+          job.contentInventory={families,slots,sourcePin:source.resumePin,rootNodeId:r.target.rootNodeId};
+          r.execution.contentInventory=copy(job.contentInventory);
+         }
          if(content&&value.contentReadback)job.contentReadback=value.contentReadback;
         }
        }
@@ -191,12 +198,14 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
     if(content&&value.status==='completed'){
      const confirmed=job.contentInventory;
      const approved=r.execution.contentFamilies;
-     const changed=approved&&confirmed&&JSON.stringify(Object.entries(approved).sort())!==JSON.stringify(Object.entries(confirmed.families).sort());
+     const observed=job.observedContentFamilies||confirmed?.families;
+     const changed=approved&&observed&&JSON.stringify(Object.entries(approved).sort())!==JSON.stringify(Object.entries(observed).sort());
      const checked=changed?null:verifyContent(job.contentReadback,confirmed,r.messages);
      const checks=checked||[{name:'Наполнение',status:'unknown',evidence:'Требуется чтение ассетов и размеров карточек из Figma после последней записи.'}];
      if(changed)checks[0].evidence='Библиотечные секции изменились. Проверь каркас и повторно согласуй структуру.';
      const missing=unfinishedRecipes(source,content,confirmed,r.sources);
      if(missing.length)checks.push({name:'Рецепты наполнения',status:'unknown',evidence:missing.join(', ')});
+     r.execution.contentValidationChecks=copy(checks);
      const names=new Set(checks.map(check=>check.name));
      value.checks=[...checks,...value.checks.filter(check=>!names.has(check.name))].slice(0,100);
      if(checks.some(check=>check.status!=='passed')){
@@ -209,6 +218,8 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
     r.status=value.status==='partial'?'interrupted':value.status;
     if(value.status==='needs-structure-approval'){
      r.execution.contentFamilies=job.contentFamilies||null;
+     r.execution.contentInventory=null;
+     r.execution.contentValidationChecks=null;
      r.execution.structureApproved=false;r.execution.stage='structure';r.execution.structureApproval={id:crypto.randomUUID(),structureHash:sha([r.source.sourcePin,r.target,value.checkpoint,r.revision]),status:'pending'};
     }
     if(r.target)r.result={revision:r.revision,rootNodeId:r.target.rootNodeId,summary:value.message,checks:value.checks,issues:value.issues,ready:false,verification:'agent-reported'};
@@ -231,7 +242,7 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
   if(r.status==='needs-structure-approval'){
    if(/^(?:ок|ok|да|подтверждаю|структура подходит)[.!\s]*$/i.test(text)){r.execution.structureApproved=true;r.execution.structureApproval.status='accepted';r.execution.stage='content';}
    else if(/^(?:продолжай|продолжить|дальше)[.!\s]*$/i.test(text))return view(r);
-   else{r.execution.structureApproved=false;r.execution.structureApproval.status='rejected';}
+   else{r.execution.structureApproved=false;r.execution.structureApproval.status='rejected';r.execution.contentInventory=null;r.execution.contentValidationChecks=null;}
   }
   r.revision++;r.lastRequest={id:body.requestId,hash:sha(body)};r.messages.push({id:body.requestId,role:'user',text});return start(r,text,source,body.requestId);
  }
@@ -240,7 +251,7 @@ function createDirectLandingService({root,knowledge,createCli,rootLifecycle,read
   writable(r);const source=sourceFor(r);
   if(!UUID.test(body.requestId||'')||r.status!=='needs-structure-approval'||!a||a.id!==body.approvalId||a.structureHash!==body.structureHash||!['approve','revise'].includes(body.decision))fail('LANDING_STRUCTURE_DECISION_INVALID');
   r.lastDecision={id:body.requestId,hash:sha(body)};r.revision++;a.status=body.decision==='approve'?'accepted':'rejected';r.execution.structureApproved=body.decision==='approve';
-  if(body.decision==='revise'){r.status='needs-structure-changes';r.message='Опиши, что изменить в структуре.';save(r);return view(r);}
+  if(body.decision==='revise'){r.execution.contentInventory=null;r.execution.contentValidationChecks=null;r.status='needs-structure-changes';r.message='Опиши, что изменить в структуре.';save(r);return view(r);}
   r.execution.stage='content';const text='Структура подходит. Продолжи наполнение по подтверждённому брифу.';r.messages.push({id:body.requestId,role:'user',text});return start(r,text,source,body.requestId);
  }
  function cancel(id){const r=load(id);if(historical(r))return view(r);jobs.get(id)?.controller.abort();r.status='interrupted';r.message='Останавливаем CLI. Созданный макет сохраняется.';save(r);return view(r);}

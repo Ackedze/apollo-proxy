@@ -290,11 +290,51 @@ test('content sends full applicable rules and completes only against the final F
   if(name==='changedStructure')assert.equal(after.result.checks[0].status,'unknown');
  });
 });
+test('content inventory survives a partial turn and process restart; missing old slots and changed structure stay visible',async t=>{
+ for(const mode of ['complete','missing-slot','changed-structure','wrong-root'])await t.test(mode,async t=>{
+  const f=fixture(t),instances=[{id:'51:1',setName:'[D] BentoGrid'}];
+  f.source.skill.bodies['references/rules/content-and-assets.md']='Read actual content.';
+  f.source.read=()=>({text:'Full applicable recipe',offset:0,next:null,sha256:'d'.repeat(64)});
+  f.figmaEvents.push({instances});f.send();await f.service.settled(f.chat.id);
+  f.figmaEvents.splice(0,f.figmaEvents.length,{instances,illustrationSlotIds:['30:41']},{mutatedNodeIds:['51:2']});
+  f.setResult('partial');f.send('Да');await f.service.settled(f.chat.id);
+  const before=f.service.poll(f.chat.id);assert.deepEqual(before.execution.contentInventory.slots,['30:41']);
+  if(mode==='wrong-root'){
+   const file=path.join(f.root,f.chat.id+'.json'),record=JSON.parse(fs.readFileSync(file));record.execution.contentInventory.rootNodeId='wrong:root';fs.writeFileSync(file,JSON.stringify(record));
+  }
+  const contentReadback={imageSlots:mode==='missing-slot'?[]:[{id:'30:41',variantKey:'a'.repeat(40),familyKey:'b'.repeat(40),gridVisible:false}],groups:[{id:'51:1',family:'BentoGrid',capacity:1,cards:[{id:'51:2',width:300,height:200,areaWidth:300,areaHeight:200,verticalSizing:'FILL'}]}]};
+  f.figmaEvents.splice(0,f.figmaEvents.length,...(mode==='changed-structure'?[{instances:[]}]:[]),{contentReadback});
+  f.setResult('completed');const resumed=createDirectLandingService(f.options);
+  resumed.submit(f.chat.id,{requestId:crypto.randomUUID(),revision:before.revision,text:'Продолжи'});await resumed.settled(f.chat.id);
+  const after=resumed.poll(f.chat.id),input=JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1));
+  assert.equal(after.status,mode==='complete'?'completed':'interrupted');
+  assert.deepEqual(input.contentInventory?.slots,mode==='wrong-root'?undefined:['30:41']);
+  if(mode==='missing-slot')assert(after.result.checks.some(c=>c.evidence.includes('30:41')));
+  if(mode==='changed-structure')assert(after.result.checks.some(c=>c.evidence.includes('повторно согласуй')));
+  if(mode==='wrong-root')assert(after.result.checks.some(c=>c.details?.[0].code==='CONTENT_INVENTORY_REQUIRED'));
+ });
+});
 test('Stop retains session/root; restart resumes with fresh-read instruction and duplicate message delivery is idempotent',async t=>{
  const f=fixture(t);f.setHold(true);const body={requestId:crypto.randomUUID(),revision:0,text:'Build'};f.service.submit(f.chat.id,body);while(!f.calls.length)await new Promise(r=>setImmediate(r));f.service.cancel(f.chat.id);await f.service.settled(f.chat.id);
  assert.equal(f.service.poll(f.chat.id).status,'interrupted');assert.equal(f.service.poll(f.chat.id).execution.sessionId,'12345678-1234-1234-1234-123456789abc');
  f.setHold(false);const resumed=createDirectLandingService(f.options);const c=resumed.poll(f.chat.id);const next={requestId:crypto.randomUUID(),revision:c.revision,text:'продолжай'};resumed.submit(c.id,next);await resumed.settled(c.id);assert.equal(f.calls[1].sessionId,c.execution.sessionId);assert.match(f.calls[1].prompt,/Read after uncertain outcomes/);assert.equal(resumed.submit(c.id,next).status,'needs-structure-approval');assert.equal(f.calls.length,2);
  assert.throws(()=>resumed.submit(c.id,{...next,text:'different request'}),{code:'LANDING_REQUEST_CONFLICT'});
+});
+test('host field diagnostics reach the resumed model; completion still requires a fresh actual readback',async t=>{
+ const f=fixture(t),instances=[{id:'51:1',setName:'[D] BentoGrid'}];
+ f.source.skill.bodies['references/rules/content-and-assets.md']='Read actual content.';
+ f.source.read=()=>({text:'Full applicable recipe',offset:0,next:null,sha256:'d'.repeat(64)});
+ f.figmaEvents.push({instances});f.send();await f.service.settled(f.chat.id);
+ const proof={imageSlots:[],groups:[{id:'51:1',family:'BentoGrid',capacity:'1',cards:[{id:'51:2',width:300,height:200,areaWidth:300,areaHeight:200,verticalSizing:'FILL'}]}]};
+ f.figmaEvents.splice(0,f.figmaEvents.length,{instances,illustrationSlotIds:[]},{contentReadback:proof});f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
+ assert.equal(f.service.poll(f.chat.id).status,'interrupted');
+ f.figmaEvents.splice(0);f.send('Заверши проверку');await f.service.settled(f.chat.id);
+ const feedback=JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1)).contentValidation;
+ assert.equal(feedback[0].details[0].path,'contentReadback.groups[0].capacity');assert.match(feedback[0].details[0].expected,/JSON-число/);
+ assert.equal(f.service.poll(f.chat.id).status,'interrupted');
+ proof.groups[0].capacity=1;f.figmaEvents.push({contentReadback:proof});f.send('Исправил формат и перечитал');await f.service.settled(f.chat.id);
+ assert.equal(f.service.poll(f.chat.id).status,'completed');
+ assert(f.service.poll(f.chat.id).execution.contentValidationChecks.every(c=>c.status==='passed'));
 });
 test('old chats stay byte-identical and read-only; legacy callback routes return410',t=>{
  const f=fixture(t),id=crypto.randomUUID(),filename=path.join(f.root,id+'.json');const raw=JSON.stringify({schemaVersion:'apollo.landing-chat.v1',id,revision:2,sequence:4,status:'awaiting-native',context:{},messages:[{role:'user',text:'Old'}],updatedAt:'2026-11-06T00:00:00Z'});fs.writeFileSync(filename,raw);

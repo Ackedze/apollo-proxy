@@ -21,6 +21,7 @@ enum DataChannelMigration {
                                      prefix + "apollo/proxy-releases/1.4.47/data-packages/current.json",
                                      prefix + "apollo/proxy-releases/1.4.51/data-packages/current.json",
                                      prefix + "apollo/proxy-releases/1.4.52/data-packages/current.json",
+                                     prefix + "apollo/proxy-releases/1.4.53/data-packages/current.json",
                                      prefix + "apollo/proxy-releases/1.4.38/data-packages/current.json",
                                      prefix + "apollo/proxy-releases/1.4.38-ux-writer.1/data-packages/current.json"]
         for id in previousRuntimeIDs where id.range(of: "^[a-f0-9]{64}$", options: .regularExpression) != nil {

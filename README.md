@@ -1,10 +1,14 @@
 # apollo-proxy
 
-Текущий общий выпуск — [Apollo Proxy 1.4.54](https://github.com/Ackedze/apollo-proxy/releases/tag/v1.4.54).
+Текущий общий выпуск — [Apollo Proxy 1.4.55](https://github.com/Ackedze/apollo-proxy/releases/tag/v1.4.55).
 Обновление доступно в ApolloProxyControl через «Проверить обновления».
 Совместимая поставка — [Apollo 0.4.19](https://github.com/Ackedze/apollo/releases/tag/v0.4.19)
-и [данные 1.4.53-data.20261124.1](https://github.com/Ackedze/design-system_ab/releases/tag/apollo-data-1.4.53-data.20261124.1).
+и [данные 1.4.55-data.20261125.1](https://github.com/Ackedze/design-system_ab/releases/tag/apollo-data-1.4.55-data.20261125.1).
 Пакет содержит 25 паттернов АБМ и 285 мобильных гайдов HIG и Material.
+Навык лендингов 0.6.31 проверяет native-оболочку модалки до сборки секций и
+уточняет чтение рецептов. Proxy сохраняет inventory между продолжениями,
+возвращает точные ошибки readback следующему ходу и запрашивает inline-скриншот
+для CLI с ограниченным доступом к сети. Ручная проверка в Figma остаётся отдельным этапом.
 
 Версия исходников указана в [package.json](package.json), установленная версия —
 в окне миниаппа. Основная ветка, локальная сборка и опубликованный выпуск — разные

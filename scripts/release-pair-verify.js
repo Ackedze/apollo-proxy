@@ -171,13 +171,18 @@ async function consumers({ c, l }, releaseRoot, runtimeRoot) {
     const routes = new Map(), app = { get: (url, fn) => routes.set('GET ' + url, fn), post: (url, fn) => routes.set('POST ' + url, fn) };
     const configured = require(path.join(p, 'src/landing/runtime')).mountConfiguredLandingRoutes(app, { releaseRoot, runtimeRoot,
         root: path.join(c.outputRoot, 'reader-chat-probe'), provider: 'codex', binary: '/no-cli-is-called' });
+    let landingStatus;
+    routes.get('GET /landing/status')({}, { json: value => landingStatus = value });
+    check(landingStatus?.success === true && landingStatus.available === true
+        && landingStatus.skillVersion === gen.version && landingStatus.releaseId === manifest.id,
+        'RELEASE_LANDING_UNAVAILABLE');
     configured.loadService();
     for (const name of ['canvas', 'native', 'observation', 'failure']) {
         let status, body;
         routes.get('POST /landing/chats/:id/' + name)({}, { status: value => { status = value; return { json: value => body = value }; } });
         check(status === 410 && body.code === 'LANDING_LEGACY_FLOW_RETIRED', 'RELEASE_LEGACY_ROUTE_ENABLED');
     }
-    return { projectedDeclaredFiles: projected, dataId: manifest.id, probeFile: selectProbe(manifest, gen), generationVersion: gen.version, namingVersion: naming.version };
+    return { projectedDeclaredFiles: projected, dataId: manifest.id, probeFile: selectProbe(manifest, gen), generationVersion: gen.version, namingVersion: naming.version, landingAvailable: landingStatus.available };
 }
 
 async function localVerification(o) {
