@@ -43,6 +43,16 @@ function createAuditDataReader({knowledgeRoot}){
   })().finally(()=>{opening=null;});return opening;
  }
  return {
+  async legacyComponentPolicy(){
+   const outer=await readPinned('manifest.json');
+   const manifest=knowledge.validateManifest(JSON.parse(outer.bytes));
+   const pin=manifest.artifacts.find(row=>row.path===p.LEGACY_COMPONENT_POLICY);
+   if(!pin)p.fail('AUDIT_LEGACY_COMPONENTS_NOT_CONFIGURED');
+   if(pin.size>1024*1024)p.fail('AUDIT_LEGACY_COMPONENTS_CONFIG_INVALID');
+   const stored=await readPinned(pin.path,{bytes:pin.size,sha256:pin.sha256});
+   if((await safeFile('manifest.json')).stamp!==outer.stamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
+   return stored.bytes;
+  },
   async compactIndex(){
    try{
     const outer=await readPinned('manifest.json');

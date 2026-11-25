@@ -329,7 +329,7 @@ require('./src/code-release/maintenance').createMaintenance({key:proxyControlKey
   }}).mount(app);
 delete process.env.APOLLO_CODE_UPDATE_KEY;
 installStyleTokenCatalogParser(app);
-require('./src/audit-data/service').mountAuditDataRoutes(app,{designSystemRoot:CODEX_DESIGN_SYSTEM});
+require('./src/audit-data/service').mountAuditDataRoutes(app,{designSystemRoot:CODEX_DESIGN_SYSTEM,legacyComponentsFile:process.env.APOLLO_LEGACY_COMPONENTS_FILE});
 app.use(express.json({ limit: '30mb', strict: false }));
 app.use(tokenJournal.middleware);
 tokenJournalApi.mountJournalRoutes(app, tokenJournal);

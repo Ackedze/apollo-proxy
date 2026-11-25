@@ -4,6 +4,7 @@ const SCHEMA='apollo.v3-audit-data.v1',ASSET_SCHEMA='apollo.audit-asset.v1';
 const MANIFEST='data/v3-audit/manifest.json',HASH=/^[a-f0-9]{64}$/;
 const COMPACT_INDEX='JSONS/apollo/indexes/athena-audit.json';
 const PACKAGED_COMPACT_INDEX='data/design-system_ab/'+COMPACT_INDEX;
+const LEGACY_COMPONENT_POLICY='data/design-system_ab/JSONS/apollo/policies/liquid-glass.json';
 const MAX_COMPACT_INDEX_BYTES=32*1024*1024;
 function fail(code){throw Object.assign(Error(code),{code});}
 function sha(bytes){return crypto.createHash('sha256').update(bytes).digest('hex');}
@@ -29,4 +30,4 @@ function lookupUrl(value){
  if(!/^https:\/\/(?:ackedze\.github\.io\/(?:design-system_ab|desing-system_abm)\/|raw\.githubusercontent\.com\/Ackedze\/(?:design-system_ab|desing-system_abm)\/main\/)/.test(url))fail('AUDIT_DATA_URL_UNDECLARED');
  return url.replace(/^https:\/\/raw\.githubusercontent\.com\/Ackedze\/(design-system_ab|desing-system_abm)\/main\//,'https://ackedze.github.io/$1/');
 }
-module.exports={SCHEMA,ASSET_SCHEMA,MANIFEST,HASH,COMPACT_INDEX,PACKAGED_COMPACT_INDEX,MAX_COMPACT_INDEX_BYTES,validateCompactIndex,fail,sha,canonical,lookupUrl};
+module.exports={SCHEMA,ASSET_SCHEMA,MANIFEST,HASH,COMPACT_INDEX,PACKAGED_COMPACT_INDEX,LEGACY_COMPONENT_POLICY,MAX_COMPACT_INDEX_BYTES,validateCompactIndex,fail,sha,canonical,lookupUrl};
