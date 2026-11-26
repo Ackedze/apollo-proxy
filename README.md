@@ -1,10 +1,14 @@
 # apollo-proxy
 
-Текущий общий выпуск — [Apollo Proxy 1.4.54](https://github.com/Ackedze/apollo-proxy/releases/tag/v1.4.54).
+Текущий общий выпуск — [Apollo Proxy 1.4.55](https://github.com/Ackedze/apollo-proxy/releases/tag/v1.4.55).
 Обновление доступно в ApolloProxyControl через «Проверить обновления».
 Совместимая поставка — [Apollo 0.4.19](https://github.com/Ackedze/apollo/releases/tag/v0.4.19)
-и [данные 1.4.53-data.20261124.1](https://github.com/Ackedze/design-system_ab/releases/tag/apollo-data-1.4.53-data.20261124.1).
+и [данные 1.4.55-data.20261125.1](https://github.com/Ackedze/design-system_ab/releases/tag/apollo-data-1.4.55-data.20261125.1).
 Пакет содержит 25 паттернов АБМ и 285 мобильных гайдов HIG и Material.
+Навык лендингов 0.6.31 проверяет native-оболочку модалки до сборки секций и
+уточняет чтение рецептов. Proxy сохраняет inventory между продолжениями,
+возвращает точные ошибки readback следующему ходу и запрашивает inline-скриншот
+для CLI с ограниченным доступом к сети. Ручная проверка в Figma остаётся отдельным этапом.
 
 Версия исходников указана в [package.json](package.json), установленная версия —
 в окне миниаппа. Основная ветка, локальная сборка и опубликованный выпуск — разные
@@ -1586,3 +1590,21 @@ UX-writer: результат дополнен `unverifiedTexts: [{nodeId, reaso
 `/skills/pattern-audit` — отдельный запуск, история и входы агента для карточки «Проверка паттернов». Использует существующий read-only native/evidence цикл figma-audit и ограниченный CLI-профиль, но читает только MD установленного пакета DS AI HUB. Компонентный контрактный индекс и JSON-правила не являются входом режима. Новые документы ищутся по пути и содержимому; Figma-ссылки из них не открываются. Старый `/skills/figma-audit` сохраняет свои defaults и процедуру.
 
 Статус, запуск, отмена и native context имеют те же suffixes, что figma-audit. `GET /skills/pattern-audit/runs/:id/input?requestId=...` отдаёт реальные сохранённые prompt/schema шаги только после проверки принадлежности run/request. Это исходные входы модели, а не реконструкция из отчёта. Структурированный итог сохраняет source quote, native evidence и UNKNOWN/NOT_CHECKED. Снимки PNG и клики в этом эксперименте не собраны. Новые jobs включены в busy/health/maintenance. Для включения нужна новая локальная сборка кода Proxy; активация, публикация и ручная Figma — отдельные действия владельца.
+
+### Liquid Glass: exact-pair CI
+
+`.github/workflows/liquid-glass-audit-data.yml` runs the five audit-data suites
+against an immutable Apollo PR #23 commit and the exact Proxy event-head commit.
+It records both Git SHAs before testing. The regular Ask job is unchanged; its
+success does not cover audit-data. The paired suite checks the real compiler
+output through both Apollo's native registry reader and its identity evaluator,
+including tampering, index mismatch and cancellation. No test is skipped when a
+paired source is missing: checkout/import failures fail this job.
+
+Apollo's ordinary `validate` uses a local synthetic wire fixture, so it can run
+with its existing accepted Proxy pin. Updating that normal pin remains a separate
+maintainer step after Proxy acceptance. For local reproduction, check out the
+recorded SHAs in `projects/Apollo` and `services/apollo-proxy`, run `npm ci` in each,
+then execute the five suites listed in the workflow (macOS: `TMPDIR=/private/tmp`).
+The new pinned candidate commit must be pushed before this workflow can run on
+GitHub; preparing the workflow locally does not claim a green remote check.

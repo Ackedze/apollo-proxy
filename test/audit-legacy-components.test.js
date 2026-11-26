@@ -125,3 +125,17 @@ test('ResultScreen-style condition treats a confirmed absent property as False, 
  f.config.families[0].variantCondition.missingPropertyValue='True';
  assert.throws(()=>compileLegacyComponents(f.bytes(),f.config),/CONFIG_INVALID/);
 });
+
+test('real compiled wire is accepted by the paired Apollo native reader, while tampering and index mismatch fail',async()=>{
+ const apollo=path.resolve(__dirname,'../../../projects/Apollo');
+ const {buildSync}=require(path.join(apollo,'node_modules/esbuild'));
+ const code=buildSync({entryPoints:[path.join(apollo,'src/v3-audit/liquid-glass.ts')],bundle:true,write:false,platform:'node',format:'cjs',supported:{'object-rest-spread':false}}).outputFiles[0].text;
+ const runtime={exports:{}};new Function('module','exports','require',code)(runtime,runtime.exports,require);
+ const f=fixture(),wire=compileLegacyComponents(f.bytes(),f.config),indexId=JSON.parse(f.bytes()).dataId;
+ const {readLiquidGlassRegistry}=runtime.exports;
+ assert.equal((await readLiquidGlassRegistry(wire,indexId,()=>{})).registry.registryId,wire.registryId);
+ await assert.rejects(readLiquidGlassRegistry(wire,'0'.repeat(64),()=>{}),/DATA_INVALID/);
+ const changed=structuredClone(wire);changed.families[0].name='Changed in transit';
+ await assert.rejects(readLiquidGlassRegistry(changed,indexId,()=>{}),/DATA_INVALID/);
+ await assert.rejects(readLiquidGlassRegistry(wire,indexId,()=>{throw Error('AUDIT_CANCELLED');}),/CANCELLED/);
+});

@@ -81,21 +81,31 @@ function unfinishedRecipes(source, content, inventory, ledger) {
 }
 
 const instructions = [
-  'Read the provided contentInputs. Before content writes, confirm the current owned root and return instances: [{id,setName}] for the visible library sections using actual Figma component-set names, and illustrationSlotIds: [id] for all visible illustration slots to fill in the agreed structure. Use stable slot node IDs, including slots still showing default art. Read any applicable recipesByFamily not already in sources separately with read_source limit 16000 and follow next. If required guidance is unavailable, report the affected block.',
+  'Read the provided contentInputs. contentInventory preserves the agreed section and illustration-slot IDs across partial turns; confirm the current owned root before reusing it. contentValidation contains the previous host checks and exact field diagnostics to resolve. After corrections return a new actual read-only contentReadback; repairing JSON alone or repeating completed is not fresh evidence. Before content writes, confirm the current owned root and return instances: [{id,setName}] for the visible library sections using actual Figma component-set names, and illustrationSlotIds: [id] for all visible illustration slots to fill in the agreed structure. Use stable slot node IDs, including slots still showing default art. A structure change requires renewed approval rather than dropping previously agreed slots from inventory. Read any applicable recipesByFamily not already in sources separately with read_source limit 16000 and follow next. If required guidance is unavailable, report the affected block.',
   'Plan all image slots together. Use the approved art direction and the installed catalogs. After all writes, use a fresh read-only use_figma call to return target and contentReadback taken from the actual visible tree. Measure section-by-section using short facts. Follow the skill rules for confirmed art direction, nested card resizing, and glyph-26 provenance.',
   'Return contentReadback: {imageSlots, groups}. imageSlots lists every visible illustration slot, with {id, variantKey, familyKey, gridVisible, repeatQuote?}. Use the verified actual asset mainComponent key and owning set key (or mainComponent key for a standalone asset). Leave keys null for a default or missing illustration. gridVisible is false when no visible Grid exists. Include repeatQuote only for a verbatim user approval of repeated art in that slot.',
-  'groups lists every visible Benefits or BentoGrid instance as {id, family, capacity, cards}. Identify visible cards from their actual nodes, including ancestor visibility. Each card has its actual {id, width, height}. For Benefits also report {verticalSizing, stopperSizing, graphicBottom, graphicKind, graphicId, icon}; graphicKind is icon or image, graphicBottom is the actual Graphic bottom coordinate, icon is null or {variantKey, expectedVariantKey, set, size, expectedSize, gridVisible} verified using the glyph-26 recipe. For image Graphic put graphicId in imageSlots. gridVisible is false when no visible .Grid exists.',
+  'groups lists every visible Benefits or BentoGrid instance as {id, family, capacity, cards}. family is exactly Benefits or BentoGrid; a standalone PromoCard row is not a BentoGrid and must be checked against its skill/Hub recipe in the reported checks, not encoded as a fictitious PromoCards group. capacity, width, height, graphicBottom, size and expectedSize are JSON numbers, not variant labels or numeric strings. Identify visible cards from their actual nodes, including ancestor visibility. Each card has its actual {id, width, height}. For Benefits also report {verticalSizing, stopperSizing, graphicBottom, graphicKind, graphicId, icon}; graphicKind is icon or image, graphicBottom is measured in one common coordinate system for the whole group, icon is null or {variantKey, expectedVariantKey, set, size, expectedSize, gridVisible} verified using the glyph-26 recipe. icon.set is the catalog marker "glyph-26", not the owning component-set name such as shopping-bag; size is the actual mounted pixel size, not the variant label m. For image Graphic put graphicId in imageSlots. gridVisible is false when no visible .Grid exists.',
   'For BentoGrid also report {areaWidth, areaHeight, verticalSizing} for each PromoCard and its assigned preset area, plus sizingRecipe when the preset deliberately leaves space below the card. Use final measured values, along with the actual preset modes. Finish with partial if a required slot or check remains unresolved.',
 ].join(' ');
 
 function verifyContent(readback, inventory, messages) {
-  if (!inventory || !Array.isArray(readback?.imageSlots) || !Array.isArray(readback.groups)) return null;
+  const invalid = (path, expected, code = 'CONTENT_READBACK_INVALID') => [{
+    name: 'Данные проверки наполнения', status: 'unknown',
+    evidence: path + ': ' + expected,
+    details: [{ code, path, expected }],
+  }];
+  if (!inventory || !inventory.families || typeof inventory.families !== 'object' ||
+      Array.isArray(inventory.families) || !illustrationSlots(inventory.slots)) {
+    return invalid('inventory', 'Требуется подтверждённый список секций и слотов до наполнения.', 'CONTENT_INVENTORY_REQUIRED');
+  }
+  if (!Array.isArray(readback?.imageSlots)) return invalid('contentReadback.imageSlots', 'Ожидается массив фактически прочитанных слотов.');
+  if (!Array.isArray(readback.groups)) return invalid('contentReadback.groups', 'Ожидается массив фактически прочитанных групп Benefits/BentoGrid.');
   const { families, slots } = inventory;
   const failures = { images: [], icons: [], sizing: [] };
   const ids = new Set();
   const assets = new Map();
-  for (const slot of readback.imageSlots) {
-    if (!nodeId(slot?.id) || ids.has(slot.id)) return null;
+  for (const [index, slot] of readback.imageSlots.entries()) {
+    if (!nodeId(slot?.id) || ids.has(slot.id)) return invalid('contentReadback.imageSlots[' + index + '].id', 'Ожидается уникальный фактический nodeId.');
     ids.add(slot.id);
     if (!assetKey(slot.variantKey) || !assetKey(slot.familyKey) || slot.gridVisible !== false) {
       failures.images.push(slot.id + ' без подтверждённой иллюстрации');
@@ -113,24 +123,37 @@ function verifyContent(readback, inventory, messages) {
   }
   for (const id of slots) if (!ids.has(id)) failures.images.push(id + ' — пропал согласованный слот иллюстрации');
   const seen = new Set();
-  for (const group of readback.groups) {
+  for (const [index, group] of readback.groups.entries()) {
+    const groupPath = 'contentReadback.groups[' + index + ']';
+    if (!['Benefits', 'BentoGrid'].includes(group?.family)) {
+      return invalid(groupPath + '.family', 'Поддержаны Benefits и BentoGrid; PromoCard проверяется по рецепту в итоговых checks, без выдуманной группы PromoCards.', 'CONTENT_GROUP_UNSUPPORTED');
+    }
     if (!nodeId(group?.id) || seen.has(group.id) || !Object.hasOwn(families, group.id) ||
-        families[group.id] !== group.family || !Array.isArray(group.cards)) return null;
+        families[group.id] !== group.family) return invalid(groupPath + '.id', 'Группа должна соответствовать уникальному ID и семейству из inventory.');
+    if (!Array.isArray(group.cards)) return invalid(groupPath + '.cards', 'Ожидается массив видимых карточек.');
     seen.add(group.id);
-    if (!Number.isSafeInteger(group.capacity) || group.capacity < 1 || group.capacity !== group.cards.length) {
+    if (!Number.isSafeInteger(group.capacity) || group.capacity < 1) return invalid(groupPath + '.capacity', 'Ожидается положительное целое JSON-число, например 3, а не строка "3".');
+    if (group.capacity !== group.cards.length) {
       failures.sizing.push(group.id + ' — число видимых карточек расходится с Capacity');
     }
     const cardIds = new Set();
-    for (const card of group.cards) {
-      if (!nodeId(card?.id) || cardIds.has(card.id) || !positive(card.width) || !positive(card.height)) return null;
+    for (const [cardIndex, card] of group.cards.entries()) {
+      const cardPath = groupPath + '.cards[' + cardIndex + ']';
+      if (!nodeId(card?.id) || cardIds.has(card.id)) return invalid(cardPath + '.id', 'Ожидается уникальный фактический nodeId карточки.');
+      for (const field of ['width', 'height']) if (!positive(card[field])) return invalid(cardPath + '.' + field, 'Ожидается положительное JSON-число в пикселях.');
       cardIds.add(card.id);
       if (group.family === 'Benefits') {
-        if (!nodeId(card.graphicId)) return null;
+        if (!nodeId(card.graphicId)) return invalid(cardPath + '.graphicId', 'Ожидается фактический nodeId Graphic.');
         if (card.graphicKind === 'icon') {
           const icon = card.icon;
           if (icon?.set !== 'glyph-26' || !assetKey(icon.variantKey) || icon.variantKey !== icon.expectedVariantKey ||
               !positive(icon.size) || icon.size !== icon.expectedSize || icon.gridVisible !== false) {
-            failures.icons.push(card.graphicId + ' — иконка glyph-26 в нужном размере не подтверждена');
+            const fields = [];
+            if (icon?.set !== 'glyph-26') fields.push('icon.set должен быть маркером каталога "glyph-26", а не именем component set');
+            if (!assetKey(icon?.variantKey) || icon.variantKey !== icon.expectedVariantKey) fields.push('icon.variantKey/expectedVariantKey не подтверждены');
+            if (!positive(icon?.size) || !positive(icon?.expectedSize) || icon.size !== icon.expectedSize) fields.push('icon.size/expectedSize должны быть равными JSON-числами фактического размера в px, не m или "24"');
+            if (icon?.gridVisible !== false) fields.push('icon.gridVisible должен быть false');
+            failures.icons.push(cardPath + ' (' + card.graphicId + '): ' + fields.join('; '));
           }
         } else if (card.graphicKind !== 'image' || !ids.has(card.graphicId)) {
           failures.icons.push(card.graphicId + ' — Graphic не подтверждён');
@@ -142,7 +165,8 @@ function verifyContent(readback, inventory, messages) {
           failures.sizing.push(card.id + ' — высота, Stopper или положение Graphic расходятся с группой');
         }
       } else {
-        if (!positive(card.areaWidth) || !positive(card.areaHeight) || !['FILL', 'HUG', 'FIXED'].includes(card.verticalSizing)) return null;
+        for (const field of ['areaWidth', 'areaHeight']) if (!positive(card[field])) return invalid(cardPath + '.' + field, 'Ожидается положительное JSON-число размера области в px.');
+        if (!['FILL', 'HUG', 'FIXED'].includes(card.verticalSizing)) return invalid(cardPath + '.verticalSizing', 'Ожидается FILL, HUG или FIXED из фактического readback.');
         if (!same(card.width, card.areaWidth) || card.height > card.areaHeight + 1 ||
             !same(card.height, card.areaHeight) && (card.verticalSizing === 'FILL' ||
               !recipes.BentoGrid.some(file => file.startsWith('bento-grid/') && componentRoot + file === card.sizingRecipe))) {
@@ -151,7 +175,7 @@ function verifyContent(readback, inventory, messages) {
       }
     }
   }
-  if (seen.size !== Object.keys(families).length) return null;
+  if (seen.size !== Object.keys(families).length) return invalid('contentReadback.groups', 'Не прочитаны группы из inventory: ' + Object.keys(families).filter(id => !seen.has(id)).join(', '));
 
   const status = (name, items, evidence) => ({
     name, status: items.length ? 'failed' : 'passed', evidence: (items.join(', ') || evidence).slice(0, 4000),

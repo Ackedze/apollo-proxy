@@ -142,7 +142,8 @@ function createAgentCli({provider='codex',binary='codex',model='',generatedRoot,
   await fsp.writeFile(schemaPath,JSON.stringify(schema),{flag:'wx',mode:0o600});
   const args=invocation({workspace:scope,profile,schemaPath,outputPath,model,mcpConnection,knowledgeConnection,sessionId});
   const files=profile==='landing-direct'&&knowledgeConnection?.files;
-  const prefix=profilePrefix(profile,files);
+  const screenshotInstruction=isMcp(profile)?'\nThis CLI cannot fetch screenshot URLs: shell/network access is restricted. Call get_screenshot with enableBase64Response:true to receive the actual inline image. A URL or image_url metadata alone is not a delivered image and cannot establish visual inspection. If the inline image is unavailable, report that check as unknown.':'';
+  const prefix=profilePrefix(profile,files)+screenshotInstruction;
   const input=prefix+'\n'+prompt;
   const toolTimings=new Map(),timingView=()=>Array.from(toolTimings.values(),({monotonicStart,...value})=>value);
   async function failureError(code,{status=502,exitCode=null,stage='process',stderr='',events=[],mcpAuthentication=null}={}){

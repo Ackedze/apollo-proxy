@@ -1,0 +1,45 @@
+name: Liquid Glass audit-data pair
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  audit-data:
+    name: Audit data with pinned Apollo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: services/apollo-proxy
+          persist-credentials: false
+      # Candidate Apollo PR #23. Update this pin after acceptance, never follow a moving branch.
+      - uses: actions/checkout@v7
+        with:
+          repository: gonuzov/apollo
+          ref: 553cb41c01a0c8d09236eefee6ef0e47049e1fe6
+          path: projects/Apollo
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            projects/Apollo/package-lock.json
+            services/apollo-proxy/package-lock.json
+      - name: Record exact tested pair
+        run: |
+          git -C projects/Apollo rev-parse HEAD
+          git -C services/apollo-proxy rev-parse HEAD
+      - run: npm ci
+        working-directory: projects/Apollo
+      - run: npm ci
+        working-directory: services/apollo-proxy
+      - name: Run audit-data and native compatibility regressions
+        run: node --test test/audit-data.test.js test/audit-data-package.test.js test/audit-data-joint.test.js test/audit-data-compact-index.test.js test/audit-legacy-components.test.js
+        working-directory: services/apollo-proxy

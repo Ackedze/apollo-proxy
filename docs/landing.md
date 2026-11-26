@@ -49,6 +49,14 @@ Proxy добавляет в чат точную причину host-остано
 CLI без host skill discovery, bundled/implicit skill instructions, shell,
 apps/plugins и web search. Глобальная конфигурация пользователя не меняется.
 Сессия сохраняется: `exec resume <sessionId>` продолжает её с теми же настройками.
+Inventory наполнения также сохраняется с source pin и ID корня; пересогласование
+структуры сбрасывает его. Ошибки формата readback содержат точный путь поля и
+ожидаемый тип. Host checks передаются следующему ходу как `contentValidation`;
+завершение требует нового фактического чтения после исправления.
+CLI с запрещённой сетью запрашивает `get_screenshot` с
+`enableBase64Response:true`: URL и JSON-метаданные сами по себе не подтверждают
+доставку изображения или визуальную проверку. При недоступном изображении
+проверка остаётся UNKNOWN.
 
 `apollo_knowledge` — read-only stdio MCP, только `list_sources/read_source`.
 Он переиспользует `openKnowledge`, существующий reader и Hub routing; нового
