@@ -101,3 +101,49 @@ test('legacy policy travels with the standard knowledge package and enforces its
  await fs.appendFile(path.join(built.packageRoot,p.LEGACY_COMPONENT_POLICY),' ');
  await call();assert.equal(status,409);assert.deepEqual(body,{error:'AUDIT_DATA_ASSET_MISMATCH'});
 });
+
+test('legacy route rejects a package change between the policy and index reads',async t=>{
+ const f=await fixture(t),document=structuredClone(data);
+ const family=document.payload.components.rows['a'.repeat(40)].componentKey;
+ const row=document.payload.components.rows[family];
+ row.platforms=['iOS'];
+ document.payload.sources.sources[0].fileKey='SyntheticLibrary';
+ const policy={schemaVersion:1,platform:'iOS',families:[{key:family,name:'Original',fileKey:'SyntheticLibrary',allowLocalSupplement:false}]};
+ const configPath='JSONS/apollo/policies/liquid-glass.json';
+ document.dataId=p.sha(JSON.stringify(document.payload));
+ await f.write(f.designRoot,p.COMPACT_INDEX,document);
+ await f.write(f.designRoot,configPath,policy);
+ const first=await f.build();
+
+ row.name='Updated catalog name';
+ policy.families[0].name='Updated policy name';
+ document.dataId=p.sha(JSON.stringify(document.payload));
+ await f.write(f.designRoot,p.COMPACT_INDEX,document);
+ await f.write(f.designRoot,configPath,policy);
+ const second=await f.build(path.join(f.root,'replacement'));
+
+ const outerManifest=path.join(first.packageRoot,'manifest.json'),lstat=fs.lstat;
+ let manifestStats=0;
+ t.mock.method(fs,'lstat',async(file,...args)=>{
+  const stat=await lstat(file,...args);
+  // Switch after the policy reader captures its final manifest stat.
+  if(file===outerManifest&&++manifestStats===3){
+   await fs.rename(first.packageRoot,path.join(f.root,'previous'));
+   await fs.rename(second.packageRoot,first.packageRoot);
+  }
+  return stat;
+ });
+ const routes=new Map();
+ mountAuditDataRoutes({get:(route,handler)=>routes.set(route,handler)},{knowledgeRoot:first.packageRoot});
+ const relay=routes.get('/v1/audit-data/legacy-components');
+ const call=async()=>{
+  const reply={status:200,body:null};
+  await relay({query:{}},{set(){},status(code){reply.status=code;return this;},json(body){reply.body=body;}});
+  return reply;
+ };
+ assert.deepEqual(await call(),{status:409,body:{error:'AUDIT_DATA_SOURCE_CHANGED'}});
+ const retry=await call();
+ assert.equal(retry.status,200);
+ assert.equal(retry.body.sourceIndexDataId,document.dataId);
+ assert.equal(retry.body.policySha256,p.sha(JSON.stringify(policy)));
+});

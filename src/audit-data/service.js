@@ -6,7 +6,7 @@ function mountAuditDataRoutes(app,{designSystemRoot,knowledgeRoot,legacyComponen
  // has no accepted knowledge manifest; there is no Git or local-source fallback.
  const reader=createAuditDataReader({knowledgeRoot:knowledgeRoot||path.resolve(designSystemRoot,'../..')});
  const readLegacyComponents=require('./legacy-components-reader').createLegacyComponentsReader({file:legacyComponentsFile,
-  readIndex:()=>reader.compactIndex(),readPolicy:()=>reader.legacyComponentPolicy()});
+  readIndex:()=>reader.compactIndex(),readPackage:()=>reader.legacyComponentInputs()});
  const route=(work,send=(res,value)=>res.json(value))=>async(req,res)=>{
   res.set('Cache-Control','no-store');
   try{if(Object.keys(req.query||{}).length)throw Object.assign(Error('AUDIT_DATA_REQUEST_INVALID'),{code:'AUDIT_DATA_REQUEST_INVALID'});send(res,await work(req));}

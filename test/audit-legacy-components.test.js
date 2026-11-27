@@ -70,17 +70,17 @@ test('configured file is read explicitly, reloads on change and never falls back
 
 test('package policy is the default; an explicit override never silently falls back to it',async t=>{
  const f=fixture(),bytes=Buffer.from(JSON.stringify(f.config));let packageReads=0;
- const readPolicy=async()=>{packageReads++;return bytes;};
- const packaged=await createLegacyComponentsReader({readIndex:async()=>f.bytes(),readPolicy})();
+ const readPackage=async()=>{packageReads++;return {policy:bytes,index:f.bytes()};};
+ const packaged=await createLegacyComponentsReader({readPackage})();
  assert.equal(packaged.policySource,'package');assert.equal(packaged.policySha256,p.sha(bytes));
  assert.equal(packaged.families.length,2);assert.equal(packageReads,1);
  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'apollo-policy-'));t.after(()=>fs.rm(dir,{recursive:true,force:true}));
  const file=path.join(dir,'override.json');await fs.writeFile(file,bytes);
- const read=createLegacyComponentsReader({file,readIndex:async()=>f.bytes(),readPolicy});
+ const read=createLegacyComponentsReader({file,readIndex:async()=>f.bytes(),readPackage});
  assert.equal((await read()).policySource,'local-override');assert.equal(packageReads,1);
  await fs.writeFile(file,'invalid');await assert.rejects(read(),/CONFIG_INVALID/);
  await fs.unlink(file);await assert.rejects(read(),/CONFIG_INVALID/);assert.equal(packageReads,1);
- await assert.rejects(createLegacyComponentsReader({readIndex:async()=>f.bytes(),readPolicy:async()=>{throw Error('AUDIT_DATA_ASSET_MISMATCH');}})(),/ASSET_MISMATCH/);
+ await assert.rejects(createLegacyComponentsReader({readPackage:async()=>{throw Error('AUDIT_DATA_ASSET_MISMATCH');}})(),/ASSET_MISMATCH/);
 });
 
 test('a conditional family reports only False; True, unknown state and conflicting evidence never become legacy',()=>{
