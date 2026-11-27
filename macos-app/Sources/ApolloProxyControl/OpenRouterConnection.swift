@@ -61,6 +61,7 @@ enum OpenRouterConnection {
             case "OPENROUTER_APPROVAL_REQUIRED": "Отправка текстов отменена."
             case "CODEX_INPUT_BUDGET_EXCEEDED": "Слишком много текста. Выберите область поменьше и повторите проверку."
             case "UX_WRITER_RESPONSE_INVALID": "OpenRouter вернул неполный ответ. Повторите проверку."
+            case "TASK_PASSPORT_RESPONSE_INVALID": "OpenRouter вернул неполный паспорт задачи. Повторите сборку."
             default: "Не удалось проверить подключение к OpenRouter. Повторите попытку."
             }
         }

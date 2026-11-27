@@ -282,7 +282,7 @@ final class ProxyDetailsWindowController: NSWindowController, NSTextFieldDelegat
         openRouterToggle.setAccessibilityLabel("Использовать OpenRouter")
         let openRouterTitle = NSTextField(labelWithString: "Использовать OpenRouter")
         openRouterTitle.setAccessibilityElement(false)
-        let openRouterHelp = NSTextField(wrappingLabelWithString: "Подтверждайте каждую отправку текстов и редакционных правил в OpenRouter.")
+        let openRouterHelp = NSTextField(wrappingLabelWithString: "Подтверждайте каждую отправку данных из «Проверки текстов» и «Паспорта задачи» в OpenRouter.")
         style(openRouterHelp, secondary: true)
         style(openRouterLabel)
         openRouterProgress.style = .spinning
@@ -303,7 +303,7 @@ final class ProxyDetailsWindowController: NSWindowController, NSTextFieldDelegat
                      row([openRouterConnect, button("Проверить подключение", .checkOpenRouter)])] {
             openRouterSettings.addArrangedSubview(view)
         }
-        section([heading("Проверка текстов"), row([openRouterToggle, openRouterTitle]), openRouterSettings])
+        section([heading("Редакторские навыки"), row([openRouterToggle, openRouterTitle]), openRouterSettings])
         for view in [openRouterHelp, openRouterKeyField, openRouterStatusRow, openRouterSettings] {
             view.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         }

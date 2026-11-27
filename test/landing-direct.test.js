@@ -1,11 +1,13 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os'),crypto=require('node:crypto');
 const {FLOW,createDirectLandingService,mountDirectLandingRoutes}=require('../src/landing/direct-service');
-function fixture(t){
+function fixture(t,verification=null,repairStructure=false){
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'direct-landing-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
- let result='needs-structure-approval',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null;const calls=[],knowledgeEvents=[],figmaEvents=[];
+ let result='needs-structure-approval',message='Actual fixture checkpoint',checkpoint='Existing frame and next action',held=null,hold=false,stale=false,inspection=null,onlyInspection=false,runError=null,reportedChecks=[],reportedIssues=[],reportedQuestion;const calls=[],knowledgeEvents=[],figmaEvents=[];
  const source={id:'data',resumePin:'source-pin',knowledgeVersion:'hub-v1',skill:{id:'ab-generate-custom-landing',name:'Landing',version:'0.6.0',sha256:'a'.repeat(64),generation:{workflow:FLOW},bodies:{'references/rules/page-layout.md':'Layout recipe.','references/rules/component-selection.md':'Selection recipe.'}},initial:{selectedSkill:{id:'ab-generate-custom-landing'},instructions:{'SKILL.md':'Use Hub.'}},assertCurrent(){if(stale)throw Object.assign(Error('LANDING_DATA_STALE'),{code:'LANDING_DATA_STALE'});}};
  source.fileAccess={hub:'/package/hub',skill:'/package/skill',workflow:'/runtime/workflow.md'};
+ if(verification){source.skill.generation.verification={schemaVersion:'apollo.recipe-verification.v1',file:'references/verification.json'};source.skill.bodies['references/verification.json']=JSON.stringify(verification);}
+ if(repairStructure)source.skill.bodies['references/recovery.json']=JSON.stringify({schemaVersion:'apollo.recipe-recovery.v1',repairStructure:true});
  const rootCalls=[],rootValues=[];
  const rootLifecycle={async inspect(input,options){if(!options.fit)rootCalls.push({...input,create:options.create});if(rootValues.length){const v=rootValues.shift();if(v instanceof Error)throw v;if(typeof v==='function')return v(input,options);return v;}return {state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:input.ownerNonce,chat:input.chatId,width:1140,height:400,childrenComplete:true,children:[{id:'30:41',x:0,y:0,width:1140,height:400}]}};}};
  const options={root,rootLifecycle,knowledge:()=>source,isProcessAlive:()=>false,createCli:(_fileKey,_source,knowledgePilot)=>({async run(input){
@@ -18,13 +20,19 @@ function fixture(t){
   input.onEvent({type:'item.completed',item:{id:'source:1',type:'mcp_tool_call',server:'apollo_knowledge',tool:'read_source',status:'completed',result:{content:[{type:'text',text:JSON.stringify({id:'knowledge/data/ds-ai-hub/products/ab/patterns/landing-pages.md',sha256:'b'.repeat(64),path:[],offset:0,mode:'read',text:'Rule.',sourcePin:'source-pin'})}]}}});
   for(const [index,{tool,value}] of knowledgeEvents.entries())input.onEvent({type:'item.completed',item:{id:'knowledge:'+index,type:'mcp_tool_call',server:'apollo_knowledge',tool,status:'completed',result:{content:[{type:'text',text:JSON.stringify(value)}]}}});
   if(inspection)input.onEvent({type:'item.completed',item:{id:'inspect:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify(inspection(context))}]}}});
-  for(const [index,readback] of figmaEvents.entries())input.onEvent({type:'item.completed',item:{id:'readback:'+index,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({...readback,target:{...context.target,rootNodeId:'30:40',parentNodeId:context.target.pageId}})}]}}});
+  for(const [index,readback] of figmaEvents.entries()){
+   if(Number.isInteger(readback.startAt)){
+    input.onEvent({type:'item.started',item:{id:'readback:'+readback.startAt,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'in_progress'}});
+    continue;
+   }
+   input.onEvent({type:'item.completed',item:{id:'readback:'+index,type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({...readback,target:{...context.target,rootNodeId:'30:40',parentNodeId:context.target.pageId}})}]}}});
+  }
   const hasRoot=result!=='needs-input'&&!onlyInspection;if(hasRoot)input.onEvent({type:'item.completed',item:{id:'figma:1',type:'mcp_tool_call',server:'apollo_figma_mcp',tool:'use_figma',status:'completed',result:{content:[{type:'text',text:JSON.stringify({target:{rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce}})}]}}});
-  return {result:{status:result,message:'Actual fixture checkpoint',rootNodeId:hasRoot?'30:40':null,checkpoint:'Existing frame and next action',checks:[],issues:[]},receipt:{usage:{actualInputTokens:10,actualOutputTokens:5}}};
+  return {result:{status:result,message,rootNodeId:hasRoot?'30:40':null,checkpoint,checks:reportedChecks,issues:reportedIssues,...(reportedQuestion!==undefined?{question:reportedQuestion}:{})},receipt:{usage:{actualInputTokens:10,actualOutputTokens:5}}};
  }})};
  const service=createDirectLandingService(options),chat=service.create({id:crypto.randomUUID(),fileKey:'FigmaTestFile',pageId:'1:2',placement:{mode:'new-section',sectionId:null}});
  const send=(text='Build a landing')=>service.submit(chat.id,{requestId:crypto.randomUUID(),revision:service.poll(chat.id).revision,text});
- return {root,service,chat,calls,rootCalls,rootValues,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
+ return {root,service,chat,calls,rootCalls,rootValues,options,source,send,knowledgeEvents,figmaEvents,setResult:value=>result=value,setMessage:value=>message=value,setQuestion:value=>reportedQuestion=value,setCheckpoint:value=>checkpoint=value,setChecks:value=>reportedChecks=value,setIssues:value=>reportedIssues=value,setHold:value=>hold=value,release:()=>held?.(),setStale:()=>stale=true,setInspection:(value,only=false)=>{inspection=value;onlyInspection=only;},setError:value=>runError=value};
 }
 const absent=context=>({target:{rootNodeId:null,pageId:context.target.pageId,parentNodeId:context.target.placement.sectionId||context.target.pageId,ownerNonce:context.target.ownerNonce},ownedCount:0,matches:[]});
 test('new chats default to B and explicit modes remain pinned after the first message',async t=>{
@@ -66,6 +74,7 @@ test('new chats default to B and explicit modes remain pinned after the first me
   assert.deepEqual(resumed.structureSources,prompt.structureSources);
   assert.deepEqual(resumed.knowledgeFiles,prompt.knowledgeFiles);
   if(mode==='B')assert.match(f.calls[1].prompt,/sections of the single knowledgeFiles.workflow file, not filesystem paths/);
+  for(const call of [f.calls[0],f.calls[1]]){assert.equal((call.prompt.match(/Keep message concise and in Russian\./g)||[]).length,1);assert.match(call.prompt,/bold the question/);assert.match(call.prompt,/\[к макету\]\(actual Figma URL\)/);assert.match(call.prompt,/Keep ownership IDs and component property names in structured evidence, not user-facing prose/);}
  }
 });
 test('legacy records keep their mode and source pins still prevent stale file reads',async t=>{
@@ -188,6 +197,28 @@ test('model target echo and alias metadata cannot replace final independent nati
  const f=fixture(t);f.rootValues.push(input=>({state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:input.ownerNonce,chat:input.chatId}}),input=>({state:'found',matches:['30:40'],root:{id:'30:40',type:input.type,pageId:input.pageId,parentId:input.parentId,owner:'',chat:'',ownerNonce:input.ownerNonce,chatId:input.chatId}}));
  f.send();await f.service.settled(f.chat.id);const c=f.service.poll(f.chat.id);assert.equal(c.error.code,'LANDING_TARGET_CHANGED');assert.equal(c.status,'interrupted');assert.equal(c.target.rootNodeId,'30:40');assert.equal(c.execution.rootReadRequired,true);
 });
+test('captured owner receipt alias confirms only the already verified exact target',async t=>{
+ for(const canonical of [false,true]){
+  const f=fixture(t);f.setResult('partial');
+  f.setInspection(context=>({target:{rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.pageId,rootType:'SECTION',rootName:'Section',owner:context.target.ownerNonce,chat:context.target.chatId,...(canonical?{ownerNonce:context.target.ownerNonce}:{})},childCount:0,sets:[]}),true);
+  f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);
+  assert.equal(chat.error,null);assert.equal(chat.target.rootNodeId,'30:40');assert.equal(chat.target.ownerNonce,chat.execution.ownerNonce);
+  assert.equal(chat.status,'interrupted');assert.equal(chat.execution.structureApproval,undefined);
+ }
+});
+test('receipt owner aliases reject missing, conflicting or foreign identity without rebinding',async t=>{
+ for(const change of [
+  target=>{delete target.owner;},target=>{target.owner=null;},target=>{target.owner='foreign';},
+  target=>{target.ownerNonce='foreign';},target=>{target.ownerNonce=null;},
+  target=>{target.ownerNonce=target.owner;target.owner='foreign';},
+  target=>{delete target.rootNodeId;},target=>{target.rootNodeId=null;},target=>{target.rootNodeId='30:50';},
+  target=>{target.pageId='9:9';},target=>{delete target.parentNodeId;},target=>{target.parentNodeId='9:9';}
+ ]){
+  const f=fixture(t);f.setResult('partial');f.setInspection(context=>{const target={rootNodeId:'30:40',pageId:context.target.pageId,parentNodeId:context.target.pageId,owner:context.target.ownerNonce};change(target);return {target,childCount:0};},true);
+  f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);
+  assert.equal(chat.error.code,'LANDING_TARGET_CHANGED');assert.equal(chat.target.rootNodeId,'30:40');assert.equal(chat.execution.rootReadRequired,true);
+ }
+});
 test('host failure is shown truthfully and supplied to resumed CLI; success clears it',async t=>{
  const f=fixture(t);f.send();await f.service.settled(f.chat.id);
  f.setError(Object.assign(Error('process failed'),{code:'AGENT_MCP_STARTUP_TIMEOUT',diagnostic:JSON.stringify({mcpStartup:{server:'apollo_figma_mcp',timeoutMs:30000}})}));f.send('Continue');await f.service.settled(f.chat.id);let c=f.service.poll(f.chat.id);
@@ -212,6 +243,22 @@ test('continue is not structure approval; rejection waits for requested changes 
 test('content sends full applicable rules and completes only against the final Figma readback',async t=>{
  const cases={
   complete:(inventory,proof)=>[inventory,{mutatedNodeIds:['50:1']},proof],
+  splitReadback:(inventory,{contentReadback:{imageSlots,groups}})=>[
+   inventory,{affectedIds:['50:1']},{contentReadback:{groups,imageSlots:[]}},{contentReadback:{imageSlots,groups:[]}},
+  ],
+  replacedSlot:(inventory,{contentReadback:{imageSlots,groups}})=>[
+   inventory,{contentReadback:{groups,imageSlots:[{...imageSlots[0],variantKey:null}]}},{contentReadback:{imageSlots}},
+  ],
+  writeBetweenBatches:(inventory,{contentReadback:{imageSlots,groups}})=>[
+   inventory,{contentReadback:{groups}},{affectedIds:['50:1']},{contentReadback:{imageSlots}},
+  ],
+  lateReadFromBeforeWrite:(inventory,proof)=>[inventory,{startAt:3},{affectedIds:['50:1']},proof],
+  fakeEmptyInventory:({instances},proof)=>[
+   {instances,illustrationSlots:[{id:'30:41'}]},{affectedIds:['50:1']},{instances,illustrationSlotIds:[],...proof},
+  ],
+  duplicateInOneBatch:(inventory,{contentReadback:{imageSlots,groups}})=>[
+   inventory,{contentReadback:{groups,imageSlots:[imageSlots[0],imageSlots[0]]}},{contentReadback:{imageSlots}},
+  ],
   draftOnly:inventory=>[inventory,{mutatedNodeIds:['50:1']}],
   stale:(inventory,proof)=>[inventory,proof,{mutatedNodeIds:['50:1']}],
   lateInventory:(inventory,proof)=>[{mutatedNodeIds:['50:1']},inventory,proof],
@@ -282,8 +329,9 @@ test('content sends full applicable rules and completes only against the final F
   }
   assert(calls.filter(call=>call.limit===16000).every(call=>call.offset===undefined));
   assert.equal(after.target.rootNodeId,'30:40');
-  assert.equal(after.status,['complete','fullyRead'].includes(name)?'completed':'interrupted');
-  if(['complete','fullyRead'].includes(name))assert.deepEqual(after.result.checks.filter(row=>row.name!=='Границы SECTION').map(row=>row.status),['passed','passed','passed']);
+  const complete=['complete','fullyRead','splitReadback','replacedSlot'].includes(name);
+  assert.equal(after.status,complete?'completed':'interrupted');
+  if(complete)assert.deepEqual(after.result.checks.filter(row=>row.name!=='Границы SECTION').map(row=>row.status),['passed','passed','passed']);
   if(name==='violations')assert.deepEqual(after.result.checks.filter(row=>row.name!=='Границы SECTION').map(row=>row.status),['failed','failed','failed']);
   if(name==='hiddenIllustration')assert.match(after.result.checks[0].evidence,/30:42/);
   if(name==='partiallyRead')assert(after.result.checks.some(row=>row.status==='unknown'&&row.evidence.includes('04-compose-cards.md')));
@@ -391,4 +439,272 @@ test('Figma auth and unverified connection preserve chat, target and session wit
   assert.match(after.message,code==='AGENT_MCP_AUTH_REQUIRED'?/Подключить Figma/:/Проверить подключение/);
   f.setError(null);f.send('Continue after connecting');await f.service.settled(f.chat.id);assert.equal(JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1)).hostFailure.code,code);
  }
+});
+
+const factProfile={schemaVersion:'apollo.recipe-verification.v1',rules:[{id:'measured-tree',label:'Фактическое дерево',source:'knowledge/data/ds-ai-hub/recipe.md',stages:['structure','content'],scope:[{relation:'self',match:{}}],minScopes:1,assertions:[{id:'width',label:'Ширина',op:'value',field:'width',equals:1140,targets:[{relation:'self',match:{}}]},{id:'color',label:'Привязки',op:'same',field:'binding:fills',targets:[{relation:'children',match:{}}]}]}]};
+function factFixture(t, repairStructure=false){
+ const f=fixture(t,factProfile,repairStructure),operations=[];let width=1140,color='color-a',missing=false;
+ const original=f.options.rootLifecycle.inspect;
+ f.options.rootLifecycle.inspect=async(input,options)=>{
+  operations.push({fit:!!options.fit,observe:!!options.observe});const value=await original(input,options);
+  if(options.observe&&!missing)value.root.observation={schemaVersion:'apollo.recipe-observation.v1',rootId:'30:40',complete:true,nodes:[{id:'30:40',parentId:input.parentId,type:input.type,name:'Root',visible:true,facts:{width}},...['a','b'].map(id=>({id,parentId:'30:40',type:'FRAME',name:id,visible:true,facts:{},bindings:{fills:color}}))]};
+  return value;
+ };
+ return {...f,operations,setWidth:v=>width=v,setColor:v=>color=v,setMissing:v=>missing=v};
+}
+test('a concrete structural failure repairs the same revision once and checks the result independently',async t=>{
+ for(const repaired of [true,false]) await t.test(repaired?'successful':'still fails',async t=>{
+  const f=factFixture(t,true);
+  f.setWidth(800);
+  f.setInspection(()=>{
+   if(repaired&&f.calls.length===2)f.setWidth(1140);
+   return {};
+  });
+  f.send('Собери каркас');
+  await f.service.settled(f.chat.id);
+  const chat=f.service.poll(f.chat.id), first=f.calls[0], repair=f.calls[1];
+  assert.equal(f.calls.length,2);
+  assert.equal(f.operations.filter(operation=>operation.observe).length,2);
+  assert.equal(chat.revision,1);
+  assert.equal(chat.messages.filter(message=>message.role==='user').length,1);
+  assert.deepEqual(chat.execution.automaticRepair,{revision:1,failedChecks:1});
+  assert.equal(repair.sessionId,chat.execution.sessionId);
+  assert.equal(repair.diagnosticContext.requestId,first.diagnosticContext.requestId);
+  assert.notEqual(repair.diagnosticContext.runId,first.diagnosticContext.runId);
+  const repairContext=JSON.parse(repair.prompt.split('\n').at(-1));
+  assert.equal(repairContext.recipeValidation.revision,1);
+  assert.equal(repairContext.recipeValidation.checks[0].status,'failed');
+  assert.equal(repairContext.target.rootNodeId,chat.target.rootNodeId);
+  assert.equal(chat.execution.recipeValidation.passed,repaired);
+  assert.equal(chat.execution.structureApproved,false);
+  assert.equal(chat.status,repaired?'needs-structure-approval':'interrupted');
+ });
+});
+test('a question or an unknown host check prevents automatic edits',async t=>{
+ for(const status of ['needs-input','needs-structure-approval']){
+  const f=factFixture(t,true);
+  f.setResult(status);
+  f.setWidth(800);
+  if(status==='needs-structure-approval')f.setMissing(true);
+  f.send();
+  await f.service.settled(f.chat.id);
+  assert.equal(f.calls.length,1);
+  assert.equal(f.service.poll(f.chat.id).status,status==='needs-input'?status:'interrupted');
+ }
+});
+test('an agent draft with a concrete independent failure also gets a single repair',async t=>{
+ const f=factFixture(t,true);
+ f.setResult('partial');
+ f.setWidth(800);
+ f.setInspection(()=>{
+  if (f.calls.length===2) f.setWidth(1140);
+  return {};
+ });
+ f.send();
+ await f.service.settled(f.chat.id);
+ const chat=f.service.poll(f.chat.id);
+ assert.equal(f.calls.length,2);
+ assert.equal(chat.execution.recipeValidation.passed,true);
+ assert.equal(chat.status,'interrupted');
+ assert.equal(chat.execution.structureApproval,undefined);
+});
+test('partial recolor refreshes r2 facts without fitting or offering approval, including affectedIds receipts',async t=>{
+ const f=factFixture(t);f.setResult('partial');f.setWidth(800);f.send();await f.service.settled(f.chat.id);
+ const old=f.service.poll(f.chat.id);assert.equal(old.execution.recipeValidation.revision,1);assert.equal(old.result.verification,'host-blocked');
+ f.setWidth(1140);f.setColor('promo-pearl-variable');f.setMessage('Перекрасил КИБ в ММБ. Согласование ещё не завершено.');f.figmaEvents.push({affectedIds:['a','b']});
+ f.send('А теперь смени сегмент на ММБ');await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id),checked=chat.execution.recipeValidation;
+ assert.equal(checked.revision,2);assert.equal(checked.rootId,'30:40');assert.equal(checked.sourcePin,'source-pin');assert.equal(checked.stage,'structure');assert.equal(checked.profileHash,chat.execution.verification.profileHash);
+ assert.notEqual(checked.snapshotHash,old.execution.recipeValidation.snapshotHash);assert.equal(checked.passed,true);
+ assert.equal(chat.status,'interrupted');assert.equal(chat.execution.structureApproved,false);assert.equal(chat.execution.structureApproval,undefined);assert.equal(chat.result.ready,false);assert.equal(chat.result.verification,'host-verified-recipe');
+ assert.equal(chat.message,'Перекрасил КИБ в ММБ. Согласование ещё не завершено.');assert.equal(chat.messages.at(-1).text,chat.message);assert.equal(chat.execution.checkpoint,'Existing frame and next action');
+ assert.equal(f.operations.filter(x=>x.observe).length,2);assert(!f.operations.some(x=>x.fit));
+});
+test('partial after an unaccepted approval records current failed/unknown facts and preserves the model explanation',async t=>{
+ for(const mode of ['failed','unknown','read-error'])await t.test(mode,async t=>{
+  const f=factFixture(t);f.send();await f.service.settled(f.chat.id);const before=f.service.poll(f.chat.id);
+  f.setResult('partial');f.setMessage('Цвет изменён; остаются точные замечания.');
+  if(mode==='failed')f.setWidth(800);
+  if(mode==='unknown')f.setMissing(true);
+  if(mode==='read-error'){const inspect=f.options.rootLifecycle.inspect;f.options.rootLifecycle.inspect=async(i,o)=>{if(o.observe)throw Object.assign(Error('timeout'),{code:'LANDING_ROOT_MCP_TIMEOUT'});return inspect(i,o);};}
+  f.send('Измени сегмент на ММБ');await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);
+  assert.equal(chat.status,'interrupted');assert.equal(chat.execution.structureApproved,false);assert.equal(chat.execution.structureApproval.status,'rejected');assert.equal(chat.result.revision,2);assert.equal(chat.result.ready,false);
+  assert(chat.messages.some(m=>m.text==='Цвет изменён; остаются точные замечания.'));assert.equal(chat.execution.checkpoint,'Existing frame and next action');
+  if(mode==='read-error'){assert.equal(chat.result.verification,'host-unavailable');assert.equal(chat.execution.recipeValidation.revision,before.execution.recipeValidation.revision);assert.equal(chat.error.code,'LANDING_ROOT_MCP_TIMEOUT');}
+  else{assert.equal(chat.execution.recipeValidation.revision,2);assert.equal(chat.result.verification,'host-blocked');assert(chat.result.checks.some(c=>c.status===mode));assert.equal(chat.message,'Цвет изменён; остаются точные замечания.');}
+ });
+});
+test('a partial awaiting independently confirmed recipe facts only can offer user approval',async t=>{
+ for(const mode of ['verified','wrong-scope','independent-unknown','open-issue','needs-input'])await t.test(mode,async t=>{
+  const f=factFixture(t);
+  f.setResult(mode==='needs-input'?'needs-input':'partial');
+  f.setCheckpoint('await-host-recipe-verification');
+  f.setChecks([{name:'Await a host reading',status:'unknown',evidence:JSON.stringify({
+   ruleId:'measured-tree',assertionId:'width',scope:mode==='wrong-scope'?'40:90':'30:40',
+  })}]);
+  if(mode==='independent-unknown')f.setMissing(true);
+  if(mode==='open-issue')f.setIssues(['User decision still required']);
+  f.send();
+  await f.service.settled(f.chat.id);
+  const chat=f.service.poll(f.chat.id);
+  assert.equal(chat.execution.structureApproved,false);
+  assert.equal(f.calls.length,1);
+  if(mode==='verified'){
+   assert.equal(chat.status,'needs-structure-approval');
+   assert.equal(chat.execution.structureApproval.status,'pending');
+   assert.match(chat.message,/node-id=30%3A40/);
+   assert.deepEqual(f.operations.slice(-2),[{fit:true,observe:false},{fit:false,observe:true}]);
+  }else{
+   assert.equal(chat.status,mode==='needs-input'?'needs-input':'interrupted');
+   assert.equal(chat.execution.structureApproval,undefined);
+  }
+ });
+});
+test('ordinary partial, needs-input and incomplete or empty roots keep their pause',async t=>{
+ for(const mode of ['needs-input','empty','incomplete']){
+  const f=factFixture(t);f.setResult(mode==='needs-input'?mode:'partial');
+  if(mode!=='needs-input'){
+   const inspect=f.options.rootLifecycle.inspect;f.options.rootLifecycle.inspect=async(i,o)=>{const v=await inspect(i,o);if(mode==='empty')v.root.children=[];else v.root.childrenComplete=false;return v;};
+  }
+  f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);
+  assert.equal(chat.status,mode==='needs-input'?'needs-input':'interrupted');assert.equal(chat.execution.recipeValidation,undefined);assert.equal(chat.execution.structureApproval,undefined);assert(!f.operations.some(o=>o.observe||o.fit));
+ }
+});
+test('cancelling a partial observation cannot save a late successful verification',async t=>{
+ const f=factFixture(t),inspect=f.options.rootLifecycle.inspect;f.setResult('partial');
+ f.options.rootLifecycle.inspect=async(i,o)=>{const v=await inspect(i,o);if(o.observe)f.service.cancel(f.chat.id);return v;};
+ f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);
+ assert.equal(chat.status,'interrupted');assert.equal(chat.error.code,'AGENT_CANCELLED');assert.equal(chat.execution.recipeValidation,undefined);assert.equal(chat.execution.structureApproval,undefined);assert.equal(chat.result.ready,false);
+});
+test('new declared gates reject empty or forged model checks and require a host read after fit',async t=>{
+ for(const checks of [[],[{name:'Everything passed',status:'passed',evidence:'Trust the model'}]]){
+  const f=factFixture(t);f.setWidth(800);f.setChecks(checks);f.send();await f.service.settled(f.chat.id);let chat=f.service.poll(f.chat.id);
+  assert.equal(chat.status,'interrupted');assert.equal(chat.execution.structureApproval,undefined);assert.equal(chat.result.verification,'host-blocked');assert(chat.result.checks.some(c=>c.status==='failed'));
+  assert.deepEqual(f.operations.slice(-2),[{fit:true,observe:false},{fit:false,observe:true}]);
+  f.setWidth(1140);f.send('Исправь ширину');await f.service.settled(f.chat.id);chat=f.service.poll(f.chat.id);
+  assert.equal(chat.status,'needs-structure-approval');assert.equal(chat.result.verification,'host-verified-recipe');assert.equal(chat.execution.recipeValidation.sourcePin,'source-pin');assert.equal(chat.execution.recipeValidation.revision,2);
+  assert(JSON.parse(f.calls.at(-1).prompt.split('\n').at(-1)).recipeValidation.checks.some(c=>c.status==='failed'));
+ }
+});
+test('unknown host facts cannot offer approval, and a saved new chat retains its gate',async t=>{
+ const f=factFixture(t);f.setMissing(true);f.send();await f.service.settled(f.chat.id);
+ const stored=f.service.poll(f.chat.id);assert.equal(stored.status,'interrupted');assert.equal(stored.result.checks[0].status,'unknown');
+ const resumed=createDirectLandingService(f.options);resumed.submit(f.chat.id,{requestId:crypto.randomUUID(),revision:stored.revision,text:'Повторно проверь'});await resumed.settled(f.chat.id);
+ assert.equal(resumed.poll(f.chat.id).execution.verification.profileHash,stored.execution.verification.profileHash);assert.equal(resumed.poll(f.chat.id).status,'interrupted');
+});
+test('same-root recolor after offered approval forces reapproval before the next model or write',async t=>{
+ const f=factFixture(t);f.send();await f.service.settled(f.chat.id);const before=f.service.poll(f.chat.id);assert.equal(before.status,'needs-structure-approval');
+ f.setColor('color-b');f.setResult('completed');f.service.structureDecision(f.chat.id,{requestId:crypto.randomUUID(),revision:before.revision,approvalId:before.execution.structureApproval.id,structureHash:before.execution.structureApproval.structureHash,decision:'approve'});await f.service.settled(f.chat.id);
+ const after=f.service.poll(f.chat.id);assert.equal(f.calls.length,1);assert.equal(after.status,'interrupted');assert.equal(after.execution.structureApproved,false);assert.equal(after.target.rootNodeId,before.target.rootNodeId);assert.match(after.message,/согласуй каркас заново/);
+});
+test('unchanged host-verified structure proceeds to content and independently verifies completion',async t=>{
+ const f=factFixture(t);f.send();await f.service.settled(f.chat.id);f.setResult('completed');f.send('Да');await f.service.settled(f.chat.id);
+ const chat=f.service.poll(f.chat.id);assert.equal(chat.status,'completed');assert.equal(chat.execution.recipeValidation.stage,'content');assert.equal(chat.result.verification,'host-verified-recipe');assert.equal(f.calls.length,2);
+});
+test('authorized partial content changes resume without comparing them to the old skeleton snapshot',async t=>{
+ const f=factFixture(t);f.send();await f.service.settled(f.chat.id);
+ f.setResult('partial');f.send('Да');await f.service.settled(f.chat.id);
+ assert.equal(f.service.poll(f.chat.id).execution.structureApproved,true);assert.equal(f.service.poll(f.chat.id).execution.approvalReadRequired,false);
+ // This is the permitted content write from the partial turn, not an edit
+ // between offering and accepting the structure approval.
+ f.setColor('new-authorized-content-color');f.setResult('completed');f.send('Продолжи наполнение');await f.service.settled(f.chat.id);
+ const chat=f.service.poll(f.chat.id);assert.equal(f.calls.length,3);assert.equal(chat.status,'completed');assert.equal(chat.execution.structureApproved,true);
+});
+test('content starts only from approval and the current independent slot inventory',async t=>{
+ const verification=structuredClone(factProfile);
+ verification.rules.push({id:'content-inventory',label:'Inventory',source:'recipe.md',stages:['structure','content'],scope:[{relation:'self',match:{}}],minScopes:1,assertions:[
+  {id:'sections.blocks',label:'Blocks',op:'count',min:1,targets:[{relation:'children',match:{type:'FRAME'}}]},
+  {id:'slots.images',label:'Slots',op:'count',min:0,targets:[{relation:'descendants',match:{name:'Slot',visible:true}}]},
+ ]});
+ for(const scenario of ['changed before approval','changed after partial','same slots with new content','changed during final write','incomplete slot observation'])await t.test(scenario,async t=>{
+  const f=fixture(t,verification),inspect=f.options.rootLifecycle.inspect;
+  let slot='slot:1',text='placeholder',complete=true;
+  f.options.rootLifecycle.inspect=async(input,options)=>{
+   const result=await inspect(input,options);
+   if(options.observe)result.root.observation={schemaVersion:'apollo.recipe-observation.v1',rootId:'30:40',complete,nodes:[
+    {id:'30:40',parentId:input.parentId,type:input.type,facts:{width:1140}},
+    {id:'30:41',parentId:'30:40',type:'FRAME',bindings:{fills:'gray'}},
+    {id:slot,parentId:'30:41',type:'INSTANCE',name:'Slot',visible:true},
+    {id:'30:42',parentId:'30:41',type:'TEXT',text},
+   ]};
+   return result;
+  };
+  f.send();await f.service.settled(f.chat.id);
+  const before=f.service.poll(f.chat.id);
+  assert.equal(before.status,'needs-structure-approval');
+  f.send('Заполни контентом');await f.service.settled(f.chat.id);
+  assert.equal(f.calls.length,1);
+  assert.deepEqual(f.service.poll(f.chat.id).execution.structureApproval,before.execution.structureApproval);
+  if(scenario==='changed before approval')slot='slot:2';
+  if(scenario==='incomplete slot observation')complete=false;
+  f.setResult('partial');f.send('Да');await f.service.settled(f.chat.id);
+  if(scenario==='changed before approval'||scenario==='incomplete slot observation'){
+   assert.equal(f.calls.length,1);
+   assert.equal(f.service.poll(f.chat.id).execution.structureApproval.status,'stale');
+   return;
+  }
+  const content=JSON.parse(f.calls[1].prompt.split('\n').at(-1));
+  assert.deepEqual(content.contentInventory.slots,['slot:1']);
+  assert.deepEqual(content.contentInventory.sections,{blocks:['30:41']});
+  assert.equal(content.contentInventory.approvalHash,before.execution.structureApproval.structureHash);
+  text='final text';
+  if(scenario==='changed after partial')slot='slot:2';
+  if(scenario==='changed during final write'){
+   const createCli=f.options.createCli;
+   // Change after preflight, while the content agent is running.
+   const service=createDirectLandingService({...f.options,createCli(...args){slot='slot:2';return createCli(...args);}});
+   f.setResult('completed');service.submit(f.chat.id,{requestId:crypto.randomUUID(),revision:service.poll(f.chat.id).revision,text:'Продолжи наполнение'});await service.settled(f.chat.id);
+   assert.equal(f.calls.length,3);
+   assert.equal(service.poll(f.chat.id).execution.structureApproval.status,'stale');
+   assert.equal(service.poll(f.chat.id).status,'interrupted');
+   return;
+  }
+  f.setResult('completed');f.send('Продолжи наполнение');await f.service.settled(f.chat.id);
+  const after=f.service.poll(f.chat.id);
+  if(scenario==='changed after partial'){
+   assert.equal(f.calls.length,2);
+   assert.equal(after.execution.structureApproval.status,'stale');
+  }else{
+   assert.equal(f.calls.length,3);
+   assert.equal(after.status,'completed');
+  }
+ });
+});
+test('gated agent readiness waits for host observation; transport failure has no false recipe result',async t=>{
+ for(const fails of [true,false])await t.test(fails?'transport failure':'verified result',async t=>{
+  const f=factFixture(t),factory=f.options.createCli,inspect=f.options.rootLifecycle.inspect;let release,entered;
+  const observing=new Promise(resolve=>entered=resolve);
+  f.options.createCli=(...args)=>{const cli=factory(...args);return {async run(input){input.onEvent({type:'item.completed',item:{type:'agent_message',text:'Каркас уже готов SECRET_READY'}});return cli.run(input);}};};
+  f.options.rootLifecycle.inspect=async(input,options)=>{
+   if(options.observe){assert.deepEqual(options.capture,{nativeFields:[],propertyNames:[],bindingFields:['fills'],variableFields:[],resolvedFields:[],nativeTargets:[]});entered();await new Promise(resolve=>release=resolve);if(fails)throw Object.assign(Error('LANDING_ROOT_MCP_TIMEOUT'),{code:'LANDING_ROOT_MCP_TIMEOUT',diagnostic:JSON.stringify({layer:'json-rpc',kind:'timeout',rpcCode:-32603})});}
+   return inspect(input,options);
+  };
+  const service=createDirectLandingService(f.options);service.submit(f.chat.id,{requestId:crypto.randomUUID(),revision:0,text:'Build'});await observing;
+  const pending=service.poll(f.chat.id);assert.equal(pending.status,'running');assert.match(pending.message,/Проверяем фактический макет/);assert(!JSON.stringify(pending.messages).includes('SECRET_READY'));assert.equal(pending.execution.structureApproval,undefined);
+  release();await service.settled(f.chat.id);const result=service.poll(f.chat.id);assert(!JSON.stringify(result.messages).includes('SECRET_READY'));
+  if(fails){assert.equal(result.status,'interrupted');assert.equal(result.execution.lastFailure.operation.phase,'observe');assert.equal(result.result.verification,'host-unavailable');assert.deepEqual(result.result.checks,[]);assert.equal(JSON.parse(result.error.diagnostic).kind,'timeout');assert.equal(result.execution.structureApproval,undefined);}
+  else{assert.equal(result.status,'needs-structure-approval');assert.equal(result.result.verification,'host-verified-recipe');}
+ });
+});
+test('old interrupted progress is hidden without rewriting saved history',t=>{
+ const f=factFixture(t),file=path.join(f.root,f.chat.id+'.json'),record=JSON.parse(fs.readFileSync(file));record.status='interrupted';record.messages.push({id:'progress:old',role:'assistant',text:'Каркас готов',progress:true});
+ fs.writeFileSync(file,JSON.stringify(record));const before=fs.readFileSync(file),service=createDirectLandingService(f.options);assert(!service.poll(record.id).messages.some(m=>m.progress));assert.deepEqual(fs.readFileSync(file),before);
+});
+
+
+const clarification={text:'Показывать текст согласия под формой?',options:[{label:'Показывать',description:'Оставить текст согласия под формой.'},{label:'Скрыть',description:'Убрать текст согласия.'}]};
+test('structured clarification persists, has readable legacy fallback and resumes as an ordinary answer',async t=>{
+ const f=fixture(t);f.setResult('needs-input');f.setMessage('Макет собран.');f.setQuestion(clarification);f.send();await f.service.settled(f.chat.id);
+ const chat=f.service.poll(f.chat.id),answer=chat.messages.at(-1);assert.equal(chat.status,'needs-input');assert.deepEqual(answer.question,{...clarification,context:'Макет собран.'});assert.match(answer.text,/Макет собран\./);assert(answer.text.includes(clarification.text));for(const option of clarification.options)assert(answer.text.includes(option.label+' — '+option.description));assert.equal(chat.message,answer.text);assert.equal(chat.execution.structureApproved,false);
+ assert.equal(f.calls[0].schema.required.includes('question'),true);assert.deepEqual(f.calls[0].schema.properties.question.type,['object','null']);assert.match(f.calls[0].prompt,/For a clarification with 2–4 meaningful choices/);
+ const reloaded=createDirectLandingService(f.options);assert.deepEqual(reloaded.poll(chat.id).messages.at(-1).question,answer.question);
+ f.setQuestion(null);const text=clarification.text+'\nОтвет: Скрыть — Убрать текст согласия.';const body={requestId:crypto.randomUUID(),revision:chat.revision,text};reloaded.submit(chat.id,body);await reloaded.settled(chat.id);const next=reloaded.poll(chat.id);assert.equal(next.messages.findLast(m=>m.role==='user').text,text);assert.equal(next.messages.at(-1).question,undefined);assert.equal(next.execution.structureApproved,false);assert.equal(JSON.parse(f.calls[1].prompt.split('\n').at(-1)).userMessage,text);assert.match(f.calls[1].prompt,/For a clarification with 2–4 meaningful choices/);
+ const calls=f.calls.length;reloaded.submit(chat.id,body);assert.equal(f.calls.length,calls,'same request is not replayed');assert.throws(()=>reloaded.submit(chat.id,{...body,requestId:crypto.randomUUID()}),{code:'LANDING_REVISION_STALE'});
+});
+test('legacy missing question and explicit null stay compatible without changing ordinary output',async t=>{
+ for(const question of [undefined,null]){const f=fixture(t);f.setQuestion(question);f.setResult('needs-input');f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);assert.equal(chat.status,'needs-input');assert.equal(chat.messages.at(-1).question,undefined);assert.equal(chat.messages.at(-1).text,'Actual fixture checkpoint');}
+});
+test('malformed or misplaced choice payload cannot become an actionable question',async t=>{
+ const variants=[{},[],{...clarification,context:'untrusted'},{...clarification,text:''},{...clarification,text:'x'.repeat(1001)},{...clarification,options:clarification.options.slice(0,1)},{...clarification,options:Array(5).fill(clarification.options[0])},{...clarification,options:[clarification.options[0],clarification.options[0]]},{...clarification,options:[{label:' ',description:''},clarification.options[1]]},{...clarification,options:[{label:'a',description:42},clarification.options[1]]},{...clarification,options:[{label:'a',description:'',extra:true},clarification.options[1]]},false,'question'];
+ for(const question of variants){const f=fixture(t);f.setResult('needs-input');f.setQuestion(question);f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);assert.equal(chat.error.code,'LANDING_RESPONSE_INVALID');assert.equal(chat.messages.some(m=>m.question),false);assert.equal(chat.execution.structureApproved,false);}
+ for(const status of ['needs-structure-approval','completed','partial']){const f=fixture(t);f.setResult(status);f.setQuestion(clarification);f.send();await f.service.settled(f.chat.id);const chat=f.service.poll(f.chat.id);assert.equal(chat.error.code,'LANDING_RESPONSE_INVALID');assert.equal(chat.messages.some(m=>m.question),false);}
 });

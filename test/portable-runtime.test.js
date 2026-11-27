@@ -81,6 +81,7 @@ test('actual portable producer declares direct workflow; unchanged reader accept
  const skillRoot=path.resolve(__dirname,'../../../shared/design-system_ab/apollo/skills/ab-generate-custom-landing'),descriptor=JSON.parse(fs.readFileSync(path.join(skillRoot,'manifest.json')));
  function data(name,workflow){
   const target=path.join(root,name),profile=JSON.parse(JSON.stringify(descriptor));profile.generation.workflow=workflow;const files=[];
+  if(workflow===catalog.STAGED_WORKFLOW)delete profile.generation.verification;
   for(const pin of profile.files)files.push(put(target,'skills/'+profile.id+'/'+pin.path,fs.readFileSync(path.join(skillRoot,pin.path),'utf8')));
   files.push(put(target,'skills/'+profile.id+'/manifest.json',profile));files.push(put(target,'knowledge/data/ds-ai-hub/AGENTS.md','Fixture rules'));
   for(const id of profile.generation.requiredResources)files.push(put(target,id,id.endsWith('.json')?'{}':'Fixture rules'));

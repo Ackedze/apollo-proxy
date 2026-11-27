@@ -2,7 +2,7 @@
 const {execFile}=require('node:child_process');
 const {promisify}=require('node:util');
 const run=promisify(execFile);
-const failure=()=>Object.assign(new Error('Не удалось отключить внешние инструменты Codex для ответа АБМ. Запрос не запущен.'),{code:'ABM_TOOL_ISOLATION_FAILED',status:503});
+const failure=()=>Object.assign(new Error('Не удалось отключить внешние инструменты Codex для ответа в чате. Запрос не запущен.'),{code:'ABM_TOOL_ISOLATION_FAILED',status:503});
 
 // Disable only active inherited entries. Touching an already disabled legacy entry
 // can make Codex validate an otherwise ignored, obsolete transport configuration.

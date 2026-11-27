@@ -1849,8 +1849,14 @@ final class ProxyManager: NSObject {
         var approvedKey: String?
         if let savedKey {
             let alert = NSAlert()
-            alert.messageText = "Отправить тексты в OpenRouter?"
-            alert.informativeText = "В запрос войдут тексты выделенных слоёв (\(pending.texts)) и редакционные правила. Запрос может расходовать баланс OpenRouter."
+            switch pending.contents {
+            case .textReview(let texts):
+                alert.messageText = "Отправить тексты в OpenRouter?"
+                alert.informativeText = "В запрос войдут тексты выделенных слоёв (\(texts)) и редакционные правила. Запрос может расходовать баланс OpenRouter."
+            case .taskPassport(let screens):
+                alert.messageText = "Отправить данные паспорта задачи в OpenRouter?"
+                alert.informativeText = "В запрос войдут данные видимых экранов (\(screens)), связи флоу, правила составления паспорта и бриф, если он заполнен. Запрос может расходовать баланс OpenRouter."
+            }
             alert.addButton(withTitle: "Отправить")
             let cancel = alert.addButton(withTitle: "Отменить")
             cancel.keyEquivalent = "\u{1b}"

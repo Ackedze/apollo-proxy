@@ -27,7 +27,7 @@ for (const provider of ['codex', 'claude', 'alfagen']) {
     fs.mkdirSync(path.join(hub, 'core/web/components'), {recursive: true});
     const binary = path.join(root, 'fake-cli'), record = path.join(root, 'cli-record');
     write(binary, '#!' + process.execPath + '\n' + `
-const fs=require('fs');let prompt='';process.stdin.on('data',b=>prompt+=b);process.stdin.on('end',()=>{
+const fs=require('fs');if(process.argv.includes('mcp')&&process.argv.includes('list')){console.log('[]');process.exit(0);}let prompt='';process.stdin.on('data',b=>prompt+=b);process.stdin.on('end',()=>{
  fs.appendFileSync(${JSON.stringify(record)},process.env.APOLLO_CLI_PROVIDER+'\\n');
  if(prompt.includes('CLI_FAIL'))process.exit(1);
  const args=process.argv.slice(2),text='fixture CLI answer';

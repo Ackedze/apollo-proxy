@@ -20,6 +20,8 @@ const nodeId = value => typeof value === 'string' && /^[\w:;-]{1,512}$/.test(val
 const assetKey = value => typeof value === 'string' && /^[0-9a-f]{40}$/i.test(value);
 const positive = value => Number.isFinite(value) && value > 0;
 const same = (a, b) => Math.abs(a - b) <= 1;
+const contains = (outer, inner) => inner.x >= outer.x - 1 && inner.y >= outer.y - 1 &&
+  inner.x + inner.width <= outer.x + outer.width + 1 && inner.y + inner.height <= outer.y + outer.height + 1;
 
 function illustrationSlots(ids) {
   return Array.isArray(ids) && ids.every(nodeId) && new Set(ids).size === ids.length ? ids : null;
@@ -82,11 +84,28 @@ function unfinishedRecipes(source, content, inventory, ledger) {
 
 const instructions = [
   'Read the provided contentInputs. contentInventory preserves the agreed section and illustration-slot IDs across partial turns; confirm the current owned root before reusing it. contentValidation contains the previous host checks and exact field diagnostics to resolve. After corrections return a new actual read-only contentReadback; repairing JSON alone or repeating completed is not fresh evidence. Before content writes, confirm the current owned root and return instances: [{id,setName}] for the visible library sections using actual Figma component-set names, and illustrationSlotIds: [id] for all visible illustration slots to fill in the agreed structure. Use stable slot node IDs, including slots still showing default art. A structure change requires renewed approval rather than dropping previously agreed slots from inventory. Read any applicable recipesByFamily not already in sources separately with read_source limit 16000 and follow next. If required guidance is unavailable, report the affected block.',
-  'Plan all image slots together. Use the approved art direction and the installed catalogs. After all writes, use a fresh read-only use_figma call to return target and contentReadback taken from the actual visible tree. Measure section-by-section using short facts. Follow the skill rules for confirmed art direction, nested card resizing, and glyph-26 provenance.',
+  'Plan all image slots together. Use the approved art direction and the installed catalogs. After the last write, return target and contentReadback from fresh read-only use_figma calls. You may split the measured facts by section or between imageSlots and groups. Each read carries the canonical target and only actual measurements. Report affectedIds on writes and reread all required facts after another mutation. Follow the skill rules for confirmed art direction, nested card resizing, and glyph-26 provenance.',
   'Return contentReadback: {imageSlots, groups}. imageSlots lists every visible illustration slot, with {id, variantKey, familyKey, gridVisible, repeatQuote?}. Use the verified actual asset mainComponent key and owning set key (or mainComponent key for a standalone asset). Leave keys null for a default or missing illustration. gridVisible is false when no visible Grid exists. Include repeatQuote only for a verbatim user approval of repeated art in that slot.',
   'groups lists every visible Benefits or BentoGrid instance as {id, family, capacity, cards}. family is exactly Benefits or BentoGrid; a standalone PromoCard row is not a BentoGrid and must be checked against its skill/Hub recipe in the reported checks, not encoded as a fictitious PromoCards group. capacity, width, height, graphicBottom, size and expectedSize are JSON numbers, not variant labels or numeric strings. Identify visible cards from their actual nodes, including ancestor visibility. Each card has its actual {id, width, height}. For Benefits also report {verticalSizing, stopperSizing, graphicBottom, graphicKind, graphicId, icon}; graphicKind is icon or image, graphicBottom is measured in one common coordinate system for the whole group, icon is null or {variantKey, expectedVariantKey, set, size, expectedSize, gridVisible} verified using the glyph-26 recipe. icon.set is the catalog marker "glyph-26", not the owning component-set name such as shopping-bag; size is the actual mounted pixel size, not the variant label m. For image Graphic put graphicId in imageSlots. gridVisible is false when no visible .Grid exists.',
+  'For the confirmed homogeneous Desktop Benefits Capacity=3 preset with CardAxis=Vertical, Compact=True, Background=True and one common GraphicPosition (Left or Right), report group sizingMode="vertical-content-wrapper" and platform="D". Read each card after Auto Layout reflow: add its x,y; preset:{componentKey,cardAxis,graphicPosition,compact,background} from the actual selected variant (compact/background are the variant strings "True"); wrapper and content:{id,x,y,width,height,verticalSizing}; graphicBounds:{x,y,width,height}; stopper:{height,presetHeight,minHeight} from the actual Stopper and selected native preset, all dimensions numeric, not constants copied from an example. All bounds and graphicBottom use one common coordinate system. The maximum-content anchor Root and ContentWrapper are HUG/HUG; shorter cards are FILL/FILL. Content stays HUG and every Stopper stays FIXED at its selected native preset height/minimum. Equal Root heights alone do not prove equal ContentWrapper heights or fit. Do not apply this mode to other axes, mobile, Compact=False, mixed variants or other capacities. Existing readbacks without sizingMode retain the legacy sizing check; the reported readback does not replace independent host verification.',
   'For BentoGrid also report {areaWidth, areaHeight, verticalSizing} for each PromoCard and its assigned preset area, plus sizingRecipe when the preset deliberately leaves space below the card. Use final measured values, along with the actual preset modes. Finish with partial if a required slot or check remains unresolved.',
 ].join(' ');
+
+function mergeContentReadback(previous, next) {
+  const fields = ['imageSlots', 'groups'];
+  if (!next || typeof next !== 'object' || Array.isArray(next) ||
+      !Object.keys(next).length || Object.keys(next).some(field => !fields.includes(field))) return null;
+  const merged = { ...previous };
+  for (const field of fields) {
+    if (!Object.hasOwn(next, field)) continue;
+    const rows = next[field];
+    if (!Array.isArray(rows) || !illustrationSlots(rows.map(row => row?.id))) return null;
+    const entries = new Map((merged[field] || []).map(row => [row.id, row]));
+    for (const row of rows) entries.set(row.id, row);
+    merged[field] = [...entries.values()];
+  }
+  return merged;
+}
 
 function verifyContent(readback, inventory, messages) {
   const invalid = (path, expected, code = 'CONTENT_READBACK_INVALID') => [{
@@ -133,10 +152,18 @@ function verifyContent(readback, inventory, messages) {
     if (!Array.isArray(group.cards)) return invalid(groupPath + '.cards', 'Ожидается массив видимых карточек.');
     seen.add(group.id);
     if (!Number.isSafeInteger(group.capacity) || group.capacity < 1) return invalid(groupPath + '.capacity', 'Ожидается положительное целое JSON-число, например 3, а не строка "3".');
+    const vertical = group.sizingMode === 'vertical-content-wrapper';
+    if (group.sizingMode !== undefined && (!vertical || group.family !== 'Benefits')) {
+      return invalid(groupPath + '.sizingMode', 'Режим vertical-content-wrapper поддержан только для Benefits.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
+    }
+    if (vertical && group.platform !== 'D') return invalid(groupPath + '.platform', 'Режим поддержан только для фактического Desktop-пресета D.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
+    if (vertical && group.capacity !== 3) return invalid(groupPath + '.capacity', 'Режим поддержан только для Capacity=3.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
     if (group.capacity !== group.cards.length) {
       failures.sizing.push(group.id + ' — число видимых карточек расходится с Capacity');
     }
     const cardIds = new Set();
+    const partIds = new Set(group.cards.map(card => card?.id));
+    let anchors = 0;
     for (const [cardIndex, card] of group.cards.entries()) {
       const cardPath = groupPath + '.cards[' + cardIndex + ']';
       if (!nodeId(card?.id) || cardIds.has(card.id)) return invalid(cardPath + '.id', 'Ожидается уникальный фактический nodeId карточки.');
@@ -159,7 +186,42 @@ function verifyContent(readback, inventory, messages) {
           failures.icons.push(card.graphicId + ' — Graphic не подтверждён');
         }
         const first = group.cards[0];
-        if (card.verticalSizing !== 'FILL' || !['FILL', 'FIXED'].includes(card.stopperSizing) ||
+        if (vertical) {
+          const preset = card.preset;
+          if (!assetKey(preset?.componentKey)) return invalid(cardPath + '.preset.componentKey', 'Ожидается фактический 40-символьный hex key выбранного native-варианта.');
+          for (const [field, allowed] of Object.entries({cardAxis: ['Vertical'], graphicPosition: ['Left', 'Right'], compact: ['True'], background: ['True']})) {
+            if (!allowed.includes(preset[field])) return invalid(cardPath + '.preset.' + field, 'Режим требует фактическое значение ' + allowed.join(' или ') + '.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
+            if (preset[field] !== first.preset[field]) return invalid(cardPath + '.preset.' + field, 'Пресет должен быть однородным во всей группе.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
+          }
+          if (preset.componentKey !== first.preset.componentKey) return invalid(cardPath + '.preset.componentKey', 'Выбранный native-вариант должен быть одинаковым во всей группе.', 'CONTENT_SIZING_MODE_UNSUPPORTED');
+          for (const field of ['x', 'y', 'graphicBottom']) if (!Number.isFinite(card[field])) return invalid(cardPath + '.' + field, 'Ожидается фактическая числовая координата после reflow.');
+          for (const part of ['wrapper', 'content', 'graphicBounds']) {
+            const bounds = card[part];
+            for (const field of ['x', 'y', 'width', 'height']) {
+              if (!(field === 'x' || field === 'y' ? Number.isFinite(bounds?.[field]) : positive(bounds?.[field]))) return invalid(cardPath + '.' + part + '.' + field, 'Ожидается фактическое JSON-число bounds после reflow.');
+            }
+            if (part !== 'graphicBounds') {
+              if (!nodeId(bounds.id) || partIds.has(bounds.id)) return invalid(cardPath + '.' + part + '.id', 'Ожидается уникальный фактический nodeId внутреннего слоя.');
+              partIds.add(bounds.id);
+              if (!['HUG', 'FILL', 'FIXED'].includes(bounds.verticalSizing)) return invalid(cardPath + '.' + part + '.verticalSizing', 'Ожидается фактический HUG, FILL или FIXED.');
+            }
+          }
+          for (const field of ['height', 'presetHeight', 'minHeight']) {
+            if (!(field === 'minHeight' ? Number.isFinite(card.stopper?.[field]) && card.stopper[field] >= 0 : positive(card.stopper?.[field]))) return invalid(cardPath + '.stopper.' + field, 'Ожидается фактическое JSON-число native Stopper; height/presetHeight >0, minHeight >=0.');
+          }
+          if (!['HUG', 'FILL', 'FIXED'].includes(card.verticalSizing)) return invalid(cardPath + '.verticalSizing', 'Ожидается фактический HUG, FILL или FIXED.');
+          const anchor = card.verticalSizing === 'HUG' && card.wrapper.verticalSizing === 'HUG';
+          if (anchor) anchors++;
+          if ((!anchor && (card.verticalSizing !== 'FILL' || card.wrapper.verticalSizing !== 'FILL')) ||
+              card.content.verticalSizing !== 'HUG' || card.stopperSizing !== 'FIXED' ||
+              !same(card.stopper.height, card.stopper.presetHeight) || card.stopper.height < card.stopper.minHeight ||
+              !same(card.stopper.presetHeight, first.stopper.presetHeight) || card.stopper.minHeight !== first.stopper.minHeight ||
+              !same(card.height, first.height) || !same(card.wrapper.height, first.wrapper.height) ||
+              !same(card.graphicBottom, first.graphicBottom) || !same(card.graphicBottom, card.graphicBounds.y + card.graphicBounds.height) ||
+              !contains(card, card.wrapper) || !contains(card.wrapper, card.content) || !contains(card, card.graphicBounds)) {
+            failures.sizing.push(card.id + ' — Root/ContentWrapper, Content, штатный Stopper, baseline или вместимость не подтверждены');
+          }
+        } else if (card.verticalSizing !== 'FILL' || !['FILL', 'FIXED'].includes(card.stopperSizing) ||
             !Number.isFinite(card.graphicBottom) || !same(card.height, first.height) ||
             !same(card.graphicBottom, first.graphicBottom)) {
           failures.sizing.push(card.id + ' — высота, Stopper или положение Graphic расходятся с группой');
@@ -173,6 +235,10 @@ function verifyContent(readback, inventory, messages) {
           failures.sizing.push(card.id + ' — размеры карточки расходятся с областью пресета');
         }
       }
+    }
+    if (vertical && (!anchors || group.cards.some(card => card.verticalSizing === 'HUG' &&
+        card.content.height < Math.max(...group.cards.map(item => item.content.height)) - 1))) {
+      failures.sizing.push(group.id + ' — требуется опорная Root/ContentWrapper HUG/HUG с максимальным контентом');
     }
   }
   if (seen.size !== Object.keys(families).length) return invalid('contentReadback.groups', 'Не прочитаны группы из inventory: ' + Object.keys(families).filter(id => !seen.has(id)).join(', '));
@@ -189,4 +255,4 @@ function verifyContent(readback, inventory, messages) {
   ];
 }
 
-module.exports = { contentFamilies, contentInputs, illustrationSlots, instructions, unfinishedRecipes, verifyContent };
+module.exports = { contentFamilies, contentInputs, illustrationSlots, instructions, mergeContentReadback, unfinishedRecipes, verifyContent };

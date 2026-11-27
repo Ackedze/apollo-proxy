@@ -19,17 +19,28 @@ function failure(code, message, status = 502) {
 }
 
 function createApproval(controlKey, timeoutMs = 60000) {
-  let pending = null;
+  const pending = [];
   const hexKey = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
   return {
-    get current() { return pending?.review ?? null; },
-    async wait(review) {
+    get current() { return pending[0]?.review ?? null; },
+    async wait(review, signal) {
+      signal?.throwIfAborted();
       if (!hexKey(controlKey)) throw failure('OPENROUTER_PROXY_REQUIRED', 'Запустите прокси из миниаппа.', 503);
-      if (pending) throw failure('OPENROUTER_APPROVAL_BUSY', 'Дождитесь завершения проверки текстов.', 409);
       const key = await new Promise(resolve => {
-        const timer = setTimeout(() => pending?.finish(null), timeoutMs);
-        pending = { review, finish(value) { clearTimeout(timer); pending = null; resolve(value); } };
+        const cancel = () => entry.finish(null);
+        const timer = setTimeout(cancel, timeoutMs);
+        const entry = { review, finish(value) {
+          const index = pending.indexOf(entry);
+          if (index < 0) return;
+          pending.splice(index, 1);
+          clearTimeout(timer);
+          signal?.removeEventListener('abort', cancel);
+          resolve(value);
+        } };
+        pending.push(entry);
+        signal?.addEventListener('abort', cancel, { once: true });
       });
+      signal?.throwIfAborted();
       if (!key) throw failure('OPENROUTER_APPROVAL_REQUIRED', 'Отправка текстов в OpenRouter не подтверждена.', 403);
       return key;
     },
@@ -40,21 +51,22 @@ function createApproval(controlKey, timeoutMs = 60000) {
         return res.status(403).json({ success: false });
       }
       const { runId, key } = req.body ?? {};
-      if (!pending || runId !== pending.review.runId) return res.status(409).json({ success: false });
+      if (!pending.length || runId !== pending[0].review.runId) return res.status(409).json({ success: false });
       if (key !== null && (typeof key !== 'string' || !/^[!-~]{1,512}$/.test(key))) {
         return res.status(400).json({ success: false });
       }
-      pending.finish(key);
+      pending[0].finish(key);
       return res.json({ success: true });
     },
   };
 }
 
-async function request(endpoint, { key, body, timeout, transport }) {
+async function request(endpoint, { key, body, timeout, transport, cancellation }) {
   if (typeof key !== 'string' || !/^[!-~]{1,512}$/.test(key)) {
     throw failure('OPENROUTER_KEY_REQUIRED', 'Подключите API-ключ OpenRouter в настройках прокси.', 503);
   }
-  const signal = AbortSignal.timeout(timeout);
+  const deadline = AbortSignal.timeout(timeout);
+  const signal = cancellation ? AbortSignal.any([deadline, cancellation]) : deadline;
   const headers = { Authorization: 'Bearer ' + key, Accept: 'application/json' };
   if (body) headers['Content-Type'] = 'application/json';
   try {
@@ -74,6 +86,7 @@ async function request(endpoint, { key, body, timeout, transport }) {
     }
     return JSON.parse((await readBytes(response, 1024 * 1024)).toString('utf8'));
   } catch (error) {
+    cancellation?.throwIfAborted();
     if (error.code?.startsWith?.('OPENROUTER_')) throw error;
     if (signal.aborted) throw failure('OPENROUTER_TIMEOUT', 'OpenRouter не ответил вовремя. Повторите запрос.', 504);
     throw failure('OPENROUTER_UNAVAILABLE', 'Не удалось получить ответ OpenRouter. Проверьте подключение.');
@@ -87,14 +100,13 @@ async function checkKey(key, transport = fetch) {
   }
 }
 
-async function complete({ key, prompt, onUsage, transport = fetch }) {
+async function completeStructured({ key, prompt, onUsage, transport = fetch, cancellation, format }) {
   const response = await request('/chat/completions', {
-    key, transport, timeout: 120000,
+    key, transport, timeout: 120000, cancellation,
     body: {
       model: MODEL,
       messages: [{ role: 'user', content: prompt }],
-      max_completion_tokens: 16000,
-      response_format: { type: 'json_schema', json_schema: { name: 'ux_writer_findings', strict: true, schema } },
+      response_format: { type: 'json_schema', json_schema: { name: format.name, strict: true, schema: format.schema } },
       provider: { require_parameters: true, data_collection: 'deny', zdr: true },
     },
   });
@@ -109,7 +121,13 @@ async function complete({ key, prompt, onUsage, transport = fetch }) {
   if (choice?.finish_reason === 'stop' && typeof choice.message?.content === 'string') {
     try { return JSON.parse(choice.message.content); } catch {}
   }
-  throw failure('UX_WRITER_RESPONSE_INVALID', 'OpenRouter вернул неполный ответ проверки текстов.');
+  throw failure(format.invalidCode, 'OpenRouter вернул неполный или некорректный ответ.');
+}
+
+function complete(options) {
+  return completeStructured(Object.assign({}, options, {
+    format: { name: 'ux_writer_findings', schema, invalidCode: 'UX_WRITER_RESPONSE_INVALID' },
+  }));
 }
 
 if (require.main === module) {
@@ -127,4 +145,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { MODEL, allowsLocalRequest, createApproval, checkKey, complete };
+module.exports = { MODEL, allowsLocalRequest, createApproval, checkKey, complete, completeStructured };

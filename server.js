@@ -275,6 +275,9 @@ const {
 } = require('./src/generation/semantic-index');
 let dispatcher;
 let activeCodexRuns = 0;
+let activeTaskPassportRuns = 0;
+let activeDialogue = null;
+let activeReadOnlyRequests = 0;
 let namingRuns = null;
 let figmaAuditRuntime = null;
 let patternAuditRuntime = null;
@@ -311,11 +314,14 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   if (req.path === '/health' || req.path.startsWith('/code-update/')) return next();
   activeApiRequests += 1;
+  const readOnlyRequest = req.method === 'POST' && req.path === '/analyze' || req.path.startsWith('/skills/task-passport/runs');
+  if (readOnlyRequest) activeReadOnlyRequests++;
   let released = false;
   const release = () => {
     if (released) return;
     released = true;
     activeApiRequests = Math.max(0, activeApiRequests - 1);
+    if (readOnlyRequest) activeReadOnlyRequests--;
   };
   res.once('finish', release);
   res.once('close', release);
@@ -325,7 +331,7 @@ require('./src/code-release/maintenance').createMaintenance({key:proxyControlKey
   launchId:process.env.APOLLO_CODE_RELEASE_ID,
   busy:async()=>{
     const generationBusy=(await Promise.all([landingRuntime,figmaAuditRuntime,patternAuditRuntime].map(r=>r?.isBusy() || false))).some(Boolean);
-    return activeApiRequests>0 || activeCodexRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy())));
+    return activeApiRequests>0 || Boolean(activeDialogue) || activeCodexRuns>0 || activeTaskPassportRuns>0 || activeGenerationCodexRuns>0 || generationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy())));
   }}).mount(app);
 delete process.env.APOLLO_CODE_UPDATE_KEY;
 installStyleTokenCatalogParser(app);
@@ -873,17 +879,11 @@ const { ABM_RESPONSE_SCHEMA, renderAbmResponse } = require('./src/reports/ABM-re
 const {normalizeAbmDialogue}=require('./src/reports/ABM-dialogue-context');
 const dialogueLibraryBySession = new Map();
 
-async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {}) {
+async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks, signal } = {}) {
   const question = extractDialogueQuestion(inputValue);
   if (!question) {
     const err = new Error('Codex dialogue requires a non-empty question.');
     err.status = 400;
-    throw err;
-  }
-  if (activeCodexRuns >= 1) {
-    const err = new Error('AI-агент уже обрабатывает другой запрос Apollo.');
-    err.status = 429;
-    err.code = 'APOLLO_AGENT_BUSY';
     throw err;
   }
 
@@ -938,13 +938,12 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     '--output-last-message',
     outputPath,
   ];
+  for (const setting of ['features.skip_host_skill_discovery=true',
+    'features.skill_search=false', 'skills.include_instructions=false', 'skills.bundled.enabled=false',
+    'features.apps=false', 'features.plugins=false', 'features.remote_plugin=false',
+    'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"']) args.push('-c', setting);
   if (abm) {
-    for (const setting of ['features.shell_tool=false', 'features.skip_host_skill_discovery=true',
-      'features.skill_search=false', 'skills.include_instructions=false', 'skills.bundled.enabled=false',
-      'features.apps=false', 'features.plugins=false', 'features.remote_plugin=false',
-      'features.multi_agent=false', 'project_doc_max_bytes=0', 'web_search="disabled"']) {
-      args.push('-c', setting);
-    }
+    args.push('-c', 'features.shell_tool=false');
     const schemaPath = path.join(runDirectory, 'abm-response.schema.json');
     await fsp.writeFile(schemaPath, JSON.stringify(ABM_RESPONSE_SCHEMA));
     args.push('--output-schema', schemaPath);
@@ -955,7 +954,6 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     ? buildAbmDialoguePrompt(question, history, packet)
     : buildCodexDialoguePrompt(question, inputValue.dialogue, APOLLO_CODEX_KNOWLEDGE_SOURCE);
 
-  activeCodexRuns += 1;
   try {
     let agentResult;
     const retryDelays = [250, 750, 1500];
@@ -973,19 +971,20 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
             dataOnly: Boolean(abm),
             model: AGENT_MODEL || null,
             workingDirectory: runDirectory,
+            signal,
             onEvent(event) { if (event?.type === 'turn.started') turnStarted = true; },
           },
           abm ? 'json' : 'text'
         );
         break;
       } catch (error) {
-        if (error?.code !== 'CODEX_PROCESS_FAILED' || turnStarted || attempt >= retryDelays.length) throw error;
+        if (signal?.aborted || error?.code !== 'CODEX_PROCESS_FAILED' || turnStarted || attempt >= retryDelays.length) throw error;
         console.warn('[Apollo][codex] retrying dialogue after early process failure', {
           attempt: attempt + 2,
           maxAttempts: retryDelays.length + 1,
         });
         await fsp.rm(outputPath, { force: true });
-        await new Promise(resolve => setTimeout(resolve, retryDelays[attempt]));
+        await require('node:timers/promises').setTimeout(retryDelays[attempt], undefined, { signal });
       }
     }
     if (abm) {
@@ -1005,7 +1004,6 @@ async function callCodexDialogue(inputValue, { onKnowledge, onAnswerBlocks } = {
     });
     return result;
   } finally {
-    activeCodexRuns = Math.max(0, activeCodexRuns - 1);
     await fsp.rm(runDirectory, { recursive: true, force: true });
   }
 }
@@ -1088,6 +1086,17 @@ const openRouter = require('./src/skills/ux-writer/openrouter');
 const openRouterApproval = openRouterEnabled ? openRouter.createApproval(proxyControlKey) : null;
 let openRouterFailure = null;
 if (openRouterApproval) app.post('/ux-writer/openrouter/approval', openRouterApproval.respond);
+require('./src/skills/task-passport').mount(app, {
+  approval: openRouterApproval,
+  journal: tokenJournal,
+  enter() {
+    if (activeTaskPassportRuns) return null;
+    activeTaskPassportRuns++;
+    openRouterFailure = null;
+    return () => { activeTaskPassportRuns--; };
+  },
+  onFailure(failure) { openRouterFailure = failure; },
+});
 
 async function callOpenRouterTextReview(payload, onProgress, options) {
   emitCodexProgress(onProgress, 'checking_skill');
@@ -1603,7 +1612,9 @@ app.get('/health', async (req, res) => {
   res.json({
     ok: true,
     activeRequests: activeApiRequests,
-    capabilities: { dialoguePlatformRouting: true },
+    capabilities: { dialoguePlatformRouting: true, parallelDialogue: true },
+    dialogue: { busy: Boolean(activeDialogue), cancelScope: 'server-request' },
+    taskPassport: { busy: activeTaskPassportRuns > 0 },
     abmKnowledge,
     compatibility: require('./src/client-compatibility').readClientCompatibility(),
     knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
@@ -1619,13 +1630,13 @@ app.get('/health', async (req, res) => {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_PROVIDER === 'alfagen' ? APOLLO_AGENT_URL : CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
+      busy: Boolean(activeDialogue) || activeCodexRuns > 0 || activeTaskPassportRuns > 0 || activeGenerationCodexRuns > 0 || asyncGenerationBusy || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
     },
     codex: {
       provider: CLI_PROVIDER,
       model: AGENT_MODEL || null,
       configured: Boolean(CLI_AGENT_BIN),
-      busy: activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
+      busy: Boolean(activeDialogue) || activeCodexRuns > 0 || (Boolean(namingRuns?.busy()) || (Boolean(figmaAuditRuntime?.isBusy()) || Boolean(patternAuditRuntime?.isBusy()))),
       reportStrategy: APOLLO_CODEX_REPORT_STRATEGY,
       knowledgeSource: APOLLO_CODEX_KNOWLEDGE_SOURCE,
       skill,
@@ -1659,8 +1670,8 @@ namingRuns=require('./src/skills/layer-names').mountLayerNameRoutes(app,{
 });
 require('./src/landing/retired').mountRetiredGenerationRoutes(app);
 const landingRuntime=require('./src/landing/runtime').mountConfiguredLandingRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT});
-figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(patternAuditRuntime?.isBusy())});
-patternAuditRuntime=require('./src/pattern-audit/runtime').mountConfiguredPatternRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(figmaAuditRuntime?.isBusy())});
+figmaAuditRuntime=require('./src/figma-audit/runtime').mountConfiguredAuditRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests-activeReadOnlyRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(patternAuditRuntime?.isBusy())});
+patternAuditRuntime=require('./src/pattern-audit/runtime').mountConfiguredPatternRoutes(app,{provider:CLI_PROVIDER,binary:CLI_AGENT_BIN,model:AGENT_MODEL,environment:buildCodexEnvironment(),releaseRoot:process.env.APOLLO_RELEASE_ROOT,runtimeRoot:process.env.APOLLO_PROJECT_ROOT,isUnavailable:()=>activeApiRequests-activeReadOnlyRequests>1||activeCodexRuns>0||activeGenerationCodexRuns>0||Boolean(namingRuns?.busy())||landingRuntime.isBusy()||Boolean(figmaAuditRuntime?.isBusy())});
 const styleTokenCatalogProvider=mountStyleTokenCatalogRoutes(app, {
   designSystemRoot: CODEX_DESIGN_SYSTEM,
   knowledgeRelease: APOLLO_KNOWLEDGE_RELEASE,
@@ -1821,6 +1832,7 @@ app.get('/v1/analyze/codex/runs/:runId/input', (req, res) => {
 const {withAskTokenUsage}=require('./src/reports/ask-token-usage');
 app.post('/analyze', async (req, res) => {
   const reply=value=>res.json(withAskTokenUsage(value,tokenJournal.snapshotUsage(),process.env.APOLLO_ASK_SHOW_TOKEN_USAGE==='1'));
+  let dialogueController, onDialogueClose;
   try {
     const payload = req.body ?? {};
     const inputValue = normalizeInput(payload);
@@ -1845,6 +1857,11 @@ app.post('/analyze', async (req, res) => {
         dialogueLibrary: 'abm', responseKind: 'library-selection-notice' });
       return;
     }
+    if (activeDialogue) throw Object.assign(new Error('В чате уже выполняется запрос Apollo.'), {status: 429, code: 'APOLLO_AGENT_BUSY'});
+    dialogueController = new AbortController();
+    activeDialogue = dialogueController;
+    onDialogueClose = () => { if (!res.writableEnded) dialogueController.abort(); };
+    res.once('close', onDialogueClose);
     let result;
     let localKnowledge;
     let answerBlocks;
@@ -1852,18 +1869,13 @@ app.post('/analyze', async (req, res) => {
       if (['iOS', 'Android'].includes(inputValue.dialoguePlatform))
         throw Object.assign(new Error('Для ответов по паттернам АБМ выбери Codex или Claude в «О прокси». AlfaGen пока не поддерживает этот режим.'),
           { status: 503, code: 'ABM_PROVIDER_UNSUPPORTED' });
-      if (activeCodexRuns > 0) throw Object.assign(new Error('AI-агент уже обрабатывает другой запрос Apollo.'), {status: 429, code: 'APOLLO_AGENT_BUSY'});
-      activeCodexRuns++;
-      const controller = new AbortController();
-      const onClose = () => { if (!res.writableEnded) controller.abort(); };
-      res.once('close', onClose);
       const tracked = tokenJournal.call({ provider: 'alfagen' });
       let failure;
-      try { result = await callApolloAgentForFinalText(inputValue, AbortSignal.any([controller.signal, AbortSignal.timeout(CODEX_MAX_RUNTIME_MS)])); }
+      try { result = await callApolloAgentForFinalText(inputValue, AbortSignal.any([dialogueController.signal, AbortSignal.timeout(CODEX_MAX_RUNTIME_MS)])); }
       catch (error) { failure = error; throw error; }
-      finally { tracked.end(failure); activeCodexRuns--; res.removeListener('close', onClose); }
+      finally { tracked.end(failure); }
     } else {
-      result = await callCodexDialogue(inputValue, { onKnowledge: value => { localKnowledge = value; }, onAnswerBlocks: value => { answerBlocks = value; } });
+      result = await callCodexDialogue(inputValue, { signal: dialogueController.signal, onKnowledge: value => { localKnowledge = value; }, onAnswerBlocks: value => { answerBlocks = value; } });
     }
     if (typeof result !== 'string' || !result.trim()) {
       throw Object.assign(new Error('AlfaGen вернул пустой ответ.'), {status: 502});
@@ -1884,6 +1896,7 @@ app.post('/analyze', async (req, res) => {
       ...(inputValue.dialoguePlatform !== undefined ? { dialogueLibrary: ['iOS', 'Android'].includes(inputValue.dialoguePlatform) ? 'abm' : 'ab' } : {}),
     });
   } catch (err) {
+    if (res.destroyed || res.writableEnded) return;
     res.status(err.status || 500);
     reply({
       success: false,
@@ -1892,6 +1905,11 @@ app.post('/analyze', async (req, res) => {
       details: err.details || null,
       status: err.status || null,
     });
+  } finally {
+    if (dialogueController) {
+      res.removeListener('close', onDialogueClose);
+      if (activeDialogue === dialogueController) activeDialogue = null;
+    }
   }
 });
 

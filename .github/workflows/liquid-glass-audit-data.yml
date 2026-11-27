@@ -18,11 +18,11 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           path: services/apollo-proxy
           persist-credentials: false
-      # Candidate Apollo PR #23. Update this pin after acceptance, never follow a moving branch.
+      # Test the exact Apollo commit paired with this release.
       - uses: actions/checkout@v7
         with:
-          repository: gonuzov/apollo
-          ref: 97e9e1d766fec6a6e247212420103a70a42ed60e
+          repository: Ackedze/apollo
+          ref: a3c19aa11e36b9d43987e220800890664a5e29fd
           path: projects/Apollo
           persist-credentials: false
       - uses: actions/setup-node@v7

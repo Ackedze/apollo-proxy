@@ -27,7 +27,8 @@ function readLandingSkill(root,id=catalog.LANDING_ID,manifest=null){
  const bytes=read('manifest.json'),descriptor=JSON.parse(bytes),files=catalog.packageFiles(bytes,id),bodies={};
  for(const pin of files)bodies[pin.path]=read(pin.path,pin).toString('utf8');
  if(!bodies['SKILL.md'].includes('version: "'+descriptor.version+'"'))fail('LANDING_SKILL_STALE');
- return {id,name:descriptor.name,description:descriptor.description,generation:descriptor.generation||null,version:descriptor.version,sha256:sha(bytes),bodies,assertCurrent(){for(const pin of pins){const stat=fs.lstatSync(pin.file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(pin.file)!==pin.file||sha(fs.readFileSync(pin.file))!==pin.sha256)fail('LANDING_SKILL_STALE');}}};
+ const skill={id,name:descriptor.name,description:descriptor.description,generation:descriptor.generation||null,version:descriptor.version,sha256:sha(bytes),bodies,assertCurrent(){for(const pin of pins){const stat=fs.lstatSync(pin.file);if(!stat.isFile()||stat.isSymbolicLink()||fs.realpathSync(pin.file)!==pin.file||sha(fs.readFileSync(pin.file))!==pin.sha256)fail('LANDING_SKILL_STALE');}}};
+ require('./recipe-verification').readProfile(skill);return skill;
 }
 function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
  if(!path.isAbsolute(releaseRoot||'')||!path.isAbsolute(runtimeRoot||''))fail('LANDING_DATA_REQUIRED');
@@ -151,7 +152,7 @@ function openKnowledge({releaseRoot,runtimeRoot,skillId=catalog.LANDING_ID}){
   return {id:pin.file,sha256:pin.sha256,path:[],offset:0,returned:total,total,next:null};
  }
  const plan=createSourcePlanner({resources,skill,sourcePin:resumePin,releaseId:manifest.id,metadata:id=>JSON.parse(sourceText(resources.get(id))),routing,assertCurrent});
- return {id:manifest.id,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,search,fileAccess,fileRead,
+ return {id:manifest.id,releaseRoot,knowledgeVersion:manifest.knowledgeVersion,skill,resumePin,assertCurrent,read,list,plan,search,fileAccess,fileRead,
   initial:{knowledgePolicy:POLICY,assetSources,selectedSkill:{id:skill.id,name:skill.name,resourcesRoot:'skills/'+skill.id+'/'},hostInstructions:skill.generation?skill.generation.hostInstructions:'Read hub manifest, landing-pages, business-segment-styles, draft-layout and CorporateContent rules. Tag the CorporateContent instance role=host in apollolanding.',skillVersion:skill.version,skillHash:skill.sha256,knowledgeVersion:manifest.knowledgeVersion,releaseId:manifest.id,instructions,norms,workflow:bootstrap.map(id=>({id,text:resources.get(id).text})),resources:list(skill.generation?skill.generation.initialQueries[0]||'':'products/ab/patterns/'),indexes:skill.generation?.initialQueries.map(query=>list(query))||[]}};
 }
 module.exports={readLandingSkill,openKnowledge,MAX_READ_BYTES};

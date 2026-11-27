@@ -10,7 +10,7 @@ test('actual HTTP prepare/run handler transports the declared Link scope and rej
   let handler, calls = 0;
   vm.runInNewContext(source.slice(start, end), {
     app: {post(url, callback) { handler = callback; }},
-    validateCodexReportRequest: base.validatePilotRequest, progressBarPilot: base, activeCodexRuns: 0,
+    validateCodexReportRequest: base.validatePilotRequest, progressBarPilot: base, activeCodexRuns: 0, openRouterEnabled: false,
     assertCodexRuntimeReady: () => ({knowledge:f.options.knowledgeRelease}),
     CODEX_DESIGN_SYSTEM:f.options.designSystemRoot, CODEX_DS_AI_HUB:f.options.hubRoot,
     createCodexRun() { calls++; return {id:'run_12345678-abcd',status:'queued'}; },

@@ -15,8 +15,9 @@ for(const provider of ['codex','claude'])for(const mode of ['selected','default'
   write('ds/JSONS/fixture/contract.json','{"name":"Fixture"}');write('ds/JSONS/apollo/designPatternRules.json','{"rules":[]}');write('ds/redpolrules/dictionary.json','{"rules":[]}');write('ds/patterns/fixture.md','# Fixture');
   write('hub/products/ab/patterns/fixture.md','# Fixture');write('hub/products/ab/components/fixture/meta.json','{"id":"Fixture"}');fs.mkdirSync(path.join(hub,'core/web/components'),{recursive:true});
   const record=path.join(root,'calls.jsonl'),binary=write('cli','#!'+process.execPath+'\n'+`
-const fs=require('fs');let prompt='';process.stdin.on('data',v=>prompt+=v);process.stdin.on('end',()=>{
- const a=process.argv.slice(2);fs.appendFileSync(${JSON.stringify(record)},JSON.stringify(a)+'\\n');
+const fs=require('fs'),a=process.argv.slice(2);if(a.slice(-3).join(' ')==='mcp list --json'){console.log('[]');process.exit(0);}
+let prompt='';process.stdin.on('data',v=>prompt+=v);process.stdin.on('end',()=>{
+ fs.appendFileSync(${JSON.stringify(record)},JSON.stringify(a)+'\\n');
  if(prompt.includes('UNAVAILABLE')){process.stderr.write('The requested model does not exist');process.exitCode=1;return;}
  const structured=a.includes('--output-schema')||a.includes('--json-schema');
  const result=prompt.includes('OVERVIEW=')?{action:'finish',nodeIds:[],changes:[]}:structured?{summary:'fixture'}:'Fixture response';

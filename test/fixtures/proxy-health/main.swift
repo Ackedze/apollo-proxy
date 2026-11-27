@@ -22,4 +22,17 @@ var active = healthy; active["activeRequests"] = 1
 precondition(ProxyHealthSnapshot.decode(data(active), statusCode: 200)!.busy)
 var missingKnowledge = healthy; missingKnowledge["codex"] = ["knowledge": ["ready": false]]
 precondition(ProxyHealthSnapshot.decode(data(missingKnowledge), statusCode: 200)!.knowledgeReady == false)
+
+var approval = healthy
+let runId = "run_1be34a56-7c98-4d32-8286-3d889dc6124f"
+approval["openRouterApproval"] = ["runId": runId, "texts": 7]
+guard case .textReview(texts: 7)? = ProxyHealthSnapshot.decode(data(approval), statusCode: 200)?.openRouterApproval?.contents else {
+    fatalError("Legacy UX Writer approval was lost")
+}
+approval["openRouterApproval"] = ["runId": runId, "kind": "task-passport", "screens": 2]
+guard case .taskPassport(screens: 2)? = ProxyHealthSnapshot.decode(data(approval), statusCode: 200)?.openRouterApproval?.contents else {
+    fatalError("Task Passport approval was lost")
+}
+approval["openRouterApproval"] = ["runId": runId, "kind": "task-passport", "screens": 25, "texts": 7]
+precondition(ProxyHealthSnapshot.decode(data(approval), statusCode: 200)?.openRouterApproval == nil)
 print("Proxy health regression cases PASS")

@@ -41,8 +41,9 @@ async function executeCodexProcess(
   const environment=buildCodexEnvironment();
   const workingDirectory=typeof telemetryContext.workingDirectory==='string'&&telemetryContext.workingDirectory
     ? telemetryContext.workingDirectory : CODEX_WORKSPACE;
-  if(telemetryContext.mode==='dialogue'&&telemetryContext.dataOnly)
+  if(telemetryContext.mode==='dialogue')
     args=await require('./ABM-tool-isolation').isolateAbmTools(CODEX_BIN,args,environment,workingDirectory);
+  if (signal?.aborted) throw Object.assign(Error('CLI request cancelled.'), {code:'CLI_CANCELLED',status:499});
   return new Promise((resolve, reject) => {
     const child = spawn(CODEX_BIN, args, {
       cwd: workingDirectory,

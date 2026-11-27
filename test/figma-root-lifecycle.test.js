@@ -14,11 +14,12 @@ function graph(){
 }
 const schema=keys=>({type:'object',properties:Object.fromEntries(keys.map(k=>[k,{type:'string'}])),required:keys,additionalProperties:false});
 function transport(g,scenario='ok'){
- const messages=[],options=[],kills=[];
+ const messages=[],options=[],kills=[],launchArgs=[];
  const spawnProcess=(binary,args,opts)=>{
-  assert.equal(binary,'fake-codex');assert.deepEqual(args.slice(-2),['app-server','--stdio']);assert(args.includes('mcp_oauth_credentials_store="auto"'));assert(args.includes('features.shell_tool=false'));assert(args.some(a=>a.startsWith('mcp_servers={apollo_figma_mcp=')));assert.equal(opts.shell,false);assert.equal(opts.env.SECRET,undefined);options.push(opts);
+  assert.equal(binary,'fake-codex');assert.deepEqual(args.slice(-2),['app-server','--stdio']);assert(args.includes('mcp_oauth_credentials_store="auto"'));assert(args.includes('features.shell_tool=false'));assert(args.some(a=>a.startsWith('mcp_servers={apollo_figma_mcp=')));assert.equal(opts.shell,false);assert.equal(opts.env.SECRET,undefined);options.push(opts);launchArgs.push(args);
   const child=new EventEmitter();child.exitCode=null;child.stdout=new PassThrough();child.stderr=new PassThrough();
   const close=code=>{if(child.exitCode!==null)return;child.exitCode=code;queueMicrotask(()=>child.emit('close',code));};child.kill=sig=>{kills.push(sig);close(143);};
+  const launch=launchArgs.length;
   child.stdin=new Writable({write(b,enc,cb){const m=JSON.parse(b);messages.push(m);cb();if(!m.id||!m.method)return;
    if(scenario==='hang')return;
    if(scenario==='interactive'&&m.method==='initialize'){queueMicrotask(()=>child.stdout.write(JSON.stringify({id:'approval',method:'item/tool/requestApproval',params:{}})+'\n'));return;}
@@ -32,21 +33,93 @@ function transport(g,scenario='ok'){
     if(m.method==='mcpServer/tool/call'){
      assert.equal(m.params.server,NAME);assert.equal(m.params.arguments.fileKey,input.fileKey);
      if(scenario==='progress')child.stdout.write(JSON.stringify({method:'item/mcpToolCall/progress',params:{itemId:'host-tool',message:'Running tool',threadId:UUID,turnId:UUID}})+'\n');
-     if(scenario==='tool-error')result={isError:true,content:[]};
+     if(scenario==='remote-timeout'&&m.params.tool==='use_figma')throw Error('request timed out after 30 seconds SECRET_SENTINEL');
+     const paging=scenario==='paged'||scenario==='paged-change';
+     const code=m.params.arguments.code||'';
+     const firstPage=code.includes('offset:0,size:packed.data.length');
+     if(scenario==='paged-change'&&paging&&launch>1&&m.params.tool==='use_figma'&&!firstPage)
+      g.pagingNode.name='Changed between pages';
+     if((scenario==='output-limit'||paging&&launch===1)&&m.params.tool==='use_figma')result={isError:true,content:[{type:'text',text:'Tool output exceeds size limit SECRET_SENTINEL'}]};
+     else if(scenario==='tool-error')result={isError:true,content:[]};
      else result={content:[{type:'text',text:JSON.stringify(m.params.tool==='create_session'?{sessionId:UUID}:await g.execute(m.params.arguments.code))}]};
     }
     child.stdout.write(JSON.stringify({id:m.id,result})+'\n');
    }).catch(e=>child.stdout.write(JSON.stringify({id:m.id,error:{code:-32000,message:e.message}})+'\n'));
-  },final(cb){cb();close(0);}});return child;
+  },final(cb){
+   cb();
+   if(scenario==='slow-first-close'&&launch===1){
+    const keepAlive=setTimeout(()=>close(0),1800);
+    child.once('close',()=>clearTimeout(keepAlive));
+    return;
+   }
+   close(0);
+  }});return child;
  };
  const adapter=createRootLifecycle({binary:'fake-codex',environment:{HOME:'/fake',PATH:'/usr/bin',SECRET:'never'},spawnProcess,timeoutMs:scenario==='hang'?25:1000,checkConnection:async()=>({state:'configured'})});
- return {adapter,messages,options,kills};
+ return {adapter,messages,options,kills,launchArgs};
 }
 test('fixed native bootstrap and read use canonical keys and preserve existing user nodes',async()=>{
  const g=graph(),foreign=g.node('FRAME');g.page.appendChild(foreign);const original=JSON.stringify(foreign.shared),t=transport(g),r=await t.adapter.inspect(input,{create:true}),root=verifiedRoot(r,input);
  assert.equal(root.owner,input.ownerNonce);assert.equal(root.chat,input.chatId);assert.equal(g.nodes.get(root.id).shared.ownerNonce,undefined);assert.equal(JSON.stringify(foreign.shared),original);
  const before=g.mutations.length,again=await t.adapter.inspect({...input,rootId:root.id});assert.equal(verifiedRoot(again,{...input,rootId:root.id}).id,root.id);assert.equal(g.mutations.length,before);
  assert(t.messages.every(m=>!m.method||!m.method.startsWith('turn/')));assert.equal(t.messages.filter(m=>m.method==='mcpServer/tool/call').length,4);assert(t.options.every(o=>!fs.existsSync(o.cwd)));
+});
+test('actual host RPC runs the trusted complete observer and changes no canvas nodes',async()=>{
+ const g=graph(),t=transport(g),created=await t.adapter.inspect(input,{create:true}),root=g.nodes.get(created.root.id),child=g.node('FRAME');root.name='Root';child.name='Child';root.appendChild(child);
+ const before=g.mutations.length,result=await t.adapter.inspect({...input,rootId:root.id},{observe:true});
+ assert.equal(result.root.observation.schemaVersion,'apollo.recipe-observation.v1');assert.equal(result.root.observation.complete,true);assert.equal(result.root.observation.nodes.length,2);assert.equal(g.mutations.length,before);
+ assert(t.messages.every(m=>!m.method?.startsWith('turn/')));assert(t.options.every(o=>!fs.existsSync(o.cwd)));
+});
+test('remote timeouts and output limits survive as safe host diagnostics',async()=>{
+ for(const [scenario,code,kind]of [['remote-timeout','LANDING_ROOT_MCP_TIMEOUT','timeout'],['output-limit','LANDING_ROOT_MCP_OUTPUT_LIMIT','output-limit']]){
+  const t=transport(graph(),scenario);await assert.rejects(t.adapter.inspect(input,{create:true}),e=>{
+   assert.equal(e.code,code);assert.equal(JSON.parse(e.diagnostic).kind,kind);assert(!JSON.stringify(e).includes('SECRET_SENTINEL'));return true;
+  });assert(t.options.every(o=>!fs.existsSync(o.cwd)));
+ }
+});
+test('output cap recovers with a full paged snapshot and refuses mixing pages after an edit',async t=>{
+ for(const scenario of ['paged','paged-change'])await t.test(scenario,async()=>{
+  const g=graph();
+  const {root}=await g.execute(rootScript(input,true));
+  const frame=g.node('FRAME');
+  g.nodes.get(root.id).appendChild(frame);
+  for(let i=0;i<400;i++){
+   const field=g.node('FRAME');
+   field.name=crypto.createHash('sha256').update('fixture-layer-'+i).digest('hex');
+   frame.appendChild(field);
+   g.pagingNode=field;
+  }
+  g.mutations.length=0;
+  const wire=transport(g,scenario), owned={...input,rootId:root.id};
+  const observed=wire.adapter.inspect(owned,{observe:true});
+  if(scenario==='paged-change')await assert.rejects(observed,{code:'LANDING_ROOT_OBSERVATION_CHANGED'});
+  else{
+   const actual=verifiedRoot(await observed,owned);
+   assert.equal(actual.observation.complete,true);
+   assert.equal(actual.observation.nodes.length,402);
+   assert.equal(actual.observation.nodes.at(-1).name,g.pagingNode.name);
+  }
+  assert(wire.messages.filter(m=>m.params?.tool==='use_figma').length>=3);
+  assert.deepEqual(g.mutations,[]);
+ });
+});
+test('a close timeout retries a read once and never replays creation',async t=>{
+ for(const create of [false,true])await t.test(create?'create':'read',async()=>{
+  const g=graph(),wire=transport(g,'slow-first-close');
+  if(create)await assert.rejects(wire.adapter.inspect(input,{create:true}),{code:'LANDING_ROOT_MCP_CLOSE_TIMEOUT'});
+  else{
+   const {root}=await g.execute(rootScript(input,true));
+   const owned={...input,rootId:root.id};
+   assert.equal(verifiedRoot(await wire.adapter.inspect(owned),owned).id,root.id);
+  }
+  assert.equal(wire.messages.filter(m=>m.params?.tool==='use_figma').length,create?1:2);
+ });
+});
+test('only read-only observe receives its own finite read budget and cancellation still stops it',async()=>{
+ const g=graph(),t=transport(g),created=await t.adapter.inspect(input,{create:true}),target={...input,rootId:created.root.id};
+ await t.adapter.inspect(target,{observe:true});await t.adapter.inspect(target,{fit:true});
+ assert(t.launchArgs[0].some(a=>a.includes('tool_timeout_sec=30')));assert(t.launchArgs[1].some(a=>a.includes('tool_timeout_sec=60')));assert(t.launchArgs[2].some(a=>a.includes('tool_timeout_sec=30')));
+ const cancelled=transport(g,'hang'),controller=new AbortController();await assert.rejects(cancelled.adapter.inspect(target,{observe:true,signal:controller.signal,onProcess(){controller.abort();}}),{code:'AGENT_CANCELLED'});assert.equal(cancelled.kills.length,1);
 });
 test('merged user servers are disabled only in private argv before any thread, discovery or native call',async()=>{
  const g=graph(),t=transport(g,'merged');verifiedRoot(await t.adapter.inspect(input,{create:true}),input);
