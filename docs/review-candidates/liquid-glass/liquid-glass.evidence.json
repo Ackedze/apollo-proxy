@@ -1,0 +1,1409 @@
+{
+  "schemaVersion": 1,
+  "status": "OWNER_SCOPE_CONFIRMED_NOT_PUBLISHED_OR_ACTIVATED",
+  "preparedOn": "2026-11-27",
+  "purpose": "Review requested by Ackedze in apollo-proxy PR #5 comment 7173873983; not a runtime data release.",
+  "requestUrl": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7173873983",
+  "registryFile": "liquid-glass.candidate.json",
+  "registrySha256": "5df71228025eb8d739215153b3527c8362a6f849f9c36fbf3106f51fa3f04e94",
+  "summary": {
+    "families": 23,
+    "unconditionalFamilies": 22,
+    "conditionalFamilies": 1,
+    "catalogRequired": 10,
+    "explicitSupplementsForOlderIndex": 13,
+    "localCatalogIdentityConfirmed": 10,
+    "ownerReviewIdentityConfirmed": 23,
+    "resultVariantValues": 36,
+    "localNameRules": 1,
+    "withdrawnOverlayFamilies": 3
+  },
+  "limitations": [
+    "No new field acceptance in Figma or managed data release was performed.",
+    "Local catalogs/index remain an older snapshot; reviewer confirmation of fresh catalogs is linked, not represented as a new local export.",
+    "Rare pre-iOS-26 cases are manual exceptions, not automatic detector exclusions.",
+    "SexyOverlay is outside the active detector scope; no claim of LG compliance is made for it.",
+    "No detached or BlurFooter structural matching is added.",
+    "Code, review candidate, managed-data publication and installation are separate stages."
+  ],
+  "families": [
+    {
+      "key": "90cccd270b983b15f57c140b8d65a2aa4875f43e",
+      "name": "(n)Alert",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "64989:616",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=64989-616",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)Alert",
+          "status": "active",
+          "variantKeys": [
+            "176fa93000ab37cde1ded26403eff20676b38198",
+            "3a461abf86eaf1d416c5daeb4acf8d6e03164dee",
+            "4e5a1293e646e8cd6f116bbe45ee8a3b462ca1c3",
+            "e1cba5926c593aa3037a1eb0f2624fe49636f24f"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "176fa93000ab37cde1ded26403eff20676b38198",
+        "4e5a1293e646e8cd6f116bbe45ee8a3b462ca1c3",
+        "e1cba5926c593aa3037a1eb0f2624fe49636f24f",
+        "3a461abf86eaf1d416c5daeb4acf8d6e03164dee"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "c8a826001cce9c58d983fdbb3ec8e984d5d6c96e",
+      "name": "(n)AlertMessage",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:75413",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75413",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)AlertMessage",
+          "status": "active",
+          "variantKeys": [
+            "107d60c82b6d568a12e845da0aa8c745e71a6e95",
+            "27e9d4693b4a6532fa8adb045b0c0903a5ae9bcf",
+            "3923f29d5b2ce529008e7f480e55f0a65ea1d341",
+            "40d0a4b7dc925717136f90153e915fc192930c00",
+            "60dcf6471520a27b37a54cf7dd8d67b3382ab54c",
+            "6bd684d4fd6e679e72ea7a09b317da4499d2b4b7",
+            "70ac9bf7d77f33f7667ef4f63834aae4bfb9c2d5",
+            "9f15271600bd3ed1c8dd85518a9f7209e00f3af4",
+            "ccd374e1d246a393db50c08c36e3157bf95dcb18",
+            "d1ee71584565bb666678732cae432d3556a02ab1",
+            "e28a7a554732e2dc751d500199244d357b4c4dea",
+            "e85aa2c1aefaaec3217ffc53bbc86c7e6ed1293f"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "6bd684d4fd6e679e72ea7a09b317da4499d2b4b7",
+        "60dcf6471520a27b37a54cf7dd8d67b3382ab54c",
+        "70ac9bf7d77f33f7667ef4f63834aae4bfb9c2d5",
+        "ccd374e1d246a393db50c08c36e3157bf95dcb18",
+        "9f15271600bd3ed1c8dd85518a9f7209e00f3af4",
+        "3923f29d5b2ce529008e7f480e55f0a65ea1d341",
+        "e85aa2c1aefaaec3217ffc53bbc86c7e6ed1293f",
+        "d1ee71584565bb666678732cae432d3556a02ab1",
+        "27e9d4693b4a6532fa8adb045b0c0903a5ae9bcf",
+        "40d0a4b7dc925717136f90153e915fc192930c00",
+        "107d60c82b6d568a12e845da0aa8c745e71a6e95",
+        "e28a7a554732e2dc751d500199244d357b4c4dea"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "d31e36ee7e3f35dcd00efbe9e0cc2af4842a4578",
+      "name": "(n)AlertInput",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:75536",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75536",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)AlertInput",
+          "status": "active",
+          "variantKeys": [
+            "1156234c42afca18bba255c64058aaf4fcea32a1",
+            "214320b017cc9828f7e962e357dece4425022866",
+            "2a80cba9e68053c09088e5dc440f6a4614aa5abf",
+            "436a7973528fa1c807a093510dbd563e4876de02",
+            "7940202923acd6fa4ccb53094f23790dbd831ae5",
+            "7a4da1671cf494265da84a7773026c629b818a9a",
+            "ade28094cbe8c96a974d523943fcc3bbb99a1a2a",
+            "b3eeac59ff2eb09d9a709a30dab5e02348b7a394"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "7a4da1671cf494265da84a7773026c629b818a9a",
+        "214320b017cc9828f7e962e357dece4425022866",
+        "2a80cba9e68053c09088e5dc440f6a4614aa5abf",
+        "b3eeac59ff2eb09d9a709a30dab5e02348b7a394",
+        "7940202923acd6fa4ccb53094f23790dbd831ae5",
+        "436a7973528fa1c807a093510dbd563e4876de02",
+        "1156234c42afca18bba255c64058aaf4fcea32a1",
+        "ade28094cbe8c96a974d523943fcc3bbb99a1a2a"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "c8390e39a0230190dd49b6e23858dd5719eda268",
+      "name": "(n)AlertRating",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:75697",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75697",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)AlertRating",
+          "status": "active",
+          "variantKeys": [
+            "0f4a488e5d738bb8d849981a91d1a374317d7374",
+            "186a7c242d6f0fba17ac2259d44b75753ca6626b",
+            "25941c0cc6fd5699bebc912e82d58db8c18ac92c",
+            "2dc2dfe7ed4428d3ba7970728485feca02d8cb99",
+            "5c35f818037ccfec1d60d93597b7f2be0448589c",
+            "65d5e6839a5f5acb99a1e69ea9a580dc7a5b21d4",
+            "785ceb32a3521482662d5cb2215c221c9966212a",
+            "90eb43ffd3ab14f40a89c49ffe3ce874cf527e45",
+            "b4fcf9cf98680f8e230cfa9a4441cb77abe7412f",
+            "c92b74108921e5e3b389bfc0b00cacef228694c8",
+            "d593da48caf47747541e1abae759e571d82d41f4",
+            "f702a23ba1e532f7a1e4604e2a27c38e65f33b5e"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "5c35f818037ccfec1d60d93597b7f2be0448589c",
+        "65d5e6839a5f5acb99a1e69ea9a580dc7a5b21d4",
+        "25941c0cc6fd5699bebc912e82d58db8c18ac92c",
+        "b4fcf9cf98680f8e230cfa9a4441cb77abe7412f",
+        "f702a23ba1e532f7a1e4604e2a27c38e65f33b5e",
+        "785ceb32a3521482662d5cb2215c221c9966212a",
+        "90eb43ffd3ab14f40a89c49ffe3ce874cf527e45",
+        "d593da48caf47747541e1abae759e571d82d41f4",
+        "0f4a488e5d738bb8d849981a91d1a374317d7374",
+        "2dc2dfe7ed4428d3ba7970728485feca02d8cb99",
+        "186a7c242d6f0fba17ac2259d44b75753ca6626b",
+        "c92b74108921e5e3b389bfc0b00cacef228694c8"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "718ddc676bbf1d2381dbd0c08774f3e85d8b79fb",
+      "name": "(n)AlertImage",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:75942",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75942",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)AlertImage",
+          "status": "active",
+          "variantKeys": [
+            "2fc769da9d39bd8585720c8366361c50db077b92",
+            "86093a944c030d9ce483dab510b2c7bc7b49eecd",
+            "a7c3af49e19792e49902ef446af8b2f40b782400",
+            "eedc5b9605b0fdbf1eb785e49817be75a421b33c"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "eedc5b9605b0fdbf1eb785e49817be75a421b33c",
+        "86093a944c030d9ce483dab510b2c7bc7b49eecd",
+        "2fc769da9d39bd8585720c8366361c50db077b92",
+        "a7c3af49e19792e49902ef446af8b2f40b782400"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "51e7714f7ffd6c06f354ebf3cf79092d8726cc7a",
+      "name": "(n)Toast",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:76001",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-76001",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)Toast ",
+          "status": "active",
+          "variantKeys": [
+            "51e7714f7ffd6c06f354ebf3cf79092d8726cc7a"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Alert.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "51e7714f7ffd6c06f354ebf3cf79092d8726cc7a"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "864e50494144d5cc1bb2d4b79a75ec07825943c0",
+      "name": "(n)Keyboard",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "41974:7075",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=41974-7075",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Keyboard.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)Keyboard",
+          "status": "active",
+          "variantKeys": [
+            "2f134362515a4d38e42e285bd1dd6fee8ebbbbab",
+            "48378b4b41af1fc017a10156317efab13663b9d7",
+            "ba04efe2c83cfc6fcb1d303a3f3db6d7ba4b93d6"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)Keyboard.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "48378b4b41af1fc017a10156317efab13663b9d7",
+        "2f134362515a4d38e42e285bd1dd6fee8ebbbbab",
+        "ba04efe2c83cfc6fcb1d303a3f3db6d7ba4b93d6"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "f1a3dc0af632cb70b557117ac3c727352d19dfdd",
+      "name": "(n)SegmentedControl",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:78424",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-78424",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)SegmentedControl.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)SegmentedControl",
+          "status": "active",
+          "variantKeys": [
+            "0616db2fa3401b351c7a9c71f3a9bed998e3dfce",
+            "0c5976f54696503a8d91f99b20abc9f3ada2828e",
+            "1956844985f76f4f74f30e4b9694f038f5addb98",
+            "38a799c068820f3e9f4016288e1f3ee35b982801",
+            "5b2fa42f5b76ae227b124544c35ea1c403acb697",
+            "5ba98b1850f365e0f0ddfbefa9877825a3fb8391",
+            "6b26f66015d04247f5e6634e025416ce152f18be",
+            "6ede65be4201ab0639c561d3a748d87af228e4eb",
+            "730af800ebb669f8cc7a83a8d79655b57d0877e4",
+            "8f18963e0380fe1bf0c4f5a876a6e3e334359996",
+            "94c7806a35b119b4ccf5a6bb4c215998c69b32f3",
+            "95167b8abf6be9be4fb002285c70f48aded2c88f",
+            "a68a6ba605c534205c03cd25ef23be95f6a911a3",
+            "c6f7042fd3a73bbead20d9da0005900bb27e1f3b",
+            "cdc5e244146e3bafa5f9a414c46d1c678725ce59",
+            "e6237d289ddc4e0f11d6647547de216e597a593f"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)SegmentedControl.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "0616db2fa3401b351c7a9c71f3a9bed998e3dfce",
+        "38a799c068820f3e9f4016288e1f3ee35b982801",
+        "8f18963e0380fe1bf0c4f5a876a6e3e334359996",
+        "6b26f66015d04247f5e6634e025416ce152f18be",
+        "1956844985f76f4f74f30e4b9694f038f5addb98",
+        "c6f7042fd3a73bbead20d9da0005900bb27e1f3b",
+        "cdc5e244146e3bafa5f9a414c46d1c678725ce59",
+        "a68a6ba605c534205c03cd25ef23be95f6a911a3",
+        "94c7806a35b119b4ccf5a6bb4c215998c69b32f3",
+        "0c5976f54696503a8d91f99b20abc9f3ada2828e",
+        "730af800ebb669f8cc7a83a8d79655b57d0877e4",
+        "e6237d289ddc4e0f11d6647547de216e597a593f",
+        "5ba98b1850f365e0f0ddfbefa9877825a3fb8391",
+        "5b2fa42f5b76ae227b124544c35ea1c403acb697",
+        "95167b8abf6be9be4fb002285c70f48aded2c88f",
+        "6ede65be4201ab0639c561d3a748d87af228e4eb"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "bf431254c6b74e1cb5aa4e9101c0920ef3c1fd68",
+      "name": "(n)SegmentedControlWrapper",
+      "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "2181:78651",
+      "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-78651",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Views/iOS _ Views -- (n)SegmentedControl.json",
+          "generatedAt": "2026-08-03T08:47:11.771Z",
+          "fileKey": "wF80Fbm8qD9Htohy2tC6am",
+          "name": "(n)SegmentedControlWrapper",
+          "status": "active",
+          "variantKeys": [
+            "bf431254c6b74e1cb5aa4e9101c0920ef3c1fd68"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Views/iOS _ Views -- (n)SegmentedControl.json",
+            "fileKey": "wF80Fbm8qD9Htohy2tC6am"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "bf431254c6b74e1cb5aa4e9101c0920ef3c1fd68"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "63ebc76450fc4eca2e3580eeec8951336937c046",
+      "name": "NavigationBar / Default",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "13:266432",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-266432",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "e9fa622380a1877bd23de47543239336e1fdcb22",
+        "360d22b64a310a186b7193cd5039dd097d0acc03",
+        "a795caa559f08f11fabf5a4709b33eac82e7f336",
+        "06a35193a5797f4f56e49aae4295ad9beb72eb62",
+        "9af23eb97f72a7eedd7fbc6a6f6dc924963402d7",
+        "00cde5bd6514ac3e04e288f04747045ba1995c10",
+        "7f389343fbac17b232e960ad9c2f8139b602086e",
+        "b6e80dedf8711042dec11abafdc7682a644f47b7",
+        "821390580c5cb5c68700018fe65c98f5065f7684",
+        "1c7c6d864c0b9d41f7ddc4d6e04f57a69c9bbc7c",
+        "6d7f9fab4c7f1d00e39af5c46f904c6b24baa513",
+        "e5fca1a4701785b20a362eeaa5a2c2f856d46524",
+        "61a13a685ca2ada8967f916ab53d60f74563eeb1",
+        "db4daee8601a25a3f9a7bea46c5a7aba4d8e9e35",
+        "bc72b018a13dc85b774bd0229de84cefbbccd869",
+        "97bde68e39bdfe139de15baa85e43c12e7381298",
+        "6d5da23c79e384e60396ab3a6c108fd07aa4bc64",
+        "7153eeb56c89e78b889c19a543c96572388f0e52",
+        "e901c8507d7623d5f7b3e54f46a378b9521db6c8",
+        "91e2ccbd343e79ebc1555cd3788b1419fc1c5df1",
+        "b5835cf719ae0fd649ca82f31f5a1b35fde151e0",
+        "fa1695def27093166c07fa4cec848e9b2b43fed1",
+        "611df3776a83a35af2c0394b368858d59ee8deba",
+        "27b207ade30967b5f9e170bbebf1b4f94023a8c8",
+        "3d0dcadfd51d1344559da46d2b0daccb2a51435e",
+        "637edd9775d1eab57aedad4557399e4f12486f5d",
+        "bb4dadf4c188b69c863889fb9bb62f920e590e4b",
+        "82a2c06012bb7d15b563e1a149db3effa1a757e5",
+        "303435a601094ee8cdd6eb7cb1579dd61622bb1d",
+        "832563f295642984d6e8d968ffde578518d55559",
+        "e08f7a6887851c5ecaf6d9da4f7105cac43f3efa",
+        "bde5e68d2208c7525589f82271696d284603a256",
+        "235b356b434cbd6545f81cb2ba6f09a7796f4d6d",
+        "0150e145ce6b773424edd21a8c6d2907948311b0",
+        "6bde109dafc45011db7c622cba15ecf650c39697"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "77c445f317d8357563aa26774162e1d9a7468f17",
+      "name": "NavigationBar / Modal",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "13:267494",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-267494",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "662e4b36ce344e2a43c284abaaf95e5011aefaf5",
+        "0a9f35a177a48e9885bd011b6d07cdd5136f56a8",
+        "b9cd3670e17b5af8819d6f0d4113ef8c336e792e",
+        "dc87683540ab0e7c27f6cb72af9086fe37115424",
+        "910ff30d5d181346825c04e84b53cd36ebc68957",
+        "3a13dd23b00f5ae7cd4a7fe1bdb9c3a23a111484",
+        "e3f7304c58ffbc1d4b11961baa29ba45248522e6"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "cb36704b6a173c7b5e427ecce10b93c4be43c911",
+      "name": "NavigationBar / MapHeader",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "13:268096",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-268096",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "990e53510b5d20484a18665d0fdc9ddcc5b3f3b4",
+        "c41efe0b2f5e3e6bb995446d5a3fe02117d2a8cb",
+        "7b4d22dcfcd99d5f2175521eea9d97351b83d62d",
+        "1f6343522b44e05b9704d873ba77cfcd0f10c337",
+        "6cd2a241498c4ecb787e86f3b72a77c50f825fa2",
+        "2b80a33ebec2964965def7d3b720962bd4a9f8f4",
+        "172e80125608f07d59eaf3d1d2596ece7c406508",
+        "650fc152d781d905611a8712695bbac66fcc6916",
+        "05c9d3b7fcbce9cd8207ccd9d0e6551df2bf1f7b",
+        "c0d9d12e1185827780c1497391419d7e3860488a",
+        "b1b93da2d5c53ba80546b4cebe12268b14f84b12",
+        "ff036e4b437d01d5171a6e3808e67deed64869ee",
+        "ca20cf6052f58a381d70023a51983028da7cd928",
+        "d71f88a10c078f5e423b20957ce72575efb2c8f8",
+        "3b5c48d9312160fddfef24a391ddb07c37075aa8"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "8c8ae4e7db5243b1409559c3833f20ce71553100",
+      "name": "NavigationBar / Template",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "13:268493",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-268493",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "05885e2e9d31658402c58eaa9ae0e3fed62259da",
+        "f15fb01ee4b93bf5e9523f2d8f6d84f7c52d23b5",
+        "838c5ffe4e38ec409e04db0caea8ed8e092570a8",
+        "421befaf84a9b4e7967cda567365a93930993399",
+        "a771fe0c4c79da8cdd6c49ec9e02cf671080a7f6",
+        "bcbdba50743a6bc0b2eba8b095a54fe30d511805"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "f8a8ba211321a315455c756dae0f640e69bdf055",
+      "name": "TabBarV2 ABM",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "21128:11402",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=21128-11402",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "931bd1740ea3e00e288e048d0f0c368002a434d2",
+        "9fae7394659c4a6c818cef3fc157cac1bce2ee97",
+        "88424420772f0535d913117ad544fdfb76aad27c",
+        "7651a8feb8673f5798eb4d3cab8942cfb3e1f3cc",
+        "9ecbbe69186b21dd8931dac5a04a63423709808e",
+        "fafdd7b85275df8dc1a2e893144bf74e02ba556a",
+        "3c04343d05325ac1f16efcdf1405783bbfa71fd9",
+        "e583c4958cccd84d0ede4d1cf7f130d8ed51af9d",
+        "8153cfacf170ec76c3fd59528052ab7cbca77551",
+        "bfabee3845805ec60fb5bc96c9d74eeb1a7735a4",
+        "6d96c17110a2beee8c971203416b364cda1aa34a",
+        "5e6b1860ce9c060890e759d06fcad64eac18c167",
+        "c7bb6b9208bcd613b88d96381359a040706464fa"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "ef5db8137e0079aa3ab24a3a1d8fdd1e997bab97",
+      "name": "TabBarV2",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "15465:31462",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=15465-31462",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "1d138855b71dd4b54436c6b6eb71ca0f24565829",
+        "a05514d3217c3bc19d3828e8c7e10f7597f673f9"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "d2f928b1c81a6039ff97b83dde9b2574fc5de59e",
+      "name": "🔁 (n)TabBar",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "13:320232",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-320232",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "cf3d17940a223f0955b2262aa72dc8311603cc64",
+        "d6cfcfa639bfa533a4eeb8c72c4b3b596c1126ed",
+        "c8ba2600bc549eae7b089f01ed24c4c3277025d4",
+        "06fbb30c2654c5560c206c5fc2a70998f1461f79",
+        "0384c3c7e979c9fed2017c59eb78da249389ba9f",
+        "8b8533e1da7bcb6b93a73e1277bed59e31e6f628",
+        "eb61b9af3797226ec9b14981ae3a126a7dcca1ca",
+        "01c9f7762693fe401f2bb22fea1d967e9277ac24",
+        "684dc597174ac0ad68485f2786f712641aa1aac0",
+        "e3bab08bd92f989371b0204bc985139e7b930c44",
+        "34c8f5214b860b1483ec36353c08a320a951afed",
+        "05e6905f5e265c9febb92e14b2d45abb9e687fba",
+        "8e1d1d9ccf53e0595ef394053306418f72b37737",
+        "2f4fe1f600221553f8a8958ec0a82c5f0f740c66",
+        "c1bfc17fd1b092fbe9f1e28de262482d2304f2fa"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "3ae55d27c7f8ef135fe7e359299ca4c491165752",
+      "name": "(n)TabBar",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "16754:28541",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-28541",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "3ae55d27c7f8ef135fe7e359299ca4c491165752"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "a1d3a6a24501532c3bfa7ab24e229b408b65ad5a",
+      "name": "(n)TabBar / ⚙ AM",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "16754:30163",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30163",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "a1d3a6a24501532c3bfa7ab24e229b408b65ad5a"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "150c83fd3c4d29f2a3a91e16ce319042add8874e",
+      "name": "(n)TabBar / ⚙ ABM",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "16754:30267",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30267",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "150c83fd3c4d29f2a3a91e16ce319042add8874e"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "186dbc109ee5c7ffc69303011cea4179de7676ac",
+      "name": "(n)TabBar / ⚙ Investments",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "16754:30347",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30347",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "186dbc109ee5c7ffc69303011cea4179de7676ac"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "30c74300ba4a04fca1aafc0301bb18691c949ea2",
+      "name": "(n)SegmentedControl",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "12:203591",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=12-203591",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "f51572521b4531cc47989c701bef0ca1733f3549",
+        "058c24f21611a26d4a045f070f85bbd995b1d5c6",
+        "59c48bed8b998f0865d73cf83ed8ee88168c0c76",
+        "821e20a07cc07dd7a0d35e18fade18be553ed353"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "e08694fa20ccc0a27f5f10c97b7cde6ac0497823",
+      "name": "(n)Toggle",
+      "fileKey": "JuM4aiP9jh5L06qCzPcTfI",
+      "allowLocalSupplement": true,
+      "sourceNodeId": "5007:191886",
+      "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=5007-191886",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "entire-listed-family",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-supplied 26-family handoff in task",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
+      "catalogMatches": [],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": false,
+        "sources": []
+      },
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
+      "declaredVariantKeys": [
+        "4e7fd39861c0b0ea864efbbc49ec7113e7dcc2d5",
+        "7c602c3296cb8d3a09080f4d2e52650cb036531b",
+        "7235aa5e7c31db95b27e1c88f819461bfdcbdc11",
+        "5e0f433e266adbc5a7013d26d1a53585a4df3ee0"
+      ],
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
+    },
+    {
+      "key": "dd134e78b30b144f5fa9471e40367f51d7a1128d",
+      "name": "ResultScreen",
+      "fileKey": "S1MywyqXOFripEsvMJ1zrz",
+      "allowLocalSupplement": false,
+      "sourceNodeId": "110611:33476",
+      "figmaUrl": "https://www.figma.com/design/S1MywyqXOFripEsvMJ1zrz?node-id=110611-33476",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
+      "scope": "conditional-state",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
+      "declarationSource": "Owner-provided ResultScreen Figma link and explicit False/missing-property requirement",
+      "publishedKeyVerification": "catalog-family-key-and-file-key",
+      "catalogMatches": [
+        {
+          "repository": "Ackedze/design-system_abm",
+          "revision": "edf408782b9570e6cf15568d73f96c87b79f1202",
+          "catalogPath": "abm/ios/Modules/iOS _ Modules -- ResultScreen.json",
+          "generatedAt": "2026-08-03T09:09:57.286Z",
+          "fileKey": "S1MywyqXOFripEsvMJ1zrz",
+          "name": "ResultScreen",
+          "status": "active",
+          "variantKeys": [
+            "00c1e8d399fe21feb672ca739a2eb13cff9463b4",
+            "01467f872f6c6edbe848e1137534a11daa4c504d",
+            "19269403eaf1df256ab53311f4be6881d431b739",
+            "1a9d25481f9437e73112e47b4bbb03f965432c03",
+            "26e57a3679201d1eddbae4ed5b7622df2fafad12",
+            "3ac20aab13488addc74cd4566553b39657703603",
+            "44566c55157900a4afee0a92ea04091a47d87ba2",
+            "5c6707fb300b211c5b6b9bb90fbbdbf866c53a90",
+            "6ba7974402f1ba3717f577de42e7c8e5db48d0d2",
+            "742f4e26d9cb56eb0ceb43c59effdeeeef3af29c",
+            "8f3f60e016efe1b1126c24d2d8db331d0862e01f",
+            "a3449715c1209f2e3177a5b194532a25352493b3",
+            "a6d730b9090f81e0768c64314b1ec34c54424244",
+            "bd2155e618881e7941dc1d5541b9b1b8341fb09a",
+            "d1343536d7f1b7af77b0fbb9825c8164f33a89f6",
+            "daaa0ab3fe80079c5b8ffcf6ef9fffad5e7c3489",
+            "e1821b31eb4ff4a6a9668d3dd5f66de58d8b509c",
+            "ff846e4c9200aa5e1428dc75b5279671d0c91296"
+          ],
+          "identityConfirmed": true
+        }
+      ],
+      "snapshotIndexMatch": {
+        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
+        "found": true,
+        "sources": [
+          {
+            "catalogPath": "abm/ios/Modules/iOS _ Modules -- ResultScreen.json",
+            "fileKey": "S1MywyqXOFripEsvMJ1zrz"
+          }
+        ]
+      },
+      "supplementReason": null,
+      "openQuestions": [
+        "Validate the final managed policy against the accepted release snapshot before activation; no library publication is performed in this task."
+      ],
+      "variantCondition": {
+        "property": "👻 LiquidGlassEffect",
+        "equals": "False",
+        "variantValues": {
+          "ff846e4c9200aa5e1428dc75b5279671d0c91296": "False",
+          "b4f1f06675c453138aee62db4cd3fc7acba85f36": "True",
+          "1a9d25481f9437e73112e47b4bbb03f965432c03": "False",
+          "55be11d2386e16bbbd0a1b6ffaf2182b181dad7c": "True",
+          "19269403eaf1df256ab53311f4be6881d431b739": "False",
+          "d080b7411a1cf33e19b2134468c4189f5eb1d81f": "True",
+          "26e57a3679201d1eddbae4ed5b7622df2fafad12": "False",
+          "8c290aa757e692ce69226142d668fb333ba3b932": "True",
+          "a6d730b9090f81e0768c64314b1ec34c54424244": "False",
+          "94985951b6506a175169d00ffc9a3d7487e881cc": "True",
+          "742f4e26d9cb56eb0ceb43c59effdeeeef3af29c": "False",
+          "274bee22fbef6771dfc8011fc81bde2e3b64bcf6": "True",
+          "01467f872f6c6edbe848e1137534a11daa4c504d": "False",
+          "8de20e7f6fd889501e86066e02fa0f24d8ec146e": "True",
+          "d1343536d7f1b7af77b0fbb9825c8164f33a89f6": "False",
+          "0a323e53b4d182e41fa28c1fbfec08aba50d304b": "True",
+          "e1821b31eb4ff4a6a9668d3dd5f66de58d8b509c": "False",
+          "5f1bf6aaac902486a55d9ef8652e923ecea1dc68": "True",
+          "00c1e8d399fe21feb672ca739a2eb13cff9463b4": "False",
+          "0992c26d31e4ffec74f791dd0d016c4731b68fcd": "True",
+          "a3449715c1209f2e3177a5b194532a25352493b3": "False",
+          "5609601263a4efae1871125403b68bbb23f8b8da": "True",
+          "44566c55157900a4afee0a92ea04091a47d87ba2": "False",
+          "093769ff54542c8c2ffe9f3dd9aa077369b6c5d5": "True",
+          "5c6707fb300b211c5b6b9bb90fbbdbf866c53a90": "False",
+          "52a7ffd76cf505626f602a83497b56ff202a0dc1": "True",
+          "3ac20aab13488addc74cd4566553b39657703603": "False",
+          "010bacd8b25d1e0d6464ca59b32e32a9421c34cb": "True",
+          "bd2155e618881e7941dc1d5541b9b1b8341fb09a": "False",
+          "ac6538503ce75bac2a17c2296248e0802d5b7900": "True",
+          "8f3f60e016efe1b1126c24d2d8db331d0862e01f": "False",
+          "bb6938103448808a36bea504cb185713d88f624f": "True",
+          "6ba7974402f1ba3717f577de42e7c8e5db48d0d2": "False",
+          "b51267d3b3f2bf8eeead84024970a245370540f8": "True",
+          "daaa0ab3fe80079c5b8ffcf6ef9fffad5e7c3489": "False",
+          "b4d8a1619dc4dc7bebde6ae5d928aef8df5f5f09": "True"
+        },
+        "evidence": {
+          "source": "figma-mcp",
+          "fileKey": "S1MywyqXOFripEsvMJ1zrz",
+          "nodeId": "110611:33476",
+          "checkedOn": "2026-11-24"
+        },
+        "missingPropertyValue": "False",
+        "valueSource": "instance-properties"
+      },
+      "variantEvidence": {
+        "source": "Saved read-only Figma MCP identity/property observation",
+        "checkedOn": "2026-11-24",
+        "fileKey": "S1MywyqXOFripEsvMJ1zrz",
+        "componentSetKey": "dd134e78b30b144f5fa9471e40367f51d7a1128d",
+        "nodeId": "110611:33476",
+        "variants": [
+          {
+            "key": "ff846e4c9200aa5e1428dc75b5279671d0c91296",
+            "nodeId": "110611:33477",
+            "value": "False"
+          },
+          {
+            "key": "b4f1f06675c453138aee62db4cd3fc7acba85f36",
+            "nodeId": "121776:19624",
+            "value": "True"
+          },
+          {
+            "key": "1a9d25481f9437e73112e47b4bbb03f965432c03",
+            "nodeId": "110611:33483",
+            "value": "False"
+          },
+          {
+            "key": "55be11d2386e16bbbd0a1b6ffaf2182b181dad7c",
+            "nodeId": "121776:19632",
+            "value": "True"
+          },
+          {
+            "key": "19269403eaf1df256ab53311f4be6881d431b739",
+            "nodeId": "110611:33489",
+            "value": "False"
+          },
+          {
+            "key": "d080b7411a1cf33e19b2134468c4189f5eb1d81f",
+            "nodeId": "121776:19640",
+            "value": "True"
+          },
+          {
+            "key": "26e57a3679201d1eddbae4ed5b7622df2fafad12",
+            "nodeId": "110611:33495",
+            "value": "False"
+          },
+          {
+            "key": "8c290aa757e692ce69226142d668fb333ba3b932",
+            "nodeId": "121776:19648",
+            "value": "True"
+          },
+          {
+            "key": "a6d730b9090f81e0768c64314b1ec34c54424244",
+            "nodeId": "110611:33501",
+            "value": "False"
+          },
+          {
+            "key": "94985951b6506a175169d00ffc9a3d7487e881cc",
+            "nodeId": "121776:19656",
+            "value": "True"
+          },
+          {
+            "key": "742f4e26d9cb56eb0ceb43c59effdeeeef3af29c",
+            "nodeId": "110611:33507",
+            "value": "False"
+          },
+          {
+            "key": "274bee22fbef6771dfc8011fc81bde2e3b64bcf6",
+            "nodeId": "121776:19664",
+            "value": "True"
+          },
+          {
+            "key": "01467f872f6c6edbe848e1137534a11daa4c504d",
+            "nodeId": "110611:33513",
+            "value": "False"
+          },
+          {
+            "key": "8de20e7f6fd889501e86066e02fa0f24d8ec146e",
+            "nodeId": "121776:19672",
+            "value": "True"
+          },
+          {
+            "key": "d1343536d7f1b7af77b0fbb9825c8164f33a89f6",
+            "nodeId": "110611:33519",
+            "value": "False"
+          },
+          {
+            "key": "0a323e53b4d182e41fa28c1fbfec08aba50d304b",
+            "nodeId": "121776:19680",
+            "value": "True"
+          },
+          {
+            "key": "e1821b31eb4ff4a6a9668d3dd5f66de58d8b509c",
+            "nodeId": "110611:33525",
+            "value": "False"
+          },
+          {
+            "key": "5f1bf6aaac902486a55d9ef8652e923ecea1dc68",
+            "nodeId": "121776:19688",
+            "value": "True"
+          },
+          {
+            "key": "00c1e8d399fe21feb672ca739a2eb13cff9463b4",
+            "nodeId": "110611:33531",
+            "value": "False"
+          },
+          {
+            "key": "0992c26d31e4ffec74f791dd0d016c4731b68fcd",
+            "nodeId": "121776:19695",
+            "value": "True"
+          },
+          {
+            "key": "a3449715c1209f2e3177a5b194532a25352493b3",
+            "nodeId": "110611:33537",
+            "value": "False"
+          },
+          {
+            "key": "5609601263a4efae1871125403b68bbb23f8b8da",
+            "nodeId": "121776:19703",
+            "value": "True"
+          },
+          {
+            "key": "44566c55157900a4afee0a92ea04091a47d87ba2",
+            "nodeId": "110611:33543",
+            "value": "False"
+          },
+          {
+            "key": "093769ff54542c8c2ffe9f3dd9aa077369b6c5d5",
+            "nodeId": "121776:19711",
+            "value": "True"
+          },
+          {
+            "key": "5c6707fb300b211c5b6b9bb90fbbdbf866c53a90",
+            "nodeId": "110611:33549",
+            "value": "False"
+          },
+          {
+            "key": "52a7ffd76cf505626f602a83497b56ff202a0dc1",
+            "nodeId": "121776:19719",
+            "value": "True"
+          },
+          {
+            "key": "3ac20aab13488addc74cd4566553b39657703603",
+            "nodeId": "110611:33555",
+            "value": "False"
+          },
+          {
+            "key": "010bacd8b25d1e0d6464ca59b32e32a9421c34cb",
+            "nodeId": "121776:19727",
+            "value": "True"
+          },
+          {
+            "key": "bd2155e618881e7941dc1d5541b9b1b8341fb09a",
+            "nodeId": "110611:33561",
+            "value": "False"
+          },
+          {
+            "key": "ac6538503ce75bac2a17c2296248e0802d5b7900",
+            "nodeId": "121776:19735",
+            "value": "True"
+          },
+          {
+            "key": "8f3f60e016efe1b1126c24d2d8db331d0862e01f",
+            "nodeId": "110611:33567",
+            "value": "False"
+          },
+          {
+            "key": "bb6938103448808a36bea504cb185713d88f624f",
+            "nodeId": "121776:19743",
+            "value": "True"
+          },
+          {
+            "key": "6ba7974402f1ba3717f577de42e7c8e5db48d0d2",
+            "nodeId": "110611:33573",
+            "value": "False"
+          },
+          {
+            "key": "b51267d3b3f2bf8eeead84024970a245370540f8",
+            "nodeId": "121776:19751",
+            "value": "True"
+          },
+          {
+            "key": "daaa0ab3fe80079c5b8ffcf6ef9fffad5e7c3489",
+            "nodeId": "110611:33579",
+            "value": "False"
+          },
+          {
+            "key": "b4d8a1619dc4dc7bebde6ae5d928aef8df5f5f09",
+            "nodeId": "121776:19759",
+            "value": "True"
+          }
+        ]
+      },
+      "missingPropertyValueBasis": "Owner instruction 2026-11-27: confirmed absent property means the old version needs updating AND Liquid Glass enabling. Successfully read instance True/False is authoritative over recorded variant state. A failed read remains unknown.",
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      },
+      "ownerReviewVariantConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "states": 36,
+        "false": 18,
+        "true": 18
+      }
+    }
+  ],
+  "excludedFamilies": [
+    {
+      "name": "SexyOverlay",
+      "key": "9b7cba716d4642a097e04b5d7bab3a95a172260c",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    },
+    {
+      "name": "❌ SexyOverlay",
+      "key": "6177e70b6bc7799c924da243126bb59a57368bc4",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    },
+    {
+      "name": "🔄 SexyOverlay",
+      "key": "9fc632a82c356e4c1ccfbafd9a023ec148e62c95",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    }
+  ],
+  "localRules": [
+    {
+      "id": "deleted-switch-name",
+      "name": "❌Switch",
+      "platform": "iOS",
+      "nodeType": "INSTANCE",
+      "catalogKeyRequired": false,
+      "implementation": "Apollo src/v3-audit/policies/liquidGlassComponentPolicy.js",
+      "source": "local-rule",
+      "matchBasis": [
+        "main-component-name",
+        "instance-name"
+      ],
+      "evidenceFile": "selection-wrapper-switch.evidence.json",
+      "rule": "Use the exact old source component name when available, otherwise the instance name. Preserve SelectionWrapper, do not count internal .❌Switch or frames/text. No generic Toggle or name substring matching.",
+      "limitations": [
+        "Renamed instance with unavailable source can be missed.",
+        "Name matching is not published-key confirmation."
+      ]
+    }
+  ]
+}

@@ -18,8 +18,16 @@ function createAuditDataReader({knowledgeRoot}){
   if(before.stamp!==after.stamp||expected&&(bytes.length!==expected.bytes||p.sha(bytes)!==expected.sha256))p.fail('AUDIT_DATA_SOURCE_CHANGED');
   return {bytes,stamp:after.stamp};
  }
+ async function assertPackageCurrent(packageStamp){
+  const current=await safeFile('manifest.json').catch(error=>{
+   if(error.code!=='ENOENT')throw error;
+   return null;
+  });
+  if(current?.stamp!==packageStamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
+ }
  async function assertCurrent(snapshot){
-  if((await safeFile('manifest.json')).stamp!==snapshot.packageStamp||(await safeFile(p.MANIFEST)).stamp!==snapshot.auditStamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
+  await assertPackageCurrent(snapshot.packageStamp);
+  if((await safeFile(p.MANIFEST)).stamp!==snapshot.auditStamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
  }
  async function open(){
   if(cache){try{await assertCurrent(cache);return cache;}catch(error){if(error.code!=='AUDIT_DATA_SOURCE_CHANGED')throw error;cache=null;}}
@@ -42,23 +50,44 @@ function createAuditDataReader({knowledgeRoot}){
    const snapshot={document,byId,packageStamp:outer.stamp,auditStamp:audit.stamp};await assertCurrent(snapshot);cache=snapshot;return snapshot;
   })().finally(()=>{opening=null;});return opening;
  }
+ async function readCompactIndex(outer,manifest){
+  try{
+   const cached=compact;
+   if(cached?.packageStamp===outer.stamp&&(await safeFile(p.PACKAGED_COMPACT_INDEX)).stamp===cached.fileStamp){
+    await assertPackageCurrent(outer.stamp);
+    return cached.bytes;
+   }
+   const declared=manifest??knowledge.validateManifest(JSON.parse(outer.bytes));
+   const pin=declared.artifacts.find(row=>row.path===p.PACKAGED_COMPACT_INDEX);
+   if(!pin)p.fail('AUDIT_ATHENA_INDEX_MISSING');
+   if(pin.size>p.MAX_COMPACT_INDEX_BYTES)p.fail('AUDIT_ATHENA_INDEX_INVALID');
+   const stored=await readPinned(pin.path,{bytes:pin.size,sha256:pin.sha256});
+   p.validateCompactIndex(stored.bytes);
+   await assertPackageCurrent(outer.stamp);
+   compact={packageStamp:outer.stamp,fileStamp:stored.stamp,bytes:stored.bytes};
+   return stored.bytes;
+  }catch(error){if(error.code==='ENOENT')p.fail('AUDIT_ATHENA_INDEX_MISSING');throw error;}
+ }
  return {
+  async legacyComponentInputs(){
+   const outer=await readPinned('manifest.json');
+   const manifest=knowledge.validateManifest(JSON.parse(outer.bytes));
+   const pin=manifest.artifacts.find(row=>row.path===p.LEGACY_COMPONENT_POLICY);
+   if(!pin)p.fail('AUDIT_LEGACY_COMPONENTS_NOT_CONFIGURED');
+   if(pin.size>1024*1024)p.fail('AUDIT_LEGACY_COMPONENTS_CONFIG_INVALID');
+   try{
+    const policy=await readPinned(pin.path,{bytes:pin.size,sha256:pin.sha256});
+    await assertPackageCurrent(outer.stamp);
+    const index=await readCompactIndex(outer,manifest);
+    return {policy:policy.bytes,index};
+   }catch(error){
+    await assertPackageCurrent(outer.stamp);
+    throw error;
+   }
+  },
   async compactIndex(){
    try{
-    const outer=await readPinned('manifest.json');
-    if(compact?.packageStamp===outer.stamp&&(await safeFile(p.PACKAGED_COMPACT_INDEX)).stamp===compact.fileStamp){
-     if((await safeFile('manifest.json')).stamp!==outer.stamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
-     return compact.bytes;
-    }
-    const manifest=knowledge.validateManifest(JSON.parse(outer.bytes));
-    const pin=manifest.artifacts.find(row=>row.path===p.PACKAGED_COMPACT_INDEX);
-    if(!pin)p.fail('AUDIT_ATHENA_INDEX_MISSING');
-    if(pin.size>p.MAX_COMPACT_INDEX_BYTES)p.fail('AUDIT_ATHENA_INDEX_INVALID');
-    const stored=await readPinned(pin.path,{bytes:pin.size,sha256:pin.sha256});
-    p.validateCompactIndex(stored.bytes);
-    if((await safeFile('manifest.json')).stamp!==outer.stamp)p.fail('AUDIT_DATA_SOURCE_CHANGED');
-    compact={packageStamp:outer.stamp,fileStamp:stored.stamp,bytes:stored.bytes};
-    return stored.bytes;
+    return await readCompactIndex(await readPinned('manifest.json'));
    }catch(error){if(error.code==='ENOENT')p.fail('AUDIT_ATHENA_INDEX_MISSING');throw error;}
   },
   async manifest(){try{const snapshot=await open();return JSON.parse(JSON.stringify(snapshot.document));}catch(error){if(error.code==='ENOENT')p.fail('AUDIT_DATA_PACKAGE_MISSING');throw error;}},

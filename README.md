@@ -1428,6 +1428,70 @@ Ask и Skills сохраняют свои данные. Старые V3 имен
 обозначают прежние политики/API; V4 manual/compiled pilot в новом пути
 проверки не используется. Подробнее: [подготовка данных](docs/data-package-build.md).
 
+### Подготовка определения компонентов до Liquid Glass (Draft)
+
+`GET /v1/audit-data/legacy-components` готовит данные для native-детектора Apollo
+и категории «Компоненты → Не на Liquid Glass», не изменяя существующий индекс.
+По умолчанию JSON политики читается из того же принятого knowledge-пакета,
+что и индекс Apollo: `data/design-system_ab/JSONS/apollo/policies/liquid-glass.json`.
+Reader читает политику и индекс по одному снимку manifest, проверяет размер,
+SHA и актуальность пакета. Если пакет сменился во время чтения, запрос
+возвращает `AUDIT_DATA_SOURCE_CHANGED`.
+Исходник данных для будущей поставки — `JSONS/apollo/policies/liquid-glass.json`:
+существующий knowledge builder уже включает этот каталог в data-only пакет.
+Наличие загрузчика не означает, что политика опубликована в активном пакете.
+Без декларации политики маршрут возвращает `AUDIT_LEGACY_COMPONENTS_NOT_CONFIGURED`.
+
+Для разработки путь к локальному override задаётся явно через
+`APOLLO_LEGACY_COMPONENTS_FILE`. В этой рабочей копии он хранится в игнорируемом
+`.local/audit-policies/ios-liquid-glass.json`; временная папка не является
+источником правил. Ошибка выбранного источника не включает скрытый fallback.
+Локальный файл автоматически не публикуется и не меняет чужую установку.
+
+Формат конфигурации: `schemaVersion: 1`, `platform: "iOS"`, `families` — непустой
+массив записей с `key` (40 hex), `name`, исходным `fileKey` и boolean
+`allowLocalSupplement`. Для уже найденных в штатном индексе семейств используется
+`false`; отсутствие такой записи завершает подготовку ошибкой. Для явно заданных
+недостающих семейств разрешается `true`. Локальные overrides и частные данные
+не включаются в Git или поставку; endpoint не принимает путь из HTTP-запроса.
+
+Ключи вариантов берутся только из текущего hash-pinned индекса Apollo.
+У локальных дополнений известен только ключ семейства: распознавание экземпляра
+потребует опубликованного ключа родительского component set. По мере появления
+семейства в штатном индексе оно автоматически получает происхождение `catalog`;
+конфликты платформы, источника и идентичности не подменяются локальным дополнением.
+Ответ содержит `sourceIndexDataId`, `registryId`, `policySource`, `policySha256`,
+происхождение каждого семейства и ограничения покрытия. Существующий
+`compact-index` остаётся побайтово прежним.
+
+Для семейства, у которого замечание зависит от состояния, запись может содержать
+`variantCondition`: точное имя `property`, `equals: "False"` и `variantValues`
+(опубликованный ключ варианта → `"False"` или `"True"`). Значения фиксируются по
+проверенному источнику; известное отсутствие состояния в старом индексе не
+заменяется предположением. Детектор принимает `variantProperties` текущего
+экземпляра; подтверждённый ключ варианта также позволяет установить состояние.
+`True` даёт `not-applicable`, отсутствие сведений или конфликт — `unknown`.
+Для прежних версий ResultScreen используется `missingPropertyValue: "False"`:
+если свойства действительно нет в прочитанном `variantProperties`, экземпляр
+считается без стекла. Не переданный или непрочитанный bundle свойств не доказывает
+их отсутствие и сам по себе не становится нарушением.
+Такое условие не помечает всё семейство устаревшим и не отключает проверку
+его вложенных компонентов.
+
+`src/audit-data/policies/liquid-glass.js` компилирует политику из JSON и индекса.
+Единая функция определения находится в Apollo
+`src/v3-audit/policies/liquidGlassComponentPolicy.js` и исполняется в native-обходе;
+Proxy использует её только в совместных тестах и не импортирует соседний checkout
+в рабочем процессе.
+`legacy-components-reader.js` читает выбранный JSON и связывает его с индексом;
+`service.js` только доставляет результат по HTTP. Имя и локальный `componentId` не являются
+доказательством. Неизвестное совпадение не считается LG; Android возвращает
+`not-applicable`. Детач, fallback Switch по имени и структурный BlurFooter
+в покрытие пока не входят. Автозамены нет.
+
+Проверки: `TMPDIR=/private/tmp node --test test/audit-legacy-components.test.js
+test/audit-data-compact-index.test.js` (команда в одну строку).
+
 ### Индексы статусов в ab-audit-figma 0.4.0 (source candidate)
 
 Аудит читает закреплённые deprecated/scheduled/parts индексы отдельно от правил Hub.
@@ -1528,3 +1592,43 @@ UX-writer: результат дополнен `unverifiedTexts: [{nodeId, reaso
 `/skills/pattern-audit` — отдельный запуск, история и входы агента для карточки «Проверка паттернов». Использует существующий read-only native/evidence цикл figma-audit и ограниченный CLI-профиль, но читает только MD установленного пакета DS AI HUB. Компонентный контрактный индекс и JSON-правила не являются входом режима. Новые документы ищутся по пути и содержимому; Figma-ссылки из них не открываются. Старый `/skills/figma-audit` сохраняет свои defaults и процедуру.
 
 Статус, запуск, отмена и native context имеют те же suffixes, что figma-audit. `GET /skills/pattern-audit/runs/:id/input?requestId=...` отдаёт реальные сохранённые prompt/schema шаги только после проверки принадлежности run/request. Это исходные входы модели, а не реконструкция из отчёта. Структурированный итог сохраняет source quote, native evidence и UNKNOWN/NOT_CHECKED. Снимки PNG и клики в этом эксперименте не собраны. Новые jobs включены в busy/health/maintenance. Для включения нужна новая локальная сборка кода Proxy; активация, публикация и ручная Figma — отдельные действия владельца.
+
+### Liquid Glass: exact-pair CI
+
+`.github/workflows/liquid-glass-audit-data.yml` runs the five audit-data suites
+against an immutable Apollo PR #23 commit and the exact Proxy event-head commit.
+It records both Git SHAs before testing. The regular Ask job is unchanged; its
+success does not cover audit-data. The paired suite checks the real compiler
+output through both Apollo's native registry reader and its identity evaluator,
+including tampering, index mismatch and cancellation. No test is skipped when a
+paired source is missing: checkout/import failures fail this job.
+
+Apollo's ordinary `validate` uses a local synthetic wire fixture, so it can run
+with its existing accepted Proxy pin. Updating that normal pin remains a separate
+maintainer step after Proxy acceptance. For local reproduction, check out the
+recorded SHAs in `projects/Apollo` and `services/apollo-proxy`, run `npm ci` in each,
+then execute the five suites listed in the workflow (macOS: `TMPDIR=/private/tmp`).
+The new pinned candidate commit must be pushed before this workflow can run on
+GitHub; preparing the workflow locally does not claim a green remote check.
+
+### Liquid Glass: owner scope clarification (2026-11-27)
+
+The review candidate in `docs/review-candidates/liquid-glass` now contains 22
+unconditional families plus conditional ResultScreen. Three SexyOverlay families
+were withdrawn by the owner because their LG replacement has problems. The
+removed Switch has no required catalog key: Apollo detects it with an explicitly
+local, exact-name rule, supported by SelectionWrapper evidence. This does not
+mark the wrapper or the internal `.❌Switch` as separate legacy controls.
+
+For ResultScreen the candidate sets `variantCondition.valueSource` to
+`"instance-properties"` with `missingPropertyValue: "False"`. Readable instance
+state is authoritative: absent means update the component and enable glass,
+False means enable glass, True means no finding. Unreadable properties stay
+unknown. Without this opt-in, existing generic variant conflict guards remain.
+Both compiler and Apollo reader validate the optional mode; the updated pair
+must be tested together. This owner instruction supersedes the earlier review
+proposal to classify a recorded True plus missing property as unknown.
+
+Earlier recommendations permitting old components do not exempt the agreed
+families from migration findings. Rare pre-iOS-26 examples are handled manually.
+These review files are candidates for a managed release, not activated data.
