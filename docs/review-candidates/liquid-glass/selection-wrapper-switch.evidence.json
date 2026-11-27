@@ -1,0 +1,36 @@
+{
+  "status": "read-only-observation-for-owner-approved-local-rule",
+  "checkedOn": "2026-11-27",
+  "fileKey": "OKxvBRt9AzBpzmuPkPXyR1",
+  "pageNodeId": "9:52025",
+  "pageUrl": "https://www.figma.com/design/OKxvBRt9AzBpzmuPkPXyR1/iOS----Wrappers?node-id=9-52025",
+  "liveFigmaObservation": {
+    "method": "Figma MCP get_metadata",
+    "variantNodeId": "132822:28866",
+    "variantName": "ControlType=Switch, ControlSide=Start, ControlPadding=Default",
+    "nestedNodeId": "132822:28868",
+    "nestedName": "❌Switch",
+    "nestedType": "INSTANCE",
+    "path": "ContentGroup / ❌Switch"
+  },
+  "catalogCorroboration": {
+    "path": "abm/ios/Wrappers/iOS _ Wrappers -- SelectionWrapper.json",
+    "generatedAt": "2026-07-30T12:40:08.025Z",
+    "directWrapperFamilyKey": "4704473f92bf4b81c5195e7b52732ed26f891a0b",
+    "directWrapperName": "SelectionWrapper",
+    "nestedName": "❌Switch",
+    "nestedProperties": {
+      "Enabled": "Enabled",
+      "State": "Off"
+    }
+  },
+  "ownerContext": "Owner states that ABM layouts commonly use this deleted Switch nested in SelectionWrapper, and migration swaps the nested switch while preserving the wrapper. Prevalence across ABM layouts was not independently measured.",
+  "reviewImplications": [
+    "Do not drop the deleted Switch solely because its family key is absent from current catalogs.",
+    "Detect the nested INSTANCE named ❌Switch; SelectionWrapper itself is not thereby a legacy Liquid Glass family.",
+    "Record name-based matching separately from published-key confirmation; the live observation confirms the nested instance name, not the deleted family key.",
+    "Do not match the internal .❌Switch again as an additional top-level control."
+  ],
+  "changesMadeToFigma": false,
+  "implementationDecision": "Owner-approved local name rule; published family key is not required because the old source was removed from the library."
+}

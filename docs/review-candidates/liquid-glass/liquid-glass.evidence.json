@@ -1,27 +1,30 @@
 {
   "schemaVersion": 1,
-  "status": "REVIEW_CANDIDATE_NOT_APPROVED_OR_ACTIVATED",
-  "preparedOn": "2026-11-26",
+  "status": "OWNER_SCOPE_CONFIRMED_NOT_PUBLISHED_OR_ACTIVATED",
+  "preparedOn": "2026-11-27",
   "purpose": "Review requested by Ackedze in apollo-proxy PR #5 comment 7173873983; not a runtime data release.",
   "requestUrl": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7173873983",
   "registryFile": "liquid-glass.candidate.json",
-  "registrySha256": "82e51174ef51105d5f0499867a7016c87b264be9c8d8d4b1b4f1f6e60b00d8d2",
+  "registrySha256": "5df71228025eb8d739215153b3527c8362a6f849f9c36fbf3106f51fa3f04e94",
   "summary": {
-    "families": 27,
-    "catalogRequired": 10,
-    "explicitSupplements": 17,
-    "catalogIdentityConfirmed": 10,
+    "families": 23,
+    "unconditionalFamilies": 22,
     "conditionalFamilies": 1,
-    "resultVariantValues": 36
+    "catalogRequired": 10,
+    "explicitSupplementsForOlderIndex": 13,
+    "localCatalogIdentityConfirmed": 10,
+    "ownerReviewIdentityConfirmed": 23,
+    "resultVariantValues": 36,
+    "localNameRules": 1,
+    "withdrawnOverlayFamilies": 3
   },
   "limitations": [
-    "No fresh Figma field run or current published-library verification performed.",
-    "Catalog identity is not proof of a Liquid Glass migration rule.",
-    "Seventeen handoff-only families require independent source/library verification.",
-    "Three SexyOverlay source set IDs remain unavailable.",
-    "User later included ResultScreen conditionally; this supersedes its earlier handoff exclusion.",
-    "No name fallback, detached or BlurFooter structural matching added.",
-    "No managed DS policy/package or active runtime changed; these data-only files are submitted for review, not deployment."
+    "No new field acceptance in Figma or managed data release was performed.",
+    "Local catalogs/index remain an older snapshot; reviewer confirmation of fresh catalogs is linked, not represented as a new local export.",
+    "Rare pre-iOS-26 cases are manual exceptions, not automatic detector exclusions.",
+    "SexyOverlay is outside the active detector scope; no claim of LG compliance is made for it.",
+    "No detached or BlurFooter structural matching is added.",
+    "Code, review candidate, managed-data publication and installation are separate stages."
   ],
   "families": [
     {
@@ -31,9 +34,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "64989:616",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=64989-616",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -65,16 +68,19 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "176fa93000ab37cde1ded26403eff20676b38198",
         "4e5a1293e646e8cd6f116bbe45ee8a3b462ca1c3",
         "e1cba5926c593aa3037a1eb0f2624fe49636f24f",
         "3a461abf86eaf1d416c5daeb4acf8d6e03164dee"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "c8a826001cce9c58d983fdbb3ec8e984d5d6c96e",
@@ -83,9 +89,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:75413",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75413",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -125,9 +131,7 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "6bd684d4fd6e679e72ea7a09b317da4499d2b4b7",
         "60dcf6471520a27b37a54cf7dd8d67b3382ab54c",
@@ -142,7 +146,12 @@
         "107d60c82b6d568a12e845da0aa8c745e71a6e95",
         "e28a7a554732e2dc751d500199244d357b4c4dea"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "d31e36ee7e3f35dcd00efbe9e0cc2af4842a4578",
@@ -151,9 +160,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:75536",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75536",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -189,9 +198,7 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "7a4da1671cf494265da84a7773026c629b818a9a",
         "214320b017cc9828f7e962e357dece4425022866",
@@ -202,7 +209,12 @@
         "1156234c42afca18bba255c64058aaf4fcea32a1",
         "ade28094cbe8c96a974d523943fcc3bbb99a1a2a"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "c8390e39a0230190dd49b6e23858dd5719eda268",
@@ -211,9 +223,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:75697",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75697",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -253,9 +265,7 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "5c35f818037ccfec1d60d93597b7f2be0448589c",
         "65d5e6839a5f5acb99a1e69ea9a580dc7a5b21d4",
@@ -270,7 +280,12 @@
         "186a7c242d6f0fba17ac2259d44b75753ca6626b",
         "c92b74108921e5e3b389bfc0b00cacef228694c8"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "718ddc676bbf1d2381dbd0c08774f3e85d8b79fb",
@@ -279,9 +294,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:75942",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-75942",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -313,16 +328,19 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "eedc5b9605b0fdbf1eb785e49817be75a421b33c",
         "86093a944c030d9ce483dab510b2c7bc7b49eecd",
         "2fc769da9d39bd8585720c8366361c50db077b92",
         "a7c3af49e19792e49902ef446af8b2f40b782400"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "51e7714f7ffd6c06f354ebf3cf79092d8726cc7a",
@@ -331,9 +349,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:76001",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-76001",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -362,13 +380,16 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "51e7714f7ffd6c06f354ebf3cf79092d8726cc7a"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "864e50494144d5cc1bb2d4b79a75ec07825943c0",
@@ -377,9 +398,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "41974:7075",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=41974-7075",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -410,15 +431,18 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "48378b4b41af1fc017a10156317efab13663b9d7",
         "2f134362515a4d38e42e285bd1dd6fee8ebbbbab",
         "ba04efe2c83cfc6fcb1d303a3f3db6d7ba4b93d6"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "f1a3dc0af632cb70b557117ac3c727352d19dfdd",
@@ -427,9 +451,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:78424",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-78424",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -473,9 +497,7 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "0616db2fa3401b351c7a9c71f3a9bed998e3dfce",
         "38a799c068820f3e9f4016288e1f3ee35b982801",
@@ -494,7 +516,12 @@
         "95167b8abf6be9be4fb002285c70f48aded2c88f",
         "6ede65be4201ab0639c561d3a748d87af228e4eb"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "bf431254c6b74e1cb5aa4e9101c0920ef3c1fd68",
@@ -503,9 +530,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "2181:78651",
       "figmaUrl": "https://www.figma.com/design/wF80Fbm8qD9Htohy2tC6am?node-id=2181-78651",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -534,13 +561,16 @@
         ]
       },
       "supplementReason": null,
-      "openQuestions": [
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "openQuestions": [],
       "declaredVariantKeys": [
         "bf431254c6b74e1cb5aa4e9101c0920ef3c1fd68"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "63ebc76450fc4eca2e3580eeec8951336937c046",
@@ -549,22 +579,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "13:266432",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-266432",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "e9fa622380a1877bd23de47543239336e1fdcb22",
         "360d22b64a310a186b7193cd5039dd097d0acc03",
@@ -602,7 +629,12 @@
         "0150e145ce6b773424edd21a8c6d2907948311b0",
         "6bde109dafc45011db7c622cba15ecf650c39697"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "77c445f317d8357563aa26774162e1d9a7468f17",
@@ -611,22 +643,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "13:267494",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-267494",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "662e4b36ce344e2a43c284abaaf95e5011aefaf5",
         "0a9f35a177a48e9885bd011b6d07cdd5136f56a8",
@@ -636,7 +665,12 @@
         "3a13dd23b00f5ae7cd4a7fe1bdb9c3a23a111484",
         "e3f7304c58ffbc1d4b11961baa29ba45248522e6"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "cb36704b6a173c7b5e427ecce10b93c4be43c911",
@@ -645,22 +679,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "13:268096",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-268096",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "990e53510b5d20484a18665d0fdc9ddcc5b3f3b4",
         "c41efe0b2f5e3e6bb995446d5a3fe02117d2a8cb",
@@ -678,7 +709,12 @@
         "d71f88a10c078f5e423b20957ce72575efb2c8f8",
         "3b5c48d9312160fddfef24a391ddb07c37075aa8"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "8c8ae4e7db5243b1409559c3833f20ce71553100",
@@ -687,22 +723,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "13:268493",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-268493",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "05885e2e9d31658402c58eaa9ae0e3fed62259da",
         "f15fb01ee4b93bf5e9523f2d8f6d84f7c52d23b5",
@@ -711,7 +744,12 @@
         "a771fe0c4c79da8cdd6c49ec9e02cf671080a7f6",
         "bcbdba50743a6bc0b2eba8b095a54fe30d511805"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "f8a8ba211321a315455c756dae0f640e69bdf055",
@@ -720,22 +758,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "21128:11402",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=21128-11402",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "931bd1740ea3e00e288e048d0f0c368002a434d2",
         "9fae7394659c4a6c818cef3fc157cac1bce2ee97",
@@ -751,7 +786,12 @@
         "5e6b1860ce9c060890e759d06fcad64eac18c167",
         "c7bb6b9208bcd613b88d96381359a040706464fa"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "ef5db8137e0079aa3ab24a3a1d8fdd1e997bab97",
@@ -760,27 +800,29 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "15465:31462",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=15465-31462",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "1d138855b71dd4b54436c6b6eb71ca0f24565829",
         "a05514d3217c3bc19d3828e8c7e10f7597f673f9"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "d2f928b1c81a6039ff97b83dde9b2574fc5de59e",
@@ -789,22 +831,19 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "13:320232",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=13-320232",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "cf3d17940a223f0955b2262aa72dc8311603cc64",
         "d6cfcfa639bfa533a4eeb8c72c4b3b596c1126ed",
@@ -822,7 +861,12 @@
         "2f4fe1f600221553f8a8958ec0a82c5f0f740c66",
         "c1bfc17fd1b092fbe9f1e28de262482d2304f2fa"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "3ae55d27c7f8ef135fe7e359299ca4c491165752",
@@ -831,26 +875,28 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "16754:28541",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-28541",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "3ae55d27c7f8ef135fe7e359299ca4c491165752"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "a1d3a6a24501532c3bfa7ab24e229b408b65ad5a",
@@ -859,26 +905,28 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "16754:30163",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30163",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "a1d3a6a24501532c3bfa7ab24e229b408b65ad5a"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "150c83fd3c4d29f2a3a91e16ce319042add8874e",
@@ -887,26 +935,28 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "16754:30267",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30267",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "150c83fd3c4d29f2a3a91e16ce319042add8874e"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "186dbc109ee5c7ffc69303011cea4179de7676ac",
@@ -915,26 +965,28 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "16754:30347",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=16754-30347",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "186dbc109ee5c7ffc69303011cea4179de7676ac"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "30c74300ba4a04fca1aafc0301bb18691c949ea2",
@@ -943,29 +995,31 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "12:203591",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=12-203591",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "f51572521b4531cc47989c701bef0ca1733f3549",
         "058c24f21611a26d4a045f070f85bbd995b1d5c6",
         "59c48bed8b998f0865d73cf83ed8ee88168c0c76",
         "821e20a07cc07dd7a0d35e18fade18be553ed353"
       ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "e08694fa20ccc0a27f5f10c97b7cde6ac0497823",
@@ -974,174 +1028,31 @@
       "allowLocalSupplement": true,
       "sourceNodeId": "5007:191886",
       "figmaUrl": "https://www.figma.com/design/JuM4aiP9jh5L06qCzPcTfI?node-id=5007-191886",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
+      "publishedKeyVerification": "owner-reviewed-in-fresh-catalogs; absent-from-older-local-index-snapshot",
       "catalogMatches": [],
       "snapshotIndexMatch": {
         "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
         "found": false,
         "sources": []
       },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
+      "supplementReason": "Retained for compatibility with older compact-index snapshots. Owner reviewer confirmed this family in fresh catalogs; no key is inferred from its name.",
+      "openQuestions": [],
       "declaredVariantKeys": [
         "4e7fd39861c0b0ea864efbbc49ec7113e7dcc2d5",
         "7c602c3296cb8d3a09080f4d2e52650cb036531b",
         "7235aa5e7c31db95b27e1c88f819461bfdcbdc11",
         "5e0f433e266adbc5a7013d26d1a53585a4df3ee0"
       ],
-      "variantCondition": null
-    },
-    {
-      "key": "d05f26d022cea432df972a062bba94bb877b5f08",
-      "name": "❌Switch",
-      "fileKey": "12MXAS7FXcL9ZewkidiUZq",
-      "allowLocalSupplement": true,
-      "sourceNodeId": "44:7667",
-      "figmaUrl": "https://www.figma.com/design/12MXAS7FXcL9ZewkidiUZq?node-id=44-7667",
-      "policyStatus": "candidate-awaiting-owner-approval",
-      "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
-      "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
-      "catalogMatches": [],
-      "snapshotIndexMatch": {
-        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
-        "found": false,
-        "sources": []
-      },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
-      "declaredVariantKeys": [
-        "b73c18da2a59b3e843680537668353d36ddf1613",
-        "3b4591fb652756a6e3b9f4be429423769f4a970c",
-        "421363976b31b5beaa44abfb41e3a531d51d30b7",
-        "e94239556b0b8031d06eebb67f9f0a08373d1dc5"
-      ],
-      "variantCondition": null
-    },
-    {
-      "key": "9b7cba716d4642a097e04b5d7bab3a95a172260c",
-      "name": "SexyOverlay",
-      "fileKey": "ge9dK3r7Rk31bhXUUpmsxd",
-      "allowLocalSupplement": true,
-      "sourceNodeId": null,
-      "figmaUrl": "https://www.figma.com/design/ge9dK3r7Rk31bhXUUpmsxd",
-      "policyStatus": "candidate-awaiting-owner-approval",
-      "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
-      "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
-      "catalogMatches": [],
-      "snapshotIndexMatch": {
-        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
-        "found": false,
-        "sources": []
-      },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "Source component-set node ID is unavailable; file link and published key supplied. Do not substitute a section/example ID.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
-      "declaredVariantKeys": [
-        "64f04e6060c9fbcf9c2851d701919a91b0b3ed5a",
-        "d90638377dfc762c3d502924155b81b9fe284d98",
-        "0edc12ccbe52d49503af79e31bd568fe051204e7",
-        "72a0f249f2ce420f169adaf3256de3564a939955",
-        "2de3d970a61752964afed373c96a004a73f65b57",
-        "892e3afc11b8afc3974ea68cc34a19cdce0b7ea1",
-        "f2c59c64e2842346c7f9c458d141fc75ca9dda02",
-        "ac2b89a7ea68c18eb14d8ea7e56c1dc62ebcf6f4",
-        "c2b9a3ad523a596c5a3cbb8fa9eb6a0733308a30",
-        "2044cba72fa1a64328ba8d72292c2a29478df4e9"
-      ],
-      "variantCondition": null
-    },
-    {
-      "key": "6177e70b6bc7799c924da243126bb59a57368bc4",
-      "name": "❌ SexyOverlay",
-      "fileKey": "ge9dK3r7Rk31bhXUUpmsxd",
-      "allowLocalSupplement": true,
-      "sourceNodeId": null,
-      "figmaUrl": "https://www.figma.com/design/ge9dK3r7Rk31bhXUUpmsxd",
-      "policyStatus": "candidate-awaiting-owner-approval",
-      "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
-      "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
-      "catalogMatches": [],
-      "snapshotIndexMatch": {
-        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
-        "found": false,
-        "sources": []
-      },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "Source component-set node ID is unavailable; file link and published key supplied. Do not substitute a section/example ID.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
-      "declaredVariantKeys": [
-        "b4246f949c47b99b59b4fc95fd0ccd8afb3d66e0",
-        "bc0b83a204e37b184854287c4de918b1355fbfe9",
-        "e3e30d0ac624d0c2a54e06e3f707ae29349937b2",
-        "37e1bf0588580455320a3541ef05314b5cd3ecff",
-        "29fc6149e8873b4e158326831c101f9272e2ac17",
-        "7725ae85f3cef877f9dfb0a13d3aadd8b524b13d",
-        "85de69a77d73d09870db1771f3cec9397d3f4941",
-        "f1495ddfc670246c9643856e1c92e2b359c2d4ee",
-        "0a572aafc4e35e74431d9b230691ab7d39fd878e",
-        "c27bbe9a9702e98440943484a64cf9276713e4ab"
-      ],
-      "variantCondition": null
-    },
-    {
-      "key": "9fc632a82c356e4c1ccfbafd9a023ec148e62c95",
-      "name": "🔄 SexyOverlay",
-      "fileKey": "ge9dK3r7Rk31bhXUUpmsxd",
-      "allowLocalSupplement": true,
-      "sourceNodeId": null,
-      "figmaUrl": "https://www.figma.com/design/ge9dK3r7Rk31bhXUUpmsxd",
-      "policyStatus": "candidate-awaiting-owner-approval",
-      "scope": "entire-listed-family",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
-      "declarationSource": "Owner-supplied 26-family handoff in task",
-      "publishedKeyVerification": "owner-handoff-only; library confirmation still required",
-      "catalogMatches": [],
-      "snapshotIndexMatch": {
-        "dataId": "5404c54b09c2c356aec039d9fd7c16646620f2d37344ab381dcb809dcac9894c",
-        "found": false,
-        "sources": []
-      },
-      "supplementReason": "Family absent from the checked compact-index and local iOS catalogs; explicitly named in owner handoff. Supplement remains subject to owner/library verification.",
-      "openQuestions": [
-        "No independent catalog identity verification in this snapshot; confirm published family key in source library.",
-        "Source component-set node ID is unavailable; file link and published key supplied. Do not substitute a section/example ID.",
-        "No separately approved DS migration-rule URL was supplied; whole-family scope currently rests on owner handoff and needs policy approval."
-      ],
-      "declaredVariantKeys": [
-        "11adb65a73b3640d2a8dbd3e349dc1630c9e3868",
-        "476ea0f936c1dcf4db180bd6b3c0c7d31645c373",
-        "835c984aa5f0c0016ad85ff2d513a01b8ed8e537",
-        "f26a419c26001b93fa2941527249ca9813b20ecf",
-        "e2134622b487b27b28f2b50b67b7337ff8800e62",
-        "bdd65c18853fa3a80b1d22ee889c0b42d3fad433",
-        "573fef8baccacb8ad739c65805c3d8eb0d4855be",
-        "dcbd3d52ee5382fcfed37f1a4ec0a25d72da1120",
-        "e85f6435724b66aecf23856bcf7a398bb7264c68",
-        "7c2fcb1f7dbc4826448c79740b6615fa0ea0f498"
-      ],
-      "variantCondition": null
+      "variantCondition": null,
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      }
     },
     {
       "key": "dd134e78b30b144f5fa9471e40367f51d7a1128d",
@@ -1150,9 +1061,9 @@
       "allowLocalSupplement": false,
       "sourceNodeId": "110611:33476",
       "figmaUrl": "https://www.figma.com/design/S1MywyqXOFripEsvMJ1zrz?node-id=110611-33476",
-      "policyStatus": "candidate-awaiting-owner-approval",
+      "policyStatus": "owner-scope-confirmed; pending-managed-release-review",
       "scope": "conditional-state",
-      "scopeBasis": "Explicit owner instruction in Apollo task; this is not an approved DS rule inferred from catalog status.",
+      "scopeBasis": "Owner instruction 2026-11-27: detect migration debt for all agreed old families regardless of allowed scenarios in earlier recommendations. Rare pre-iOS-26 builds are handled individually, without automatic exceptions.",
       "declarationSource": "Owner-provided ResultScreen Figma link and explicit False/missing-property requirement",
       "publishedKeyVerification": "catalog-family-key-and-file-key",
       "catalogMatches": [
@@ -1199,7 +1110,7 @@
       },
       "supplementReason": null,
       "openQuestions": [
-        "Local catalog predates the observed LiquidGlassEffect variants; reconfirm current variant membership and approve compatibility default before managed-data publication."
+        "Validate the final managed policy against the accepted release snapshot before activation; no library publication is performed in this task."
       ],
       "variantCondition": {
         "property": "👻 LiquidGlassEffect",
@@ -1248,7 +1159,8 @@
           "nodeId": "110611:33476",
           "checkedOn": "2026-11-24"
         },
-        "missingPropertyValue": "False"
+        "missingPropertyValue": "False",
+        "valueSource": "instance-properties"
       },
       "variantEvidence": {
         "source": "Saved read-only Figma MCP identity/property observation",
@@ -1439,7 +1351,59 @@
           }
         ]
       },
-      "missingPropertyValueBasis": "Explicit owner compatibility requirement for unupdated ResultScreen instances. Only a successfully read property object with the exact property absent counts as False. Unreadable/null properties remain unknown; this default is not inferred from an Figma exception."
+      "missingPropertyValueBasis": "Owner instruction 2026-11-27: confirmed absent property means the old version needs updating AND Liquid Glass enabling. Successfully read instance True/False is authoritative over recorded variant state. A failed read remains unknown.",
+      "ownerReviewIdentityConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "date": "2026-11-27",
+        "scope": "Reviewer reports matching family keys/sources in fresh iOS catalogs and local Athena; current checkout retains older local evidence."
+      },
+      "ownerReviewVariantConfirmation": {
+        "source": "https://github.com/Ackedze/apollo-proxy/pull/5#issuecomment-7215695925",
+        "states": 36,
+        "false": 18,
+        "true": 18
+      }
+    }
+  ],
+  "excludedFamilies": [
+    {
+      "name": "SexyOverlay",
+      "key": "9b7cba716d4642a097e04b5d7bab3a95a172260c",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    },
+    {
+      "name": "❌ SexyOverlay",
+      "key": "6177e70b6bc7799c924da243126bb59a57368bc4",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    },
+    {
+      "name": "🔄 SexyOverlay",
+      "key": "9fc632a82c356e4c1ccfbafd9a023ec148e62c95",
+      "status": "out-of-scope-by-owner",
+      "reason": "LG replacement has known problems; owner temporarily withdrew all SexyOverlay migration checks. Source set IDs are not being investigated in this task."
+    }
+  ],
+  "localRules": [
+    {
+      "id": "deleted-switch-name",
+      "name": "❌Switch",
+      "platform": "iOS",
+      "nodeType": "INSTANCE",
+      "catalogKeyRequired": false,
+      "implementation": "Apollo src/v3-audit/policies/liquidGlassComponentPolicy.js",
+      "source": "local-rule",
+      "matchBasis": [
+        "main-component-name",
+        "instance-name"
+      ],
+      "evidenceFile": "selection-wrapper-switch.evidence.json",
+      "rule": "Use the exact old source component name when available, otherwise the instance name. Preserve SelectionWrapper, do not count internal .❌Switch or frames/text. No generic Toggle or name substring matching.",
+      "limitations": [
+        "Renamed instance with unavailable source can be missed.",
+        "Name matching is not published-key confirmation."
+      ]
     }
   ]
 }

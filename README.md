@@ -1608,3 +1608,25 @@ recorded SHAs in `projects/Apollo` and `services/apollo-proxy`, run `npm ci` in 
 then execute the five suites listed in the workflow (macOS: `TMPDIR=/private/tmp`).
 The new pinned candidate commit must be pushed before this workflow can run on
 GitHub; preparing the workflow locally does not claim a green remote check.
+
+### Liquid Glass: owner scope clarification (2026-11-27)
+
+The review candidate in `docs/review-candidates/liquid-glass` now contains 22
+unconditional families plus conditional ResultScreen. Three SexyOverlay families
+were withdrawn by the owner because their LG replacement has problems. The
+removed Switch has no required catalog key: Apollo detects it with an explicitly
+local, exact-name rule, supported by SelectionWrapper evidence. This does not
+mark the wrapper or the internal `.❌Switch` as separate legacy controls.
+
+For ResultScreen the candidate sets `variantCondition.valueSource` to
+`"instance-properties"` with `missingPropertyValue: "False"`. Readable instance
+state is authoritative: absent means update the component and enable glass,
+False means enable glass, True means no finding. Unreadable properties stay
+unknown. Without this opt-in, existing generic variant conflict guards remain.
+Both compiler and Apollo reader validate the optional mode; the updated pair
+must be tested together. This owner instruction supersedes the earlier review
+proposal to classify a recorded True plus missing property as unknown.
+
+Earlier recommendations permitting old components do not exempt the agreed
+families from migration findings. Rare pre-iOS-26 examples are handled manually.
+These review files are candidates for a managed release, not activated data.

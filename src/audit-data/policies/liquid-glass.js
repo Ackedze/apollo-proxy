@@ -24,7 +24,8 @@ function compileLegacyComponents(bytes,config){
    const condition=entry.variantCondition;
    if(!condition||typeof condition!=='object'||typeof condition.property!=='string'||!condition.property.trim()||condition.equals!=='False'||
       !condition.variantValues||Array.isArray(condition.variantValues)||typeof condition.variantValues!=='object'||
-      (condition.missingPropertyValue!==undefined&&condition.missingPropertyValue!=='False'))fail('CONFIG_INVALID');
+      (condition.missingPropertyValue!==undefined&&condition.missingPropertyValue!=='False')||
+      (condition.valueSource!==undefined&&(condition.valueSource!=='instance-properties'||condition.missingPropertyValue!=='False')))fail('CONFIG_INVALID');
    for(const [variantKey,value] of Object.entries(condition.variantValues)){
     if(!key(variantKey)||!['False','True'].includes(value))fail('CONFIG_INVALID');
     const variant=rows[variantKey];

@@ -131,11 +131,42 @@ test('real compiled wire is accepted by the paired Apollo native reader, while t
  const {buildSync}=require(path.join(apollo,'node_modules/esbuild'));
  const code=buildSync({entryPoints:[path.join(apollo,'src/v3-audit/liquid-glass.ts')],bundle:true,write:false,platform:'node',format:'cjs',supported:{'object-rest-spread':false}}).outputFiles[0].text;
  const runtime={exports:{}};new Function('module','exports','require',code)(runtime,runtime.exports,require);
- const f=fixture(),wire=compileLegacyComponents(f.bytes(),f.config),indexId=JSON.parse(f.bytes()).dataId;
+ const f=fixture();
+ f.config.families[0].variantCondition={property:'Glass',equals:'False',missingPropertyValue:'False',valueSource:'instance-properties',variantValues:{}};
+ const wire=compileLegacyComponents(f.bytes(),f.config),indexId=JSON.parse(f.bytes()).dataId;
  const {readLiquidGlassRegistry}=runtime.exports;
  assert.equal((await readLiquidGlassRegistry(wire,indexId,()=>{})).registry.registryId,wire.registryId);
  await assert.rejects(readLiquidGlassRegistry(wire,'0'.repeat(64),()=>{}),/DATA_INVALID/);
  const changed=structuredClone(wire);changed.families[0].name='Changed in transit';
  await assert.rejects(readLiquidGlassRegistry(changed,indexId,()=>{}),/DATA_INVALID/);
  await assert.rejects(readLiquidGlassRegistry(wire,indexId,()=>{throw Error('AUDIT_CANCELLED');}),/CANCELLED/);
+});
+
+
+test('instance-authoritative policy preserves owner ResultScreen rules over recorded variant values',()=>{
+ const f=fixture(),enabled='5'.repeat(40),property='👻 LiquidGlassEffect';
+ f.config.families[0].variantCondition={property,equals:'False',missingPropertyValue:'False',valueSource:'instance-properties',variantValues:{[variant]:'False',[enabled]:'True'}};
+ const registry=compileLegacyComponents(f.bytes(),f.config);
+ const identify=(key,props)=>identifyLegacyComponent(registry,{platform:'iOS',mainComponentKey:key,variantProperties:props});
+ for(const key of [variant,enabled]){
+  assert.equal(identify(key,{}).reason,'variant-property-missing');
+  assert.equal(identify(key,{[property]:'False'}).reason,'variant-property-disabled');
+  assert.equal(identify(key,{[property]:'True'}).status,'not-applicable');
+  for(const unread of [null,undefined,[]])assert.equal(identify(key,unread).status,'unknown');
+ }
+ for(const condition of [Object.assign({},f.config.families[0].variantCondition,{valueSource:'catalog'}),
+  {property,equals:'False',valueSource:'instance-properties',variantValues:{}}]){
+  f.config.families[0].variantCondition=condition;
+  assert.throws(()=>compileLegacyComponents(f.bytes(),f.config),/CONFIG_INVALID/);
+ }
+});
+
+test('review candidate keeps 22 unconditional families plus ResultScreen; withdrawn overlays and deleted Switch are not key families',()=>{
+ const config=require('../docs/review-candidates/liquid-glass/liquid-glass.candidate.json');
+ assert.equal(config.families.length,23);
+ assert.equal(config.families.filter(f=>!f.variantCondition).length,22);
+ assert(config.families.every(f=>!f.name.includes('SexyOverlay')&&f.name!=='❌Switch'));
+ const result=config.families.find(f=>f.name==='ResultScreen');
+ assert.equal(result.variantCondition.valueSource,'instance-properties');
+ assert.equal(result.variantCondition.missingPropertyValue,'False');
 });
